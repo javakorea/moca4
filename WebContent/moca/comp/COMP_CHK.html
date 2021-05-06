@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head meta_width="240px" meta_height="130px">
+<title>COMP_CHK</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css" href="./css/moca.css">
+<link rel="stylesheet" type="text/css" href="./css/fontawesome.css">
+<link rel="stylesheet" type="text/css" href="../css/moca_layout.css">
+<script language="JavaScript" src="../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../js/moca_ui.js"></script>
+<script language="JavaScript" src="./js/list2000.js"></script>
+<script language="JavaScript" src="./js/moca.js"></script>
+<script language="JavaScript" src="testCalendar.js"></script>
+<script>
+moca.COMP_CHK = {};
+$( document ).ready( function() {
+	moca.init(function(){
+		moca.COMP_CHK.popId = arguments[0];
+		moca.COMP_CHK.data = moca.getParameter(arguments);
+		setTimeout(function(){
+			auto_cnt.focus();
+		},100);
+	});
+} );
+
+moca.COMP_CHK.fn_exe = function(){
+	moca.popClose(moca.COMP_CHK.popId,{cnt:$('#auto_cnt').val()});
+};
+
+</script>
+</head>
+<body>
+		<div class="moca_cont_wrap popup">
+			<div class="moca_shbox">
+				<div class="shbox_inner">
+					<input type="text" class="moca_input" style="width:100px;text-align:right" title="" id="auto_cnt"  autocomplete="off" onkeyup="moca.default_keyup(this)"><span>개</span>
+				</div>
+				<div class="btn_shbox">
+					<button type="button" class="button btn_sc" onclick="moca.COMP_CHK.fn_exe()"><span>실행</span></button>
+				</div>
+			</div>
+		</div>	
+</body>
+</html>

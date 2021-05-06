@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>COMP_GRID</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css" href="./css/moca.css">
+<!-- <link rel="stylesheet" type="text/css" href="./css/fontawesome.css"> -->
+<link rel="stylesheet" type="text/css" href="../css/moca_layout.css">
+<script language="JavaScript" src="../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../js/moca_ui.js"></script>
+<script language="JavaScript" src="./js/list2000.js"></script>
+<script language="JavaScript" src="./js/moca.js"></script>
+<script language="JavaScript" src="testCalendar.js"></script>
+<script>
+	moca.COMP_GRID = {};
+	$(document).ready(function() {
+		moca.init(function(){
+			moca.code({
+				"grd_1.age":{code:'age',allOption:{label:"-선택-",value:""}},
+				"grd_1.nation":{code:'nation',allOption:{label:"*",value:""}},
+				"cmb_1":{code:'nation',allOption:{label:"전체",value:""}}
+			},function(){
+				moca.COMP_GRID.fn_search();
+			});
+		});
+	});
+	moca.COMP_GRID.fn_search = function(){
+		moca.exe({
+			url : moca._domain+"/grid_data.json",
+            data : {
+            	"header" : moca.header,
+            	"body" : {aaa:'111',bbb:'222'}
+            },			
+			callback : function(response){
+				moca.drawGrid('grd_1', moca.getRes(response).list);
+			}
+		});
+	};
+	moca.COMP_GRID.fn_save = function(){
+		moca.confirm('저장하시겠습니까?',function(result){
+			if(result == 'Y'){
+				moca.exe({
+					url : moca._domain+"/grid_data.json",
+					callback : function(){
+		        	   moca.alert('성공적으로 저장되었습니다!',function(){
+		        	   	   return;
+		        	   });	
+					}
+				});
+			}
+		});
+	};
+</script>
+
+</head>
+<body>
+	
+	<div id="moca_tab_bridge1" class="moca_tab_panel" role="tabpanel" aria-labelledby="탭1" aria-hidden="false" style="display:block;visibility:visible;">
+	<div class="moca_tab_cont" style="height:100%">
+		<div class="moca_cont_wrap">
+			<div class="moca_titbox cm">
+				<h3>기본그리드</h3>
+				<div class="btns_wrap">
+					<div class="grp_funcbtns">
+						<a class="btn">처리</a>
+						<a class="btn">등록</a>
+						<a class="btn">수정</a>
+						<a class="btn">삭제</a>
+					</div>
+					<div class="grp_combtns">
+						<a class="btn reset">화면지움</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class="moca_shbox">
+				<div class="shbox_inner">
+					<table class="tb">
+						<colgroup>
+							<col style="width:67px;">
+							<col>
+							<col style="width:46px;">
+							<col>
+						</colgroup>
+						<tbody>
+							<tr>
+								<th class="tb_th">조회일</th>
+								<td class="tb_td">
+									<div type="inputCalendar" class="moca_ica" style="width:150px" id="ipc_1" displayFormat="####-##-##"/>
+								</td>
+								<th class="tb_th">국적</th>
+								<td class="tb_td">
+									<div type="combo" class="moca_combo" style="width:150px" id="cmb_1"  displayFormat="[value] [label]"></div>
+								</td>
+							</tr>
+							<tr>
+								<th class="tb_th">조회항목</th>
+								<td class="tb_td">
+									<input type="text" class="moca_input sh" style="width:150px">
+								</td>
+								<th class="tb_th">취미</th>
+								<td class="tb_td">
+									<div class="moca_ibn" style="width:150px">
+										<input type="text" class="moca_input" value="">
+										<button type="button" class="moca_ibn_btn" onclick="moca.popup('./comp/COMP_POPU.html',{title:'취미검색'})">검색</button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="btn_shbox">
+					<button type="button" class="button btn_sc" onclick="moca.COMP_GRID.fn_search(this)"><span>조회</span></button>
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			
+			<div type="grid" class="moca_grid toolbar sc_row2" default_cell_height="26px" id="grd_1">
+					<table style="width: 100%">
+						<caption>이름,키,몸무게,나이,국적,비고 정보제공</caption>
+						<colgroup>
+								<col style="width:110px">
+								<col style="width:120px">
+								<col style="width:130px">
+								<col style="width:250px">
+								<col style="width:300px">
+								<col style="">										
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col" id="lv1">이름</th>
+								<th scope="col" id="lv2">키</th>
+								<th scope="col" id="lv3">몸무게</th>
+								<th scope="col" id="lv4">나이</th>
+								<th scope="col" id="lv5">국적</th>
+								<th scope="col" id="lv6">비고</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="name" celltype="input" style="" readOnly="true" toolTip="true"></td>
+								<td id="height" celltype="input" readOnly="true" toolTip="true"></td>
+								<td id="weight" celltype="input" readOnly="true" toolTip="true"></td>
+								<td id="age" celltype="select" displayFormat="[value] [label]"></td>
+								<td id="nation" celltype="select"  displayFormat="[value] [label]"></td>
+								<td id="position" celltype="input" ></td>
+							</tr>
+						</tbody>
+					</table>				
+			</div>
+			<div class="toast_msg">
+				<!-- <p>조회가 완료되었습니다.</p> -->
+			</div>
+		</div>	
+	</div>
+</div>
+</body>
+</html>

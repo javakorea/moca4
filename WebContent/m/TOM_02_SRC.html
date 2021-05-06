@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" /> 
+<meta http-equiv="Pragma" content="no-cache" /> 
+<meta http-equiv="Expires" content="-1" />
+<script>
+	moca.TOM_02_SRC.___ready = function(args){
+		initKakao(config.getSocailLoginKakaoKey());
+		initFacebook(config.getSocailLoginFacebookKey());
+		initNaver(config.getSocailLoginNaverKey());
+	};
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////1. INIT             /////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+function initKakao(_key){
+	Kakao.init(_key);
+	if(Kakao.Auth.getAccessToken()){
+		loginChecker(1);
+	}
+};
+var naverLogin;
+function initNaver(_key){
+	naverLogin = new naver.LoginWithNaverId(
+	{
+		clientId: _key,
+		callbackUrl: config.getSocailLoginSuccessUrl(),
+		isPopup: false, /* 팝업을 통한 연동처리 여부 */
+		loginButton: {color: "green", type: 3, height: 60} /* 로그인 버튼의 타입을 지정 */
+	}
+	);
+	naverLogin.init();
+	naverLogin.getLoginStatus(function (status) {
+		if (status) {
+			loginChecker(2);
+		} 
+	});
+};
+function initFacebook(_key){
+	(function(d, s, id){
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) {return;}
+		js = d.createElement(s); js.id = id;
+		js.src ="//connect.facebook.com/ko_KR/sdk.js";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document,'script','facebook-jssdk'));
+	window.fbAsyncInit = function() {
+		FB.init({
+			appId      :_key,
+			cookie     :true,
+			xfbml      :true,
+			version    :'v10.0'
+		});
+		FB.getLoginStatus(function(response) {
+			if (response.status ==='connected') {
+				loginChecker(3);
+			}
+		});
+	};
+};
+
+//////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////2.LOGIN             /////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+function loginKakao(){
+	Kakao.Auth.login({
+		success: function(authObj) {
+		Kakao.API.request({
+			url: '/v2/user/me',
+			success: function(response) {
+				loginSetter("1",response.id,response.kakao_account.email,response.kakao_account.profile.nickname);
+			},fail: function(error) {console.log(error);}
+		});
+		},fail: function(err) {},
+	});
+};
+function loginNaver(){
+	location.href = naverLogin.generateAuthorizeUrl();
+};
+function loginFacebook(){
+	FB.login(function(response) {
+		if (response.authResponse) {
+			FB.api('/me', {fields:'name,email'},function(response) {
+				loginSetter("3",response.id,response.email,response.name);
+			});
+		}
+	}, {scope:'email,public_profile',return_scopes:true});
+};
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////       3.COMMON             /////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+function loginSetter(_type,_id,_email,_name){
+	var loginInfo = {};
+	loginInfo.loginType = _type;
+	loginInfo.id = _id;
+	loginInfo.name = _name;
+	loginInfo.email = _email;
+	moca.setSs("loginTemp0",loginInfo);
+	moca.setSs("loginType",_type);
+	moca.TOM_02_SRC.exe({
+		url : config._domain+config._contextRoot+"/TOM_02/userInfo.do",
+        data : {
+        	"header" : moca.header,
+        	"body" : {"id":loginInfo.id+"","loginType":loginInfo.loginType,"Email":loginInfo.email,"Name":loginInfo.name}
+        },			
+		callback : function(response){
+			if(response.resultCd == '0002'){
+				moca.mresult("탈퇴회원입니다.","재가입하시겠습니까?",function(){
+    				signup("2");//탈퇴후 재가입 본인인증으로
+				});
+			}else if(response.userInfo != null){
+				//곧바로 진행스텝으로
+				moca.setSs("loginInfo",response.userInfo);
+				location.href = config.getSocailLoginSuccessUrl();
+			}else{
+				signup("1");//신규가입
+			}
+		}
+	});
+};
+
+function signup(inqType){
+	moca.setSs("inqType",inqType);
+	location.href = config._contextRoot+'/m/TOM_05.html';//약관
+};
+
+function loginChecker(loginType){
+	var loginObj = moca.getSs("loginInfo");
+	if(loginObj != null && loginObj.loginType == loginType){
+		location.href = config.getSocailLoginSuccessUrl();
+	}
+};
+
+</script>
+</head>
+<body>
+	<!-- TOM_05_SRC.html로 이동 -->
+	<div class="wrap">
+		<div class="inner">
+			<div class="top_txt">
+				<p>
+					로그인 방법을<br>선택해주세요.
+				</p>
+			</div>
+		</div>
+
+		<div class="content fx2" style="height: 50%;">
+			<div class="inner">
+				<ul class="add_conf">
+					<li>
+						<button class="btn_kakao" type="button"" onclick="loginKakao()"><span><i></i><span>카카오 계정으로 로그인</span></span></button>
+					</li>
+					<li>
+						<button class="btn_naver" type="button" onclick="loginNaver()"><span><i></i><span>네이버 계정으로 로그인</span></span></button><div id="naverIdLogin" style="display:none"></div>
+					</li>
+					<li>
+						<button class="btn_facebook" id="loginBtn" type="button" onclick="loginFacebook()"><span><i></i><span>페이스북 계정으로 로그인</span></span></button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

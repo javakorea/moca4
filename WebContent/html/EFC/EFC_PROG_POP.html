@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head meta_width="800px" meta_height="600px">
+<script>
+	moca.EFC_PROG_POP.___ready = function(args){
+		moca.EFC_PROG_POP.fn_search();		
+	};
+	
+	moca.EFC_PROG_POP.fn_search = function(){
+		moca.EFC_PROG_POP.exe({
+			url : moca._domain+moca._contextRoot+"/sym/prm/EgovProgramListManageSelect_json.do",
+			loadingbar:true,
+	        data : {
+	        	"header" : moca.header,
+	        	"body" : {searchKeyword:moca.EFC_PROG_POP.getInput("searchKeyword")}
+	        },			
+			callback : function(response){
+				var list = moca.EFC_PROG_POP.getResList(response,"list");
+				moca.EFC_PROG_POP.drawGrid('pop_grd_1', list);
+			}
+		});
+	};
+	
+	moca.EFC_PROG_POP.fn_rowSelect = function(){
+		var _grd = moca.EFC_PROG_POP.getObj("pop_grd_1");
+		var _popupId = _grd.getAttribute("pageid");
+		var srri = _grd.getAttribute("selectedRealRowIndex");
+		if(srri != null){
+			var progrmFileNm = _grd.list[srri]['progrmFileNm'];
+			var progrmKoreanNm = _grd.list[srri]['progrmKoreanNm'];
+			
+			if(progrmFileNm != null && progrmFileNm != ''){
+				moca.confirm('※프로그램:<b>'+progrmFileNm+'('+progrmKoreanNm+')</b> <br/>로 선택하시겠습니까?',function(result){
+					if(result == 'Y'){
+						moca.popClose(_popupId,{"progrmFileNm":progrmFileNm});
+					}
+				});
+			}
+		}else{
+			moca.alert('※행을 선택하세요!');
+		}
+
+		
+	};
+</script>
+</head>
+<body>
+		<div class="moca_pop_cont_wrap">
+			<div type="wframe" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
+				src="/html/titlebox.html"
+				data = '{"sreenCd":"EFC_PROG_POP","sreenNm":"프로그램검색","sreenPath":"메뉴관리,프로그램검색"}'
+			></div>
+			<div class="moca_shbox">
+				<div class="shbox_inner">
+					<table class="tb">
+						<tbody>
+							<tr>
+								<th class="tb_th pr10">프로그램명</th>
+								<td class="tb_td">
+									<div class="moca_ibn" style="width:150px">
+										<input type="text" class="moca_input" value="" id="searchKeyword" onkeyup="moca.default_keyup(this)">
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="btn_shbox">
+					<button type="button" class="button btn_sc" onclick="moca.EFC_PROG_POP.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+				</div>
+			</div>
+
+
+			<div type="grid" class="moca_grid toolbar sc_row1" default_cell_height="26px" id="pop_grd_1"
+				style="bottom:15px"
+	 			ondblclick="moca.EFC_PROG_POP.fn_rowSelect(this)"
+				toolbar_grid_button2='{"position":"right","id":"button2","label":"적용","onclick":"moca.EFC_PROG_POP.fn_rowSelect","addClass":""}'	
+				label="프로그램목록">
+				<table style="width: 100%">
+					<colgroup>
+						<col style="width:50px">
+						<col style="width:200px">
+						<col style="width:200px">
+						<col style="">
+					</colgroup>
+					<thead>
+						<tr>
+							<th scope="col" id="lv0" style="display:none">상태</th>
+							<th scope="col" id="lv1">프로그램아이디</th>
+							<th scope="col" id="lv2">프로그램명</th>
+							<th scope="col" id="lv4">URL</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td id="status" celltype="input" style="display:none" readOnly="true" ></td>
+							<td id="progrmFileNm" celltype="input" style="text-align:left" readOnly="true"  required="true" tooltip="true"></td>
+							<td id="progrmKoreanNm" celltype="input" style="text-align:left" readOnly="true"  tooltip="true"></td>
+							<td id="url" celltype="input" style="text-align:left" readOnly="true"required="true" tooltip="true"></td>
+						</tr>
+					</tbody>
+				</table>				
+			</div>
+		</div>	
+</body>
+</html>

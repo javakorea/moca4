@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" /> 
+<meta http-equiv="Pragma" content="no-cache" /> 
+<meta http-equiv="Expires" content="Mon, 06 Jan 1990 00:00:01 GMT">
+<meta http-equiv="Expires" content="-1" />
+<script>
+	moca.TOM_40_SRC.___ready = function(args){
+		if(moca.getSs("loginInfo") == null || window.history.length < 3){
+			location.href = '/to';
+		};
+		moca.setHistory('TOM_40',{'title':'매매금액입력'});
+		showKeyPad();
+	};
+	function go(){
+		var won = $('.input_frm3').val();
+		if(moca.trim(won) == ""){
+			moca.malert('매매금액을 입력하세요!',null,function(){
+				showKeyPad();
+			});
+			return;
+		}
+		won = won.replace(/,/g,'');
+		moca.setAs("won",won+"");
+		location.href="TOM_40_1.html";
+	};
+	
+	function showKeyPad() {
+		setTimeout(function(){
+			$('.input_frm3').focus()
+			if(window.BRIDGE != null){
+				BRIDGE.showKeyPad();
+			}
+		},500);
+	};
+	
+	function length_check(x) {
+		if(x.length === 0) {
+			$('.btn_go').attr('disabled',true);
+		}
+		else {
+			$('.btn_go').attr('disabled',false);
+		}
+			
+	};
+	
+	
+	function numberWithCommas(x) {
+	  x = x.replace(/[^0-9]/g,'');   // 입력값이 숫자가 아니면 공백
+	  x = x.replace(/,/g,'');          // ,값 공백처리
+	  $("#money").val(x.replace(/\B(?=(\d{3})+(?!\d))/g, ",")); // 정규식을 이용해서 3자리 마다 , 추가 
+	  $('#hanMoney').html(moca.priceConvertKorean($("#money").val()));
+	};
+	
+	moca.TOM_40_SRC.back = function(args){
+		location.href = 'TOM_39.html';
+	};
+</script>
+</head>
+<body>
+	<div class="wrap">
+		<header class="titlebar">
+			<button class="btn_back" type="button" onclick="moca.TOM_40_SRC.back()">이전페이지</button>
+		</header>
+		<div class="inner">
+			<div class="top_txt">
+				<p><span>매매 금액</span>을<br>입력해주세요.</p>
+			</div>
+		</div>
+		<div class="content btn_cont fx2 jct">
+			<div class="inner">
+				<ul class="d_form">
+					<li>
+						<div class="gox">
+							<input class="input_frm3" type="tel" id="money" placeholder="매매 금액" onkeyup="numberWithCommas(this.value); length_check(this.value);">	
+							<button class="btn_clear" type="button" onclick="moca.compClear(this)">삭제</button>	
+						</div>	
+					</li>
+					<li class="tac txt_gray">
+						<span id='hanMoney'></span>
+					</li>				
+				</ul>
+				<div class="btn_btm">
+					<button class="btn_go" type="button" onclick="go()" disabled>다음</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

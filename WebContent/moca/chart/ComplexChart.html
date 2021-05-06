@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>AreaChart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css" href="../css/moca_layout.css">
+<script language="JavaScript" src="../js/jquery-3.3.1.min.js"></script>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongManager.js"></SCRIPT>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongSampleData.js"></SCRIPT>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongChart.js"></SCRIPT>	
+  	<script>
+
+	$(document).ready(function() {
+			chart20();
+			var chartObj = chart21();
+			chart21_2(chartObj);
+			chart21_3(chartObj);
+			chart21_4(chartObj);
+			chart21_5(chartObj);
+			chart21_6(chartObj);
+			chart21_7(chartObj);
+			chart21_8(chartObj);
+	});//초기화 영역-------------------------------------------------------------
+  	</script>
+</head> 
+<body>
+		<div class="moca_cont_wrap2">
+					<div class="moca_titbox">
+						<h3>Complex Chart</h3>
+					</div>
+					<div id="chart2desc" class="modulebox">
+						<div id="chart2title" class="moca_titbox">
+							<h4>20. Complex</h4>
+						</div> 
+						<p>
+						복합차트<br>
+						1. bar - ndSpline (right y axis use)<br>
+						</p>
+						<div id="chart20" class="crt_box mt20"></div>	
+						
+						<table class="tbl mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+									aSeries1.s_axis = 'R';
+									</td>
+									<td>오른쪽Y축을 사용하는 시리즈 지정</td>
+								</tr>
+								<tr>
+									<td class="sct">
+									createSeries('주기 빈도수','bar'...
+									</td>
+									<td>왼쪽Y축을 사용하는 bar타입 생성</td>
+								</tr>		
+								<tr>
+									<td class="sct">
+									createSeries('주기 정규분포확률','ndSpline'...
+									</td>
+									<td>오른쪽Y축을 사용하는 정규식타입 지정</td>
+								</tr>	
+							</tbody>
+						</table>	
+						
+						<table class="tbl y mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+									option.unitLabel_Verti	= '빈도수';
+
+									</td>
+									<td>왼쪽 Y축의 라벨 </td>
+								</tr>	
+								<tr>
+									<td class="sct">
+									option.unitLabel_Verti_R = '정규분포확률';	
+									</td>
+									<td>오른쪽 Y축의 라벨</td>
+								</tr>
+								<tr>
+									<td class="sct">
+									option.min = 0;
+							
+									</td>
+									<td>왼쪽 Y축의 min value 고정</td>
+								</tr>		
+								<tr>
+									<td class="sct">
+									option.min_R = 0;		
+									</td>
+									<td>오른쪽 Y축의 min value 고정</td>
+								</tr>			
+								<tr>
+									<td class="sct">
+									option.bothYAxis = true;
+							
+									</td>
+									<td>Y양축사용</td>
+								</tr>		
+								<tr>
+									<td class="sct">
+									option.value_show_min_hide = true;	
+									</td>
+									<td>각 포인트에 표시하는 value중 최소값은 감추기</td>
+								</tr>	
+								<tr>
+									<td class="sct">
+										var xMaxTmp = aSeries['s_data'][aSeries['s_data'].length-1][0];
+										if(option.xmax	< xMaxTmp){
+											option.xmax	 = xMaxTmp;				
+										}	
+									</td>
+									<td>범위형 scatter타입의 xmax를 동적으로 지정</td>
+								</tr>
+							</tbody>
+						</table>	
+					</div> 
+					
+					
+					
+					<div id="chart2desc" class="modulebox">
+						<div id="chart2title" class="moca_titbox">
+							<h4>21. 다단차트</h4>
+						</div> 
+						
+						<p>
+						1단 Image chart<br>
+						2단 Line chart<br>
+						3단 Bar chart<br>
+						4단 Area chart<br>
+						5단 Bar chart<br>
+						6단 Bar chart<br>
+						7단 Line chart<br>
+						8단 Image chart<br>
+						이상 8가지의 차트를 복합차트로 구성
+						</p>
+						
+						<div class="crt_box2 mt20">
+							<div id="chart21" style="height:150px"></div>   
+							<div id="chart21_2" style="height:120px"></div>      
+							<div id="chart21_3" style="height:120px"></div>  
+							<div id="chart21_4" style="height:120px"></div> 
+							<div id="chart21_5" style="height:120px"></div> 
+							<div id="chart21_6" style="height:120px"></div> 	
+							<div id="chart21_7" style="height:120px"></div> 
+							<div id="chart21_8" style="height:120px"></div> 
+						</div>
+						
+						<div class="moca_titbox mt30">
+							<h5>공통</h5>
+						</div> 
+						<table class="tbl y">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>	
+									<td class="sct">
+									option.yAxisMarkShow = false;
+									</td>
+									<td>Y축(눈금표시)는 보이지않게 한다.(Y축라벨은 보인다)</td>
+								</tr>
+								<tr>	
+									<td class="sct">
+									option.legendShow = false;
+									</td>
+									<td>(시리즈)범례를 보이지않게 한다.</td>
+								</tr>		
+								<tr>		
+									<td class="sct">
+									option.tooltipShow = false;		
+									</td>
+									<td>좌상단고정자리툴팁을 보이지않게함</td>
+								</tr>			
+								<tr>		
+									<td class="sct">
+									option.crossLineShow = false;	
+									</td>
+									<td>마우스포인터를 따라다니는 분석선을 보이지않게함</td>
+								</tr>		
+								<tr>	
+									<td class="sct">
+									option.draw2DepthXAxis = true;
+									</td>
+									<td>날짜/시간 2단으로 X축을 구성함</td>
+								</tr>	
+								<tr>	
+									<td class="sct">
+									option.bottomLabelMaxHeight = 0;<br>
+									option.bottom_legend_box_height = 0;<br>
+									option.bottom_legend_box_top_margin = 0;<br>
+									option.bottom_legend_box_bottom_margin = 0;
+									</td>
+									<td>바닥의 여백을 제거함</td>
+								</tr>
+
+								<tr>	
+									<td class="sct">
+									option.useSave = false;
+									</td>
+									<td>이미지로 export기능을 사용안함</td>
+								</tr>	
+							</tbody>
+						</table>	
+								
+						<div class="moca_titbox mt30">
+							<h5>1단 Image chart</h5>
+						</div> 
+						
+						<table class="tbl y">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>	
+									<td class="sct">
+									option.xAxisMarkShow = true;
+									</td>
+									<td>X축(눈금표시)를 보이게한다. </td>
+								</tr>	
+
+								<tr>	
+									<td class="sct">
+									option.xAxisPosition = 'top';
+									</td>
+									<td>x축이 TOP영역으로 위치함</td>
+								</tr>	
+								<tr>	
+									<td class="sct">
+<pre>
+var img_map1 = {};
+img_map1['1'] = "gisang/1.gif";
+img_map1['2'] = "gisang/2.gif";
+img_map1['3'] = "gisang/3.gif";
+img_map1['4'] = "gisang/4.gif";
+option.img_resource_map1 = img_map1;
+</pre>
+									</td>
+									<td>이미지맵에서 사용할 이미지맵(데이터:이미지경로)</td>
+								</tr>	
+								<tr>	
+									<td class="sct">
+									option.unitLabel_Verti = '날씨';
+									</td>
+									<td>Y축에 표시할 라벨</td>
+								</tr>
+							</tbody>
+						</table>
+						
+						
+						<table class="tbl mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>	
+									<td class="sct">
+									var aSeries = createSeries('any sereis','image',data21_1);
+									</td>
+									<td>'이미지차트' 타입의 시리즈를 생성함</td>
+								</tr>
+							</tbody>
+						</table>	
+						
+						
+						<div class="moca_titbox mt30">
+							<h5>2단 Line chart</h5>
+						</div> 
+						
+						<table class="tbl y">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>	
+									<td class="sct">
+									option.xAxisMarkShow = false;
+									</td>
+									<td>X축(눈금표시)를 보이지않게한다.(1단 보이고,2단이하는 보이지않게함) </td>
+								</tr>	
+								<tr>
+									<td class="sct">
+									option.leftLabelMaxWidthXY = chartObj.option['leftLabelMaxWidthXY'];
+									</td>
+									<td>상위차트와 x축의 간격을 일치시키기위해 상위Y축의 left Label Max Width와 일치시킨다.</td>
+								</tr>
+								<tr>
+									<td class="sct">
+									option.top_margin = 0;
+									</td>
+									<td>상위여백을 제거함.</td>
+								</tr>		
+								<tr>
+									<td class="sct">
+									option.valueShow = true;
+									</td>
+									<td>Y축눈금이 없으므로 차트각포인터에 값을 표시함.</td>
+								</tr>			
+							</tbody>
+						</table>	
+						
+						<table class="tbl mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>	
+									<td class="sct">
+									var aSeries 	= createSeries('any sereis','line',chartUtil.formatData_profile2(data21_2,false,null,null,null,true));
+									</td>
+									<td>'LINE' 타입의 시리즈를 생성함</td>
+								</tr>
+							</tbody>
+						</table>		
+						
+						
+						
+						
+						
+						<div class="moca_titbox mt30">
+							<h5>3단 Bar chart</h5>
+						</div> 
+						
+						
+						<table class="tbl y">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>	
+									<td class="sct">
+									option.valueGroupCnt = 2;
+									</td>
+									<td>x축눈금2개를 묶어서 하나의 value를 표현한다.</td>
+								</tr>	
+								<tr>
+									<td class="sct">
+									option.leftLabelMaxWidthXY = chartObj.option['leftLabelMaxWidthXY'];
+									</td>
+									<td>상위차트와 x축의 간격을 일치시키기위해 상위Y축의 left Label Max Width와 일치시킨다.</td>
+								</tr>
+								<tr>
+									<td class="sct">
+									option.top_margin = 0;
+									</td>
+									<td>상위여백을 제거함.</td>
+								</tr>			
+							</tbody>
+						</table>	
+						<table class="tbl mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>	
+									<td class="sct">
+									var aSeries = createSeries('any sereis','bar',data21_3);
+									</td>
+									<td>'BAR' 타입의 시리즈를 생성함</td>
+								</tr>
+							</tbody>
+						</table>	
+
+
+
+
+
+
+
+
+						<div class="moca_titbox mt30">
+							<h5>4단 Area chart</h5>
+						</div> 
+						
+						
+						<table class="tbl y">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>	
+									<td class="sct">
+									option.min = 0;
+									</td>
+									<td>area가 바닥에서 뜨지않게 최소값을 0으로 수동고정함</td>
+								</tr>	
+								<tr>
+									<td class="sct">
+									option.leftLabelMaxWidthXY = chartObj.option['leftLabelMaxWidthXY'];
+									</td>
+									<td>상위차트와 x축의 간격을 일치시키기위해 상위Y축의 left Label Max Width와 일치시킨다.</td>
+								</tr>
+							</tbody>
+						</table>	
+						<table class="tbl mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>	
+									<td class="sct">
+									var aSeries 	= createSeries('any sereis','area',data21_4);
+									</td>
+									<td>'AREA' 타입의 시리즈를 생성함</td>
+								</tr>
+							</tbody>
+						</table>	
+						
+						
+						<div class="moca_titbox mt30">
+							<h5>5단 Bar chart</h5>
+						</div> 
+						
+						
+						<table class="tbl y">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>	
+									<td class="sct">
+									option.valueGroupCnt = 2;
+									</td>
+									<td>x축눈금2개를 묶어서 하나의 value를 표현한다.</td>
+								</tr>	
+								<tr>
+									<td class="sct">
+									option.min = -10;
+									</td>
+									<td>값이 0이라도 약간 올라오게 최소값을 -10내려서 고정시킴</td>
+								</tr>	
+								<tr>
+									<td class="sct">
+									option.leftLabelMaxWidthXY = chartObj.option['leftLabelMaxWidthXY'];
+									</td>
+									<td>상위차트와 x축의 간격을 일치시키기위해 상위Y축의 left Label Max Width와 일치시킨다.</td>
+								</tr>
+							</tbody>
+						</table>	
+						<table class="tbl mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>	
+									<td class="sct">
+									var aSeries = createSeries('any sereis','bar',data21_5);
+									</td>
+									<td>'BAR' 타입의 시리즈를 생성함</td>
+								</tr>
+							</tbody>
+						</table>	
+
+						
+						<div class="moca_titbox mt30">
+							<h5>6단 Bar chart</h5>
+						</div> 
+						
+						
+						<table class="tbl y">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>	
+									<td class="sct">
+									option.randomColorUse           = true;
+									</td>
+									<td>랜덤컬러를 사용한다.</td>
+								</tr>		
+								<tr>
+									<td class="sct">
+									option.leftLabelMaxWidthXY = chartObj.option['leftLabelMaxWidthXY'];
+									</td>
+									<td>상위차트와 x축의 간격을 일치시키기위해 상위Y축의 left Label Max Width와 일치시킨다.</td>
+								</tr>
+							</tbody>
+						</table>	
+						<table class="tbl mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>	
+									<td class="sct">
+									var aSeries 	= createSeries('any sereis','bar',data21_6);
+									</td>
+									<td>'BAR' 타입의 시리즈를 생성함</td>
+								</tr>
+							</tbody>
+						</table>
+						
+
+
+						<div class="moca_titbox mt30">
+							<h5>7단 Line chart</h5>
+						</div> 
+						
+						
+						<table class="tbl y">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>	
+									<td class="sct">
+									option.leftLabelMaxWidthXY = chartObj.option['leftLabelMaxWidthXY'];
+									</td>
+									<td>상위차트와 x축의 간격을 일치시키기위해 상위Y축의 left Label Max Width와 일치시킨다.</td>
+								</tr>
+							</tbody>
+						</table>	
+						<table class="tbl mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>	
+									<td class="sct">
+									var aSeries 	= createSeries('any sereis','line',chartUtil.formatData_profile2(data21_7,false,null,null,null,true));
+									</td>
+									<td>'LINE' 타입의 시리즈를 생성함</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<div class="moca_titbox mt30">
+							<h5>8단 Image chart</h5>
+						</div> 
+						
+						
+						<table class="tbl y">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>	
+									<td class="sct">
+									option.leftLabelMaxWidthXY = chartObj.option['leftLabelMaxWidthXY'];
+									</td>
+									<td>상위차트와 x축의 간격을 일치시키기위해 상위Y축의 left Label Max Width와 일치시킨다.</td>
+								</tr>		
+								<tr>
+									<td class="sct">
+									var img_map1 = {};<br>
+									img_map1['1'] = "gisang/1.gif";<br>
+									img_map1['2'] = "gisang/2.gif";<br>
+									img_map1['3'] = "gisang/3.gif";<br>
+									img_map1['4'] = "gisang/4.gif";<br>
+									option.img_resource_map1 = img_map1;
+									</td>
+									<td>이미지맵에서 사용할 이미지맵(데이터:이미지경로)</td>
+								</tr>
+							</tbody>								
+						</table>
+						
+						<table class="tbl mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>	
+									<td class="sct">
+									var aSeries = createSeries('any sereis','image',data21_1);	
+									</td>
+									<td>'이미지' 타입의 시리즈를 생성함</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+		</div>
+</body>
+</html>
+

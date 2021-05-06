@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" /> 
+<meta http-equiv="Pragma" content="no-cache" /> 
+<meta http-equiv="Expires" content="Mon, 06 Jan 1990 00:00:01 GMT">
+<meta http-equiv="Expires" content="-1" />
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>모바일 웹 온라인 소유권 이전</title>
+<link rel="stylesheet" type="text/css" href="../css/mobile.css?after">
+<script>
+	moca.TOM_26_SRC.___ready = function(args){
+		
+		$("._modal").hide();
+		
+ 		if(moca.getSs("loginInfo") == null){
+			location.href = '/to';
+		};
+		sessionStorage.removeItem('verify_ys_done');
+		sessionStorage.removeItem('verify_yd_done');
+		sessionStorage.removeItem('response.data.tx_id_ys');
+		sessionStorage.removeItem('response.data.tx_id_yd');
+		sessionStorage.removeItem('transferownerId');
+		sessionStorage.removeItem('coocon_data');
+		sessionStorage.removeItem('ysInfo');
+		sessionStorage.removeItem('ydInfo');
+		sessionStorage.removeItem('carDetailInfo');
+		sessionStorage.removeItem('certStartTime');
+		moca.removeAs("requestPay");
+		moca.removeAs("requestPayTemp");
+
+		$('#CAR_NUM').focus();
+		moca.mbl_showKeyPad();
+	};
+	
+	
+	function open_modal() {
+		$("._modal").show();
+	};
+			
+	
+	function close_modal() {
+		$("._modal").hide();
+	};
+	
+	
+	
+	function fnNext(thisObj){
+		if(moca.trim($('#CAR_NUM').val()) == ''){
+			moca.malert('차량번호를 입력하세요.','',function(){
+				$('#CAR_NUM').focus();
+			});
+			return;
+		} 
+		if(moca.trim($('#OWNER_NAME').val()) == ''){
+			moca.malert('이름을 입력하세요.','',function(){
+				$('#OWNER_NAME').focus();
+			});
+			return;		
+		} 
+		moca.TOM_26_SRC.loading_id = moca.loading(null,null,null,{type:"mobile",className:"_modal",content:"<strong>제원정보를 분석하는 중…</strong> <span>잠시만 기다려주세요!<br>차량 분석에 약 30초~1분이 소요됩니다.<br>분석 후 페이지가 전환됩니다.</span>"});
+		moca.TOM_26_SRC.exe({
+			url : moca._domain+moca._contextRoot+"/TOM_26/mobile/sendCoocon.do",
+			data : {
+				"header" : moca.header,
+				"body" : {
+					"CAR_NUM":$('#CAR_NUM').val().replace(/\s/g,'')+"",
+					"OWNER_NAME":$('#OWNER_NAME').val()+""
+					}
+			},			
+			callback : function(response){
+				if(response.error !=null){
+					moca.merror(response.error,"",function(){
+						if(response.error == '로그인안됨'){
+							location.href = 'TOM_02.html';
+						}
+					});	
+				}
+				if(response != null && response.statusCd != '00000000'){
+					moca.loading(moca.TOM_26_SRC.loading_id,0,null);
+					if(response.statusMsg != null){
+						//var arr = response.statusMsg.split('.');
+						var arr = response.statusMsg.split('^^');
+						var m2 = '';
+						if(arr.length == 1){
+							m2 = null;
+						}else{
+							m2 = arr[1];		
+						}
+						moca.merrorBig("<span>중고차 분석</span>을<br>실패했습니다.",arr[0].replace(/\./g,'<br>'),"["+response.statusCd+"]","확인",function(){
+							$('#CAR_NUM').focus();
+						});
+						return;
+					}else{
+						var arr = response.statusMsg.split('^^');
+						moca.merrorBig("<span>중고차 분석</span>을<br>실패했습니다.",arr[0].replace(/\./g,'<br>'),"["+response.statusCd+"]","확인",function(){
+							$('#CAR_NUM').focus();
+						});		
+						return;	
+					}
+				}else{
+					if(response.REGNO != null){
+						var arr = response.REGNO.split('-');
+						moca.setSs("coocon_data_REGNO1",arr[0]);
+						moca.setLs("coocon_data_REGNO1",arr[0]);
+						if(arr.length > 1){
+							moca.setSs("coocon_data_REGNO2",arr[1].replace(/\*/g,''));
+							moca.setLs("coocon_data_REGNO2",arr[1].replace(/\*/g,''));
+						}
+					}
+					moca.setSs("coocon_data",response.idx);
+					moca.setSs("coocon_data_LAST_OWNER",response.LAST_OWNER);
+					moca.setLs("coocon_data",response.idx);
+					moca.setLs("coocon_data_LAST_OWNER",response.LAST_OWNER);
+					
+					moca.TOM_26_SRC.exe({
+						url : moca._domain+moca._contextRoot+"/TOM_39/mobile/carInfoDetail.do",
+						//loadingbar:true,
+						//loadingInfo:{type:"mobile",className:"_modal",content:"<span>잠시만 기다려주세요!</span>"},
+						data : {
+							"header" : moca.header,
+							"body" : {
+								//"idx":_idx+""
+								//"idx":"46"//근저당 압류/촉탁 "57" :저당연락처 37:구조변경 21:용도변경 102:영업용화물
+								"idx":response.idx+""
+								}
+						},			
+						callback : function(response){
+							moca.setSs("TOM_39_response",response);
+							location.href = 'TOM_39.html';
+						}
+					});
+				}
+			}
+		});
+	};
+
+</script>
+<style>
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<header class="titlebar">
+			<h2 class="tit"><a href="javascript:void(0)" onclick="moca.TOM_25_SRC.logout()">로그아웃</a></h2>
+			</header>
+		<div class="inner">
+			<div class="top_txt">
+				<p><span>차량번호/소유자명</span><br>입력하세요.</p>
+			</div>
+		</div>
+
+		<div class="content btn_cont fx2">
+			<div class="inner">
+				<ul class="d_form type2">
+					<li>
+						<div class="gox3 f2">
+							<input id="CAR_NUM" class="input_frm2" type="text" placeholder="차량번호" value="392가3092">	
+							<button class="btn_clear" type="button" onclick="moca.compClear(this)">삭제</button>
+							<p class="tip-type2">차량번호를 입력해주세요.</p>
+						</div>
+						<!-- <div class="gox">
+							<input class="input_frm" type="text" placeholder="차량번호 입력">	
+							<button class="btn_clear" type="button">삭제</button>
+						</div>			 -->
+					</li>
+					<li>
+						<div class="gox3 f2">
+							<input id="OWNER_NAME" class="input_frm2" type="text" placeholder="소유자명" value="강민관">	
+							<button class="btn_clear" type="button" onclick="moca.compClear(this)">삭제</button>
+							<p class="tip-type2">소유자명을 입력해주세요.</p>
+						</div>
+						<!-- <div class="gox">
+							<input class="input_frm" type="text" placeholder="이름">	
+							<button class="btn_clear" type="button">삭제</button>
+						</div> -->
+					</li>
+				</ul>
+				<div class="btn_btm">
+					<button class="btn_go" type="button" onclick="fnNext()">다음</button>
+				</div>
+				<div class="transfer-tip">
+					<button onclick="open_modal()">이전진행 절차보기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="_modal">
+		<div class="pop_msg type4 fm">
+			<div class="modal_inner">
+				<div class="top_txt modal">
+					<p>
+						<span>소유권 이전<br>진행절차</span> 확인하세요.
+					</p>
+				</div>
+			</div>
+			
+			<div class="content btn_cont fx2 jct2">
+				<div class="modal_inner">
+					<ol class="step mt10">				
+						<li>
+							<div class="num">
+								<em>1</em>
+								<span>step</span>
+							</div>
+							<span class="ti">차량분석</span>
+							<span>이전 차량 분석하세요.</span>
+						</li>
+						<li>
+							<div class="num">
+								<em>2</em>
+								<span>step</span>
+							</div>
+							<span class="ti">이전정보입력 및 인증</span>
+							<span>정보 입력 후 인증해주세요.</span>
+						</li>
+						<li>
+							<div class="num">
+								<em>3</em>
+								<span>step</span>
+							</div>
+							<span class="ti">비용결제</span>
+							<span>비용 확인 후 결제를 완료하세요.</span>
+						</li>
+						<li>
+							<div class="num">
+								<em>4</em>
+								<span>step</span>
+							</div>
+							<span class="ti">소유권이전 신청</span>
+							<span>관공서에 이전신청을 진행합니다.</span>
+						</li>
+						<li>
+							<div class="num">
+								<em>5</em>
+								<span>step</span>
+							</div>
+							<span class="ti">소유권 이전등록 완료</span>
+							<span>해당 관공서를 통한 이전이 완료됩니다.</span>
+						</li>
+					</ol>
+					<p class="tip">양수인의 이전비용 입금 완료한 시간이 오후 4시 이후인 경우에는 이전 예약 대기로 익일(영업일) 9시에 소유권 이전을 진행합니다.</p>
+					<button class="btn_close" type="button" onclick="close_modal()">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+</html>

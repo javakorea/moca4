@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" /> 
+<meta http-equiv="Pragma" content="no-cache" /> 
+<meta http-equiv="Expires" content="Mon, 06 Jan 1990 00:00:01 GMT">
+<meta http-equiv="Expires" content="-1" />
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>카방에서 간편하게 온라인으로 소유권 이전!</title>
+<link rel="stylesheet" type="text/css" href="../css/mobile.css">
+<script>
+	moca.TOM_84_SRC.___ready = function(args){
+		moca.removeSs("requestPay");
+		var transferComDate = moca.getSs('transferComDate');
+		$('.date').html(transferComDate);
+		localStorage.clear();
+	};
+	function go(){
+		location.href="TOM_25.html?isCancel=true"
+	}
+</script>
+</head>
+<body>
+	<div class="wrap">
+		<header class="titlebar">
+			
+		</header>
+
+		<div class="content btn_cont fx2 jct2 top_tac">
+			<div class="top_txt">
+				<p><span>이전등록 신청</span>이<br>완료되었습니다.</p>
+			</div>
+			<div class="c_msg">
+				<i class="complete"></i>
+				<div class="cont">
+					<strong>등록 완료 예정일 </strong>
+					<strong class="date"></strong>
+				</div>
+			</div>
+			<div class="infobox">
+				<div class="dfbox">
+					<h3>안내사항</h3>
+				</div>
+				<ul>
+					<li>영업일 오후 5시 신청 시에는 익일(영업일) 09시 소유권 이전 등록을 진행합니다.</li>
+					<li>채권 금액은 매일 변경됩니다. 채권 금액의 변경에 따른 환급금 발생 시 이전 등록일 익일 환급됩니다.</li>
+					<li>이전등록 완료 후 카카오톡 또는 SNS문자로 이전결과 및 비용 내역서를 발송합니다.</li>
+				</ul>
+			</div>
+		</div>
+		<div class="btn_btm">
+			<button class="btn_go" type="button" onclick="go()">확인</button>
+		</div>
+	</div>
+</body>
+</html>

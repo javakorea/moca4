@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script>
+	$(document).ready(function() {
+		moca.init(function() {
+			moca.EFL_CORP.code({
+				"grd_1.sttus" : {
+					code : 'COM013',
+					allOption : {
+						label : '-선택-',
+						value : ''
+					}
+				}
+			}, function() {
+				moca.EFL_CORP.fn_search();
+			});
+		});
+	});
+
+	moca.EFL_CORP.fn_search = function() {
+		moca.EFL_CORP.exe({
+			url : moca._domain +moca._contextRoot+ "/uss/umt/user/EgovUserManage_json.do",
+			data : {
+				"header" : moca.header,
+				"body" : {
+					aaa : '111',
+					bbb : '222'
+				}
+			},
+			callback : function(response) {
+				moca.EFL_CORP.drawGrid('grd_1', moca.getResList(response, "list"));
+			}
+		});
+	};
+	moca.EFL_CORP.fn_exe = function() {
+		if (moca.EFL_CORP.validate("grd_1", "status", "C,U,D")) {
+			moca.confirm('저장하시겠습니까?', function(result) {
+				if (result == 'Y') {
+					moca.EFL_CORP.exe({
+						url : moca._domain
+								+ moca._contextRoot+"/uss/umt/user/EgovUserModify_json.do",
+						data : {
+							"header" : moca.header,
+							"body" : {
+								paramList : moca.getFilteredList("grd_1",
+										"status", "C,U,D")
+							}
+						},
+						callback : function() {
+							moca.alert('성공적으로 저장되었습니다!', function() {
+								moca.EFL_CORP.fn_search();
+								return;
+							});
+						}
+					});
+				}
+			});
+		}
+	};
+</script>
+
+</head>
+<body>
+<div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
+		<div class="moca_tab_cont" style="height: 100%">
+			<div class="moca_cont_wrap">
+				<div class="moca_titbox cm">
+					<a class="btn_fav" data-href="" style="cursor: default;">즐겨찾기</a>
+					<h4 class="mr5">M100032</h4>
+					<h3>법인관리</h3>
+					<div class="title_box_nav">
+						<em class="mr7"><i class="fas fa-grip-lines-vertical"></i></em> <span
+							class="mr7"><img src="../../images/ico_home.png"></span> <em
+							class="mr7"><i class="fas fa-angle-right"></i></em> <span
+							class="mr7">기준정보관리</span> <em class="mr7"><i
+							class="fas fa-angle-right"></i></em> <span class="mr7">법인관리</span>
+					</div>
+					<div class="btns_wrap">
+						<div class="grp_funcbtns">
+							<a class="btn">처리</a> <a class="btn">등록</a> <a class="btn">수정</a>
+							<a class="btn">삭제</a>
+						</div>
+						<div class="grp_combtns">
+							<a class="btn reset">화면지움</a>
+						</div>
+					</div>
+				</div>
+				<div type="grid" class="moca_grid toolbar sc_row"
+					default_cell_height="26px" id="grd_1">
+					<table style="width: 100%">
+						<colgroup>
+							<col style="width: 50px">
+							<col style="width: 80px">
+							<col style="width: 70px">
+							<col style="width: 150px">
+							<col style="width: 100px">
+							<col style="width: 100px">
+							<col style="width: 100px">
+							<col style="width: 150px">
+							<!-- group id -->
+							<col style="width: 150px">
+							<!-- 신청상태 -->
+							<col style="width: 130px">
+							<!-- 등록일 -->
+							<col style="width: 90px">
+							<col style="width: 150px">
+
+							<col style="width: 200px">
+							<col style="width: 200px">
+							<col style="width: 100px">
+							<col style="width: 100px">
+							<col style="width: 100px">
+							<col style="width: 100px">
+							<col style="width: 100px">
+							<col style="width: 100px">
+							<col style="width: 100px">
+							<col style="width: 100px">
+
+
+							<col style="width: 100px">
+							<col style="width: 100px">
+							<col style="width: 100px">
+							<col style="width: 100px">
+							<col style="width: 200px">
+							<col style="width: 100px">
+
+							<col style="width: 100px">
+							<col style="width: 100px">
+
+							<col style="">
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col" id="lv0">상태</th>
+								<th scope="col" id="lv1">아이디</th>
+								<th scope="col" id="lv2">이름</th>
+								<th scope="col" id="lv23">조직코드</th>
+								<th scope="col" id="lv24">패스워드</th>
+								<th scope="col" id="lv25">비밀번호정답</th>
+								<th scope="col" id="lv26">비밀번호힌트</th>
+								<th scope="col" id="lv3">그룹아이디</th>
+								<th scope="col" id="lv6">상태</th>
+								<th scope="col" id="lv8">등록일</th>
+
+								<th scope="col" id="lv4">핸드폰번호</th>
+								<th scope="col" id="lv5">유니크아이디</th>
+								<th scope="col" id="lv7">E-MAIL</th>
+
+
+								<th scope="col" id="lv9">집전화지역번호</th>
+								<th scope="col" id="lv10">생년월일</th>
+								<th scope="col" id="lv11">crtfcDnValue</th>
+								<th scope="col" id="lv12">detailAdres</th>
+								<th scope="col" id="lv13">emplNo</th>
+								<th scope="col" id="lv14">endTelno</th>
+								<th scope="col" id="lv15">fxnum</th>
+								<th scope="col" id="lv16">houseAdres</th>
+								<th scope="col" id="lv17">houseEndTelno</th>
+								<th scope="col" id="lv18">ihidnum</th>
+
+								<th scope="col" id="lv19">mbtlnum</th>
+								<th scope="col" id="lv20">middleTelno</th>
+								<th scope="col" id="lv21">직위명</th>
+								<th scope="col" id="lv22">사무실전화번호</th>
+
+								<th scope="col" id="lv27">pstinstCode</th>
+								<th scope="col" id="lv28">sexdstnCode</th>
+
+								<th scope="col" id="lv29">userTy</th>
+								<th scope="col" id="lv30">zip</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="status" celltype="input" style="" readOnly="true"></td>
+								<td id="userId" celltype="input" style="" readOnly="true"
+									required="true"></td>
+								<td id="userNm" celltype="input" style="" readOnly="true"
+									required="true"></td>
+								<td id="orgnztId" celltype="input" style="" readOnly="true"></td>
+								<td id="password" celltype="input" style="" readOnly="true"
+									required="true"></td>
+								<td id="passwordCnsr" celltype="input" style="" readOnly="true"
+									required="true"></td>
+								<td id="passwordHint" celltype="input" style="" readOnly="true"
+									required="true"></td>
+								<td id="groupId" celltype="input" style=""
+									addRowEditable="false"></td>
+								<td id="sttus" celltype="select" style=""
+									displayFormat="[value] [label]" required="true"></td>
+								<td id="sbscrbDe" celltype="input" style="" readOnly="true"
+									displayFunction="moca.toMillDate" addRowEditable="false"></td>
+
+								<td id="moblphonNo" celltype="input" style="" readOnly="true"
+									required="true"></td>
+								<td id="uniqId" celltype="input" style="" readOnly="true"
+									toolTip="true" addRowEditable="false"></td>
+								<td id="emailAdres" celltype="input" style="" readOnly="true"
+									toolTip="true" required="true"></td>
+
+
+
+								<td id="areaNo" celltype="input" style="" readOnly="true"></td>
+								<td id="brthdy" celltype="input" style="" readOnly="true"></td>
+								<td id="crtfcDnValue" celltype="input" style="" readOnly="true"></td>
+								<td id="detailAdres" celltype="input" style="" readOnly="true"></td>
+								<td id="emplNo" celltype="input" style="" readOnly="true"></td>
+								<td id="endTelno" celltype="input" style="" readOnly="true"></td>
+								<td id="fxnum" celltype="input" style="" readOnly="true"></td>
+								<td id="houseAdres" celltype="input" style="" readOnly="true"></td>
+								<td id="houseEndTelno" celltype="input" style="" readOnly="true"></td>
+								<td id="ihidnum" celltype="input" style="" readOnly="true"></td>
+
+								<td id="mbtlnum" celltype="input" style="" readOnly="true"></td>
+								<td id="middleTelno" celltype="input" style="" readOnly="true"></td>
+								<td id="ofcpsNm" celltype="input" style="" readOnly="true"></td>
+								<td id="offmTelno" celltype="input" style="" readOnly="true"></td>
+
+								<td id="pstinstCode" celltype="input" style="" readOnly="true"></td>
+								<td id="sexdstnCode" celltype="input" style="" readOnly="true"></td>
+
+								<td id="userTy" celltype="input" style="" readOnly="true"></td>
+								<td id="zip" celltype="input" style="" readOnly="true"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="toast_msg">
+					<!-- <p>조회가 완료되었습니다.</p> -->
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

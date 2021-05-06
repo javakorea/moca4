@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script>
+	
+	moca.EFC_CORP.___ready = function(args){
+		moca.EFC_CORP.code({
+			"grd_1.depth":{code:'EFC003'}
+		},function(){
+			moca.EFC_CORP.fn_search();
+		});
+	};
+	
+	moca.EFC_CORP.fn_search = function(){
+		moca.EFC_CORP.exe({
+			url : moca._domain+moca._contextRoot+"/efms/EFC_CORP/list_json.do",
+			loadingbar:true,
+            data : {
+            	"header" : moca.header,
+            	"body" : {CORP_NM:moca.EFC_CORP.getInput("CORP_NM")}
+            },			
+			callback : function(response){
+				var list = moca.EFC_CORP.getResList(response,"list");
+				moca.EFC_CORP.drawGrid('grd_1', list);
+			}
+		});
+	};
+	moca.EFC_CORP.fn_exe = function(){
+		if(moca.EFC_CORP.validate("grd_1","status","C,U,D")){
+			moca.confirm('저장하시겠습니까?',function(result){
+				if(result == 'Y'){
+					moca.EFC_CORP.exe({
+						url : moca._domain+moca._contextRoot+"/efms/EFC_CORP/modify_json.do",
+			            data : {
+			            	"header" : moca.header,
+			            	"body" : {
+			            		paramList:moca.EFC_CORP.getFilteredList("grd_1","status","C,U,D")
+			            	}
+			            },		
+						callback : function(){
+			        	   moca.alert('성공적으로 저장되었습니다!',function(){
+			        		   moca.EFC_CORP.fn_search();
+			        	   	   return;
+			        	   });	
+						}
+					});
+				}
+			});
+		}
+	};
+</script>
+
+</head>
+<body>
+<div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
+	<div class="moca_tab_cont" style="height:100%">
+		<div class="moca_cont_wrap">
+			<div type="wframe" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
+				src="/html/titlebox.html"
+				data = '{"sreenCd":"EFC_CORP","sreenNm":"법인목록","sreenPath":"기준정보관리,법인목록"}'
+			></div>
+			
+
+			<div class="moca_shbox">
+				<div class="shbox_inner">
+					<table class="tb">
+						<tbody>
+							<tr>
+								<th class="tb_th pr10">법인명</th>
+								<td class="tb_td">
+									<input type="text" class="moca_input sh" style="width:150px" id="CORP_NM" autocomplete="off" onkeyup="moca.default_keyup(this)">									
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="btn_shbox">
+					<button type="button" class="button btn_sc" onclick="moca.EFC_CORP.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+				</div>
+			</div>
+			
+			<div type="grid" class="moca_grid toolbar sc_row1" default_cell_height="26px" id="grd_1"
+								toolbar_search_size="false"
+								toolbar_detail="true"
+								toolbar_exup="true"
+								toolbar_exdn="true"
+								toolbar_addrow="true"
+								toolbar_delrow="true"
+								toolbar_nextbtn="false"
+								toolbar_full="true"
+								toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"moca.EFC_CORP.fn_exe","addClass":""}'
+								
+								label="법인목록"
+			>
+					<table style="width: 100%">
+						<colgroup>
+								<col style="width:60px">
+								<col style="width:40px">
+								<col style="width:280px">
+								<col style="width:80px">
+								<col style="width:180px">
+								<col style="width:80px">
+								<col style="width:160px">
+								<col style="width:50px">
+								<col style="width:170px">
+								<col style="width:170px">
+								<col style="">
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col" id="lv0">상태</th>
+								<th scope="col" id="lv1">코드</th>
+								<th scope="col" id="lv2">법인명</th>
+								<th scope="col" id="lv3">대표명</th>
+								<th scope="col" id="lv4">사업자번호</th>
+								<th scope="col" id="lv5">업종코드</th>
+								<th scope="col" id="lv6">전화번호</th>
+								<th scope="col" id="lv7">우편번호</th>
+								<th scope="col" id="lv8">주소</th>
+								<th scope="col" id="lv9">상세주소</th>
+								<th scope="col" id="lv10">설명</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
+								<td id="CORP_CD" celltype="input" style="text-align:center" required="true" name="코드" readOnly="true" ></td>
+								<td id="CORP_NM" celltype="input" style="" required="true" name="법인명"></td>
+								<td id="BOSS_NM" celltype="input" style="" name="대표명" ></td>
+								<td id="BIZ_NO" celltype="input" style="" readOnly="true" name="사업자번호"></td>
+								<td id="KIND" celltype="input" style="text-align:center" name="업종코드"></td>
+								<td id="PHONE" celltype="input" style="text-align:center" name="전화번호"></td>
+								<td id="ADDR_POST" celltype="input" style="" name="우편번호"></td>
+								<td id="ADDR1" celltype="input" style="" name="주소"></td>
+								<td id="ADDR2" celltype="input" style="" name="상세주소"></td>
+								<td id="ETC" celltype="input" style="" name="설명"></td>
+							</tr>
+						</tbody>
+					</table>				
+					
+					
+
+
+			</div>
+		</div>	
+	</div>
+</div>
+</body>
+</html>

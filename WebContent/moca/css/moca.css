@@ -1,0 +1,1196 @@
+@charset "utf-8";
+
+/* 웹폰트 CSS */
+/* @font-face {font-family: 'Spoqa Han Sans Bold';  font-weight: 700;  src: local('Spoqa Han Sans Bold'), url('../fonts/SpoqaHanSansBold.woff') format('woff')} */
+@font-face {font-family: 'Spoqa Han Sans';  font-weight: 400; src: local('Spoqa Han Sans Regular'),  url('/to/fonts/SpoqaHanSansRegular.woff') format('woff'), url('/to/fonts/SpoqaHanSansRegular.woff2') format('woff2'), url('/to/fonts/SpoqaHanSansRegular.eot') format('eot')}
+@font-face {font-family: 'Spoqa Han Sans Light'; font-weight: 300; src: local('Spoqa Han Sans Light'),  url('/to/fonts/fonts/SpoqaHanSansLight.woff') format('woff')}
+@font-face {font-family: 'Spoqa Han Sans Thin';  font-weight: 100;  src: local('Spoqa Han Sans Thin'), url('/to/fonts/SpoqaHanSansThin.woff') format('woff')}
+
+/****************************************************************************************************************************
+	RESET CSS
+*****************************************************************************************************************************/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, button, blockquote, pre, a,  abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary,time, mark, audio, video, xmp
+ {margin: 0; padding: 0; border: 0; font-size: 100%; vertical-align: baseline;}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display: block;}
+body { line-height: 1}
+a{text-decoration:none}
+ol, ul { list-style: none}
+blockquote, q {	quotes: none}
+blockquote:before, blockquote:after, q:before, q:after {content: ''; content: none}
+table {	border-collapse: collapse; border-spacing: 0}
+
+body {position:relative; font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Gothic','돋움',dotum,sans-serif; color:#555}
+select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Gothic','돋움',dotum,sans-serif; color:#555}
+legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidden; clip:rect(0 0 0 0); margin:-1px; padding:0}
+
+
+/****************************************************************************************************************************
+	MAIN CSS
+*****************************************************************************************************************************/
+	.fl{float:left}
+	.fr{float:right}
+	.al{text-align:left}
+	.ar{text-align:right}
+	.ac{text-align:center}
+	.container{height:100%; overflow:auto; padding:0 10px}
+	.main_calendar {background:#fff; padding:20px; position:relative; border-bottom: 2px dashed #d8dce0;}
+	.main_calendar .moca_ica{display:inline-block; background:none; width: 307px !important; height: 40px; color:#63676e; font-size:20px; padding: 2px 0; border:2px solid #98abc1;}
+	.main_calendar .moca_ica .moca_input{color:#63676e; font-size:15px; text-align:center}
+	.main_calendar .moca_ica .moca_ica_btn{width:32px;background: url(../images/ico_dp_btn2.png) no-repeat 0 2px; right:5px}
+	.main_calendar .moca_ibn2{float:none; background: #98abc1; color: #ffffff; height: 40px; border: 1px solid #98abc1; box-shadow:none; font-weight:700; vertical-align:top; padding:0 13px}
+	section {position:relative; width:306px;height:390px; background:#d8dce0; border:1px solid #d8dce0; border-radius:5px; margin:80px 10px 0; box-sizing:border-box; box-shadow:1px 1px 2px rgba(0,0,0,0.2)}
+	section:before{content:''; display:inline-block; width:105px; height: 105px; border-radius:50%; background-image:url(../images/main/main_icon.png); background-color:#ddd; background-repeat:no-repeat;position:relative; top:-53px; left:calc(50% - 105px/2); box-shadow: 2px 2px 0px rgba(0,0,0,0.1)}
+	section:nth-child(1):before{background-color:#07b0c5; background-position:0 0}
+	section:nth-child(2):before{background-color:#fd9c16; background-position:-105px 0}
+	section:nth-child(3):before{background-color:#888; background-position:-210px 0}
+	section:nth-child(4):before{background-color:#4ea852; background-position:-315px 0}
+	section:nth-child(5):before{background-color:#157efb; background-position:-420px 0}
+	section h5{position:absolute; left:5px; right:5px; font-size:17px; color:#000; }
+	section .cnt{font-size:50px; color:#000; margin-top:57px}
+	section ul{overflow:hidden; margin-top:40px}
+	section ul li{width:calc(100% / 3); height:65px; border-top:1px solid #eee; border-bottom:1px solid #eee; background:#eef0f2}
+	section ul li:nth-child(2){border-left:1px solid #fff; border-right:1px solid #fff}
+	section ul li p{font-size:17px; font-weight:600; padding:5px 0 7px}
+	section ul li:nth-child(1) p{color:#888}
+	section ul li:nth-child(2) p{color:#329018;}
+	section ul li:nth-child(3) p{color:#f00}
+	section .date{position:relative; top:12px; right:5px; font-size:11px}
+	section .date i{margin-left:4px; color:#666}
+
+
+/****************************************************************************************************************************
+	MOCA 화면 CSS
+*****************************************************************************************************************************/
+
+/* MOCA Checkbox, radio */
+.checkboxGroup > div[type="checkbox"]{float:left}
+.checkboxGroup.vertical > div[type="checkbox"]{float:none}
+.moca_radio, 
+.moca_checkbox {vertical-align:middle; -moz-box-sizing:border-box; box-sizing:border-box}
+.moca_radio:after, 
+.moca_checkbox:after {display:block; visibility:hidden; clear:both; height:0; font-size:0; line-height:0; content: '.'}
+.moca_radio .moca_radio_li,
+.moca_checkbox .moca_checkbox_li {float:left; position:relative; margin-right:15px; -moz-box-sizing:border-box; box-sizing:border-box}
+.moca_radio .moca_radio_li:last-child,
+.moca_checkbox .moca_checkbox_li:last-child {margin-right:0}
+.moca_radio_input,
+.moca_checkbox_input {}
+.moca_radio_label,
+.moca_checkbox_label {font-size:11.5px; line-height:1em}
+
+.moca_radio_input,
+.moca_checkbox_input {position:absolute; width:12px; height:12px; filter:alpha(opacity=0); opacity:0; padding:0; margin:0; top:0}
+/*.moca_radio_input:focus + .moca_radio_label:before,
+.moca_checkbox_input:focus + .moca_checkbox_label:before {outline:1px dotted}*/
+.shbox_inner.moca_radio.shbox,  .shbox_inner .moca_checkbox.shbox{display:inline-block; height:20px}
+.shbox_inner .moca_radio.shbox .moca_radio_label,  .shbox_inner .moca_checkbox.shbox .moca_checkbox_label {padding-left: 15px}
+.moca_radio_input + .moca_radio_label,
+.moca_checkbox_input + .moca_checkbox_label {display:inline-block; position:relative; padding-left:15px; padding-top:1px}
+.moca_radio_input + .moca_radio_label:before,
+.moca_checkbox_input + .moca_checkbox_label:before {position:absolute; left:0; top:1px; width:12px; height:12px; content:''}
+.moca_radio_input + .moca_radio_label:before {background:url(../images/ico_rad.png) no-repeat 0 0}
+.moca_radio_input:checked + .moca_radio_label:before {background-position:0 -12px}
+.moca_radio_input:disabled + .moca_radio_label:before {background-position:0 -24px; cursor:default}
+.moca_radio_input:disabled:checked + .moca_radio_label:before {background-position:0 -36px: cursor:default}
+.moca_checkbox_input + .moca_checkbox_label:before, .moca_checkbox_input.chk_all + .moca_checkbox_label:before {background:url(../images/ico_cbx.png) no-repeat 0 0; top:1px}
+.moca_checkbox_input:checked + .moca_checkbox_label:before {background-position:0 -12px}
+.moca_checkbox_input:disabled + .moca_checkbox_label:before {background-position:0 -24px; cursor:default}
+.moca_checkbox_input:disabled:checked + .moca_checkbox_label:before {background-position:0 -36px: cursor:default}
+.moca_checkbox_input:indeterminate + .moca_checkbox_label:before {background-position:0 -72px}
+.moca_checkbox_input.chk_all:checked + .moca_checkbox_label:before{background-position:0 -60px} 
+/* MOCA input */
+.moca_input {height:24px; width:100%; padding:0 4px; border:1px solid #d7d7de; border-radius:2px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -webkit-appearance:none; -moz-appearance:none; appearance:none; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.moca_input.req{border:1px solid #e79f78; background:#fffbe8;}
+.moca_input.req:hover{border:1px solid #e45c2d;background:#fffbe8}
+.moca_input:read-only{background:#eee}
+
+/* MOCA inputGroup */
+.moca_input_group > * {width:auto; float:left; margin-right:4px}
+.moca_input_group > *:last-child{margin-right:0}
+.moca_input_group > i {text-indent:0}
+/* MOCA combo */
+/* .moca_grid_list .moca_combo{border:1px solid #4880c1;}
+.moca_grid_list .moca_select{background: #f6f8fb url(../images/ico_cmb_arrow.png) no-repeat 100% 50%;} */
+.moca_combo {display:block; position:relative; height:24px; margin:0; padding:0; border:1px solid #d7d7de; border-radius:2px; background-color:#fff; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
+.moca_combo.req{border:1px solid #e79f78; background:#fffbe8;}
+.moca_combo.req:hover{border:1px solid #e45c2d;background:#fffbe8}
+.moca_combo.req option{background: #fffbe8;}
+/*[김세창].moca_combo .moca_select::-ms-expand {display:none}*/
+.moca_select::-ms-expand {display:none}
+.moca_select {position:relative; width:100%; height:100%; padding:0 22px 0 4px; border:0; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -webkit-appearance:none; -moz-appearance:none; appearance:none; background: url(../images/ico_cmb_arrow.png) no-repeat 100% 50%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+
+/* MOCA inputCalendar */
+.moca_ica {width:110px;display:block; position:relative; height:24px; border:1px solid #d7d7de; background:#fff; border-radius:2px; -moz-box-sizing:border-box; box-sizing:border-box}
+.moca_ica[type="inputMultiCalendar"]{width:205px; text-align:left; border:0; background:none}
+.moca_ica.req{border:1px solid #e79f78; background:#fffbe8;}
+.moca_ica.req:hover{border:1px solid #e45c2d;background:#fffbe8}
+.moca_ica .moca_input {width:100%; height:100%; border:0; background:none}
+.moca_ica[type="inputMultiCalendar"] .moca_input{text-align:center; padding:0 3px; min-width:72px}
+.moca_ica[type="inputCalendar"] .moca_input{text-align:left; padding-left: 10px}
+.moca_ica .moca_input:read-only {background-color:#eee}
+.moca_ica_btn {position:absolute; top:0; right:0; width:23px; height:100%; background:url(../images/ico_dp_btn.png) no-repeat 1px 50%; text-indent:-9999px; border:0; padding:0; margin:0}
+.moca_ica_btn:before{content: ''; position: absolute; width: 1px; top: 0; right: 20px; height: 22px; display: inline-block; background: #d7d7de}
+.ui-datepicker-trigger {position:absolute; top:0; right:0; width:22px; height:100%; background:url(../images/ico_dp_btn.png) no-repeat 50% 50%; border:0; padding:0; margin:0}
+.ui-datepicker-title select {height:24px}
+.ui-datepicker-year {margin-right:4px}
+.ui-datepicker-month {margin-left:6px}
+.ui-datepicker-layer {z-index:1000 !important}
+
+/* MOCA inputButton */
+.moca_ibn {position:relative; text-indent:0; height:24px; border:1px solid #ddd; background:#fff; -moz-box-sizing:border-box; box-sizing:border-box}
+.moca_ibn.req{border:1px solid #e79f78; background:#fffbe8;}
+.moca_ibn.req:hover{border:1px solid #e45c2d;background:#fffbe8}
+.moca_ibn .moca_input {width:100%; height:100%; padding-right:24px; border:0; background:none;}
+.moca_table .moca_ibn .moca_input:read-only {background-color:#eee}
+.moca_ibn .moca_input_color{width:18px; padding:0; border:0; background:none; height:26px; position:absolute; right:0; top:-2px; border-left:1px solid #bbc3ce;}
+.moca_ibn .moca_ibn_btn {position:absolute; top:0; right:0; width:24px; height:100%; background:#fff; background:url(../images/ico_ib_btn.png) no-repeat 50% 50%; border:0; border-left:1px solid #ddd; border-radius:0 2px 2px 0;text-indent:-9999px}
+.moca_ibn2 {padding: 0 7px; margin-left:5px; background: #476d8e; color: #fff; border-radius: 3px; height: 25px; border: 1px solid #476d8e; box-sizing: border-box; box-shadow: inset -1px -1px 1px rgba(0,0,0,0.2); opacity: 0.9;	}
+.moca_ibn2:active{opacity:1}
+
+
+/* MOCA Popup */
+.moca_popup_modal {background-color:#000; position:fixed; left:0; right:0; top:0; bottom:0; width:100%; height:100%; opacity:.2; z-index:4000}
+.moca_popup {position:absolute; z-index:6010; background:#3a669a; border:5px solid #3a669a;box-sizing:border-box; box-shadow:0 0 8px 0 rgba(0,0,0,0.5); -moz-box-shadow:0 0 8px 0 rgba(0,0,0,0.5); -webkit-box-shadow:0 0 8px 0 rgba(0,0,0,0.5); overflow-y:hidden}
+.moca_popup .moca_popup_header {position:relative; width:100%; height:40px; background:#3a669a}
+.moca_popup .moca_popup_header:after {display:block; visibility:hidden; clear:both; height:0; font-size:0; line-height:0; content: '.'}
+.moca_popup .moca_popup_header .moca_popup_title {float:left; margin:0 0 0 10px; padding:0; color:#fff; font-size:13px; line-height:40px}
+.moca_popup .moca_popup_header .moca_popup_control {float:right; height:40px}
+.moca_popup .moca_popup_header .moca_popup_control .moca_popup_btn_close {float:left; border:0; width:40px; height:40px; padding:0; margin:0; background:url(../images/pop_btn_close.png) no-repeat 50% 50%; cursor:pointer; text-indent:-9999px}
+.moca_popup .moca_popup_body {position:absolute; top:40px; left:0; right:0; bottom:0;}
+.moca_popup .moca_popup_body .moca_popup_content {background:#fff; width:100%; height:100%; overflow:auto}
+.moca_popup .moca_popup_header h2:before{content:''; display:inline-block; float:left; width:15px; height:40px; margin:0 5px; background:url(../images/ico_bar_w.png) no-repeat center}
+.moca_popup .resize_left{position: absolute; top:0; left:-5px; width: 5px; height: 100%;}
+.moca_popup .resize_right{position: absolute; top:0; right:-5px; width: 5px;  height: calc(100% - 15px);}
+.moca_popup .resize_bottom{position: absolute; left:0; bottom:-5px; width: calc(100% - 15px);  height: 5px;}
+.moca_popup .resize_triangle{ position: absolute; right: -5px; bottom: -5px; width: 0; height: 0; border-bottom: 20px solid #3a669a; border-left: 20px solid transparent; z-index:1}
+/* .moca_popup .moca_popup_body .moca_popup_content .moca_titbox h3:before{content:''; display:inline-block; float:left; width:15px; height:27px; margin-right:5px; background:url(../images/ico_bar.png) no-repeat center} */
+
+/*moca_pop_cont_area :: moca_popup div팝업*/
+.moca_pop_cont_wrap{position: absolute; top: 0; right: 0; bottom: 0; left: 0; padding: 15px; min-width: 640px; box-sizing: border-box; -webkit-box-sizing: border-box; overflow-y:auto}
+.moca_pop_cont_wrap.scroll{ position:relative; /*height:calc(100% - 10px);*/}
+.moca_pop_cont_wrap.scroll > div{position:relative; left:0px; right:0px; top:0}
+
+/* .moca_pop_cont_wrap .moca_titbox{min-height:30px; border-bottom:1px solid #9a9ea8} */
+/*---------[as-is] PopSumm -> moca_pop_cont로 바꿔야함-------*/
+.PopSumm_body{height:calc(100% - 10px); position:relative;}
+.PopSumm_body > div{position:relative; left:0px; right:0px; top:0}
+.PopSumm{ position: relative;width: 100%; height:100%;table-layout:fixed;border-top:1px solid #bbc3ce; border-bottom:1px solid #bbc3ce}
+.PopSumm tr{height:26px;}
+.PopSumm tr:last-child{height:inherit}
+.PopSumm td{padding:9px 8px; border-bottom: 1px solid #bbc3ce; vertical-align:top}
+.PopSumm th{width: 65px; padding:9px 8px; font-size: 12px; box-sizing: border-box; color: #333; background:#e5ebef; border-left:1px solid #bbc3ce; border-right:1px solid #bbc3ce; border-bottom:1px solid #bbc3ce; text-align:right; vertical-align:top}
+.PopSumm th > label{position: sticky; top: 10px; display: inline-block; vertical-align: top;}
+.PopSumm tr th:first-child{border-left:0}
+.PopSumm tr:last-child th{border-bottom:0}
+.PopSumm td div{min-height:30px; box-sizing:border-box; word-break: break-all; text-indent: 6px}
+.PopSumm_body .moca_titbox{min-height:30px; border-bottom:1px solid #9a9ea8}
+/*---------------------------------------------------------*/
+
+/* MOCA Tab */
+.moca_tab {position:relative}
+.moca_tab .moca_tab_head {position:relative; height:30px}
+.moca_tab .moca_tab_head button {margin:0; padding:0; border:0}
+.moca_tab .moca_tab_listarea {position:absolute; top:0; left:0; right:120px; bottom:0; overflow:hidden}
+.moca_tab .moca_tab_scroll {position:absolute; height:30px;}
+.moca_tab .moca_tab_control {position:absolute; top:0; right:0; bottom:0; width:120px; z-index:1}
+.moca_tab .moca_tab_control .moca_tab_menulist {right:34px; background-color:#eef0f2; background-image:url(../images/ico_tab_list.png); background-repeat:no-repeat}
+/* .moca_tab .moca_tab_control button {position:absolute; top:0; width:18px; height:44px; border-bottom: 1px solid #e4e9ef; background:no-repeat 50% 18px; text-indent:-9999px} */
+.moca_tab .moca_tab_control .moca_tab_allclose {position:relative; top:5px; width:16px; text-indent:-9999px; background-image:url(../images/ico_tab_close.png); background-repeat:no-repeat}
+
+/***-----그리드 left,right 버튼 별도적용 -----***/
+.moca_tab .moca_tab_head > button {position:absolute; top:0; width:23px; height:44px; text-indent:-9999px; z-index:3}
+.moca_tab .moca_tab_head .moca_tab_left {right:99px;left:30px;  background:#eef0f2 url(../images/ico_tab_left.png)no-repeat 50% 18px}
+.moca_tab .moca_tab_head .moca_tab_right {right:51px; background: #eef0f2 url(../images/ico_tab_right.png)no-repeat 50% 18px}
+
+.moca_tab .moca_tab_ul {height:30px; list-style:none}
+.moca_tab .moca_tab_list {position:relative; margin-left:-1px; -moz-box-sizing:border-box; box-sizing:border-box}
+.moca_tab .moca_tab_list:first-child {margin-left:10px}
+.moca_tab .moca_tab_list button {display:block; width:100%; height:29px; padding:0 25px; margin:0; background-color:transparent; font-weight:700; color:#181818; text-align:center; text-decoration:none;  text-shadow:0 0 2px rgba(0,0,0,0.25); box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
+/* .moca_tab .moca_tab_list:hover {background:#e8fafc}
+.moca_tab .moca_tab_list:hover button.moca_tab_label {background-color:#d0fafa; color:#178691} */
+.moca_tab .moca_tab_list.active {/* border:1px solid #c3c9d8; border-bottom-color:#fff; background-color:#fff; */ z-index:2}
+.moca_tab .moca_tab_list.active button {background-color:#fff; color:#000; text-shadow:none}
+/* .moca_tab .moca_tab_list.active:hover button.moca_tab_label {background-color:#fff; color:#000} */
+.moca_tab .moca_tab_mark {display:inline-block; position:absolute; left:8px; top:50%; width:12px; height:12px; margin-top:-7px; background:url(../images/tvw_chk_off.png) no-repeat 50% 50%; cursor:pointer}
+.moca_tab .moca_tab_mark.on {background:url(../images/tvw_chk_on.png) no-repeat 50% 50%}
+.moca_tab button.moca_tab_close {position:absolute; top:4px; right:4px; width:12px; height:12px; padding:0; background:url(../images/ico_ica_close.png) no-repeat 50% 50%; cursor:pointer; text-indent:-9999px}
+.moca_tab .moca_tab_home {position:absolute; background:url(../images/btn_home.png)no-repeat; width:20px; height:20px; top:18px; left:8px}
+.moca_tab .moca_tab_home:hover{background-position:0 -25px;}
+.moca_tab .moca_tab_body {position:absolute; top:29px; left:0; right:0; bottom:0; border:1px solid #c3c9d8; background:#fff; clear:both}
+
+.moca_tab .moca_tab_panel {position:relative; height:100%}
+.moca_tab .moca_tab_panel .moca_tab_h3 {position:absolute; height:1px; color:trnasparent; overflow:hidden; clip:rect(0 0 0 0); margin:-1px; padding:0}
+.moca_tab .moca_tab_panel .moca_tab_cont {position:relative; height:100%; padding:0; overflow:auto; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
+
+.moca_tab_pop_list {position:absolute; z-index:5200; background:#fff; border:1px solid #c3c9d8; padding:0; -webkit-box-shadow:0 3px 3px rgba(0,0,0,0.5); -moz-box-shadow:0 3px 3px rgba(0,0,0,0.5); box-shadow:0 3px 3px rgba(0,0,0,0.5)}
+.moca_tab_pop_list ul {padding:0; margin:0; list-style:none}
+.moca_tab_pop_list li {position:relative; border-bottom:1px solid #c3c9d8; padding:0; margin:0}
+.moca_tab_pop_list li:after {display:inline-block; position:absolute; width:10px; height:10px; left:5px; top:50%; margin-top:-5px; background:url(../images/ico_tablist_bl.png) no-repeat 0 50%; content:''}
+.moca_tab_pop_list li:last-child {border-bottom:0}
+.moca_tab_pop_list li button {background:#fff; height:24px; min-width:100px; padding:0 5px 0 16px; border:0; text-align:left}
+.moca_tab_pop_list li:hover button {background:#d0fafa}
+
+.moca_tab_ul {display: table; table-layout: fixed; margin: 0; margin-left:10px; padding: 0; background: #eef0f2; z-index:1}
+.tabWidth{width:98%}
+@media all and (min-width:1280px) {
+    .moca_tab_ul li{max-width: 150px}
+}
+.moca_tab_ul .moca_tab_list {display: table-cell; max-width:150px;position:relative; vertical-align: top; white-space: nowrap; z-index:1}
+.moca_tab_ul .moca_tab_list:after{content: ''; display: block; z-index: -1; background: #d18b77; height: 35px; position: absolute; top: 0; left: 0; right:0; border-radius: 5px 5px 0 0; box-shadow: inset 0 0 4px rgba(0,0,0,0.1); -webkit-transform: perspective(2px) rotateX(0.93deg) translateZ(0px);}
+.moca_tab_ul .moca_tab_list:hover:after{background:#ce7d67}
+.moca_tab_ul .moca_tab_list.active:after{background:#fff !important; box-shadow:2px -2px 7px rgba(0,0,0,0.2);}
+.moca_tab_ul li button.moca_tab_label {width:100%; margin:0 auto; display: block; color: #fff; padding: 7px 25px; text-decoration: none; text-overflow: ellipsis; overflow: hidden; z-index:2}
+.moca_tab_ul .moca_tab_list.active { z-index:2; max-width:150px;}
+.moca_tab_ul li.active button.moca_tab_label{color: #000;}
+.moca_tab_ul .moca_tab_list:not(.active):hover {width: auto}
+.moca_tab_ul .moca_tab_list .moca_tab_close{position:absolute; top: 8px; right: 6px; width: 20px; height: 20px; background: url(../../images/ico_dp_close.png) no-repeat 50% -26px; text-indent: -9999px; border-radius: 100%;}
+.moca_tab_ul .moca_tab_list.active .moca_tab_close{background-position:50% 0px}
+
+
+/* MOCA Tree */
+.moca_tree {position:relative; border:1px solid #dbdbdb; display:inline-block; overflow:auto}
+.moca_tree ul {display:block; position:relative; margin:0; padding:5px 0 5px 5px; /* background:url(../images/line_tree_vr.gif) repeat-y 11px -1px; zoom:1 */}
+.moca_tree ul li {position:relative; padding:5px 0 0; line-height: 1.5; /* background:url(../images/line_tree_hr.gif) no-repeat 1px 5px !important; */ white-space:nowrap; list-style:none}
+.moca_tree ul li span.moca_tree_tbx {display:inline-block; position:relative; padding:0 4px; cursor:pointer; vertical-align:middle}
+.moca_tree ul li ul li span.moca_tree_tbx:hover {text-decoration:underline}
+.moca_tree ul li button {display:inline-block; padding:0; margin:0}
+.moca_tree ul li button.moca_tree_btn {position:relative; width:17px; height:12px; margin:0; border:none; text-indent:-9999px; cursor:pointer; vertical-align:middle}
+.moca_tree ul li ul {display:none; margin:0 0 0 17px; padding:0}
+.moca_tree ul li ul li {display:none}
+.moca_tree ul li button.moca_tree_btn {background:url(../images/tvw_plus.png) no-repeat 50% 50%}
+.moca_tree ul li.moca_tree_open > span > button.moca_tree_btn {background:url(../images/tvw_minus.png) no-repeat 50% 50%}
+.moca_tree ul li button.tvw_btn_close {width:15px; height:18px; background:url(../images/tvw_folder_del_on.png) no-repeat 50% 50%; margin:0; padding:0; border:none; text-indent:-9999px; cursor:pointer; vertical-align:middle}
+
+.moca_tree ul li ul {display:none}
+.moca_tree ul li ul li {display:none}
+.moca_tree ul li.moca_tree_open > ul {display:block}
+.moca_tree ul li.moca_tree_open > ul li {display:block}
+.moca_tree ul li.moca_tree_last {/* background:url(../images/line_tree_last_hr.gif) no-repeat 0 5px !important */}
+.moca_tree ul li.active > span.moca_tree_tbx {background-color:#cdecf0 ; color:#000}
+.moca_tree > ul > li.active > span.moca_tree_tbx{background-color:#7791af !important}
+.moca_tree .moca_checkbox_tree {display:inline-block; position:relative; width:15px; height:12px; vertical-align:middle; -moz-box-sizing:border-box; box-sizing:border-box}
+/*.moca_tree .moca_checkbox_tree input[type="checkbox"].moca_checkbox_input {position:absolute}
+.moca_tree .moca_checkbox_tree input[type="checkbox"].moca_checkbox_input + .moca_checkbox_label {position:absolute; left:2px; top:0; width:12px; padding:0; text-indent:-9999px; font-size:1px}
+.moca_tree .moca_checkbox_tree input[type="checkbox"].moca_checkbox_input + .moca_checkbox_label:before {top:0; left:0}*/
+.moca_tree .moca_checkbox_tree input[type=checkbox].moca_checkbox_input {position:absolute}
+.moca_tree .moca_checkbox_tree input[type=checkbox].moca_checkbox_input + .moca_checkbox_label {position:absolute; left:2px; top:0; width:12px; padding:0; text-indent:-9999px; font-size:1px}
+.moca_tree .moca_checkbox_tree input[type=checkbox].moca_checkbox_input + .moca_checkbox_label:before {top:0; left:0}
+
+.moca_tree.icon ul li > span.moca_tree_tbx {background-image:url(../images/tvw_folder_plus.png); background-repeat:no-repeat; background-position:4px 50%; padding-left:17px}
+.moca_tree.icon ul li.moca_tree_open > span.moca_tree_tbx {background-image:url(../images/tvw_folder_minus.png)}
+.moca_tree.icon ul li.leaf > span.moca_tree_tbx,
+.moca_tree.icon ul li.moca_tree_open.leaf > span.moca_tree_tbx {background-image:url(../images/tvw_leaf.png)}
+
+.moca_tree.workmenu ul,
+.moca_tree.workmenu li {padding:0}
+.moca_tree.workmenu > ul > li > span.moca_tree_tbx {display:block; height:20px; padding:10px; font-weight:bold; font-size:13px;text-shadow:0 0 2px rgba(0,0,0,0.5); line-height:22px; color:#fff; border-bottom:1px solid #y
+2d4357; background:#273948;}
+.moca_tree.workmenu li .moca_checkbox_tree,
+.moca_tree.workmenu li button.tvw_btn_close {display:none !important}
+.moca_tree.workmenu ul li ul {margin:0; background: #354b5d;border-bottom:1px solid #49657c}
+.moca_tree.workmenu ul li ul li >span.moca_tree_tbx{overflow: hidden; text-overflow: ellipsis; padding-left:26px; border-bottom:1px solid #fff}
+.moca_tree.workmenu ul li ul li.active > span.moca_tree_tbx{text-decoration:underline; color:#02e4b3; background:#354b5d}
+.moca_tree.workmenu ul li ul li > span.moca_tree_tbx:hover {text-decoration:underline; color:#02e4b3}
+.moca_tree.workmenu li .moca_tree_btn {position:absolute; right:0; top:0; left:0; height:40px; width:100%; background-position:right 10px center !important}
+.moca_tree.workmenu ul li ul > li > .moca_tree_tbx {display:block; height:24px; padding:7px 10px 7px 20px; font-family: 'Spoqa Han Sans Bold'; font-size:12px; font-weight: 700; letter-spacing:-0.5px; line-height:22px; color:#eee}
+.moca_tree.workmenu ul li ul > li > ul > li .moca_tree_tbx {display:block; height:20px; padding:7px 10px 7px 30px; font-size:11px; line-height:22px; color:#eee}
+.moca_tree.workmenu li span.moca_tree_tbx {position:relative}
+.moca_tree.workmenu ul li ul > li:last-child .moca_tree_tbx{border-bottom:0}
+.moca_tree.workmenu ul li ul > li > .moca_tree_tbx:before{content:''; display:inline-block; width:4px; height:4px; background:#aaa; border-radius:3px; position:relative; top:-2px; left:-5px }
+.moca_tree.workmenu ul li ul li> span.moca_tree_tbx:hover:before, .moca_tree.workmenu ul li ul li.active > span.moca_tree_tbx:before{background:#c96f57}
+
+.moca_grid {position:relative; -webkit-transition:top .1s, left .1s, bottom .3s, right .3s; transition:top .1s, left .1s, bottom .3s, right .3s}
+.moca_grid_toolbar {position:relative; width:100%; min-height:24px; padding:0; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
+.moca_grid_toolbar:after {display:block; visibility:hidden; clear:both; height:0; font-size:0; line-height:0; content: '.'}
+.moca_grid_toolbar .lta {float:left; margin-right:-5px; text-align:left}
+.moca_grid_toolbar .lta > * {float:left; margin-right:4px}
+.moca_grid_toolbar .rta {float:right; margin-left:-5px; text-align:right}
+.moca_grid_toolbar .rta > * {float:left; margin-left:5px}
+.moca_grid_toolbar .rta > .button {padding:0}
+.moca_grid_toolbar .lta .moca_combo {top:1px}
+/* .moca_grid_toolbar .moca_radio{line-height:28px} */
+.moca_grid_toolbar .button {border-radius:0}
+.btn_grid_next {width:26px; background:url(../images/grid/ico_grid_next.png) no-repeat 50% 50%; text-indent:-9999px}
+.btn_grid_add {width:26px; background:url(../images/grid/ico_grid_add.png) no-repeat 50% 50%; text-indent:-9999px}
+.btn_grid_del {width:26px; background:url(../images/grid/ico_grid_del.png) no-repeat 50% 50%; text-indent:-9999px}
+.btn_excel_download {width:26px; background:url(../images/grid/ico_excel_download.png) no-repeat 50% 50%; text-indent:-9999px}
+.btn_excel_upload {width:26px; background:url(../images/grid/ico_excel_upload.png) no-repeat 50% 50%; text-indent:-9999px}
+.btn_grid_fullscreen {width:26px; background:url(../images/grid/ico_grid_fullscrreen.png) no-repeat 50% 50%; text-indent:-9999px}
+.btn_grid_restore {width:26px; background:url(../images/grid/ico_grid_restore.png) no-repeat 50% 50%; text-indent:-9999px}
+.grid_title{height:24px; padding:2px 5px 3px 3px; font-size:12px; font-weight:bold; box-sizing:border-box}
+.grid_title i{color:#ce7d67; margin-right:3px}
+/* .grid_total {display:inline-block; min-width:135px; text-align:right; font-size:12px; height:24px; line-height:1; padding:5px 10px; padding-left:0;border-radius:2px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box} */
+.grid_total {display:inline-block; text-align:right; font-size:12px; height:24px; line-height:1; padding:5px 10px; padding-left:0;border-radius:2px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
+.grid_total span {display:inline-block; position:relative}
+.grid_total em {font-style:normal}
+.grid_total .txt_total {color:#f21f46}
+.grid_total .txt_fetch {color:#006EB9}
+.grid_total span + span {padding-left:13px}
+.grid_total span + span:before {content:''; background:#b3d2bc; width:1px; height:12px; position:absolute; left:5px; top:3px}
+
+.grid_label_input{height: 24px; padding: 3px 5px 3px 3px; font-size: 12px; box-sizing: border-box;}
+.grid_label_input .label{font-weight:bold; margin-right:5px;}
+.grid_label_input .label:before{content:''; display:inline-block; width:2px; height:2px; background:red;}
+
+.grid_label_span{height: 24px; padding: 0 3px; font-size: 12px; box-sizing: border-box;}
+.grid_label_span .label{font-weight:bold; margin-right:5px; line-height:24px;}
+.grid_label_span .label:before{content: ''; display: inline-block; width: 3px; height: 3px; background: #00abde;margin-right: 5px; border-radius: 3px; position: relative; top: -3px;}
+.grid_label_span .moca_combo{height:23px; top:-1px}
+
+.grid_btn button{padding: 0 7px; background: #476d8e; color: #fff; border-radius: 2px; height: 24px; box-sizing: border-box; opacity: 0.9;	}
+.grid_btn button:active{opacity:1}
+
+.moca_grid_list {position:absolute; top:0; right:0; bottom:0; left:0; border-top:1px solid #9a9ea8; border-bottom:1px solid #9a9ea8; background-color:#f6f6f6; overflow:hidden}
+.moca_grid_list .moca_grid_body {position:absolute; overflow-x:auto; overflow-y:hidden; background:url(../images/moca_gray.png) no-repeat 50% 50%; background-size: 190px; left:0; right:0; top:0; bottom:0}
+.moca_grid_list .moca_grid_body > table {table-layout:fixed; border-collapse:collapse; border-spacing:0}
+.moca_grid_list .moca_grid_body > table > tbody > tr.summery > td{background:#f8fae1}
+.moca_grid_list .moca_grid_body > table > thead > tr > th {position:relative; height:29px; padding:0 4px; border-left:1px solid #bbc3ce; border-bottom:1px solid #bbc3ce; background-color:#ced7dc; font-size:12px; color:#333; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; vertical-align:middle}
+.moca_grid_list .moca_grid_body > table > thead > tr > th .groupbar{background:none; position: absolute; left: 4px; right: 4px; border-radius: 3px; height: 3px; bottom: 2px}
+.moca_grid_list .moca_grid_body > table > thead > tr > th.req{}
+.moca_grid_list .moca_grid_body > table > thead > tr > th.req .moca_grid_sort_box > span:before{content: "*"; color: #ff5858; position: relative; left: -3px; font-size: 12px;}
+.moca_grid_list .moca_grid_body > table > thead > tr:first-child > th {border-top:0}
+.moca_grid_list .moca_grid_body > table > tbody > tr > td {height:26px; padding:0 2px; background-color:#fff; border-left:1px solid #bbc3ce; border-bottom:1px solid #bbc3ce; text-align:center; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; vertical-align:middle}
+.moca_grid_list .moca_grid_body > table > tbody > tr > td > span {padding:0 4px; -moz-box-sizing:border-box; box-sizing:border-box}
+.moca_grid_list .moca_grid_body > table > tbody > tr > td .item_table{width:100%; height:auto;}
+.moca_grid_list .moca_grid_body > table > tbody > tr > td .item_table ul li{border:1px solid #000; height:20px;}
+.moca_grid_list .moca_grid_body > table > tbody > tr > td[readonly="true"]{padding:0 6px}
+.moca_grid_list .moca_grid_body > table > thead > tr:first-child > th:first-child, .moca_grid_list .moca_grid_body > table > tbody > tr > td:first-child{border-left:0}
+.moca_grid_list .moca_grid_body > table > tbody > tr > td > div {vertical-align:middle}
+.moca_grid_list .moca_grid_body > table > thead > tr > th:last-child,
+.moca_grid_list .moca_grid_body > table > tbody > tr > td:last-child {border-right:1px solid #bbc3ce}
+/* .moca_grid_list .moca_grid_body > table > tbody tr:nth-child(even) td {background-color:#f7f7f7} */
+.moca_grid_list .moca_grid_body > table > tbody tr:hover td {background-color:#e5ebef}
+.moca_grid_list .moca_grid_body > table > tbody tr.active td {background-color:#cdecf0; color:#000}
+.moca_grid_list .moca_radio_grid,
+.moca_grid_list .moca_checkbox_grid {position:relative; -moz-box-sizing:border-box; box-sizing:border-box}
+.moca_grid_list .moca_radio_grid .moca_radio_label,
+.moca_grid_list .moca_checkbox_grid .moca_checkbox_label {padding:0; text-indent:-9999px}
+.moca_grid_list .moca_radio_input + .moca_radio_label:before,
+.moca_grid_list .moca_checkbox_input + .moca_checkbox_label:before {top:0; left:50%; margin-left:-6px}
+.moca_grid_list .moca_grid_body > table .moca_grid_tbx {padding:0 2px}
+.moca_grid_list .moca_input,
+.moca_grid_list .moca_combo {width:100%}
+/* .moca_grid_list .btn_pdf{display:inline-block; width:15px; height:15px; position:relative; top:1px;  text-indent:-9999px; background:url(../images/ico_pdf.png)} */
+.moca_grid_list .btn_file_dn{display:inline-block; width:15px; height:15px; position:relative; top:3px; text-indent:-9999px; background:url(../images/ico_file.png)}
+.moca_grid_list .btn_pdf{display:inline-block; width:15px; height:15px; position:relative; top:0; margin-right:4px;  text-indent:-9999px; background:url(../images/ico_viewer.png)}
+.moca_grid_sort_box {position:relative}
+.moca_grid_sort_btn {position:relative; right:0; top:0; float:right; width:9px; height:100%; padding:0; margin:0; border:0; background-color:transparent; background-repeat:no-repeat; background-position:50% 50%; text-indent:-9999px; overflow:hidden; cursor:pointer}
+.moca_grid_sort_box span {overflow:hidden; white-space:nowrap; text-overflow:ellipsis}
+.sort_none {background-image:url(../images/grid/ico_sort.png)}
+.sort_asc {background-image:url(../images/grid/ico_asc.png)}
+.sort_desc {background-image:url(../images/grid/ico_desc.png)}
+
+.moca_grid_filter_btn{position: relative; display:inline-block; width:12px; height:12px; background:url(../images/grid/ico_grid_filter.png)no-repeat 0 0; text-indent:-9999px; float: right; right: 3px; top: 3px}
+.moca_grid_filter_btn.close{background-position:0 -12px}
+.moca_grid_filter_btn.on{background-position:0 -24px}
+.moca_grid_filter_btn.multi {top:10px;}
+.moca_grid_filter_btn+i{position: absolute; top: -6px; right: 11px; width: 15px; font-size: 8px; font-style: normal; color: #ffffff; background: #f00; border-radius: 14px; line-height: 14px;}
+.moca_grid_paging {position:absolute; left:0; right:0; bottom:0; height:24px; vertical-align:middle; text-align:center; font-size:0; margin-bottom:5px}
+.moca_grid_paging button {position:relative; padding:0; border-radius:2px}
+.moca_grid_paging .num {font-size:0;}
+.moca_grid_paging .num button {padding:0 8px; margin:0 1px; height:24px;/*  line-height:24px; */ display:inline-block; border:1px solid #fff; color:#666; background:#fff}
+.moca_grid_paging .num button:hover,
+.moca_grid_paging .num button.on {border:1px solid #ce7d67; background:#ce7d67; color:#fff; font-weight:600}
+.moca_grid_paging button span {text-indent:-9999px; overflow:hidden; height:0; font-size:0}
+.moca_grid_paging button.first, 
+.moca_grid_paging button.prev, 
+.moca_grid_paging button.next, 
+.moca_grid_paging button.last {vertical-align:top; display:inline-block; width:24px; height:24px; border:1px solid #d5d5d5} 
+.moca_grid_paging button.first {background:#fff url(../images/grid/ico_paging_first.png) no-repeat 50% 50%;}
+.moca_grid_paging button.prev  {background:#fff url(../images/grid/ico_paging_prev.png) no-repeat 50% 50%; margin:0 2px 0 4px}
+.moca_grid_paging button.next  {background:#fff url(../images/grid/ico_paging_next.png) no-repeat 50% 50%; margin:0 4px 0 2px}
+.moca_grid_paging button.last  {background:#fff url(../images/grid/ico_paging_end.png) no-repeat 50% 50%;}
+.moca_grid_paging button.first:hover, 
+.moca_grid_paging button.prev:hover, 
+.moca_grid_paging button.next:hover, 
+.moca_grid_paging button.last:hover {background-color:#e6f4ea}
+
+
+.moca_grid.toolbar .moca_grid_list {top:29px}
+.moca_grid.paging .moca_grid_list {bottom:34px}
+.moca_grid.overlayer {position:fixed !important; top:0 !important; right:0 !important; bottom:0 !important; left:0 !important; margin:0 !important; z-index:999 !important; background:#fff}
+.moca_grid.overlayer .moca_grid_toolbar {padding:5px 5px 0}
+.moca_grid.overlayer .moca_grid_list {top:34px; left:5px; right:5px; bottom:5px}
+.moca_grid.paging.overlayer .moca_grid_list {top:34px; left:5px; right:5px; bottom:34px}
+.moca_grid_tooltip {position:absolute; max-width:600px; z-index:5200; background:#fff; border:1px solid #000; color:#333; padding:3px 5px; -webkit-box-shadow:0 3px 3px rgba(0,0,0,0.5); -moz-box-shadow:0 3px 3px rgba(0,0,0,0.5); box-shadow:0 3px 3px rgba(0,0,0,0.5); white-space:pre-wrap; word-wrap:break-word}
+/*moca_gridDetail*/
+
+[contenteditable=true]:empty:before{
+  content: attr(placeholder);
+  display: block; /* For Firefox */
+}
+ 
+div[contenteditable=true] {
+  border: 1px solid #ddd;
+  color : #333;
+  font-size: 12px;
+  /* padding: 5px; */
+  line-height:28px;
+  margin:0;
+  width:100%;
+  text-indent:4px
+}
+.gridDetail_body{position: fixed !important; top: 0 !important; right: 0 !important; bottom: 0 !important; left: 0 !important; z-index: 999 !important; background: #fff; overflow:auto}
+.gridDetail{ position: relative; left: 5px; top:6px; width: calc(100% - 10px); background:#fff; table-layout:fixed; border-radius:2px; border-top:1px solid #3f424a; border-bottom:1px solid #ccc}
+.gridDetail td{padding:3px; border-bottom: 1px solid #ddd; vertical-align:top}
+.gridDetail th{width: 200px; padding:0 8px; font-size: 12px; box-sizing: border-box; color: #333; background:#cbd3d7; border-left:1px solid #ddd; border-right:1px solid #ddd; border-bottom:1px solid #ddd; text-align:right; vertical-align:top; padding-top:9px}
+.gridDetail th > label{position: sticky; top: 10px; display: inline-block; vertical-align: top;}
+.gridDetail tr th:first-child{border-left:0}
+.gridDetail tr:last-child th, table.gridDetail tr:last-child td{border-bottom:0}
+.gridDetail td div{min-height:30px; box-sizing:border-box; word-break: break-all; text-indent: 6px}
+
+.gridDetail td div > input{min-height:30px; border:0;margin-left:-4px}
+.moca_grid_toolbar_detail{position: relative; width: 100%; min-height: 24px; padding:5px 5px 0; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box}
+.moca_grid_toolbar_detail .button {display:inline-block; width:24px; height:23px; padding:0; /*margin-left:5px; */border:1px solid #979aa0; border-radius:2px; background-color:#fff; vertical-align:top; background-repeat:no-repeat}
+.moca_grid_toolbar_detail .button.on {background-color:#5a7c9a; border-color:#5a7c9a;}
+.moca_grid_toolbar_detail .button:active {padding-top:1px}
+.moca_grid_toolbar_detail .lta{float: left; margin-right: -5px; text-align: left;}
+.moca_grid_toolbar_detail .rta{float: right; margin-left: -5px; text-align: right}
+
+/* MOCA vertual scroll */
+.moca_scrollY_type1 {position:absolute; top:0; right:0; bottom:0; height:100%; overflow-y:scroll; overflow-x:hidden; width:17px}/* ; z-index:9 */
+.moca_scrollX_type1 {position:absolute; left:0; right:18px; bottom:0; height:18px; overflow-x:scroll; overflow-y:hidden}/* ; z-index:9 */
+
+/*MOCA TABLE*/
+/*기존 moca_table -> moca_table_cont , moca_table_body는 테이블만 ! 따로 해놨을때*/
+.moca_table.sc_row{top:52px}
+.moca_shbox + .moca_table.sc_row1{top:111px; bottom:42px}
+.moca_shbox + .moca_table.sc_row2{top:139px}
+.moca_shbox + .moca_table.sc_row3{top:169px}
+.moca_shbox + .moca_table.sc_row4{top:195px}
+
+/*.moca_table_body{position:absolute; bottom:42px; left:15px; right:15px}*/
+.moca_table_list{position:relative; top:0; bottom:0; left:0; right:0}
+.moca_table_body{position:relative; top:0; left:0;right:0; overflow-x:auto; clear:both}
+.moca_table{}
+.moca_table.fix_height .moca_table_body, .moca_table.fix_height .moca_table_list{bottom:0}/*table높이 일정높이로 지정할 경우*/
+.moca_table_cont{table-layout:fixed; width:100%; position: relative; background:#fff; border-radius:2px; border-top:1px solid #9a9ea8; border-collapse: separate;}
+/*.moca_table_cont tr:hover > td > .mocaInput:read-only{background:#e5ebef}*/
+
+.moca_table_cont td{padding:1px 2px; border-bottom:1px solid #c1c8d4; border-right:1px solid #c1c8d4; min-width:30px; background:#fff}
+.moca_table_cont th{padding:0 6px; height:29px; font-size: 12px; box-sizing: border-box; color: #333; background:#e5e8ef; border-right:1px solid #bbc3ce; border-bottom:1px solid #bbc3ce; vertical-align:middle}
+.moca_table_cont.vertical{float:left}
+.moca_table_cont.vertical tbody th{padding:6px 8px; background: #e5e8ef}
+.moca_table_cont th > label{position: sticky; top: 10px; display: inline-block; vertical-align: top;}
+.moca_table_cont tr th:first-child{border-left:0}
+.moca_table_cont thead tr th:last-child{border-right:0}
+.moca_table_cont thead tr th.bd{border-right: 1px solid #bbc3ce;}
+.moca_table_cont tbody th{height:27px}
+.moca_table_cont .moca_checkbox_input + .moca_checkbox_label {display:inline-block; position:relative; padding-left:10px; margin-right:4px}
+.moca_table_cont.th_tar th{text-align:right}
+/*moca_table th색상*/
+.moca_table.bg_green .moca_table_cont th{background:#deecea}
+.moca_table.bg_red .moca_table_cont th{background:#f4d5d5}
+
+.moca_table_cont th.bg_blue{background:#81a4c4 !important;}
+.moca_table_cont th.bg_green{background:#deecea !important;}
+.moca_table_cont th.bg_red{background:#f4d5d5 !important;}
+.moca_table_cont th.bg_pink{background:#efe5ed !important;}
+.moca_table tr:last-child th, .moca_table tr:last-child td{border-bottom:1px solid #bbc3ce}
+.moca_table tr > *:last-child {border-right:0px}
+.moca_table_cont td > div{min-height:24px; /* line-height:24px;  */box-sizing:border-box; word-break: break-all}
+.moca_table_cont td > div[type="radio"]{line-height:24px}
+.moca_table_cont td > div[contenteditable]{overflow-y:auto; line-height:1; padding:5px 0}
+.moca_table_cont td > div[contenteditable] > * {min-height:unset;height:1;line-height:1}
+.moca_table_cont td div[type="button"].mocaButton button{height:22px; margin-top:1px; background: #e5e8ef; border: 1px solid rgba(0, 0, 0, 0.3); border-radius: 5px; color: #333; font-weight: bold; letter-spacing: -0.5px;}
+
+
+
+.moca_table_toolbar2 {width:100%; min-height:24px; padding:0; margin-bottom:6px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
+.moca_table_toolbar {width:100%; min-height:24px; padding:0; margin-bottom:6px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
+.moca_table_toolbar:after {display:block; visibility:hidden; clear:both; height:0; font-size:0; line-height:0; content: '.'}
+.moca_table_toolbar .lta {float:left; margin-right:-5px; text-align:left}
+.moca_table_toolbar .lta > * {float:left; margin-right:4px}
+.moca_table_toolbar .rta {float:right; margin-left:-5px; text-align:right}
+.moca_table_toolbar .rta > * {float:left; margin-left:5px}
+.moca_table_toolbar .rta > .button {padding:0}
+.moca_table_title{height:24px; padding:3px 5px 3px 3px; margin-bottom:5px; font-size:12px; font-weight:bold; box-sizing:border-box}
+.moca_table_title i{color:#f26e6e; margin-right:3px}
+
+.moca_table_toolbar .button {display:inline-block; width:24px; height:23px; padding:0; margin-left:5px; border:1px solid #979aa0; border-radius:2px; background-color:#fff; vertical-align:top; background-repeat:no-repeat}
+.moca_table_toolbar .button.on{background-color:#333; border-color:#333;}
+.moca_table_toolbar .button:active {padding-top:1px}
+
+.moca_table_btn{float:right; margin-top:-1px}
+.moca_table_btn button{padding: 0 7px; background: #476d8e; color: #fff; border-radius: 3px; height: 25px; border: 1px solid #f1f1f1; box-sizing: border-box; box-shadow: inset -1px -1px 1px rgba(0,0,0,0.2); opacity: 0.9;	}
+.moca_table_btn button:active{opacity:1}
+
+/* .moca_table.sticky tr > *:first-child{background:#ddd} */
+/* .moca_table.sticky{}
+.moca_table.sticky tr > #sticky00, .moca_table.sticky tr > #sticky01{position:sticky; left:0}
+.moca_table.sticky tr > #sticky02,
+.moca_table.sticky tr > #sticky03,
+.moca_table.sticky tr > #sticky04,
+.moca_table.sticky tr > #sticky05,
+.moca_table.sticky tr > #sticky06{position:sticky; left:60px} */
+.moca_table tr > .fixed{position:sticky; z-index:1}
+.moca_table tr > th.fixed{background:#d2d9e8}
+.moca_table .fixedColumn .moca_table_cont{background:#bbc3ce}
+/* MOCA button */
+.moca_button {display:inline-block; height:24px; padding:0 15px; font-weight:bold; font-size:13px; color:white; text-align:center; text-shadow:0 -1px 1px rgba(0, 0, 0, 0.2); border:1px solid; border-color:#1486f9 #0f7de9 #0d6acf; background:#1993fb; border-radius:4px; background-image:-webkit-linear-gradient(top, #4cb1fe, #229afc 40%, #138df6); background-image:-moz-linear-gradient(top, #4cb1fe, #229afc 40%, #138df6); background-image:-o-linear-gradient(top, #4cb1fe, #229afc 40%, #138df6); background-image:linear-gradient(to bottom, #4cb1fe, #229afc 40%, #138df6); -webkit-box-shadow:inset 0 1px rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.2); box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.2); letter-spacing:-0.5px}
+.moca_button:active {text-shadow:0 1px 1px rgba(0, 0, 0, 0.2); border-color:#075bba #0c69d2 #0f7de9; background-image:-webkit-linear-gradient(top, #1281dc, #1593fc); background-image:-moz-linear-gradient(top, #1281dc, #1593fc); background-image:-o-linear-gradient(top, #1281dc, #1593fc); background-image: linear-gradient(to bottom, #1281dc, #1593fc); -webkit-box-shadow:inset 0 1px 4px rgba(0, 0, 0, 0.1), 0 1px rgba(255, 255, 255, 0.5); box-shadow:inset 0 1px 4px rgba(0, 0, 0, 0.1), 0 1px rgba(255, 255, 255, 0.5)}
+
+.moca_iframe {border:0}
+
+/*MOCA_FORM*/
+.form_table{width:100%; border-top:1px solid #bbc3ce}
+.form_table th{padding: 6px; font-size: 11px; box-sizing: border-box; color: #333; background: #dee4e0; border-right: 1px solid #bbcdce; border-bottom: 1px solid #bbcdce; vertical-align: middle}
+
+/* MOCA modal */
+.moca_modal {background-color:rgba(0,0,0,0.5); position:/*fixed*/absolute; left:0; right:0; top:0; bottom:0; width:100%; height:100%; z-index:6100}
+/* MOCA progress */
+.moca_progress.type1 {width:100px; height:100px; overflow:hidden; position:absolute; left:50%; top:50%; margin-left:-50px; margin-top:-50px; z-index:6101}
+.moca_progress.type1 > .loader {display:inline-block; width:100px; height:100px; background:url(../images/loading.png) no-repeat center center; -webkit-animation:spinning 1s infinite; -moz-animation:spinning 1s infinite; -o-animation:spinning 1s infinite; animation:spinning 1s infinite; }
+@-webkit-keyframes spinning {
+	from {transform:rotate(0deg)} to {transform:rotate(360deg)}
+}
+@keyframes spinning {
+	from {transform:rotate(0deg)} to {transform: rotate(360deg)}
+}
+.moca_progress.type2 {background-color:#000; border-radius:100%; width:100px; height:100px; overflow:hidden; position:absolute; left:50%; top:50%; margin-left:-50px; margin-top:-50px; z-index:6101}
+.moca_progress.type2 > .loader {position:absolute; left:0; right:0; top:0; bottom:0; width:66px; height:66px; margin:auto; border:10px solid #fff; border-radius:100%}
+.moca_progress.type2 > .loader:before {position:absolute; right:-12px; top:-12px; width:50px; height:100px; background-color:#000; content:''; transform-origin:0 50%; animation:circle 2s infinite}
+.moca_progress.type2 > .loader:after {position:absolute; right:-12px; top:-12px; width:50px; height:100px; background-color:#000; content:''; transform-origin:0 50%; animation:circle 2s 0.45s infinite}
+
+@keyframes circle {
+    0% {transform: rotate(0deg)}
+    100% {transform: rotate(360deg)}
+}
+
+/*MOCA Mattrix*/
+.moca_mattrix.type1 {width:375px; height:375px; overflow:hidden; position:absolute; left:calc(50% - 188px); top:calc(50% - 188px); margin-left:-50px; margin-top:-50px; z-index:6101}
+.moca_mattrix.type1 > .loader {display:inline-block; width:375px; height:375px; background:url(../images/mattrix.gif) no-repeat center center; opacity:0.4}
+.moca_mattrix.type1 > .blink{ display:inline-block; position:absolute; width:100%; margin:0 auto; top:38%; left:0; font-size:20px; text-align: center; -webkit-animation: blink 2.0s linear infinite; -moz-animation: blink 2.0s linear infinite; -o-animation: blink 2.0s linear infinite; animation: blink 2.0s linear infinite; }
+@keyframes blink{
+	0% {color:rgba(255,255,255,0.3);}
+	100% {color:#fff;}
+}
+/* MOCA MultiUpload */
+.moca_multiupload {position:relative; width:100%; overflow:hidden}
+.moca_multiupload_form {border:1px #c3c3c3 dashed; background:#fff; padding:0; -moz-box-sizing:border-box; box-sizing:border-box} 
+.moca_multiupload_head {position:relative; padding:0; margin:0 10px; -moz-box-sizing:border-box; box-sizing:border-box}
+.moca_multiupload_head:after {display:block; visibility:hidden; clear:both; height:0; font-size:0; line-height:0; content: '.'}
+.moca_multiupload_head .lta {float:left; margin:4px 0}
+.moca_multiupload_head .rta {float:right; font-size:12px; line-height:26px; margin:4px 0}
+.moca_multiupload_attach {float:left; display:inline-block; position:relative; background:#fff url(../images/multiupload/ico_mpd_att.png) no-repeat 10px 50%; padding:0 10px 0 30px; height:26px; border:1px solid #949499; border-radius:3px; cursor:pointer; font-size:12px; line-height:24px; overflow:hidden; -moz-box-sizing:border-box; box-sizing:border-box}
+.moca_multiupload_attach input[type="file"] {position:absolute; top:-1px; right:-1px; bottom:-1px; height:26px; opacity:0.01; font-size:1px; color:transparent; cursor:pointer}
+.moca_multiupload_delete {float:left; display:inline-block; background:#fff url(../images/multiupload/ico_mpd_del.png) no-repeat 10px 50%; padding:0 10px 0 30px; margin-left:4px; height:26px; border:1px solid #949499; border-radius:3px; cursor:pointer; font-size:12px; -moz-box-sizing:border-box; box-sizing:border-box}
+.moca_multiupload_body {position:relative; padding:5px 10px; min-height:85px; overflow:hidden auto; border-top:1px #e1e1e1 dashed; -moz-box-sizing:border-box; box-sizing:border-box}
+
+.moca_dropzone {display:block; position:absolute; top:0; left:0; right:0; bottom:0; text-align:center; background:#fff; color:#888; z-index:1}
+.moca_dropzone:hover {background:#fec1bc; color:#202020}
+.moca_dropzone span {position:absolute; left:50%; top:50%; transform:translate(-50%, -50%)}
+
+.moca_multiupload_table {font-size:12px; width:100%; border-collapse:collapse; text-align:center; clear:left; table-layout:fixed}
+.moca_multiupload_table thead {display:none}
+.moca_multiupload_table caption {overflow:hidden; position:absolute; height:1px; margin:-1px; padding:0; color:transparent; clip:rect(0 0 0 0)}
+.moca_multiupload_table td {height:24px}
+.moca_multiupload_table .moca_file_name {text-align:left; padding-left:4px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; vertical-align:middle}
+.moca_multiupload_table .moca_file_size {text-align:right; padding-right:10px}
+.moca_multiupload_table img {width:12px; height:15px; vertical-align:middle}
+.moca_upload_tr.active {background-color:#555}
+.moca_upload_tr.active td {color:#fff}
+.moca_multiupload_checkbox {position:relative; vertical-align:middle; height:12px}
+.moca_multiupload_checkbox label {padding:0; text-indent:-9999px}
+.moca_multiupload_checkbox .moca_checkbox_input + .moca_checkbox_label:before {top:0; left:50%; margin-left:-6px}
+.moca_multiupload_img {display:inline-block; overflow:hidden; width:16px; height:17px; background:url(../images/multiupload/ico_file.png) no-repeat 0 0; text-indent:-9999px; vertical-align:middle}
+.moca_ico_etc {background-position:-220px 80px}
+
+.moca_ico_bmp {background-position:0 0}
+.moca_ico_jpg {background-position:-20px 0}
+.moca_ico_gif {background-position:-40px 0}
+.moca_ico_png {background-position:-60px 0}
+.moca_ico_tif {background-position:-80px 0}
+.moca_ico_pdf {background-position:-100px 0}
+.moca_ico_ppt {background-position:-120px 0}
+.moca_ico_ai {background-position:-140px 0}
+.moca_ico_xls {background-position:-160px 0}
+.moca_ico_wmv {background-position:-180px 0}
+.moca_ico_psd {background-position:-200px 0}
+
+.moca_ico_doc {background-position:0 -20px}
+.moca_ico_hwp {background-position:-20px -20px}
+.moca_ico_txt {background-position:-40px -20px}
+.moca_ico_c {background-position:-60px -20px}
+.moca_ico_cpp {background-position:-80px -20px}
+.moca_ico_jav {background-position:-100px -20px}
+.moca_ico_htm {background-position:-120px -20px}
+.moca_ico_css {background-position:-140px -20px}
+.moca_ico_js {background-position:-160px -20px}
+.moca_ico_log {background-position:-180px -20px}
+.moca_ico_m4a {background-position:-200px -20px}
+.moca_ico_swf {background-position:-220px -20px}
+
+.moca_ico_au {background-position:0 -40px}
+.moca_ico_mid {background-position:-20px -40px}
+.moca_ico_mod {background-position:-40px -40px}
+.moca_ico_mp2 {background-position:-60px -40px}
+.moca_ico_mp3 {background-position:-80px -40px}
+.moca_ico_ogg {background-position:-100px -40px}
+.moca_ico_ra {background-position:-120px -40px}
+.moca_ico_rm {background-position:-140px -40px}
+.moca_ico_snd {background-position:-160px -40px}
+.moca_ico_voc {background-position:-180px -40px}
+.moca_ico_wav {background-position:-200px -40px}
+.moca_ico_wma {background-position:-220px -40px}
+
+.moca_ico_avi {background-position:0 -60px}
+.moca_ico_mov {background-position:-20px -60px}
+.moca_ico_mpg {background-position:-40px -60px}
+.moca_ico_mv {background-position:-60px -60px}
+.moca_ico_asf {background-position:-80px -60px}
+.moca_ico_asx {background-position:-100px -60px}
+.moca_ico_qt {background-position:-120px -60px}
+.moca_ico_rv {background-position:-140px -60px}
+.moca_ico_wmx {background-position:-160px -60px}
+.moca_ico_mp4 {background-position:-180px -60px}
+.moca_ico_fla {background-position:-200px -60px}
+.moca_ico_flv {background-position:-220px -60px}
+
+.moca_ico_alz {background-position:0 -80px}
+.moca_ico_arj {background-position:-20px -80px}
+.moca_ico_bz2 {background-position:-40px -80px}
+.moca_ico_egg {background-position:-60px -80px}
+.moca_ico_gz {background-position:-80px -80px}
+.moca_ico_jar {background-position:-100px -80px}
+.moca_ico_rar {background-position:-120px -80px}
+.moca_ico_tar {background-position:-140px -80px}
+.moca_ico_tgz {background-position:-160px -80px}
+.moca_ico_zip {background-position:-180px -80px}
+.moca_ico_7z {background-position:-200px -80px}
+
+.fade {opacity:0; -webkit-transition:opacity .15s linear; transition:opacity .15s linear}
+.fade.in {opacity:1}
+
+
+
+
+/* progress loading */
+.progress {height:13px; overflow:hidden; background-color:#f5f5f5; border-radius:5px; -webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,0.1); box-shadow:inset 0 1px 2px rgba(0,0,0,0.1)}
+.progress-bar {float:left; width:0; height:100%; font-size:12px; color:#fff; text-align:center; background-color:#428bca; -webkit-box-shadow:inset 0 -1px 0 rgba(0,0,0,0.15); box-shadow:inset 0 -1px 0 rgba(0,0,0,0.15); -webkit-transition:width .6s ease; transition:width .6s ease}
+.progress-striped .progress-bar {
+background-image:-webkit-gradient(linear,0 100%,100% 0,color-stop(0.25,rgba(255,255,255,0.15)),color-stop(0.25,transparent),color-stop(0.5,transparent),color-stop(0.5,rgba(255,255,255,0.15)),color-stop(0.75,rgba(255,255,255,0.15)),color-stop(0.75,transparent),to(transparent));
+background-image:-webkit-linear-gradient(45deg,rgba(255,255,255,0.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.15) 50%,rgba(255,255,255,0.15) 75%,transparent 75%,transparent);
+background-image:-moz-linear-gradient(45deg,rgba(255,255,255,0.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.15) 50%,rgba(255,255,255,0.15) 75%,transparent 75%,transparent);
+background-image:linear-gradient(45deg,rgba(255,255,255,0.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.15) 50%,rgba(255,255,255,0.15) 75%,transparent 75%,transparent);
+background-size:40px 40px}
+.progress.active .progress-bar {
+-webkit-animation:progress-bar-stripes 2s linear infinite;
+-moz-animation:progress-bar-stripes 2s linear infinite;
+-ms-animation:progress-bar-stripes 2s linear infinite;
+-o--animation:progress-bar-stripes 2s linear infinite;
+animation:progress-bar-stripes 2s linear infinite}
+.progress-bar-success {background-color:#5cb85c}
+.progress-striped .progress-bar-success {
+background-image:-webkit-gradient(linear,0 100%,100% 0,color-stop(0.25,rgba(255,255,255,0.15)),color-stop(0.25,transparent),color-stop(0.5,transparent),color-stop(0.5,rgba(255,255,255,0.15)),color-stop(0.75,rgba(255,255,255,0.15)),color-stop(0.75,transparent),to(transparent));
+background-image:-webkit-linear-gradient(45deg,rgba(255,255,255,0.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.15) 50%,rgba(255,255,255,0.15) 75%,transparent 75%,transparent);
+background-image:-moz-linear-gradient(45deg,rgba(255,255,255,0.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.15) 50%,rgba(255,255,255,0.15) 75%,transparent 75%,transparent);
+background-image:linear-gradient(45deg,rgba(255,255,255,0.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.15) 50%,rgba(255,255,255,0.15) 75%,transparent 75%,transparent)}
+.progress-bar-info {background-color:#5bc0de}
+.progress-striped .progress-bar-info {
+background-image:-webkit-gradient(linear,0 100%,100% 0,color-stop(0.25,rgba(255,255,255,0.15)),color-stop(0.25,transparent),color-stop(0.5,transparent),color-stop(0.5,rgba(255,255,255,0.15)),color-stop(0.75,rgba(255,255,255,0.15)),color-stop(0.75,transparent),to(transparent));
+background-image:-webkit-linear-gradient(45deg,rgba(255,255,255,0.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.15) 50%,rgba(255,255,255,0.15) 75%,transparent 75%,transparent);
+background-image:-moz-linear-gradient(45deg,rgba(255,255,255,0.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.15) 50%,rgba(255,255,255,0.15) 75%,transparent 75%,transparent);
+background-image:linear-gradient(45deg,rgba(255,255,255,0.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.15) 50%,rgba(255,255,255,0.15) 75%,transparent 75%,transparent)}
+@-webkit-keyframes progress-bar-stripes {
+from {background-position:40px 0} 
+to {background-position:0 0}
+}
+@-moz-keyframes progress-bar-stripes {
+from {background-position:40px 0} 
+to {background-position:0 0}
+}
+@-o-keyframes progress-bar-stripes {
+from {background-position:40px 0} 
+to {background-position:0 0}
+}
+@eyframes progress-bar-stripes {
+from {background-position:40px 0} 
+to {background-position:0 0}
+}
+
+/* MOCA MessageBox */
+.moca_messagebox_modal {background:rgba(0,0,0,0.5); position:fixed; left:0; right:0; top:0; bottom:0; width:100%; height:100%; z-index:6100}
+.moca_messagebox {position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); min-width:280px; max-width:400px; padding:20px; background-color:#fff; border-radius:5px}
+.moca_messagebox .moca_messagebox_close {position:absolute; top:10px; right:10px; height:22px; width:22px; background:url(../images/ico_msg_close.png) no-repeat 50% 50%; border:0; text-indent:-9999px}
+.moca_messagebox .ico {height:56px; margin-top:10px; background-repeat:no-repeat; background-position:50% 50%}
+.moca_messagebox.alert .ico {background-image:url(../images/ico_alert.png)}
+.moca_messagebox.confirm .ico {background-image:url(../images/ico_confirm.png)}
+.moca_messagebox.error .ico {background-image:url(../images/ico_error.png)}
+.moca_messagebox_grp {text-align:center}
+.moca_messagebox_grp h2 {color:#24394a; font-size:18px; font-weight:bold}
+.moca_message {margin:8px 0 10px}
+.moca_message p {color:#333; font-size:14px; font-weight:700}
+.moca_messagebox .moca_btnbox {border-top:1px solid #fff; padding-top:15px; text-align:center}
+.moca_messagebox .moca_btnbox button {height:30px; min-width:100px; padding:5px 20px; margin:0 2px; border-radius:15px; border:0; color:#fff; font-size:14px; font-weight:bold}
+.moca_messagebox.alert .moca_btnbox .moca_btn_confirm {background:#c96f57}
+.moca_messagebox.confirm .moca_btnbox .moca_btn_confirm {background:#c96f57}
+.moca_messagebox.error .moca_btnbox .moca_btn_confirm {background:#c96f57}
+.moca_messagebox .moca_btnbox .moca_btn_cancel {background:#98abc1}
+.moca_messagebox .moca_btnbox .moca_btn_cancel + .moca_btn_confirm {margin-left:5px}
+
+
+/* calendar */
+/* .moca_ica[type="inputMultiCalendar"] .moca_radio_input{position:relative !important;} */
+.moca_ica[type="inputMultiCalendar"] {width:100%}
+.moca_ica[type="inputMultiCalendar"] > div:first-child{float:left;height:22px;line-height:22px;position:relative; width:205px;height:22px; border: 1px solid #d7d7de; background: #fff; border-radius: 2px;}
+.moca_ica[type="inputMultiCalendar"] .moca_ica_radio{height:24px; line-height:24px}
+.moca_ica[type="inputMultiCalendar"] .moca_ica_radio > div:last-child > .moca_radio_label{margin-right:0 !important}
+.moca_ica[type="inputMultiCalendar"] .moca_ica_radio .moca_radio_input + .moca_radio_label{}
+.moca_calendar {display:inline-block; position:relative; width:250px; padding:8px; border:1px solid #555; background:#3f424a;box-shadow:2px 2px 3px 0px rgba(0,0,0,0.2); -moz-box-shadow:0 0 8px 0 rgba(0,0,0,0.5); z-index:7000}
+.moca_calendar button {border:0; padding:0}
+.moca_calendar_header {position:relative; height:34px}
+.moca_calendar_btn_prev,
+.moca_calendar_btn_next,
+.moca_calendar_btn_prev_year,
+.moca_calendar_btn_prev_month,
+.moca_calendar_btn_next_month,
+.moca_calendar_btn_next_year {position:absolute; top:4px; width:26px; height:26px; background-repeat:no-repeat; background-position:50% 50%; text-indent:-9999px}
+.moca_calendar_btn_prev {left:5px; background-image:url(../images/ica_prev_month.png)}
+.moca_calendar_btn_next {right:5px; background-image:url(../images/ica_next_month.png)}
+.moca_calendar_btn_prev_year {left:5px; background-image:url(../images/ica_prev_year.png)}
+.moca_calendar_btn_prev_month {left:30px; background-image:url(../images/ica_prev_month.png)}
+.moca_calendar_btn_next_month {right:30px; background-image:url(../images/ica_next_month.png)}
+.moca_calendar_btn_next_year {right:5px; background-image:url(../images/ica_next_year.png)}
+.moca_calendar_combo_year, 
+.moca_calendar_combo_month {display:inline-block; position:absolute; height:26px; margin:0; padding:0; border:0; -moz-box-sizing:border-box; box-sizing:border-box}
+.moca_calendar_combo_year .moca_select, 
+.moca_calendar_combo_month .moca_select {font-weight:bold}
+.moca_calendar_combo_year {top:4px; left:64px; width:70px} 
+.moca_calendar_combo_month {top:4px; left:136px; width:53px}
+button.moca_calendar_dynamic {display:block; position:relative; margin:0 auto; top:4px; width:190px; height:26px; padding:0; background-color:#e7ecea; -moz-box-sizing:border-box; box-sizing:border-box; font-weight:700; text-align:center; color:#555; border-radius:15px; font-size:14px; box-shadow:inset 0px -2px 0px rgba(0,0,0,0.1)}
+button.moca_calendar_dynamic:hover {background-color:#f3a95e; color:#fff}
+.moca_calendar_year + .moca_calendar_month {margin-left:2px}
+.moca_calendar_picgrp {position:relative;}
+.moca_calendar_picgrp:after {display:block; visibility:hidden; clear:both; height:0; font-size:0; line-height:0; content: '.'}
+.moca_calendar_item {float:left; width:25%; padding:2px; -moz-box-sizing:border-box; box-sizing:border-box}
+.moca_calendar_item > button {background-color:#f7f7f7; border-radius:3px; width:100%; height:56px; text-align:center}
+.moca_calendar_item > button:hover,
+.moca_calendar_item.active > button {background-color:#f3a95e; color:#fff}
+.moca_calendar .moca_calendar_body {border:0; background:none; padding:5px 0}
+.moca_calendar .moca_calendar_body table {width:100%; color:#fff}
+.moca_calendar .moca_calendar_body table th,
+.moca_calendar .moca_calendar_body table td {text-align:center; height:27px}
+.moca_calendar .moca_calendar_body table td button {border-radius:100%; height:26px; width:26px; line-height:20px; color:#fff; background:transparent}
+.moca_calendar .moca_calendar_body table td.moca_calendar_holiday button {font-weight:normal; color:#fd5353}
+.moca_calendar .moca_calendar_body table td.moca_calendar_today button {background:#000; color:#fff}
+.moca_calendar .moca_calendar_body table td:hover button {background:#f3a95e; color:#fff}
+.moca_calendar .moca_calendar_body table td.moca_calendar_selected button {background:#f3a95e; color:#fff}  
+.moca_calendar .moca_calendar_body table td.moca_calendar_date_disabled {font-weight:normal; color:#d1d1d1}
+
+.moca_calendar_footer {padding:8px 8px 0}
+.moca_calendar_footer:after {display:block; visibility:hidden; clear:both; height:0; font-size:0; line-height:0; content: '.'}
+.moca_calendar_footer .lta {float:left; margin-right:-5px; text-align:left}
+.moca_calendar_footer .lta > button {float:left; margin-right:6px}
+.moca_calendar_footer .rta {float:right; margin-left:-5px; text-align:right}
+.moca_calendar_footer .rta > button {float:left; margin-left:4px}
+.moca_calendar_footer .cta {text-align:center}
+.moca_calendar_footer button{height:24px; padding:0 15px; border:1px solid #fff; color:#fff; line-height:20px; border-radius:2px}
+.moca_calendar_footer button:hover, .moca_calendar_footer button:active{background:#000;}
+.moca_calendar_footer>button{margin-left:2px}
+.moca_calendar_footer>button.moca_calendar_btn_ok{margin-left:4px}
+.moca_calendar_footer button.moca_calendar_btn_today {}
+.moca_calendar_footer button.moca_calendar_btn_cancel {float:left}
+.moca_calendar_footer button.moca_calendar_btn_ok {}
+/* calendar(FROM ~ TO) */
+.moca_calendar_fromto {position:relative; width:720px; height:300px; background-color:#3f424a; border:1px solid #555; box-shadow:2px 2px 3px 0px rgba(0,0,0,0.2); -moz-box-shadow:0 0 8px 0 rgba(0,0,0,0.5); z-index:9999}
+.moca_calendar_lta {overflow:hidden auto; position:absolute; top:0; left:0px; bottom:0; width:130px; background:#393c46; color:#fff; -moz-box-sizing:border-box; box-sizing:border-box}
+.moca_calendar_rta {position:absolute; top:0; left:130px; right:0; bottom:0; padding:8px; -moz-box-sizing:border-box; box-sizing:border-box}
+.moca_calendar_list{height:250px; padding:8px 8px 0;}
+.moca_calendar_list li {display:inline-block; position:relative; width:50%; height:calc(100% / 5);}
+.moca_calendar_list li:nth-child(2n-1){float:left;}
+.moca_calendar_list li button {display: block; font-weight: bold; width: 100%; height: 100%; padding-left:5px; border: 0; color: #aaa; text-align:left; text-indent:8px; font-size:11px; -moz-box-sizing: border-box; box-sizing: border-box}
+.moca_calendar_list li button:before{content:''; position:absolute; top:22px; left:3px; width:7px; height:6px; background:url(../images/grid/ico_cal_check.png)no-repeat; }
+.moca_calendar_list li.active button {color: #fff; font-weight:bold; text-align: center; text-indent:0; padding:0}
+.moca_calendar_list li.active button:before{background:none}
+.moca_calendar_list li.active button:after{content:''; position: absolute; left: 5px; top: 0; border:2px solid #ce7d67; border-radius:50%; width: 43px; height: 43px; display: inline-block; background:none}
+.moca_calendar_row {position:relative}
+.moca_calendar_row:after {display:block; visibility:hidden; clear:both; height:0; font-size:0; line-height:0; content: '.'}
+.moca_calendar_row .moca_calendar_fl {float:left; width:50%; -moz-box-sizing:border-box; box-sizing:border-box}
+.moca_calendar_row .moca_calendar_fl:nth-child(1){padding-right:5px}
+.moca_calendar_row .moca_calendar_fl:nth-child(2){padding-left:5px}
+.moca_calendar_row .moca_calendar_fl .moca_input {display: block; width: auto; margin: 4px auto; text-align: center; border-radius: 0; background:none; color:#fff; border:1px dashed #c96f57; border-left:0; border-right:0}
+.moca_calendar_row .moca_calendar {width:100%; border:0; background:#3f424a; box-shadow:none; -moz-box-shadow:none; -moz-box-sizing:border-box; box-sizing:border-box; color:#fff}
+
+.switch {min-height:26px}
+.switch li {float:none; height:38px; display:flex; align-items:center; margin-right:0}
+.switch input[type="checkbox"] {position:absolute; left:-9999px; visibility:hidden}
+.switch input[type="checkbox"] + label {height:20px; position:relative; padding-left:50px; font-weight:400; color:#888; display:flex; align-items:center; line-height:20px}
+.switch input[type="checkbox"] + label::before {content:''; position:absolute; left:0; top:3px; display:block; width:35px; height:14px; border-radius:60px; cursor:pointer; background-color:#ddd; transition:background 0.4s}
+.switch input[type="checkbox"] + label::after {content:''; position:absolute; left:0; top:0; display:block; width:20px; height:20px; border-radius:100%; cursor:pointer; background-color:#b9b9b9; box-shadow:0 3px 3px rpga(0,0,0,0.1) transition:0.2s}
+.switch input[type="checkbox"]:checked + label {color:#333}
+.switch input[type="checkbox"]:checked + label:before {background-color:#ebb3f2}
+.switch input[type="checkbox"]:checked + label:after {left:18px; background-color:#c36ccf}
+
+
+/* 김세창추가 시작 *****************************************************************************************************************************************************/
+	
+/***********************************************************
+	공통버튼영역
+***********************************************************/
+	.btns_wrap {float:right; position:relative; top:5px}
+	.btns_wrap .btn {background:#fff; height:16px; line-height:16px; float:left; border:1px solid #949499; margin-left:3px; vertical-align:middle; box-sizing:border-box;-moz-box-sizing:border-box; border-radius:2px;}
+	.btns_wrap .btn:hover{border-color:#333 !imporant;}
+	.btns_wrap .grp_funcbtns{float:left; margin-right:19px/*새로고침기능 구현 시 margin-right삭제*/}
+	.btns_wrap .grp_funcbtns .btn {padding:0 13px; background:#3f424a; color:#fff; border:none;}
+	.btns_wrap .grp_funcbtns .btn.w2anchor_disabled{background-color:#ebebed; border:1px solid #cacaca; color:#a7a7a7}
+	.btns_wrap .grp_combtns{float:right; margin-left:8px; padding-left:5px; position:relative}
+/* 	.btns_wrap .grp_combtns:before {content:''; width:1px; height:16px; background:#cecece; position:absolute; top:0px; left:0; }*/
+	.btns_wrap .grp_combtns .btn { width:16px; overflow:hidden; background:url(../images/ico_close.png) no-repeat 50% 50%; text-indent:-999px; cursor:pointer}
+	/* .btns_wrap .grp_combtns .btn.w2anchor_disabled{background-color:#ebebed; border:1px solid #cacaca; opacity:0.5;} */
+/* 	.btns_wrap .grp_combtns .btn.help {background-position:left top}
+	.btns_wrap .grp_combtns .btn.setting {background-position:-29px -1px}
+	.btns_wrap .grp_combtns .btn.print {background-position:-60px -1px; padding:0}
+	.btns_wrap .grp_combtns .btn.calc {background-position:-91px -1px}
+	.btns_wrap .grp_combtns .btn.lock {background-position:-120px -1px}
+	.btns_wrap .grp_combtns .btn.reset {background-position:-150px -1px} */
+	.btns_wrap .grp_combtns .btn.close {background-position:-1px -1px}
+	
+	.grp_combtns{float:right; position:relative; top:5px}
+	.grp_combtns .btn {
+		width:16px;
+		height: 16px;
+	    line-height: 16px;
+		overflow:hidden;
+		background:url(../images/ico_close.png) no-repeat 50% 50%;
+		text-indent:-999px;
+		cursor:pointer;
+		background-color: #fff;
+	    float: left;
+	    border: 1px solid #949499;
+	    margin-left: 3px;
+	    vertical-align: middle;
+	    box-sizing: border-box;
+	    -moz-box-sizing: border-box;
+	    border-radius: 2px;
+	}
+	.grp_combtns .btn.close {background-position:-1px -1px}
+	   
+	
+/***********************************************************
+	Content Area : Anchor 버튼
+***********************************************************/
+
+	/***** 텍스트 기본 버튼 *****/
+/* 	a.btn {display:inline-block; font-size:11.5px; margin-right:2px; padding:0 8px;  height:23px; line-height:21px; border:1px solid #979aa0; border-radius:2px; background-color:#fff;vertical-align:top; overflow:hidden;background-repeat:no-repeat; box-sizing:border-box; -moz-box-sizing:border-box;}
+	a.btn:hover, .btn:focus {background-color:#e7f3fc; border-color:#4395ca; color:#0764b3}
+	a.btn:active {padding-top:1px; background-color:#dce9f2}
+	a.btn.w2anchor_disabled {color:#a7a7a7; background-color:#ebebed; border-color:#cacaca; }
+	a.btn.w2anchor_disabled:focus {border:1px solid #1787e6;} */
+	
+	
+	
+	/***** 기능 버튼 *****/
+	a.btn.func {background:#7d8392; border:1px solid #7d8392; color:#fff}
+	a.btn.func:hover, .btn.func:focus {background-color:#606674; border-color:#7d8392; color:#fff}
+	/* a.btn.func.w2anchor_disabled {color:#a7a7a7; background-color:#ebebed; border-color:#cacaca; }
+	a.btn.func.w2anchor_disabled:focus {border:1px solid #1787e6; }*/
+	
+	/*팝업버튼*/
+	a.btn.popup {padding:0 11px; background-image:url(../images/btn_popup.png); background-position: right  top;margin-right: 0px;}
+	a.btn.popup:active {background-position: right  1px}
+	/* a.btn.popup.w2anchor_disabled {background-position: right  bottom} */
+	
+	.moca_grid_toolbar .button {display:inline-block; width:24px; height:24px; padding:0; margin-left:5px; border:1px solid #979aa0; border-radius:2px; background-color:#fff; vertical-align:top; background-repeat:no-repeat}
+	.moca_grid_toolbar .button.on{background-color:#333; border-color:#333;}
+	.moca_grid_toolbar .button:active {padding-top:1px}
+	
+	/*엑셀업로드*/
+	button.excel_up {background-image:url(../images/btn_excelUp.png); background-position:2px 0}
+	button.excel_up:active {background-position:2px 1px}
+	/* a.btn.excel_up.w2anchor_disabled {background-position: 3px bottom } */
+	
+	/*엑셀다운로드*/
+	button.excel_dn {background-image:url(../images/btn_excelDn.png); background-position:2px 0}
+	button.excel_dn:active {background-position:2px 1px}
+	/* a.btn.excel_dn.w2anchor_disabled {background-position: 3px bottom } */
+	
+	/*파일업로드*/
+	a.btn.file_up {padding:0 11px; background-image:url(../images/btn_file_up.png); background-position: -1px -1px;margin-right: 0px;}
+	a.btn.file_up:active {background-position:  -1px 0}
+	/* a.btn.file_up.w2anchor_disabled {background-position:  -1px -48px} */
+	
+	/*파일다운로드*/
+	a.btn.file_dn {padding:0 11px; background-image:url(../images/btn_file_down.png); background-position: -1px -1px;margin-right: 0px;}
+	a.btn.file_dn:active {background-position:  -1px 0}
+	/* a.btn.file_dn.w2anchor_disabled {background-position:  -1px -48px} */
+	
+	/*출력*/
+	a.btn.print {padding:0 11px; background-image:url(../images/ico_print.png); background-position: 5px 3px;margin-right: 0px;}
+	a.btn.print:active {background-position: 5px 4px}
+	/* a.btn.print.w2anchor_disabled {background-position: 5px -19px} */
+	
+	/*행추가*/
+	button.add_row {background-image:url(../images/btn_addRow.png); background-position:2px 0}
+	button.add_row:active {background-position:2px 1px}
+	/* a.btn.add_row.w2anchor_disabled {background-position: 3px bottom } */
+	
+	/*행삭제*/
+	button.del_row {background-image:url(../images/btn_delRow.png); background-position:2px 0}
+	button.del_row:active {background-position:2px 1px}
+	/* a.btn.del_row.w2anchor_disabled {background-position: 3px bottom } */
+	
+	/*다음 - 데이터 Read More */
+	button.read_next {background-image:url(../images/btn_readNext.png); background-position:2px 0}
+	button.read_next:active {background-position:2px 1px}
+	/* a.btn.read_next.w2anchor_disabled {background-position: 3px bottom } */
+	
+	/*그리드풀스크린 */
+	button.grid_full {background-image:url(../images/btn_gridFull.png); background-position:2px 0}
+	button.grid_full:active {background-position:2px 1px}
+	/* a.btn.read_next.w2anchor_disabled {background-position: 3px bottom } */
+	
+	/*그리드기본스크린 */
+	button.grid_default {background-image:url(../images/btn_gridDefault.png); background-position:2px 0}
+	button.grid_default:active {background-position:2px 1px}
+	/* a.btn.read_next.w2anchor_disabled {background-position: 3px bottom } */
+
+	/*그리드디테일 */
+	button.grid_detail {background-image:url(../images/btn_gridDetail.png); background-position:2px 0}
+	button.grid_detail:active {background-position:2px 1px}
+	/* a.btn.read_next.w2anchor_disabled {background-position: 3px bottom } */
+
+	/*그리드 디테일th1단*/
+	button.colTh1 {background-image:url(../images/btn_colTh1.png); background-position:2px 0}
+	button.on.colTh1 {background-position:2px -21px}
+
+	/*그리드 디테일th2단*/
+	button.colTh2 {background-image:url(../images/btn_colTh2.png); background-position:2px 0}
+	button.on.colTh2 {background-position:2px -21px}
+	
+	/*그리드 디테일th3단*/
+	button.colTh3 {background-image:url(../images/btn_colTh3.png); background-position:2px 0}
+	button.on.colTh3 {background-position:2px -21px}		
+
+	/*그리드 디테일닫기*/
+	button.grid_detail_close {background-image:url(../images/ico_dp_close.png); background-position:-1px -1px}
+	button.grid_detail_close:active {background-position:-1px 0px}		
+
+	/*그리드 컬럼 쇼하이드*/
+	button.col_showhide {background-image:url(../images/btn_gear.png); background-position:2px -1px}
+	button.col_showhide:active {background-position:2px 0px}		
+
+			
+/* 김세창추가 끝 *****************************************************************************************************************************************************/
+
+/*화면분할*/
+
+/* 화면분할 : 최 상단 Container */
+.lybox{min-height:40px;}/* Content 박스 */
+.lybox:after{display:block;visibility:hidden;clear:both;height:0;font-size:0;line-height:0;content: '.'}
+
+/* 화면분할 : 두번째 Container - 분할되는 Box */
+.ly_column{float:left; min-width:15px; min-height:30px; padding:0;margin:0; height:100%; position:relative; box-sizing:border-box}
+.ly_column.col_1{width:10%}
+.ly_column.col_2{width:20%}
+.ly_column.col_2_5{width:25%}
+.ly_column.col_3{width:30%}
+.ly_column.col_3_3{width:33.3%}
+.ly_column.col_3_4{width:33.4%}
+.ly_column.col_4{width:40%}
+.ly_column.col_5{width:50% }
+.ly_column.col_6{width:60%}
+.ly_column.col_7{width:70%}
+.ly_column.col_8{width:80%}
+
+.ly_row{position:absolute; left:0; right:0; background:#fff}
+.ly_row.row_5{position:relative;height:50%}
+.ly_row.row_3{position:relative;height:30%; /* min-height:150px */}
+.ly_row.row_4{position:relative;height:40%;}
+.ly_row.row_3+.ly_row.row_4{position:relative;height:calc(40% - 9px); top:9px /* min-height:150px */}
+.ly_row.row_6{position:relative;height:60%;}
+.ly_row.row_7{height:70%}
+.ly_row.row_3_7_3{top:0; height:100%; max-height:158px}
+.ly_row.row_3_7_7{bottom:0; top:158px}
+.ly_row.row_7_3_3{bottom: 0; height:100%; max-height: 158px}
+.ly_row.row_7_3_7{top:0; bottom: 158px}
+
+/* 화면분할 : 세번째 Container - 컨텐츠가 담기는 영역 */
+.ly_col_cont{display:block;position:relative; min-width:15px; min-height:15px}
+.ly_row_cont{height:100%}
+.ly_row:first-child .ly_row_cont{height: calc(100% - 9px)}
+/*성혜진 메인수정*/
+.cfx{*zoom:1;}
+.cfx:before, .cfx:after {display: block; content: ''; line-height: 0;} 
+.cfx:after{clear:both;}
+.topBg{height:90px; border-bottom:2px solid #dedede; background:#e5e6ea url(./images/main/top_bg.png) no-repeat right 0}
+.topBg .logo{position:absolute; top:26px; left:30px}
+.moca_title {padding:20px 30px; box-sizing:border-box}
+.moca_title h2{font-size:31px; font-weight:normal}
+.moca_title p{font-size:22px}
+.moca_product{content: ''; box-sizing:border-box;}
+.moca_product > div{/*float:left;*/  padding:30px; box-sizing: border-box}
+.moca_product .product_grid{background:#f5f5f5}
+.moca_product .product_calendar{}
+.moca_product .product_chart{background:#f5f5f5;}
+.moca_product .txt_label{display:block; font-size:20px; height:36px; line-height:36px; margin:0 10px 10px}
+.moca_product .txt_label span{font-size:30px; font-weight: bold; letter-spacing: -2px; border-top:2px solid #666}
+/*    .moca_product .txt_label:before{content:''; float:left; width:36px; height:36px; margin-right:5px; background:#ddd;}*/
+.main_box{}
+.main_box ul{content:'';}
+.main_box ul li{width:175px;height:175px; float:left;border-right:1px dashed #efefef;padding:10px; box-sizing:border-box; position: relative;}
+.main_box ul li p{text-align: center; font-size: 15px; font-weight: bold; letter-spacing: -1px;}
+.main_box ul li p:before{content: ''; display:block; width:100%; height:120px;background: url(../images/main/main_box.png) no-repeat; margin-bottom:10px}
+.main_box ul li p.main_box01:before{background-position:0 0}
+.main_box ul li p.main_box02:before{background-position:0 -120px}
+.main_box ul li p.main_box03:before{background-position:0 -240px}
+.main_box ul li p.main_box04:before{background-position:0 -360px}
+.main_box ul li p.main_box05:before{background-position:0 -480px}
+.main_box ul li p.main_box06:before{background-position:0 -600px}
+.main_box ul li p.main_box07:before{background-position:0 -720px}
+.main_box ul li p.main_box08:before{background-position:0 -840px}
+.moca_product .product_img{float:left}
+/* 	.moca_product .product_grid .txt_label:before{content:'';float: left; width:36px;height:36px; margin-right:5px; background: url(./images/main/ico_product.png) no-repeat 0 -5px}
+	.moca_product .product_calendar .txt_label:before{content:'';float: left; width:36px;height:36px; margin-right:5px; background: url(./images/main/ico_product.png) no-repeat 0 -58px}
+	.moca_product .product_chart .txt_label:before{content:'';float: left; width:36px;height:36px; margin-right:5px; background: url(./images/main/ico_product.png) no-repeat 0 -106px} */ 
+	.moca_product .imgChart{width:100%}
+	.moca_product ul li{font-size:13px; line-height:25px; text-indent:10px}
+	.moca_product ul li i{font-size:10px; color:#ccc}
+/*    .moca_product ul li:before{content:' '; display:inline-block; vertical-align:middle; width:2px; height:2px; background:#eee;margin-right:5px;}*/
+ @media ( max-width: 1879px ) {
+	 .moca_product{height:800px}
+ }
+ @media ( max-width: 1156px ) {
+	 .moca_product{height:1600px}
+ }
+ @media ( max-width: 810px ) {
+ 	 .moca_product img{width:100%;}
+	 .moca_title p{font-size:18px}
+ }
+/* 	 @media ( max-width: 790px ) {
+		.container{min-width:auto}
+		.moca_product{height:1600px; text-align:center}
+		.moca_product .txt_label{display:inline-block;font-size:25px; margin:20px 0}
+		.moca_product ul{text-align:left; margin:0 5%;}
+		.moca_product .product_grid{clear:both; width:100%}
+		.moca_product .product_calendar{clear:both; width:100%; padding:0 }
+		.moca_product .product_chart{clear:both; width:100%;padding-left:0; margin-top:30px }
+		.moca_product .product_grid .txt_label:before{right:0}
+		.moca_product img{display:block; margin:0 auto;}
+	 }	 
+ */ 
+
+
+.moca_grid_minus {display:inline-block; width:13px; height:100%; background:url(../images/tvw_minus02.png) no-repeat 50% 50%; margin-right:4px; cursor:pointer}
+.moca_grid_plus {display:inline-block; width:13px; height:100%; background:url(../images/tvw_plus02.png) no-repeat 50% 50%; margin-right:4px; cursor:pointer}
+.moca_grid_leaf {display:inline-block; width:13px; height:100%; background:url(../images/tvw_leaf02.png) no-repeat 50% 50%; margin-right:4px;}
+
+td[celltype=tree] span.category{position: relative; top: -9px; width:16px; height: auto; margin-right:2px; padding: 0 2px; vertical-align: middle; border-radius: 2px; color:#fff; text-align:center; font-size: 10px; line-height:14px;}
+td[celltype=tree] span.category.MP{background: #b298e6; }
+td[celltype=tree] span.category.PR{background:#dac98c;}
+td[celltype=tree] span.category.SP{background:#91d094;}
+td[celltype=tree] span.category.R{background:#e89170;}
+td[celltype=tree] span.category.CA{background:#79a5da;}
+
+td[celltype=tree] span {display:inline-block; height:100%}
+td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:26px; position:relative; top:2px}
+.moca_grid_line {display:inline-block; width:13px; height:100%; background:url(../images/ico_tree_vline.png) no-repeat 0 50%}
+.moca_grid_midddle {display:inline-block; width:13px; height:100%; background:url(../images/ico_tree_middle.png) no-repeat 0 50%}
+.moca_grid_last {display:inline-block; width:13px; height:100%; background:url(../images/ico_tree_last.png) no-repeat 0 50%}
+
+
+.moca_grid_list .moca_grid_body.fix {right:auto; overflow:hidden; z-index:1}
+.moca_grid_list .moca_grid_body.fix > table > thead > tr > th:last-child,
+.moca_grid_list .moca_grid_body.fix > table > tbody > tr > td:last-child {border-right:1px solid #bbc3ce}
+.moca_grid_list .moca_grid_body > table > tbody > tr.moca_grid_subtotal > td {color:#000; font-weight:600; background:#edf5fd; border-color:#b3b3b3}
+.moca_grid_total {position:absolute; left:0; bottom:0}
+.moca_grid_total td {color:#ff4c35;  font-weight:600; background:#ffeee6; border-top:1px solid #dbbeb2; border-left:1px solid #dbbeb2; height:26px; text-align:right}
+.moca_grid_total td:last-child {border-right:1px solid #efdad1}
+.moca_grid_total td span {padding:0 4px; -moz-box-sizing:border-box; box-sizing:border-box}
+
+
+/*컬럼그룹팝업*/
+.PopColgroup { position: fixed; top: 0; bottom: 0; left:0; background:#fff; overflow: hidden; z-index:100 }
+.PopColgroup .ly_column.col_2{border-right: 1px solid #3f424a; height:calc(100% - 30px)}
+.PopColgroup .ly_column.col_8{overflow-y:auto; height:calc(100% - 30px)}
+.groupListHeader{height:29px; border-bottom:1px solid #3f424a}
+.groupListHeader .button{line-height: 14px; padding: 5px 10px; border-radius: 3px; font-size: 11.5px;}
+.groupListHeader .button.btn_close{display: inline-block; width: 24px; height: 23px; padding: 0; border: 1px solid #979aa0; border-radius: 2px; background-color: #fff;background-image:url(../images/ico_dp_close.png); background-position:-1px -1px; vertical-align: top; background-repeat: no-repeat;}
+.groupListHeader .button.btn_close:active {background-position:-1px 0px}		
+
+.groupListHeader .button.btn_save{background-color: #354b5d; opacity: 0.9; color: #fff}
+.groupListHeader .button.btn_save:active{opacity:1}
+.groupListSet{ position: relative; margin:5px auto; width: calc(100% - 10px); background:#fff; table-layout:fixed}
+.groupListSet .moca_ibn{height:30px; border:1px solid #bbb}
+.groupListSet .moca_ibn .moca_input_color{width:24px; height:28px; padding:0; border:0; background:none; position:absolute; right:0; border-left:1px solid #bbc3ce;}
+.groupListSet td{padding:3px; vertical-align:top; text-align:center}
+.groupListSet .btn_plus{width:100%; height:30px; border:1px solid #bbb; padding:0}
+
+.groupList{position: relative; margin:5px auto; width: calc(100% - 10px); background:#fff; table-layout:fixed; border-top:1px solid #3f424a}
+.groupList td{padding:7px; border-bottom: 1px solid #ddd; vertical-align:top; text-align:center; position:relative}
+.groupList td.on{background:#ffd84b}
+.groupList td > .color{display: inline-block; position: absolute; left: 0; width: 11px; background: red; height: 34px; top: 0px;}
+.groupList td > a.title{height: 20px; line-height: 20px; text-indent:6px; position: relative; display: inline-block}
+.groupList td > a:hover.title{text-decoration:underline; cursor:pointer}
+.groupList .moca_radio, .groupColList .moca_radio{display:inline-block}
+.groupList .moca_radio label, .groupColList .moca_radio label{vertical-align:top}
+.groupList .button.btn_close{width:16px; height:16px; float: right; padding: 3px; background:url(../images/ico_tab_close.png) no-repeat}
+.groupList .button.btn_close2{width:16px; height:16px; float: right; padding: 3px; background:url(../images/ico_tab_close2.png) no-repeat}
+.groupColList li{float: left; min-width:210px; margin:0 5px 5px 0; background-color:#efefef}
+.groupColList input[type="checkbox"].grpCheckbox+label{position:relative; white-space: nowrap; width: 115px; /* overflow: hidden; */ text-overflow: ellipsis; display: inline-block;}
+.groupColList input[type="checkbox"].grpCheckbox+label .cbx{position: absolute; top: -3px; left: -24px; display: inline-block; width: 20px; height: 20px; border: 1px solid #afafaf; border-radius: 2px; background-color: #fff;}
+.groupColList input[type="checkbox"]:checked.grpCheckbox+label .cbx{background-image:url(../images/ico_grp_checkbox.png); background-repeat:no-repeat; background-position:3px 2px; }
+
+/* .groupColList input[type="checkbox"]:checked.grpCheckbox.grpA+label:before{background-color:blue; background-position: 2px -14px;}*/
+/*스위치*/
+.groupColList .switch {position: relative; top:5px; left:5px; display: inline-block; width:40px; height: 20px; min-height:auto}
+.groupColList .switch input { opacity: 0; width: 0; height: 0;}
+.groupColList .slider {position:absolute; cursor:pointer; top: 0;left: 0; right: 0; bottom: 0; background-color: #ccc}
+.groupColList .slider:before {position: absolute; content: ""; height: 15px; width: 15px; left: 4px; bottom: 3px; background-color: #fff}
+.groupColList input:checked + .slider.round {background-color: #2196F3;}
+.groupColList input:focus + .slider {box-shadow: 0 0 1px #2196F3;}
+.groupColList input:checked + .slider:before {-webkit-transform: translateX(18px); -ms-transform: translateX(18px);transform: translateX(18px);}
+.groupColList .slider.round {border-radius: 34px;}
+.groupColList .slider.round:before {border-radius: 50%;}
+
+
+/***********************************************************
+	개발가이드
+***********************************************************/
+.helpTitle{height: 80px; font-size: 40px; background: #173469; color: #fff; text-indent: 20px; line-height: 80px;}
+.contBox > .title{font-size:30px; font-weight:normal; padding-left:20px;}
+.subCont{padding:10px 45px}
+.explan{font-size:15px; font-weight:normal}
+.titBox{height:30px; line-height:30px; padding-left:6px; background:#eee; border-left:3px solid #333; font-size:17px; font-weight:bold}
+.usingBox{background:#f1eded; border-top:2px solid #dcbdbd; border-bottom:2px solid #dcbdbd; padding:25px 15px 15px; margin:20px 0 20px 20px; position:relative}
+.sourceBox{background:#edeff1;border-top:2px solid #bdccdc; border-bottom:2px solid #bdccdc; padding:25px 15px 15px; margin:20px 0 20px 20px; position:relative}
+.usingBox .title{display: inline-block; background: #e64037; border-radius: 5px; color: #fff; position: absolute; top: -11px; left: 7px; padding: 5px; font-weight: bold; font-size: 12px}
+.sourceBox .title{display: inline-block; background: #405cac; border-radius: 5px; color: #fff; position: absolute; top: -11px; left: 7px; padding: 5px; font-weight: bold; font-size: 12px}
+.usingBox .code, .sourceBox .code{font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Gothic','돋움',dotum,sans-serif}
+
+
+.txt_box{text-indent: 5px; padding: 5px; width:320px; border:1px dotted #aaa}
+.txt_box > p:before{content: ''; display: inline-block; width: 4px; height: 4px; background: #aaa; border-radius: 3px;}
+.txt_box > p > span{display:inline-block; width:83px; text-align:right}
+/*moca_addtion_area*/
+.moca_addtion_area{overflow: hidden}
+.moca_addtion_area .lta{float:left}
+.moca_addtion_area .rta{float:right}
+.moca_addtion_area .lta > div, .moca_addtion_area .rta > div{float:left; height:24px; line-height:24px}
+.moca_addtion_area .rta > div.mocaButton {margin-left:5px}
+/*moca_component*/
+.mocaButton {position:relative}
+.mocaButton button{padding: 0 7px; background: #476d8e; color: #fff; border-radius: 2px; height: 24px; box-sizing: border-box; opacity: 0.9}
+.mocaButton button:hover{opacity:1}
+.mocaInput input[type="text"]{height: 24px;width: 100%; padding:0 4px; border: 1px solid #d7d7de; border-radius: 2px; box-sizing: border-box; appearance: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+.mocaInput.req input[type="text"]{border:1px solid #e79f78; background:#fffbe8;}
+.mocaInput.req input[type="text"]:hover{border:1px solid #e45c2d;background:#fffbe8}
+.mocaInput input[type="text"]:read-only{border:0}
+.mocaInput input[type="text"]:disabled{border: 1px solid #d7d7de; background: #eee;}
+/* MOCA inputButton */
+.mocaInputButton {position:relative; text-indent:0; height:24px; border:1px solid #ddd; background:#fff; -moz-box-sizing:border-box; box-sizing:border-box}
+.mocaInputButton input[type="text"]{width:calc(100% - 24px); height:100%; border:0; background:none;}
+.mocaInputButton input[type="text"]:read-only {background-color:#eee}
+.mocaInputButton button {position:absolute; top:0; right:0; width:24px; height:100%; background:#fff; background:url(../images/ico_ib_btn.png) no-repeat 50% 50%; border:0; border-left:1px solid #ddd; border-radius:0 2px 2px 0;text-indent:-9999px}
+/* MOCA radio */
+.mocaRadio{position:relative; padding:0 4px}
+.mocaRadio:after{display:block; visibility:hidden; clear:both; height:0; font-size:0; line-height:0; content: '.'}
+.mocaRadio input[type="radio"]{position: absolute; width: 12px; height: 12px; filter: alpha(opacity=0); opacity: 0; padding: 0; margin: 0; top: 6px;}
+.mocaRadio label{font-size:11.5px; line-height:1em; display:inline-block; position:relative; padding-left:15px; padding-top:1px}
+.mocaRadio label:before {content:''; position:absolute; left:0; top:1px; width:12px; height:12px; background:url(../images/ico_rad.png) no-repeat 0 0}
+.mocaRadio input[type="radio"]:checked + label:before{background-position:0 -12px}
+.mocaRadio input[type="radio"]:disabled + label:before {background-position:0 -24px; cursor:default}
+.mocaRadio input[type="radio"]:disabled:checked + label:before {background-position:0 -36px: cursor:default}

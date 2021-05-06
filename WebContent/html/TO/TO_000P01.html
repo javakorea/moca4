@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head meta_width="1600px" meta_height="800px">
+<script>
+	
+moca.TO_000P01.___ready = function(args){
+	clearInterval(moca.TO_001.polling_000P01_id);
+	if(args != null){
+		moca.TO_000P01.args = args;
+	}
+	moca.TO_000P01.search();
+};
+
+moca.TO_000P01.fn_exeTs1100 = function(args){
+	moca.confirm("TS1100전문을 재발송하시겠습니까?",function(result){
+		if(result == 'Y'){
+			moca.TO_000P01.exe({
+				url : moca._domain+moca._contextRoot+"/TO_000P01/exeTs1100.do",
+				loadingbar:true,
+				data : {
+					"header" : moca.header,
+					"body" : {
+						"idx":moca.TO_000P01.args.parent.data.idx+''
+						}
+				},			
+				callback : function(response){
+					
+					alert(JSON.stringify(response));
+					debugger;
+					debugger;
+					debugger;
+				}
+			});
+		}
+	});
+};
+
+
+
+moca.TO_000P01.search = function(args){
+	moca.removeLs('moca.TO_000P01.initData');
+	moca.TO_000P01.exe({
+		url : moca._domain+moca._contextRoot+"/TO_000P01/admMngDetail.do",
+		loadingbar:true,
+		data : {
+			"header" : moca.header,
+			"body" : {
+				"idx":moca.TO_000P01.args.parent.data.idx+''
+				}
+		},			
+		callback : function(response){
+			moca.TO_000P01.data = response.admMngDetail;
+			moca.TO_000P01.data.list9001 = response.list9001;
+				
+			moca.setLs('moca.TO_000P01.initData',moca.TO_000P01.data);
+			moca.TO_000P01.fn_setList(moca.TO_000P01.data);
+			
+			var memoList = response.admMngDetail.memoList;
+			var scope = moca['TO_000P01'];
+			var g = scope.getObj('grd_P01_memo');
+			scope.drawGrid(g.id,scope.getResList(response,memoList));
+			g.setAttribute("selectedRealRowIndex","0");
+			moca._setRowSelection(g);
+		}
+	});
+};
+
+
+
+moca.TO_000P01.setValue = function(_data){
+
+};
+
+moca.TO_000P01.popId1 = 'TO_000P03';
+moca.TO_000P01.fn_pop = function(_thisObj){
+	['차량정보상세 팝업']
+	var o = {};
+	o.id = moca.TO_000P01.popId1;
+	o.url = '/html/TO/TO_000P03.html';
+	o.type = "POPUP";
+	o.modal = "false";
+	o.title = '차량정보상세';
+	o.callback = moca.TO_000P01.fn_pop_callback;
+	o.scopeId = moca.TO_000P01.pageId;
+	o.data = {"idx":moca.TO_000P01.args.parent.data.idx+'',"RegistrationIndex":moca.TO_000P01.args.parent.data.RegistrationIndex};
+	
+	moca.popup(o,_thisObj);
+};
+
+moca.TO_000P01.popId2 = 'TO_000P02';
+moca.TO_000P01.fn_error_pop = function(_thisObj){
+	['정보확인결과_오류내용 팝업']
+	/*
+	var o = {};
+	o.id = moca.TO_000P01.popId2;
+	o.url = '/html/TO/TO_000P02.html';
+	o.type = "POPUP";
+	o.modal = "false";
+	o.title = '오류내용';
+	o.callback = moca.TO_000P01.fn_pop_callback;
+	o.scopeId = moca.TO_000P01.pageId;
+	o.data = {};
+	
+	moca.popup(o,_thisObj);
+	*/
+	moca.alert(moca.TO_000P01.data.list9001[0].RESN_DTLS_MSG);
+};
+
+moca.TO_000P01.popId3 = 'TO_000P04';
+moca.TO_000P01.fn_cert_pop = function(_thisObj){
+	['양도증명서 팝업']
+	/*
+	var o = {};
+	o.id = moca.TO_000P01.popId3;
+	o.url = '/html/TO/TO_000P04.html';
+	o.type = "POPUP";
+	o.modal = "false";
+	o.title = '양도증명서';
+	o.callback = moca.TO_000P01.fn_pop_callback;
+	o.scopeId = moca.TO_000P01.pageId;
+	o.data = {};
+	
+	moca.popup(o,_thisObj);
+	*/
+	
+	
+	moca.TO_000P01.exe({
+		url : moca._domain+moca._contextRoot+"/TO/common/findYangdoURL.do",
+		loadingbar:true,
+		data : {
+			"header" : moca.header,
+			"body" : {
+				"idx":moca.TO_000P01.args.parent.data.idx+''
+				}
+		},			
+		callback : function(response){
+			if(response.error){
+				moca.error(response.error);
+			}else if(response.fileYN == 'Y'){	
+				moca.question('양도증명서 보기방식을 선택하세요.',function(result){
+					if(result == '1'){
+						moca.TO_000P01.openPdfViewer({
+							id:	'TO_000P01 openPdfViewer',
+							title:'양도증명서',
+							url : moca._contextRoot+"/TO/common/makeYangdoURL.do",
+							fullscreen : 'yes',
+							param : {"idx":moca.TO_000P01.args.parent.data.idx+''}
+						});
+					}else if(result == '2'){
+						moca.fileDownloadAjax({
+							url:moca._contextRoot+"/TO/common/makeYangdoURL.do",
+							param:{idx:moca.TO_000P01.args.parent.data.idx}
+						});
+					}
+				},'뷰어로보기','다운로드','취소');
+			}else{
+				moca.alert("서버("+moca._domain+moca._contextRoot+")에 <br>파일(idx:"+moca.TO_000P01.args.parent.data.idx+")이 존재하지않습니다.");	
+			}
+		}
+	});
+		
+
+
+};
+
+moca.TO_000P01.popId4 = 'TO_000P10';
+moca.TO_000P01.fn_receipt_pop = function(_thisObj){
+	['영수증 팝업']
+	var o = {};
+	o.id = moca.TO_000P01.popId4;
+	o.url = '/html/TO/TO_000P10.html';
+	o.type = "POPUP";
+	o.modal = "false";
+	o.title = '영수증';
+	o.callback = moca.TO_000P01.fn_pop_callback;
+	o.scopeId = moca.TO_000P01.pageId;
+	o.data = {};
+	
+	moca.popup(o,_thisObj);
+};
+
+moca.TO_000P01.fn_pop_callback = function(_json){
+	if(_json != null){
+		alert(_json);
+	}
+};
+
+moca.TO_000P01.certificationState = function(stage){
+	//1:인증,2:미인증,3:인증대기중,4:오류,5:기타
+	if(stage == '1'){
+		return '인증';
+	}else if(stage =='2'){
+		return '미인증';
+	}else if(stage =='3'){
+		return '인증대기중';
+	}else if(stage =='4'){
+		return '인증오류';
+	}else if(stage =='5'){
+		return '기타';
+	}
+	
+};
+
+
+moca.TO_000P01.fn_memoSave = function(_json){
+	if(moca.TO_000P01.validate("grd_P01_memo","status","C,U,D")){
+		moca.confirm('저장하시겠습니까?',function(result){
+			if(result == 'Y'){
+				moca.TO_000P01.exe({
+					url : moca._domain+moca._contextRoot+"/TO_000P01/insertMemo.do",
+		            data : {
+		            	"header" : moca.header,
+		            	"body" : {
+		            		paramList_D:moca.TO_000P01.getFilteredList("grd_P01_memo","status","C,U,D"),
+		            		TransferOwnerIdx:moca.TO_000P01.data.TransferownerIdx+""
+		            	}
+		            },		
+					callback : function(){
+		        	   moca.alert('성공적으로 저장되었습니다!',function(){
+		        		   moca.TO_000P01.___ready();
+		        	   });	
+					}
+				});
+			}
+		});
+	}		
+
+};
+
+moca.TO_000P01.fn_memoDirectDel = function(_json){
+	if(moca.TO_000P01.validate("grd_P01_memo","status","D")){
+		moca.confirm('삭제하시겠습니까?',function(result){
+			if(result == 'Y'){
+				moca.TO_000P01.exe({
+					url : moca._domain+moca._contextRoot+"/TO_000P01/insertMemo.do",
+		            data : {
+		            	"header" : moca.header,
+		            	"body" : {
+		            		paramList_D:moca.TO_000P01.getFilteredList("grd_P01_memo","status","D"),
+		            		TransferOwnerIdx:moca.TO_000P01.data.TransferownerIdx+""
+		            	}
+		            },		
+					callback : function(){
+		        	   moca.alert('성공적으로 삭제되었습니다!',function(){
+		        		   moca.TO_000P01.___ready();
+		        	   });	
+					}
+				});
+			}
+		});
+	}		
+
+};
+
+
+moca.TO_000P01.fn_cancel = function(){
+	moca.confirm('이전신청을 취소하시겠습니까?',function(result){
+		if(result == 'Y'){
+			moca.TO_000P01.exe({
+				url : moca._domain+moca._contextRoot+"/TOM_60/mobile/cancelTransferOwner.do",
+	            data : {
+	            	"header" : moca.header,
+	            	"body" : {
+	            		Stage:"126",
+	            		idx:moca.TO_000P01.data.TransferownerIdx+""
+	            	}
+	            },		
+				callback : function(response){
+					if(response.error){
+						moca.alert(response.error,'',function(){
+							
+						});
+					}else if(response.rePayResYn == 'N'){
+		        	    moca.alert('성공적으로 취소되었습니다!','',function(){
+		        		   moca.TO_000P01.___ready();
+		        	   });	
+					}else{
+						//polling후
+		        	    moca.alert('성공적으로 취소되었습니다!','',function(){
+		        		   moca.TO_000P01.___ready();
+		        	    });	
+					}
+
+				}
+			});
+		}
+	});
+};
+
+
+moca.TO_000P01.fn_CustomerAddPayPriceSave = function(){
+	moca.confirm('고객추가금액을 저장하시겠습니까?',function(result){
+		if(result == 'Y'){
+			moca.TO_000P01.exe({
+				url : moca._domain+moca._contextRoot+"/TO_000P01/updateToTransferownerCost.do",
+	            data : {
+	            	"header" : moca.header,
+	            	"body" : {
+	            		CostIdx:moca.TO_000P01.data.CostIdx+"",
+	            		CustomerAddPayPrice:moca.getValue(moca.TO_000P01.getObj("CustomerAddPayPrice"))+""
+	            	}
+	            },		
+				callback : function(response){
+					if(response.cnt != null){
+						moca.alert('성공적으로 저장되었습니다.',function(){
+							moca.TO_000P01.search();
+						});
+					}
+				}
+			});
+		}
+	});
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+moca.TO_000P01.fn_save = function(_this){
+	if(moca.confirm('저장하시겠습니까?',function(result){
+		if(result == 'Y'){
+			moca.TO_000P01.exe({
+				url : moca._domain+moca._contextRoot+"/TO_000P01/updateSellerBuyerInfo.do",
+				loadingbar:true,
+				data : {
+					"header" : moca.header,
+					"body" : {
+						bName: moca.getValue(moca.TO_000P01.getObj("form_buyerName")), 		
+						bSocialNumber_First : moca.getValue(moca.TO_000P01.getObj("buyerSocialNumber_First")),
+						bSocialNumber_Second : moca.getValue(moca.TO_000P01.getObj("buyerSocialNumber_Second")),
+						bPhoneNumber : moca.getValue(moca.TO_000P01.getObj("buyerPhoneNumber")).replace(/-/g,''),
+						bAddress_Base :  moca.getValue(moca.TO_000P01.getObj("buyerAddress_Base")),
+						bAddress_Detail : moca.getValue(moca.TO_000P01.getObj("buyerAddress_Detail")),
+						bAddress_ZipCode : moca.getValue(moca.TO_000P01.getObj("buyerAddress_ZipCode")),
+						bIdx : moca.TO_000P01.data.TransferownerBuyerIdx,
+						sName: moca.getValue(moca.TO_000P01.getObj("form_sellerName")), 		
+						sSocialNumber_First : moca.getValue(moca.TO_000P01.getObj("sellerSocialNumber_First")),
+						sSocialNumber_Second : moca.getValue(moca.TO_000P01.getObj("sellerSocialNumber_Second")),
+						sPhoneNumber : moca.getValue(moca.TO_000P01.getObj("sellerPhoneNumber")).replace(/-/g,''),
+						sAddress_Base :moca.getValue(moca.TO_000P01.getObj("sellerAddress_Base")),
+						sAddress_Detail :moca.getValue(moca.TO_000P01.getObj("sellerAddress_Detail")),
+						sAddress_ZipCode :moca.getValue(moca.TO_000P01.getObj("sellerAddress_ZipCode")),
+						sIdx : moca.TO_000P01.data.TransferownerSellerIdx	
+					}
+				},			
+				callback : function(response){
+					if(response.error){
+						moca.alert(response.error);
+					}else{
+						moca.alert(response.message);
+						moca.removeLs(moca.TO_000P01.tempDataHeader+'basicInfo'+moca.TO_000P01.args.parent.data.idx);
+					}
+				}
+			});
+		}
+	}));
+};
+
+moca.TO_000P01.tempDataHeader = 'moca.TO_000P01.tempData.';
+moca.TO_000P01.fn_tempShow = function(thisObj){
+	var list = moca.getLs(moca.TO_000P01.tempDataHeader+'basicInfo'+moca.TO_000P01.args.parent.data.idx);
+	moca.TO_000P01.fn_setList(list);
+	moca.alert('임시저장된 데이터를 불러왔습니다.');
+};
+moca.TO_000P01.fn_tempSave = function(thisObj){
+	moca.setLs(moca.TO_000P01.tempDataHeader+'basicInfo'+moca.TO_000P01.args.parent.data.idx,moca.TO_000P01.fn_getList());
+	moca.alert('임시저장하였습니다.');
+};
+moca.TO_000P01.fn_initShow = function(thisObj){
+	var map = moca.getLs('moca.TO_000P01.initData');
+	moca.TO_000P01.fn_setList(map);
+};
+moca.TO_000P01.fn_setList = function(data){
+	//moca.TO_000P01.setFormValue('div1','PurchasePrice',moca.comma(data.PurchasePrice)); //매매금액
+	moca.TO_000P01.setFormValue('div1','PurchasePrice',moca.comma(data.VehicleBasisPrice)); //매매금액(부가세가빠진금액이어야함!!!!)
+	
+	
+	moca.TO_000P01.setFormValue('div1','sellerName',data.sellerName+'(양도인)'); //양도인명
+	moca.TO_000P01.setFormValue('div1','sellerCertificationState',moca.TO_000P01.certificationState(data.sellerCertificationState)); //양도인 인증상태
+	moca.TO_000P01.setFormValue('div1','sellerCertificationApproveTime',data.sellerCertificationApproveTime); //양도인 인증완료일
+	if(data.ExpireTime.startsWith('-')){
+		if(moca.TO_000P01.certificationState(data.sellerCertificationState) == '인증' 
+				&& moca.TO_000P01.certificationState(data.buyerCertificationState) == '인증'){
+			moca.TO_000P01.setFormValue('div1','oriExpireTime',"인증완료"); //카카오페이 인증 남은시간
+			moca.TO_000P01.setFormValue('div1','oriExpireTimeLabel',""); 
+		}else{
+			moca.TO_000P01.setFormValue('div1','oriExpireTime',"TIMEOUT"); //카카오페이 인증 남은시간
+		}
+	}else if(data.Stage == '26' || data.Stage == '126' || data.Stage == '226'){
+		moca.TO_000P01.setFormValue('div1','oriExpireTime',""); //카카오페이 인증 남은시간
+		moca.TO_000P01.setFormValue('div1','oriExpireTimeLabel',""); 
+	}else if(data.Stage == '24' ){//고객결제오류
+		moca.TO_000P01.setFormValue('div1','oriExpireTime',""); //카카오페이 인증 남은시간
+		moca.TO_000P01.setFormValue('div1','oriExpireTimeLabel',""); 
+	}else{
+		//moca.TO_000P01.setFormValue('div1','oriExpireTime',data.ExpireTime); //카카오페이 인증 남은시간
+		//moca.TO_000P01.setFormValue('div1','oriExpireTime',moca.getTimeoutLeftTime(data.buyerCertReqTime,24));
+		console.log(data.buyerCertReqTime);
+		moca.TO_001.polling_000P01_key = data.buyerCertReqTime;
+		clearInterval(moca.TO_001.polling_000P01_id);
+		if(moca.TO_000P01.data.sellerCertificationState == '2' || moca.TO_000P01.data.sellerCertificationState == '3'){
+			moca.TO_001.polling_000P01_id = setInterval(function(){
+				var re = moca.getTimeoutLeftTime(moca.TO_001.polling_000P01_key,6);
+				if(re == 'TIMEOUT'){
+					clearInterval(moca.TO_001.polling_000P01_id);
+				}
+				moca.TO_000P01.setFormValue('div1','oriExpireTime',re);
+			},1000);
+		}
+	}
+	//moca.TO_000P01.setFormValue('div1','oriExpireTime',data.oriExpireTime); //카카오페이 인증 남은시간
+	moca.TO_000P01.setFormValue('div1','UsedCarRemainingPrice',moca.comma(data.UsedCarRemainingPrice));// 시가적용금액
+	moca.TO_000P01.setFormValue('div1','buyerName',data.buyerName+'(양수인)'); //양수인
+	moca.TO_000P01.setFormValue('div1','buyerCertificationState',moca.TO_000P01.certificationState(data.buyerCertificationState)); //양수인 인증상태
+	moca.TO_000P01.setFormValue('div1','buyerCertificationApproveTime',data.buyerCertificationApproveTime); //양수인 인증완료일
+	moca.TO_000P01.setFormValue('form_1','TransferForm',data.TransferForm); //거래형태 
+	moca.TO_000P01.setFormValue('form_1','form_Transferbuyer',data.buyerName);//거래처
+	moca.TO_000P01.setFormValue('form_1','StageTxt',data.StageTxt+"  ( "+((data.StageTime == null)? data.RegisterTime:data.StageTime)+" )"); //상태 
+	if(data.Stage == '25'){
+		$(moca.getObj('btn_ctom1')).show('');
+	}else if(data.Stage == '22' || data.Stage == '23'){
+		$(moca.getObj('btn_ctom2')).show('');
+	}
+	
+	(data.StageTxt == '완료')?($('#btnReceipt').show('')):($('#btnReceipt').hide());//영수증버튼 show,hide
+	moca.TO_000P01.setFormValue('form_1','form_sellerName',data.sellerName); //양도인명
+	moca.TO_000P01.setFormValue('form_1','sellerSocialNumber_First',data.sellerSocialNumber_First); //양도인 주민등록번호 앞
+	moca.TO_000P01.setFormValue('form_1','sellerSocialNumber_Second',data.sellerSocialNumber_Second); //양도인 주민등록번호 뒤
+	moca.TO_000P01.setFormValue('form_1','sellerPhoneNumber',(data.sellerPhoneNumber.substr(0,3)+'-'+data.sellerPhoneNumber.substr(3,4)+'-'+data.sellerPhoneNumber.substr(7,4))); //양도인 핸드폰번호
+	moca.TO_000P01.setFormValue('form_1','sellerAddress_ZipCode',data.sellerAddress_ZipCode); //양도인 우편번호 
+	moca.TO_000P01.setFormValue('form_1','sellerAddress_Base',data.sellerAddress_Base); //양도인 주소 
+	moca.TO_000P01.setFormValue('form_1','sellerAddress_Detail',data.sellerAddress_Detail); //양도인 주소 
+	
+	moca.TO_000P01.setFormValue('form_1','form_buyerName',data.buyerName); //양수인명
+	moca.TO_000P01.setFormValue('form_1','buyerSocialNumber_First',data.buyerSocialNumber_First); //양수인 주민등록번호 앞
+	moca.TO_000P01.setFormValue('form_1','buyerSocialNumber_Second',data.buyerSocialNumber_Second); //양수인 주민등록번호 뒤
+	moca.TO_000P01.setFormValue('form_1','buyerPhoneNumber',(data.buyerPhoneNumber.substr(0,3)+'-'+data.buyerPhoneNumber.substr(3,4)+'-'+data.buyerPhoneNumber.substr(7,4))); //양도인 핸드폰번호
+	moca.TO_000P01.setFormValue('form_1','buyerAddress_ZipCode',data.buyerAddress_ZipCode); //양수인 우편번호 
+	moca.TO_000P01.setFormValue('form_1','buyerAddress_Base',data.buyerAddress_Base); //양수인 주소 
+	moca.TO_000P01.setFormValue('form_1','buyerAddress_Detail',data.buyerAddress_Detail); //양수인 주소 
+	
+	moca.TO_000P01.setFormValue('form_2','applyPrice',moca.comma(data.lastVehicleBasisPrice)); //차량정보 적용금액(표준과세액)
+	moca.TO_000P01.setFormValue('form_2','Request_VehicleNumber',data.Request_VehicleNumber); //차량정보 차량번호
+	moca.TO_000P01.setFormValue('form_2','carName',data.carName); //차량정보 차명
+	moca.TO_000P01.setFormValue('form_2','sellDate',data.sellDate); //차량정보 매매일
+	moca.TO_000P01.setFormValue('form_2','sellDate2',data.sellDate2); //차량정보 자동차인도일
+	moca.TO_000P01.setFormValue('form_2','carType',data.carType); //차량정보 차종
+	moca.TO_000P01.setFormValue('form_2','SeizeCollateralEntrustYnTxt',data.SeizeCollateralEntrustYnTxt); //차량정보 압류촉탁
+	moca.TO_000P01.setFormValue('form_2','Request_DrivingDistance',moca.comma(data.Request_DrivingDistance)+"km"); //차량정보 주행거리
+	moca.TO_000P01.setFormValue('form_2','ChassisNumber',data.ChassisNumber); //차량정보 차대번호
+	moca.TO_000P01.setFormValue('form_2','SeizeCollateralEntrustYn2',data.SeizeCollateralEntrustYn); //차량정보 근저당설정
+	if(data.InsurSstate == "Y"){ //차량정보 보험유무
+		moca.TO_000P01.setFormValue('form_2','InsurSstate','있음')
+	}else{
+		moca.TO_000P01.setFormValue('form_2','InsurSstate','없음');
+	}
+	
+	if(data.list9001 != null && data.list9001.length > 0 && data.list9001[0].RESN_CODE == '02'){
+		//오류
+		$('#btn_PassYn').show();
+		moca.TO_000P01.setFormValue('form_2','PassYn',"오류"); //차량정보 TS정보확인결과
+	}else{
+		//정상
+		$('#btn_PassYn').hide();
+		moca.TO_000P01.setFormValue('form_2','PassYn',"정상"); //차량정보 TS정보확인결과
+	}
+	//(data.PassYn == "N")?($('#btn_PassYn').show()):($('#btn_PassYn').hide());//오류내용 버튼 show hide
+	
+	
+	moca.TO_000P01.setFormValue('form_3','taxPrice_Acquisition_RealCost',moca.comma(data.taxPrice_Acquisition_RealCost)); //이전등록비용 취득세 최종금액
+	moca.TO_000P01.setFormValue('form_3','taxPrice_Acquisition',moca.comma(data.taxPrice_Acquisition)); //이전등록비용 취득세
+	moca.TO_000P01.setFormValue('form_3','taxPrice_Acquisition_ReductionPrice',moca.comma(data.taxPrice_Acquisition_ReductionPrice)); //이전등록비용 취득세 할인면제금액
+	moca.TO_000P01.setFormValue('form_3','District_Major',data.District_Major + " " + data.District_Major_Gu); //이전등록비용 매입지자체
+	moca.TO_000P01.setFormValue('form_3','Bank_Nm',data.Bank_Nm); //이전등록비용 채권매입은행
+	moca.TO_000P01.setFormValue('form_3','bondInfo_SellingPrice_Today',moca.comma(data.bondInfo_SellingPrice_Today)); //이전등록비용 채권단가
+	if(data.Bond_Selling_Date != "" && data.Bond_Selling_Date != '-' && data.Bond_Selling_Date != null){
+		moca.TO_000P01.setFormValue('form_3','Bond_Selling_Date','('+data.Bond_Selling_Date+')'); //이전등록비용 채권단가 날짜
+	}
+	//moca.TO_000P01.setFormValue('form_3','',data.); //이전등록비용 채권금액
+	moca.TO_000P01.setFormValue('form_3','bondInfo_PurchasePrice_Original',moca.comma(data.bondInfo_PurchasePrice_Original)); //채권금액
+	moca.TO_000P01.setFormValue('form_3','bondInfo_Discount_Value',moca.comma(data.bondInfo_Discount_Value)); //이전등록비용 채권할인 금액
+	moca.TO_000P01.setFormValue('form_3','bondInfo_PurchasePrice_Result',moca.comma(data.bondInfo_PurchasePrice_Result)); //이전등록비용 실채권금액
+
+	
+	
+	
+	moca.TO_000P01.setFormValue('form_3','bondInfo_SellingPrice_Result',moca.comma(data.bondInfo_SellingPrice_Result)); //이전등록비용 즉시할인 채권금액	
+	moca.TO_000P01.setFormValue('form_3','bondInfo_PurchasePrice_RealCost',moca.comma(data.bondInfo_PurchasePrice_RealCost)); //이전등록비용 즉시할인 매도금액
+	moca.TO_000P01.setFormValue('form_3','taxPrice_Income',moca.comma(data.taxPrice_Income));//이전등록비용 소득세
+	moca.TO_000P01.setFormValue('form_3','agencyFee_SellingBond_Bank',moca.comma(data.agencyFee_SellingBond_Bank));//이전등록비용 은행/결제원 수수료금액
+	//moca.TO_000P01.setFormValue('form_3','agencyFee_SellingBond_Bank_Ratio',moca.comma(data.agencyFee_SellingBond_Bank_Ratio));//이전등록비용 은행/결제원 수수료율(0.6%)
+	moca.TO_000P01.getObj('agencyFee_SellingBond_Bank_Ratio').innerHTML = "은행수수료율("+data.agencyFee_SellingBond_Bank_Ratio+")";
+	
+	
+	
+	moca.TO_000P01.setFormValue('form_3','bondInfo_SellingProfit',moca.comma(data.bondInfo_SellingProfit));//이전등록비용 선급이자
+	moca.TO_000P01.setFormValue('form_3','agencyFee_PurchaseBond_CarBang',moca.comma(data.agencyFee_PurchaseBond_CarBang));//이전등록비용 채권구매 대행료	
+	moca.TO_000P01.setFormValue('form_3','taxPrice_Local',data.taxPrice_Local);//이전등록비용 지방소득세
+	moca.TO_000P01.setFormValue('form_3','bondExemptionYn',data.bondExemptionYn); //이전등록비용 채권 면제유무
+	
+	
+	moca.TO_000P01.setFormValue('form_3','CustomerAddPayPrice',data.CustomerAddPayPrice);//이전등록비용 고객추가금액
+	
+	
+	moca.TO_000P01.setFormValue('form_3','Revenue_StampPrice',moca.comma(data.Revenue_StampPrice));//이전등록비용 전자수입인지
+	moca.TO_000P01.setFormValue('form_3','office_StampCost',data.office_StampCost);//이전등록비용 인지대
+	moca.TO_000P01.setFormValue('form_3','bondInfo_SellingSelPayfPrice',moca.comma(data.bondInfo_SellingSelPayfPrice));//이전등록비용 채권비용 계
+	//moca.TO_000P01.setFormValue('form_3','Revenue_StampPrice',data.Revenue_StampPrice);//이전등록비용 비고
+	moca.TO_000P01.setFormValue('form_3','Office_RegistrationFee',moca.comma(moca.comma(data.Office_RegistrationFee)));//등록수수료---------------------------------------->추가
+	
+	moca.TO_000P01.setFormValue('form_3','agencyFee_Transfer_CarBang',moca.comma(data.agencyFee_Transfer_CarBang));//이전등록비용 이전등록 대행료
+	moca.TO_000P01.setFormValue('form_3','total_TransferOwner_Price',moca.comma(data.total_TransferOwner_Price));//이전등록비용 이전등록비용 계
+	
+	moca.TO_000P01.setFormValue('form_4','TsRegisterTime',data.TsRegisterTime);//결과 이전신청일
+	moca.TO_000P01.setFormValue('form_4','progressTxt',"("+data.progressTxt+")");//결과 이전신청일 (상태)
+	(data.progressTxt != "-" && data.progressTxt != null)?$('#progressTxt').show(''):($('#progressTxt').hide());
+	moca.TO_000P01.setFormValue('form_4','transferComDate',data.transferComDate);//결과 예상완료일
+	moca.TO_000P01.setFormValue('form_4','ApprovedTime',data.ApprovedTime);//결과 등록완료일
+	
+	moca.TO_000P01.setFormValue('form_5','CarbangDeposit',data.CarbangDeposit); //카방계산비용 입금유무
+	/* moca.TO_000P01.setFormValue('form_5','Carbang_Total_TransferOwner_Price',moca.comma(data.total_TransferOwner_Price)); //카방계산비용 이전등록비용 */
+	moca.TO_000P01.setFormValue('form_5','Carbang_Total_TransferOwner_Price',moca.comma(data.CarbangBank_Price)); //카방계산비용 이전등록비용
+	moca.TO_000P01.setFormValue('form_5','CarbangPayTime',data.CarbangPayTime); //카방계산비용 입금일
+	moca.TO_000P01.setFormValue('form_5','CarbangBank_Deposit_Account',data.CarbangBank_Deposit_Account); //카방계산비용 계좌번호
+	moca.TO_000P01.setFormValue('form_5','CarbangBank_Deposit_Owner',data.Bank_Deposit_Owner); //카방계산비용 예금주
+	moca.TO_000P01.setFormValue('form_5','CarbangBank_Name',data.CarbangBank_Name); //카방계산비용 은행명
+	
+	moca.TO_000P01.setFormValue('form_6','CorpDeposit',data.CorpDeposit);//공단청구 비용 공단입금유무
+	/* moca.TO_000P01.setFormValue('form_6','totRgfeAmount',moca.comma(data.totRgfeAmount));//공단청구 비용 이전등록비용 */
+	moca.TO_000P01.setFormValue('form_6','totRgfeAmount',moca.comma(data.Corp_Price));//공단청구 비용 이전등록비용
+	moca.TO_000P01.setFormValue('form_6','CorpPayTime',data.CorpPayTime);//공단청구 비용 입금일
+	moca.TO_000P01.setFormValue('form_6','CorpBank_Deposit_Account',data.CorpBank_Deposit_Account);//공단청구 비용 계좌번호
+	moca.TO_000P01.setFormValue('form_6','CorpBank_Deposit_Owner',data.CorpBank_Deposit_Owner);//공단청구 비용 예금주
+	moca.TO_000P01.setFormValue('form_6','CorpBank_Name',data.CorpBank_Name);//공단청구 비용 은행명
+	moca.TO_000P01.setFormValue('form_7','ReturnPayDeposit',data.ReturnPayDeposit); //환급금액 환급유무
+	moca.TO_000P01.setFormValue('form_7','ReturnPay_Price',moca.comma(data.ReturnPay_Price)); //환급금액 환급금액
+	moca.TO_000P01.setFormValue('form_7','ReturnPayPayTime',data.ReturnPayPayTime); //환급금액 입금일
+	moca.TO_000P01.setFormValue('form_7','ReturnPayBank_Deposit_Account',data.ReturnPayBank_Deposit_Account); //환급금액 계좌번호
+	moca.TO_000P01.setFormValue('form_7','ReturnPayBank_Name',data.ReturnPayBank_Name); //환급금액 은행명
+	moca.TO_000P01.setFormValue('form_7','ReturnPayBank_Deposit_Owner',data.ReturnPayBank_Deposit_Owner);//공단청구 비용 예금주
+	moca.TO_000P01.nowList = data;
+};
+moca.TO_000P01.fn_getList = function(){
+	var _map = moca.TO_000P01.nowList;
+	_map.form_buyerName = moca.getValue(moca.TO_000P01.getObj("form_buyerName"));
+	_map.buyerSocialNumber_First = moca.getValue(moca.TO_000P01.getObj("buyerSocialNumber_First"));
+	_map.buyerSocialNumber_Second = moca.getValue(moca.TO_000P01.getObj("buyerSocialNumber_Second"));
+	_map.buyerPhoneNumber = moca.getValue(moca.TO_000P01.getObj("buyerPhoneNumber")).replace(/-/g,'');
+	_map.buyerAddress_Base = moca.getValue(moca.TO_000P01.getObj("buyerAddress_Base"));
+	_map.buyerAddress_Detail = moca.getValue(moca.TO_000P01.getObj("buyerAddress_Detail"));
+	_map.buyerAddress_ZipCode = moca.getValue(moca.TO_000P01.getObj("buyerAddress_ZipCode"));
+	_map.TransferownerBuyerIdx = moca.TO_000P01.data.TransferownerBuyerIdx;
+	_map.form_sellerName = moca.getValue(moca.TO_000P01.getObj("form_sellerName"));
+	_map.sellerSocialNumber_First = moca.getValue(moca.TO_000P01.getObj("sellerSocialNumber_First"));
+	_map.sellerSocialNumber_Second = moca.getValue(moca.TO_000P01.getObj("sellerSocialNumber_Second"));
+	_map.sellerPhoneNumber = moca.getValue(moca.TO_000P01.getObj("sellerPhoneNumber")).replace(/-/g,'');
+	_map.sellerAddress_Base = moca.getValue(moca.TO_000P01.getObj("sellerAddress_Base"));
+	_map.sellerAddress_Detail = moca.getValue(moca.TO_000P01.getObj("sellerAddress_Detail"));
+	_map.sellerAddress_ZipCode = moca.getValue(moca.TO_000P01.getObj("sellerAddress_ZipCode"));
+	_map.TransferownerSellerIdx = moca.TO_000P01.data.TransferownerSellerIdx;
+	moca.TO_000P01.nowList = _map;
+	return moca.TO_000P01.nowList;
+};
+
+
+moca.TO_000P01.fn_onBtnClick = function(btn,_rowIndex,_colId){
+	var _type = moca.getType(btn); 
+	var g = moca.getTypeObj(btn)[0];
+	var toolbar_delrow_imd = g.getAttribute("toolbar_delrow_imd");
+	//var selectedRowIndex = g.getAttribute("selectedRowIndex");
+	var selectedRealRowIndex = _rowIndex;
+	var status = g.list[selectedRealRowIndex]["_system"]['status'];
+	if(status == 'C' || toolbar_delrow_imd == 'true'){
+		moca.removeRow(g,selectedRealRowIndex);			
+	}else{
+		moca.setCellData(g,selectedRealRowIndex,'status','D');
+		moca.TO_000P01.fn_memoDirectDel();
+	}
+};
+
+moca.TO_000P01.ctom1 = function(){
+	if(confirm('비용확정처리 재시도하시겠습니까?')){
+		//var registerTime = moca.TO_000P01.data.RegisterTime.replace(/[^0-9]/g,'');
+		//var idx_lpad = moca.lpad(moca.TO_000P01.data.TransferownerIdx+'',6,'0');
+		//var REQST_RCEPT_NO = registerTime+idx_lpad;
+	 	var a = '<?xml version="1.0" encoding="UTF-8"?>'+'\n';
+		a +='<contents>'+'\n';
+		a +='<CNTC_INSTT_CODE>'+moca.TO_000P01.data.cntcInsttCode+'</CNTC_INSTT_CODE>'+'\n';
+		a +='<BIZRNO>'+moca.TO_000P01.data.bizrno+'</BIZRNO>'+'\n';
+		a +='<REQST_RCEPT_NO>'+moca.TO_000P01.data.reqstRceptNo+'</REQST_RCEPT_NO>'+'\n';
+		a +='<CVPL_REQST_NO>'+moca.TO_000P01.data.CVPL_REQST_NO+'</CVPL_REQST_NO>'+'\n';
+		a +='<NTPBND_DSCNT_AMOUNT>'+moca.TO_000P01.data.ntpbndDscntAmount+'</NTPBND_DSCNT_AMOUNT>'+'\n';
+		a +='<ACQSTX_AMOUNT>'+moca.TO_000P01.data.acqstxAmount+'</ACQSTX_AMOUNT>'+'\n';
+		a +='<REVENUE_STMPTAX_AMOUNT>'+moca.TO_000P01.data.revenueStmptaxAmount+'</REVENUE_STMPTAX_AMOUNT>'+'\n';
+		a +='<ELCTRN_PAY_FEE_AMOUNT>'+moca.TO_000P01.data.elctrnPayFeeAmount+'</ELCTRN_PAY_FEE_AMOUNT>'+'\n';
+		a +='<TOT_RGFE_AMOUNT>'+moca.TO_000P01.data.totRgfeAmount+'</TOT_RGFE_AMOUNT>'+'\n';
+		a +='<NTPBND_DSCNT_AMOUNT>'+moca.TO_000P01.data.ntpbndPrcsAmount+'</NTPBND_DSCNT_AMOUNT>'+'\n';
+		a +='<ACCO_NAME>'+moca.TO_000P01.data.ACCO_NAME+'</ACCO_NAME>'+'\n';
+		a +='<BNK_CODE>'+moca.TO_000P01.data.BNK_CODE+'</BNK_CODE>'+'\n';
+		a +='<ACCO_NO>'+moca.TO_000P01.data.ACCO_NO+'</ACCO_NO>'+'\n';
+		a +='</contents>'+'\n'; 
+		var _id = moca.openWindowPopup({
+			id:	'winpop_ctom1_result',
+			title:	'비용확정재시도결과',
+			width:"1024px",
+			height:"400px",
+			url : "/to/empty.html",
+			fullscreen : 'no',
+			param : {
+			}
+		});
+		setTimeout(function(){
+			moca.submit(config.url_ts_cost(),{xml:a},'winpop_ctom1_result');
+		},1000);
+	}
+};
+moca.TO_000P01.ctom2 = function(){
+	if(confirm('민원처리완료처리 재시도하시겠습니까?')){
+	 	var a = '<?xml version="1.0" encoding="UTF-8"?>'+'\n';
+		a +='<contents>'+'\n';
+		a +='<REQST_RCEPT_NO>'+moca.TO_000P01.data.reqstRceptNo+'</REQST_RCEPT_NO>'+'\n';
+		a +='<CVPL_REQST_NO>'+moca.TO_000P01.data.CVPL_REQST_NO+'</CVPL_REQST_NO>'+'\n';
+		a +='<REQST_PROCESS_STTUS_CODE>01</REQST_PROCESS_STTUS_CODE>'+'\n';
+		a +='<CVPL_RETURN_RESN_DTLS></CVPL_RETURN_RESN_DTLS>'+'\n';
+		a +='</contents>'+'\n'; 
+		
+		debugger;
+		var _id = moca.openWindowPopup({
+			id:	'winpop_ctom2_result',
+			title:	'민원처리재시도결과',
+			width:"1024px",
+			height:"400px",
+			url : "/to/empty.html",
+			fullscreen : 'no',
+			param : {
+			}
+		});
+		setTimeout(function(){
+			moca.submit(config.url_ts_result(),{xml:a},'winpop_ctom2_result');
+		},1000);
+	}
+};
+</script>
+</head>
+<body>
+	<div class="moca_pop_cont_wrap scroll" id="Pop_body">
+		<div type="form" class="certification_stage" id="div1"
+		showRowSelection="false"
+		>
+			<div class="cfx authorized_time">
+				<div>
+				<!-- 카방계산 비용 -->
+					<div class="ly_column col_5">
+						<div class="ly_col_cont pr7_5">
+							<div class="price" id="a01_1" style="background: #31be77;">매매금액 : <span class="txt_b" id="PurchasePrice"></span>원</div>
+						</div>
+					</div>
+					<div class="ly_column col_5">
+						<div class="ly_col_cont pr7_5">
+							<div class="price" id="a1_2" style="background: #4483f6;">시가적용금액 : <span class="txt_b"id="UsedCarRemainingPrice"></span>원</div>
+						</div>
+					</div>
+				</div>
+				<ul class="seller fl mt10">
+					<li><i class="img"></i></li>
+					<li><span id="sellerName"></span></li>
+					<li class="txt_blue"><span id="sellerCertificationState"></span></li>
+					<li><span id="sellerCertificationApproveTime">2020-12-12 13:00</span></li>
+				</ul>
+				<ul class="fl mt10">
+					<li><i class="far fa-clock" style="color:#ea8282"></i></li>
+					<li><span id="oriExpireTimeLabel">인증남은시간</span></li>
+					<li><span id="oriExpireTime"></span></li>
+					<!--<li><span id="a03_2">12:12</span></li>-->
+				</ul>
+				<ul class="buyer fl mt10">
+					<li><i class="img"></i></li>
+					<li><span id="buyerName"></span></li>
+					<li class="txt_blue"><span id="buyerCertificationState"></span></li>
+					<li><span id="buyerCertificationApproveTime">2020-12-12 13:00</span></li>
+				</ul>
+			</div>
+			<div class="buttonGroup">
+				<div type="button" id="a05" class="mocaButton imgBtn fl mr5" onclick="moca.TO_000P01.fn_cancel(this)" style="" innerStyle="padding-left:32px" value="이전신청취소" label="이전신청취소" ></div>
+				<div type="button" id="a06" class="mocaButton imgBtn fl mr5 btn_ts" onclick="moca.TO_000P01.fn_exeTs1100(this)" style="" innerStyle="padding-left:32px" value="TS(1100)재발송" label="TS(1100)재발송" ></div>
+			</div>
+		</div>
+		<!-- 기본정보 -->
+		<div type="form" id="form_1" class="moca_table toolbar mt10" style=""
+			label="기본정보"
+			showRowSelection="false"
+			addition='[
+				{"type":"button","position":"right","id":"btn_apply","label":"적용","onclick":"moca.TO_000P01.fn_save","addClass":""},
+				{"type":"button","position":"right","id":"btn_save","label":"초기화","onclick":"moca.TO_000P01.fn_initShow","addClass":""},
+				{"type":"button","position":"right","id":"btn_save","label":"임시저장","onclick":"moca.TO_000P01.fn_tempSave","addClass":"temp"},
+				{"type":"button","position":"right","id":"btn_save","label":"임시저장불러오기","onclick":"moca.TO_000P01.fn_tempShow","addClass":"temp"}
+				]'
+		>
+			<table class="moca_table_cont th_tar">
+				<colgroup>
+					<col style="width:80px">
+					<col style="width:80px">
+					<col>
+					<col style="width:160px">
+					<col>
+					<col style="width:160px">
+					<col>
+				</colgroup>
+				<tbody>
+					<tr>
+						<th colspan="2">거래형태</th>
+						<td>
+							<div type="input" id="TransferForm" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>거래처</th>
+						<td>
+							<div type="input" id="form_Transferbuyer" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>상태</th>
+						<td>
+							<div class="moca_input_group">
+								<div type="input" id="StageTxt" class="mocaInput" onclick="" style="width:240px" value="" readonly="true"></div>
+								<div type="button" id="btn_ctom1" class="mocaButton" style="display:none" innerStyle="" value="비용납부재시도" label="비용납부재시도" onclick="moca.TO_000P01.ctom1(this)"></div>
+								<div type="button" id="btn_ctom2" class="mocaButton" style="display:none" innerStyle="" value="민원완료재시도" label="민원완료재시도" onclick="moca.TO_000P01.ctom2(this)"></div>
+								<div type="input" id="a09_3" class="mocaInput" innerClass="txt_red" onclick="" style="width:75px; display:none" value="" readonly="true"></div>
+								<!-- <div type="button" id="btnReceipt" class="mocaButton" onclick="moca.TO_000P01.fn_receipt_pop(this)" style="" innerStyle="" value="영수증" label="영수증" ></div> -->
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th rowspan="2">양도인<br>(소유자)</th>
+						<th>이름</th>
+						<td>
+							<div type="input" id="form_sellerName" class="mocaInput req" onclick="" style=""    value="" ></div>
+						<th>주민등록번호</th>
+						<td>
+							<div class="moca_input_group">
+							<div type="input" keyMask="onlyNumber" maxlength="6" id="sellerSocialNumber_First" class="mocaInput req" onclick="" style="width:52px"  innerClass="" value="" readonly="false"></div><i class="mt3">-</i>
+							<div type="input" keyMask="onlyNumber" maxlength="7" id="sellerSocialNumber_Second" class="mocaInput req" onclick="" style="width:60px"   innerClass="" value="" readonly="false"></div>
+							</div>
+						</td>
+						<th>핸드폰번호</th>
+						<td>
+							<div type="input" id="sellerPhoneNumber" class="mocaInput req" onclick="" style=""    innerClass="tal" value="" ></div>
+						</td>
+					</tr>
+					<tr>
+						<th>기본주소</th>
+						<td>
+							<div type="input" id="sellerAddress_Base" class="mocaInput req" onclick="" style="" value="" ></div>
+						</td>
+						<th>상세주소</th>
+						<td>
+							<div type="input" id="sellerAddress_Detail" class="mocaInput req" onclick="" style="" value="" ></div>
+						</td>
+						<th>우편번호</th>
+						<td>
+							<div type="input" id="sellerAddress_ZipCode" class="mocaInput req" style="width:85px;"  value=""  innerClass="tac" keyMask="onlyNumber" maxlength="5"></div>
+						</td>
+					</tr>
+					<tr>
+						<th rowspan="2">양수인<br>(대출차주)</th>
+						<th>이름</th>
+						<td>
+							<div type="input" id="form_buyerName" class="mocaInput req" onclick="" style="" value=""></div>
+						</td>
+						<th>주민등록번호</th>
+						<td>
+							<div class="moca_input_group">
+							<div type="input" keyMask="onlyNumber" maxlength="6" id="buyerSocialNumber_First" class="mocaInput req" style="width:52px" value="" readonly="false"></div><i class="mt3">-</i>
+							<div type="input" keyMask="onlyNumber" maxlength="7" id="buyerSocialNumber_Second" class="mocaInput req" style="width:60px" innerClass="" value="" readonly="false"></div>
+							</div>
+						</td>
+						<th>핸드폰번호</th>
+						<td>
+							<div type="input" id="buyerPhoneNumber" class="mocaInput req" style="" innerClass="tal" value=""></div>
+						</td>
+					</tr>
+					<tr>
+						<th>기본주소</th>
+						<td>
+							<div type="input" id="buyerAddress_Base" class="mocaInput req" onclick="" style="" value="" ></div>
+						</td>
+						<th>상세주소</th>
+						<td>
+							<div type="input" id="buyerAddress_Detail" class="mocaInput req" onclick="" style="" value="" ></div>
+						</td>
+						<th>우편번호</th>
+						<td>
+							<div type="input" id="buyerAddress_ZipCode" class="mocaInput req" style="width:85px;"  value=""  innerClass="tac" keyMask="onlyNumber" maxlength="5"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- 차량정보 -->
+		<div type="form" id="form_2" class="moca_table toolbar mt10" style=""
+			label="차량정보"
+			showRowSelection="false"
+			addition='[
+				{"type":"button","position":"right","id":"btn_charge","label":"상세보기","onclick":"moca.TO_000P01.fn_pop","addClass":""}
+			]'
+		>
+			<table class="moca_table_cont th_tar">
+				<colgroup>
+					<col style="width:160px">
+					<col>
+					<col style="width:160px">
+					<col>
+					<col style="width:160px">
+					<col>
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>과세표준금액</th>
+						<td>
+							<div type="input" id="applyPrice" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>차량번호</th>
+						<td>
+							<div type="input" id="Request_VehicleNumber" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>차명</th>
+						<td>
+							<div type="input" id="carName" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+					</tr>
+					<tr>
+						<th>매매일</th>
+						<td>
+							<div type="input" id="sellDate" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>자동차 인도일</th>
+						<td>
+							<div type="input" id="sellDate2" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>차종</th>
+						<td>
+							<div type="input" id="carType" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+					</tr>
+					<tr>
+						<th>압류/촉탁</th>
+						<td>
+							<div type="input" id="SeizeCollateralEntrustYnTxt" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>주행거리</th>
+						<td>
+							<div type="input" id="Request_DrivingDistance" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>차대번호</th>
+						<td>
+							<div type="input" id="ChassisNumber" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+					</tr>
+					<tr>
+						<th>근저당 설정</th>
+						<td>
+							<div type="input" id="SeizeCollateralEntrustYn2" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>보험 유무</th>
+						<td>
+							<div type="input" id="InsurSstate" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+							<!-- <div type="radio" class="mocaRadio" style="width:100%" id="InsurSstate" itemset='[{"label":"있음","value":"1","checked":"true"},{"label":"없음","value":"0"}]'></div> -->
+						</td>
+						<th>TS정보확인결과</th>
+						<td>
+							<div class="moca_input_group">
+								<div type="input" id="PassYn" class="mocaInput" onclick="" style="width:30px" value="" readonly="true"></div>
+								<div type="button" id="btn_PassYn" class="mocaButton" onclick="moca.TO_000P01.fn_error_pop(this)" style="" innerStyle="" value="오류내용" label="오류내용" ></div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- 이전등록비용 -->
+		<div type="form" id="form_3" class="moca_table toolbar bg_green mt10" style=""
+			label="이전등록비용"
+			showRowSelection="false"
+			addition='[
+			]'
+		>
+			<table class="moca_table_cont th_tar">
+				<colgroup>
+					<col style="width:160px">
+					<col>
+					<col style="width:160px">
+					<col>
+					<col style="width:160px">
+					<col>
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>취득세 최종</th>
+						<td>
+							<div type="input" id="taxPrice_Acquisition_RealCost" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>취득세</th>
+						<td>
+							<div type="input" id="taxPrice_Acquisition" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>취득세할인면제금액</th>
+						<td>
+							<div type="input" id="taxPrice_Acquisition_ReductionPrice" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+					</tr>
+					<tr>
+						<th>매입지자체</th>
+						<td>
+							<div type="input" id="District_Major" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>채권매입은행</th>
+						<td>
+							<div type="input" id="Bank_Nm" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>채권단가(기준일)</th>
+						<td>
+							<div class="moca_input_group">
+								<div type="input" id="bondInfo_SellingPrice_Today" class="mocaInput" onclick="" style="width:50px" value="" readonly="true"></div>
+								<div type="input" id="Bond_Selling_Date" class="mocaInput" onclick="" style="width:120px" value="" readonly="true"></div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>채권금액</th>
+						<td>
+							<div type="input" id="bondInfo_PurchasePrice_Original" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>채권할인 금액</th>
+						<td>
+							<div type="input" id="bondInfo_Discount_Value" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>실채권금액</th>
+						<td>
+							<div type="input" id="bondInfo_PurchasePrice_Result" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+					</tr>
+					<tr>
+						<th>즉시할인 채권금액</th>
+						<td>
+							<div type="input" id="bondInfo_SellingPrice_Result" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>즉시할인 매도금액</th>
+						<td>
+							<div type="input" id="bondInfo_PurchasePrice_RealCost" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>소득세</th>
+						<td>
+							<div type="input" id="taxPrice_Income" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+					</tr>
+					<tr>
+						<th id="agencyFee_SellingBond_Bank_Ratio">은행대행수수료<!-- 은행/결제원 --></th>
+						<td>
+							<div type="input" id="agencyFee_SellingBond_Bank" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>선급이자</th>
+						<td>
+							<div type="input" id="bondInfo_SellingProfit" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>채권구매 대행료</th>
+						<td>
+							<div type="input" id="agencyFee_PurchaseBond_CarBang" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+					</tr>
+					<tr>
+						<th>지방소득세</th>
+						<td>
+							<div type="input" id="taxPrice_Local" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>채권 면제유무</th>
+						<td>
+						
+							<div type="input" id="bondExemptionYn" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+							<!-- <div type="radio" class="mocaRadio" style="width:100%" id="bondExemptionYn" itemset='[{"label":"있음","value":"1","checked":"true"},{"label":"없음","value":"0"}]'></div> -->
+						</td>
+						<th>고객추가금액</th>
+						<td>
+							<div class="moca_input_group">
+								<div type="input"  keyMask="onlyNumber" id="CustomerAddPayPrice" class="mocaInput" onclick="" style="width:100px" value="" readonly="" displayFunction="moca.comma" ></div>
+								<div type="button" id="btn_toSave1" class="mocaButton temp" onclick="moca.TO_000P01.fn_CustomerAddPayPriceSave(this)" style="" innerStyle="" value="적용" label="적용" ></div>
+								<!-- <div type="button" id="btn_toSave_temp" class="mocaButton temp" onclick="" style="" innerStyle="" value="임시저장" label="임시저장" ></div> -->
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>전자수입인지</th>
+						<td>
+							<div type="input" id="Revenue_StampPrice" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>인지대</th>
+						<td>
+							<!-- <div type="input" id="officeCharge" class="mocaInput" onclick="" style="" value="" readonly="true"></div> -->
+							<div type="input" id="office_StampCost" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>채권비용 계</th>
+						<td>
+							<div type="input" id="bondInfo_SellingSelPayfPrice" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+					</tr>
+					<tr>
+						<th>등록수수료</th>
+						<td>
+							<div type="input" id="Office_RegistrationFee" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>이전등록 대행료</th>
+						<td>
+							<div type="input" id="agencyFee_Transfer_CarBang" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>이전등록비용 계</th>
+						<td>
+							<div type="input" id="total_TransferOwner_Price" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<!-- 결과 -->
+		<div type="form" id="form_4" class="moca_table toolbar bg_red mt10" style=""
+			label="결과"
+			showRowSelection="false"
+			addition='[
+			]'
+		>
+			<table class="moca_table_cont th_tar">
+				<colgroup>
+					<col style="width:160px">
+					<col>
+					<col style="width:160px">
+					<col>
+					<col style="width:160px">
+					<col>
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>이전신청일(상태)</th>
+						<td>
+							<div class="moca_input_group">
+								<div type="input" id="TsRegisterTime" class="mocaInput" onclick="" style="width:125px" value="" readonly="true"></div>
+								<div type="input" id="progressTxt" class="mocaInput" onclick="" style="width:60px" value="" readonly="true"></div>
+								<!-- <div type="combo" id="cmb_status_1" class="moca_combo" style="width:60px" displayFormat="[label]" cdField="cd" nmField="nm" ></div> -->
+							</div>
+						</td>
+						<th>예상완료일</th>
+						<td>
+							<div type="input" id="transferComDate" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>등록완료일</th>
+						<td>
+							<div type="input" id="ApprovedTime" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="lybox mt10">
+			<!-- 카방계산 비용 -->
+			<div class="ly_column col_3_3">
+				<div class="ly_col_cont pr7_5">
+					<div type="form" id="form_5" class="moca_table toolbar bg_red" style=""
+						label="카방계산 비용"
+						showRowSelection="false"
+						addition='[
+						]'
+					>
+						<table class="moca_table_cont th_tar">
+							<colgroup>
+								<col style="width:160px">
+								<col>
+							</colgroup>
+							<tbody>
+								<tr>
+									<th>입금 유·무</th>
+									<td>
+										<div type="input" id="CarbangDeposit" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+										<!-- <div type="radio" class="mocaRadio" style="width:100%" id="CarbangDeposit" itemset='[{"label":"입금","value":"1","checked":"true"},{"label":"미입금","value":"0"}]'></div>-->
+									</td>
+								</tr>
+								<tr>
+									<th>이전등록비용</th>
+									<td>
+										<div type="input" id="Carbang_Total_TransferOwner_Price" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+									</td>
+								</tr>
+								<tr>
+									<th>입금일</th>
+									<td>
+										<div type="input" id="CarbangPayTime" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+									</td>
+								</tr>
+								<tr>
+									<th>계좌번호</th>
+									<td>
+										<div type="input" id="CarbangBank_Deposit_Account" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+									</td>
+								</tr>
+								<tr>
+									<th>예금주</th>
+									<td>
+										<div type="input" id="CarbangBank_Deposit_Owner" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+									</td>
+								</tr>
+								<tr>
+									<th>은행명</th>
+									<td>
+										<div type="input" id="CarbangBank_Name" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			
+			<!-- 공단청구 비용 -->
+			<div class="ly_column col_3_4">
+				<div class="ly_col_cont pr7_5">
+					<div type="form" id="form_6" class="moca_table toolbar bg_red" style=""
+						label="공단청구 비용"
+						showRowSelection="false"
+						addition='[
+						]'
+					>
+						<table class="moca_table_cont th_tar">
+							<colgroup>
+								<col style="width:160px">
+								<col>
+							</colgroup>
+							<tbody>
+								<tr>
+									<th>입금 유·무</th>
+									<td>
+										<div type="input" id="CorpDeposit" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+										<!-- <div type="radio" class="mocaRadio" style="width:100%" id="CorpDeposit" itemset='[{"label":"입금","value":"1","checked":"true"},{"label":"미입금","value":"0"}]'></div> -->
+									</td>
+								</tr>
+								<tr>
+									<th>이전등록비용</th>
+									<td>
+										<div type="input" id="totRgfeAmount" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+									</td>
+								</tr>
+								<tr>
+									<th>입금일</th>
+									<td>
+										<div type="input" id="CorpPayTime" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+									</td>
+								</tr>
+								<tr>
+									<th>계좌번호</th>
+									<td>
+										<div type="input" id="CorpBank_Deposit_Account" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+									</td>
+								</tr>
+								<tr>
+									<th>예금주</th>
+									<td>
+										<div type="input" id="CorpBank_Deposit_Owner" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+									</td>
+								</tr>
+								<tr>
+									<th>은행명</th>
+									<td>
+										<div type="input" id="CorpBank_Name" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!-- 환급금액 -->
+			<div class="ly_column col_3_3">
+				<div class="ly_col_cont">
+					<div type="form" id="form_7" class="moca_table toolbar bg_red" style=""
+						label="환급금액"
+						showRowSelection="false"
+						addition='[
+						]'
+					>
+						<table class="moca_table_cont th_tar">
+							<colgroup>
+								<col style="width:160px">
+								<col>
+							</colgroup>
+							<tbody>
+								<tr>
+									<th>환급 입금 유·무</th>
+									<td>
+										<div type="input" id="ReturnPayDeposit" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+										<!-- <div type="radio" class="mocaRadio" style="width:100%" id="ReturnPayDeposit" itemset='[{"label":"환급","value":"1","checked":"true"},{"label":"미환급","value":"0"}]'></div> -->
+									</td>
+								</tr>
+								<tr>
+									<th>금액</th>
+									<td>
+										<div type="input" id="ReturnPay_Price" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+									</td>
+								</tr>
+								<tr>
+									<th>입금일</th>
+									<td>
+										<div type="input" id="ReturnPayPayTime" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+									</td>
+								</tr>
+								<tr>
+									<th>계좌번호</th>
+									<td>
+										<div type="input" id="ReturnPayBank_Deposit_Account" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+									</td>
+								</tr>
+								<tr>
+									<th>예금주</th>
+									<td>
+										<div type="input" id="ReturnPayBank_Deposit_Owner" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+									</td>
+								</tr>
+								<tr>
+									<th>은행명</th>
+									<td>
+										<div type="input" id="ReturnPayBank_Name" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 메모사항 -->
+		<div type="grid" class="moca_grid toolbar mt10" default_cell_height="26px" id="grd_P01_memo" style="height:200px"
+					toolbar_search_size="false"
+					toolbar_col_showhide="false"
+					toolbar_detail="false"
+					toolbar_exup="false"
+					toolbar_exdn="false"
+					toolbar_addrow="true"
+					toolbar_delrow="false"
+					toolbar_nextbtn="false"
+					toolbar_full="false"
+					toolbar_grid_button1='{"position":"right","id":"btn_charge","label":"저장","onclick":"moca.TO_000P01.fn_memoSave","addClass":""}'
+					label="메모사항">
+					<table style="width: 100%">
+						<colgroup>
+								<col style="width:60px">
+								<col style="width:60px"><!-- ID -->
+								<col style="width:100px"><!-- 작성자 -->
+								<col style=""><!-- 내용 -->
+								<col style="width:140px"><!-- 작성일시-->
+								<col style="width:60px"><!-- 삭제-->
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col" id="H_memo01">상태</th>
+								<th id="H_memo03">ID</th>
+								<th id="H_memo04">작성자</th>
+								<th id="H_memo05">내용</th>
+								<th id="H_memo06">작성일시</th>
+								<th id="H_memo07">삭제</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="status" celltype="input" style="" readOnly="true" name="상태" ></td>
+								<td id="memoIdx" name="ID" celltype="input" style="" readonly="true" addRowEditable="false"></td>
+								<td id="RegName" name="작성자"  celltype="input" tooltip="true" style="text-align:left" readonly="true" required=""false""  addRowEditable="false"></td>
+								<td id="MemoContents" name="내용"  celltype="input" tooltip="true" style="text-align:left" readonly="true" required=""false""></td>
+								<td id="Regdate" name="작성일시"  celltype="input" readonly="true" required="false"  addRowEditable="false"></td>
+								<td id="delBtn" name="삭제"  celltype="button" readonly="false" required="false" addRowEditable="false" callFunction="moca.TO_000P01.fn_onBtnClick" btnLabel="삭제"></td>
+							</tr>
+						</tbody>
+					</table>				
+		</div>
+	</div>
+</body>
+</html>

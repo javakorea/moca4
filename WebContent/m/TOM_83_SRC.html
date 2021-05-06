@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" /> 
+<meta http-equiv="Pragma" content="no-cache" /> 
+<meta http-equiv="Expires" content="Mon, 06 Jan 1990 00:00:01 GMT">
+<meta http-equiv="Expires" content="-1" />
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>결제비밀번호입력_온라인소유권이전</title>
+<link rel="stylesheet" type="text/css" href="../css/mobile.css">
+<script>
+	var pass_num = '';
+	moca.TOM_83_SRC.___ready = function(args){
+		if(moca.getSs("loginInfo") == null || window.history.length < 3){
+			location.href = '/to';
+		};
+		moca.setHistory('TOM_83',{'title':'결제비밀번호입력','time':(new Date()).getTime()});
+		
+		//var transferComDateobj = moca.getSs("transferComDate");
+		//if(transferComDateobj != null){
+		//	location.href = 'TOM_84.html';
+		//	return;
+		//}		
+		var obj = moca.getSs("requestPay");
+		if(obj != null){
+			//결제되었으면 응답체크로
+			getPaymentRequestRes("<span>결제확인중입니다. 잠시만 기다려주세요!</span>");
+			return;
+		}
+		
+		pass_num = '';
+		$('#ipt_pass1').val('');
+	  	for(var i=0; i < $('.pw_dot').length; i++){
+	  		var ch = pass_num.charAt(i);
+	  		var jq_o = $($('.pw_dot')[i]);
+	  		if(ch != ''){
+	  			if(!jq_o.hasClass('active')){
+		  			jq_o.addClass('active');
+	  			}
+	  		}else{
+	  			jq_o.removeClass('active');
+	  		}
+	  	}
+
+		setTimeout(function(){
+			$('#ipt_pass1').focus();
+			if(window.BRIDGE != null){
+				BRIDGE.showKeyPad();
+			}
+		},500);
+		
+	};
+	function go(){
+
+	};
+	
+	function logKey (_obj) { 
+		pass_num = _obj.value;
+	  	for(var i=0; i < $('.pw_dot').length; i++){
+	  		var ch = pass_num.charAt(i);
+	  		var jq_o = $($('.pw_dot')[i]);
+	  		if(ch != ''){
+	  			if(!jq_o.hasClass('active')){
+		  			jq_o.addClass('active');
+	  			}
+	  		}else{
+	  			jq_o.removeClass('active');
+	  		}
+	  	} 
+	  	if(pass_num.length > 5){
+	  		//타임체크
+	    	moca.TOM_83_SRC.exe({
+	    		url : moca._domain+moca._contextRoot+"/TOM_83/selecIsTimeOn.do",
+	    		loadingbar:true,
+	    		loadingInfo:{type:"mobile",className:"_modal",content:"<span>결제시간체크중.. 잠시만 기다려주세요!</span>"},
+	            data : {
+	            	"header" : moca.header,
+	            	"body" : {
+	            		"TransferOwnerIndex":moca.getSs("transferownerId")
+	            	}
+	            },			
+	    		callback : function(response){
+	    			if(response.error != null){
+	    				moca.error(response.error,"",function(){
+	    					
+	    				});
+	    				return;
+	    			}
+	    			if(response.mapTimeCheck != null){
+	    				if(response.mapTimeCheck.IsTimeOn == '1'){
+	    			  		var requestPay = moca.getSs("requestPayTemp");
+	    			  		if(requestPay == null){//결제보낸것이없으면
+	    						var TOM_81 = moca.getSs('TOM_81').selectedAccount;
+	    						TOM_81.Pay_Password = pass_num;
+	    						moca.TOM_83_SRC.payAmount = moca.getSs("total_TransferOwner_Price");
+	    						var userPayInfo = moca.getSs("userPayInfo");
+	    						//간편결제_출금이체요청
+	    				    	moca.TOM_83_SRC.exe({
+	    				    		url : moca._domain+moca._contextRoot+"/TOM_81/mobile/sendPaymentRequest.do",
+	    				    		loadingbar:true,
+	    				    		loadingInfo:{type:"mobile",className:"_modal",content:"<span>잠시만 기다려주세요!</span>"},
+	    				            data : {
+	    				            	"header" : moca.header,
+	    				            	"body" : {
+	    				            		"bankOwner":userPayInfo.bankOwner,// 
+	    				            		"bankNm":userPayInfo.BankNm,	// 
+	    				            		"bankCd":userPayInfo.BankCd,		// 
+	    				            		"accountNo":userPayInfo.acct_no,		//
+	    				            		"payAmount":moca.TOM_83_SRC.payAmount,		//
+	    				            		"birthday":userPayInfo.birthday,			// 
+	    				            		"Pay_Password":pass_num,		// 결제비번
+	    				            		"traceNo":userPayInfo.trace_no 
+	    				            	}
+	    				            },			
+	    				    		callback : function(response){
+	    				    			if(response.error != null){
+	    				    				moca.merror(response.error,"",function(){
+	    				    					pass_num = '';
+	    				    					$('#ipt_pass1').val('');
+	    				    				  	for(var i=0; i < $('.pw_dot').length; i++){
+	    				    				  		var ch = pass_num.charAt(i);
+	    				    				  		var jq_o = $($('.pw_dot')[i]);
+	    				    				  		if(ch != ''){
+	    				    				  			if(!jq_o.hasClass('active')){
+	    				    					  			jq_o.addClass('active');
+	    				    				  			}
+	    				    				  		}else{
+	    				    				  			jq_o.removeClass('active');
+	    				    				  		}
+	    				    				  	}
+
+	    				    					setTimeout(function(){
+	    				    						$('#ipt_pass1').focus();
+	    				    						if(window.BRIDGE != null){
+	    				    							BRIDGE.showKeyPad();
+	    				    						}
+	    				    					},500);
+	    				    				});
+	    				    				return;
+	    				    			}
+	    				    			// 간편결제_출금이체요청 전문 응답 조회
+	    				    			response.resMap.payAmount = moca.TOM_83_SRC.payAmount;
+	    				    			moca.setAs("requestPayTemp",response.resMap);
+	    			    				getPaymentRequestRes();
+	    				    		}
+	    				    	});
+	    			  		}else{
+	    			  			getPaymentRequestRes();
+	    			  		}
+	    				}else{
+	    					//timeout
+	    					moca.merror("이전비용결제 마감시간이 지났습니다.","익일("+response.mapTimeCheck.InStTime.replace(/(\d{2})(\d{2})/g,'$1:$2')+"~"+response.mapTimeCheck.OUTEdTime.replace(/(\d{2})(\d{2})/g,'$1:$2')+") 재진행 해주세요.",function(){
+	    						//location.href = "TOM_25.html?isCancel=true";//다음날 계속 진행할수있게 지우지않는다.
+	    					});
+	    				}
+	    			}
+	    			
+	    		}
+	    	});
+	  	}
+	};
+	
+	function getPaymentRequestRes(_msg) {
+		var obj = moca.getSs("requestPayTemp");
+		var _transferComDate = moca.getSs("transferComDate");
+		//if(moca.trim(_transferComDate) == ''){
+			var _message = "<span>결제중입니다. 잠시만 기다려주세요!</span>";
+			if(_msg != null){
+				_message = _msg;
+			}
+			clearInterval(moca.TOM_83_SRC.polling_id);
+			moca.TOM_83_SRC.loading_id = moca.loading(null,null,null,{type:"mobile",className:"_modal",content:_message});
+			moca.TOM_83_SRC.polling_id = setInterval(function(){
+				if(obj.seqNo == null){
+					clearInterval(moca.TOM_83_SRC.polling_id);
+					return;
+				}
+				//출금이제 전문 응답 조회
+				moca.TOM_83_SRC.exe({
+		    		url : moca._domain+moca._contextRoot+"/TOM_81/mobile/receivePaymentRequest.do",
+		    		loadingbar:false,
+		    		loadingInfo:{type:"mobile",className:"_modal",content:"<span>잠시만 기다려주세요!</span>"},
+		            data : {
+		            	"header" : moca.header,
+		            	"body" : {
+		            		"bankCd":obj.bankCd,
+		            		"birthday":obj.birthday,
+		            		"bankNm":obj.bankNm,
+		            		"accountNo":obj.accountNo,
+		            		"bankOwner":obj.bankOwner,
+		            		"payAmount":obj.payAmount,
+		            		"Pay_Password": obj.Pay_Password,
+		            		"reqDt":obj.reqDt,
+		            		"seqNo":obj.seqNo,
+		            		"traceNo":obj.traceNo,
+		            		"TransferOwnerIdx":sessionStorage.getItem("transferownerId")
+		            	}
+		            },			
+		    		callback : function(response){
+		    			if(response.rcvFlag == "Y"){
+		    				if(response.resCd == '0000' ){
+		    					clearInterval(moca.TOM_83_SRC.polling_id);
+		    					moca.loading(moca.TOM_83_SRC.loading_id,0,null);
+		    					
+		    					var payAmount = response.resMap.payAmount;
+		    					var _transferComDate = response.resMap.transferComDate;
+		    					var ysInfo = moca.getSs("ysInfo");
+		    					var carDetailInfo = moca.getSs("carDetailInfo");
+		    					var coocon_data = moca.getSs("coocon_data");
+		    					var won = moca.getSs("won");
+		    					var loginInfo = moca.getSs("loginInfo");
+		    					moca.TOM_83_SRC.exe({
+		    						url : moca._domain+moca._contextRoot+"/TOM_83/mobile/requestTs.do",
+		    						data : {
+		    							"header" : moca.header,
+		    							"body" : {
+		    								"idx":sessionStorage.getItem("transferownerId"),
+		    								"Request_VehicleNumber":carDetailInfo.RegNumber,
+		    								"RegistrationIndex":coocon_data,
+		    								"carType":carDetailInfo.CarType,
+		    								"carName":carDetailInfo.Name,
+		    								"ChassisNumber":carDetailInfo.ChassisNumber,
+		    								
+		    								"Request_OwnerName":ysInfo.yd_name,
+		    								"Request_DrivingDistance":ysInfo.ys_km.replace(/,/g,'')+"",
+		    								"TransferDistrict":ysInfo.ys_addr1.split(' ')[0],
+		    								"PurchasePrice":won.replace(/,/g,''),
+		    								"UserName":loginInfo.name,
+		    								"InsurSstate":ysInfo.ys_insu,
+		    								
+		    								"sName":ysInfo.yd_name+"",
+		    								"sSocialNumber_First":ysInfo.yd_jumin.substring(0,6)+"",
+		    								"sSocialNumber_Second":ysInfo.yd_jumin.substring(6)+"",
+		    								"sPhoneNumber":ysInfo.yd_phone+"",
+		    								"sAddress_Base":ysInfo.yd_addr1+"",
+		    								"sAddress_Detail":ysInfo.yd_addr2+"",
+		    								"sAddress_ZipCode":moca.trim(ysInfo.yd_zipcode)+"",
+		    								"sBirthday":moca.getBirthDay8(ysInfo.yd_jumin)+"",
+
+		    								"bName":ysInfo.ys_name+"",
+		    								"bSocialNumber_First":ysInfo.ys_jumin.substring(0,6)+"",
+		    								"bSocialNumber_Second":ysInfo.ys_jumin.substring(6)+"",
+		    								"bPhoneNumber":ysInfo.ys_phone+"",
+		    								"bAddress_Base":ysInfo.ys_addr1+"",
+		    								"bAddress_Detail":ysInfo.ys_addr2+"",
+		    								"bAddress_ZipCode":moca.trim(ysInfo.ys_zipcode)+"",
+		    								"bBirthday":moca.getBirthDay8(ysInfo.ys_jumin)+""
+		    							}
+		    						},			
+		    						callback : function(response){
+		    						}
+		    					});
+		    					//TS결과와 상관없이 진행
+		    					moca.setAs('transferComDate',_transferComDate);
+				    			moca.setAs("requestPay",moca.getSs("requestPayTemp"));
+		    					moca.mresult("결제가 완료되었습니다.",""+moca.comma(payAmount)+"원",function(){
+		    						location.href = 'TOM_84.html';
+		    					});
+		    				}else if(response.resCd == 'KS05'){
+		    					clearInterval(moca.TOM_83_SRC.polling_id);
+		    					moca.loading(moca.TOM_83_SRC.loading_id,0,null);
+		    					moca.merror("[결제실패:"+response.resCd+"]"+"중복전문(seq중복생성)수신",""+moca.comma(response.resMap.payAmount)+"원",function(){
+		    						location.href = 'TOM_82.html';
+		    					});
+		    				}else if(response.resCd == 'KS25'){
+		    					clearInterval(moca.TOM_83_SRC.polling_id);
+		    					moca.loading(moca.TOM_83_SRC.loading_id,0,null);
+		    					moca.merror("[결제실패:"+response.resCd+"]"+"계좌잔액부족",""+moca.comma(response.resMap.payAmount)+"원",function(){
+		    						location.href = 'TOM_82.html';
+		    					});		    					
+		    				}else if(response.resCd == 'U343'){
+		    					clearInterval(moca.TOM_83_SRC.polling_id);
+		    					moca.loading(moca.TOM_83_SRC.loading_id,0,null);
+		    					moca.merror("[결제실패:"+response.resCd+"]"+"잔액부족,지급금액이 지불가능금액 초과",""+moca.comma(response.resMap.payAmount)+"원",function(){
+		    						location.href = 'TOM_82.html';
+		    					});
+		    				}else{
+		    					clearInterval(moca.TOM_83_SRC.polling_id);
+		    					moca.loading(moca.TOM_83_SRC.loading_id,0,null);
+		    					moca.merror("[결제실패:"+response.resCd+"]"+"결제시 오류가 발생하였습니다.","관리자에게 문의바랍니다.("+moca.comma(response.resMap.payAmount)+"원)",function(){
+		    						location.href = 'TOM_82.html';
+		    					});
+		    					return;
+		    				}
+		    			}else if(response.rcvFlag == "F" || response.rcvFlag == "T"){
+		    				clearInterval(moca.TOM_83_SRC.polling_id);
+		    				moca.loading(moca.TOM_83_SRC.loading_id,0,null);
+		    				moca.merror("["+response.rcvFlag+"]"+"결제시스템에 장애발생하여 결제에 실패하였습니다.","관리자에게 문의바랍니다.",function(){});
+		    				return;
+		    			}else if(response.rcvFlag == "N"){
+		    			}else{
+		    				try{
+			    				clearInterval(moca.TOM_83_SRC.polling_id);
+			    				moca.loading(moca.TOM_83_SRC.loading_id,0,null);
+			    				moca.malert(response.error);
+			    				pass_num = '';
+			    				$('#ipt_pass1').val('');	
+			    				setTimeout(function(){
+			    					$('#ipt_pass1').focus();
+			    					if(window.BRIDGE != null){
+			    						BRIDGE.showKeyPad();
+			    					}
+			    				},500);
+		    				}catch(e){
+		    					alert(e);
+		    				}
+		    			}
+		    		}
+		    	});	
+			},2000);
+		//}else{
+		//	alert('_transferComDate:'+_transferComDate+":");
+		//}
+	};
+	
+	function focusMove(){
+		$('#ipt_pass1').focus();
+	};
+	moca.TOM_83_SRC.back = function(){
+		location.href = 'TOM_82.html';
+	};
+</script>
+</head>
+<body>
+	<div class="wrap" onclick="go()">
+		<header class="titlebar">
+			<button class="btn_back" type="button" onclick="moca.TOM_83_SRC.back()">이전페이지</button>
+		</header>
+
+		<div class="content fx2">
+			<div class="top_txt">
+				<p>
+					<span>결제 비밀번호</span>를<br>입력해주세요.
+				</p>
+			</div>
+
+			
+			<div class="lo_form">
+				<div class="pw_box">
+					<div class="pw_dot active">
+						<input type="tel" pattern="\d*" placeholder="number" name="ipt_pass1" id="ipt_pass1" maxlength="6" onkeyup="logKey(this)">
+					</div>
+					<div class="pw_dot">
+						<input type="tel" name="ipt_pass" id="ipt_pass"  maxlength="1" onfocus="focusMove()">
+					</div>
+					<div class="pw_dot">
+						<input type="tel" name="ipt_pass" id="ipt_pass"  maxlength="1" onfocus="focusMove()">
+					</div>
+					<div class="pw_dot">
+						<input type="tel" name="ipt_pass" id="ipt_pass"  maxlength="1" onfocus="focusMove()">
+					</div>
+					<div class="pw_dot">
+						<input type="tel" name="ipt_pass" id="ipt_pass"  maxlength="1" onfocus="focusMove()">
+					</div>
+					<div class="pw_dot">
+						<input type="tel" name="ipt_pass" id="ipt_pass"  maxlength="1" onfocus="focusMove()">
+					</div>
+				</div>
+			</div>
+			
+			
+						
+		</div>
+
+	</div>
+</body>
+</html>

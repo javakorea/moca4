@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>AreaChart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css" href="../css/moca_layout.css">
+<script language="JavaScript" src="../js/jquery-3.3.1.min.js"></script>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongManager.js"></SCRIPT>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongSampleData.js"></SCRIPT>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongChart.js"></SCRIPT>			
+  	<script>
+
+	$(document).ready(function() {
+			chart10();
+			chart12();
+	});//초기화 영역-------------------------------------------------------------
+  	</script>
+</head> 
+<body>
+		<div class="moca_cont_wrap2">
+					<div class="moca_titbox">
+						<h3>Pie Chart</h3>
+					</div>
+					<div id="chart10_desc" class="modulebox">
+						<div id="chart10_1title" class="moca_titbox">
+							<h4>10. pie</h4>
+						</div>
+						<p>
+						파이차트는 각 데이터간 비율분포를 비교하기위한 용도로 사용됨.
+						</p>
+						<div id="chart10" class="crt_box mt20"></div> 	
+						
+						<table class="tbl mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+										var data10 = [<br>
+										["재료비",  "45",'rgba(0,128,192,1)' ],<br>
+										["단위",  "22",'rgba(0,128,192,1)' ],<br>
+										["제잡비",  "17",'rgba(0,128,192,1)' ],<br>
+										["기타",  "13",'rgba(0,128,192,1)' ],<br>
+										["노무비",  "12",'rgba(255,10,190,1)' ],<br>
+										["중기",  "11" ,'rgba(255,10,190,1)'],<br>
+										["단위수량","10",'rgba(255,10,190,1)'],<br>
+										["경비",  "8",'rgba(255,10,190,1)' ],<br>
+										["품",  "5",'rgba(255,10,190,1)']<br>
+										];
+									</td>
+									<td>그룹별로 같은 색을 지정하여 그룹핑함</td>
+								</tr>
+								<tr>
+									<td class="sct">
+										var data10 = [<br>
+										["재료비",  "45"],<br>
+										["단위",  "22" ],<br>
+										["제잡비",  "17" ],<br>
+										["기타",  "13" ],<br>
+										["노무비",  "12" ],<br>
+										["중기",  "11" ],<br>
+										["단위수량","10"],<br>
+										["경비",  "8" ],<br>
+										["품",  "5"]<br>
+										];
+									</td>
+									<td>색값이 없으면 디폴트로 'dark' or 'light' 중 하나가 적용됨</td>
+								</tr>
+							</tbody>
+						</table>	
+						
+						<table class="tbl y mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">option.type= 'pie';</td>
+									<td>차트타입을 pie타입으로 지정함</td>
+								</tr>
+							</tbody>
+						</table>	
+
+
+					</div>        
+
+
+
+
+
+
+
+					<div id="chart12desc" class="modulebox">
+						<div id="chart12title" class="moca_titbox">
+							<h4>12. doughnut</h4>
+						</div> 
+						<div id="chart12" class="crt_box mt20"></div>	
+						
+						<table class="tbl mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+										s_min:-50,s_max:50		
+									</td>
+									<td>Y축의 최소,최대값을 지정함.</td>
+								</tr>
+							</tbody>
+						</table>	
+						
+						<table class="tbl y mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">option.type = 'doughnut';</td>
+									<td>도우넛타입지정</td>
+								</tr>
+								<tr>
+									<td class="sct">option.colorType = 'dark';</td>
+									<td>컬러를 dark계열로 셋팅함</td>			
+								</tr>
+								<tr>
+									<td class="sct">option.guideLineShow = true;</td>
+									<td>각조각별 라벨안내선을 보이게한다.</td>			
+								</tr>
+								<tr>
+									<td class="sct">
+										option.background_color = 'rgba(255,255,255,0)';<br>
+										option.center_fill_color = 'rgba(255,255,255,0)';
+									</td>
+									<td>배경을 투명하게함</td>			
+								</tr>
+								<tr>
+									<td class="sct">
+										var data12 = [<br>
+										["재료비",  "50" ],<br>
+										["노무비",  "40" ],<br>
+										["경비",  "30" ],<br>
+										["중기",  "20" ],<br>
+										["제잡비",  "10" ],<br>
+										["단위수량",  "8" ],<br>
+										["품",  "6" ],<br>
+										["단위",  "5" ],<br>
+										["기타",  "1" ]<br>
+										]
+									</td>
+									<td>도우넛의 데이터 샘플</td>			
+								</tr>
+							</tbody>
+						</table>	
+					</div> 
+		</div>
+
+</body>
+</html>
+

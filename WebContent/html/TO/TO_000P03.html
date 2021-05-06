@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head meta_width="1500px" meta_height="700px">
+<script>
+moca.TO_000P03.___ready = function(args){
+	$('#ecoSticker').hide();
+	if(args != null){
+		moca.TO_000P03.args = args;
+	}
+	moca.TO_000P03.exe({
+		url : moca._domain+moca._contextRoot+"/TO_000P03/carInfoDetail.do",
+		loadingbar:true,
+		data : {
+			"header" : moca.header,
+			"body" : {
+				"idx":moca.TO_000P03.args.parent.data.RegistrationIndex+''
+				}
+		},			
+		callback : function(response){
+			$('#mortgageList').hide();
+			$('#seizeList').hide();
+			$('#structCngList').hide();
+			$('#useCngList').hide();
+			if(response.error != null){
+				moca.alert(response.error);
+				return;
+			}
+			var data = response.carDetailInfo;
+			moca.TO_000P03.data = data;
+			moca.TO_000P03.setFormValue('form_0','UpRate',moca.comma(data.carInfoDetail.UpRate)); //상한가
+			moca.TO_000P03.setFormValue('form_0','MdlRate',moca.comma(data.carInfoDetail.MdlRate)); //차량시세
+			moca.TO_000P03.setFormValue('form_0','Price',moca.comma(data.carInfoDetail.Price)); //Price
+			moca.TO_000P03.setFormValue('form_1','RegNumber',data.carInfoDetail.RegNumber); //자동차등록번호
+			moca.TO_000P03.setFormValue('form_1','SpecMgmtNumber',data.carInfoDetail.SpecMgmtNumber); //제원관리번호
+			moca.TO_000P03.setFormValue('form_1','CanceledDate',data.carInfoDetail.CanceledDate); //말소등록일
+			moca.TO_000P03.setFormValue('form_1','CarName',data.carInfoDetail.Name); //차명
+			moca.TO_000P03.setFormValue('form_1','LastOwner',data.carInfoDetail.LastOwner); //최종소유자
+			moca.TO_000P03.setFormValue('form_1','CarType',data.carInfoDetail.TYPE); //차종
+			moca.TO_000P03.setFormValue('form_1','ChassisNumber',data.carInfoDetail.ChassisNumber); //차대번호
+			moca.TO_000P03.setFormValue('form_1','MoverType',data.carInfoDetail.MoverType); //원동기형식
+			//moca.TO_000P03.setFormValue('form_1','',data.carInfoDetail.); //용도
+			moca.TO_000P03.setFormValue('form_1','CarColor',data.carInfoDetail.Color); //색상
+			moca.TO_000P03.setFormValue('form_1','ModelYear',data.carInfoDetail.ModelYear); // 모델연도
+			moca.TO_000P03.setFormValue('form_1','SourceDivision',data.carInfoDetail.SourceDivision); //출처구분
+			moca.TO_000P03.setFormValue('form_1','FirstRegDate',data.carInfoDetail.FirstRegDate); //최초등록일
+			moca.TO_000P03.setFormValue('form_1','DetailType',data.carInfoDetail.DetailType); //세부유형
+			moca.TO_000P03.setFormValue('form_1','ProductDate',data.carInfoDetail.ProductDate); //제작연월일
+			if(data.carInfoDetail.lowEmissionYn == "Y"){ // 저공해 차량여부
+				$('#ecoSticker').show();
+				if(data.carInfoDetail.lowEmissionGrade == "1"){
+					//1종
+					$('.ecoSticker').addClass("Grade1");
+				}else if(data.carInfoDetail.lowEmissionGrade == "2"){
+					//2종
+					$('.ecoSticker').addClass("Grade2");
+				}else{
+					//3종
+					$('.ecoSticker').addClass("Grade3");
+				}
+				moca.TO_000P03.setFormValue('form_2','lowEmissionNo',data.carInfoDetail.lowEmissionNo); //저공해 차량발급번호
+				moca.TO_000P03.setFormValue('form_2','lowEmissionCarNo',data.carInfoDetail.RegNumber); //저공해 차량발급번호
+			}
+			moca.TO_000P03.setFormValue('form_2','EcoFriendly',data.carInfoDetail.EcoFriendly); // 환경친화적자동차
+			moca.TO_000P03.setFormValue('form_2','CountryOrigin',data.carInfoDetail.CountryOrigin); //국산수입구분
+			moca.TO_000P03.setFormValue('form_2','Displacement',moca.comma(data.carInfoDetail.Displacement)+"cc"); //배기량
+			moca.TO_000P03.setFormValue('form_2','RidingCapacity',data.carInfoDetail.RidingCapacity+"명"); //승차정원
+			moca.TO_000P03.setFormValue('form_2','Fuel',data.carInfoDetail.Fuel); //사용연료
+			moca.TO_000P03.setFormValue('form_2','Purpose',data.carInfoDetail.Purpose); //차종유형명
+			moca.TO_000P03.setFormValue('form_2','FuelRatio',data.carInfoDetail.FuelRatio+"ℓ"); //복합연비
+			moca.TO_000P03.setFormValue('form_2','MaxLoad',moca.comma(data.carInfoDetail.MaxLoad)); //최대적재량
+			moca.TO_000P03.setFormValue('form_2','MortgageCnt',data.carInfoDetail.MortgageCnt+"건"); //저당건수
+			moca.TO_000P03.setFormValue('form_2','SeizeCnt',data.carInfoDetail.SeizeCnt+"건"); //압류촉탁건수
+			moca.TO_000P03.setFormValue('form_2','StructCngCnt',data.carInfoDetail.StructCngCnt+"건"); //구조변경건수
+			moca.TO_000P03.setFormValue('form_2','UseCngCnt',data.carInfoDetail.UseCngCnt+"건"); //용도변경건수
+			moca.TO_000P03.setFormValue('form_2','OwnerCngCnt',data.carInfoDetail.OwnerCngCnt+"회"); //소유권변경횟수
+			moca.TO_000P03.setFormValue('form_2','InspectionExpireDate',data.carInfoDetail.InspectionExpireDate); //주행거리
+			if(moca.getResList(data,"mortgageList").length != null && moca.getResList(data,"mortgageList").length != 0){
+				$('#mortgageList').show();
+				moca.TO_000P03.drawGrid('mortgageList',moca.getResList(data,"mortgageList")); //근저당
+			}
+			if(moca.getResList(data,"seizeList").length != null && moca.getResList(data,"seizeList").length != 0){
+				$('#seizeList').show();
+				moca.TO_000P03.drawGrid('seizeList',moca.getResList(data,"seizeList")); //압류촉탁
+			}
+			if(moca.getResList(data,"structCngList").length != null && moca.getResList(data,"structCngList").length != 0){
+				$('#structCngList').show();
+				moca.TO_000P03.drawGrid('structCngList',moca.getResList(data,"structCngList")); //구조변경		
+			}
+			if(moca.getResList(data,"useCngList").length != null && moca.getResList(data,"useCngList").length != 0){
+				$('#useCngList').show();
+				moca.TO_000P03.drawGrid('useCngList',moca.getResList(data,"useCngList")); //용도변경
+			};
+			moca.TO_000P03.drawGrid('Grd_carRstAllList',moca.getResList(response.carDetailInfo,"carRstAllList"));
+		}
+	});
+};
+
+</script>
+</head>
+<body>
+	<div class="moca_pop_cont_wrap scroll TO_000P03">
+		<div class="certification_stage" id="form_0" >
+			<div class="cfx authorized_time">
+				<div class="ly_column col_3_3">
+					<div class="ly_col_cont pr7_5">
+						<div class="price" id="a01_1" style="background: #31be77;">상한가 : <span class="txt_b" id="UpRate"></span>원</div>
+					</div>
+				</div>
+				<div class="ly_column col_3_4">
+					<div class="ly_col_cont pr7_5">
+						<div class="price" id="a1_2" style="background: #4483f6;">차량시세 : <span class="txt_b" id="MdlRate"></span>원</div>
+					</div>
+				</div>
+				<div class="ly_column col_3_3">
+					<div class="ly_col_cont">
+						<div class="price" id="a1_2" style="background: #31be77;">하한가 : <span class="txt_b" id="Price"></span>원</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 쿠콘스크래핑 -->
+		<div type="form" id="form_1" class="moca_table toolbar cfx" style=""
+			label="등록원부상세"
+			showRowSelection="false"
+		>
+			<table class="moca_table_cont th_tar">
+				<colgroup>
+					<col style="width:160px">
+					<col>
+					<col style="width:160px">
+					<col>
+					<col style="width:160px">
+					<col>
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>자동차등록번호</th>
+						<td>
+							<div type="input" id="RegNumber" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>제원관리번호</th>
+						<td>
+							<div type="input" id="SpecMgmtNumber" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>말소등록일</th>
+						<td>
+							<div type="input" id="CanceledDate" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+					</tr>
+					<tr>
+						<th>차명</th>
+						<td>
+							<div type="input" id="CarName" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>최종소유자</th>
+						<td>
+							<div type="input" id="LastOwner" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>차종</th>
+						<td>
+							<div type="input" id="CarType" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+					</tr>
+					<tr>
+						<th>차대번호</th>
+						<td>
+							<div type="input" id="ChassisNumber" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>원동기형식</th>
+						<td>
+							<div type="input" id="MoverType" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>용도</th>
+						<td>
+							<div type="input" id="a99" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+					</tr>
+					<tr>
+						<th>모델연도</th>
+						<td>
+							<div type="input" id="ModelYear" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>색상</th>
+						<td>
+							<div type="input" id="CarColor" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>출처구분</th>
+						<td>
+							<div type="input" id="SourceDivision" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+					</tr>
+					<tr>
+						<th>최초등록일</th>
+						<td>
+							<div type="input" id="FirstRegDate" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<th>세부유형</th>
+						<td>
+							<div type="input" id="DetailType" class="mocaInput" onclick="" style="" 26value="" readonly="true"></div>
+						</td>
+						<th>제작연월일</th>
+						<td>
+							<div type="input" id="ProductDate" class="mocaInput" onclick="" style="" value="" readonly="true"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<!-- TS -->
+		<div type="form" id="form_2" class="moca_table toolbar TS_info cfx mt10" style="" label="TS정보" showRowSelection="false">
+			<table class="moca_table_cont">
+				<tbody>
+					<tr>
+						<td rowspan="4">
+							<div class="ecoSticker">
+								<span id="lowEmissionNo" style="bottom: 42px"></span>
+								<span id="lowEmissionCarNo" style="bottom: 25px"></span>
+							</div>
+						</td>
+						<th>환경친화적자동차</th>
+						<th>국산/수입구분</th>
+						<th>배기량</th>
+						<th>승차정원</th>
+						<th>사용연료명</th>
+						<th>차종유형명</th>
+						<th>복합연비</th>
+						<th>최대적재량</th>
+					</tr>
+					<tr>
+						<td><!-- 환경친화적자동차 -->
+							<div type="input" id="EcoFriendly" class="mocaInput" innerClass="tac" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<td><!-- 국산/수입구분 -->
+							<div type="input" id="CountryOrigin" class="mocaInput" innerClass="tac" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<td><!-- 배기량 -->
+							<div type="input" id="Displacement" class="mocaInput" innerClass="tac" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<td><!-- 승차정원 -->
+							<div type="input" id="RidingCapacity" class="mocaInput" innerClass="tac" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<td><!-- 사용연료명 -->
+							<div type="input" id="Fuel" class="mocaInput" innerClass="tac" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<td><!-- 차종유형명 -->
+							<div type="input" id="Purpose" class="mocaInput" innerClass="tac" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<td><!-- 복합연비 -->
+							<div type="input" id="FuelRatio" class="mocaInput" innerClass="tac" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<td><!-- 최대적재량 -->
+							<div type="input" id="MaxLoad" class="mocaInput" innerClass="tac" onclick="" style="" value="" readonly="true"></div>
+						</td>
+					</tr>
+					<tr>
+						<th class="bg_red">저당</th>
+						<th>압류/촉탁</th>
+						<th>구조변경</th>
+						<th>용도변경</th>
+						<th class="bg_red">소유권변경횟수</th>
+						<th>부활차량</th>
+						<th colspan="2" class="bg_red">검사유효기간 (주행거리)</th>
+					</tr>
+					<tr>
+						<td><!-- 저당 -->
+							<div type="input" id="MortgageCnt" class="mocaInput" innerClass="txt_red tac" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<td><!-- 압류/촉탁 -->
+							<div type="input" id="SeizeCnt" class="mocaInput" innerClass="tac" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<td><!-- 구조변경 -->
+							<div type="input" id="StructCngCnt" class="mocaInput" innerClass="tac" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<td><!-- 용도변경 -->
+							<div type="input" id="UseCngCnt" class="mocaInput" innerClass="tac" onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<td><!-- 소유권변경횟수 -->
+							<div type="input" id="OwnerCngCnt" class="mocaInput" innerClass="txt_red tac"onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<td><!-- 부활차량 -->
+							<div type="input" id="ReviveCar" class="mocaInput" innerClass="tac"onclick="" style="" value="" readonly="true"></div>
+						</td>
+						<td colspan="2"><!-- 주행거리(검사유효기간) -->
+							
+							<div type="input" id="InspectionExpireDate" class="mocaInput" innerClass="txt_blue tac" onclick="" style="" value="" readonly="true"></div>
+							<!--  
+							<div class="moca_input_group">
+								<div type="input" id="a32" class="mocaInput" innerClass="txt_blue tac" onclick="" style="width:calc(100% - 90px)" value="(2020-04-06 ~ 2022-04-05)" readonly="true"></div>
+							</div>
+							-->
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<!-- 근저당설정내역 -->
+		<div type="grid" class="moca_grid toolbar mt10" id="mortgageList" style="height:140px"
+					toolbar_search_size="false"
+					toolbar_col_showhide="false"
+					toolbar_detail="false"
+					toolbar_exup="false"
+					toolbar_exdn="false"
+					toolbar_addrow="false"
+					toolbar_delrow="false"
+					toolbar_nextbtn="false"
+					toolbar_full="true"
+					default_cell_height="26px"
+					label="근저당설정내역">
+					<table style="width: 100%">
+						<colgroup>
+							<col style="width:60px"><!-- 순번 -->
+							<col style="width:60px"><!-- 구분 -->
+							<col style="width:120px"><!-- 저당일자 -->
+							<col style="width:200px"><!-- 저당권자 -->
+							<col style="width:120px"><!-- 연락처 -->
+							<col style="width:120px"><!-- 저당권설정자 -->
+							<col style="width:120px"><!-- 채무자 -->
+							<col style="width:120px"><!-- 채권가액 -->
+							<!--<col style="width:120px"> 저당설정구분 -->
+							<col style=""><!-- 비고 -->
+						</colgroup>
+						<thead>
+							<tr>
+								<th id="H_MortgageRowNum">순번</th>
+								<th id="H_Type">구분</th>
+								<th id="H_MortgageRegDate">저당일자</th>
+								<th id="H_MortgageName">저당권자</th>
+								<th id="H_MortgagePhone">연락처</th>
+								<th id="H_MortgagorName">저당권설정자</th>
+								<th id="H_DebtorName">채무자</th>
+								<th id="H_BondAmount">채권가액</th>
+								<!-- <th id="H9">저당설정구분</th> -->
+								<th id="H10">비고</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="MortgageRowNum" name="순번"  celltype="input" tooltip="true" style="" readonly="true" displayFunction="moca.fn_display_rownum"></td>
+								<td id="Type" name="구분" celltype="input" style="" readonly="true" ></td>
+								<td id="MortgageRegDate" name="저당일자"  celltype="input" tooltip="true" style="" readonly="true"></td>
+								<td id="MortgageName" name="저당권자"  celltype="input" tooltip="true" style="" readonly="true"></td>
+								<td id="MortgagePhone" name="연락처"  celltype="input" tooltip="true" style="" readonly="true"></td>
+								<td id="MortgagorName" name="저당권설정자"  celltype="input" tooltip="true" style="" readonly="true"></td>
+								<td id="DebtorName" name="채무자"  celltype="input" tooltip="true" style="" readonly="true"></td>
+								<td id="BondAmount" name="채권가액"  celltype="input" tooltip="true" style="text-align:right" readonly="true"></td>
+								<!-- <td id="D9" name="저당설정구분"  celltype="input" tooltip="true" style="" readonly="true"></td> -->
+								<td id="D10" name="비고"  celltype="input" tooltip="true" style="text-align:left" readonly="true"></td>
+							</tr>
+						</tbody>
+					</table>				
+		</div>
+		
+		<!-- 압류/촉탁내역 -->
+		<div type="grid" class="moca_grid toolbar mt10" id="seizeList" style="height:140px" 
+					toolbar_search_size="false"
+					toolbar_col_showhide="false"
+					toolbar_detail="false"
+					toolbar_exup="false"
+					toolbar_exdn="false"
+					toolbar_addrow="false"
+					toolbar_delrow="false"
+					toolbar_nextbtn="false"
+					toolbar_full="true"
+					default_cell_height="26px"
+					label="압류/촉탁내역">
+					<table style="width: 100%">
+						<colgroup>
+							<col style="width:60px"><!-- 순번 -->
+							<col style="width:60px"><!-- 구분 -->
+							<col style="width:160px"><!-- 압류/촉탁기관 -->
+							<col style="width:120px"><!-- 압류/촉탁기관연락처 -->
+							<col style="width:200px"><!-- 압류/촉탁관리번호 -->
+							<col style="width:120px"><!-- 압류/촉탁일자 -->
+							<col style=""><!-- 압류/촉탁내역 -->
+						</colgroup>
+						<thead>
+							<tr>
+								<th id="H_seizeRowNum">순번</th>
+								<th id="H_seizeType">구분</th>
+								<th id="H_seizeOrg">압류/촉탁기관</th>
+								<th id="H_seizePhone">압류/촉탁기관연락처</th>
+								<th id="H_seizeNum">압류/촉탁관리번호</th>
+								<th id="H_seizeDate">압류/촉탁일자</th>
+								<th id="H_seizeHis">압류/촉탁내역</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="seizeRowNum" name="순번"  celltype="input" tooltip="true" style="" readonly="true" displayFunction="moca.fn_display_rownum"></td>
+								<td id="seizeType" name="구분" celltype="input" style="" readonly="true"></td>
+								<td id="seizeOrg" name="압류/촉탁기관"  celltype="input" tooltip="true" style="text-align:left" readonly="true"></td>
+								<td id="seizePhone" name="압류/촉탁기관연락처"  celltype="input" tooltip="true" style="" readonly="true" displayFunction="moca.telFormat"></td>
+								<td id="seizeNum" name="압류/촉탁관리번호"  celltype="input" tooltip="true" style="" readonly="true"></td>
+								<td id="seizeDate" name="압류/촉탁일자"  celltype="input" tooltip="true" style="" readonly="true"></td>
+								<td id="seizeHis" name="압류/촉탁내역"  celltype="input" tooltip="true" style="text-align:left" readonly="true"></td>
+							</tr>
+						</tbody>
+					</table>				
+		</div>
+		
+		<!-- 구조변경내역 -->
+		<div type="grid" class="moca_grid toolbar mt10" id="structCngList" style="height:140px"
+					toolbar_search_size="false"
+					toolbar_col_showhide="false"
+					toolbar_detail="false"
+					toolbar_exup="false"
+					toolbar_exdn="false"
+					toolbar_addrow="false"
+					toolbar_delrow="false"
+					toolbar_nextbtn="false"
+					toolbar_full="true"
+					default_cell_height="26px"
+					label="구조변경내역">
+					<table style="width: 100%">
+						<colgroup>
+							<col style="width:60px"><!-- 순번 -->
+							<col style=""><!-- 구조변경내역 -->
+							<col style="width:120px"><!-- 변경일자 -->
+						</colgroup>
+						<thead>
+							<tr>
+								<th id="H_structCngRowNum">순번</th>
+								<th id="H_structCngContents">구조변경내역</th>
+								<th id="H_structCngDate">변경일자</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="structCngRowNum" name="순번" celltype="input" style="" readonly="true" displayFunction="moca.fn_display_rownum"></td>
+								<td id="structCngContents" name="구조변경내역"  celltype="input" tooltip="true" style="text-align:left" readonly="true" required="true"></td>
+								<td id="structCngDate" name="변경일자"  celltype="input" tooltip="true" style="" readonly="true" required="true"></td>
+							</tr>
+						</tbody>
+					</table>				
+		</div>
+		
+		<!-- 용도변경내역 -->
+		<div type="grid" class="moca_grid toolbar bg_green mt10" id="useCngList" style="height:140px"
+					toolbar_search_size="false"
+					toolbar_col_showhide="false"
+					toolbar_detail="false"
+					toolbar_exup="false"
+					toolbar_exdn="false"
+					toolbar_addrow="false"
+					toolbar_delrow="false"
+					toolbar_nextbtn="false"
+					toolbar_full="true"
+					default_cell_height="26px"
+					label="용도변경내역">
+					<table style="width: 100%">
+						<colgroup>
+							<col style="width:60px"><!-- 순번 -->
+							<col style=""><!-- 용도변경 -->
+							<col style="width:120px"><!-- 변경일자 -->
+						</colgroup>
+						<thead>
+							<tr>
+								<th id="H_useCngRowNum">순번</th>
+								<th id="H_useCngContents">용도변경</th>
+								<th id="H_useCngDate">변경일자</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="useCngRowNum" name="순번" celltype="input" style="" readonly="true" displayFunction="moca.fn_display_rownum"></td>
+								<td id="useCngContents" name="용도변경"  celltype="input" tooltip="true" style="text-align:left" readonly="true" required="true"></td>
+								<td id="useCngDate" name="변경일자"  celltype="input" tooltip="true" style="" readonly="true" required="true"></td>
+							</tr>
+						</tbody>
+					</table>				
+		</div>
+		
+		<!-- 전체내역 -->
+		<div type="grid" class="moca_grid toolbar mt10" default_cell_height="26px" id="Grd_carRstAllList" style="height:400px"
+					toolbar_search_size="false"
+					toolbar_col_showhide="false"
+					toolbar_detail="false"
+					toolbar_exup="false"
+					toolbar_exdn="false"
+					toolbar_addrow="false"
+					toolbar_delrow="false"
+					toolbar_nextbtn="false"
+					toolbar_full="true"
+					default_cell_height="26px"
+					label="전체내역">
+					<table style="width: 100%">
+						<colgroup>
+								<col style="width:60px"><!-- 주등록 -->
+								<col style="width:100px"><!-- 부가등록 -->
+								<col style=""><!-- 사항란 -->
+								<col style="width:120px"><!-- 주민(법인)등록번호-->
+								<col style="width:100px"><!-- 등록일-->
+								<col style="width:170px"><!-- 접수번호-->
+						</colgroup>
+						<thead>
+							<tr>
+								<th id="H_NumberTh" colspan="2">순위번호</th>
+								<th id="H_DetailDescription" rowspan="2">사항란</th>
+								<th id="H_PersonalRegNumber" rowspan="2">주민(법인)등록번호</th>
+								<th id="H_RegisterTime" rowspan="2">등록일</th>
+								<th id="H_ReceiptNumber" rowspan="2">접수번호</th>
+							</tr>
+							<tr>
+								<th id="H_MainNumber">주등록</th>
+								<th id="H_SubNumber">부가등록</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="MainNumber" name="주등록" celltype="input" style="" readonly="true"  displayFunction=""></td>
+								<td id="SubNumber" name="부가등록"  celltype="input" tooltip="true" style="text-align:left" readonly="true"></td>
+								<td id="DetailDescription" name="사항란"  celltype="input" tooltip="true" style="text-align:left" readonly="true"></td>
+								<td id="PersonalRegNumber" name="주민등록번호"  celltype="input" readonly="true"></td>
+								<td id="RegisterTime" name="등록일"  celltype="input" readonly="true"></td>
+								<td id="ReceiptNumber" name="접수번호"  celltype="input" readonly="true"></td>
+							</tr>
+						</tbody>
+					</table>				
+		</div>		
+	</div>
+</body>
+</html>

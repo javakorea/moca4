@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script>
+	
+	moca.TO_017.___ready = function(args){
+		moca.TO_017.code({
+			"grd_1.vhclTypCd":{code:'PSN001',allOption:{label:'-선택-',value:''}},
+			"grd_1.tfrnChnlDvFiltCd":{code:'PSN003',allOption:{label:'-선택-',value:''}},
+			"grd_1.tfrnChnlCd":{code:'PSN002',allOption:{label:'-선택-',value:''}},
+			"grd_1.useYn":{code:'EFC001', selectedValue:'Y'},
+			"srchTfrnChnlCd":{code:'PSN002', allOption:{label:'전체', value:''}, selectedValue:''}
+		},function(){
+			moca.TO_017.fn_search();
+		});			
+	};
+		
+	moca.TO_017.fn_search = function(){
+		moca.TO_017.exe({
+			url : moca._domain+moca._contextRoot+"/TO_017/selectTrfnChnlList.do",
+			loadingbar:true,
+            data : {
+            	"header" : moca.header,
+            	"body" : {
+            		vhclTypNm:moca.TO_017.getInput("vhclTypNm"),
+            		tfrnChnlCd:moca.TO_017.getCombo("srchTfrnChnlCd")
+            	}
+            },			
+			callback : function(response){
+ 				moca.TO_017.drawGrid('grd_1', moca.TO_017.getResList(response,"tfrnChnlList"))
+			}
+		});
+	};
+	moca.TO_017.fn_save = function(){
+		if(moca.TO_017.validate("grd_1","status","C,U,D")){
+			if(chkDup("tfrnChnlDesc")) {
+				moca.confirm('저장하시겠습니까?',function(result){
+					if(result == 'Y'){
+						moca.TO_017.exe({
+							url : moca._domain+moca._contextRoot+"/TO_017/modifyTfrnChnlList.do",
+				            data : {
+				            	"header" : moca.header,
+				            	"body" : {
+				            		paramList:moca.TO_017.getFilteredList("grd_1","status","C,U,D")
+				            	}
+				            },		
+							callback : function(){
+				        	   moca.alert('성공적으로 저장되었습니다!',function(){
+				        		   moca.TO_017.fn_search();
+				        	   	   return;
+				        	   });	
+							}
+						});
+					}
+				},'확인','취소');
+			}
+		}
+	};
+	moca.TO_017.selectChanged = function(row, col, beforeCode, beforeText, afterCode, afterText){
+		//moca.TO_017.search();
+		console.log("row=" + row);
+		console.log("col=" + col);
+		console.log("beforeCode=" + beforeCode);
+		console.log("beforeText=" + beforeText);
+		console.log("afterCode=" + afterCode);
+		console.log("afterText=" + afterText);
+		
+		var grd = moca.TO_017.getObj('grd_1');
+
+		if(col == 'vhclTypCd') {
+			var strTfrnChnlDvFiltCd = moca.getCellViewData(grd, row, 'tfrnChnlDvFiltCd');
+			if(comLib.gfn_isNull(strTfrnChnlDvFiltCd)) 
+				strTfrnChnlDvFiltCd = "";
+			else 
+				strTfrnChnlDvFiltCd = ' : ' + strTfrnChnlDvFiltCd;
+
+			moca.setCellData(grd, row, 'tfrnChnlDesc', afterText + strTfrnChnlDvFiltCd);
+		}
+		else if(col == 'tfrnChnlDvFiltCd') {
+			var strVhclTypCd = moca.getCellViewData(grd, row, 'vhclTypCd');
+			if(comLib.gfn_isNull(strVhclTypCd)) 
+				strVhclTypCd = "";
+			else
+				strVhclTypCd = strVhclTypCd + ' : ';
+			
+			moca.setCellData(grd, row, 'tfrnChnlDesc', strVhclTypCd + afterText);
+		}
+
+	};
+	
+	chkDup = function(colId) {
+		var grd = moca.TO_017.getObj('grd_1');
+
+		var reObj = grd.list;
+		for(let i =0; i < reObj.length; i++){
+			let row = reObj[i]; 
+			var chkValue = row[colId]; 
+			for(let j=i+1;j<reObj.length; j++) {
+				let row2 = reObj[j];
+				if(chkValue == row2[colId]) {
+					moca.alert( (i+1) + '번째 라인(' + chkValue + ')이 중복 되었습니다!');
+					return false;
+				}
+			}
+		}
+
+		return true;
+	};
+		
+</script>
+
+</head>
+<body>
+<div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
+	<div class="moca_tab_cont" style="height:100%">
+		<div class="moca_cont_wrap">
+			<div type="wframe" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
+				src="/html/titlebox.html"
+				data = '{"sreenCd":"TO_017","sreenNm":"이전채널 관리","sreenPath":"Quick Menu,이전채널 관리"}'
+			></div>
+			<div class="moca_shbox">
+				<div class="shbox_inner">
+					<table class="tb">
+						<tbody>
+							<tr>
+								<th class="tb_th pr10">차량 유형명</th>
+								<td class="tb_td">
+									<input type="text" class="moca_input sh" style="width:150px" id="vhclTypNm" autocomplete="off" onkeyup="moca.default_keyup(this)">
+								</td>
+								
+								<th class="tb_th pr10">이전채널</th>
+								<td class="tb_td">
+									<div type="combo" id="srchTfrnChnlCd" class="moca_combo" style="width:150px" displayFormat="[value] - [label]" cdField="code" nmField="codeNm"></div>
+								</td> 
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="btn_shbox">
+					<button type="button" class="button btn_sc" onclick="moca.TO_017.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+				</div>
+			</div>
+			
+			<div type="grid" class="moca_grid toolbar sc_row1" default_cell_height="26px" id="grd_1"
+								toolbar_search_size="false"
+								toolbar_detail="false"
+								toolbar_exup="false"
+								toolbar_exdn="true"
+								toolbar_addrow="true"
+								toolbar_delrow="true"
+								toolbar_nextbtn="false"
+								toolbar_full="false"
+								toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"moca.TO_017.fn_save","addClass":""}'
+								onSelectChanged="moca.TO_017.selectChanged"
+								label="이전채널 목록"
+
+			>
+					<table style="width: 100%">
+						<colgroup>
+								<col style="width:60px">	<!-- 상태 -->
+								<!--
+								<col style="display:none;width:0px;">	채널관리번호 : hidden
+								-->
+								<col style="width:80px">	<!-- 차량유형 -->
+								<col style="width:100px">	<!-- 구분조건 -->
+								<col style="width:150px">	<!-- 이전채널 설정 기준 내역 -->
+								<col style="width:120px">	<!-- 소유권 이전채널 -->
+								<col style="width:60px">	<!-- 사용여부 -->
+								<col style="width:120px">	<!-- 최종변경일시 -->
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col" id="lv0" sortable="true">상태</th>
+								<th scope="col" id="lv1" sortable="true">차량유형</th>
+								<th scope="col" id="lv2" sortable="true">구분조건</th>
+								<th scope="col" id="lv3" sortable="true">이전채널 설정 기준 내역</th>
+								<th scope="col" id="lv4" sortable="true">소유권 이전채널</th>
+								<th scope="col" id="lv5" sortable="true">사용여부</th>
+								<th scope="col" id="lv6" sortable="false">최종변경일시</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
+								<td id="vhclTypCd" celltype="select" style="" readOnly="true" required="true" name="차량유형"></td>
+								<td id="tfrnChnlDvFiltCd" celltype="select" style="" readOnly="true"  required="true" name="구분조건"></td>
+								<td id="tfrnChnlDesc" celltype="input" style="" readOnly="true" required="false" name="이전채널 설정 기준 내역" ></td>
+								<td id="tfrnChnlCd" celltype="select" style="" required="true" name="이전채널" ></td>
+								<td id="useYn" celltype="select" style="" required="true" name="사용여부" ></td>
+								<td id="lstUpdDtm" celltype="input" style="" readOnly="true"	displayFunction="moca.longToDate" addRowEditable="false" name="최종변경일시"></td>
+							</tr>
+						</tbody>
+					</table>				
+			</div>
+
+		</div>	
+	</div>
+</div>
+</body>
+</html>

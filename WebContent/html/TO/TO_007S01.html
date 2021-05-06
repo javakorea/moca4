@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<style>
+</style>
+<script>
+moca.TO_007S01.___ready = function(args){
+};
+
+moca.TO_007S01._excelCallback = function(_json){
+	if(_json.gridId == "grd_07_S01"){
+		moca.TO_007.sendParam(null,1);
+	}
+};
+
+</script>
+</head>
+<body>
+	<!-- TO_007S01 시가표준액 등록 조회 ::전체 -->
+	<div type="grid" class="moca_grid toolbar" default_cell_height="26px" id="grd_07_S01" 
+			toolbar_search_size="false"
+			toolbar_col_showhide="false"
+			toolbar_detail="false"
+			toolbar_exup="true"
+			toolbar_exdn="true"
+			toolbar_addrow="false"
+			toolbar_delrow="false"
+			toolbar_nextbtn="false"
+			toolbar_full="true"
+			label="전체">
+			<table style="width: 100%">
+				<colgroup>
+					<!-- <col style="width:80px"> --><!-- 상태 -->
+					<col style="width:80px"><!-- 순번 -->
+					<col style="width:100px"><!-- 차종 -->
+					<col style="width:200px"><!-- 제작사 -->
+					<col style="width:300px"><!-- 차명-->
+					<col style="width:300px"><!-- 형식 -->
+					<col style="width:150px"><!-- 기준가격 -->
+					<col style="width:140px"><!-- 엔진(형식) -->
+					<col style="width:100px"><!-- 적용일 -->
+					<col style=""><!-- 비고-->
+				</colgroup>
+				<thead>
+					<tr>
+						<!-- <th id="H_status">상태</th> -->
+						<th id="H_rowNum">순번</th>
+						<th id="H_vehicleType">차종</th>
+						<th id="H_manufacturerImport">제작사</th>
+						<th id="H_vehicleName">차명</th>
+						<th id="H_formName">형식</th>
+						<th id="H_taxBasePrice">기준가격</th>
+						<th id="H_engineFormType">엔진(형식)</th>
+						<th id="H_excelApplyDate">적용일</th>
+						<th id="H_remark">비고</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<!-- <td id="status" celltype="input" style="" readOnly="true" name="상태" ></td> -->
+						<td excelIndex="0"  id="rowNum" name="순번" celltype="input" style="" readonly="true" displayFunction="moca.fn_display_rownum"></td>
+						<td excelIndex="1"    id="VehicleType" name="차종" celltype="input" style="" readonly="true"  displayFunction=""></td>
+						<td excelIndex="2"    id="Manufacturer" name="제작사"  celltype="input" tooltip="true" style="text-align:left" readonly="true" required="false"></td>
+						<td excelIndex="3"    id="Name" name="차명"  celltype="input" style="text-align:left" readonly="true" required="false" tooltip="true" ></td>
+						<td excelIndex="4"    id="FormName" name="형식"  celltype="input" tooltip="true" style="text-align:left" readonly="true" required="false" displayFunction="" ></td>
+						<td excelIndex="5"    id="Price" name="기준가격" celltype="input" style="text-align:right" readonly="true" required="false"  displayFunction="moca.comma" ></td>
+						<td excelIndex="6"    id="EngineType" name="엔진"  celltype="input" style="" readonly="true" required="false" displayFunction=""></td>	
+						<td excelIndex="7"    id="RegisterTime" name="적용일"  celltype="input" style="" readonly="true" ></td>	
+						<td excelIndex="8"    id="remark" name="비고"  celltype="input" style="" readonly="true" displayFunction=""></td>
+					</tr>
+				</tbody>
+			</table>				
+	</div>
+</body>
+</html>

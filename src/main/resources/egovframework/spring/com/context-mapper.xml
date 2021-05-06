@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+  xsi:schemaLocation="
+  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
+  
+ 	<bean id="sqlSessionFactory2" class="org.mybatis.spring.SqlSessionFactoryBean"> 
+		<property name="dataSource" ref="dataSource-carbangDevapi" /> 
+		<property name="mapperLocations" value="classpath:/com/carbang365/TOSql.xml" /> 
+		<property name="configLocation" value="classpath:/mybatis-config.xml"/>
+	</bean> 
+
+    <bean id="TOMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	  <property name="mapperInterface" value="com.carbang365.TOMapper" />
+	  <property name="sqlSessionFactory" ref="sqlSessionFactory2" />
+	</bean>
+    
+
+<mybatis:scan base-package="com.carbang365" />
+    
+</beans>

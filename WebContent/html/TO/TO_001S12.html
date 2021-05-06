@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script>
+moca.TO_001S12.___ready = function(args){
+	moca.TO_001S12.bindCombo("grd_0.Stage",{metaInfo:{codeCd:"code",codeNm:"codeNm"},allOption:{label:'',value:''}},moca.TO_001.getObj("grd_0")['Stage']['list']);
+};
+</script>
+</head>
+<body>
+	<!-- TO_001S12 환급 -->
+	<div type="grid" class="moca_grid toolbar" default_cell_height="26px" id="grd_0" 
+			toolbar_search_size="false"
+			toolbar_col_showhide="false"
+			toolbar_detail="false"
+			toolbar_exup="false"
+			toolbar_exdn="false"
+			toolbar_addrow="false"
+			toolbar_delrow="false"
+			toolbar_nextbtn="false"
+			toolbar_full="true"
+			toolbar_grid_button1='{"position":"right","id":"btn_charge","label":"상세보기","onclick":"moca.TO_001.fn_pop","addClass":""}'
+			onDblClick = "moca.TO_001.grd_0__onDblClick"
+			label="결제오류">
+			<table style="width: 100%">
+								<colgroup>
+						<col style="width:50px"><!-- 순번 -->
+						<col style="width:50px"><!-- Idx -->
+						<col style="width:80px"><!-- 이전신청일 -->
+						<col style="width:80px"><!-- 거래형태 -->
+						<col style="width:60px"><!-- 상품-->
+						<col style="width:150px"><!-- 상태 -->
+						<col style="width:60px"><!-- 신청자 -->
+						<col style="width:60px"><!-- 양수인 -->
+						<col style="width:60px"><!-- 양도인 -->
+						
+						<!-- <col style="width:50px"> --><!-- 차명-->
+						<col style="width:150px"><!-- 차명-->
+						
+						<col style="width:70px"><!-- 차종-->
+						<col style="width:80px"><!-- 차량번호-->
+						<col style="width:80px"><!-- 매매금액-->
+						<col style="width:110px"><!-- 인증유무-->
+						<col style="width:60px"><!-- 고객결제유무-->
+						<col style="width:100px"><!-- 공단입금-->
+						<col style="width:60px"><!-- 이전등록-->
+						<col style="width:60px"><!-- 환급-->
+				</colgroup>
+				<thead>
+					<tr>
+						<th id="H_rowNum">순번</th>
+						<th id="H_Idx">ID</th>
+						<th id="H_RegisterTime">이전신청일</th>
+						<th id="H_TransferForm">거래형태</th>
+						<th id="H_ProductType">상품</th>
+						<th id="H_Stage">상태</th>
+						<th id="H_UserName">신청자</th>
+						<th id="H_buyerName">양수인</th>
+						<th id="H_sellerName">양도인</th>
+						
+						<!-- <th id="H_RegistrationIndex">등록번호</th> -->
+						<th id="H_carName">차명</th>
+						<th id="H_carType">차종</th>
+						<th id="H_Request_VehicleNumber">차량번호</th>
+						<th id="H_purchasePrice">매매금액</th>
+						<th id="H_certStage">인증유무</th>
+						<th id="H_customerPayStage">고객결제유무</th>
+						<th id="H_compPayStage">공단입금</th>
+						<th id="H_transferStage">이전등록</th>
+						<th id="H_rePayStage">환급</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td id="rowNum" name="순번" celltype="input" style="" readonly="true"  displayFunction="moca.fn_display_rownum"></td>
+						<td id="Idx" name="ID" celltype="input" style="" readonly="true" ></td>
+						<td id="RegisterTime" name="이전신청일"  celltype="input" tooltip="true" style="" readonly="true" required="false"></td>
+						<td id="TransferForm" name="거래형태"  celltype="input" tooltip="true" style="" readonly="true" required="false"></td>
+						<td id="ProductType" name="상품"  celltype="input" readonly="true" required="false"></td>
+						<td id="Stage" name="상태"  
+							celltype="select" cdField="CODE" nmField="CODE_NM" displayFormat="[value] [label]"
+							tooltip="true" style="text-align:left" readonly="true" required="false">
+						</td>
+						<td id="UserName" name="신청자" celltype="input" style="" readonly="true" required="false"></td>
+						<td id="buyerName" name="양수인"  celltype="input" style="" readonly="true" required="false"></td>	
+						<td id="sellerName" name="양도인"  celltype="input" style="" readonly="true" ></td>	
+						
+						<!-- <td id="RegistrationIndex" name="등록번호"  celltype="input" style="text-align:center" readonly="true" ></td> -->
+						<td id="carName" name="차명"  celltype="input" style="text-align:left" readonly="true" ></td>
+						<td id="carType" name="차종"  celltype="input" style="" readonly="true" ></td>
+						<td id="Request_VehicleNumber" name="차량번호"  celltype="input" style="" readonly="true" ></td>
+						<td id="PurchasePrice" name="매매금액"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.comma"></td>
+						<td id="certStage" name="인증유무"  celltype="input" style="" readonly="true" ></td>
+						<td id="customerPayStage" name="고객결제유무"  celltype="input" style="" readonly="true" ></td>
+						<td id="compPayStage" name="공단입금"  celltype="input" style="" readonly="true" ></td>
+						<td id="transferStage" name="이전등록"  celltype="input" style="" readonly="true" ></td>
+						<td id="rePayStage" name="환급"  celltype="input" style="" readonly="true" ></td>
+					</tr>
+				</tbody>
+				</tbody>
+			</table>				
+	</div>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context" 
+xmlns:mvc="http://www.springframework.org/schema/mvc" 
+xmlns:p="http://www.springframework.org/schema/p" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd        
+	   http://www.springframework.org/schema/beans/spring-beans.xsd   
+ http://www.springframework.org/schema/context 
+ http://www.springframework.org/schema/context/spring-context.xsd    
+ http://www.springframework.org/schema/mvc
+ 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd         
+ 	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+ 
+ 
+ 
+ 
+
+    <!-- component-scan 설정-->
+ 	<context:component-scan base-package="egovframework,mocaframework,com.carbang365,com.carbang365m,com.carbang365common">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+
+    <!-- 메시지소스빈 설정 -->
+    <bean id="egovMessageSource" class="egovframework.com.cmm.EgovMessageSource">
+        <property name="reloadableResourceBundleMessageSource">
+            <ref bean="messageSource" />
+        </property> 
+    </bean>
+    
+    <!-- 프로퍼티 파일 위치 설정 -->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>classpath:/egovframework/message/com/message-common</value>
+                <value>classpath:/egovframework/rte/fdl/idgnr/messages/idgnr</value>
+                <value>classpath:/egovframework/rte/fdl/property/messages/properties</value>
+            </list>
+        </property>
+        <property name="cacheSeconds">
+            <value>60</value>
+        </property>
+    </bean>
+    
+    <!-- Exception 발생시 후처리용 별도작업을 위해 실행환경의 LeveaTrace를 활용하도록 설정 -->
+    <bean id="leaveaTrace" class="egovframework.rte.fdl.cmmn.trace.LeaveaTrace">
+        <property name="traceHandlerServices">
+            <list>
+                <ref bean="traceHandlerService" />
+            </list>
+        </property>
+    </bean> 
+    <!-- Exception 발생시 후처리용 별도작업을 위해 실행환경의 DefaultTrace Handle Manager 를 활용하도록 설정 -->
+    <bean id="traceHandlerService" class="egovframework.rte.fdl.cmmn.trace.manager.DefaultTraceHandleManager">
+        <property name="reqExpMatcher">
+            <ref bean="antPathMater" />
+        </property>
+        <property name="patterns">
+            <list>
+                <value>*</value>
+            </list>
+        </property>
+        <property name="handlers">
+            <list>
+                <ref bean="defaultTraceHandler" />
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Exception 발생시 후처리용 별도작업을 위해 실행환경의  AntPathMatcher 를 활용하도록 설정 -->
+    <bean id="antPathMater" class="org.springframework.util.AntPathMatcher" />
+    <!-- Exception 발생시 후처리용 별도작업을 위해 실행환경의  DefaultTraceHandler 를 활용하도록 설정 egovframework.rte.fdl.cmmn.trace.handler.DefaultTraceHandler -->
+    <bean id="defaultTraceHandler" class="egovframework.com.cmm.EgovComTraceHandler" />
+        
+    <!-- For Pagination Tag 설정-->
+    <bean id="imageRenderer" class="egovframework.com.cmm.ImagePaginationRenderer"/>
+    <bean id="paginationManager" class="egovframework.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager">
+        <property name="rendererType">
+            <map>
+                <entry key="image" value-ref="imageRenderer"/> 
+            </map>
+        </property>
+    </bean>
+    
+    <!-- MULTIPART RESOLVERS -->
+    <!-- regular spring resolver -->    
+    <bean id="spring.RegularCommonsMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="20000000000" />
+        <property name="maxInMemorySize" value="2000000000" />
+    </bean>
+    <!-- custom multi file resolver -->    
+    <bean id="local.MultiCommonsMultipartResolver" class="egovframework.com.cmm.web.EgovMultipartResolver">
+        <property name="maxUploadSize" value="20000000000" />
+        <property name="maxInMemorySize" value="2000000000" />
+    </bean>
+    <!-- choose one from above and alias it to the name Spring expects -->
+    <!-- alias name="local.MultiCommonsMultipartResolver" alias="multipartResolver" /-->
+    <alias name="spring.RegularCommonsMultipartResolver" alias="multipartResolver" />
+    
+    <!-- 테스트용 잡  -->
+<!--     <bean id="batchJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="fileBatchService" />
+        <property name="targetMethod" value="regist" />
+        <property name="concurrent" value="false" />
+    </bean> -->
+
+<!--  초    |   분   |   시   |   일   |   월   |  요일  |   연도
+
+0~59 | 0~59 | 0~23 | 1~31 | 1~12  |   0~6  | 생략가능
+
+
+
+
+
+요일 : 0 (일요일) ~ 6( 토요일)
+
+? : 설정 값 없을 때 - 일과 요일 에서만 사용가능
+
+* : 모든조건
+
+시작시간/단위 : 시작시간부터 해당 단위 때
+
+시작범위-끝범위 : 시작범위 부터 끝범위까지
+
+L : 마지막 - 일, 요일 에서만 사용가능
+
+W : 가장 가까운 평일 찾는다 - 일 에서만 사용가능
+
+ex) 10W
+
+-10일이 평일 일 때 : 10일에 실행
+
+-10일이 토요일 일 때 : 가장 가까운 평일인 금요일(9일)에 참
+
+-10일이 일요일 일 때 : 가장 가까운 평일인 월요일(11일)에 참
+
+# : 몇주 째인지 찾는다 - 요일 에서만 사용가능
+
+ex) 3#2 : 수요일#2째주 에 참
+
+
+
+예제
+
+
+
+1) 매월 10일 오전 11시
+
+0  1  1  10  *  *
+
+
+
+2) 매일 오후 2시 5분 0초
+
+0  5  14  *  *  *
+
+
+
+3) 10분마다 도는 스케줄러 : 10분 0초, 20분 0초...
+
+0  0/10  *  *  *
+
+
+
+4) 조건에서만 실행되는 스케줄러 : 10분 0초, 11분 0초 ~ 15분 0초까지 실행
+
+0  10-15  *  *  * -->
+    <!-- 테스트용  트리거-->
+<!--      <bean id="testJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="batchJob" />
+        <property name="cronExpression" value="0 0 4 * * ?" />
+    </bean>  -->
+
+    <!-- 테스트용 스케줄러 -->
+<!--     <bean id="testJobScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list><ref bean="testJobTrigger" /></list>
+        </property>
+    </bean> -->
+    
+    
+    
+    
+    
+    <!-- TO_012_updateEnable 1시(테스용주기설정)마다 체크설정-->
+    <bean id="TO_012_updateEnable_Job" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="toService" />
+        <property name="targetMethod" value="TO_012_updateEnable" />
+        <property name="concurrent" value="false" />
+    </bean>
+     <bean id="TO_012_updateEnable_Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="TO_012_updateEnable_Job" />
+        <property name="cronExpression" value="0 0 1 * * ?" />  
+    </bean>
+    
+    <!-- TS신청체크 9시(테스용주기설정)마다 체크설정-->
+    <bean id="TS_1100_Job" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="toService" />
+        <property name="targetMethod" value="TS_1100" />
+        <property name="concurrent" value="false" />
+    </bean>
+     <bean id="TS_1100_Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="TS_1100_Job" />
+        <property name="cronExpression" value="0 0 9 * * ?" />  
+    </bean>
+ 
+    <!-- 양수,양도인 인증확인 설정-->
+    <bean id="TS_9100_getStatus_Job" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="toService" />
+        <property name="targetMethod" value="TS_9100_getStatus_Job" />
+        <property name="concurrent" value="false" />
+    </bean>
+     <bean id="TS_9100_getStatus_Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="TS_9100_getStatus_Job" />
+        <property name="cronExpression" value="0 0/1 * * * ?" />  
+    </bean>
+       
+    <!-- reciveTransferOwnerPriceTsAfter 1분(테스용주기설정)마다 공단입금처리내역이 있는지확인하여 후속처리를 함-->
+    <bean id="reciveTransferOwnerPriceTsAfter_Job" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="toService" />
+        <property name="targetMethod" value="reciveTransferOwnerPriceTsAfter" />
+        <property name="concurrent" value="false" />
+    </bean>
+     <bean id="reciveTransferOwnerPriceTsAfter_Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="reciveTransferOwnerPriceTsAfter_Job" />
+        <property name="cronExpression" value="0 0/10 * * * ?" />
+    </bean> 
+    <!-- getTransferOwnerRstTsForSchedule 1분(테스용주기설정)마다 환불처리내역이 있는지확인하여 후속처리를 함-->
+    <bean id="getTransferOwnerRstTsForSchedule_Job" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="toService" />
+        <property name="targetMethod" value="getTransferOwnerRstTsForSchedule" />
+        <property name="concurrent" value="false" />
+    </bean>
+     <bean id="getTransferOwnerRstTsForSchedule_Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="getTransferOwnerRstTsForSchedule_Job" />
+        <property name="cronExpression" value="0 0/10 * * * ?" />
+    </bean> 
+    
+     
+    <bean id="TO_012_updateEnable_Scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+            	<ref bean="TO_012_updateEnable_Trigger" /><!-- 해당일자에 적용할 약관이 있는지 확인후 적용함 -->
+            	<ref bean="TS_1100_Trigger" /><!-- 민원신청시간타임아웃이나 고객이결제했는데 TS사정으로 민원신청이 제대로 들어가지않은건들을 모아서 다음날9시 다시 요청하게함 -->
+            	<!-- <ref bean="TS_9100_getStatus_Trigger" /> --><!-- 인증여부를 화면없이도 체크하게함 -->   
+            	
+<!--             	<ref bean="reciveTransferOwnerPriceTsAfter_Trigger" />
+            	<ref bean="getTransferOwnerRstTsForSchedule_Trigger" /> -->
+            </list>
+        </property>
+    </bean>  
+    <mvc:interceptors>
+   	 	<bean class="com.carbang365.TOInterCeptor"></bean>  
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.carbang365.TOInterCeptor">
+				<property name="urls">
+					<list>
+						<value>/TO/mobile/siren24GetInfo.do</value> 
+						<value>/TO/mobile/sampleView.do</value>
+						<value>/TO/mobile/sampleReturnView.do</value>
+						<value>/TOM_02/saveUserInfo.do</value>
+						<value>/TOM_02/mobile/saveUserInfo.do</value>
+						<value>/TOM_02/userInfo.do</value>
+						<value>/TOM_02/mobile/userInfo.do</value>
+						<value>/TO/common/usim.do</value> 
+						<value>/TO_001/admMngList.do</value> 
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+</beans>

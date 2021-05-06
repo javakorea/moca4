@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>AreaChart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css" href="../css/moca_layout.css">
+<script language="JavaScript" src="../js/jquery-3.3.1.min.js"></script>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongManager.js"></SCRIPT>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongSampleData.js"></SCRIPT>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongChart.js"></SCRIPT>			
+  	<script>
+
+	$(document).ready(function() {
+			chart2();
+			chart2_1();
+			chart2_2();
+	});//초기화 영역-------------------------------------------------------------
+  	</script>
+</head> 
+<body>
+		<div class="moca_cont_wrap2">
+					<div class="moca_titbox">
+						<h3>Scatter Chart</h3>
+					</div>
+					<div id="chart2desc" class="modulebox">
+						<div id="chart2title" class="moca_titbox">
+							<h4>6. Scatter</h4>
+						</div>
+						<p>
+						Scatter차트의 특징<br>
+						1. X-value 1개값데 대한 Y-value가 2개 이상이 맵핑될수있다.<br>
+						2. 데이터의 순서랑 그래프 x축의 눈금순서가 다를수있다.<br>
+						3. 중복데이터는 무시된다. (참고:중복의 속성을 사용하기위해서는 버블차트를 사용해야한다.)
+						</p>
+						<div id="chart2" class="crt_box mt20"></div> 	
+						
+						
+						<table class="tbl mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+									createSeries('any sereis','scatter',data2);
+									</td>
+									<td>scatter차트 타입지정</td>
+								</tr>
+							</tbody>
+						</table>	
+						
+						<table class="tbl y mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+									option.xrange_axis = true;		
+									</td>
+									<td>x축을 범위형(컬럼명과 대비됨)으로 사용한다. </td>
+								</tr>	
+								<tr>
+									<td class="sct">
+									option.xmin = 0;		
+									</td>
+									<td>x축이 0부터 시작한다. </td>
+								</tr>
+								<tr>
+									<td class="sct">
+									option.xmax = 10000;		
+									</td>
+									<td>x축의 최대치는 10000으로 셋팅함.</td>
+								</tr>		
+								<tr>
+									<td class="sct">
+									option.xrange_count = 10;		
+									</td>
+									<td>x축의 눈금개수</td>
+								</tr>			
+								<tr>
+									<td class="sct">
+										var xMaxTmp = aSeries['s_data'][aSeries['s_data'].length-1][0];
+										if(option.xmax	< xMaxTmp){
+											option.xmax	 = xMaxTmp;				
+										}	
+									</td>
+									<td>xmax를 동적으로 지정</td>
+								</tr>	
+							</tbody>
+						</table>	
+					</div>        
+
+
+
+
+
+
+
+					<div id="chart2_1desc" class="modulebox">
+						<div id="chart2_1title" class="moca_titbox">
+							<h4>2_1. x-value , y-value가 1:n인 경우</h4>
+						</div> 
+						<div id="chart2_1" class="crt_box mt20"></div> 
+						
+						<table class="tbl mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+									chartUtil.formatData_profile2(data2_1,false,null,0,3,true)
+									</td>
+									<td>[필수]6번째 파라미터는 _xSortOption 즉 데이터를 x-value를 오르차순으로 정렬한다. </td>
+								</tr>
+							</tbody>
+						</table>	
+						
+						<table class="tbl y mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+										option.min = 0;
+									</td>
+									<td>y축의 최소값을 0으로 지정함.</td>
+								</tr>	
+							</tbody>
+						</table>	
+
+						
+					</div>  
+
+
+					<div id="chart2_2desc" class="modulebox">
+						<div id="chart2_2title" class="moca_titbox">
+							<h4>2_1. 겹쳐지는 대량 데이터</h4>
+						</div> 
+						<div id="chart2_2" class="crt_box mt20"></div> 
+						
+						<table class="tbl mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+									chartUtil.formatData_profile2(data2_1,false,null,0,3,true)
+									</td>
+									<td>[필수]6번째 파라미터는 _xSortOption 즉 데이터를 x-value를 오르차순으로 정렬한다. </td>
+								</tr>
+							</tbody>
+						</table>	
+						
+						<table class="tbl y mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+										option.min = 0;
+									</td>
+									<td>y축의 최소값을 0으로 지정함.</td>
+								</tr>	
+							</tbody>
+						</table>	
+					</div> 
+		</div>
+</body>
+</html>
+

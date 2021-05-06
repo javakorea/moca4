@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" /> 
+<meta http-equiv="Pragma" content="no-cache" /> 
+<meta http-equiv="Expires" content="Mon, 06 Jan 1990 00:00:01 GMT">
+<meta http-equiv="Expires" content="-1" />
+	<meta name="viewport"
+		content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<title>출금이체결제내역확인_온라인소유권이전</title>
+	<script>
+		moca.TOM_82_SRC.___ready = function(args){
+			if(moca.getSs("loginInfo") == null || window.history.length < 3){
+				location.href = '/to';
+			};
+			moca.setHistory('TOM_82',{'title':'결제금액확인','time':(new Date()).getTime()});
+			
+			var TOM_81 = moca.getSs('TOM_81');
+			var account = TOM_81.selectedAccount;
+			var Bank_Name = account.Bank_Name;
+			$('#Bank_Name').html(Bank_Name);
+			var Bank_Account = account.Bank_Account;
+			$('#Bank_Account').html(Bank_Account);
+			moca.TOM_82_SRC.transferPrice();
+
+		};
+		function go(e){
+			location.href = 'TOM_83.html';
+		};
+		
+		moca.TOM_82_SRC.transferPrice = function(){
+			moca.TOM_82_SRC.exe({
+				url : moca._domain+moca._contextRoot+"/TOM_61/mobile/transferPrice.do",
+				loadingbar:true,
+				loadingInfo:{type:"mobile",className:"_modal",content:"<span>잠시만 기다려주세요!</span>"},
+		        data : {
+		        	"header" : moca.header,
+		        	"body" : {
+		        		District_Major:moca.getSs("ysInfo").ys_addr1.split(' ')[0],
+		        		District_Major_Gu:moca.getSs("ysInfo").ys_addr1.split(' ')[1],
+		        		VehicleBasisPrice:moca.getSs("won").replace(/,/g,''),
+		        		toVehicleRegistrationIdx:moca.getSs("coocon_data"),
+		        		toTransferOwnerIdx:moca.getSs("transferownerId")
+		        	}
+		        },			
+				callback : function(response){
+					if(response.error){
+						moca.malert(response.error,'',function(){
+							return;
+						});
+						return;
+					};
+					var total_TransferOwner_Price = moca.getSs('total_TransferOwner_Price');
+					if(response.transferCostMap.total_TransferOwner_Price != total_TransferOwner_Price){
+						$('#payamount').html(moca.comma(response.transferCostMap.total_TransferOwner_Price));
+					}else{
+						$('#payamount').html(moca.comma(total_TransferOwner_Price));
+					}
+				}
+			});
+		};
+		
+		moca.TOM_82_SRC.back = function(){
+			location.href = 'TOM_81.html';
+		};
+		moca.TOM_82_SRC.toCancel = function(){
+			moca.mconfirm('소유권이전을 취소하시겠습니까?','',function(_result){
+				if(_result == 'Y'){
+					moca.TOM_82_SRC.exe({
+						url : moca._domain+moca._contextRoot+"/TOM_60/mobile/cancelTransferOwner.do",
+			            data : {
+			            	"header" : moca.header,
+			            	"body" : {
+			            		Stage:"26",
+			            		idx:moca.getSs("transferownerId")+""
+			            	}
+			            },		
+						callback : function(response){
+							if(response.error){
+								moca.merror(response.error,'',function(){
+									//location.href='TOM_25.html?isCancel=true';
+								});
+							}else if(response.rePayResYn == 'N'){
+				        	    moca.mresult('성공적으로 취소되었습니다!','',function(){
+				        		   location.href='TOM_25.html?isCancel=true';
+				        	   });	
+							}else{
+								//polling후
+				        	    moca.mresult('성공적으로 취소되었습니다!','',function(){
+				        	    	location.href='TOM_25.html?isCancel=true';
+				        	    });	
+							}
+
+						}
+					});
+					
+				}
+			});
+		};
+	</script>
+	</head>
+	<body>
+		<div class="wrap">
+			<header class="titlebar">
+				<button class="btn_back" type="button" onclick="moca.TOM_82_SRC.back()">이전페이지</button>
+				<h2 class="tit"><a href="javascript:void(0)" onclick="moca.TOM_82_SRC.toCancel()">이전 취소</a></h2>
+			</header>
+	
+			<div class="content btn_cont fx2 jct2">
+				<div class="top_txt">
+					<p><span>결제내역</span>을<br>확인하세요.</p>
+				</div>
+				<ul class="d_form2">
+					<li>
+						<label id="Bank_Name"></label>
+						<strong class="tbx2" id="Bank_Account"></strong>					
+					</li>
+					<li>
+						<label>결제금액</label>
+						<strong class="tbx2 num" id="payamount"></strong>
+					</li>
+					
+				</ul>
+			</div>
+			<div class="btn_btm">
+				<button class="btn_go" type="button" onclick="go()">결제하기</button>
+			</div>
+		</div>
+	</body>
+</html>

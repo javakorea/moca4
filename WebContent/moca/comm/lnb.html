@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>footer</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css" href="./css/moca.css">
+<link rel="stylesheet" type="text/css" href="./css/fontawesome.css">
+<link rel="stylesheet" type="text/css" href="../css/moca_layout.css">
+<script language="JavaScript" src="../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../js/moca_ui.js"></script>
+<script language="JavaScript" src="./js/list2000.js"></script>
+<script language="JavaScript" src="./js/moca.js"></script>
+<script>
+	$(document).ready(function() {
+		
+		/*
+		menu = moca.tree_mm(menu,1,18,"000");
+		
+		var menu_000_1_4 = [];
+		menu_000_1_4 = moca.tree_mm(menu_000_1_4,2,4,"000_1_4");
+		menuObjs["000_1_4"] = menu_000_1_4;
+
+		var menu_000_1_4_2_1 = [];
+		menu_000_1_4_2_1 = moca.tree_mm(menu_000_1_4_2_1,3,2,"000_1_4_2_1");
+		menuObjs["000_1_4_2_1"] = menu_000_1_4_2_1;
+		
+		var menu_000_1_11 = [];
+		menu_000_1_11 = moca.tree_mm(menu_000_1_11,2,1,"000_1_11");
+		menuObjs["000_1_11"] = menu_000_1_11;
+		*/
+		
+		moca.tree_mt("tree1",moca.menu,moca.menuObjs);	
+	});
+</script>
+</head>
+<body>
+		<div class="moca_lnb">
+			<ul class="moca_switch">
+				<li class="switch_li active">
+<!-- 					<div class="moca_lnb_titbox">
+						<h2>업무메뉴</h2>
+					</div> -->
+					<div class="moca_lnb_head">
+						<div class="moca_lnb_autocomp">
+							<input type="text" class="moca_input" title="메뉴명을 입력하세요" placeholder="메뉴명을 입력하세요" onkeyup="moca.menuSearch(this)">
+						</div>
+					</div>			
+					<div id="tree1" class="moca_tree workmenu"></div>
+				</li>
+<!-- 				<li class="switch_li">
+					<div class="moca_lnb_titbox">
+						<h2>마이메뉴</h2>
+					</div>
+					<div class="moca_lnb_head">
+						<div class="moca_lnb_autocomp">
+							<input type="text" class="moca_input" title="검색어를 입력하세요" placeholder="검색어를 입력하세요">
+						</div>
+					</div>			
+					<div id="tree_mymenu" class="moca_tree icon"></div>
+				</li>
+				<li class="switch_li">
+					<div class="moca_lnb_titbox">
+						<h2>최근메뉴</h2>
+					</div>
+					<div class="moca_lnb_head">
+						<div class="moca_lnb_autocomp">
+							<input type="text" class="moca_input" title="검색어를 입력하세요" placeholder="검색어를 입력하세요">
+						</div>
+					</div>			
+					<div id="tree_history" class="moca_tree icon"></div>
+				</li> -->
+			</ul>
+		
+			<div class="lnb_split_area"></div>
+			<button type="button" class="moca_lnb_toggle"><i class="fas fa-arrow-right"></i></button>
+		</div>
+</body>
+</html>

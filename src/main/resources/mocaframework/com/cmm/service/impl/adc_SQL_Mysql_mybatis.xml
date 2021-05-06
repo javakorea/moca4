@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper     
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ 
+<!--  매퍼파일에 sql문 등록하기! -->
+ <mapper namespace="mocaframework.com.cmm.service.impl.AdcMapper">
+ 	<!-- ReportScanner partition 최소값 최대값 조회 -->
+ 	<select id="selectPartitionMinMax" resultType="Map">
+	 	SELECT MIN(partition_description) AS pmin, MAX(partition_description) AS pmax
+		FROM INFORMATION_SCHEMA.PARTITIONS
+		WHERE TABLE_NAME = '8020im_report_index' AND CONCAT('',partition_description *1) = partition_description
+	</select>
+ 	<select id="showTableDesc12" resultType="Map">
+		show tables like '__desc__8020im_report_master_1'
+	</select>
+ 	<select id="showTableAsc12" resultType="Map">
+		show tables like '__asc__8020im_report_master_1'
+	</select>
+    <select id="selectListNpreportCnt" resultType="Map">
+	    <![CDATA[
+			SELECT count(a.DATE_SEQ) cnt
+			FROM 
+		 ]]>
+			<choose>
+				<when test = 'sort.equals("1")'>
+					__desc__8020im_report_master_${tableNum} a
+				</when>
+				<otherwise>
+					__asc__8020im_report_master_${tableNum} a
+				</otherwise>
+			</choose>
+			WHERE 1 = 1
+		<![CDATA[	
+			AND a.date >= #{From}
+			AND a.date <= #{To}
+		]]> 
+		<if test="Level1CD != null and Level1CD != ''">
+   			And a.level1_cd = #{Level1CD}
+		</if>
+		<if test="(Level1CD != null and Level1CD != '') and (Level2CD != null and Level2CD != '')">
+	   		And a.level2_cd = #{Level2CD}
+		</if>
+		<if test="File!= null and File != ''">
+			<choose>
+				<when test = 'File.equals("1")'>
+					AND a.have_file = 1
+				</when>
+				<otherwise>
+					AND a.have_file = 0
+				</otherwise>
+			</choose>
+		</if> 
+ 		<if test="arrIssuer != null and arrIssuer.length !=0">
+			<foreach collection="arrIssuer" item="keyword" index="K" close=")">
+					<choose>
+						<when test='K == 0'>
+							 AND (a.issuer like CONCAT ('%', #{keyword},'%')
+						</when>
+						<otherwise>
+							<if test="keyword != null and keyword != ''">
+							 OR a.issuer like CONCAT ('%', #{keyword},'%')
+							</if>
+						</otherwise>
+					</choose>
+			</foreach>
+		</if>
+ 		<if test="arrAuthor != null and arrAuthor.length !=0">
+			<foreach collection="arrAuthor" item="keyword" index="K" close=")">
+					<choose>
+						<when test='K == 0'>
+							 AND (a.author like CONCAT ('%', #{keyword},'%')
+						</when>
+						<otherwise>
+							<if test="keyword != null and keyword != ''">
+							 OR a.author like CONCAT ('%', #{keyword},'%')
+							</if>
+						</otherwise>
+					</choose>
+			</foreach>
+		</if>
+		<if test="arrKeyWord != null and arrKeyWord.length !=0">
+			<foreach collection="arrKeyWord" item="keyword" index="K" >
+				<if test="(chkIncludeTitle==true and keyword != null and keyword != '') or (chkIncludeSummery==true and keyword != null and keyword != '')"> 
+					AND (
+						<if test="chkIncludeTitle==true and keyword != null and keyword != ''"> 
+							 a.title like CONCAT ('%', #{keyword},'%')
+						</if>
+						<if test="chkIncludeSummery==true and keyword != null and keyword != ''">
+							<choose>
+								<when test="chkIncludeTitle==true and keyword != null and keyword != ''">
+									 OR a.summery like CONCAT ('%', #{keyword},'%')
+								</when>
+								<otherwise>
+									a.summery like CONCAT ('%', #{keyword},'%')
+								</otherwise>
+							</choose>
+						</if>
+					)
+				</if>
+			</foreach>
+		</if>
+    </select>
+ 	<!-- ReportScanner 그리드 조회  -->
+    <select id="selectListNpreport" resultType="Map">
+	    <![CDATA[
+			SELECT a.file_cd, a.date, a.title, a.issuer, a.author, a.have_file, a.file_path, a.file_nm, a.file_real_nm, a.file_ext, a.summery, a.home_path, a.file_size,
+			a.level1_cd, a.level1_nm, a.level2_cd, a.level2_nm
+			FROM
+		 ]]>
+			<choose>
+				<when test = 'sort.equals("1")'>
+					__desc__8020im_report_master_${tableNum} a
+				</when>
+				<otherwise>
+					__asc__8020im_report_master_${tableNum} a
+				</otherwise>
+			</choose>
+			WHERE 1 = 1
+		<![CDATA[	
+			AND a.date >= #{From}
+			AND a.date <= #{To}
+		]]> 
+
+		<if test="Level1CD != null and Level1CD != ''">
+   			And a.level1_cd = #{Level1CD}
+		</if>
+		<if test="(Level1CD != null and Level1CD != '') and (Level2CD != null and Level2CD != '')">
+	   		And a.level2_cd = #{Level2CD}
+		</if>
+		<if test="File!= null and File != ''">
+			<choose>
+				<when test = 'File.equals("1")'>
+					AND a.have_file = 1
+				</when>
+				<otherwise>
+					AND a.have_file = 0
+				</otherwise>
+			</choose>
+		</if> 
+ 		<if test="arrIssuer != null and arrIssuer.length !=0">
+			<foreach collection="arrIssuer" item="keyword" index="K" close=")">
+					<choose>
+						<when test='K == 0'>
+							 AND (a.issuer like CONCAT ('%', #{keyword},'%')
+						</when>
+						<otherwise>
+							<if test="keyword != null and keyword != ''">
+							 OR a.issuer like CONCAT ('%', #{keyword},'%')
+							</if>
+						</otherwise>
+					</choose>
+			</foreach>
+		</if>
+ 		<if test="arrAuthor != null and arrAuthor.length !=0">
+			<foreach collection="arrAuthor" item="keyword" index="K" close=")">
+					<choose>
+						<when test='K == 0'>
+							 AND (a.author like CONCAT ('%', #{keyword},'%')
+						</when>
+						<otherwise>
+							<if test="keyword != null and keyword != ''">
+							 OR a.author like CONCAT ('%', #{keyword},'%')
+							</if>
+						</otherwise>
+					</choose>
+			</foreach>
+		</if>
+		<if test="arrKeyWord != null and arrKeyWord.length !=0">
+			<foreach collection="arrKeyWord" item="keyword" index="K" >
+				<if test="(chkIncludeTitle==true and keyword != null and keyword != '') or (chkIncludeSummery==true and keyword != null and keyword != '')"> 
+					AND (
+						<if test="chkIncludeTitle==true and keyword != null and keyword != ''"> 
+							 a.title like CONCAT ('%', #{keyword},'%')
+						</if>
+						<if test="chkIncludeSummery==true and keyword != null and keyword != ''">
+							<choose>
+								<when test="chkIncludeTitle==true and keyword != null and keyword != ''">
+									 OR a.summery like CONCAT ('%', #{keyword},'%')
+								</when>
+								<otherwise>
+									a.summery like CONCAT ('%', #{keyword},'%')
+								</otherwise>
+							</choose>
+						</if>
+					)
+				</if>
+			</foreach>
+		</if>
+		order by a.date 
+		<choose>
+			<when test = 'sort.equals("1")'>
+				desc
+			</when>
+			<otherwise>
+				asc
+			</otherwise>
+		</choose>
+		limit ${limitFrom}, ${limitTo}
+    </select>
+    
+ 	<!-- ReportScanner 대분류  -->
+    <select id="reportCateBig" resultType="Map">
+    	SELECT level1_cd, level1_nm FROM 8020im_level1_index
+		ORDER BY level1_cd ASC;
+    </select>
+    
+    <!-- ReportScanner 소분류  -->
+    <select id="reportCateSmall" resultType="Map">
+		SELECT B.level2_cd, B.level2_nm FROM 8020im_level1_index A, 8020im_level2_index B
+		WHERE 1=1
+		AND A.level1_cd =  B.level1_cd
+		AND B.level1_cd = #{Level1CD}
+		ORDER BY LEVEL2_CD ASC
+    </select>
+    
+    <!-- ReportScanner 발행기관 순위 및 리포트수  -->
+    <select id="rsIssuerRank" resultType="Map">
+    	<![CDATA[
+		SELECT COUNT(file_cd) cc, ISSUER FROM 
+		 ]]>
+		<choose>
+			<when test = 'sort.equals("1")'>
+				__desc__8020im_report_master_${tableNum} a
+			</when>
+			<otherwise>
+				__asc__8020im_report_master_${tableNum} a
+			</otherwise>
+		</choose>
+		WHERE 1 = 1
+
+		<![CDATA[	
+			AND a.date >= #{From}
+			AND a.date <= #{To}
+		]]> 
+
+			<if test="Level1CD != null and Level1CD != ''">
+	   			And a.level1_cd = #{Level1CD}
+			</if>
+			<if test="(Level1CD != null and Level1CD != '') and (Level2CD != null and Level2CD != '')">
+		   		And a.level2_cd = #{Level2CD}
+			</if>
+			<if test="File!= null and File != ''">
+				<choose>
+					<when test = 'File.equals("1")'>
+						AND a.have_file = 1
+					</when>
+					<otherwise>
+						AND a.have_file = 0
+					</otherwise>
+				</choose>
+			</if> 
+	 		<if test="arrIssuer != null and arrIssuer.length !=0">
+				<foreach collection="arrIssuer" item="keyword" index="K" close=")">
+						<choose>
+							<when test='K == 0'>
+								 AND (a.issuer like CONCAT ('%', #{keyword},'%')
+							</when>
+							<otherwise>
+								<if test="keyword != null and keyword != ''">
+								 OR a.issuer like CONCAT ('%', #{keyword},'%')
+								</if>
+							</otherwise>
+						</choose>
+				</foreach>
+			</if>
+	 		<if test="arrAuthor != null and arrAuthor.length !=0">
+				<foreach collection="arrAuthor" item="keyword" index="K" close=")">
+						<choose>
+							<when test='K == 0'>
+								 AND (a.author like CONCAT ('%', #{keyword},'%')
+							</when>
+							<otherwise>
+								<if test="keyword != null and keyword != ''">
+								 OR a.author like CONCAT ('%', #{keyword},'%')
+								</if>
+							</otherwise>
+						</choose>
+				</foreach>
+			</if>
+			<if test="arrKeyWord != null and arrKeyWord.length !=0">
+				<foreach collection="arrKeyWord" item="keyword" index="K" >
+					<if test="(chkIncludeTitle==true and keyword != null and keyword != '') or (chkIncludeSummery==true and keyword != null and keyword != '')"> 
+						AND (
+							<if test="chkIncludeTitle==true and keyword != null and keyword != ''"> 
+								 a.title like CONCAT ('%', #{keyword},'%')
+							</if>
+							<if test="chkIncludeSummery==true and keyword != null and keyword != ''">
+								<choose>
+									<when test="chkIncludeTitle==true and keyword != null and keyword != ''">
+										 OR a.summery like CONCAT ('%', #{keyword},'%')
+									</when>
+									<otherwise>
+										a.summery like CONCAT ('%', #{keyword},'%')
+									</otherwise>
+								</choose>
+							</if>
+						)
+					</if>
+				</foreach>
+			</if>
+		GROUP BY ISSUER
+    </select>  
+    
+    
+    <!-- ReportScanner 작성자 순위 및 리포트수  -->
+    <select id="rsAuthorrank" resultType="Map">
+    	<![CDATA[
+    	SELECT COUNT(file_cd) cc, CONCAT(ISSUER,' > ', author) ia  FROM
+		 ]]>
+		<choose>
+			<when test = 'sort.equals("1")'>
+				__desc__8020im_report_master_${tableNum} a
+			</when>
+			<otherwise>
+				__asc__8020im_report_master_${tableNum} a
+			</otherwise>
+		</choose>
+			WHERE 1 = 1
+		<![CDATA[	
+			AND a.date >= #{From}
+			AND a.date <= #{To}
+		]]> 
+
+			<if test="Level1CD != null and Level1CD != ''">
+	   			And a.level1_cd = #{Level1CD}
+			</if>
+			<if test="(Level1CD != null and Level1CD != '') and (Level2CD != null and Level2CD != '')">
+		   		And a.level2_cd = #{Level2CD}
+			</if>
+			<if test="File!= null and File != ''">
+				<choose>
+					<when test = 'File.equals("1")'>
+						AND a.have_file = 1
+					</when>
+					<otherwise>
+						AND a.have_file = 0
+					</otherwise>
+				</choose>
+			</if> 
+	 		<if test="arrIssuer != null and arrIssuer.length !=0">
+				<foreach collection="arrIssuer" item="keyword" index="K" close=")">
+						<choose>
+							<when test='K == 0'>
+								 AND (a.issuer like CONCAT ('%', #{keyword},'%')
+							</when>
+							<otherwise>
+								<if test="keyword != null and keyword != ''">
+								 OR a.issuer like CONCAT ('%', #{keyword},'%')
+								</if>
+							</otherwise>
+						</choose>
+				</foreach>
+			</if>
+	 		<if test="arrAuthor != null and arrAuthor.length !=0">
+				<foreach collection="arrAuthor" item="keyword" index="K" close=")">
+						<choose>
+							<when test='K == 0'>
+								 AND (a.author like CONCAT ('%', #{keyword},'%')
+							</when>
+							<otherwise>
+								<if test="keyword != null and keyword != ''">
+								 OR a.author like CONCAT ('%', #{keyword},'%')
+								</if>
+							</otherwise>
+						</choose>
+				</foreach>
+			</if>
+			<if test="arrKeyWord != null and arrKeyWord.length !=0">
+				<foreach collection="arrKeyWord" item="keyword" index="K" >
+					<if test="(chkIncludeTitle==true and keyword != null and keyword != '') or (chkIncludeSummery==true and keyword != null and keyword != '')"> 
+						AND (
+							<if test="chkIncludeTitle==true and keyword != null and keyword != ''"> 
+								 a.title like CONCAT ('%', #{keyword},'%')
+							</if>
+							<if test="chkIncludeSummery==true and keyword != null and keyword != ''">
+								<choose>
+									<when test="chkIncludeTitle==true and keyword != null and keyword != ''">
+										 OR a.summery like CONCAT ('%', #{keyword},'%')
+									</when>
+									<otherwise>
+										a.summery like CONCAT ('%', #{keyword},'%')
+									</otherwise>
+								</choose>
+							</if>
+						)
+					</if>
+				</foreach>
+			</if>	
+		GROUP BY ia
+    </select>
+    
+    <!-- ReportScanner 파일조회  -->
+    <select id="filedownService" resultType="Map">
+	    SELECT a.file_cd, a.FILE_PATH, a.FILE_NM, a.FILE_REAL_NM FROM __desc__8020im_report_master_${tableNum} a
+		WHERE 1=1
+		AND a.file_cd = #{file_cd}
+    </select>
+ </mapper>

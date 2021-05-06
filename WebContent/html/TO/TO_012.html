@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<style>
+</style>
+<script>
+moca.TO_012.___ready = function(args){
+	var g = moca.TO_012.getObj('grd_1');
+	g.setAttribute("selectedRealRowIndex","0");
+	moca._setRowSelection(g);
+	
+	var list_upper = [];
+	list_upper[0] = {TermsUpCd:"-1",idx:"1",RegisterTime:"2021-02-01",EnableTime:"2021-03-01",TermsTitle:"개인정보처리방침",Enable:"Y"};
+	list_upper[1] = {TermsUpCd:"-1",idx:"2",RegisterTime:"2021-02-01",EnableTime:"2021-03-01",TermsTitle:"개인정보제공동의",Enable:"Y"};
+	list_upper[2] = {TermsUpCd:"-1",idx:"3",RegisterTime:"2021-02-01",EnableTime:"2021-03-01",TermsTitle:"유료서비스이용약관",Enable:"Y"};
+	list_upper[3] = {TermsUpCd:"-1",idx:"4",RegisterTime:"2021-02-01",EnableTime:"2021-03-01",TermsTitle:"카방이용약관",Enable:"Y"};
+	moca.TO_012.upInfo = list_upper;
+	moca.TO_012.drawGrid('grd_1',moca.getResList(moca.TO_012,"upInfo"));
+	moca.TO_012.fn_search2();
+	moca.TO_012.fn_search_gonggi();
+};
+
+moca.TO_012.fn_search_gonggi = function(_thisObj){
+	var g = moca.TO_012.getObj('grd_1');
+	//g.setAttribute("selectedRealRowIndex","0");
+	//moca._setRowSelection(g);
+	
+	moca.TO_012.exe({
+		url : moca._domain+moca._contextRoot+"/TO_012/gonggiInfo.do",
+		loadingbar:true,
+		data : {
+			"header" : moca.header,
+			"body" : {
+				}
+		},			
+		callback : function(response){
+			moca.TO_012.drawGrid('grd_3',moca.getResList(response,"gonggiInfo"));
+			var g = moca.TO_012.getObj('grd_3');
+			g.setAttribute("selectedRealRowIndex","0");
+			moca._setRowSelection(g);
+		}
+	});
+};
+
+
+moca.TO_012.fn_search2 = function(_thisObj){
+	var g = moca.TO_012.getObj('grd_1');
+	//g.setAttribute("selectedRealRowIndex","0");
+	//moca._setRowSelection(g);
+	
+	moca.TO_012.exe({
+		url : moca._domain+moca._contextRoot+"/TO_012/termsInfo.do",
+		loadingbar:false,
+		data : {
+			"header" : moca.header,
+			"body" : {
+				"TermsUpCd":moca.TO_012.getCellData(g,g.getAttribute("selectedRealRowIndex"),'idx')
+				}
+		},			
+		callback : function(response){
+			moca.TO_012.drawGrid('grd_2',moca.getResList(response,"termsInfo"));
+			var g = moca.TO_012.getObj('grd_2');
+			g.setAttribute("selectedRealRowIndex","0");
+			moca._setRowSelection(g);
+		}
+	});
+};
+
+moca.TO_012.popId2 = 'TO_000P07';
+moca.TO_012.fn_pop2 = function(_thisObj){
+	['약관이력추가 팝업']
+	var master = moca.TO_012.getObj('grd_1').list[moca.TO_012.getObj('grd_1').getAttribute("selectedRealRowIndex")];
+	var o = {};
+	o.id = moca.TO_012.popId2;
+	o.url = '/html/TO/TO_000P07.html';
+	o.type = "POPUP";
+	o.modal = "false";
+	o.title = '이력추가';
+	o.callback = moca.TO_012.fn_pop_callback;
+	o.scopeId = moca.TO_012.pageId;
+	o.data = {popTitle:"새약관이력추가","TermsUpCd":master.idx,"TermsTitle":master.TermsTitle};
+	moca.popup(o,_thisObj);
+};
+
+
+moca.TO_012.fn_onRowSelected = function(_grd,_idx,tdObj,_thisObj){
+	var _TermsUpCd = moca.getCellData(_grd,_idx,'idx');
+	moca.TO_012.exe({
+		url : moca._domain+moca._contextRoot+"/TO_012/termsInfo.do",
+		loadingbar:false,
+		data : {
+			"header" : moca.header,
+			"body" : {
+				"TermsUpCd":_TermsUpCd
+				}
+		},			
+		callback : function(response){
+			moca.TO_012.drawGrid('grd_2',moca.getResList(response,"termsInfo"));
+		}
+	});
+};
+
+moca.TO_012.popId = "TO_012P01";
+moca.TO_012.grd_2__onDblClick = function(_grd,rowIndex,colIndex,colId){
+	var _TermsUpCd = _grd.list[rowIndex].TermsUpCd;
+	var _TermsTitle = _grd.list[rowIndex].TermsTitle;
+	var _termsId = moca.getCellData(_grd,rowIndex,'idx');
+	var o = {};
+	o.id = moca.TO_012.popId;
+	o.url = '/html/TO/TO_000P07.html';
+	o.type = "POPUP";
+	o.modal = "false";
+	o.title = '약관상세';
+	o.callback = moca.TO_012.fn_pop_callback;
+	o.scopeId = moca.TO_012.pageId;
+	o.data = {"termsId":_termsId,"TermsUpCd":_TermsUpCd,"TermsTitle":_TermsTitle};
+	moca.popup(o,_grd);
+};
+
+moca.TO_012.fn_pop3 = function(_thisObj){
+	['새공지추가 팝업']
+	var o = {};
+	o.id = moca.TO_012.popId2;
+	o.url = '/html/TO/TO_000P77.html';
+	o.type = "POPUP";
+	o.modal = "false";
+	o.title = '새공지추가';
+	o.callback = moca.TO_012.fn_pop_callback;
+	o.scopeId = moca.TO_012.pageId;
+	o.data = {popTitle:"새공지추가"};
+	moca.popup(o,_thisObj);
+};
+
+moca.TO_012.grd_3__onDblClick = function(_grd,rowIndex,colIndex,colId){
+	['공지상세및수정 팝업']
+	var _TermsUpCd = _grd.list[rowIndex].TermsUpCd;
+	var _TermsTitle = _grd.list[rowIndex].TermsTitle;
+	var _termsId = moca.getCellData(_grd,rowIndex,'idx');
+	var o = {};
+	o.id = moca.TO_012.popId;
+	o.url = '/html/TO/TO_000P77.html';
+	o.type = "POPUP";
+	o.modal = "false";
+	o.title = '공지상세';
+	o.callback = moca.TO_012.fn_pop_callback;
+	o.scopeId = moca.TO_012.pageId;
+	o.data = {popTitle:"공지상세","termsId":_termsId,"TermsUpCd":_TermsUpCd,"TermsTitle":_TermsTitle};
+	moca.popup(o,_grd);
+};
+
+</script>
+</head>
+<body>
+<div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
+	<div class="moca_tab_cont" style="height:100%">
+		<div class="moca_cont_wrap">
+			<div type="wframe" class="moca_titbox cm noshbox" id="titbox" tag="moca:titbox" 
+				src="/html/titlebox.html"
+				data = '{"sreenCd":"TO_012","sreenNm":"약관관리","sreenPath":"Quick Menu,약관관리"}'
+			></div>
+			<div class="lybox mt12">
+				<div class="ly_row row_3_7_3" style="max-height:202px">
+					<div class="ly_row_cont">
+						<div class="ly_column col_4">
+							<div class="ly_col_cont pr7_5">
+								<div type="grid" class="moca_grid toolbar sc_row" default_cell_height="26px" id="grd_1"  
+									toolbar_search_size="false"
+									toolbar_detail="false"
+									toolbar_exup="false"
+									toolbar_exdn="false"
+									toolbar_addrow="false"
+									toolbar_delrow="false"
+									toolbar_nextbtn="false"
+									toolbar_full="false"
+									onRowSelected="moca.TO_012.fn_onRowSelected"		
+									label="약관목록"
+								>
+									<table style="width: 100%">
+										<colgroup>
+											<!-- <col style="width:60px"> --><!-- 구분 -->
+											<col style="width:130px"><!-- 관리번호 -->
+											<col style=""><!-- 약관 및 방침 -->
+										</colgroup>
+										<thead>
+											<tr>
+												<!-- <th scope="col" id="H_a01">구분</th> -->
+												<th scope="col" id="H_a02">관리번호</th>
+												<th scope="col" id="H_a05">약관 및 방침</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+											<!-- 	<td id="rowNum" name="순번"  celltype="input" style="" readonly="true" required="false" displayFunction="moca.fn_display_rownum"></td>	 -->
+												<td id="idx" name="관리번호"  celltype="input" style="" readonly="true" displayFunction=""></td>	
+												<td id="TermsTitle" name="약관 및 방침"  celltype="input" style="" readonly="true" displayFunction=""></td>
+											</tr>
+										</tbody>
+									</table>				
+								</div>
+							</div>
+						</div>
+						<div class="ly_column col_6">
+							<div class="ly_col_cont pl7_5">
+								<div type="grid" class="moca_grid toolbar" default_cell_height="26px" id="grd_2"
+									toolbar_search_size="false"
+									toolbar_col_showhide="false"
+									toolbar_detail="false"
+									toolbar_exup="false"
+									toolbar_exdn="false"
+									toolbar_addrow="false"
+									toolbar_delrow="false"
+									toolbar_nextbtn="false"
+									toolbar_full="true"
+						
+									toolbar_grid_button2='{"position":"right","id":"button1","label":"이력 추가","onclick":"moca.TO_012.fn_pop2","addClass":""}'
+									onDblClick = "moca.TO_012.grd_2__onDblClick"
+									label="약관이력">
+									<table style="width:100%">
+										<colgroup>
+											<!-- <col style="width:60px"> --><!-- 구분 -->
+											<col style="width:130px"><!-- 관리번호 -->
+											<col style="width:130px"><!-- 등록일시 -->
+											<col style="width:130px"><!-- 적용일 -->
+											<col style=""><!-- 약관 및 방침 -->
+											<col style="width:100px"><!-- 대상여부 -->
+											<col style="width:100px"><!-- 적용유무 -->
+										</colgroup>
+										<thead>
+											<tr>
+												<!-- <th id="H_rowNum2">구분</th> -->
+												<th id="H_a02">이력번호</th>
+												<th id="H_a03">등록일시</th>
+												<th id="H_a04">적용일</th>
+												<th id="H_a05">약관 및 방침</th>
+												<th id="H_a06">대상여부</th>
+												<th id="H_a06">적용유무</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td id="idx" name="관리번호"  celltype="input" style="" readonly="true" displayFunction=""></td>	
+												<td id="RegisterTime" name="등록일시"  celltype="input" style="" readonly="true" displayFunction=""></td>
+												<td id="EnableTime" name="적용일"  celltype="input" style="" readonly="true" displayFunction=""></td>
+												<td id="TermsTitle" name="약관 및 방침"  celltype="input" style="" readonly="true" displayFunction=""></td>
+												<td id="Selected" name="대상여부"  celltype="input" style="" readonly="true" displayFunction=""></td>
+												<td id="Enable" name="적용유무"  celltype="input" style="" readonly="true" displayFunction=""></td>
+											</tr>                                                 
+										</tbody>
+									</table>				
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ly_row row_3_7_7" style="top:202px">
+					<div type="grid" class="moca_grid toolbar sc_row" default_cell_height="26px" id="grd_3"  
+						toolbar_search_size="false"
+						toolbar_detail="false"
+						toolbar_exup="false"
+						toolbar_exdn="false"
+						toolbar_addrow="false"
+						toolbar_delrow="false"
+						toolbar_nextbtn="false"
+						toolbar_full="true"
+						toolbar_grid_button1='{"position":"right","id":"btn_save","label":"공지추가","onclick":"moca.TO_012.fn_pop3","addClass":""}'
+						onDblClick = "moca.TO_012.grd_3__onDblClick"	
+						label="약관공지사항"
+					>
+						<table style="width: 100%">
+							<colgroup>
+								<col style="width:130px"><!-- ID -->
+								<col style="width:130px"><!-- 공지시작일 -->
+								<col style="width:130px"><!-- 공지종료일 -->
+								<col style=""><!-- 제목 -->
+								<col style="width:130px"><!-- 작성자 -->
+								<col style="width:130px"><!-- 작성일시 -->
+							</colgroup>
+							<thead>
+								<tr>
+									<th scope="col" id="H_column01">ID</th>
+									<th scope="col" id="H_column02">공지시작일</th>
+									<th scope="col" id="H_column03">공지종료일</th>
+									<th scope="col" id="H_column04">제목</th>
+									<th scope="col" id="H_column05">작성자</th>
+									<th scope="col" id="H_column06">작성일시</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td id="idx" name="idx"  celltype="input" style="" readonly="true" displayFunction=""></td>	
+									<td id="fromDt" name="fromDt"  celltype="input" style="" readonly="true" displayFunction=""></td>	
+									<td id="toDt" name="toDt"  celltype="input" style="" readonly="true" displayFunction=""></td>	
+									<td id="TermsTitle" name="TermsTitle"  celltype="input" style="text-align:left" readonly="true" displayFunction=""></td>
+									<td id="Wid" name="Wid"  celltype="input" style="" readonly="true" displayFunction=""></td>
+									<td id="RegisterTime" name="RegisterTime"  celltype="input" style="" readonly="true" displayFunction=""></td>
+								</tr>
+							</tbody>
+						</table>				
+					</div>
+				</div>				
+			</div>
+		</div>	
+	</div>
+</div>
+</body>
+</html>

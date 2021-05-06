@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" /> 
+<meta http-equiv="Pragma" content="no-cache" /> 
+<meta http-equiv="Expires" content="Mon, 06 Jan 1990 00:00:01 GMT">
+<meta http-equiv="Expires" content="-1" />
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>모바일 웹 온라인 소유권 이전</title>
+<link rel="stylesheet" type="text/css" href="../css/mobile.css">
+<script>
+	moca.TOM_69_SRC.___ready = function(args){
+		
+		if(moca.getSs("loginInfo") == null || window.history.length < 3){
+			location.href = '/to';
+		};
+		
+		moca.setHistory('TOM_69',{'title':'계좌등록정보입력','time':(new Date()).getTime()});
+		if(moca.getSs("loginInfo") != null && (moca.getSs("loginInfo").name.indexOf('김세창') > -1 || moca.getSs("loginInfo").name.indexOf('성혜진') > -1)){
+			$("#bankOwner").val("산김동");
+			$("#acct_no").val("110457699600");
+			sessionStorage.setItem("BankNm","신한은행");
+			sessionStorage.setItem("BankCd","088");
+		}
+		/*
+		else if(moca.getSs("loginInfo") != null 
+				&& (moca.getSs("loginInfo").name.indexOf('이지선') > -1 || moca.getSs("loginInfo").name.indexOf('박민성') > -1)){
+
+		};
+		*/
+		$('#BankNm').html(moca.getSs("BankNm"));
+	};
+
+	function go(){
+		//예금주확인
+    	moca.TOM_69_SRC.exe({
+    		url : moca._domain+moca._contextRoot+"/TOM_68/mobile/accountAuth.do",
+    		loadingbar:true,
+    		loadingInfo:{type:"mobile",className:"_modal",content:"<span>잠시만 기다려주세요!</span>"},
+            data : {
+            	"header" : moca.header,
+            	"body" : {
+            		"acct_nm" : $("#bankOwner").val(),
+            		"bank_cd" : sessionStorage.getItem("BankCd"), // 앞에서 선택한 은행코드
+            		"acct_no" : $("#acct_no").val(),
+            		"bankOwner" : $("#bankOwner").val(),
+            		"id_no":"831130"
+            	}
+            },			
+    		callback : function(response){
+    			if(response.accountResMap.reply == '0000'){
+    				moca.setAs("acct_no", $("#acct_no").val());
+    				moca.setAs("bankOwner", $("#bankOwner").val());
+    				location.href="TOM_75.html";
+    			}else{
+    				moca.merror("["+response.accountResMap.reply+"]"+response.accountResMap.reply_msg,'',function(){
+    					
+    				});
+    			}
+    		}
+    	});
+		//
+	};
+	
+	moca.TOM_69_SRC.toCancel = function(){
+		moca.mconfirm('소유권이전을 취소하시겠습니까?','',function(_result){
+			if(_result == 'Y'){
+				moca.TOM_69_SRC.exe({
+					url : moca._domain+moca._contextRoot+"/TOM_60/mobile/cancelTransferOwner.do",
+		            data : {
+		            	"header" : moca.header,
+		            	"body" : {
+		            		Stage:"26",
+		            		idx:moca.getSs("transferownerId")+""
+		            	}
+		            },		
+					callback : function(response){
+						
+						if(response.error){
+							moca.merror(response.error,'',function(){
+								location.href='TOM_25.html?isCancel=true';
+							});
+						}else if(response.rePayResYn == 'N'){
+			        	    moca.mresult('성공적으로 취소되었습니다!','',function(){
+			        		   location.href='TOM_25.html?isCancel=true';
+			        	   });	
+						}else{
+							//polling후
+			        	    moca.mresult('성공적으로 취소되었습니다!','',function(){
+			        	    	location.href='TOM_25.html?isCancel=true';
+			        	    });	
+						}
+
+					}
+				});
+			}
+		});
+	};
+	
+	moca.TOM_69_SRC.back = function(){
+		location.href = 'TOM_67.html';
+	};
+</script>
+</head>
+<body>
+	<div class="wrap">
+		<header class="titlebar">
+			<button class="btn_back" type="button" onclick="moca.TOM_69_SRC.back()">이전페이지</button>
+			<h2 class="tit"><a href="javascript:void(0)" onclick="moca.TOM_69_SRC.toCancel()">이전 취소</a></h2>
+		</header>
+
+		<div class="content btn_cont fx2 jct2">
+			<div class="top_txt">
+				<p><span>결제할 계좌 정보</span>를<br>입력해주세요.</p>
+			</div>
+			<ul class="d_form2">
+				<li>
+					<label>은행명</label>
+					<span class="tbx" id="BankNm"></span>					
+				</li>
+				<li>
+					<label>예금주</label>					
+					<div class="gox f2">
+						<input class="input_frm2 active" type="text" placeholder="본인명의의 계좌 등록만 가능합니다." value=""  id="bankOwner" >	
+						<button class="btn_clear" type="button">삭제</button>
+					</div>	
+				</li>
+				<li>
+					<label>계좌번호</label>
+					<div class="gox f2">
+						<input class="input_frm2 active" id="acct_no" type="tel" placeholder="본인명의의 계좌 등록만 가능합니다." value="" >	
+						<button class="btn_clear" type="button">삭제</button>
+					</div>	
+				</li>
+				
+			</ul>
+		</div>
+		<div class="btn_btm">
+			<button class="btn_go" type="button" onclick="go()">다음</button>
+		</div>
+	</div>
+</body>
+</html>

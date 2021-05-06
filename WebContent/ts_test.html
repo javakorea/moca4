@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+function goStep1(){
+	if(confirm('비용확정하시겠습니까?')){
+		fm.xml.value = document.getElementById('step1').value;
+		fm.action = 'http://dev-mycar.carbang365.co.kr:9090/to/jsp/ts_carbang_to_moca_step1_api.jsp';
+		fm.target = 'ifrm';
+		fm.method = 'post';
+		fm.submit();
+	}
+};
+
+function goStep2(){
+	if(confirm('소유권이전완료처리하시겠습니까?')){
+		fm.xml.value = document.getElementById('step2').value;
+		fm.action = 'http://dev-mycar.carbang365.co.kr:9090/to/jsp/ts_carbang_to_moca_step2_api.jsp';
+		fm.target = 'ifrm';
+		fm.method = 'post';
+		fm.submit();
+	}
+};
+
+function goSet(){
+
+	var key = document.getElementById('key').value;
+/* 
+	089(케이뱅크)/70110000000522/(주)카방
+	081(하나은행)/11891001796904/지티유 주식회사
+	088(신한은행)/110457699600/산김동
+	088(신한은행)/110333031498/KSNET담당자
+	 */
+
+ 	var a = '<?xml version="1.0" encoding="UTF-8"?>'+'\n';
+	a +='<contents>'+'\n';
+	a +='<CNTC_INSTT_CODE>CARBANGAPP</CNTC_INSTT_CODE>'+'\n';
+	a +='<BIZRNO>876-88-01194</BIZRNO>'+'\n';
+	a +='<REQST_RCEPT_NO>'+key+'</REQST_RCEPT_NO>'+'\n';
+	a +='<CVPL_REQST_NO>'+key+'</CVPL_REQST_NO>'+'\n';
+	a +='<NTPBND_DSCNT_AMOUNT>13579</NTPBND_DSCNT_AMOUNT>'+'\n';
+	a +='<ACQSTX_AMOUNT>123454321</ACQSTX_AMOUNT>'+'\n';
+	a +='<REVENUE_STMPTAX_AMOUNT>1200</REVENUE_STMPTAX_AMOUNT>'+'\n';
+	a +='<ELCTRN_PAY_FEE_AMOUNT>1000</ELCTRN_PAY_FEE_AMOUNT>'+'\n';
+	a +='<TOT_RGFE_AMOUNT>12200</TOT_RGFE_AMOUNT>'+'\n';
+	a +='<NTPBND_DSCNT_AMOUNT>12345</NTPBND_DSCNT_AMOUNT>'+'\n';
+	a +='<ACCO_NAME>KSNET담당자</ACCO_NAME>'+'\n';
+	a +='<BNK_CODE>088</BNK_CODE>'+'\n';
+	a +='<ACCO_NO>110333031498</ACCO_NO>'+'\n';
+	a +='</contents>'+'\n'; 
+	
+
+	document.getElementById('step1').value = a;
+
+	
+	var b = '<?xml__version="1.0" encoding="UTF-8"?>'+'\n';
+	b += '<contents>'+'\n';
+	b +='<REQST_RCEPT_NO>'+key+'</REQST_RCEPT_NO>'+'\n';
+	b +='<CVPL_REQST_NO>123</CVPL_REQST_NO>'+'\n';
+	b +='<REQST_PROCESS_STTUS_CODE>123</REQST_PROCESS_STTUS_CODE>'+'\n';
+	b +='<CVPL_RETURN_RESN_DTLS>123</CVPL_RETURN_RESN_DTLS>'+'\n';
+	b +='</contents>'+'\n';
+
+
+
+	document.getElementById('step2').value = b;
+
+	
+}
+</script>
+</head>
+<body>
+<form name='fm' action='' target='_blank'>
+<input type='hidden' name='xml' id='xml'/>
+
+<h1>3.비용납부정보송신(REQST_RCEPT_NO가IDX)<input type='text' name='key' id='key' value="20210408142439000294"/><input type='button' name='step1btn' id='step1btn' value='세팅' onclick='goSet()'/></h1>
+3. carbang -> APP<br>
+<b>http://dev-mycar.carbang365.co.kr:9090/to/jsp/ts_carbang_to_moca_step1_api.jsp로 호출<input type='button' name='step1btn' id='step1btn' value='비용확정' onclick='goStep1()'/></b><br>
+<textarea rows="20" cols="90" id="step1" style='font-size:16px;font-weight:bold'>
+
+</textarea>
+<h1>4.민원신청상태송신(REQST_RCEPT_NO가IDX)</h1>
+4. carbang -> APP<br>
+<b>http://dev-mycar.carbang365.co.kr:9090/to/jsp/ts_carbang_to_moca_step2_api.jsp로 호출<input type='button' name='step1btn' id='step1btn' value='이전완료' onclick='goStep2()'/></b><br>
+<textarea rows="10" cols="90" id="step2" style='font-size:16px;font-weight:bold'></textarea>
+
+
+</form>
+<iframe src='' id='ifrm' name='ifrm' style='width:1000px;height:100px' border=1></iframe>
+<!-- 
+<br><br><br><br><br><br><br><br><br>
+5. APP 자체테스트용 =><br> 
+<a href="http://dev-mycar.carbang365.co.kr:9090/to/jsp/ts_moca_to_moca.jsp" target="_blank">1.이전등록신청수신</a><br>
+<br>
+<a href="http://dev-mycar.carbang365.co.kr:9090/to/jsp/ts_moca_to_moca_step1.jsp" target="_blank">2.민원신청상태정보조회</a><br>
+
+
+<h1>1.이전등록신청수신</h1>
+	
+1. APP -> carbang개발<br>
+	http://dev-mycar.carbang365.co.kr:9090/to/jsp/ts_moca_to_carbang_dev.jsp에서<br>
+	http://58.126.157.173/ts/api/transfer_request  를 <br>
+	<b>POST로 호출함 parameter로 "xml"과 "test"를 던지고 있음</b><br>
+	<a href="http://dev-mycar.carbang365.co.kr:9090/to/jsp/ts_moca_to_carbang_dev.jsp" target="_blank">APP -> carbang개발(클릭하세요)</a><br>
+		
+	
+1. APP -> carbang운영<br>
+	http://dev-mycar.carbang365.co.kr:9090/to/jsp/ts_moca_to_carbang_op.jsp에서<br>
+	http://58.126.157.172/ts/api/transfer_request  를 <br>
+	POST로 호출함<br>
+	<a href="http://dev-mycar.carbang365.co.kr:9090/to/jsp/ts_moca_to_carbang_op.jsp" target="_blank">APP -> carbang운영(클릭하세요)</a><br>
+	
+	
+<h1>2.민원신청상태정보조회</h1>
+	
+2. APP -> carbang개발<br>
+	http://dev-mycar.carbang365.co.kr:9090/to/jsp/ts_moca_to_carbang_step1_dev.jsp에서<br>
+	http://58.126.157.173/ts/api/transfer_status_request  를 <br>
+	POST로 호출함<br>
+	<a href="http://dev-mycar.carbang365.co.kr:9090/to/jsp/ts_moca_to_carbang_step1_dev.jsp" target="_blank">APP -> carbang개발(클릭하세요)</a><br>
+		
+	
+2. APP -> carbang운영<br>
+	http://dev-mycar.carbang365.co.kr:9090/to/jsp/ts_moca_to_carbang_step1_op.jsp에서<br>
+	http://58.126.157.172/ts/api/transfer_status_request  를 <br>
+	POST로 호출함<br>
+	<a href="http://dev-mycar.carbang365.co.kr:9090/to/jsp/ts_moca_to_carbang_step1_op.jsp" target="_blank">APP -> carbang운영(클릭하세요)</a><br>	
+ -->
+</body>
+</html>

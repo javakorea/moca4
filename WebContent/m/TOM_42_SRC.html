@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" /> 
+<meta http-equiv="Pragma" content="no-cache" /> 
+<meta http-equiv="Expires" content="Mon, 06 Jan 1990 00:00:01 GMT">
+<meta http-equiv="Expires" content="-1" />
+<script>
+	moca.TOM_42_SRC.___ready = function(args){
+		moca.setHistory('TOM_42',{'title':'양수인정보입력'});
+/* 		if(moca.getSs("loginInfo") == null || window.history.length < 3){
+			location.href = '/to';
+		}; */
+		
+/* 		$($('[name=ys_insu]')[0]).attr('checked','checked'); */
+
+		_html = "";
+		_html +='<p><span>'+moca.getSs("loginInfo").name+'님(양수인)</span>의<br>정보를 입력해주세요.</p>';		
+		$('#ys_title_name').html(_html);
+
+		$('#ys_name').prop('readonly',true);
+		$('#ys_jumin').prop('readonly',true);
+
+		if(moca.getSs("ysInfo") != null){
+			$('#ys_name').val(moca.getSs("ysInfo").ys_name);
+/* 			$('#ys_jumin').val(moca.getSs("ysInfo").ys_jumin.replace(/(\d{6})(\d{7})/g,'$1-$2')); */
+
+			$('#ys_jumin').val(moca.getSs("ysInfo").ys_jumin.substring(0,6));
+
+			$('#ys_phone').val(moca.getSs("ysInfo").ys_phone.replace(/^\+82/g,'0').replace(/(\d{3})(\d{4})(\d{4})/g,'$1-$2-$3'));
+			$('#ys_addr1').val(moca.getSs("ysInfo").ys_addr1);
+			$('#ys_addr2').val(moca.getSs("ysInfo").ys_addr2);
+			$('#ys_zipcode').val(moca.getSs("ysInfo").ys_zipcode);
+			if(moca.getSs("ysInfo").ys_insu == "Y"){
+				$($('[name=ys_insu]')[0]).attr('checked','checked');
+			}else{
+				$($('[name=ys_insu]')[1]).attr('checked','checked');
+			}
+
+		}else{
+			$('#ys_name').val(moca.getSs("loginInfo").name);
+			$('#ys_jumin').val(moca.getSs("loginInfo").birthDate.replace(/-/g,'').substring(2)+"-");
+			$('#ys_phone').val(moca.getSs("loginInfo").mobilePhone.replace(/^\+82/g,'0').replace(/(\d{3})(\d{4})(\d{4})/g,'$1-$2-$3'));
+/* 			$('#ys_jumin').focus(); */
+			
+			
+			if(moca.getSs("loginInfo") != null && (moca.getSs("loginInfo").name.indexOf('김세창') > -1 || moca.getSs("loginInfo").name.indexOf('성혜진') > -1)){
+				$('#ys_name').val("김세창");
+				numberWithDash("7210071768626")
+				$('#ys_phone').val("01091168072".replace(/^\+82/g,'0').replace(/(\d{3})(\d{4})(\d{4})/g,'$1-$2-$3'));
+				$('#ys_addr1').val("경기도 고양시 일산동구 산두로 54");
+				$('#ys_addr2').val("정발마을3단지");
+				$('#ys_zipcode').val("10412");
+			}
+			
+		}
+	};
+	function go(){
+		var ys_name = $('#ys_name').val();
+				
+		var ys_jumin = moca.getSs('reg_num');
+					
+		var ys_phone = $('#ys_phone').val();
+		var ys_addr1 = $('#ys_addr1').val();
+		var ys_zipcode = $('#ys_zipcode').val();
+		var ys_addr1 = $('#ys_addr1').val();
+		var ys_addr2 = $('#ys_addr2').val();
+		var ys_insu = $('[name=ys_insu]:checked').val();		
+		var ys_km = moca.getSs("ys_km");
+		
+		
+		_html = "";
+		
+		if(moca.trim(ys_name) == ''){		
+			_html +='<li>';
+			_html +='<label>성명</label>';
+			_html += '<span class="error">오류</span>	';
+			_html +='</li>';			
+		};
+		
+		if(moca.trim(ys_jumin) == '' || moca.trim(ys_jumin).length != 13 || $('#ys_jumin').val().length != 14){
+			_html +='<li>';
+			_html +='<label>주민등록번호</label>';
+			_html += '<span class="error">오류</span>	';
+			_html +='</li>';
+		}
+/* 		else if(moca.trim(ys_jumin).length != 14){
+			moca.malert('주민번호를 확인하세요!',null,function(){
+				$('#ys_jumin').focus();
+			});
+			return;
+		}; */		
+		if(moca.trim(ys_phone) == '' || moca.trim(ys_phone).length < 13){
+			_html +='<li>';
+			_html +='<label>핸드폰 번호</label>';
+			_html += '<span class="error">오류</span>	';
+			_html +='</li>';
+		}	
+		if(moca.trim(ys_addr1) == ''){
+			_html +='<li>';
+			_html +='<label>주소지</label>';
+			_html += '<span class="error">오류</span>	';
+			_html +='</li>';
+		}
+		if(moca.trim(ys_addr2) == ''){
+			_html +='<li>';
+			_html +='<label>상세주소</label>';
+			_html += '<span class="error">오류</span>	';
+			_html +='</li>';
+		};	
+		if($('[name=ys_insu]:checked').val() == 'N'){
+			_html +='<li>';
+			_html +='<label>보험미가입</label>';
+			_html += '<span class="error">오류</span>	';
+			_html +='</li>';
+		}		
+				
+		if(_html.length > 0){			
+			$('#error_box').html(_html);							
+			$(".error_modal").show();
+			
+			return;
+		}
+		
+		else {
+			_html = "";
+			
+			if(moca.trim(ys_addr1).indexOf('제주') > -1){
+				
+				_html +='<li>';
+				_html +='<label>제주도 차고지증명제 대상차량</label>';
+				_html += '<span class="error">오류</span>	';
+				_html +='</li>';
+
+			};			
+			if(moca.trim(ys_addr1).indexOf('경남') > -1 && moca.getSs('carDetailInfo').Displacement < 1501){
+				
+				_html +='<li>';
+				_html +='<label>제주도 차고지증명제 대상차량</label>';
+				_html += '<span class="error">오류</span>	';
+				_html +='</li>';
+
+			};
+			
+			if(_html.length > 0){	
+				$('#error_info_box').html(_html);	
+				$(".error_info_modal").show();
+				
+				return;
+			}
+		}
+
+		
+
+
+/* 		if(moca.trim(ys_insu) == ''){
+			moca.malert('보험가입유무를 입력하세요!');
+			return;
+		};	 */		
+
+		
+		
+		ys_phone = ys_phone.replace(/-/g,'');
+		var ysInfo = {};
+		ysInfo.ys_name = ys_name;
+		ysInfo.ys_jumin = ys_jumin.replace(/-/g,'');
+		ysInfo.ys_phone = ys_phone;
+		ysInfo.ys_addr1 = ys_addr1;
+		ysInfo.ys_zipcode = ys_zipcode;
+		ysInfo.ys_addr2 = ys_addr2;
+		ysInfo.ys_insu = ys_insu;
+		ysInfo.ys_km = ys_km;
+		moca.setSs("ysInfo",ysInfo);
+		moca.setLs("ysInfo",ysInfo);
+		location.href="TOM_47.html";
+	};
+	function fnInsurS(){
+		//location.href="TOM_46.html";
+		if($('.insure').css("display") == "none"){   
+	        jQuery('.insure').show();  
+	    } else {  
+	        jQuery('.insure').hide();  
+	    } 
+	};
+	
+	function button_disable(x) {
+		if(x.length == 0){
+			$('.btn_go').attr('disabled',true);
+		}
+		//모든 칸에 값이 들어있을때 다음 버튼 활성화	
+		if($('#ys_name').val() != '' && moca.getSs('reg_num').length == 13 && $('#ys_jumin').val().length == 14 && $('#ys_phone').val().length == 13 && $('#ys_addr1').val() != '' && $('#ys_addr2').val() != '' && $('[name=ys_insu]').is(":checked") == true)
+		{
+			$('.btn_go').attr('disabled',false);
+		}		
+	};
+		
+	function button_disable2() {
+		//모든 칸에 값이 들어있을때 다음 버튼 활성화	
+		if($('#ys_name').val() != '' && moca.getSs('reg_num').length == 13 && $('#ys_jumin').val().length == 14 && $('#ys_phone').val().length == 13 && $('#ys_addr1').val() != '' && $('#ys_addr2').val() != '' && $('[name=ys_insu]').is(":checked") == true)
+		{
+			$('.btn_go').attr('disabled',false);
+		}		
+	};
+	
+	
+	
+	function number_input(){
+		//location.href="TOM_46.html";
+		if($('.reg_num').css("display") == "none"){   
+	        jQuery('.reg_num').show();
+	        
+			setTimeout(function(){
+				$('#ipt_pass1').focus();
+				if(window.BRIDGE != null){
+					BRIDGE.showKeyPad();
+				}
+			},500);
+	        
+	    } else {  
+	        jQuery('.reg_num').hide();  
+	    } 
+	};
+	
+
+	function numberWithDash(x) {
+	  x = x.replace(/[^0-9]/g,'');   // 입력값이 숫자가 아니면 공백
+	  x = x.replace(/-/g,'');          // -값 공백처리
+	  x = x.replace(/,/g,'');          // ,값 공백처리
+	  if(x.length == 13){
+		  var a = x.substring(0,6);
+		  var b =x.substring(6,13);
+		  $("#ys_jumin").val(x.replace(/\B(?=(\d{7})+(?!\d))/g, "-"));
+	  }
+	};
+
+	moca.TOM_42_SRC.addrSetter = function(_thisObj,_data){
+		if(_thisObj.id != 'ys_addr1'){
+			_thisObj = $(_thisObj).parent().find('#ys_addr1')[0];
+		}
+		$(_thisObj).val(_data.roadAddress);
+		$(_thisObj).next().val(_data.zonecode);	
+		$("#ys_addr2").val(_data.buildingName);
+		$("#ys_addr2").focus();
+		
+		
+		$('.content').show();
+		$('.btn_btm').show();
+		
+		
+	};
+	
+	moca.TOM_42_SRC.goAddr = function(_thisObj){
+		moca.openAddrPopup(_thisObj,moca.TOM_42_SRC.addrSetter,moca.TOM_42_SRC.addrHide);
+		$('.content').hide();
+		$('.btn_btm').hide();
+		$('.tit').show();
+		$('.btn_back').hide();
+		$('#addr_text').html("수정");
+		$('.btn_go').attr('disabled',true);
+	};
+	
+	moca.TOM_42_SRC.goBack = function(){
+		var ys_name = $('#ys_name').val();
+		
+		if($('#ys_jumin').val() != '') {		
+			var ys_jumin = $('#ys_jumin').val().substring(0,6);			
+		}
+		
+		var ys_phone = $('#ys_phone').val();
+		var ys_addr1 = $('#ys_addr1').val();
+		var ys_zipcode = $('#ys_zipcode').val();
+		var ys_addr1 = $('#ys_addr1').val();
+		var ys_addr2 = $('#ys_addr2').val();
+		var ys_insu = $('[name=ys_insu]:checked').val();
+		var ys_km = $('#ys_km').val();
+		ys_phone = ys_phone.replace(/-/g,'');
+		
+		var ysInfo = {};
+		ysInfo.ys_name = ys_name;
+		ysInfo.ys_jumin = ys_jumin.replace(/-/g,'');
+		ysInfo.ys_phone = ys_phone;
+		ysInfo.ys_addr1 = ys_addr1;
+		ysInfo.ys_zipcode = ys_zipcode;
+		ysInfo.ys_addr2 = ys_addr2;
+		ysInfo.ys_insu = ys_insu;
+		ysInfo.ys_km = ys_km;
+		moca.setSs("ysInfo",ysInfo);
+		moca.setLs("ysInfo",ysInfo);
+		location.href = 'TOM_40.html';
+	};
+	
+	moca.TOM_42_SRC.addrHide = function(){
+		$('.daum_zip').hide();
+		$('.content').show();
+		$('.btn_btm').show();
+		$('.tit').hide();
+		$('.btn_back').show();
+		
+	};
+	
+	function logKey (_obj) { 
+		reg_num = _obj.value;
+	  	for(var i=0; i < $('.pw_dot').length; i++){
+	  		var ch = reg_num.charAt(i);
+	  		var jq_o = $($('.pw_dot')[i]);
+	  		if(ch != ''){
+	  			if(!jq_o.hasClass('active')){
+		  			jq_o.addClass('active');
+	  			}
+	  		}else{
+	  			jq_o.removeClass('active');
+	  		}
+	  	}
+	  	if(reg_num.length > 6){
+	  		
+	  		origin_reg_num = $("#ys_jumin").val().substring(0,6);
+	  		reg_num_back = reg_num.substring(0,1);
+	  		
+	  		result = origin_reg_num + reg_num; 
+	  		moca.setSs('reg_num', result);	  	
+	  		
+	  		result_secret = origin_reg_num + '-' + reg_num_back + '******'  
+/* 			reg_num_front = result_secret.replace(/\B(?=(\d{7})+(?!\d))/g, "-"); */
+	  		
+	  			  		
+	  		$("#ys_jumin").val(result_secret);
+	  			  			  		
+			//모든 칸에 값이 들어있을때 다음 버튼 활성화	
+			if($('#ys_name').val() != '' && moca.getSs('reg_num').length == 13 && $('#ys_jumin').val().length == 14 && $('#ys_phone').val().length == 13 && $('#ys_addr1').val() != '' && $('#ys_addr2').val() != '' && $('[name=ys_insu]').is(":checked") == true)
+			{
+				$('.btn_go').attr('disabled',false);
+			}	  			  		
+	  			  		
+	  		//모달창 초기화
+	  		_obj.value = '';
+	  		$('.pw_dot').removeClass('active');
+	  		
+	        jQuery('.reg_num').hide();
+	        
+			$('#reg_text').html("수정");	        
+	  	}
+	};
+	
+	function focusMove(){
+		$('#ipt_pass1').focus();
+	};	
+	
+	function close_modal() {
+		$(".error_modal").hide();
+	};
+	
+	function close_modal_info() {
+		$(".error_info_modal").hide();
+		
+		if(moca.trim(ys_addr1).indexOf('제주') > -1){
+			moca.minfoBottom('제주도 차고지 증명제 알림','자동차 소유자에게 자동차의 보관장소 확보를 의무화하는제도로서 온라인 이전신청이 불가합니다.<br>신차를 구입하거나, 주소가 변경되었을때, 자동차 소유권을 이전등록 할 때에는 반드시 차고지 증명을 하여야 합니다.','확인',function(){
+			});
+			return;
+		};			
+		if(moca.trim(ys_addr1).indexOf('경남') > -1 && moca.getSs('carDetailInfo').Displacement < 1501){
+			moca.minfoBottom('비과세/공채 감면 대상 차량','비과세 감면 대상 차량의 경우 지방세법에 의한 감면대상 및 감면세액결정 등 지자체의 세정공무원의 판단이 필요한 고유업무로서 처리가 불가합니다.</p><p>(ex. 경차, 하이브리드 및 전기차량, 경상남도 지역의 1,500cc 미만 자동차의 경우 등인 차량)','확인',function(){
+			});
+			return;
+		};
+		
+	};
+	
+</script>
+</head>
+<body>
+	<!-- 정보 다 입력이 되면 다음 버튼 파란색으로 활성화(TOM_43.html) (disabled) -->
+	<!-- 여기를 눌러 7자리 입력 버튼 눌렀을때 TOM_44.html 팝업 -->
+	<!-- 보험가입유무에서 아니오 누르면 TOM_46_SRC.html 팝업 -->
+	<!-- 다음 버튼 눌렀을때 오류있으면 TOM_45_3.html -->
+	<!-- 다음 버튼 눌렀을때 인적사항 오류있으면 TOM_45_4.html -->
+	<!-- 다음 버튼 눌렀을때 정상 처리 되면 TOM_47_SRC.html -->
+	<div class="wrap">
+		<header class="titlebar">
+			<button class="btn_back" type="button" onclick="moca.TOM_42_SRC.goBack()">이전페이지</button>
+			<h2 class="tit" style="display:none"><a href="javascript:void(0)" onclick="moca.TOM_42_SRC.addrHide()" >닫기</a></h2>
+		</header>
+		<div class="inner">
+			<div class="top_txt" id="ys_title_name">
+<!-- 				<p><span>홍길동님(양수인)</span>의<br>정보를 입력해주세요.</p> -->
+			</div>
+		</div>
+		<div id="wrap" class="daum_zip" style="display:none;border:1px solid #DDDDDD;width:99%;margin-top:5px"></div>
+		<div class="content btn_cont fx2">
+			<div class="inner">
+				<ul class="d_form">
+					<li>
+						<div class="gox2">
+							<input class="input_frm" type="text" placeholder="이름" value="" id="ys_name" onkeyup="button_disable(this.value)">
+							<!-- <button class="btn_mo" type="button" onclick="moca.compClear(this)">수정</button> -->
+						</div>					
+					</li>
+					<li class="grp_gox">
+						<div class="gox2">
+							<input class="input_frm" type="tel" placeholder="주민등록번호" value=""  id="ys_jumin" onkeyup="numberWithDash(this.value); button_disable(this.value);" maxLength='6'>
+							<button class="btn_mo" id="reg_text" type="button"  onclick="number_input()">여기를 눌러 7자리 입력</button>
+						</div>
+					</li>
+					<li class="grp_gox">
+						<div class="gox2">
+							<input class="input_frm" type="tel" placeholder="핸드폰번호" value="010-1234-5667"  id="ys_phone"  onkeyup="moca.phoneWithDash(this); button_disable(this.value);" onblur="moca.phoneWithDash(this); button_disable(this.value);" maxLength="13">
+							<!-- <button class="btn_mo" type="button" onclick="moca.compClear(this)">수정</button> -->
+						</div>
+					</li>
+					<li class="grp_gox">
+						<div class="gox2">
+							<input class="input_frm" type="text" placeholder="주소" value=""  id="ys_addr1"  readonly  onclick="moca.TOM_42_SRC.goAddr(this)">
+							<input class="input_frm" type="text" placeholder="우편번호" value="" id="ys_zipcode" style="display:none" readonly>
+							<button class="btn_mo" id="addr_text" type="button" id="btnAddr"   onclick="moca.TOM_42_SRC.goAddr(this)">주민등록 상 주소지 입력</button>
+						</div>
+					</li>
+					<li class="grp_gox">
+						<div class="gox2">
+							<input class="input_frm" type="text" placeholder="상세주소" value=""  id="ys_addr2" onkeyup="button_disable(this.value)">
+							<!-- <button class="btn_mo" type="button" onclick="moca.compClear(this)">수정</button> -->
+						</div>
+					</li>
+									
+				<li>
+					<h3>보험가입유무</h3>
+					<ul class="rad_ck">
+						<li><input type="radio" name="ys_insu" id="ys_insu1" value="Y" onclick="button_disable2()"> <label
+							for="ys_insu1">예</label></li>
+						<li><input type="radio" name="ys_insu" id="ys_insu2" value="N" onclick="fnInsurS(this)"> <label
+							for="ys_insu2">아니오</label></li>
+					</ul>
+					<p class="txt fs12">자동차보험가입은 필수사항입니다.</p>
+				</li>					
+
+
+
+				</ul>
+				<div class="btn_btm">
+					<button class="btn_go" type="button" onclick="go()" disabled>다음</button>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	
+	<div class="_modal insure" style="display:none">
+		<div class="pop_msg btm dir pop_show">
+			<div class="dfbox">
+				<h3>주다이렉트<br><span>보험 가입</span> 서비스</h3>
+			</div>
+			<div class="ofy">
+				<div>
+					<a href="http://carrot.auto-directcar.com/" class="bann b1"></a>
+					<a href="https://mdirect.kbinsure.co.kr/mobiapp/main.html#/" class="bann b2"></a>
+				</div>
+				<ul class="dir_list">
+					<li><a href="https://m.directdb.co.kr/product/at/pvuatarc/step1/formStepPre.do?partner_code=C465" class="db"><span>자동차보험<br>간편 비교 가입 서비스</span><i></i></a></li>
+				</ul>
+			</div>
+			
+			<button class="btn_close" type="button" onclick="fnInsurS(this)">닫기</button>
+		</div>
+	</div>
+	
+	
+	<div class="_modal reg_num" style="display:none">
+		<div class="pop_msg btm dir pop_show">
+			<div class="inner">
+				<div class="dfbox big">
+					<h3><span>주민번호 뒤 7자리</span>를<br>입력해주세요.</h3>
+				</div>
+				<div class="pop_cont">
+					<div class="pw_box">
+						<div class="pw_dot">
+							<input type="tel" pattern="\d*" placeholder="number" name="ipt_pass1" id="ipt_pass1" maxlength="7" onkeyup="logKey(this)">
+						</div>
+						<div class="pw_dot">
+							<input type="tel" name="ipt_pass" id="ipt_pass"  maxlength="1" onfocus="focusMove()">
+						</div>
+						<div class="pw_dot">
+							<input type="tel" name="ipt_pass" id="ipt_pass"  maxlength="1" onfocus="focusMove()">
+						</div>
+						<div class="pw_dot">
+							<input type="tel" name="ipt_pass" id="ipt_pass"  maxlength="1" onfocus="focusMove()">
+						</div>
+						<div class="pw_dot">
+							<input type="tel" name="ipt_pass" id="ipt_pass"  maxlength="1" onfocus="focusMove()">
+						</div>
+						<div class="pw_dot">
+							<input type="tel" name="ipt_pass" id="ipt_pass"  maxlength="1" onfocus="focusMove()">
+						</div>
+						<div class="pw_dot">
+							<input type="tel" name="ipt_pass" id="ipt_pass"  maxlength="1" onfocus="focusMove()">
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="btnbox2">
+				<div class="rta">
+					<button class="btn_df" type="button" onclick="go()">닫기</button>
+				</div>
+			</div> -->
+		</div>
+	</div>
+		
+	<div class="_modal error_modal" style="display:none">
+		<div class="pop_msg type2 fm">
+			<div class="dfbox">
+				<h3>입력 정보를 <span class="txt_blue">확인</span>해주시기 바랍니다.</h3>
+			</div>
+			<div class="">
+				<ul class="if_bx" id="error_box">
+					
+				</ul>
+			</div>			
+			<button class="btn_close" type="button" onclick="close_modal()">다시입력</button>
+		</div>
+	</div>
+		
+	<div class="_modal error_info_modal" style="display:none">
+		<div class="pop_msg type2 fm">
+			<div class="dfbox">
+				<h3>해당 정보로 인해 <span class="txt_red">이전</span>이 <span class="txt_red">불가</span>합니다.</h3>
+			</div>
+			<div class="">
+				<ul class="if_bx" id="error_info_box">
+<!-- 					<li>
+						<label>비과세/공채감면대상차량</label>		
+						<span class="error">오류</span>	
+					</li>
+					<li>
+						<label>제주도 차고지증명제 대상차량</label>		
+						<span class="error">오류</span>
+					</li> -->
+				</ul>
+			</div>
+			<p class="tip tac mt20">아래에서 더 자세한 정보를 확인하세요.</p>
+			<button class="btn_close" type="button" onclick="close_modal_info()">상세 정보 보기</button>
+		</div>
+	</div>	
+		
+</body>
+</html>

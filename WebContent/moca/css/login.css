@@ -1,0 +1,14 @@
+@charset "utf-8";
+html,body{height:100%; overflow:hidden; font:13px '맑은 고딕','Malgun Gothic','돋움',dotum,sans-serif; padding:0; margin:0}
+button, input, select{font:13px '맑은 고딕','Malgun Gothic','돋움',dotum,sans-serif; }
+.wrap{background:#f8f8f8; width:100%; height:100%;}
+.login_box{width:350px; height:488px; position:relative; top:15%; background:#fff; border:1px solid #ddd; border-radius:3px; margin:0 auto; box-sizing:border-box}
+.login_box .login_img{width:100%; height:143px; background:url(../images/ico_user.png)no-repeat 50%; padding: 36px 0; box-sizing:border-box; background-size:95px}
+.login_box .logo{margin:0; height:70px; background:url(../images/logo_w.png) no-repeat 50%; background-color:#808080; text-indent:-9999px; border-radius:3px 3px 0 0}
+.login_box select, .login_box input[type="text"], .login_box input[type="password"], .login_box button{width:280px; height:40px; border:1px solid #ccc; margin:0 34px; padding:0 15px; box-sizing:border-box}
+.login_box select{border-radius:2px; background:#eee; border:0; margin-bottom:20px}
+.login_box input[type="text"]{border-raius:2px 2px 0 0}
+.login_box input[type="password"]{border-raius:0 0 2px 2px; border-top:0; margin-bottom:20px}
+.login_box button{background:#60c7c1; border:0; color:#fff; font-size:15px; font-weight:bold}
+.login_box .login_option{width:280px; margin:15px 34px 0;}
+.login_box .login_option .lang{float:right}

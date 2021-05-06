@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+    
+    <!-- 환경설정 기본정보를 globals.properties 에서 참조하도록 propertyConfigurer 설정  -->
+    <bean id="propertyConfigurer"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:/egovframework/egovProps/globals.properties</value>
+                <!-- value>file:/product/jeus/egovProps/globals.properties</value-->
+            </list>
+        </property>
+    </bean>
+     
+    <!-- datasource 설정(propertyConfigurer 활용) -->
+    <alias name="dataSource-carbangDevapi" alias="dataSource" />
+    <alias name="dataSource-carbangDevapi" alias="egov.dataSource" />
+
+    <!-- maria npas,egav db -->
+     <bean id="dataSource-mysql" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${Globals.DriverClassName}"/>
+        <property name="url" value="${Globals.Url}" />
+        <property name="username" value="${Globals.UserName}"/>
+        <property name="password" value="${Globals.Password}"/>
+		<!-- <property name="validationQuery" value="select 1"/> -->
+    </bean>
+    
+    <!-- carbangDevapi mysql -->
+    <bean id="dataSource-carbangDevapi" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${Globals.carbangDevapi.DriverClassName}"/>
+        <property name="url" value="${Globals.carbangDevapi.Url}" />
+        <property name="username" value="${Globals.carbangDevapi.UserName}"/>
+        <property name="password" value="${Globals.carbangDevapi.Password}"/>
+		<!-- <property name="validationQuery" value="select 1"/> -->
+    </bean>
+    
+    <!-- mocajsp db접속관련 bean. 임시로 주석해제 -->
+    <!-- <bean id="dataSource-mocajsp" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${Globals.mocajsp.DriverClassName}"/>
+        <property name="url" value="${Globals.mocajsp.Url}" />
+        <property name="username" value="${Globals.mocajsp.UserName}"/>
+        <property name="password" value="${Globals.mocajsp.Password}"/>
+		<property name="validationQuery" value="select 1"/>
+    </bean> -->
+    
+</beans>

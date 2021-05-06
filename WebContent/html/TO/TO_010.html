@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<style> 
+</style>
+<script>
+moca.TO_010.___ready = function(args){
+	moca.TO_010.code({
+		"Cutoff_Type":{code:"CutOffType",allOption:{label:'-선택-',value:''}}
+	},function(){
+		moca.TO_010.fn_search();
+	});
+};
+
+moca.TO_010.fn_search = function(){
+	moca.TO_010.emptyList = [{"District_Major":"서울특별시","Bank_Nm":"신한은행","ViewOrder":1,"Bank_Cd":"088","Carbang_BankOwner":"(주)카방","Carbang_BankNm":"신한은행","Carbang_EtcFee":0,"Cutoff_Type":3,"Bank_IncomeRate":"1%","Bank_AgencyFee":"0.6%","Carbang_RegistrationFee":20000,"Office_RegistrationFee":1000,"Bank_IncomeTax":"14%","Carbang_BankCd":"088","Bank_LocalTax":"10%","Carbang_BankNumber":"1234567890001","idx":1,"Office_StampPrice":0,"PurchaseBond_CarBang":"0.415%","Revenue_StampPrice":3000},{"District_Major":"부산광역시","Bank_Nm":"부산은행","ViewOrder":2,"Bank_Cd":"032","Carbang_BankOwner":"(주)카방","Carbang_BankNm":"신한은행","Carbang_EtcFee":0,"Cutoff_Type":3,"Bank_IncomeRate":"1.05%","Bank_AgencyFee":"0.6%","Carbang_RegistrationFee":20000,"Office_RegistrationFee":1000,"Bank_IncomeTax":"14%","Carbang_BankCd":"088","Bank_LocalTax":"10%","Carbang_BankNumber":"1234567890001","idx":2,"Office_StampPrice":0,"PurchaseBond_CarBang":"0.415%","Revenue_StampPrice":3000},{"District_Major":"대구광역시","Bank_Nm":"대구은행","ViewOrder":3,"Bank_Cd":"031","Carbang_BankOwner":"(주)카방","Carbang_BankNm":"신한은행","Carbang_EtcFee":0,"Cutoff_Type":3,"Bank_IncomeRate":"1.05%","Bank_AgencyFee":"0.6%","Carbang_RegistrationFee":20000,"Office_RegistrationFee":1000,"Bank_IncomeTax":"14%","Carbang_BankCd":"088","Bank_LocalTax":"10%","Carbang_BankNumber":"1234567890001","idx":3,"Office_StampPrice":0,"PurchaseBond_CarBang":"0.415%","Revenue_StampPrice":3000},{"District_Major":"인천광역시","Bank_Nm":"신한은행","ViewOrder":4,"Bank_Cd":"088","Carbang_BankOwner":"(주)카방","Carbang_BankNm":"신한은행","Carbang_EtcFee":0,"Cutoff_Type":1,"Bank_IncomeRate":"1.05%","Bank_AgencyFee":"0.6%","Carbang_RegistrationFee":20000,"Office_RegistrationFee":1000,"Bank_IncomeTax":"14%","Carbang_BankCd":"088","Bank_LocalTax":"10%","Carbang_BankNumber":"1234567890001","idx":4,"Office_StampPrice":0,"PurchaseBond_CarBang":"0.415%","Revenue_StampPrice":3000},{"District_Major":"광주광역시","Bank_Nm":"광주은행","ViewOrder":5,"Bank_Cd":"034","Carbang_BankOwner":"(주)카방","Carbang_BankNm":"신한은행","Carbang_EtcFee":0,"Cutoff_Type":1,"Bank_IncomeRate":"1.05%","Bank_AgencyFee":"0.6%","Carbang_RegistrationFee":20000,"Office_RegistrationFee":1000,"Bank_IncomeTax":"14%","Carbang_BankCd":"088","Bank_LocalTax":"10%","Carbang_BankNumber":"1234567890001","idx":5,"Office_StampPrice":0,"PurchaseBond_CarBang":"0.415%","Revenue_StampPrice":3000},{"District_Major":"대전광역시","Bank_Nm":"하나은행","ViewOrder":6,"Bank_Cd":"081","Carbang_BankOwner":"(주)카방","Carbang_BankNm":"신한은행","Carbang_EtcFee":0,"Cutoff_Type":1,"Bank_IncomeRate":"1.05%","Bank_AgencyFee":"0.6%","Carbang_RegistrationFee":20000,"Office_RegistrationFee":1000,"Bank_IncomeTax":"14%","Carbang_BankCd":"088","Bank_LocalTax":"10%","Carbang_BankNumber":"1234567890001","idx":6,"Office_StampPrice":0,"PurchaseBond_CarBang":"0.415%","Revenue_StampPrice":3000},{"District_Major":"울산광역시","Bank_Nm":"농협","ViewOrder":7,"Bank_Cd":"011","Carbang_BankOwner":"(주)카방","Carbang_BankNm":"신한은행","Carbang_EtcFee":0,"Cutoff_Type":1,"Bank_IncomeRate":"1.05%","Bank_AgencyFee":"0.6%","Carbang_RegistrationFee":20000,"Office_RegistrationFee":1000,"Bank_IncomeTax":"14%","Carbang_BankCd":"088","Bank_LocalTax":"10%","Carbang_BankNumber":"1234567890001","idx":7,"Office_StampPrice":0,"PurchaseBond_CarBang":"0.415%","Revenue_StampPrice":3000},{"District_Major":"세종특별자치시","Bank_Nm":"하나은행","ViewOrder":8,"Bank_Cd":"081","Carbang_BankOwner":"(주)카방","Carbang_BankNm":"신한은행","Carbang_EtcFee":0,"Cutoff_Type":1,"Bank_IncomeRate":"1.05%","Bank_AgencyFee":"0.6%","Carbang_RegistrationFee":20000,"Office_RegistrationFee":1000,"Bank_IncomeTax":"14%","Carbang_BankCd":"088","Bank_LocalTax":"10%","Carbang_BankNumber":"1234567890001","idx":8,"Office_StampPrice":0,"PurchaseBond_CarBang":"0.415%","Revenue_StampPrice":3000},{"District_Major":"경기도","Bank_Nm":"농협","ViewOrder":9,"Bank_Cd":"011","Carbang_BankOwner":"(주)카방","Carbang_BankNm":"신한은행","Carbang_EtcFee":0,"Cutoff_Type":1,"Bank_IncomeRate":"1.05%","Bank_AgencyFee":"0.6%","Carbang_RegistrationFee":20000,"Office_RegistrationFee":1000,"Bank_IncomeTax":"14%","Carbang_BankCd":"088","Bank_LocalTax":"10%","Carbang_BankNumber":"1234567890001","idx":9,"Office_StampPrice":0,"PurchaseBond_CarBang":"0.415%","Revenue_StampPrice":3000},{"District_Major":"강원도","Bank_Nm":"농협","ViewOrder":10,"Bank_Cd":"011","Carbang_BankOwner":"(주)카방","Carbang_BankNm":"신한은행","Carbang_EtcFee":0,"Cutoff_Type":1,"Bank_IncomeRate":"1.05%","Bank_AgencyFee":"0.6%","Carbang_RegistrationFee":20000,"Office_RegistrationFee":1000,"Bank_IncomeTax":"14%","Carbang_BankCd":"088","Bank_LocalTax":"10%","Carbang_BankNumber":"1234567890001","idx":10,"Office_StampPrice":0,"PurchaseBond_CarBang":"0.415%","Revenue_StampPrice":3000},{"District_Major":"충청북도","Bank_Nm":"농협","ViewOrder":11,"Bank_Cd":"011","Carbang_BankOwner":"(주)카방","Carbang_BankNm":"신한은행","Carbang_EtcFee":0,"Cutoff_Type":2,"Bank_IncomeRate":"1.05%","Bank_AgencyFee":"0.6%","Carbang_RegistrationFee":20000,"Office_RegistrationFee":1000,"Bank_IncomeTax":"14%","Carbang_BankCd":"088","Bank_LocalTax":"10%","Carbang_BankNumber":"1234567890001","idx":11,"Office_StampPrice":0,"PurchaseBond_CarBang":"0.415%","Revenue_StampPrice":3000},{"District_Major":"충청남도","Bank_Nm":"농협","ViewOrder":12,"Bank_Cd":"011","Carbang_BankOwner":"(주)카방","Carbang_BankNm":"신한은행","Carbang_EtcFee":0,"Cutoff_Type":1,"Bank_IncomeRate":"1.05%","Bank_AgencyFee":"0.6%","Carbang_RegistrationFee":20000,"Office_RegistrationFee":1000,"Bank_IncomeTax":"14%","Carbang_BankCd":"088","Bank_LocalTax":"10%","Carbang_BankNumber":"1234567890001","idx":67,"Office_StampPrice":0,"PurchaseBond_CarBang":"0.415%","Revenue_StampPrice":3000},{"District_Major":"전라북도","Bank_Nm":"농협","ViewOrder":13,"Bank_Cd":"011","Carbang_BankOwner":"(주)카방","Carbang_BankNm":"신한은행","Carbang_EtcFee":0,"Cutoff_Type":1,"Bank_IncomeRate":"1.05%","Bank_AgencyFee":"0.6%","Carbang_RegistrationFee":20000,"Office_RegistrationFee":1000,"Bank_IncomeTax":"14%","Carbang_BankCd":"088","Bank_LocalTax":"10%","Carbang_BankNumber":"1234567890001","idx":12,"Office_StampPrice":0,"PurchaseBond_CarBang":"0.415%","Revenue_StampPrice":3000},{"District_Major":"전라남도","Bank_Nm":"농협","ViewOrder":14,"Bank_Cd":"011","Carbang_BankOwner":"(주)카방","Carbang_BankNm":"신한은행","Carbang_EtcFee":0,"Cutoff_Type":1,"Bank_IncomeRate":"1.05%","Bank_AgencyFee":"0.6%","Carbang_RegistrationFee":20000,"Office_RegistrationFee":1000,"Bank_IncomeTax":"14%","Carbang_BankCd":"088","Bank_LocalTax":"10%","Carbang_BankNumber":"1234567890001","idx":13,"Office_StampPrice":0,"PurchaseBond_CarBang":"0.415%","Revenue_StampPrice":3000},{"District_Major":"경상북도","Bank_Nm":"농협","ViewOrder":15,"Bank_Cd":"011","Carbang_BankOwner":"(주)카방","Carbang_BankNm":"신한은행","Carbang_EtcFee":0,"Cutoff_Type":1,"Bank_IncomeRate":"1.05%","Bank_AgencyFee":"0.6%","Carbang_RegistrationFee":20000,"Office_RegistrationFee":1000,"Bank_IncomeTax":"14%","Carbang_BankCd":"088","Bank_LocalTax":"10%","Carbang_BankNumber":"1234567890001","idx":14,"Office_StampPrice":0,"PurchaseBond_CarBang":"0.415%","Revenue_StampPrice":3000},{"District_Major":"경상남도","Bank_Nm":"농협","ViewOrder":16,"Bank_Cd":"011","Carbang_BankOwner":"(주)카방","Carbang_BankNm":"신한은행","Carbang_EtcFee":0,"Cutoff_Type":3,"Bank_IncomeRate":"1.05%","Bank_AgencyFee":"0.6%","Carbang_RegistrationFee":20000,"Office_RegistrationFee":1000,"Bank_IncomeTax":"14%","Carbang_BankCd":"088","Bank_LocalTax":"10%","Carbang_BankNumber":"1234567890001","idx":15,"Office_StampPrice":0,"PurchaseBond_CarBang":"0.415%","Revenue_StampPrice":3000},{"District_Major":"제주특별자치도","Bank_Nm":"농협","ViewOrder":17,"Bank_Cd":"011","Carbang_BankOwner":"(주)카방","Carbang_BankNm":"신한은행","Carbang_EtcFee":0,"Cutoff_Type":1,"Bank_IncomeRate":"1.05%","Bank_AgencyFee":"0.6%","Carbang_RegistrationFee":20000,"Office_RegistrationFee":1000,"Bank_IncomeTax":"14%","Carbang_BankCd":"088","Bank_LocalTax":"10%","Carbang_BankNumber":"1234567890001","idx":16,"Office_StampPrice":0,"PurchaseBond_CarBang":"0.415%","Revenue_StampPrice":3000}];
+	moca.removeLs('moca.TO_010.initData');
+	var _list = moca.TO_010.emptyList;
+	moca.TO_010._body = $(moca.TO_010.getObj('tbl_list1')); 
+	moca.TO_010.tr = moca.TO_010._body.find('tr:nth(0)')[0];
+	moca.TO_010.exe({
+		url : moca._domain+moca._contextRoot+"/TO_010/transferCostMngList.do",
+		loadingbar:true,
+		data : {
+			"header" : moca.header,
+			"body" : {
+				}
+		},			
+		callback : function(response){
+			moca.TO_010.bindCombo("Bank_Cd",{metaInfo:{cdField:"Bank_Cd",nmField:"Bank_Name"},allOption:{label:"-선택-",value:""}},response.bankList);
+			moca.TO_010.bindCombo("Carbang_BankCd",{metaInfo:{cdField:"Bank_Cd",nmField:"Bank_Name"},allOption:{label:"-선택-",value:""}},response.bankList);				
+			var list = response.costMngList;
+			if(list != null && list.length > 0){
+				moca.setLs('moca.TO_010.initData',list);
+			}else{
+				if(moca.TO_010.emptyList != null && moca.TO_010.emptyList.length > 0){
+					list = moca.TO_010.emptyList;
+				}else{
+					list = [];
+				}
+			}
+			moca.TO_010.fn_setList(list);
+		}
+	});
+};
+
+moca.TO_010.fn_setList = function(_list){
+	var fullHTML = '';
+	var _row = moca.TO_010.tr.innerHTML;
+	for(var i=0; i < _list.length; i++){
+		fullHTML += '<tr>';
+		var th1 = '';
+		if(i == 0){
+			th1 = '<th class="fixed" style="left:0" >서울도시철도채권</th>';
+		}else if(i == 1){
+			th1 = '<th class="fixed" style="left:0"  rowspan="2">지방도시철도채권</th>';
+		}else if(i == 3){
+			th1 = '<th class="fixed" style="left:0"  rowspan="14">지역개발채권</th>';
+		}
+		fullHTML += th1+_row;
+		fullHTML += '</tr>';
+	}
+	moca.TO_010._body.html(fullHTML);
+	
+	if(_list == null || _list.length < 1){
+		_list = moca.TO_010.emptyList;
+	}
+	for(var i=0; i < _list.length; i++){
+		var data = _list[i];
+		$(moca.TO_010._body.find('th[id=District_Major]')[i]).html(data.District_Major);
+		moca.setValue($(moca.TO_010._body.find('div[id=Bank_Cd]')[i]),data.Bank_Cd);
+		moca.setValue($(moca.TO_010._body.find('div[id=Cutoff_Type]')[i]),data.Cutoff_Type);
+		moca.setValue($(moca.TO_010._body.find('div[id=Bank_IncomeRate]')[i]),data.Bank_IncomeRate);
+		moca.setValue($(moca.TO_010._body.find('div[id=Bank_IncomeTax]')[i]),data.Bank_IncomeTax);
+		moca.setValue($(moca.TO_010._body.find('div[id=Bank_LocalTax]')[i]),data.Bank_LocalTax);
+		moca.setValue($(moca.TO_010._body.find('div[id=Bank_AgencyFee]')[i]),data.Bank_AgencyFee);
+		moca.setValue($(moca.TO_010._body.find('div[id=PurchaseBond_CarBang]')[i]),data.PurchaseBond_CarBang);//채권구매대행율
+		
+		moca.setValue($(moca.TO_010._body.find('div[id=Office_StampPrice]')[i]),data.Office_StampPrice);
+		moca.setValue($(moca.TO_010._body.find('div[id=Office_RegistrationFee]')[i]),data.Office_RegistrationFee);
+		moca.setValue($(moca.TO_010._body.find('div[id=Revenue_StampPrice]')[i]),data.Revenue_StampPrice);
+		moca.setValue($(moca.TO_010._body.find('div[id=Carbang_RegistrationFee]')[i]),data.Carbang_RegistrationFee);
+		
+		moca.setValue($(moca.TO_010._body.find('div[id=Carbang_EtcFee]')[i]),data.Carbang_EtcFee);
+		moca.setValue($(moca.TO_010._body.find('div[id=Carbang_BankCd]')[i]),data.Carbang_BankCd);
+		moca.setValue($(moca.TO_010._body.find('div[id=Carbang_BankNumber]')[i]),data.Carbang_BankNumber);
+		moca.setValue($(moca.TO_010._body.find('div[id=Carbang_BankOwner]')[i]),data.Carbang_BankOwner);
+		moca.TO_010.fn_setterEmptyList(data,i);
+	}
+	moca.TO_010.show('form_3');
+	moca.TO_010.nowList = _list;
+};
+
+moca.TO_010.fn_tempShow = function(thisObj){
+	var list = moca.getLs('moca.TO_010.tempData');
+	moca.TO_010.fn_setList(list);
+	moca.alert('임시저장된 데이터를 불러왔습니다.');
+};
+moca.TO_010.fn_tempSave = function(thisObj){
+	moca.setLs('moca.TO_010.tempData',moca.TO_010.fn_getList());
+	moca.alert('임시저장하였습니다.');
+};
+moca.TO_010.fn_initShow = function(thisObj){
+	var list = moca.getLs('moca.TO_010.initData');
+	moca.TO_010.fn_setList(list);
+};
+
+moca.TO_010.fn_getList = function(){
+	var _list = moca.TO_010.nowList;
+	if(_list != null){
+		for(var i=0; i < _list.length; i++){
+			var data = _list[i];
+			$(moca.TO_010._body.find('th[id=District_Major]')[i]).html();
+			data.Bank_Cd = moca.getValue($(moca.TO_010._body.find('div[id=Bank_Cd]')[i]));
+			data.Cutoff_Type = moca.getValue($(moca.TO_010._body.find('div[id=Cutoff_Type]')[i]));
+			data.Bank_IncomeRate = moca.getValue($(moca.TO_010._body.find('div[id=Bank_IncomeRate]')[i]));
+			data.Bank_IncomeTax = moca.getValue($(moca.TO_010._body.find('div[id=Bank_IncomeTax]')[i]));
+			data.Bank_LocalTax = moca.getValue($(moca.TO_010._body.find('div[id=Bank_LocalTax]')[i]));
+			
+			data.Bank_AgencyFee = moca.getValue($(moca.TO_010._body.find('div[id=Bank_AgencyFee]')[i]));
+			data.PurchaseBond_CarBang = moca.getValue($(moca.TO_010._body.find('div[id=PurchaseBond_CarBang]')[i]));
+			data.Office_StampPrice = moca.getValue($(moca.TO_010._body.find('div[id=Office_StampPrice]')[i]));
+			data.Office_RegistrationFee = moca.getValue($(moca.TO_010._body.find('div[id=Office_RegistrationFee]')[i]));
+			data.Revenue_StampPrice = moca.getValue($(moca.TO_010._body.find('div[id=Revenue_StampPrice]')[i]));
+			
+			data.Carbang_RegistrationFee = moca.getValue($(moca.TO_010._body.find('div[id=Carbang_RegistrationFee]')[i]));
+			data.Carbang_EtcFee = moca.getValue($(moca.TO_010._body.find('div[id=Carbang_EtcFee]')[i]));
+			data.Carbang_BankCd = moca.getValue($(moca.TO_010._body.find('div[id=Carbang_BankCd]')[i]));
+			data.Carbang_BankNumber = moca.getValue($(moca.TO_010._body.find('div[id=Carbang_BankNumber]')[i]));
+			data.Carbang_BankOwner = moca.getValue($(moca.TO_010._body.find('div[id=Carbang_BankOwner]')[i]));			
+		};
+	}
+	moca.TO_010.nowList = _list;
+	return moca.TO_010.nowList;
+};
+moca.TO_010.fn_setterEmptyList = function(data,i){
+	var data2 = JSON.parse(JSON.stringify(data));
+
+	data2.Bank_Cd  = '';
+	data2.Cutoff_Type  = '';
+	data2.Bank_IncomeRate = '';
+	data2.Bank_IncomeTax  = '';
+	data2.Bank_LocalTax  = '';
+	data2.Bank_AgencyFee  = '';
+	data2.PurchaseBond_CarBang = '';
+	data2.Office_StampPrice  = '';
+	data2.Office_RegistrationFee = '';
+	data2.Revenue_StampPrice  = '';
+	data2.Carbang_RegistrationFee  = '';
+	data2.Carbang_EtcFee  = '';
+	data2.Carbang_BankCd  = '';
+	data2.Carbang_BankNumber  = '';
+	data2.Carbang_BankOwner = ''; 
+	
+	
+	
+	if(moca.TO_010.emptyList == null){
+		moca.TO_010.emptyList = [];
+	}
+	moca.TO_010.emptyList[i] = data2;
+};
+moca.TO_010.fn_save = function(_this){
+	if(moca.confirm('저장하시겠습니까?',function(result){
+		if(result == 'Y'){
+			moca.TO_010.exe({
+				url : moca._domain+moca._contextRoot+"/TO_010/updateTransferCostMng.do",
+				loadingbar:true,
+				data : {
+					"header" : moca.header,
+					"body" : {
+						costMngList:moca.TO_010.fn_getList()
+					}
+				},			
+				callback : function(response){
+					if(response.cnt > 0){
+						moca.alert("성공적으로 저장하였습니다.");
+					}else if(response.error){
+						moca.alert(response.error);
+					}else{
+						moca.alert(response.message);
+					}
+				}
+			});
+		}
+	}));
+};
+</script>
+</head>
+<body>
+<div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
+	<div class="moca_tab_cont" style="height:100%">
+		<div class="moca_cont_wrap">
+			<div type="wframe" class="moca_titbox cm noshbox" id="titbox" tag="moca:titbox" 
+				src="/html/titlebox.html"
+				data = '{"sreenCd":"TO_010","sreenNm":"비용관리","sreenPath":"Quick Menu,비용관리"}'
+			></div>
+			<div type="form" id="form_3" class="moca_table toolbar mt12 mb12" style="visibility:hidden"
+				label="비용관리"
+				
+				addition='[
+					{"type":"button","position":"right","id":"btn_apply","label":"적용","onclick":"moca.TO_010.fn_save","addClass":""},
+					{"type":"button","position":"right","id":"btn_save","label":"초기화","onclick":"moca.TO_010.fn_initShow","addClass":""},
+					{"type":"button","position":"right","id":"btn_save","label":"임시저장","onclick":"moca.TO_010.fn_tempSave","addClass":"temp"},
+					{"type":"button","position":"right","id":"btn_save","label":"임시저장불러오기","onclick":"moca.TO_010.fn_tempShow","addClass":"temp"}
+				
+					]'
+				>
+					<div class="moca_table_body fixedColumn" style="">
+						<table class="moca_table_cont">
+							<colgroup>
+								<!-- <col style="width:160px"> -->
+								<col style="width:120px"><!-- 구분 -->
+								<col style="width:120px"><!-- 지역 -->
+								<col style="width:120px"><!-- 채권단위 -->
+								<col style="width:100px"><!-- 금융기관 :: 해당은행 -->
+								<col style="width:80px"><!-- 금융기관 :: 은행이율 -->
+								<col style="width:80px"><!-- 금융기관 :: 소득세 -->
+								<col style="width:80px"><!-- 금융기관 :: 지방소득세 -->
+								<col style="width:80px"><!-- 증권/은행대행수수료 -->
+								<col style="width:80px"><!-- 채권구매대행율 -->
+								<col style="width:80px"><!-- 지자체및관공서 :: 인지대 -->
+								<col style="width:80px"><!-- 지자체및관공서 :: 등록수수료 -->
+								<col style="width:80px"><!-- 지자체및관공서 :: 수입인지 -->
+								<col style="width:80px"><!-- 카방대행수수료 :: 금액 -->
+								<col style="width:80px"><!-- 카방대행수수료 :: 기타비용 -->
+								<col style="width:80px"><!-- 카방계좌 :: 은행명 -->
+								<col style="width:110px"><!-- 카방계좌 :: 계좌번호 -->
+								<col style="width:80px"><!-- 카방계좌 :: 예금주 -->
+							</colgroup>
+							<thead>
+								<tr>
+									<th rowspan="2" class="fixed" style="left:0">구분</th>
+									<th rowspan="2" class="fixed" style="left:120px">지역</th>
+									<th rowspan="2" style="left:120px">채권 단위적용</th>
+									<th colspan="4">금융기관</th>
+									<th rowspan="2">증권/은행<br>대행수수료</th>
+									<th rowspan="2">채권구매 대행율</th>
+									<th colspan="3">지자체 및 관공서</th>
+									<th colspan="2">카방대행수수료</th>
+									<th colspan="3">카방계좌</th>
+								</tr>
+								<tr>
+									<th>해당은행</th><!-- 금융기관 -->
+									<th>은행이율</th><!-- 금융기관 -->
+									<th>소득세<br>(선금이자*14%)</th><!-- 금융기관 -->
+									<th>지방소득세<br>(소득세*10%)</th><!-- 금융기관 -->
+									<th>인지대</th><!-- 지자체 및 관공서 -->
+									<th>등록수수료</th><!-- 지자체 및 관공서 -->
+									<th>수입인지</th><!-- 지자체 및 관공서 -->
+									<th>금액</th><!-- 카방대행수수료 -->
+									<th>기타비용</th><!-- 카방대행수수료 -->
+									<th>은행명</th><!-- 카방계좌 -->
+									<th>계좌번호</th><!-- 카방계좌 -->
+									<th>예금주</th><!-- 카방계좌 -->
+								</tr>
+							</thead>
+							<tbody id='tbl_list1'>
+								<!-- 서울도시철도채권::서울특별시 -->
+								<tr>
+									<th class="fixed" style="left:120px" id="District_Major">서울특별시</th><!-- 지역에 따른 채권 단위적용 -->
+									<td><!-- 지역에 따른 채권 단위적용 -->
+										<div type="combo" id="Cutoff_Type" class="moca_combo" style="" displayFormat="[label]" cdField="code" nmField="codeNm" ></div>
+									</td>
+									<td><!-- 금융기관 :: 해당은행 -->
+										<div type="combo" id="Bank_Cd" class="moca_combo" style="" displayFormat="[label]" cdField="Bank_Cd" nmField="Bank_Name" ></div>
+									</td>
+									<td><!-- 금융기관 :: 은행이율 -->
+										<div type="input" id="Bank_IncomeRate" class="mocaInput" innerClass="tac" keyMask="onlyPercent" displayFunction="moca.percent"></div>
+									</td>
+									<td><!-- 금융기관 :: 소득세 -->
+										<div type="input" id="Bank_IncomeTax" class="mocaInput" innerClass="tac"  keyMask="onlyPercent" displayFunction="moca.percent"></div>
+									</td>
+									<td><!-- 금융기관 :: 지방소득세 -->
+										<div type="input" id="Bank_LocalTax" class="mocaInput" innerClass="tac"  keyMask="onlyPercent" displayFunction="moca.percent"></div>
+									</td>
+									<td><!-- 증권/은행 대행수수료 -->
+										<div type="input" id="Bank_AgencyFee" class="mocaInput" innerClass="tac"  keyMask="onlyPercent" displayFunction="moca.percent"></div>
+									</td>
+									<td><!-- 채권구매 대행율 -->
+										<div type="input" id="PurchaseBond_CarBang" class="mocaInput" innerClass="tac"  keyMask="onlyPercent" displayFunction="moca.percent"></div>
+									</td>
+									<td><!-- 지자체 및 관공서 :: 인지대 -->
+										<div type="input" id="Office_StampPrice" keyMask="onlyMoney" displayFunction="moca.comma" class="mocaInput" innerClass="tar" onclick="" style="" value="" readonly="false"></div>
+									</td>
+									<td><!-- 지자체 및 관공서 :: 등록수수료 -->
+										<div type="input" id="Office_RegistrationFee" keyMask="onlyMoney" displayFunction="moca.comma" class="mocaInput" innerClass="tar" onclick="" style="" value="" readonly="false"></div>
+									</td>
+									<td><!-- 지자체 및 관공서 :: 수입인지 -->
+										<div type="input" id="Revenue_StampPrice" keyMask="onlyMoney" displayFunction="moca.comma" class="mocaInput" innerClass="tar" onclick="" style="" value="" readonly="false"></div>
+									</td>
+									<td><!-- 카방대행수수료 :: 금액 -->
+										<div type="input" id="Carbang_RegistrationFee" keyMask="onlyMoney" displayFunction="moca.comma" class="mocaInput" innerClass="tar" onclick="" style="" value="" readonly="false"></div>
+									</td>
+									<td><!-- 카방대행수수료 :: 기타비용 -->
+										<div type="input" id="Carbang_EtcFee" class="mocaInput" innerClass="tar"  keyMask="onlyMoney" displayFunction="moca.comma"></div>
+									</td>
+									<td><!-- 카방계좌 :: 은행명 -->
+										<div type="combo" id="Carbang_BankCd" class="moca_combo" style="" displayFormat="[label]" cdField="Bank_Cd" nmField="Bank_Name" ></div>
+									</td>
+									<td><!-- 카방계좌 :: 계좌번호 -->
+										<div type="input" id="Carbang_BankNumber" class="mocaInput"  keyMask="onlyNumber"></div>
+									</td>
+									<td><!-- 카방계좌 :: 예금주 -->
+										<div type="input" id="Carbang_BankOwner" class="mocaInput" innerClass="tac" onclick="" style="" value="" readonly="false"></div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+			</div>
+			<p class="txt_red txt_b mb5">*최저매입금액5천원 : (2,500원 미만 절사, 이상은 5,000원으로 올림)</p>
+			<div class="txt_box">
+				<p class="txt_b" ><span>1~2,499원</span> : 0원</p>
+				<p class="txt_b"><span>2,500~7,499원</span> : 5,000원</p>
+				<p class="txt_b" ><span>7,500~9,999원</span> : 10,000원으로 적용</p>
+			</div>
+		</div>	
+	</div>
+</div>
+</body>
+</html>

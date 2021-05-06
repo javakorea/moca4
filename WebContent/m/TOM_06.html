@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>모바일 웹 온라인 소유권 이전</title>
+<link rel="stylesheet" type="text/css" href="../css/mobile.css?after">
+<script>
+	function go(){
+		location.href="TOM_07.html"
+	}
+</script>
+</head>
+<body>
+	<!-- 
+	같은 화면
+	TOM_03_SRC.html 
+	TOM_08.html
+	TOM_08_1.html 
+	TOM_08_2.html
+	TOM_08_3.html -->
+	
+	<!-- 인증 완료 후 
+	보안번호 설정이 안되어있으면 TOM_10_SRC.html로 이동
+	보안번호 설정이 되어있으면 TOM_09_SRC.html로 이동 -->
+
+	<div class="wrap" onclick="go()">
+		<header class="titlebar">
+			<button class="btn_back" type="button">이전페이지</button>
+		</header>
+		<div class="inner">
+			<div class="top_txt">
+				<p>본인인증</p>
+			</div>
+		</div>
+
+		<div class="content btn_cont fx">
+			<div class="inner">
+				<ul class="d_form">
+					<li>
+						<div class="gox">
+							<input class="input_frm" type="text" placeholder="이름">
+							<button class="btn_clear" type="button">삭제</button>
+						</div>					
+					</li>
+					<li class="grp_gox">
+						<div class="gox">
+							<input class="input_frm" type="tel" placeholder="생년월일(8자리)">
+							<button class="btn_clear" type="button">삭제</button>
+						</div>
+					</li>
+					<li>
+						<ul class="rad_ck">
+							<li><input type="radio" name="rad1" id="rad1_0"> <label
+								for="rad1_0">남성</label></li>
+							<li><input type="radio" name="rad1" id="rad1_1"> <label
+								for="rad1_1">여성</label></li>
+						</ul>
+					</li>
+					<li>
+						<ul class="rad_ck2">
+							<li><input type="radio" name="rad2"
+								id="rad2_0"> <label for="rad2_0">SKT</label>
+							</li>
+							<li><input type="radio" name="rad2"
+								id="rad2_1"> <label for="rad2_1">KT</label>
+							</li>
+							<li><input type="radio" name="rad2"
+								id="rad2_2"> <label for="rad2_2">LG</label>
+							</li>
+							<li><input type="radio" name="rad2"
+								id="rad2_3"> <label for="rad2_3">알뜰폰</label>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<div class="ly_form">
+							<input class="input_frm" type="tel" placeholder="휴대폰 번호 입력">
+							<button class="btn_in" type="button" disabled>인증받기</button>
+						</div>
+					</li>
+				</ul>
+				<div class="btn_btm">
+					<button class="btn_go" type="button" disabled>다음</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

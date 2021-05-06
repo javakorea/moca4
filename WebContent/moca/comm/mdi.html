@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>footer</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css" href="./css/moca.css">
+<link rel="stylesheet" type="text/css" href="./css/fontawesome.css">
+<link rel="stylesheet" type="text/css" href="../css/moca_layout.css">
+<script language="JavaScript" src="../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../js/moca_ui.js"></script>
+<script language="JavaScript" src="./js/list2000.js"></script>
+<script language="JavaScript" src="./js/moca.js"></script>
+<script>
+$(document).ready(function() {
+	//moca.openMdi("../../moca/comm/main.html","main","");
+	if(config.defaultMenuId != null){
+		moca.tree_click(config.defaultMenuId);
+	}
+	
+});
+</script>
+</head>
+<body>
+		<!-- tab start -->
+		<div id="mdi_1" class="moca_tab moca_mdi">
+			<div class="moca_tab_head">
+				<!-- <div class="moca_tab_home" onclick="moca.goMain();" id="moca_main" style="cursor:pointer"></div> -->
+			<!-- <button type="button" class="moca_tab_left" title="왼쪽으로스크롤">왼쪽으로 스크롤</button> -->
+				<div class="moca_tab_listarea">
+					<div class="moca_tab_scroll">
+						<ul role="tablist" class="moca_tab_ul">
+						</ul>
+					</div>
+				</div>
+			<!-- <button type="button" class="moca_tab_right" title="오른쪽으로스크롤">오른쪽으로 스크롤</button> -->
+				<div class="moca_tab_control">
+				<!-- <button type="button" class="moca_tab_menulist" style="">탭메뉴리스트</button> -->
+					<button type="button" class="moca_tab_allclose" onclick="moca.all_tab_close();" title="전체닫기">전체닫기</button>
+				</div> 
+			</div>
+			
+			<div class="toast_msg">
+				<div class="toast_area"></div>
+			</div>
+		</div>
+			
+		<!-- tab end -->	
+		<div class="moca_grid_tooltip " style="display: none"></div>
+</body>
+</html>

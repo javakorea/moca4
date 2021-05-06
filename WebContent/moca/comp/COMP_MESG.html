@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>COMP_MESG</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css" href="./css/moca.css">
+<link rel="stylesheet" type="text/css" href="../css/moca_layout.css">
+<script language="JavaScript" src="../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../js/moca_ui.js"></script>
+<script language="JavaScript" src="./js/list2000.js"></script>
+<script language="JavaScript" src="./js/moca.js"></script>
+<script language="JavaScript" src="testCalendar.js"></script>
+<script>
+	moca.COMP_MESG = {};
+	$(document).ready(function() {
+		moca.init(function(){
+		});
+	});
+</script>
+</head>
+<body>
+<div class="moca_cont_wrap2">
+	<div class="moca_titbox">
+		<h3>MOCA message box</h3>
+	</div>
+	
+	<div class="tbbox">
+		<table class="tbl">
+			<colgroup>
+				<col style="width:200px">
+				<col>
+			</colgroup>
+			<tr>
+				<th><label>알림(Alert) 메시지</label></th>
+				<td><button class="moca_button" >Example</button></td>
+			</tr>
+			<tr>
+				<th><label>확인(Confirm) 메시지</label></th>
+				<td><button class="moca_button" >Example</button></td>
+			</tr>
+			<tr>
+				<th><label>에러(Error) 메시지</label></th>
+				<td><button class="moca_button" >Example</button></td>
+			</tr>
+		</table>
+	</div>
+	
+	<div class="moca_titbox mt40">
+		<h4>MOCA Layer Alert 메시지 창</h4>
+	</div>	
+	
+	<section class="content-panel">
+		<ul>
+			<li>사용자 정의 메시지 및 [확인] 버튼을 Display함</li>
+			<li>[확인] 버튼 클릭 후, 실행해야할 코드가 있다면 Callback 함수로 전달</li>
+		</ul>
+	</section>
+	
+	<div class="moca-example mt10" style="height:300px">
+		<h5>Example</h5>
+		
+		<div class="moca_messagebox alert">
+			<div class="moca_messagebox_grp">
+				<div class="ico"></div>
+				<h2 class="moca_messagebox_title">Alert</h2>
+				<div class="moca_message">
+					<p>이것은 Alert창입니다.</p>
+				</div>
+				<div class="moca_btnbox">
+					<button type="button" class="moca_btn_confirm">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+	
+	<div class="moca_titbox mt40">
+		<h4>MOCA Layer Confirm 메시지 창</h4>
+	</div>
+
+	<section class="content-panel">
+		<ul>
+			<li>사용자 정의 메시지 및 [확인], [취소] 버튼을 Display함</li>
+			<li>[확인] 버튼 클릭 후, 실행해야할 코드를 Callback 함수로 전달</li>
+			<li>[취소] 버튼 클릭 시에는 Callback 함수를 호출하지 않음</li>
+		</ul>
+	</section>
+
+	<div class="moca-example mt10" style="height:300px">
+		<h5>Example</h5>
+		
+		<div class="moca_messagebox confirm">
+			<div class="moca_messagebox_grp">
+				<div class="ico"></div>
+				<h2 class="moca_messagebox_title">Confirm</h2>
+				<div class="moca_message">
+					<p>정말로 삭제 하시겠습니까?</p>
+				</div>
+				<div class="moca_btnbox">
+					<button type="button" class="moca_btn_cancel">취소</button>
+					<button type="button" class="moca_btn_confirm">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+	
+	
+	<div class="moca_titbox mt40">
+		<h4>MOCA Layer Error 메시지 창</h4>
+	</div>	
+	
+	<section class="content-panel">
+		<ul>
+			<li>서비스 호출 과정에서 서비스 응답 결과로 에러 코드와 메시지를 전송 시, 자동으로 Error Display 팝업 창을 오픈해서 에러 내용을 사용자에게 보여줌</li>
+		</ul>
+	</section>
+	
+	<div class="moca-example mt10" style="height:300px">
+		<h5>Example</h5>
+		
+		<div class="moca_messagebox error">
+			<div class="moca_messagebox_grp">
+				<div class="ico"></div>
+				<h2 class="moca_messagebox_title">Error</h2>
+				<div class="moca_message">
+					<p>404 error</p>
+				</div>
+				<div class="moca_btnbox">
+					<button type="button" class="moca_btn_confirm">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>	
+</body>
+</html>

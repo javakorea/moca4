@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="shortcut icon" href="#">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" /> 
+<meta http-equiv="Pragma" content="no-cache" /> 
+<meta http-equiv="Expires" content="-1" />
+<link rel="stylesheet" type="text/css" href="../css/mobile.css?after">
+<script>
+	moca.TOM_00_SRC.___ready = function(args){
+		Kakao.init('ee62c7e428942f32c7ed8495c4b75fae');
+	};
+		
+	function go(){
+		if(typeof(window.BRIDGE) == "undefined" ){
+			if(Kakao.Auth.getAccessToken() != null){
+		    	Kakao.API.request({
+		    	    url: '/v2/user/me',
+		    	    success: function(response) {
+		    	        //console.log('/v2/user/me',JSON.stringify(response));
+		    	        response.email = response.kakao_account.email;
+		    	        sessionStorage.setItem('loginTemp0', JSON.stringify(response));
+		    	        sessionStorage.setItem('loginType', "1");
+		    	    	moca.TOM_00_SRC.exe({
+		    	    		url : moca._domain+moca._contextRoot+"/TOM_02/userInfo.do",
+		    	            data : {
+		    	            	"header" : moca.header,
+		    	            	"body" : {"id":response.id+"","loginType":"1"}
+		    	            },			
+		    	    		callback : function(response){
+		    	    			if(response.resultCd == '0002'){
+		    	    				moca.mresult("탈퇴회원입니다.","재가입하시겠습니까?",function(){
+		    	    					//본인인증으로
+			    	    				sessionStorage.setItem('inqType', "2");//탈퇴후 재가입
+			    	    				location.href = '/to/m/TOM_05.html';//약관동의
+		    	    				});
+		    	    			}else if(response.userInfo != null){
+		    	    				//곧바로 진행스텝으로
+		    	    				sessionStorage.setItem('loginInfo', JSON.stringify(response.userInfo));
+		    	    				location.href = 'TOM_25.html';
+		    	    			}else{
+		    	    				location.href = 'TOM_02.html';
+		    	    			}
+		    	    		}
+		    	    	});
+		    	    },
+		    	    fail: function(error) {
+		    			Kakao.Auth.logout(function(data){
+		    	            if(data){
+		    	            }
+		    	            location.href = 'TOM_02.html';
+		    	        });
+		    			
+		    	    	
+		    	    }
+		    	});
+			}else{
+    			Kakao.Auth.logout(function(data){
+    	            if(data){
+    	            }
+    	            location.href = 'TOM_02.html';
+    	        });
+			}				
+		}else{
+			window.BRIDGE.CallAndroid("");
+		}
+	};		
+
+</script>
+</head>
+<body>
+	<header>
+
+	</header>
+	<div class="intro_box">
+		<div class="intro_inner">
+			<div class="top_txt">
+				<p>카방에서 간편하게 <br><span>온라인</span>으로 <span>소유권 이전</span></p>
+				<em>번거로운 서류작성, 구청 방문 없이</em>
+			</div>
+			<div class="btn_btm mt30 intro">
+				<button class="btn_go" type="button" onclick="go()">시작하기</button>
+			</div>
+			<div class="img_wrap"></div>
+		</div>
+	</div>
+</body>
+</html>

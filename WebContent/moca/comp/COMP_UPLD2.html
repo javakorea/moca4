@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>COMP_UPLD</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css" href="./css/moca.css">
+<link rel="stylesheet" type="text/css" href="../css/moca_layout.css">
+<script language="JavaScript" src="../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../js/moca_ui.js"></script>
+<script language="JavaScript" src="./js/list2000.js"></script>
+<script language="JavaScript" src="./js/moca.js"></script>
+<script>
+	moca.COMP_UPLD = {};
+	$(document).ready(function() {
+		moca.init(function(){
+		});
+	});
+</script>
+</head>
+<body>
+<div class="moca_cont_wrap">
+	<div class="moca_titbox">
+		<h3>MOCA Multi Upload</h3>
+	</div>
+	
+	<section class="content-panel">
+		<ul>
+			<li>Multiupload는 여러 개의 파일을 동시에 업로드 할 수 있는 컴포넌트입니다.</li>
+			<li>여러 파일들을 마우스 Drag & Drop으로 업로드 할 수 있습니다.</li>
+		</ul>
+	</section>
+	
+	<div class="moca_multiupload">
+		<form name="fileupload" id="fileupload" enctype="multipart/form-date" method="POST" class="moca_multiupload_form">
+			<div class="moca_multiupload_head">
+				<div class="lta">
+				<span class="moca_multiupload_attach">
+					추가
+					<input type="file" multiple="multiple" title="파일 추가">
+				</span>
+				<button type="button" class="moca_multiupload_delete">삭제</button>
+				</div>
+				<div class="rta">
+					<span class="moca_multiupload_count">0개체,</span>
+					<span class="moca_multiupload_size">첨부파일 총 용량 : 0KB / 20MB</span>
+				</div>
+			</div>
+
+
+			<div class="moca_multiupload_body">
+				<table class="moca_multiupload_table">
+					<caption>첨부파일 리스트 테이블</caption>
+					<colgroup>
+						<col style="width:30px"/>
+						<col style="width:25px"/>
+						<col style="*"/>
+						<col style="width:100px"/>
+						<col style="width:100px"/>
+					</colgroup>	
+					<thead>
+						<tr>
+							<th>선택</th>
+							<th>파일아이콘</th>
+							<th>파일명</th>
+							<th>업로드상태</th>	
+							<th>용량</th>
+						</tr>
+					</thead>	
+					<tbody id="files">
+						<tr class="moca_upload_tr fade in">
+							<td>
+								<div class="moca_multiupload_checkbox">
+									<input type="checkbox" class="moca_checkbox_input" name="cbx_mpd_0" id="cbx_mpd_0">
+									<label class="moca_checkbox_label" for="cbx_mpd_0"></label>
+								</div>
+							</td>
+							<td>
+								<span class="moca_multiupload_img moca_ico_etc moca_ico_png"></span>
+							</td>
+							<td class="moca_file_name">
+								<span class="name">ico_gkk.png</span>
+							</td>
+							<td>
+								<div class="progress active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+									<div style="width:50%" class="progress-bar progress-bar-success"></div>
+								</div>
+							</td>
+							<td class="moca_file_size">
+								<span class="size">1.06 KB</span>
+							</td>
+						</tr>
+						<tr class="moca_upload_tr fade in active">
+							<td>
+								<div class="moca_multiupload_checkbox">
+									<input type="checkbox" class="moca_checkbox_input" name="cbx_mpd_1" id="cbx_mpd_1">
+									<label class="moca_checkbox_label" for="cbx_mpd_1"></label>
+								</div>
+							</td>
+							<td>
+								<span class="moca_multiupload_img moca_ico_etc moca_ico_pdf"></span>
+							</td>
+							<td class="moca_file_name">
+								<span class="name">모카UI가이드.pdf</span>
+							</td>
+							<td>
+								<div class="progress active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+									<div style="width:100%" class="progress-bar progress-bar-success"></div>
+								</div>
+							</td>
+							<td class="moca_file_size">
+								<span class="size">100.06 KB</span>
+							</td>
+						</tr>
+						<tr class="moca_upload_tr fade in">
+							<td>
+								<div class="moca_multiupload_checkbox">
+									<input type="checkbox" class="moca_checkbox_input" name="cbx_mpd_2" id="cbx_mpd_2">
+									<label class="moca_checkbox_label" for="cbx_mpd_2"></label>
+								</div>
+							</td>
+							<td>
+								<span class="moca_multiupload_img moca_ico_etc moca_ico_xls"></span>
+							</td>
+							<td class="moca_file_name">
+								<span class="name">모카UI요구사항.xlsx</span>
+							</td>
+							<td>
+								<div class="progress active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+									<div style="width:50%" class="progress-bar progress-bar-success"></div>
+								</div>
+							</td>
+							<td class="moca_file_size">
+								<span class="size">1.06 KB</span>
+							</td>
+						</tr>
+						<tr class="moca_upload_tr fade in">
+							<td>
+								<div class="moca_multiupload_checkbox">
+									<input type="checkbox" class="moca_checkbox_input" name="cbx_mpd_3" id="cbx_mpd_3">
+									<label class="moca_checkbox_label" for="cbx_mpd_3"></label>
+								</div>
+							</td>
+							<td>
+								<span class="moca_multiupload_img moca_ico_etc moca_ico_txt"></span>
+							</td>
+							<td class="moca_file_name">
+								<span class="name">javakoreaboss.txt</span>
+							</td>
+							<td>
+								<div class="progress active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+									<div style="width:50%" class="progress-bar progress-bar-success"></div>
+								</div>
+							</td>
+							<td class="moca_file_size">
+								<span class="size">1.06 KB</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="moca_dropzone" style="display:none">
+					<span>파일을 마우스로 끌어놓으세요.</span>
+				</div> 
+			</div>
+		</form>
+	</div>
+</div>	
+</body>
+</html>

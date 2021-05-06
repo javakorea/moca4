@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<style>
+</style>
+<script>
+moca.TO_015.___ready = function(args){
+	if(args != null){
+		moca.TO_015.args = args;
+	}
+	moca.TO_015.exe({
+		url : moca._domain+moca._contextRoot+"/TO_015/toCodeList.do",
+		loadingbar:true,
+		data : {
+			"header" : moca.header,
+			"body" : {
+				}
+		},			
+		callback : function(response){
+			moca.TO_015.emptyList = [{"CODE_ID":"toCodeList","ErrTxt":"","TransferEnable":"","ErrCode":""}];
+			var list = response['toCodeList'];
+			if(list != null && list.length > 0){
+				moca.setLs('moca.TO_015.initData',list);
+			}else{
+				if(moca.TO_015.emptyList != null && moca.TO_015.emptyList.length > 0){
+					list = moca.TO_015.emptyList;
+				}else{
+					list = [];
+				}
+			}
+			moca.TO_015.fn_setList(list);
+		}
+	});
+};
+
+moca.TO_015.fn_save = function(_this){
+	if(moca.confirm('저장하시겠습니까?',function(result){
+		if(result == 'Y'){
+			moca.TO_015.exe({
+				url : moca._domain+moca._contextRoot+"/TO_015/updateToCodeList.do",
+				loadingbar:true,
+				data : {
+					"header" : moca.header,
+					"body" : {
+						toCodeList:moca.TO_015.fn_getList()
+					}
+				},			
+				callback : function(response){
+					if(response.cnt > 0){
+						moca.alert('성공적으로 저장하였습니다.');
+					}else{
+						moca.error('업데이트에 실패하였습니다.');
+					}
+					
+				}
+			});
+		}
+	}));
+};
+
+moca.TO_015.fn_tempShow = function(thisObj){
+	var list = moca.getLs('moca.TO_015.tempData');
+	moca.TO_015.fn_setList(list);
+	moca.alert('임시저장된 데이터를 불러왔습니다.');
+};
+
+moca.TO_015.fn_tempSave = function(thisObj){
+	moca.setLs('moca.TO_015.tempData',moca.TO_015.fn_getList());
+	moca.alert('임시저장하였습니다.');
+};
+
+moca.TO_015.fn_initShow = function(thisObj){
+	var list = moca.getLs('moca.TO_015.initData');
+	moca.TO_015.fn_setList(list);
+};
+
+moca.TO_015.fn_setList = function(_list){
+	if(_list == null || _list.length < 1){
+		_list = moca.TO_015.emptyList;
+	}
+	var tbody = $(moca.TO_015.getObj('tbd_1'));
+	//if(tbody.find('tr').length >20){
+	//	tbody.find('tr').html('');
+	//}
+	var _row = tbody.children()[0].cloneNode(true);
+	tbody.html('');
+	for(var i=0; i < _list.length; i++){
+		var data = _list[i];
+		var row = _row.cloneNode(true);
+
+		//////////////////////////////////////////// radio작업
+		var rdo = $(row).find('.mocaRadio');
+		var _id = rdo.attr('id');
+		var inputArr = $(row).find('#rdo_possible').find('input');
+		for(var j=0; j < inputArr.length; j++){
+			var _inputId = inputArr[j].id;
+			var reInputId = _inputId.replace(/rdo_possible/,'rdo_possible'+i);
+			inputArr[j].setAttribute('id',reInputId);
+			$(inputArr[j]).parent().find('label[for='+_inputId+']').attr('for',reInputId);
+			var _inputName = inputArr[j].name;
+			var reInputName = _inputName.replace(/rdo_possible/,'rdo_possible'+i);
+			inputArr[j].setAttribute('name',reInputName);
+			if($(inputArr[j]).attr('value') == data.TransferEnable){
+				$(inputArr[j]).prop('checked', true);
+			}else{
+				$(inputArr[j]).prop('checked', false);
+			}
+			//inputArr[j].setAttribute('value',data.TransferEnable);
+
+		}
+		///////////////////////////////////////////// ipt_codeNm작업
+		$(row).find('div[id=ipt_codeNm]>input').val(data.ErrTxt);
+		///////////////////////////////////////////// ipt_code작업
+		$(row).find('div[id=ipt_code]>input').val(data.ErrCode);
+		//$(row).find('div[id=rdo_possible]>input').val(data.TransferEnable);
+		tbody.append(row);
+	}
+	moca.TO_015.show('form_3');
+	moca.TO_015.nowList = _list;
+};
+moca.TO_015.fn_getList = function(){
+	var _list = moca.TO_015.nowList;
+	if(_list != null){
+		for(var i=0; i < _list.length; i++){
+			var data = _list[i];
+			data.CODE_ID = 'toCodeList';
+			data.TransferEnable = $('#tbd_1 > tr #rdo_possible input:checked')[i].value
+		};
+	}
+	moca.TO_015.nowList = _list;
+	return moca.TO_015.nowList;
+};
+moca.TO_015.fn_setterEmptyList = function(data,i){
+
+};
+</script>
+</head>
+<body>
+<div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
+	<div class="moca_tab_cont" style="height:100%">
+		<div class="moca_cont_wrap">
+			<div type="wframe" class="moca_titbox cm noshbox" id="titbox" tag="moca:titbox" 
+				src="/html/titlebox.html"
+				data = '{"sreenCd":"TO_015","sreenNm":"소유권 이전 코드관리","sreenPath":"Quick Menu,소유권 이전 코드관리"}'
+			></div>
+			<div type="form" id="form_3" class="moca_table toolbar mt12 mb12" style="visibility:hidden"
+				label="소유권 이전 코드관리"
+				showRowSelection="false"
+				addition='[
+					{"type":"button","position":"right","id":"btn_apply","label":"적용","onclick":"moca.TO_015.fn_save","addClass":""},
+					{"type":"button","position":"right","id":"btn_save","label":"초기화","onclick":"moca.TO_015.fn_initShow","addClass":""},
+					{"type":"button","position":"right","id":"btn_save","label":"임시저장","onclick":"moca.TO_015.fn_tempSave","addClass":"temp"},
+					{"type":"button","position":"right","id":"btn_save","label":"임시저장불러오기","onclick":"moca.TO_015.fn_tempShow","addClass":"temp"}
+					]'
+				>
+				<table class="moca_table_cont" style="" id="tbl_015">
+					<colgroup>
+							<col style="width:100px"><!-- 구분코드 -->
+							<col style=""><!-- 온라인 소유권 이전 불가사항  -->
+							<col style="width:160px"><!--소유권 이전 가능유무 -->
+					</colgroup>
+					<thead>
+						<tr>
+							<th>구분코드</th>
+							<th>온라인 소유권 이전 불가사항</th>
+							<th>소유권 이전 가능유무</th>
+						</tr>
+					</thead>
+					<tbody id='tbd_1'>
+						<tr>
+							<td>
+								<div type="input" id="ipt_code" class="mocaInput" innerClass="tac" onclick="" style="" readonly="true"></div>
+							</td>
+							<td>
+								<div type="input" id="ipt_codeNm" class="mocaInput" onclick="" style=""  readonly="true"></div>
+							</td>
+							<td>
+								<div type="radio" class="mocaRadio" style="width:100%" id="rdo_possible" itemset='[{"label":"가능","value":"1","checked":"true"},{"label":"불가","value":"2"}]'></div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>	
+	</div>
+</div>
+</body>
+</html>

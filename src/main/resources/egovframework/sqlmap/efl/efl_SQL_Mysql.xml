@@ -1,0 +1,1173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="efl">
+
+	<typeAlias  alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias  alias="LinkedTreeMap" type="com.google.gson.internal.LinkedTreeMap"/>
+
+	<select id="NpasDAO.report_cate_big" parameterClass="hashMap" resultClass="hashMap">
+		SELECT LEVEL1_CD, LEVEL1_NM FROM category_big
+		ORDER BY LEVEL1_CD
+    </select>
+    
+ 
+	
+	<!-- 
+	<select id="NpasDAO.report_cate_big" parameterClass="hashMap" resultClass="hashMap">
+		SELECT CATEGORY_NO, CATEGORY_NM FROM NPREPORTCATEGORY 
+		WHERE 1=1
+		AND UPPER_CATE_NO = 0
+		ORDER BY CATEGORY_ORDER ASC
+    </select>
+    
+ 	<select id="NpasDAO.report_cate_small" parameterClass="hashMap" resultClass="hashMap">
+		SELECT CATEGORY_NO, CATEGORY_NM FROM NPREPORTCATEGORY 
+		WHERE 1=1
+		AND UPPER_CATE_NO = #CATEGORY_BIG#
+		ORDER BY CATEGORY_ORDER ASC
+    </select>
+       
+	<select id="NpasDAO.selectList_npreport" parameterClass="hashMap" resultClass="hashMap">
+		SELECT C2.CATEGORY_NM AS CATEGORY_B, C.CATEGORY_NM AS CATEGORY_S, B.W_DATE, B.W_TITLE, B.W_COMP, B.W_ID, B.REPORT
+		FROM NPREPORT B, NPREPORTCATEGORY C, NPREPORTCATEGORY C2
+		WHERE 1=1 
+		AND B.CATEGORY_BIG = C2.CATEGORY_NO 
+		AND B.CATEGORY_SMALL = C.CATEGORY_NO 
+		<isNotEmpty property="CATEGORY_BIG">
+		AND C2.CATEGORY_NO = #CATEGORY_BIG#
+		</isNotEmpty>
+		<isNotEmpty property="CATEGORY_SMALL">
+		AND C.CATEGORY_NO = #CATEGORY_SMALL#
+		</isNotEmpty>
+		<isNotEmpty property="W_COMP">
+			AND B.W_COMP LIKE CONCAT ('%', #W_COMP#,'%')
+		</isNotEmpty>
+		<isNotEmpty property="W_ID">
+			AND B.W_ID LIKE CONCAT ('%', #W_ID#,'%')
+		</isNotEmpty>		
+		AND DATE(B.W_DATE) BETWEEN #FROM# AND #TO#
+		<isNotEmpty property="W_TITLE">
+			AND B.W_TITLE LIKE CONCAT ('%',#W_TITLE#,'%')
+		</isNotEmpty>
+        <isEqual property="REPORT" compareValue="Y">
+            AND B.REPORT != ''
+        </isEqual>
+        <isEqual property="REPORT" compareValue="N">
+            AND B.REPORT = ''
+        </isEqual>     
+    </select>
+	-->
+	<select id="BDAO.selectList_MOCABOARD" parameterClass="hashMap" resultClass="hashMap">
+		SELECT B.BD_CODE,B.BD_CATEGORY, B.BD_TITLE, B.BD_CONTENT, B.BD_DATE, M.USER_NM AS WRITER, COUNT(F.BD_CODE) AS FILE_COUNT
+		FROM MOCABOARD B 
+			LEFT JOIN LETTNEMPLYRINFO M ON  B.BD_USERID = M.EMPLYR_ID
+			LEFT JOIN MOCAFILE F ON B.BD_CODE = F.BD_CODE
+		WHERE 1=1
+		<isNotEmpty property="BD_TITLE">
+			AND BD_TITLE LIKE CONCAT ('%', #BD_TITLE#,'%')
+		</isNotEmpty>
+		<isNotEmpty property="BD_CONTENT">
+			AND BD_CONTENT LIKE CONCAT ('%', #BD_CONTENT#,'%')
+		</isNotEmpty>
+		GROUP BY B.BD_CODE
+		ORDER BY B.BD_CODE ASC
+
+    </select>
+	
+	<update id="BDAO.updateList_MOCABOARD" parameterClass="LinkedTreeMap" >
+		UPDATE MOCABOARD
+		SET 
+		<isNotEmpty property="BD_CATEGORY">
+			BD_CATEGORY = #BD_CATEGORY#,
+		</isNotEmpty>
+		<isNotEmpty property="BD_TITLE">
+			BD_TITLE = #BD_TITLE#,
+		</isNotEmpty>
+		<isNotEmpty property="BD_CONTENT">
+			BD_CONTENT = #BD_CONTENT#,
+		</isNotEmpty>
+			UPDATE_DATE = NOW(),
+			UPDATE_USERID = #SESS_USERID#
+		WHERE 1=1
+		AND BD_CODE=#BD_CODE#
+    </update>
+  
+    <insert id="BDAO.insertList_MOCABOARD" parameterClass="LinkedTreeMap">
+		INSERT INTO MOCABOARD (
+  		  	BD_CATEGORY,
+  		  	BD_CODE,
+  		  	BD_TITLE,
+  		  	BD_CONTENT,
+  		  	BD_USERID,
+  		  	<isNotEmpty property="authorCode">BD_AUTHOR,</isNotEmpty>
+  		  	BD_DATE,
+  		  	UPDATE_DATE,
+  		  	UPDATE_USERID
+  		) 
+		VALUES (
+			#BD_CATEGORY#,
+			(SELECT IFNULL(MAX(BD_CODE) + 1, 1) FROM MOCABOARD B),
+			#BD_TITLE#,
+			#BD_CONTENT#,
+			#SESS_USERID#,
+			<isNotEmpty property="authorCode">#authorCode#,</isNotEmpty>
+			NOW(),
+			NULL,
+			NULL
+		)
+	</insert>
+	
+	<delete id="BDAO.deleteList_MOCABOARD" parameterClass="LinkedTreeMap">
+		DELETE
+			B.*, F.*
+		FROM 
+			MOCABOARD B LEFT JOIN MOCAFILE F ON B.BD_CODE = F.BD_CODE
+		WHERE 1=1
+			AND B.BD_CODE=#BD_CODE#
+    </delete>
+	
+	<select id="mocaEFLDAO.selectList_EFL_RECP" parameterClass="hashMap" resultClass="hashMap">
+		SELECT *
+		FROM EFGFILES
+		WHERE DATE(frst_regist_pnttm) BETWEEN #from# AND #to#
+		<isNotEmpty property="NOW_STEP_SEARCH">
+			AND now_step = #NOW_STEP_SEARCH#
+		</isNotEmpty>
+		<isNotEmpty property="SYS_CD">
+			AND SYS_CD = #SYS_CD#
+		</isNotEmpty>
+		<isNotEmpty property="POPU_CD">
+			AND POPU_CD = #POPU_CD#
+		</isNotEmpty>
+		ORDER BY TR_ID desc
+    </select>
+    
+    
+	<select id="mocaEFLDAO.selectList_EFL_MAIL" parameterClass="hashMap" resultClass="hashMap">
+		SELECT *
+		FROM EFGEX
+		WHERE DATE(OCCUR_TIME) BETWEEN #from# AND #to#
+		ORDER BY OCCUR_TIME desc
+    </select>
+	<delete id="mocaEFLDAO.deleteList_EFL_RECP" parameterClass="LinkedTreeMap">
+        DELETE FROM EFGFILES 
+        WHERE FILE_ID =#FILE_ID#
+    </delete>
+	<delete id="mocaEFLDAO.deleteList_EFL_MSCA" parameterClass="LinkedTreeMap">
+        DELETE FROM EFGCA 
+        WHERE MP_CD =#MP_CD#
+        AND SP_CD =#SP_CD#
+        AND AC_CD =#AC_CD#
+        AND R_CD =#R_CD#
+        AND CA_CD =#CA_CD#
+    </delete>
+    <insert id="mocaEFLDAO.insertList_EFL_RECP" parameterClass="LinkedTreeMap" >
+	    <![CDATA[
+	        INSERT INTO EFGFILES (
+		        FILE_ID, 
+				FILE_EXTEN, 
+		        FILE_SIZE, 
+				CORP_CD, 
+		        SYS_CD, 
+				POPU_CD, 
+		        MF_TERM_CD, 
+				MF_DT, 
+		        MF_DEPT_CD, 
+				MF_DEPT_NM, 
+		        MF_ID, 
+				MF_NM, 
+		        MF_SPARE1, 
+				MF_SPARE2, 
+		        META_CONTENT_TYPE, 
+				META_AUTHOR, 
+		        META_LAST_MODIFIED, 
+				META_CREATION_DATE, 
+		        MEATA_TITLE, 
+				MEATA_HASH, 
+		        ETC, 
+				NOW_STEP, 
+		        FRST_REGISTER_ID, 
+				FRST_REGIST_PNTTM, 
+		        LAST_UPDUSR_ID, 
+				LAST_UPDT_PNTTM
+	        ) 
+	        VALUES (
+		        #FILE_ID#, #FILE_EXTEN#, 
+		        #FILE_SIZE#, #CORP_CD#, 
+		        #SYS_CD#, #POPU_CD#, 
+		        #MF_TERM_CD#, #MF_DT#, 
+		        #MF_DEPT_CD#, #MF_DEPT_NM#, 
+		        #MF_ID#, #MF_NM#, 
+		        #MF_SPARE1#, #MF_SPARE2#, 
+		        #META_CONTENT_TYPE#, #META_AUTHOR#, 
+		        #META_LAST_MODIFIED#, #META_CREATION_DATE#, 
+		        #MEATA_TITLE#, #MEATA_HASH#, 
+		        #ETC#, #NOW_STEP#, 
+		        #FRST_REGISTER_ID#, SYSDATE(), 
+		        #LAST_UPDUSR_ID#, SYSDATE()
+			)
+	    ]]>
+	</insert>
+    
+	<update id="mocaEFLDAO.updateList_EFL_RECP" parameterClass="LinkedTreeMap" >
+            UPDATE EFGFILES 
+            SET 
+		        FILE_ID = #FILE_ID#,
+				FILE_EXTEN = #FILE_EXTEN#, 
+		        FILE_SIZE = #FILE_SIZE#, 
+				CORP_CD = #CORP_CD#, 
+		        SYS_CD = #SYS_CD#, 
+				POPU_CD = #POPU_CD#, 
+		        MF_TERM_CD = #MF_TERM_CD#, 
+				MF_DT = #MF_DT#,
+		        MF_DEPT_CD = #MF_DEPT_CD#, 
+				MF_DEPT_NM = #MF_DEPT_NM#, 
+		        MF_ID = #MF_ID#, 
+				MF_NM = #MF_NM#, 
+		        MF_SPARE1 = #MF_SPARE1#, 
+				MF_SPARE2 = #MF_SPARE2#, 
+		        META_CONTENT_TYPE = #META_CONTENT_TYPE#, 
+				META_AUTHOR = #META_AUTHOR#,
+		        META_LAST_MODIFIED = #META_LAST_MODIFIED#, 
+				META_CREATION_DATE = #META_CREATION_DATE#, 
+		        MEATA_TITLE = #MEATA_TITLE#,
+				MEATA_HASH = #MEATA_HASH#, 
+		        ETC = #ETC#,
+				NOW_STEP = #NOW_STEP#, 
+		        LAST_UPDUSR_ID = #LAST_UPDUSR_ID#, 
+				LAST_UPDT_PNTTM = SYSDATE()
+            WHERE FILE_ID = #FILE_ID#
+    </update>
+            
+	<select id="mocaEFLDAO.selectList_EFL_RECP_H" parameterClass="hashMap" resultClass="hashMap">
+		SELECT *
+		FROM EFGFILES_H
+		WHERE 1=1
+		<isNotEmpty property="FILE_ID">
+			AND FILE_ID = #FILE_ID#
+		</isNotEmpty>
+		ORDER BY LAST_UPDT_PNTTM DESC 
+		
+    </select>
+    
+    <insert id="mocaEFLDAO.insertList_EFL_RECP_H" parameterClass="LinkedTreeMap">
+	        INSERT INTO EFGFILES_H (
+		        FILE_ID, 
+		        FILE_NM, 
+		        PATH, 
+				FILE_EXTEN, 
+		        FILE_SIZE, 
+				CORP_CD, 
+		        SYS_CD, 
+				POPU_CD, 
+		        MF_TERM_CD, 
+				MF_DT, 
+		        MF_DEPT_CD, 
+				MF_DEPT_NM, 
+		        MF_ID, 
+				MF_NM, 
+		        MF_SPARE1, 
+				MF_SPARE2, 
+		        META_CONTENT_TYPE, 
+				META_AUTHOR, 
+				<isNotEmpty property="META_LAST_MODIFIED">
+		        META_LAST_MODIFIED, 
+		        </isNotEmpty>
+		        <isNotEmpty property="META_CREATION_DATE"> 
+				META_CREATION_DATE, 
+				</isNotEmpty>
+		        MEATA_TITLE, 
+				MEATA_HASH, 
+		        ETC, 
+				NOW_STEP, 
+		        FRST_REGISTER_ID, 
+				FRST_REGIST_PNTTM, 
+		        LAST_UPDUSR_ID, 
+				LAST_UPDT_PNTTM
+	        ) 
+	        VALUES (
+		        #FILE_ID#,#FILE_NM#,#PATH#, #FILE_EXTEN#, 
+		        #FILE_SIZE#, #CORP_CD#, 
+		        #SYS_CD#, #POPU_CD#, 
+		        #MF_TERM_CD#, #MF_DT#, 
+		        #MF_DEPT_CD#, #MF_DEPT_NM#, 
+		        #MF_ID#, #MF_NM#, 
+		        #MF_SPARE1#, #MF_SPARE2#, 
+		        #META_CONTENT_TYPE#, #META_AUTHOR#, 
+				<isNotEmpty property="META_LAST_MODIFIED"> 
+					STR_TO_DATE(#META_LAST_MODIFIED#,'%Y-%m-%d %H:%i:%s') ,
+				</isNotEmpty>
+				<isNotEmpty property="META_CREATION_DATE"> 
+					STR_TO_DATE(#META_CREATION_DATE#,'%Y-%m-%d %H:%i:%s') ,
+				</isNotEmpty>		        
+		        #MEATA_TITLE#, #MEATA_HASH#, 
+		        #ETC#, #NOW_STEP#, 
+		        #FRST_REGISTER_ID#, NOW(), 
+		        #LAST_UPDUSR_ID#, NOW()
+			)			
+	</insert>
+	
+	
+	
+	<select id="mocaEFLDAO.selectList_EFC_CORP" parameterClass="hashMap" resultClass="hashMap">
+		SELECT *
+		FROM EFGCORP
+		WHERE 1=1
+		<isNotEmpty property="CORP_NM">
+		AND CORP_NM LIKE CONCAT ('%', #CORP_NM#,'%')
+		</isNotEmpty>			
+    </select>
+    
+	<select id="mocaEFLDAO.selectList_EFC_SYST" parameterClass="hashMap" resultClass="hashMap">
+		SELECT *
+		FROM EFGSYST
+		WHERE 1=1
+		<isNotEmpty property="CORP_CD">
+		AND CORP_CD = #CORP_CD#
+		</isNotEmpty>
+		<isNotEmpty property="SYS_NM">
+		AND SYS_NM LIKE CONCAT ('%', #SYS_NM#,'%')
+		</isNotEmpty>		
+    </select>      
+    
+  
+    
+    
+	<insert id="mocaEFLDAO.insertList_EFL_MSCA" parameterClass="LinkedTreeMap" >
+		    <![CDATA[
+		        INSERT INTO EFGCA (
+					MP_CD  ,
+					MP_NM  ,
+					SP_CD  ,
+					SP_NM  ,
+					AC_CD  ,
+					AC_NM  ,
+					AC_TYPE1  ,
+					AC_TYPE2  ,
+					AC_TYPE3  ,
+					R_CD  ,
+					R_NM  ,
+					R_TYPE1  ,
+					R_TYPE2  ,
+					R_TYPE3  ,
+					R_TYPE4  ,
+					R_TYPE5  ,
+					R_TYPE6  ,
+					R_TYPE7  ,
+					R_TYPE8  ,
+					R_TYPE9  ,
+					CA_CD  ,
+					CA_NM  ,
+					C1  ,
+					C2  ,
+					C3  ,
+					C4  ,
+					C5  ,
+					C6  ,
+					C7  ,
+					C8  ,
+					C9  ,
+					C10  ,
+					C11  ,
+					C12  ,
+					C13  ,
+					C14  ,
+					C15  ,
+					C16  ,
+					C17  ,
+					C18  ,
+					C19  ,
+					C20  ,
+					C21  ,
+					C22  ,
+					C23  ,
+					C24  ,
+					C25  ,
+					C26  ,
+					C27  ,
+					C28  ,
+					C29  ,
+					C30  ,
+					C31  ,
+					C32  ,
+					C33  ,
+					C34  ,
+					C35  ,
+					C36  ,
+					C37  ,
+					C38  ,
+					C39  ,
+					C40  ,
+					C41  ,
+					C42  ,
+					C43  ,
+					C44  ,
+					C45  ,
+					C46  ,
+					C47  ,
+					C48  ,
+					C49  ,
+					C50 
+		        ) 
+		        VALUES (
+					#MP_CD#  ,
+					#MP_NM#  ,
+					#SP_CD#  ,
+					#SP_NM#  ,
+					#AC_CD#  ,
+					#AC_NM#  ,
+					#AC_TYPE1#  ,
+					#AC_TYPE2#  ,
+					#AC_TYPE3#  ,
+					#R_CD#  ,
+					#R_NM#  ,
+					#R_TYPE1#  ,
+					#R_TYPE2#  ,
+					#R_TYPE3#  ,
+					#R_TYPE4#  ,
+					#R_TYPE5#  ,
+					#R_TYPE6#  ,
+					#R_TYPE7#  ,
+					#R_TYPE8# ,
+					#R_TYPE9#  ,
+					#CA_CD#  ,
+					#CA_NM#  ,
+					#C1#  ,
+					#C2#  ,
+					#C3#  ,
+					#C4#  ,
+					#C5#  ,
+					#C6#  ,
+					#C7#  ,
+					#C8#  ,
+					#C9#  ,
+					#C10#  ,
+					#C11#  ,
+					#C12#  ,
+					#C13#  ,
+					#C14#  ,
+					#C15#  ,
+					#C16#  ,
+					#C17#  ,
+					#C18#  ,
+					#C19#  ,
+					#C20#  ,
+					#C21#  ,
+					#C22#  ,
+					#C23#  ,
+					#C24#  ,
+					#C25#  ,
+					#C26#  ,
+					#C27#  ,
+					#C28#  ,
+					#C29#  ,
+					#C30#  ,
+					#C31#  ,
+					#C32#  ,
+					#C33#  ,
+					#C34#  ,
+					#C35#  ,
+					#C36#  ,
+					#C37#  ,
+					#C38#  ,
+					#C39#  ,
+					#C40#  ,
+					#C41#  ,
+					#C42#  ,
+					#C43#  ,
+					#C44#  ,
+					#C45#  ,
+					#C46#  ,
+					#C47#  ,
+					#C48#  ,
+					#C49#  ,
+					#C50# 
+				)
+		    ]]>
+		</insert>
+		
+		<update id="mocaEFLDAO.updateList_EFL_MSCA" parameterClass="LinkedTreeMap" >
+	            UPDATE EFGCA
+	            SET 
+					MP_CD  =   #MP_CD#,        
+					MP_NM  =#MP_NM#,
+					SP_CD  =#SP_CD#,
+					SP_NM  =#SP_NM#,
+					AC_CD  =#AC_CD#,
+					AC_NM  =#AC_NM#,
+					AC_TYPE1  =#AC_TYPE1#,
+					AC_TYPE2  =#AC_TYPE2#,
+					AC_TYPE3  =#AC_TYPE3#,
+					R_CD  =#R_CD#,
+					R_NM  =#R_NM#,
+					R_TYPE1  =#R_TYPE1#,
+					R_TYPE2  =#R_TYPE2#,
+					R_TYPE3  =#R_TYPE3#,
+					R_TYPE4  =#R_TYPE4#,
+					R_TYPE5  =#R_TYPE5#,
+					R_TYPE6  =#R_TYPE6#,
+					R_TYPE7  =#R_TYPE7#,
+					R_TYPE8  =#R_TYPE8#,
+					R_TYPE9  =#R_TYPE9#,
+					CA_CD  =#CA_CD#,
+					CA_NM  =#CA_NM#,
+					C1  =#C1#,
+					C2  =#C2#,
+					C3  =#C3#,
+					C4  =#C4#,
+					C5  =#C5#,
+					C6  =#C6#,
+					C7  =#C7#,
+					C8  =#C8#,
+					C9  =#C9#,
+					C10  =#C10#,
+					C11  =#C11#,
+					C12  =#C12#,
+					C13  =#C13#,
+					C14  =#C14#,
+					C15  =#C15#,
+					C16  =#C16#,
+					C17  =#C17#,
+					C18  =#C18#,
+					C19  =#C19#,
+					C20  =#C20#,
+					C21  =#C21#,
+					C22  =#C22#,
+					C23  =#C23#,
+					C24  =#C24#,
+					C25  =#C25#,
+					C26  =#C26#,
+					C27  =#C27#,
+					C28  =#C28#,
+					C29  =#C29#,
+					C30  =#C30#,
+					C31  =#C31#,
+					C32  =#C32#,
+					C33  =#C33#,
+					C34  =#C34#,
+					C35  =#C35#,
+					C36  =#C36#,
+					C37  =#C37#,
+					C38  =#C38#,
+					C39  =#C39#,
+					C40  =#C40#,
+					C41  =#C41#,
+					C42  =#C42#,
+					C43  =#C43#,
+					C44  =#C44#,
+					C45  =#C45#,
+					C46  =#C46#,
+					C47  =#C47#,
+					C48  =#C48#,
+					C49  =#C49#,
+					C50  = #C50#
+        WHERE MP_CD =#MP_CD#
+        AND SP_CD =#SP_CD#
+        AND AC_CD =#AC_CD#
+        AND R_CD =#R_CD#
+        AND CA_CD =#CA_CD#
+	    </update>
+	<select id="mocaEFLDAO.selectList_EFL_MSCA" parameterClass="hashMap" resultClass="hashMap">
+		SELECT *
+		FROM EFGCA
+    </select>
+	<delete id="mocaEFLDAO.deleteAll_EFL_MSCA" parameterClass="hashMap">
+        DELETE FROM EFGCA 
+    </delete>
+	<delete id="mocaEFLDAO.deleteAll_EFGCA_POPU_M" parameterClass="hashMap">
+        DELETE FROM EFGCA_POPU_M 
+        where 1=1
+        	and MP_CD = #MP_CD#
+			and SP_CD = #SP_CD#
+			and AC_CD = #AC_CD#
+			and R_CD = #R_CD#
+			and CA_CD = #CA_CD#
+    </delete>
+	<insert id="mocaEFLDAO.insertList_EFGCA_POPU_M" parameterClass="LinkedTreeMap" >
+		    <![CDATA[
+		        INSERT INTO EFGCA_POPU_M (
+					MP_CD,
+					SP_CD,
+					AC_CD,
+					R_CD,
+					CA_CD,
+					CORP_CD,
+					SYS_CD,
+					POPU_CD
+		        ) 
+		        VALUES (
+					#MP_CD#,
+					#SP_CD#,
+					#AC_CD#,
+					#R_CD#,
+					#CA_CD#,
+					#CORP_CD#,
+					#SYS_CD#,
+					#POPU_CD#
+				)
+		    ]]>
+		</insert>
+		
+		<select id="mocaEFLDAO.selectList_JOIN_POPU" parameterClass="hashMap" resultClass="hashMap">
+			SELECT
+				A.*,
+				CASE 
+					WHEN IFNULL(B.MP_CD,'A') = 'A' THEN ''
+					ELSE '1' 
+				END 
+				AS 'CHK'
+			FROM 
+				EFGPOPU A
+			LEFT OUTER JOIN 
+				EFGCA_POPU_M B
+			ON 
+				A.CORP_CD = B.CORP_CD
+				AND A.SYS_CD = B.SYS_CD
+				AND A.POPU_CD = B.POPU_CD
+				AND B.MP_CD = #MP_CD#
+				AND B.SP_CD = #SP_CD#
+				AND B.AC_CD = #AC_CD#
+				AND B.R_CD = #R_CD#
+				AND B.CA_CD = #CA_CD#
+			ORDER BY POPU_CD ASC
+	    </select>
+	    
+
+		<select id="mocaEFLDAO.selectList_EFL_CAFL" parameterClass="hashMap" resultClass="hashMap">
+    		SELECT
+    			CONCAT(A.MP_CD,'__',A.SP_CD,'__',A.AC_CD,'__',A.R_CD,'__',A.CA_CD) AS FULL_CD,
+				A.MP_NM,A.MP_CD,A.SP_NM,A.SP_CD,A.AC_NM,A.AC_CD,A.R_CD,R_NM,A.CA_CD,A.CA_NM,B.CORP_CD,B.SYS_CD,B.POPU_CD,C.*
+			FROM
+				EFGCA A, EFGCA_POPU_M B, EFGFILES C
+			WHERE 1=1
+				AND DATE(C.META_CREATION_DATE) BETWEEN #from# AND #to# 
+				AND C.NOW_STEP = '02'
+				AND A.MP_CD = B.MP_CD
+				AND A.SP_CD = B.SP_CD
+				AND A.AC_CD = B.AC_CD
+				AND A.R_CD = B.R_CD
+				AND A.CA_CD = B.CA_CD
+				AND B.POPU_CD = C.POPU_CD
+
+				<isNotEmpty property="MP_CD">
+				AND B.MP_CD = #MP_CD#
+				</isNotEmpty>
+				<isNotEmpty property="SP_CD">
+				AND B.SP_CD = #SP_CD#
+				</isNotEmpty>
+				<isNotEmpty property="AC_CD">
+				AND B.AC_CD = #AC_CD#
+				</isNotEmpty>
+				<isNotEmpty property="R_CD">
+				AND B.R_CD = #R_CD#
+				</isNotEmpty>
+				<isNotEmpty property="CA_CD">
+				AND B.CA_CD = #CA_CD#
+				</isNotEmpty>
+				
+				<isNotEmpty property="CORP_CD">
+				AND B.CORP_CD = #CORP_CD#
+				</isNotEmpty>
+				<isNotEmpty property="SYS_CD">
+				AND B.SYS_CD = #SYS_CD#
+				</isNotEmpty>
+				<isNotEmpty property="POPU_CD">
+				AND B.POPU_CD = #POPU_CD#
+				</isNotEmpty>
+			ORDER BY 
+				1 ASC, 3 ASC, 5 ASC, 4 ASC,5 ASC, 7 ASC, 9 ASC, 10 ASC, 11 ASC
+	    </select> 
+	    
+		<select id="mocaEFLDAO.selectList_EFL_OUTS" parameterClass="hashMap" resultClass="hashMap"> 
+    		SELECT
+    		    DH.LAST_UPDT_PNTTM AS DT,
+				F.SYS_CD,F.POPU_CD,F.META_LAST_MODIFIED,F.FILE_NM,F.LAST_UPDT_PNTTM AS REGDT,DH.*
+			FROM
+				EFGFILES F, EFGDOWN_H DH
+			WHERE 1=1
+				AND F.NOW_STEP = '02'
+				AND DATE(DH.LAST_UPDT_PNTTM) BETWEEN #from# AND #to#
+				AND F.FILE_ID = DH.FILE_ID
+				AND DH.CHANNEL != 'EFMS_WEB'
+			ORDER BY 
+				1 DESC
+	    </select> 
+	    
+		<select id="mocaEFLDAO.selectOne_EFL_CAFL" parameterClass="hashMap" resultClass="hashMap">
+			SELECT P.*,F.PATH,F.FILE_NM,F.FILE_ID,F.FILE_EXTEN,F.MEATA_HASH
+			FROM EFGFILES F,EFGPOPU P 
+			WHERE F.POPU_CD = P.POPU_CD
+			AND F.FILE_ID = #FILE_ID# 
+	    </select> 	
+	 	<select id="mocaEFLDAO.selectProperties" parameterClass="hashMap" resultClass="hashMap">
+			SELECT *
+			FROM EFGPOPU
+			WHERE 1=1
+			AND CORP_CD = #corpCd#
+			AND SYS_CD = #sysCd#
+	    </select>     
+		<insert id="mocaEFLDAO.insertList_EFL_CAFL_DOWN_H" parameterClass="hashMap">  
+		    <![CDATA[
+		        INSERT INTO EFGDOWN_H (
+					TR_ID,
+					FILE_ID,
+					CHANNEL,
+					ISSUCCESS,
+					LAST_UPDUSR_ID,
+					LAST_UPDUSR_NM,
+					LAST_UPDT_PNTTM,
+					REFERER,
+					MP_CD,SP_CD,AC_CD,R_CD,CA_CD,
+					MP_NM,SP_NM,AC_NM,R_NM,CA_NM
+		        ) 
+		        VALUES (
+					#TR_ID#,
+					#FILE_ID#,
+					#CHANNEL#,
+					#ISSUCCESS#,
+					#LAST_UPDUSR_ID#,
+					#LAST_UPDUSR_NM#,
+					NOW(),
+					#REFERER#,
+					#MP_CD#,#SP_CD#,#AC_CD#,#R_CD#,#CA_CD#,
+					#MP_NM#,#SP_NM#,#AC_NM#,#R_NM#,#CA_NM#
+				)
+		    ]]>
+		</insert>
+	 	<select id="mocaEFLDAO.selectOne_EFC_POPU" parameterClass="hashMap" resultClass="hashMap">
+			SELECT P.* , S.EMAIL
+			FROM EFGPOPU P, EFGSYST S
+			WHERE 1=1
+			AND S.CORP_CD = P.CORP_CD
+			AND S.SYS_CD = P.SYS_CD
+			AND P.CORP_CD = #CORP_CD#
+			AND P.SYS_CD  = #SYS_CD# 
+			AND P.POPU_CD = #POPU_CD#
+	    </select>   
+	 	<select id="mocaEFLDAO.selectOne_EFC_FILE" parameterClass="hashMap" resultClass="hashMap">
+			SELECT *
+			FROM EFGFILES
+			WHERE 1=1
+			AND FILE_ID = #FILE_ID#
+	    </select> 
+	 	<select id="mocaEFLDAO.selectList_EFG_DOWN_H" parameterClass="hashMap" resultClass="hashMap">
+			SELECT F.SYS_CD,F.POPU_CD,F.META_LAST_MODIFIED,F.FILE_NM,F.LAST_UPDT_PNTTM AS REGDT,DH.*
+			FROM EFGFILES F,EFGDOWN_H DH
+			WHERE F.FILE_ID = DH.FILE_ID
+			AND DH.CHANNEL = 'EFMS_WEB'
+			AND DATE(DH.LAST_UPDT_PNTTM) BETWEEN #from# AND #to#
+			<isNotEmpty property="CORP_CD">
+			AND CORP_CD = #CORP_CD#
+			</isNotEmpty>
+			<isNotEmpty property="LAST_UPDUSR_ID">
+			AND DH.LAST_UPDUSR_ID LIKE CONCAT ('%', #LAST_UPDUSR_ID#,'%')
+			</isNotEmpty>			
+			<isNotEmpty property="LAST_UPDUSR_NM">
+			AND DH.LAST_UPDUSR_NM LIKE CONCAT ('%', #LAST_UPDUSR_NM#,'%')
+			</isNotEmpty>
+			ORDER BY DH.LAST_UPDT_PNTTM DESC ,DH.TR_ID desc 
+	    </select> 
+	    
+	    
+	    
+	    
+	    
+	 	<select id="mocaEFLDAO.selectList_EFC_POPU" parameterClass="hashMap" resultClass="hashMap">
+			SELECT *
+			FROM EFGPOPU
+			WHERE 1=1
+			<isNotEmpty property="CORP_CD">
+			AND CORP_CD = #CORP_CD#
+			</isNotEmpty>
+			<isNotEmpty property="SYS_CD">
+			AND SYS_CD = #SYS_CD#
+			</isNotEmpty>
+			<isNotEmpty property="POPU_NM">
+			AND POPU_NM LIKE CONCAT ('%', #POPU_NM#,'%')
+			</isNotEmpty>
+	    </select>    
+
+		<insert id="mocaEFLDAO.insert_EFGPOPU" parameterClass="LinkedTreeMap"> 
+		    <![CDATA[
+		        INSERT INTO EFGPOPU (
+					CORP_CD,
+					SYS_CD,
+					POPU_CD,
+					POPU_NM,
+					ETC,
+					RECEIPT_CLIENT_DIR,
+					RECEIPT_CLIENT_BACKUP_DIR,
+					RECEIPT_SERVER_DIR,
+					REGIST_SERVER_DIR,
+					SEPA,
+					PERIOD,
+					RECEIPT_URL,
+					CREATE_DT_TYPE
+		        ) 
+		        VALUES (
+					#CORP_CD#,
+					#SYS_CD#,
+					#POPU_CD#,
+					#POPU_NM#,
+					#ETC#,
+					#RECEIPT_CLIENT_DIR#,
+					#RECEIPT_CLIENT_BACKUP_DIR#,
+					#RECEIPT_SERVER_DIR#,
+					#REGIST_SERVER_DIR#,
+					#SEPA#,
+					#PERIOD#,
+					#RECEIPT_URL#,
+					#CREATE_DT_TYPE# 
+				)
+		    ]]>
+		</insert>
+		<delete id="mocaEFLDAO.deleteAll_EFGPOPU" parameterClass="hashMap">
+	        DELETE FROM EFGPOPU 
+	    </delete>
+		<delete id="mocaEFLDAO.delete_EFGPOPU" parameterClass="LinkedTreeMap">
+	        DELETE FROM EFGPOPU 
+	        where 1=1
+	        	and CORP_CD = #CORP_CD#
+				and SYS_CD = #SYS_CD#
+				and POPU_CD = #POPU_CD#
+	    </delete>
+		<update id="mocaEFLDAO.updateAll_EFGPOPU" parameterClass="LinkedTreeMap">
+	            UPDATE EFGPOPU 
+	            SET 
+					POPU_NM = #POPU_NM#,
+					ETC = #ETC#,
+					RECEIPT_CLIENT_DIR = #RECEIPT_CLIENT_DIR#,
+					RECEIPT_CLIENT_BACKUP_DIR = #RECEIPT_CLIENT_BACKUP_DIR#,
+					RECEIPT_SERVER_DIR = #RECEIPT_SERVER_DIR#,
+					REGIST_SERVER_DIR = #REGIST_SERVER_DIR#,
+					SEPA = #SEPA#,
+					PERIOD = #PERIOD#,
+					RECEIPT_URL = #RECEIPT_URL#,
+					CREATE_DT_TYPE = #CREATE_DT_TYPE# 
+		        where 1=1
+		        	and CORP_CD = #CORP_CD#
+					and SYS_CD = #SYS_CD#
+					and POPU_CD = #POPU_CD#
+	    </update> 
+	    
+	    
+	    
+	    
+	    
+	 	<select id="mocaEFLDAO.selectList_EFGPOPU_EXT" parameterClass="hashMap" resultClass="hashMap">
+			SELECT * FROM EFGPOPU_EXT
+			WHERE 1=1
+			<isNotEmpty property="CORP_CD">
+			AND CORP_CD = #CORP_CD#
+			</isNotEmpty>
+			<isNotEmpty property="SYS_CD">
+			AND SYS_CD = #SYS_CD#
+			</isNotEmpty>
+			<isNotEmpty property="POPU_CD">
+			AND POPU_CD = #POPU_CD#
+			</isNotEmpty>
+			ORDER BY LAST_UPDT_PNTTM DESC
+	    </select> 	    
+		<insert id="mocaEFLDAO.insert_EFGPOPU_EXT" parameterClass="LinkedTreeMap"> 
+		    <![CDATA[
+		        INSERT INTO EFGPOPU_EXT (
+					CORP_CD,
+					SYS_CD,
+					POPU_CD,
+					COL_ID,
+					COL_NM,
+					COL_NULL,
+					COL_DESC,
+					LAST_UPDT_PNTTM
+		        ) 
+		        VALUES (
+					#CORP_CD#,
+					#SYS_CD#,
+					#POPU_CD#,
+					#COL_ID#,
+					#COL_NM#,
+					#COL_NULL#,
+					#COL_DESC#,
+					NOW()
+				)
+		    ]]>
+		</insert>
+		<delete id="mocaEFLDAO.deleteAll_EFGPOPU_EXT" parameterClass="hashMap">
+	        DELETE FROM EFGPOPU_EXT 
+	    </delete>
+		<delete id="mocaEFLDAO.delete_EFGPOPU_EXT" parameterClass="LinkedTreeMap">
+	        DELETE FROM EFGPOPU_EXT 
+	        WHERE 1=1
+	        	AND CORP_CD = #CORP_CD#
+				AND SYS_CD = #SYS_CD#
+				AND POPU_CD = #POPU_CD#
+				<isNotEmpty property="COL_ID">
+					AND COL_ID = #COL_ID#
+				</isNotEmpty>
+	    </delete>
+		<update id="mocaEFLDAO.updateAll_EFGPOPU_EXT" parameterClass="LinkedTreeMap" >
+	            UPDATE EFGPOPU_EXT 
+	            SET 
+					COL_NM = #COL_NM#,
+					COL_NULL = #COL_NULL#, 
+					COL_DESC = #COL_DESC#,
+					LAST_UPDT_PNTTM = SYSDATE()
+		        where 1=1
+		        	and CORP_CD = #CORP_CD#
+					and SYS_CD = #SYS_CD#
+					and POPU_CD = #POPU_CD#
+					and COL_ID = #COL_ID#
+	    </update> 
+	 	<select id="mocaEFLDAO.select_01STEP_EFGFILES" parameterClass="hashMap" resultClass="hashMap">
+			SELECT F.*,P.REGIST_SERVER_DIR FROM EFGFILES F, EFGPOPU P
+			WHERE F.NOW_STEP = '01'
+			AND F.CORP_CD = P.CORP_CD
+			AND F.SYS_CD = P.SYS_CD
+			AND F.POPU_CD = P.POPU_CD
+	    </select> 
+	    
+	    
+	    
+		<delete id="mocaEFLDAO.deleteList_EFGSYST" parameterClass="LinkedTreeMap"> 
+			DELETE FROM EFGSYST
+			WHERE 1=1
+			AND CORP_CD = #CORP_CD#
+			AND SYS_CD = #SYS_CD#
+	    </delete>
+	    
+	    
+		<delete id="mocaEFLDAO.deleteList_EFC_CORP" parameterClass="LinkedTreeMap"> 
+			DELETE FROM EFGCORP
+			WHERE 1=1
+			AND CORP_CD = #CORP_CD#			
+	    </delete>
+	    	    
+		<insert id="mocaEFLDAO.insertOne_EFGSYST" parameterClass="LinkedTreeMap">    
+		        INSERT INTO EFGSYST (
+					CORP_CD,
+					SYS_CD,
+					SYS_NM,
+					EMAIL,
+					PHONE,
+					ETC
+		        ) 
+		        VALUES (
+					#CORP_CD#,
+					#SYS_CD#,
+					#SYS_NM#,
+					#EMAIL#,
+					#PHONE#,
+					#ETC#
+				)
+		</insert>
+		<insert id="mocaEFLDAO.insertOne_EFGCORP" parameterClass="LinkedTreeMap">    
+		        INSERT INTO EFGCORP (
+					CORP_CD,
+					CORP_NM,
+					BIZ_NO,
+					BOSS_NM,
+					KIND,
+					ADDR_POST,
+					ADDR1,
+					ADDR2,
+					PHONE,
+					ETC
+		        ) 
+		        VALUES (
+					#CORP_CD#,
+					#CORP_NM#,
+					#BIZ_NO#,
+					#BOSS_NM#,
+					#KIND#,
+					#ADDR_POST#,
+					#ADDR1#,
+					#ADDR2#,
+					#PHONE#,
+					#ETC#
+				)
+		</insert>		
+		<update id="mocaEFLDAO.updateList_EFGSYST" parameterClass="LinkedTreeMap" >  
+	            UPDATE EFGSYST 
+	            SET 
+					SYS_NM = #SYS_NM#,
+					RECP_PATH = #RECP_PATH#, 
+					REGI_PATH = #REGI_PATH#,
+					EMAIL = #EMAIL#,
+					BATCH_CYCLE = #BATCH_CYCLE#,
+					BATCH_TIME = #BATCH_TIME#,
+					PHONE = #PHONE#,
+					ETC = #ETC#
+		        where 1=1
+		        	and CORP_CD = #CORP_CD#
+					and SYS_CD = #SYS_CD#
+	    </update> 
+		<update id="mocaEFLDAO.updateList_EFGCORP" parameterClass="LinkedTreeMap" >  
+	            UPDATE EFGCORP 
+	            SET 
+					CORP_NM = #CORP_NM#,
+					BIZ_NO = #BIZ_NO#,
+					BOSS_NM = #BOSS_NM#,
+					KIND = #KIND#,
+					ADDR_POST = #ADDR_POST#,
+					ADDR1 = #ADDR1#,
+					ADDR2 = #ADDR2#,
+					PHONE = #PHONE#,
+					ETC = #ETC#
+		        where 1=1
+		        	and CORP_CD = #CORP_CD#
+	    </update>
+	    
+	    	    
+		<insert id="mocaEFLDAO.insertOne_EFGULOG" parameterClass="hashMap"> 
+		        INSERT INTO EFGULOG (
+					CORP_CD,
+					USER_ID,
+					MENU_NM,
+					MENU_NO,
+					URL,
+					SRCID,
+					LABEL,
+					LAST_UPDT_PNTTM
+		        ) 
+		        VALUES (
+					#CORP_CD#,
+					#USER_ID#,
+					#MENU_NM#,
+					#MENU_NO#,
+					#URL#,
+					#SRCID#,
+					#LABEL#,
+					NOW()
+				)
+		</insert>
+
+		<delete id="mocaEFLDAO.deleteList_EFGPROP" parameterClass="LinkedTreeMap"> 
+			DELETE FROM EFGPROP
+			WHERE 1=1
+			AND CORP_CD = #CORP_CD#
+			AND PROP_KEY = #PROP_KEY#
+	    </delete>
+	    
+		<insert id="mocaEFLDAO.insertOne_EFGPROP" parameterClass="LinkedTreeMap">    
+		        INSERT INTO EFGPROP (
+					CORP_CD,
+					PROP_KEY,
+					PROP_VALUE,
+					ETC
+		        ) 
+		        VALUES (
+					#CORP_CD#,
+					#PROP_KEY#,
+					#PROP_VALUE#,
+					#ETC#
+				)
+		</insert>
+		<update id="mocaEFLDAO.updateList_EFGPROP" parameterClass="LinkedTreeMap" >  
+	            UPDATE EFGPROP 
+	            SET 
+					PROP_VALUE = #PROP_VALUE#,
+					ETC = #ETC#
+		        where 1=1
+		        	and CORP_CD = #CORP_CD#
+					and PROP_KEY = #PROP_KEY#   
+	
+	    </update> 
+	    
+	   	<select id="mocaEFLDAO.selectList_EFGPROP" parameterClass="hashMap" resultClass="hashMap">
+			SELECT *
+			FROM EFGPROP
+			WHERE 1=1
+			<isNotEmpty property="PROP_KEY">
+			AND PROP_KEY LIKE CONCAT ('%', #PROP_KEY#,'%')
+			</isNotEmpty>
+	    </select>   
+	    
+	 	<select id="mocaEFLDAO.select_MAIN_CNT" parameterClass="hashMap" resultClass="hashMap">
+			SELECT CORP_CD,SYS_CD,NOW_STEP,COUNT(NOW_STEP) AS CNT
+			FROM EFGFILES 
+			WHERE 1=1
+			AND DATE(FRST_REGIST_PNTTM) BETWEEN #FROM# AND #TO#
+			AND CORP_CD = #CORP_CD#
+			AND SYS_CD = #SYS_CD#
+			GROUP BY CORP_CD,SYS_CD,NOW_STEP 
+	    </select> 
+	    
+	 	<select id="mocaEFLDAO.select_MAIN_SYST" parameterClass="hashMap" resultClass="hashMap">
+			SELECT CORP_CD,SYS_CD,SYS_NM FROM EFGSYST
+			GROUP BY CORP_CD,SYS_CD,SYS_NM
+	    </select>  
+	 	<select id="mocaEFLDAO.selectList_EFGULOG" parameterClass="hashMap" resultClass="hashMap">
+			SELECT * FROM EFGULOG
+			WHERE 1=1
+			AND DATE(LAST_UPDT_PNTTM) BETWEEN #FROM# AND #TO#
+			<isNotEmpty property="USER_ID">
+			AND USER_ID LIKE CONCAT ('%', #USER_ID#,'%')
+			</isNotEmpty>
+			ORDER BY LAST_UPDT_PNTTM DESC
+	    </select>  
+
+	 	<select id="mocaEFLDAO.selectOne_EFGSYST" parameterClass="hashMap" resultClass="hashMap">
+			SELECT EMAIL
+			FROM EFGSYST
+			WHERE 1=1
+			AND CORP_CD = #CORP_CD#
+			AND SYS_CD  = #SYS_CD# 
+	    </select>   
+
+	 	<select id="mocaEFLDAO.selectOne_EFGCA" parameterClass="hashMap" resultClass="hashMap">
+			SELECT *
+			FROM EFGCA
+			WHERE 1=1
+			<isNotEmpty property="MP_CD">
+			AND MP_CD = #MP_CD#
+			</isNotEmpty>
+			<isNotEmpty property="SP_CD">
+			AND SP_CD = #SP_CD#
+			</isNotEmpty>
+			<isNotEmpty property="AC_CD">
+			AND AC_CD = #AC_CD#
+			</isNotEmpty>
+			<isNotEmpty property="R_CD">
+			AND R_CD = #R_CD#
+			</isNotEmpty>
+			<isNotEmpty property="CA_CD">
+			AND CA_CD = #CA_CD#
+			</isNotEmpty>
+	    </select>   
+
+
+	 	<select id="mocaEFLDAO.selectList_CA_TREE" parameterClass="hashMap" resultClass="hashMap">
+			SELECT A.DEPTH,A.PID,A.CD,A.NM
+			FROM
+			(
+				SELECT '1' AS DEPTH,'0' AS PID ,CONCAT(MP_CD) AS CD, MP_NM AS NM
+				FROM EFGCA
+				GROUP BY MP_CD,MP_NM
+				UNION all
+				SELECT '2' AS DEPTH, CONCAT(MP_CD) AS PID, CONCAT(MP_CD,'__',SP_CD) AS CD, SP_NM AS NM
+				FROM EFGCA
+				GROUP BY MP_CD, SP_CD,SP_NM
+				UNION all
+				SELECT '3' AS DEPTH,  CONCAT(MP_CD,'__',SP_CD) AS PID, CONCAT(MP_CD,'__',SP_CD,'__',AC_CD)  AS CD, AC_NM AS NM
+				FROM EFGCA
+				GROUP BY MP_CD,SP_CD, AC_CD,AC_NM
+				UNION all
+				SELECT '4' AS DEPTH,  CONCAT(MP_CD,'__',SP_CD,'__',AC_CD)  AS PID, CONCAT(MP_CD,'__',SP_CD,'__',AC_CD,'__',R_CD) AS CD, R_NM AS NM
+				FROM EFGCA
+				GROUP BY MP_CD,SP_CD,AC_CD, R_CD,R_NM
+				UNION all
+				SELECT '5' AS DEPTH,  CONCAT(MP_CD,'__',SP_CD,'__',AC_CD,'__',R_CD) AS PID, CONCAT(MP_CD,'__',SP_CD,'__',AC_CD,'__',R_CD,'__',CA_CD)   AS CD, CA_NM AS NM
+				FROM EFGCA
+				GROUP BY MP_CD,SP_CD,AC_CD, R_CD, CA_CD,CA_NM
+			) A
+			ORDER BY CD ASC,DEPTH ASC
+	    </select>   
+
+
+
+
+
+
+	    		
+</sqlMap>            

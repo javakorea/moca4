@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" /> 
+<meta http-equiv="Pragma" content="no-cache" /> 
+<meta http-equiv="Expires" content="-1" />
+<title>(APP전용)유심인증</title>
+<script> 
+	var teleType = 0;
+	var loginTemp2TelType = 0 ;
+	
+	moca.TOM_03_SRC.___ready = function(args){
+		try{
+			var result = BRIDGE.getStateUsim();
+			//01031679596/SKTelecom/45005
+			var arr = result.split("___");
+			
+			//초기값셋팅
+ 			$('#mobilePhone').val(arr[0]);
+ 			$('#mobilePhone').attr('disabled','disabled');
+			if(arr[1].indexOf('SKT') > -1){
+				$('[name=rad2]')[0].checked = true;
+				teleType = 2;
+				loginTemp2TelType = 'SKT';
+			}else if(arr[1].indexOf('KT') > -1){
+				$('[name=rad2]')[1].checked = true;
+				teleType = 3;
+				loginTemp2TelType = 'KT';
+			}else if(arr[1].indexOf('LG') > -1){
+				$('[name=rad2]')[2].checked = true;
+				teleType = 1;
+				loginTemp2TelType = 'LG';
+			}else {
+				$('[name=rad2]')[3].checked = true;
+			}
+			
+			setTimeout(function(){
+				$('#name').focus();
+				if(window.BRIDGE != null){
+					BRIDGE.showKeyPad();
+				}
+			},100);
+		}catch(e){
+			console.log('e',e);
+		}
+
+		$('[name=rad2]').attr('disabled','disabled');
+	};
+	
+	
+	
+/* 	 function keyup() // keyup함수
+	 {
+		 if(document.getElementById("mobilePhone").value.length >= 11) 
+		 {			 
+			 $('#cert_btn').attr('disabled', false);					
+		 }
+		 else
+		 {
+			 $('#cert_btn').attr('disabled', true);	
+		 }
+	 }; */
+	
+	
+	
+		function go_next(){
+		 	
+			location.href = 'TOM_11.html';
+		};
+	 
+	
+	
+	
+	moca.TOM_03_SRC.next = function(){
+		
+		if(moca.trim($('#name').val()) == ''){
+			moca.malert('이름을 입력하세요.','',function(){
+				$('#name').focus();
+			});
+			return;
+		};
+		if(moca.trim($('#bday').val()) == ''){
+			moca.malert('생년월일(8자리)을 입력하세요.','',function(){
+				$('#bday').focus();
+			});
+			return;
+		};		
+		if(moca.trim($('#bday').val()).length != 8){
+			moca.malert('생년월일(8자리 예.20001230)을 확인하세요.','',function(){
+				$('#bday').focus();
+			});
+			return;
+		};			
+		moca.TOM_03_SRC.exe({
+			url : moca._domain+moca._contextRoot+"/TO/common/usim.do",
+			data : {
+				"header" : moca.header,
+				"body" : {
+					"teleType":teleType+"",
+					"ctn":$('#mobilePhone').val().replace(/\+82/g,'0')+"",
+					"name":$('#name').val(),
+					"bday":$('#bday').val(),
+					"sex":$('[name=sex]:checked').val(),
+					}
+			},			
+			callback : function(response){
+
+				var re = JSON.parse(response.response).response;
+
+				var deviceData = BRIDGE.getStateUsim();
+				var arr1 = deviceData.split("___");
+				
+				var fcmToken = "";
+				var deviceID = "";
+				var socialID = "";
+				var email = "";
+				var type = "";
+				
+				fcmToken = arr1[3];
+				deviceID = arr1[4];
+				socialID = arr1[5];
+				email	 = arr1[6];
+				type	= arr1[7];
+
+
+				if(re.result_code == '0000' && re.auth_yn == 'Y'){
+										
+					var loginTemp2 = {};
+					loginTemp2.name = $('#name').val();
+					loginTemp2.birthDate = $('#bday').val();
+					loginTemp2.sex = $('[name=sex]:checked').val();
+					loginTemp2.updateTime = "";
+					loginTemp2.mobileCarrierMajor = loginTemp2TelType;
+					loginTemp2.loginTime = "";
+					loginTemp2.registerTime = "";
+					loginTemp2.mobilePhone = $('#mobilePhone').val()+"";
+					loginTemp2.osType = "1";
+					loginTemp2.loginCount = "1";
+					sessionStorage.setItem('loginTemp2', JSON.stringify(loginTemp2));
+					
+					var loginTemp0 = {};
+					loginTemp0.id = socialID;
+					loginTemp0.email = email;
+					sessionStorage.setItem('loginTemp0', JSON.stringify(loginTemp0));
+					sessionStorage.setItem('inqType', "1");					
+					sessionStorage.setItem('FCMToken', fcmToken);
+					sessionStorage.setItem('DeviceID', deviceID);
+					sessionStorage.setItem('loginType', type);
+									
+					
+					moca.malert('인증이 완료되었습니다.','',function(){
+					});
+										
+					$('.btn_go').attr('disabled', false);							
+					
+				}else{
+					$('.btn_go').attr('disabled', true);		
+					moca.mresult("인증실패",re.result_msg,function(){
+						if(re.result_msg.indexOf('생년월일') > -1){
+							$('#bday').select();
+	    					if(window.BRIDGE != null){
+	    						BRIDGE.showKeyPad();
+	    					}
+						}else if(re.result_msg.indexOf('이름') > -1){
+							$('#name').select();
+	    					if(window.BRIDGE != null){
+	    						BRIDGE.showKeyPad();
+	    					}
+						}
+					});
+				}
+			}
+		});
+	};
+</script>
+</head>
+<body>
+	<!-- 
+	같은 화면
+	TOM_03_SRC.html 
+	TOM_08.html
+	TOM_08_1.html 
+	TOM_08_2.html
+	TOM_08_3.html -->
+	
+	<!-- 인증 완료 후 
+	보안번호 설정이 안되어있으면 TOM_10_SRC.html로 이동
+	보안번호 설정이 되어있으면 TOM_09_SRC.html로 이동 -->
+
+	<div class="wrap">
+		<header class="titlebar">
+			<button class="btn_back" type="button" onclick="window.history.back()">이전페이지</button>
+		</header>
+		<div class="inner">
+			<div class="top_txt">
+				<p>본인인증</p>
+			</div>
+		</div>
+
+		<div class="content btn_cont fx">
+			<div class="inner">
+				<ul class="d_form">
+					<li>
+						<div class="gox">
+							<input class="input_frm" type="text" id="name" placeholder="이름">
+							<button class="btn_clear" type="button">삭제</button>
+						</div>					
+					</li>
+					<li class="grp_gox">
+						<div class="gox">
+							<input class="input_frm" type="tel" id="bday" placeholder="생년월일(8자리)">
+							<button class="btn_clear" type="button">삭제</button>
+						</div>
+					</li>
+					<li>
+						<ul class="rad_ck">
+							<li><input type="radio" name="sex" id="sex_0" value="1"> <label
+								for="sex_0">남성</label></li>
+							<li><input type="radio" name="sex" id="sex_1" value="2"> <label
+								for="sex_1">여성</label></li>
+						</ul>
+					</li>
+					<li>
+						<ul class="rad_ck2">
+							<li><input type="radio" name="rad2"
+								id="rad2_0"> <label for="rad2_0">SKT</label>
+							</li>
+							<li><input type="radio" name="rad2"
+								id="rad2_1"> <label for="rad2_1">KT</label>
+							</li>
+							<li><input type="radio" name="rad2"
+								id="rad2_2"> <label for="rad2_2">LG</label>
+							</li>
+							<li><input type="radio" name="rad2"
+								id="rad2_3"> <label for="rad2_3">알뜰폰</label>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<div class="ly_form">
+							<input class="input_frm" id="mobilePhone" type="tel" placeholder="휴대폰 번호 입력" onkeyUp="keyup()">
+							<button class="btn_in" id="cert_btn" type="button" onclick="moca.TOM_03_SRC.next(this)" style="cursor:pointer">인증받기</button>
+						</div>
+					</li>
+				</ul>
+				<div class="btn_btm">
+					<button class="btn_go" type="button" onclick="go_next()" disabled>다음</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

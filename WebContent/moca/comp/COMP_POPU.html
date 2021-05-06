@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head meta_width="800px" meta_height="600px">
+<title>COMP_POPU</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css" href="./css/moca.css">
+<link rel="stylesheet" type="text/css" href="./css/fontawesome.css">
+<link rel="stylesheet" type="text/css" href="../css/moca_layout.css">
+<script language="JavaScript" src="../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../js/moca_ui.js"></script>
+<script language="JavaScript" src="./js/list2000.js"></script>
+<script language="JavaScript" src="./js/moca.js"></script>
+<script language="JavaScript" src="testCalendar.js"></script>
+<script>
+	moca.COMP_POPU = {};
+	$( document ).ready( function() {
+		moca.init(function(){
+			moca.code({
+				"pop_grd_1.age":{code:'age',allOption:{label:"-선택-",value:""}},
+				"pop_grd_1.nation":{code:'nation',allOption:{label:"*",value:""}},
+			},function(){
+				moca.COMP_POPU.fn_search();
+			},moca._domain+"/code.json");
+		});
+	} );
+	  
+	moca.COMP_POPU.fn_search = function(){
+		moca.exe({
+			url : moca._domain+"/grid_data.json",
+	        data : {
+	        	"header" : moca.header,
+	        	"body" : {}
+	        },			
+			callback : function(response){
+				moca.drawGrid('pop_grd_1', moca.getRes(response).list);
+			}
+		});
+	};
+</script>
+</head>
+<body>
+		<div class="moca_cont_wrap">
+			<div class="moca_titbox cm">
+				<h3>기본그리드</h3>
+				<div class="btns_wrap">
+<!-- 				<button type="button" class="button btn_cm icon" onclick="moca.fn_save(this)" title="저장"><i class="fas fa-save"></i><span>저장</span></button>
+					<div class="div_bar"></div>
+					<button type="button" class="button btn_df icon" title="새로고침"><i class="fas fa-redo"></i><span>새로고침</span></button> -->
+					<div class="grp_funcbtns">
+						<a class="btn">처리</a>
+						<a class="btn">등록</a>
+						<a class="btn">수정</a>
+						<a class="btn">삭제</a>
+					</div>
+					<div class="grp_combtns">
+						<a class="btn reset">화면지움</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class="moca_shbox">
+				<div class="shbox_inner">
+					<table class="tb">
+						<colgroup>
+							<col style="width:67px;">
+							<col>
+						</colgroup>
+						<tbody>
+							<tr>
+								<th class="tb_th">취미</th>
+								<td class="tb_td">
+									<div class="moca_ibn" style="width:150px">
+										<input type="text" class="moca_input" value="">
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="btn_shbox">
+					<button type="button" class="button btn_sc" onclick="moca.COMP_POPU.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+				</div>
+			</div>
+
+
+			<div type="grid" class="moca_grid toolbar paging"  style="top:112px" default_cell_height="26px" id="pop_grd_1">
+					<table style="width: 100%">
+						<caption>Lv1,Lv4,Lv5,Lv6 정보제공</caption>
+						<colgroup>
+								<col style="width:110px">
+								<col style="width:250px">
+								<col style="width:300px">
+								<col style="">										
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col" id='lv_p1'>이름2</th>
+								<th scope="col" id='lv_p2'>나이2</th>
+								<th scope="col" id='lv_p3'>국적2</th>
+								<th scope="col" id='lv_p4'>비고2</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="name" celltype="input" style="" readOnly="true" toolTip="true"></td>
+								<td id="age" celltype="select" displayFormat="[value] [label]"></td>
+								<td id="nation" celltype="select"  displayFormat="[value] [label]"></td>
+								<td id="td5" celltype="input" ></td>
+							</tr>
+						</tbody>
+					</table>				
+			</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			<div class="toast_msg">
+				<!-- <p>조회가 완료되었습니다.</p> -->
+			</div>
+		</div>	
+</body>
+</html>

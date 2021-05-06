@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" /> 
+<meta http-equiv="Pragma" content="no-cache" /> 
+<meta http-equiv="Expires" content="-1" />
+<script> 
+	moca.TOM_01_SRC.___ready = function(args){
+		moca.TOM_01_SRC.exe({
+			url : moca._domain+moca._contextRoot+"/TOM_01/selectGonggis.do",
+			loadingbar:false,
+			data : {
+				"header" : moca.header,
+				"body" : {
+				}
+			},			
+			callback : function(response){
+				if(response.list != null && response.list.length > 0){
+					$('.root').html(response.list[0].TermsContents);
+				}
+			}
+		});
+	};
+</script>
+</head>
+<body>
+	<div class="root">
+	</div>
+</body>
+</html>

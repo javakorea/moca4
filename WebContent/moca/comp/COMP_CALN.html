@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>COMP_CALN</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css" href="./css/moca.css">
+<link rel="stylesheet" type="text/css" href="../css/moca_layout.css">
+<script language="JavaScript" src="../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../js/moca_ui.js"></script>
+<script language="JavaScript" src="./js/list2000.js"></script>
+<script language="JavaScript" src="./js/moca.js"></script>
+<script language="JavaScript" src="testCalendar.js"></script>
+<script>
+	moca.COMP_CALN = {};
+	$(document).ready(function() {
+		moca.init(function(){
+		});
+	});
+</script>
+</head>
+<body>
+<div class="moca_cont_wrap2">
+	<div class="moca_titbox">
+		<h3>MOCA calendar</h3>
+	</div>
+	
+	<section class="content-panel">
+		<ul>
+			<li>달력 레이어 팝업에서 선택한 날짜가 input에 출력되는 컴포넌트입니다.</li>
+			<li>From~To 복합 달력 레이어 팝업으로 기간을 선택할 수도 있습니다.</li>
+		</ul>
+	</section>
+	
+	<div class="tbbox">
+		<table class="tbl">
+			<colgroup>
+				<col style="width:200px">
+				<col>
+			</colgroup>
+			<tr>
+				<th><label>연달력</label></th>
+				<td><div type="inputCalendar" class="moca_ica" style="width:150px" id="ipc_1" displayFormat="####"></div></td>
+			</tr>
+			<tr>
+				<th><label>연월달력</label></th>
+				<td><div type="inputCalendar" class="moca_ica" style="width:150px" id="ipc_2" displayFormat="####-##"></div></td>
+			</tr>
+			<tr>
+				<th><label>연월일달력</label></th>
+				<td><div type="inputCalendar" class="moca_ica" style="width:150px" id="ipc_3" displayFormat="####-##-##"></div></td>
+			</tr>
+			<tr>
+				<th><label>Date range picker</label></th>
+				<td><div type="inputCalendar" class="moca_ica" style="width:250px" id="ipc_4" displayFormat="####-##-## ~ ####-##-##"></div></td>
+			</tr>
+			<tr>
+				<th><label>Date range picker(목록형)</label></th>
+				<td><div type="inputCalendar" class="moca_ica" style="width:250px" id="ipc_5" displayFormat="####-##-## ~ ####-##-##"></div></td>
+			</tr>
+		</table>
+	</div>
+	
+</div>
+</body>
+</html>

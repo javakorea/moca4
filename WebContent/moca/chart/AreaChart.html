@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>AreaChart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css" href="../css/moca_layout.css">
+<script language="JavaScript" src="../js/jquery-3.3.1.min.js"></script>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongManager.js"></SCRIPT>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongSampleData.js"></SCRIPT>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongChart.js"></SCRIPT>		
+  	<script>
+	$(document).ready(function() {
+			chart22();
+	});//초기화 영역-------------------------------------------------------------
+  	</script>
+</head> 
+<body>
+		<div class="moca_cont_wrap2">
+			<div class="moca_titbox">
+				<h3>Area Chart</h3>
+			</div>
+			<div id="chart22_desc" class="modulebox">
+				<div id="chart22_1title" class="moca_titbox">
+					<h4>1122. Area</h4>
+				</div> 
+				<p>
+				Area 차트는 바닥에서부터의 영역을 구성하여 도형의 넓이로 통계숫자의 크기를 나타내는 통계도표이다.
+				면적도표라고도 하며. 다각형을 이용하여 그린다.
+				</p>
+				
+				<div id="chart22" class="crt_box mt20"></div>	
+				
+				<table class="tbl mt20">
+					<colgroup>
+						<col style="width:50%">
+						<col style="">
+					</colgroup>
+					<thead>				
+						<tr>
+							<th>시리즈속성</th>
+							<th>설명</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="sct">
+							var aSeries = createSeries('any sereis','line',chartUtil.formatData_profile2(data3_1,false,null,null,null));
+							</td>
+							<td>line차트 타입지정</td>
+						</tr>
+					</tbody>
+				</table>	
+				
+				<table class="tbl y mt10">
+					<colgroup>
+						<col style="width:50%">
+						<col style="">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>차트속성</th>
+							<th>설명</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="sct">
+							option.min = 0;			
+							</td>
+							<td>최소값은 자동계산하지않고 0으로 고정함.</td>
+						</tr>
+					</tbody>
+				</table>	
+			</div>
+		</div>
+</body>
+</html>
+

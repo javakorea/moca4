@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head meta_width="700px" meta_height="130px">
+<script>
+	moca.COMP_UPLD.___ready = function(args){
+		var mfile = moca.COMP_UPLD.getObj("mfile");
+		$(mfile).change(function(e){
+			var onFileSelected = moca.COMP_UPLD.data.parent.data.onFileSelected;
+			if(onFileSelected != null){
+				var fid = this.id;
+				var fobj = document.getElementById(""+fid).files[0];
+				var re = eval(onFileSelected)(fobj.name,fobj.size,e,this);
+				if(re){
+					$(moca.COMP_UPLD.getObj("btns")).show();
+				}
+			}
+		});
+		if(args != null){
+			moca.COMP_UPLD.data = args;
+			if(args.parent.data.mapper != null && Object.keys(args.parent.data.mapper).length < 1){
+				moca.error('');
+				return;
+			}
+		}
+	};
+	  
+
+	moca.COMP_UPLD.fn_upload_prev = function(_uploadType){
+		var mfile = moca.COMP_UPLD.getObj("mfile");
+		if(moca.trim($(mfile).val()) == ''){
+			alert('업로드할 파일을 선택하세요.');
+			return;
+		}
+		moca.COMP_UPLD.fn_upload();
+	};
+	
+	moca.COMP_UPLD.fn_upload = function(_uploadType){
+		moca.COMP_UPLD.data.parent.data.uploadType = _uploadType;
+		var _form = document.createElement('FORM');
+		_form.setAttribute("encoding","multipart/form-data");
+		_form.setAttribute("enctype","multipart/form-data");
+		_form.setAttribute("accept-charset","UTF-8");
+		document.body.appendChild(_form);
+		var formData = new FormData(_form);
+		formData.append("file", $("#mfile")[0].files[0]);
+		formData.append("data", JSON.stringify(moca.COMP_UPLD.data));
+		var loadingId = moca.loading(null,null,moca.COMP_UPLD.data.parent,{loadingbar:true});
+		$.ajax({
+			url: moca._contextRoot+'/moca/fileUpload.do',
+			processData: false,
+			contentType: false,
+			data: formData,
+			type: 'POST',
+			success: function(response){
+	    		moca.loading(loadingId,0,moca.COMP_UPLD.data.parent);
+	    		moca.popClose(moca.COMP_UPLD.pageId,response.result);
+			}
+	    });
+	};
+</script>
+</head>
+<body>
+	<div class="moca_pop_cont_wrap scroll" id="Pop_body">
+		<div class="moca_shbox">
+			<div class="shbox_inner">
+				<input type="file" multiple="multiple" title="파일 추가" id="mfile">
+			</div>
+			<div class="btn_shbox" id="btns" style='display:none'>
+				<button type="button" class="button btn_sc" onclick="moca.COMP_UPLD.fn_upload_prev('1')"><i class="fas fa-plus"></i><span>업로드</span></button>
+			</div>
+		</div>
+	</div>	
+</body>
+</html>

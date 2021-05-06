@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" /> 
+<meta http-equiv="Pragma" content="no-cache" /> 
+<meta http-equiv="Expires" content="-1" />
+<title>보안번호로그인</title>
+<script>
+	var pass_num = '';
+	moca.TOM_09_SRC.___ready = function(args){
+		moca.TOM_09_SRC.init();
+	};
+
+	moca.TOM_09_SRC.init = function(args){
+		pass_num = '';
+		$('#ipt_pass1').val('');
+	  	for(var i=0; i < $('.pw_dot').length; i++){
+	  		var ch = pass_num.charAt(i);
+	  		var jq_o = $($('.pw_dot')[i]);
+	  		if(ch != ''){
+	  			if(!jq_o.hasClass('active')){
+		  			jq_o.addClass('active');
+	  			}
+	  		}else{
+	  			jq_o.removeClass('active');
+	  		}
+	  	}
+		setTimeout(function(){
+			$('#ipt_pass1').focus();
+			if(window.BRIDGE != null){
+				BRIDGE.showKeyPad();
+			}
+		},500);
+		
+		
+	};
+	function logKey (_obj) { 
+		pass_num = _obj.value;
+	  	for(var i=0; i < $('.pw_dot').length; i++){
+	  		var ch = pass_num.charAt(i);
+	  		var jq_o = $($('.pw_dot')[i]);
+	  		if(ch != ''){
+	  			if(!jq_o.hasClass('active')){
+		  			jq_o.addClass('active');
+	  			}
+	  		}else{
+	  			jq_o.removeClass('active');
+	  		}
+	  	}
+	  	if(pass_num.length > 5){
+	  		moca.setSs('pass_num1', pass_num);
+	  		var loginInfoArr = [];
+	  		if(window.BRIDGE != null){
+		  		var loginInfoStr = BRIDGE.getLoginInfo();
+		  		loginInfoArr = loginInfoStr.split("/");
+	  		}else{
+	  			loginInfoArr.push(moca.getSs("loginTemp0").id);
+	  			loginInfoArr.push(moca.getSs("loginType"));
+	  		}
+
+	    	moca.TOM_09_SRC.exe({
+	    		url : moca._domain+moca._contextRoot+"/TOM_02/SecretKeyTemp.do",
+	            data : {
+	            	"header" : moca.header,
+	            	"body" : {"id":loginInfoArr[0]+"","loginType":loginInfoArr[1]+"","SecretKeyTemp":pass_num}
+	            },			
+	    		callback : function(response){
+	    			if(response.userInfo != null){
+	    				//곧바로 진행스텝으로
+	    				moca.setSs('loginInfo',response.userInfo);
+						moca.malert("임시보안번호로 로그인되었습니다.","보안번호 재설정 화면으로 이동합니다.",function(){
+							location.href = 'TOM_11.html';
+						});
+	    			}else{
+						//보안번호 3회 오류표시
+						/*
+						moca.malert(response.resultMsg,null,function(){
+							moca.TOM_09_SRC.init();
+						});
+						*/
+						moca.merror("임시비밀번호가 일치하지 않습니다","",function(){
+							//$('.pw_validation').html(response.resultMsg);
+							//moca.TOM_09_SRC.init();
+							location.href="TOM_19.html";
+						});
+						return;
+	    			}
+	    		}
+	    	});
+			
+	  	}
+	};
+	
+	function fnPwReset(){
+		location.href = 'TOM_19.html';
+		
+		
+	};
+	
+	function focusMove(){
+		$('#ipt_pass1').focus();
+	};
+</script>
+</head>
+<body>
+	<!-- 보안번호를 잊으셨나요? 누를시 TOM_18_SRC.html로 이동
+	보안번호 틀렸을시 TOM_16_SRC.html로 이동
+	보안번호 3회 틀렸을시 TOM_17.html로 이동 후 TOM_18_SRC.html로 이동
+	보안번호 입력 성공시 TOM_26_SRC.html로 이동
+-->
+	<div class="wrap">
+		<header class="titlebar">
+		</header>
+		<div class="inner">
+			<div class="top_txt">
+				<p>
+					보안번호를<br>입력해주세요.
+				</p>
+			</div>
+		</div>
+
+		<div class="content fx2">
+			<div class="inner">
+				<div class="lo_form">
+					<div class="pw_box">
+						<div class="pw_dot">
+							<input type="number" pattern="\d*" placeholder="number" name="ipt_pass1" id="ipt_pass1" maxlength="6" onkeyup="logKey(this)">
+						</div>
+						<div class="pw_dot">
+							<input type="tel" name="ipt_pass" id="ipt_pass"  maxlength="1" onfocus="focusMove()">
+						</div>
+						<div class="pw_dot">
+							<input type="tel" name="ipt_pass" id="ipt_pass"  maxlength="1" onfocus="focusMove()">
+						</div>
+						<div class="pw_dot">
+							<input type="tel" name="ipt_pass" id="ipt_pass"  maxlength="1" onfocus="focusMove()">
+						</div>
+						<div class="pw_dot">
+							<input type="tel" name="ipt_pass" id="ipt_pass"  maxlength="1" onfocus="focusMove()">
+						</div>
+						<div class="pw_dot">
+							<input type="tel" name="ipt_pass" id="ipt_pass"  maxlength="1" onfocus="focusMove()">
+						</div>
+					</div>
+					<span class="pw_validation on"></span> <a
+						href="javascript:void(0)" onclick="fnPwReset(this)" class="btn_pw_help">보안번호를
+						잊으셨나요?</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
+</body>
+</html>

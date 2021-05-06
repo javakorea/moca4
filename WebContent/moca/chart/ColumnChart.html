@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>AreaChart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css" href="../css/moca_layout.css">
+<script language="JavaScript" src="../js/jquery-3.3.1.min.js"></script>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongManager.js"></SCRIPT>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongSampleData.js"></SCRIPT>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongChart.js"></SCRIPT>	
+  	<script>
+
+	$(document).ready(function() {
+			chart1();
+			chart4();
+			chart11();
+			chart7();
+			chart8();
+			chart23();
+	});//초기화 영역-------------------------------------------------------------
+  	</script>
+</head> 
+<body>
+		<div class="moca_cont_wrap2">
+					<div class="moca_titbox">
+						<h3>Column Chart</h3>
+					</div>
+						
+					<div id="chart1_desc" class="modulebox">
+						<div id="chart1_1title" class="moca_titbox">
+							<h4>1.Gradient Color(Single column)</h4>
+						</div> 
+						<p>
+						싱글 컬럼차트는 가장 심플한 컬럼차트의 종류이며 데이터 표현 방식이 직선적이며 단순하다.<br>이름에서 나타나듯이 싱글 컬럼 차트는 한개의 카테고리 안에서 다른 수치를 비교할 때 유용하게 쓰인다.
+						</p>
+						<div id="chart1" class="crt_box mt20"></div>
+						<table class="tbl mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>				
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">var aSeries = createSeries('any sereis',<b style='color:red'>'bar'</b>,data1);</td>
+									<td>시리즈타입을 'bar'로 지정</td>
+								</tr>
+								<tr>
+									<td class="sct">aSeries.s_color='rgba(242,159,6,1)';</td>
+									<td>그라이언트의 첫번째 색값을 가져와서 똑같이 맞춰주면 범례에 색값이 표시됨</td>
+								</tr>		
+							</tbody>
+						</table>
+						
+						<table class="tbl y mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+										var colours = [<br>
+										{red: 242,green: 159,blue: 6},<br>
+										{red: 254,green: 240,blue: 216}<br>
+										];<br>
+										option.colours = colours;<br>
+										var colourGradientObject =<br>
+										new ColourGradient(0,option.series[0]['s_data'].length, colours);
+
+									</td>
+									<td>colours배열에 0번째 컬러부터 1번째 컬러까지 option.series[0]['s_data'].length등분하여 그라디언트를 적용함</td>
+								</tr>	
+								<tr>
+									<td class="sct">option.colorObj = colourGradientObject;</td>
+									<td>그라이언트 OBJECT지정</td>
+								</tr>	
+								<tr>
+									<td class="sct">option.gradientColorUse = true;</td>
+									<td>그라이언트 컬러를 사용함</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>        
+
+
+
+
+
+
+
+					<div id="chart4desc"  class="modulebox">
+						<div id="chart4title" class="moca_titbox">
+							<h4>4. Random Color(Single column)</h4>
+						</div> 
+						<div id="chart4" class="crt_box mt20"></div>
+						
+						<table class="tbl mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">var aSeries = createSeries('any sereis',<b style='color:red'>'bar'</b>,data1);</td>
+									<td>시리즈타입을 'bar'로 지정</td>
+								</tr>
+								<tr>
+									<td class="sct">aSeries.s_color='rgba(242,159,6,1)';</td>
+									<td>randomColorUse에서는 시리즈컬러를 지정해도 범례에 색값이 표시되지않음</td>
+								</tr>
+							</tbody>
+						</table>	
+
+						<table class="tbl y mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">option.randomColorUse  = true;</td>
+									<td>랜덤으로 색을 지정함</td>
+								</tr>	
+								<tr>
+									<td class="sct">option.crossLineShow_hori = false;</td>
+									<td>툴팁라인 수평선은 사용안함</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>  
+
+						
+					<div id="chart11desc" class="modulebox">
+						<div id="chart11title" class="moca_titbox">
+							<h4>11. Stacked column</h4>
+						</div>  
+						<div id="chart11" class="crt_box mt20"></div>
+						<table class="tbl mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+									var maxSum;<br>
+									var min;<br>
+									var aSeries1 	= createSeries('any sereis A','bar',chartUtil.formatData_profile2(data11_1,false,null,null,null));<br>
+									...<br>
+									maxSum = aSeries1.s_max;<br>
+									min = aSeries1.s_min;<br>
+									var aSeries2 	= createSeries('any sereis B','bar',chartUtil.formatData_profile2(data11_2,false,null,null,null));<br>
+									...<br>
+									maxSum += aSeries2.s_max;<br>
+									min = aSeries2.s_min;	<br>		
+									var aSeries3 	= createSeries('any sereis C','bar',chartUtil.formatData_profile2(data11_3,false,null,null,null));<br>
+									...<br>
+									maxSum += aSeries3.s_max;<br>
+									min = aSeries3.s_min;<br>
+									
+									aSeries1.s_max = maxSum;<br>
+									aSeries2.s_max = maxSum;<br>
+									aSeries3.s_max = maxSum;<br>
+									aSeries1.s_min = min;<br>
+									aSeries2.s_min = min;<br>
+									aSeries3.s_min = min;				
+									</td>
+									<td>각시리즈의 max값을 모두 더해서 최종max값으로 재셋팅한다.</td>
+								</tr>
+							</tbody>				
+						</table>		
+							
+						<table class="tbl y mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">option.barVertical = true;</td>
+									<td>bar시리즈를 수직으로 연결하여 세운다.</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>  
+
+
+
+
+					<div id="chart7desc" class="modulebox">
+						<div id="chart7title" class="moca_titbox">
+							<h4>7. Multi column</h4>
+						</div> 
+						<div id="chart7" class="crt_box mt20"></div>
+						<table class="tbl mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>	
+							</thead>
+							<tbody>
+							
+								<tr>
+									<td class="sct">var aSeries 	= createSeries('any sereis C','bar',data7_2);</td>
+									<td>bar시리즈 지정</td>
+								</tr>
+								<tr>
+									<td class="sct">var aSeries2 = createSeries('any sereis D','line',data7_3);</td>
+									<td>line시리즈지정</td>
+								</tr>		
+								
+								<tr>
+									<td class="sct">aSeries2.s_axis = 'R';</td>
+									<td>'R'은 우측Y축,'L'은 좌측Y축(디폴트)을 사용함</td>
+								</tr>
+								<tr>
+									<td class="sct">aSeries2.s_shapeColor = aSeries2.s_color;</td>
+									<td>시리즈라인의 컬러와 포인트도형의 컬러를 일치시킨다.</td>
+								</tr>
+							</tbody>
+						</table>	
+						
+						<table class="tbl y mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">option.bothYAxis = true;</td>
+									<td>Y축을 좌측,우측 2개를 사용합니다.</td>
+								</tr>
+								<tr>
+									<td class="sct">option.toFixedY = 2;</td>
+									<td>축의 숫자표시를 소수2째자리까지 표시함</td>
+								</tr>
+							</tbody>
+						</table>	
+					</div>    
+
+
+
+
+					<div id="chart8desc" class="modulebox">
+						<div id="chart8title" class="moca_titbox">
+							<h4>8. X-Grouping Long Label Chart</h4>
+						</div>
+						<div id="chart8" class="crt_box mt20"></div>
+						<table class="tbl mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+									var colors = ['182,192,118','118,192,187','186,119,191','193,140,117','215,211,96','211,99,130'];<br>		
+									aSeries.s_colors = colors;			
+									</td>
+									<td>6개의 컬러를 지정하며, 6개는 반복되며 1회반복시마다 투명도가 강해진다. 투명도는 1부터 -0.2씩 총 5회적용후 다시 1로 돌아감</td>
+								</tr>
+							</tbody>
+						</table>	
+						
+						<table width='100%' class="tbl y mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">option.x_label_extension	= true;</td>
+									<td>X축의 라벨를 년도와 제목으로 분리하여 확장합니다.</td>
+								</tr>
+								<tr>
+									<td class="sct">var data8 = [<br>
+										['2007'	,30,'토니와수잔'],<br>
+										['2008'	,20,'반지의제왕'],<br>
+										['2008'	,15,'로건'],<br>
+										...
+										]
+									</td>
+									<td>data예시(1.x축첫째값, 2.y값, 3.x축확장값)</td>			
+								</tr>
+							</tbody>
+						</table>	
+					</div>
+
+
+					<div id="chart23desc" class="modulebox">
+						<div id="chart23title" class="moca_titbox">
+							<h4>23. X-Grouping Long Label Multi Series Chart</h4>
+						</div> 
+						<div id="chart23" class="crt_box mt20"></div>
+						<table class="tbl mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+									var colors = ['182,192,118','118,192,187','186,119,191','193,140,117','215,211,96','211,99,130'];<br>		
+									aSeries.s_colors = colors;			
+									</td>
+									<td>
+									시리즈별로 컬러셋을 할당함<br>
+									6개의 컬러를 지정하며, 6개는 반복되며 1회반복시마다 투명도가 강해진다. 투명도는 1부터 -0.2씩 총 5회적용후 다시 1로 돌아감</td>
+								</tr>
+							</tbody>
+						</table>	
+						
+						<table width='100%' class="tbl y mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">option.x_label_extension	= true;</td>
+									<td>X축의 라벨를 년도와 제목으로 분리하여 확장합니다.</td>
+								</tr>
+								<tr>
+									<td class="sct">
+<pre>
+var data23_1 = [
+['2007'	,-19.9,'토니와수잔'],
+['2008'	,0,'반지의제왕'],
+['2008'	,-10.1,'로건'],
+['2009'	,-57.1,'콩(스컬아일랜드)']
+];
+
+var data23_2 = [
+['2007'	,-22,'원더우먼'],
+['2008'	,-30,'노무현이다'],
+['2008'	,-56.1,'미이라'],
+['2009'	,-5.1,'트렌스포머']
+];
+</pre>
+									</td>
+									<td>두개 시리즈의 1차X값은 같아야 하고, 2차X값은 달라도 된다.<br>
+									data예시(1.x축첫째값, 2.y값, 3.x축확장값)</td>			
+								</tr>
+							</tbody>
+						</table>	
+					</div> 
+					
+					
+				
+		</div>
+
+
+</body>
+</html>
+

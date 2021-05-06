@@ -1,0 +1,43 @@
+﻿@charset "utf-8";
+/* NHN China Web Standard Team, LQ, 120424 */
+.blind{visibility:hidden !important;overflow:hidden !important;position:absolute !important;top:0 !important;left:0 !important;width:0 !important;height:0 !important;margin:0 !important;padding:0 !important;border:0 !important;font-size:0 !important;line-height:0 !important}
+.ui-datepicker-layer,.ui-datepicker-inline{border: 1px solid #aaaaaa; display:inline-block;position:relative;width:220px;padding:10px;background: #F9F9F9;}
+.ui-datepicker button{margin:0;padding:0;border:0;background:none;cursor:pointer}
+.ui-datepicker .ui-datepicker-title{height:25px;font-family:'굴림',Dotum,Helvetica,sans-serif;margin:0;font-size:12px;font-weight:bold;line-height:14px;color:#333;text-align:center}
+.ui-datepicker .ui-helper-clearfix:before,.ui-datepicker .ui-helper-clearfix:after{font-size:0;line-height:0;content:none}
+.ui-datepicker .ui-datepicker-calendar{border:0;border-collapse:collapse;table-layout:fixed;border-spacing:0;margin:0!important}
+.ui-datepicker .ui-datepicker-calendar th{padding:3px 0 2px;border:1px solid #a3a3a3;border-width:1px 1px 1px 0;background:#bfbfbf;line-height:18px;font-family:'돋움',Dotum,Helvetica,sans-serif;font-size:12px;font-weight:bold;color:#fff;text-align:center}
+.ui-datepicker .ui-datepicker-calendar th.ui-datepicker-week-end{border-width:1px}
+.ui-datepicker .ui-datepicker-calendar td{padding:0;border:1px solid #e4e4e4;border-width:0 1px 1px 0}
+.ui-datepicker .ui-datepicker-calendar td.ui-datepicker-week-end{border-width:0 1px 1px}
+.ui-datepicker .ui-datepicker-calendar td a{display:inline-block;overflow:hidden;width:26px;padding:3px 0 2px;background:#fff;line-height:18px;font-family:Arial;font-size:11px;color:#333;text-align:center;text-decoration:none;vertical-align:top}
+.ui-datepicker .ui-datepicker-calendar td.ui-datepicker-week-end a{color:#f15335}
+.ui-datepicker .ui-datepicker-calendar .ui-state-highlight{width:26px;border:0;background:#86c3e7;font-weight:bold;color:#fff}
+.ui-datepicker .ui-datepicker-calendar .holiday a{font-weight:bold;color:#f15335}
+.ui-datepicker .ui-datepicker-calendar .ui-state-active{background:#ccc;font-weight:bold;color:#fff}
+.ui-datepicker .ui-datepicker-header{position:relative;height:25px;padding:20px 0 0!important;margin:0!important; border:none; background:none; color:#000; clear:both}
+.ui-datepicker .ui-datepicker-header a{position:absolute;top:20px}
+.ui-datepicker .ui-datepicker-header .ui-widget-header{font-weight: bold; !important}
+.ui-datepicker-header a,.ui-datepicker-header a span{display:inline-block;overflow:hidden;background:url(http://static.nhncorp.com/static/libs/general-widget/calendar-1.0/img/sp_cld.png) no-repeat}
+.ui-datepicker-header a span{display:inline-block;overflow:hidden;height:13px;line-height:999px;font-size:0;vertical-align:top}
+.ui-datepicker .ui-datepicker-prev-year{left:0;width:19px;height:13px;background-position:-40px 0;cursor:pointer}
+.ui-datepicker .ui-datepicker-prev{left:23px;width:14px;height:13px;background-position:-20px -20px;cursor:pointer}
+.ui-datepicker .ui-datepicker-next{right:23px;width:14px;height:13px;background-position:-20px 0;cursor:pointer}
+.ui-datepicker .ui-datepicker-next-year{right:0;width:19px;height:13px;background-position:0 -20px;cursor:pointer}
+
+.ui-datepicker .ui-icon-circle-triangle-w{background:none;}
+.ui-datepicker .ui-icon-circle-triangle-e{background:none;}
+.ui-datepicker .ui-state-default {border:none;font-weight:none;color:none;}
+.ui-datepicker .ui-state-hover{border: none; background: none; font-weight: none; color: none;}
+
+.ui-datepicker .ui-datepicker-prev-hover {border: none;background:url(http://static.nhncorp.com/static/libs/general-widget/calendar-1.0/img/sp_cld.png) no-repeat; left:23px;width:14px;height:13px;background-position:-20px -20px;cursor:pointer}
+.ui-datepicker .ui-datepicker-next-hover {border: none;background:url(http://static.nhncorp.com/static/libs/general-widget/calendar-1.0/img/sp_cld.png) no-repeat; right:23px;width:14px;height:13px;background-position:-20px 0;cursor:pointer}
+.ui-datepicker .ui-datepicker-prev-year-hover {border: none;background:url(http://static.nhncorp.com/static/libs/general-widget/calendar-1.0/img/sp_cld.png) no-repeat; left:0;width:19px;height:13px;background-position:-40px 0;cursor:pointer}
+.ui-datepicker .ui-datepicker-next-year-hover {border: none;background:url(http://static.nhncorp.com/static/libs/general-widget/calendar-1.0/img/sp_cld.png) no-repeat; right:0;width:19px;height:13px;background-position:0 -20px;cursor:pointer}
+
+.ui-datepicker .ui-datepicker-current,.ui-datepicker .ui-datepicker-current-pop{background:#fff;position:absolute;top:7px;right:10px;padding:3px 5px 2px 4px!important;*padding:2px 5px 0 4px!important;margin:0!important;border:1px solid #cbcbcb;border-radius:2px;font-size:11px;line-height:13px;font-family:'돋움',Dotum,Helvetica,sans-serif;color:#777;letter-spacing:-1px;text-decoration:none!important}
+.ui-datepicker .ui-datepicker-close{position:absolute;top:7px;right:9px;border:1px solid #cbcbcb;border-radius:2px;background:#fff url(http://static.nhncorp.com/static/libs/general-widget/calendar-1.0/img/sp_cld.png) no-repeat; width:18px;height:18px;background-position:2px 2px;cursor:pointer}
+.ui-datepicker .ui-datepicker-buttonpane{padding:0!important;margin:0!important;border:0!important}
+
+.ui-datepicker-layer {display:none;}
+.ui-datepicker-layer .ui-datepicker-current,.ui-datepicker .ui-datepicker-current-pop{right:33px;padding:3px 5px 2px 4px!important;*padding:2px 5px 0 4px!important;margin:0!important}

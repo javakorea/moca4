@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<style>
+</style>
+<script>
+moca.TO_011.___ready = function(args){
+	moca.TO_011.fn_search();
+};
+
+moca.TO_011.fn_search = function(){
+	moca.TO_011.exe({
+		url : moca._domain+moca._contextRoot+"/TO_011/selectSalesInfo.do",
+		loadingbar:true,
+		data : {
+			"header" : moca.header,
+			"body" : {
+			}
+		},			
+		callback : function(response){
+			moca.TO_011.drawGrid('grd_11',moca.getResList(response,"salesMngList"));
+			//var g = moca.TO_011.getObj('grd_11');
+			//g.setAttribute("selectedRealRowIndex","0");
+			//moca._setRowSelection(g);
+		}
+	});
+};
+
+moca.TO_011.Customer_Price = function(_value,_grd,_rowIndex){
+	return moca.comma(_grd.list[_rowIndex].total_TransferOwner_Price);
+}
+</script>
+</head>
+<body>
+	<div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
+	<div class="moca_tab_cont" style="height:100%">
+		<div class="moca_cont_wrap">
+			<div type="wframe" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
+				src="/html/titlebox.html"
+				data = '{"sreenCd":"TO_011","sreenNm":"매출관리","sreenPath":"Quick Menu,매출관리"}'
+			></div>
+			<div class="moca_shbox">
+				<div class="shbox_inner">
+					<table class="tb">
+						<tbody>
+							<tr>
+								<th class="tb_th pr10">조회일자</th>
+								<td class="tb_td">
+									<div type="inputMultiCalendar" class="moca_ica" style="" id="CREATE_DTTM" displayFormat="####-##-##" 
+										defaultValue="당분기" 
+										selecterItem="오늘,3개월전,6개월전,1년전,3년전,10년전"
+										showRadioOption="false
+										"
+									></div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="btn_shbox">
+					<button type="button" class="button btn_sc" onclick="moca.TO_011.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+				</div>
+			</div>
+			<div type="grid" class="moca_grid toolbar sc_row1" default_cell_height="26px" id="grd_11" 
+					toolbar_search_size="false"
+					toolbar_col_showhide="false"
+					toolbar_detail="false"
+					toolbar_exup="false"
+					toolbar_exdn="false"
+					toolbar_addrow="false"
+					toolbar_delrow="false"
+					toolbar_nextbtn="false"
+					toolbar_full="true"
+		
+					label="총건수">
+					<table style="width: 100%">
+						<colgroup>
+								<col style="width:80px"><!-- 순번 -->
+								<col style="width:120px"><!-- 매출발생일 -->
+								<col style="width:120px"><!-- 거래형태 -->
+								<col style="width:100px"><!-- 상품 -->
+								<col style="width:120px"><!-- 신청자 -->
+								<col style="width:120px"><!-- 양수인 -->
+								<col style="width:250px"><!-- 차명 -->
+								<col style="width:120px"><!-- 차종 -->
+								<col style="width:120px"><!-- 차량번호 -->
+								<col style="width:120px"><!-- 고객 입금액 -->
+								<col style="width:120px"><!-- 고객추가입금 -->
+								
+								
+								<col style="width:120px"><!-- 취득세 :: 취득세 -->
+								<col style="width:120px"><!-- 취득세 :: 할인금액 -->
+								<col style="width:120px"><!-- 취득세 :: 납부금액 -->
+								
+								
+								<col style="width:120px"><!-- 채권 :: 채권금액 -->
+								<col style="width:120px"><!-- 채권 :: 채권할인 후 금액 -->
+								<col style="width:120px"><!-- 채권 :: 은행대행수수료 -->
+								<col style="width:120px"><!-- 채권 :: 선급이자 -->
+								<col style="width:120px"><!-- 채권 :: 소득세 -->
+								<col style="width:120px"><!-- 채권 :: 지방소득세 -->
+								<col style="width:120px"><!-- 채권 :: 채권대행료 -->
+								
+								
+								<col style="width:120px"><!-- 관공서 :: 전자수입인지 -->
+								<col style="width:120px"><!-- 관공서 :: 인지대 -->
+								<col style="width:120px"><!-- 관공서 :: 증지대 -->
+								<col style="width:120px"><!-- 비용 :: 고객이체 -->
+								<col style="width:120px"><!-- 비용 :: 공단이체 -->
+								<col style="width:120px"><!-- 환불금액 -->
+								<col style="width:120px"><!-- 대행료 Carbang_RegistrationFee -->
+								<col style="width:120px"><!-- 이익 -->
+								
+						</colgroup>
+						<thead>
+							<tr>
+								<th id="H_rowNum" rowspan="2">소유권이전ID</th>
+								<th id="H_date" rowspan="2">매출발생일</th>
+								<th id="H_a1" rowspan="2">거래형태</th>
+								<th id="H_a2" rowspan="2">상품</th>
+								<th id="H_a3" rowspan="2">신청자</th>
+								<th id="H_a4" rowspan="2">양수인</th>
+								<th id="H_a5" rowspan="2">차명</th>
+								<th id="H_a6" rowspan="2">차종</th>
+								
+								
+								<th id="H_a7" rowspan="2">차량번호</th>
+							    <th id="H_a8" rowspan="2">고객입금액</th>
+							    <th id="H_a8_2" rowspan="2">고객추가금액</th>
+							    
+							    <th id="H_a9" colspan="3">취득세</th>
+							    
+							    <th id="H_a10" colspan="7">채권</th>
+								<th id="H_a11" colspan="3">관공서</th>
+								<th id="H_a12" colspan="2">비용</th>
+								
+								
+							
+
+								<th id="H_a13" rowspan="2">환불금액</th>
+								<th id="H_a14" rowspan="2">이전등록대행료</th>
+								<th id="H_a15" rowspan="2">이익</th>
+							</tr>
+							<tr>
+								<th id="H_a91">취득세</th><!-- 취득세 -->
+								<th id="H_a92">할인금액</th><!-- 취득세 -->
+								<th id="H_a93">납부금액</th><!-- 취득세 -->
+								
+								<th id="H_a101">채권금액</th><!-- 채권 -->
+								<th id="H_a102">채권할인 후 금액</th><!-- 채권 -->
+								<th id="H_a103">은행대행수수료</th><!-- 채권 -->
+								<th id="H_a104">선급이자</th><!-- 채권 -->
+								<th id="H_a105">소득세</th><!-- 채권 -->
+								<th id="H_a106">지방소득세</th><!-- 채권 -->
+								<th id="H_a107">채권대행료</th><!-- 채권 -->
+								
+								<th id="H_a111">전자수입인지</th><!-- 관공서 -->
+								<th id="H_a112">인지대</th><!-- 관공서 -->
+								<th id="H_a113">등록수수료</th><!-- 관공서_등록수수료-->
+								
+								
+								
+								<th id="H_a121">고객이체</th><!-- 비용 -->
+								<th id="H_a122">공단이체</th><!-- 비용 -->
+								
+								
+								
+								
+								
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="TransferownerIdx" name="소유권이전ID" celltype="input" style="" readonly="true"></td>
+								<td id="ApprovedTime" name="매출발생일"  celltype="input" tooltip="true" style="" readonly="true" required="false"></td>
+								<td id="TransferForm" name="거래형태"  celltype="input" tooltip="true" style="" readonly="true" required="false"></td>
+								<td id="ProductType" name="상품"  celltype="input" readonly="true" required="false"></td>
+								<td id="UserName" name="신청자"  celltype="input" tooltip="true" style="" readonly="true" required="false" displayFunction="" ></td>
+								<td id="buyerName" name="양수인" celltype="input" style="" readonly="true" required="false"  displayFunction="" ></td>
+								<td id="carName" name="차명"  celltype="input" style="text-align:left" readonly="true" required="false" displayFunction=""></td>	
+								<td id="carType" name="차종"  celltype="input" style="" readonly="true" displayFunction=""></td>	
+								
+								
+								
+								
+								<td id="Request_VehicleNumber" name="차량번호"  celltype="input" style="" readonly="true" displayFunction=""></td>
+							    <td id="CarbangBank_Price" name="고객입금액"  celltype="input" style="text-align:right" required="true" readonly="true" displayFunction="moca.comma"></td>
+							    <td id="CustomerAddPayPrice" name="고객추가금액"  celltype="input" style="text-align:right" required="true"  readonly="true" displayFunction="moca.comma"></td>
+								
+								<td id="taxPrice_Acquisition" name="취득세_취득세"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.comma"></td>
+								<td id="taxPrice_Acquisition_ReductionPrice" name="취득세_할인금액"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.comma"></td>
+								<td id="taxPrice_Acquisition_RealCost" name="취득세_납부금액"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.comma"></td>
+								
+
+								<td id="bondInfo_PurchasePrice_Original" name="채권_채권금액"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.comma"></td>
+								
+								
+								<!-- <td id="bondInfo_PurchasePrice_Result" name="채권_채권할인후금액"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.comma"></td> -->
+								<td id="bondInfo_SellingPrice_Result" name="즉시할인금액"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.comma"></td>
+								
+								<td id="agencyFee_SellingBond_Bank" name="은행대행수수료"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.comma"></td>
+								<td id="bondInfo_SellingProfit" name="채권_선급이자"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.comma"></td>
+								<td id="taxPrice_Income" name="채권_소득세"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.comma"></td>
+								<td id="taxPrice_Local" name="채권_지방소득세"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.comma"></td>
+								<td id="agencyFee_PurchaseBond_CarBang" name="채권_채권대행료"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.comma"></td>
+								
+								<td id="Revenue_StampPrice" name="관공서_전자수입인지"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.comma"></td>
+								<td id="officeCharge" name="관공서_인지대"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.comma"></td>
+								<td id="agencyFee_Office_Registration" name="관공서_등록수수료"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.comma"></td>
+							
+								<td id="Customer_Price" name="비용_고객이체"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.TO_011.Customer_Price"></td>
+								<td id="Corp_Price" name="비용_공단이체"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.comma"></td>
+								
+								
+								
+
+								<td id="ReturnPay_Price" name="환불금액"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.comma"></td>
+<!-- 								<td id="total_TransferOwner_Price" name="이전등록대행료"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.comma"></td>
+								 -->
+								<td id="Carbang_RegistrationFee" name="이전등록대행료"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.comma"></td>
+								<td id="SalesProfit2" name="이익"  celltype="input" style="text-align:right" readonly="true" displayFunction="moca.comma"></td>
+							</tr>
+						</tbody>
+					</table>				
+			</div>		
+		</div>	
+	</div>
+</div>
+</body>
+</html>

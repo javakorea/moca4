@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>AreaChart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css" href="../css/moca_layout.css">
+<script language="JavaScript" src="../js/jquery-3.3.1.min.js"></script>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongManager.js"></SCRIPT>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongSampleData.js"></SCRIPT>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongChart.js"></SCRIPT>		
+  	<script>
+
+	$(document).ready(function() {
+			chart3();
+			chart5();
+			chart13();
+			chart14();
+			chart15();
+	});//초기화 영역-------------------------------------------------------------
+  	</script>
+</head> 
+<body>
+		<div class="moca_cont_wrap2">
+					<div class="moca_titbox">
+						<h3>Line Chart</h3>
+					</div>
+					<div id="chart3_desc" class="modulebox">
+						<div id="chart3_1title" class="moca_titbox">
+							<h4>3. line and dot</h4>
+						</div> 
+						<p>
+						라인차트는 컬럼차트에 비해 X축의 연속성과 변동성을 직관적으로 표현하기위해 사용된다.
+						</p>
+						<div id="chart3" class="crt_box mt20"></div> 	
+						
+						<table class="tbl mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+									var aSeries = createSeries('any sereis','line',chartUtil.formatData_profile2(data3_1,false,null,null,null));
+									</td>
+									<td>line차트 타입지정</td>
+								</tr>
+							</tbody>
+						</table>	
+						
+						<table class="tbl y mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+									option.min = 0;			
+									</td>
+									<td>최소값은 자동계산하지않고 0으로 고정함.</td>
+								</tr>
+							</tbody>
+						</table>	
+					</div>        
+
+
+
+					<div id="chart5desc" class="modulebox">
+						<div id="chart5title" class="moca_titbox">
+							<h4>5. line multi</h4>
+						</div> 
+						<div id="chart5" class="crt_box mt20"></div>
+						
+						<table class="tbl mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+									aSeries.s_lineWidth=1;<br>
+									aSeries.s_lineWidth=2;<br>
+									aSeries.s_lineWidth=3;
+									</td>
+									<td>선의 굵기를 시리즈별로 다르게 하므로서 웹접근성을 높인다.</td>
+								</tr>
+							</tbody>
+						</table>	
+						
+						<table class="tbl y mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+										option.rpTooltipUse	= true;		
+									</td>
+									<td>툴팁상자표시</td>
+								</tr>	
+								<tr>
+									<td class="sct">
+										option.legendPositionH	= 'titleRight';			
+									</td>
+									<td >범례표시가 타이틀우측에 붙어나오도록함</td>
+								</tr>	
+							</tbody>
+						</table>	
+
+						
+					</div>  
+
+
+
+
+
+
+
+
+						
+					<div id="chart13desc" class="modulebox">
+						<div id="chart13title" class="moca_titbox">
+							<h4>13. line cutting series</h4>
+						</div> 
+						<div id="chart13" class="crt_box mt20"></div>
+						<table class="tbl mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+									aSeries.s_lineLinkable=true;
+									</td>
+									<td>시리즈별로 끊어진 라인형을 사용한다.</td>
+								</tr>
+								<tr>
+									<td class="sct">
+									aSeries.s_lineType=lineStyles[g];<br>
+									aSeries.s_lineWidth=lineDeeps[g];
+									</td>
+									<td>라인타입배열와 라인두께배열을 지정함</td>
+								</tr>
+							</tbody>
+						</table>	
+						
+						<table class="tbl y mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+										option.legendPosition = 'top'
+									</td>
+									<td>범례를 상단에 표시함</td>
+								</tr>	
+								<tr>
+									<td class="sct">
+										option.legendPositionH	= 'right';	
+									</td>
+									<td>범례를 수평선상에서 오른쪽 정렬함.</td>
+								</tr>	
+								<tr>
+									<td class="sct">
+										option.legendFont = '12px Arial';	
+									</td>
+									<td>범례의 폰트를 지정함.</td>
+								</tr>		
+								<tr>
+									<td class="sct">
+										option.xmin						= _xmin;<br>
+										option.xmax						= _xmax;
+									</td>
+									<td>x축의 min,max를 지정함</td>
+								</tr>		
+							</tbody>
+						</table>	
+					</div>  
+
+
+
+
+					<div id="chart14desc" class="modulebox">
+						<div id="chart14title" class="moca_titbox">
+							<h4>14. line-cutting-series-labelMapping</h4>
+						</div> 
+						<div id="chart14" class="crt_box mt20"></div>
+							
+						
+						<table class="tbl y mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">option.xrange_axis_label_mapping= true;</td>
+									<td>x축의 눈금값에 라벨을 바인딩함.</td>
+								</tr>
+								<tr>
+									<td class="sct">option.xrange_axis_label_map    = {0:'A01',10:'A02',25:'K03',50:'Z04',70:'P05'};</td>
+									<td>x축의 눈금값에 바인딩할 라벨객체를 지정함.</td>
+								</tr>
+							</tbody>
+						</table>	
+					</div>    
+
+
+
+
+					<div id="chart15desc" class="modulebox">
+						<div id="chart15title" class="moca_titbox">
+							<h4>15. Cut Line Mini</h4>
+						</div> 
+						<div id="chart15" class="crt_box mt20"></div> 
+
+						
+						<table class="tbl y mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">option.legendMaxCount= 10;</td>
+									<td>범례박스표시최대개수</td>
+								</tr>
+								<tr>
+									<td class="sct">option.right_margin= 6;</td>
+									<td>오른쪽여백 최소크기일땐 6셋팅할것 표준:40</td>
+								</tr>			
+								<tr>
+									<td class="sct">option.top_margin= 16;</td>
+									<td>최소크기일땐 16셋팅할것 표준:40</td>
+								</tr>			
+								<tr>
+									<td class="sct">option.bottom_legend_box_height= 24;</td>
+									<td>바닥여백 최소크기일땐 0셋팅할것 표준:30</td>
+								</tr>
+								<tr>
+									<td class="sct">option.gridShowH = true;</td>
+									<td>수평격자사용함.</td>
+								</tr>
+								<tr>
+									<td class="sct">option.gridShowV	= false;</td>
+									<td>수직격자사용안함.</td>
+								</tr>	
+							</tbody>	
+						</table>	
+					</div>
+		</div>
+</body>
+</html>
+

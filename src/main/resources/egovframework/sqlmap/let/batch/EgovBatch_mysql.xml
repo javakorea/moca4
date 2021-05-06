@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="batchFile">
+
+	<typeAlias  alias="hashMap" type="java.util.HashMap"/>
+
+	<insert id="batchFileDAO.insertFileInfo" parameterClass="hashMap" >
+		
+		INSERT INTO	EFGFILES
+		(
+			TR_ID,
+			FILE_ID ,
+			FILE_NM ,
+			PATH,
+			<isNotEmpty property="corpCd">
+				CORP_CD ,
+			</isNotEmpty>
+			<isNotEmpty property="fileExten">
+				FILE_EXTEN ,
+			</isNotEmpty>
+			<isNotEmpty property="fileSize">
+				FILE_SIZE ,
+			</isNotEmpty>
+			<isNotEmpty property="sysCd">
+				SYS_CD ,
+			</isNotEmpty>
+			<isNotEmpty property="gCd">
+				POPU_CD ,
+			</isNotEmpty>
+			<isNotEmpty property="mfTermCd">
+				MF_TERM_CD ,
+			</isNotEmpty>
+			<isNotEmpty property="mfDt">
+				MF_DT ,
+			</isNotEmpty>
+			<isNotEmpty property="mfDeptCd">
+				MF_DEPT_CD ,
+			</isNotEmpty>
+			<isNotEmpty property="mfDeptNm">
+				MF_DEPT_NM ,
+			</isNotEmpty>
+			<isNotEmpty property="mfId">
+				MF_ID ,
+			</isNotEmpty>
+			<isNotEmpty property="mfNm">
+				MF_NM ,
+			</isNotEmpty>
+			<isNotEmpty property="mfSpare1">
+				MF_SPARE1 ,
+			</isNotEmpty>
+			<isNotEmpty property="mfSpare2">
+				MF_SPARE2 ,
+			</isNotEmpty>
+			<isNotEmpty property="metaContentType">
+				META_CONTENT_TYPE ,
+			</isNotEmpty>
+			<isNotEmpty property="metaAuthor">
+				META_AUTHOR ,
+			</isNotEmpty>
+			<isNotEmpty property="metaLastModified">
+				META_LAST_MODIFIED ,
+			</isNotEmpty>
+			<isNotEmpty property="metaCreationDate">
+				META_CREATION_DATE ,
+			</isNotEmpty>
+			<isNotEmpty property="metaTitle">
+				MEATA_TITLE ,
+			</isNotEmpty>
+			<isNotEmpty property="meataHash">
+				MEATA_HASH ,
+			</isNotEmpty>
+			<isNotEmpty property="etc">
+				ETC ,
+			</isNotEmpty>
+			<isNotEmpty property="nowStep">
+				NOW_STEP ,
+			</isNotEmpty>
+			<isNotEmpty property="frstRegisterId">
+				FRST_REGISTER_ID ,
+			</isNotEmpty>
+			FRST_REGIST_PNTTM ,
+			<isNotEmpty property="lastUpdusrId">
+				LAST_UPDUSR_ID ,
+			</isNotEmpty>
+			LAST_UPDT_PNTTM
+			<isNotEmpty property="C0">
+				,C0
+			</isNotEmpty>	
+			<isNotEmpty property="C1">
+				,C1
+			</isNotEmpty>
+			<isNotEmpty property="C2">
+				,C2
+			</isNotEmpty>
+			<isNotEmpty property="C3">
+				,C3
+			</isNotEmpty>
+			<isNotEmpty property="C4">
+				,C4
+			</isNotEmpty>
+			<isNotEmpty property="C5">
+				,C5
+			</isNotEmpty>
+			<isNotEmpty property="C6">
+				,C6
+			</isNotEmpty>
+			<isNotEmpty property="C7">
+				,C7
+			</isNotEmpty>
+			<isNotEmpty property="C8">
+				,C8
+			</isNotEmpty>	
+			<isNotEmpty property="C9">
+				,C9
+			</isNotEmpty>			
+			<isNotEmpty property="C0_NM">
+				,C0_NM
+			</isNotEmpty>	
+			<isNotEmpty property="C1_NM">
+				,C1_NM
+			</isNotEmpty>
+			<isNotEmpty property="C2_NM">
+				,C2_NM
+			</isNotEmpty>
+			<isNotEmpty property="C3_NM">
+				,C3_NM
+			</isNotEmpty>
+			<isNotEmpty property="C4_NM">
+				,C4_NM
+			</isNotEmpty>
+			<isNotEmpty property="C5_NM">
+				,C5_NM
+			</isNotEmpty>
+			<isNotEmpty property="C6_NM">
+				,C6_NM
+			</isNotEmpty>
+			<isNotEmpty property="C7_NM">
+				,C7_NM
+			</isNotEmpty>
+			<isNotEmpty property="C8_NM">
+				,C8_NM
+			</isNotEmpty>	
+			<isNotEmpty property="C9_NM">
+				,C9_NM
+			</isNotEmpty>		
+		)
+		VALUES 
+		(
+			#trId# ,
+			#fileId#,
+			#fileNm#,
+			#path#,
+			<isNotEmpty property="corpCd">
+				#corpCd# ,
+			</isNotEmpty>
+			<isNotEmpty property="fileExten">
+				#fileExten# ,
+			</isNotEmpty>
+			<isNotEmpty property="fileSize">
+				#fileSize# ,
+			</isNotEmpty>			
+			<isNotEmpty property="sysCd">
+				#sysCd# ,
+			</isNotEmpty>
+			<isNotEmpty property="gCd">
+				#gCd# ,
+			</isNotEmpty>
+			<isNotEmpty property="mfTermCd">
+				#mfTermCd# ,
+			</isNotEmpty>
+			<isNotEmpty property="mfDt">
+				#mfDt# ,
+			</isNotEmpty>
+			<isNotEmpty property="mfDeptCd">
+				#mfDeptCd# ,
+			</isNotEmpty>
+			<isNotEmpty property="mfDeptNm">
+				#mfDeptNm# ,
+			</isNotEmpty>
+			<isNotEmpty property="mfId">
+				#mfId# ,
+			</isNotEmpty>
+			<isNotEmpty property="mfNm">
+				#mfNm# ,
+			</isNotEmpty>
+			<isNotEmpty property="mfSpare1">
+				#mfSpare1# ,
+			</isNotEmpty>
+			<isNotEmpty property="mfSpare2">
+				#mfSpare2# ,
+			</isNotEmpty>
+			<isNotEmpty property="metaContentType">
+				#metaContentType# ,
+			</isNotEmpty>
+			<isNotEmpty property="metaAuthor">
+				#metaAuthor# ,
+			</isNotEmpty>
+			<isNotEmpty property="metaLastModified"> 
+				STR_TO_DATE(#metaLastModified#,'%Y-%m-%d %H:%i:%s') ,
+			</isNotEmpty>
+			<isNotEmpty property="metaCreationDate">
+				STR_TO_DATE(#metaCreationDate#,'%Y-%m-%d %H:%i:%s') ,
+			</isNotEmpty>
+			<isNotEmpty property="metaTitle">
+				#metaTitle# ,
+			</isNotEmpty>
+			<isNotEmpty property="meataHash">
+				#meataHash# ,
+			</isNotEmpty>
+			<isNotEmpty property="etc">
+				#etc# ,
+			</isNotEmpty>
+			<isNotEmpty property="nowStep">
+				#nowStep# ,
+			</isNotEmpty>
+			<isNotEmpty property="frstRegisterId">
+				#frstRegisterId# ,
+			</isNotEmpty>
+			NOW(),
+			<isNotEmpty property="lastUpdusrId">
+				#lastUpdusrId# ,
+			</isNotEmpty>
+			NOW()
+			<isNotEmpty property="C0">
+				,#C0#
+			</isNotEmpty>	
+			<isNotEmpty property="C1">
+				,#C1#
+			</isNotEmpty>
+			<isNotEmpty property="C2">
+				,#C2#
+			</isNotEmpty>
+			<isNotEmpty property="C3">
+				,#C3#
+			</isNotEmpty>
+			<isNotEmpty property="C4">
+				,#C4#
+			</isNotEmpty>
+			<isNotEmpty property="C5">
+				,#C5#
+			</isNotEmpty>
+			<isNotEmpty property="C6">
+				,#C6#
+			</isNotEmpty>
+			<isNotEmpty property="C7">
+				,#C7#
+			</isNotEmpty>
+			<isNotEmpty property="C8">
+				,#C8#
+			</isNotEmpty>	
+			<isNotEmpty property="C9">
+				,#C9#
+			</isNotEmpty>		
+			
+			<isNotEmpty property="C0_NM">
+				,#C0_NM#
+			</isNotEmpty>	
+			<isNotEmpty property="C1_NM">
+				,#C1_NM#
+			</isNotEmpty>
+			<isNotEmpty property="C2_NM">
+				,#C2_NM#
+			</isNotEmpty>
+			<isNotEmpty property="C3_NM">
+				,#C3_NM#
+			</isNotEmpty>
+			<isNotEmpty property="C4_NM">
+				,#C4_NM#
+			</isNotEmpty>
+			<isNotEmpty property="C5_NM">
+				,#C5_NM#
+			</isNotEmpty>
+			<isNotEmpty property="C6_NM">
+				,#C6_NM#
+			</isNotEmpty>
+			<isNotEmpty property="C7_NM">
+				,#C7_NM#
+			</isNotEmpty>
+			<isNotEmpty property="C8_NM">
+				,#C8_NM#
+			</isNotEmpty>	
+			<isNotEmpty property="C9_NM">
+				,#C9_NM#
+			</isNotEmpty>			
+		)
+
+	</insert>
+	
+	<update id="batchFileDAO.updateFileInfo" parameterClass="hashMap" >
+		UPDATE EFGFILES
+		SET 
+			NOW_STEP = #NOW_STEP#
+        WHERE 1=1
+        AND FILE_ID = #FILE_ID#
+	</update>
+    
+	<insert id="batchFileDAO.insertFileInfo_h" parameterClass="hashMap" >
+		INSERT INTO	EFGFILES_H
+		(
+			TR_ID,
+			FILE_ID ,
+			FILE_NM ,
+			PATH,
+			<isNotEmpty property="corpCd">
+				CORP_CD ,
+			</isNotEmpty>
+			<isNotEmpty property="fileExten">
+				FILE_EXTEN ,
+			</isNotEmpty>
+			<isNotEmpty property="fileSize">
+				FILE_SIZE ,
+			</isNotEmpty>
+			<isNotEmpty property="sysCd">
+				SYS_CD ,
+			</isNotEmpty>
+			<isNotEmpty property="gCd">
+				POPU_CD ,
+			</isNotEmpty>
+			<isNotEmpty property="mfTermCd">
+				MF_TERM_CD ,
+			</isNotEmpty>
+			<isNotEmpty property="mfDt">
+				MF_DT ,
+			</isNotEmpty>
+			<isNotEmpty property="mfDeptCd">
+				MF_DEPT_CD ,
+			</isNotEmpty>
+			<isNotEmpty property="mfDeptNm">
+				MF_DEPT_NM ,
+			</isNotEmpty>
+			<isNotEmpty property="mfId">
+				MF_ID ,
+			</isNotEmpty>
+			<isNotEmpty property="mfNm">
+				MF_NM ,
+			</isNotEmpty>
+			<isNotEmpty property="mfSpare1">
+				MF_SPARE1 ,
+			</isNotEmpty>
+			<isNotEmpty property="mfSpare2">
+				MF_SPARE2 ,
+			</isNotEmpty>
+			<isNotEmpty property="metaContentType">
+				META_CONTENT_TYPE ,
+			</isNotEmpty>
+			<isNotEmpty property="metaAuthor">
+				META_AUTHOR ,
+			</isNotEmpty>
+			<isNotEmpty property="metaLastModified">
+				META_LAST_MODIFIED ,
+			</isNotEmpty>
+			<isNotEmpty property="metaCreationDate">
+				META_CREATION_DATE ,
+			</isNotEmpty>
+			<isNotEmpty property="metaTitle">
+				MEATA_TITLE ,
+			</isNotEmpty>
+			<isNotEmpty property="meataHash">
+				MEATA_HASH ,
+			</isNotEmpty>
+			<isNotEmpty property="etc">
+				ETC ,
+			</isNotEmpty>
+			<isNotEmpty property="nowStep">
+				NOW_STEP ,
+			</isNotEmpty>
+			<isNotEmpty property="frstRegisterId">
+				FRST_REGISTER_ID ,
+			</isNotEmpty>
+			FRST_REGIST_PNTTM,
+			<isNotEmpty property="lastUpdusrId">
+				LAST_UPDUSR_ID ,
+			</isNotEmpty>	
+			LAST_UPDT_PNTTM
+			<isNotEmpty property="C0">
+				,C0
+			</isNotEmpty>	
+			<isNotEmpty property="C1">
+				,C1
+			</isNotEmpty>
+			<isNotEmpty property="C2">
+				,C2
+			</isNotEmpty>
+			<isNotEmpty property="C3">
+				,C3
+			</isNotEmpty>
+			<isNotEmpty property="C4">
+				,C4
+			</isNotEmpty>
+			<isNotEmpty property="C5">
+				,C5
+			</isNotEmpty>
+			<isNotEmpty property="C6">
+				,C6
+			</isNotEmpty>
+			<isNotEmpty property="C7">
+				,C7
+			</isNotEmpty>
+			<isNotEmpty property="C8">
+				,C8
+			</isNotEmpty>	
+			<isNotEmpty property="C9">
+				,C9
+			</isNotEmpty>	
+			
+			<isNotEmpty property="C0_NM">
+				,C0_NM
+			</isNotEmpty>	
+			<isNotEmpty property="C1_NM">
+				,C1_NM
+			</isNotEmpty>
+			<isNotEmpty property="C2_NM">
+				,C2_NM
+			</isNotEmpty>
+			<isNotEmpty property="C3_NM">
+				,C3_NM
+			</isNotEmpty>
+			<isNotEmpty property="C4_NM">
+				,C4_NM
+			</isNotEmpty>
+			<isNotEmpty property="C5_NM">
+				,C5_NM
+			</isNotEmpty>
+			<isNotEmpty property="C6_NM">
+				,C6_NM
+			</isNotEmpty>
+			<isNotEmpty property="C7_NM">
+				,C7_NM
+			</isNotEmpty>
+			<isNotEmpty property="C8_NM">
+				,C8_NM
+			</isNotEmpty>	
+			<isNotEmpty property="C9_NM">
+				,C9_NM
+			</isNotEmpty>						
+		)
+		VALUES 
+		(
+			#trId# ,
+			#fileId# ,
+			#fileNm# ,
+			#path# ,
+			<isNotEmpty property="corpCd">
+				#corpCd# ,
+			</isNotEmpty>
+			<isNotEmpty property="fileExten">
+				#fileExten# ,
+			</isNotEmpty>
+			<isNotEmpty property="fileSize">
+				#fileSize# ,
+			</isNotEmpty>			
+			<isNotEmpty property="sysCd">
+				#sysCd# ,
+			</isNotEmpty>
+			<isNotEmpty property="gCd">
+				#gCd# ,
+			</isNotEmpty>
+			<isNotEmpty property="mfTermCd">
+				#mfTermCd# ,
+			</isNotEmpty>
+			<isNotEmpty property="mfDt">
+				#mfDt# ,
+			</isNotEmpty>
+			<isNotEmpty property="mfDeptCd">
+				#mfDeptCd# ,
+			</isNotEmpty>
+			<isNotEmpty property="mfDeptNm">
+				#mfDeptNm# ,
+			</isNotEmpty>
+			<isNotEmpty property="mfId">
+				#mfId# ,
+			</isNotEmpty>
+			<isNotEmpty property="mfNm">
+				#mfNm# ,
+			</isNotEmpty>
+			<isNotEmpty property="mfSpare1">
+				#mfSpare1# ,
+			</isNotEmpty>
+			<isNotEmpty property="mfSpare2">
+				#mfSpare2# ,
+			</isNotEmpty>
+			<isNotEmpty property="metaContentType">
+				#metaContentType# ,
+			</isNotEmpty>
+			<isNotEmpty property="metaAuthor">
+				#metaAuthor# ,
+			</isNotEmpty>
+			<isNotEmpty property="metaLastModified">
+				STR_TO_DATE(#metaLastModified#, '%Y-%m-%d %H:%i:%s') ,
+			</isNotEmpty>
+			<isNotEmpty property="metaCreationDate">
+				STR_TO_DATE(#metaCreationDate#,'%Y-%m-%d %H:%i:%s') ,
+			</isNotEmpty>
+			<isNotEmpty property="metaTitle">
+				#metaTitle# ,
+			</isNotEmpty>
+			<isNotEmpty property="meataHash">
+				#meataHash# ,
+			</isNotEmpty>
+			<isNotEmpty property="etc">
+				#etc# ,
+			</isNotEmpty>
+			<isNotEmpty property="nowStep">
+				#nowStep# ,
+			</isNotEmpty>
+			<isNotEmpty property="frstRegisterId">
+				#frstRegisterId# ,
+			</isNotEmpty>
+			NOW(),
+			<isNotEmpty property="lastUpdusrId">
+				#lastUpdusrId# ,
+			</isNotEmpty>
+			NOW()
+			<isNotEmpty property="C0">
+				,#C0#
+			</isNotEmpty>	
+			<isNotEmpty property="C1">
+				,#C1#
+			</isNotEmpty>
+			<isNotEmpty property="C2">
+				,#C2#
+			</isNotEmpty>
+			<isNotEmpty property="C3">
+				,#C3#
+			</isNotEmpty>
+			<isNotEmpty property="C4">
+				,#C4#
+			</isNotEmpty>
+			<isNotEmpty property="C5">
+				,#C5#
+			</isNotEmpty>
+			<isNotEmpty property="C6">
+				,#C6#
+			</isNotEmpty>
+			<isNotEmpty property="C7">
+				,#C7#
+			</isNotEmpty>
+			<isNotEmpty property="C8">
+				,#C8#
+			</isNotEmpty>	
+			<isNotEmpty property="C9">
+				,#C9#
+			</isNotEmpty>			
+			
+			
+			<isNotEmpty property="C0_NM">
+				,#C0_NM#
+			</isNotEmpty>	
+			<isNotEmpty property="C1_NM">
+				,#C1_NM#
+			</isNotEmpty>
+			<isNotEmpty property="C2_NM">
+				,#C2_NM#
+			</isNotEmpty>
+			<isNotEmpty property="C3_NM">
+				,#C3_NM#
+			</isNotEmpty>
+			<isNotEmpty property="C4_NM">
+				,#C4_NM#
+			</isNotEmpty>
+			<isNotEmpty property="C5_NM">
+				,#C5_NM#
+			</isNotEmpty>
+			<isNotEmpty property="C6_NM">
+				,#C6_NM#
+			</isNotEmpty>
+			<isNotEmpty property="C7_NM">
+				,#C7_NM#
+			</isNotEmpty>
+			<isNotEmpty property="C8_NM">
+				,#C8_NM#
+			</isNotEmpty>	
+			<isNotEmpty property="C9_NM">
+				,#C9_NM#
+			</isNotEmpty>								
+		)	
+
+	</insert>
+
+	<insert id="batchFileDAO.insertErrorLog" parameterClass="hashMap" >
+		INSERT INTO	EFGEX
+		(
+			OCCUR_TIME, 
+			REMOTE_HOST, 
+			REMOTE_ADDR,
+			REMOTE_PORT,
+			X_FORWARDED_FOR,
+			PARAMETERMAP,
+			REQUEST_URL,
+			REQUEST_URI,
+			EMAILS,
+			EXCEPTION
+		)
+		VALUES 
+		(
+			NOW(),
+			#REMOTE_HOST#, 
+			#REMOTE_ADDR#,
+			#REMOTE_PORT#,
+			#X_FORWARDED_FOR#,
+			<isNotEmpty property="PARAMETERMAP">
+			#PARAMETERMAP#,
+			</isNotEmpty>
+			<isNotEmpty property="REQUEST_URL">
+			#REQUEST_URL#,
+			</isNotEmpty>
+			<isNotEmpty property="REQUEST_URI">
+			#REQUEST_URI#,
+			</isNotEmpty>
+			<isNotEmpty property="EMAILS">
+			#EMAILS#,
+			</isNotEmpty>
+			<isNotEmpty property="EXCEPTION">
+			#EXCEPTION#
+			</isNotEmpty>
+		)	
+	</insert>
+	
+	
+</sqlMap>            

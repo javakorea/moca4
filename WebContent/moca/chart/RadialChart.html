@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>AreaChart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css" href="../css/moca_layout.css">
+<script language="JavaScript" src="../js/jquery-3.3.1.min.js"></script>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongManager.js"></SCRIPT>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongSampleData.js"></SCRIPT>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongChart.js"></SCRIPT>		
+  	<script>
+
+	$(document).ready(function() {
+			chart16();
+	});//초기화 영역-------------------------------------------------------------
+  	</script>
+</head> 
+<body>
+		<div class="moca_cont_wrap2">
+					<div class="moca_titbox">
+						<h3>Radial Chart</h3>
+					</div>
+					<div id="chart16_desc" class="modulebox">
+						<div id="chart16_1title" class="moca_titbox">
+							<h4>16. Radial</h4>
+						</div> 
+						<P>
+						방사형차트는 소량의 요소들끼리의 값의 분포현황을 원형으로 분석함
+						</P>
+						<div id="chart16" class="crt_box mt20"></div>	
+						
+
+						
+						<table class="tbl mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">
+									s_min:-90			
+									</td>
+									<td>option.yAxisCalcMethod= 'manual'에 의해서 최소값을 지정함</td>
+								</tr>
+								<tr>
+									<td class="sct">
+									s_max:90			
+									</td>
+									<td>option.yAxisCalcMethod= 'manual'에 의해서 최소값을 지정함</td>
+								</tr>
+							</tbody>
+						</table>	
+						
+						<table class="tbl y mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">option.yAxisCalcMethod= 'manual';</td>
+									<td>최소값,최대값,눈금개수를 자동계산하지않고 수동으로 지정함.</td>
+								</tr>		
+								<tr>
+									<td class="sct">option.type = 'radial';</td>
+									<td>방사형타입지정</td>
+								</tr>
+								<tr>
+									<td class="sct">option.y_mark_cnt = 9;</td>
+									<td>Y축의 눈금개수를 지정함</td>
+								</tr>
+							</tbody>
+						</table>		
+
+					</div> 
+		</div>
+
+</body>
+</html>
+

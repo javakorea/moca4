@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>footer</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css" href="./css/moca.css">
+<link rel="stylesheet" type="text/css" href="./css/fontawesome.css">
+<link rel="stylesheet" type="text/css" href="../css/moca_layout.css">
+<script language="JavaScript" src="../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../js/moca_ui.js"></script>
+<script language="JavaScript" src="./js/list2000.js"></script>
+<script language="JavaScript" src="./js/moca.js"></script>
+<script>
+function fn_help(){
+	var width = 1300;
+	var height = 760;
+	var top = (window.screen.height/2) -parseInt(height)/2 + $(document).scrollTop();
+	var left = (window.screen.width/2) - parseInt(width)/2 + $(document).scrollLeft();
+	window.open('/html/help/help.html','help','width='+width+'px,height='+height+'px,top='+top+',left='+left);
+}
+
+
+function fn_shortcut(){
+
+	if($('.shortcut').length == 0){
+		var _li = moca.shortcut;//단축키객체를 불어와서 연결
+		var _size = _li.length;
+		for(i=0; i<_size; i++){
+			var _id = _li[i].key;
+			var _span = $('#'+_id).find('span');
+			var _origin = $(_span).html();
+			$(_span).html(_origin+_li[i].val);
+		};
+	}else{
+	    $('.shortcut').remove();
+	};
+}
+</script>
+</head>
+<body>
+	<!-- lnb tab start -->
+	<div class="moca_aside on">
+<!-- 	<h1>MOCA</h1> 
+		<ul>
+			<li class="active"><button type="button"><i class="fa fa-list-ul" title="업무메뉴"></i><span></span></button></li>
+ 			<li><button type="button"><i class="fa fa-star" title="마이메뉴"></i><span></span></button></li>
+			<li><button type="button"><i class="fa fa-history" title="최근메뉴"></i><span></span></button></li> 
+		</ul> -->
+		<ul>
+			<li onclick="fn_shortcut()"><button type="button" title="단축키"><i class="fas fa-keyboard"></i></button></li>
+			<!-- <li><button type="button" class="help" title="도움말" onclick="fn_help()"><i class="fas fa-question-circle"></i></button></li> -->
+		</ul>
+<!-- 		<div class="etc">
+			<button type="button" class="setting" title="세팅"><i class="fas fa-cogs"></i></button>
+			<button type="button" class="help" title="도움말"><i class="fas fa-question-circle"></i></button>
+		</div> -->
+	</div>
+	<!-- lnb tab end -->
+</body>
+</html>

@@ -1,0 +1,4584 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- /carbang/src/main/resources/egovframework/egovProps/globals.properties -->
+ <!DOCTYPE mapper     
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"       
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.carbang365.TOMapper">
+ 	
+ 	
+ 	<!-- 순번조회 start -->
+ 	<sql id="setRnSt">
+ 		<![CDATA[
+		 	SELECT @ROWNUM := @ROWNUM + 1 AS rn, X.*
+			FROM (
+ 		]]>
+ 	</sql>
+ 	<!-- 순번조회 end (추후 해당건에 페이징 추가 예정)-->
+ 	<sql id="setRnEd">
+ 		<![CDATA[
+	 		) X,
+			(SELECT @ROWNUM := 0) Z
+ 		]]>
+ 	</sql>
+ 	<!-- 운영관리 상세 sql --> 
+ 	<sql id="transferOwnerDtlSQL">
+ 		<![CDATA[
+	   		SELECT 
+	   			A.CVPL_REQST_NO, /*TS민원신청번호*/ 
+	   			F.reqstRceptNo,/* 신청접수번호(20자리) */
+	   			F.cntcInsttCode,/* 연계기관코드 */
+	   			F.bizrno,/* 사업자등록번호 */
+	   			F.ntpbndDscntAmount, /* 공채(할인) */
+	   			F.acqstxAmount,/* 취득세 */
+	   			F.revenueStmptaxAmount,/* 수입증지금액 */
+	   			F.elctrnPayFeeAmount,/* 전자납부수수료 */
+	   			F.totRgfeAmount,/* 총등록비금액 (공채(할인) + 취득세 + 수입증지금액 + 전자납부수수료) */
+	   			IF(F.ntpbndPrcsAmount IS NULL, '', F.ntpbndPrcsAmount) AS ntpbndPrcsAmount     ,/* 공채(매입) */
+	   			F.ACCO_NAME,/* 공단계좌명 */
+	   			F.BNK_CODE,/* 공단계좌 은행코드 */
+	   			F.ACCO_NO,/* 공단계좌 계좌번호 */
+	   			E.UsedCarRemainingPrice,/*시가적용금액(표준가에경감율적용)*/ 
+	   			E.office_StampCost,
+	   			DATE_FORMAT(A.RegisterTime, '%Y-%m-%d %H:%i:%s') AS RegisterTime, 
+	   		    (SELECT MNG.Carbang_RegistrationFee FROM TO_TRANSFEROWNER_COST_MNG MNG WHERE MNG.District_Major = E.District_Major) AS Carbang_RegistrationFee,	   		    
+	   		    (SELECT MNG.Office_RegistrationFee FROM TO_TRANSFEROWNER_COST_MNG MNG WHERE MNG.District_Major = E.District_Major) AS Office_RegistrationFee
+	   			, B.CertificationReqTime AS sellerCertReqTime
+	   			, C.CertificationReqTime AS buyerCertReqTime
+	   			, A.Idx AS TransferownerIdx										/*소유권이전idx*/ 		
+	   			, B.Idx AS TransferownerSellerIdx									/*소유권이전판매자idx*/ 		
+	   			, C.Idx AS TransferownerBuyerIdx									/*소유권이전구매자idx*/ 		
+	   			, E.TransferOwnerIndex AS CostIdx													/*소유권이전금액idx*/ 		
+	   			, D.Idx AS vehicleRegistrationIdx									/*자동차등록원부idx*/ 		
+				, B.CertificationState AS sellerCertificationState					/*양도인 인증상태 (1:인증,2:미인증,3:인증대기중,4:오류,5:기타)*/
+				, C.CertificationState AS buyerCertificationState					/*양수인 인증상태 (1:인증,2:미인증,3:인증대기중,4:오류,5:기타)*/
+				, B.NAME AS sellerName												/*판매자명(양도인)*/
+				, B.SocialNumber_First AS sellerSocialNumber_First					/*판매자주민번호1*/
+				, B.SocialNumber_Second AS sellerSocialNumber_Second				/*판매자주민번호2(추후 복호화 필요)*/
+				, B.PhoneNumber AS sellerPhoneNumber 								/*판매자핸드폰번호*/
+				, B.Address_Base AS sellerAddress_Base 								/*판매자주소*/
+				, B.Address_Detail AS sellerAddress_Detail 							/*판매자세부주소*/
+				, B.Address_ZipCode AS sellerAddress_ZipCode 						/*판매자우편번호*/
+				, B.CertificationData AS sellerCertificationData 					/*판매자 전자서명값*/
+				, DATE_FORMAT(B.CertificationApproveTime, '%Y-%m-%d %H:%i:%s') AS sellerCertificationApproveTime 		/*판매자 인증완료일*/
+				, C.NAME AS buyerName												/*구매자명(양수인)*/
+				, C.SocialNumber_First AS buyerSocialNumber_First					/*구매자주민번호1*/
+				, C.SocialNumber_Second AS buyerSocialNumber_Second					/*구매자주민번호2(추후 복호화 필요)*/
+				, C.PhoneNumber AS buyerPhoneNumber 								/*구매자핸드폰번호*/
+				, C.Address_Base AS buyerAddress_Base 								/*구매자주소*/
+				, C.Address_Detail AS buyerAddress_Detail 							/*구매자세부주소*/
+				, C.Address_ZipCode AS buyerAddress_ZipCode 						/*구매자우편번호*/
+				, C.CertificationData AS buyerCertificationData 					/*구매자 전자서명값*/
+				, DATE_FORMAT(C.CertificationApproveTime, '%Y-%m-%d %H:%i:%s') AS buyerCertificationApproveTime 		/*구매자 인증완료일*/
+				, A.PurchasePrice AS PurchasePrice 									/*매매금액*/
+				, IF(E.lastVehicleBasisPrice IS NULL, '0', E.lastVehicleBasisPrice) AS lastVehicleBasisPrice			/*시가적용금액*/
+				, IF(A.PurchasePrice > E.lastVehicleBasisPrice, A.PurchasePrice, E.lastVehicleBasisPrice) AS applyPrice	/*적용금액*/				
+				, A.Request_VehicleNumber AS Request_VehicleNumber 					/*차량번호*/
+				, D.NAME AS carName													/*차명*/
+				, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d') AS sellDate 				/*매매일/자동차인도일 (=이전신청요청일)*/
+				, DATE_FORMAT(A.RegisterTime, '%Y년%m월%d일') AS sellDate2 			/*매매일/자동차인도일 (=이전신청요청일)*/
+				, D.Type AS carType													/*차종*/
+				, D.SeizeCollateralEntrustYn as SeizeCollateralEntrustYn			/*압류저당촉탁유무(근저당설정 같이쓰면 될듯)*/
+				, IF(D.SeizeCollateralEntrustYn = 'Y', '유', '무') as SeizeCollateralEntrustYnTxt		/*압류저당촉탁유무*/		
+				, IF(A.Request_DrivingDistance = NULL, 0, A.Request_DrivingDistance) AS Request_DrivingDistance 				/*주행거리*/
+				, D.ChassisNumber AS ChassisNumber 									/*차대번호*/
+				, A.InsurSstate AS InsurSstate 										/*보험가입여부*/
+				, A.PassYn AS PassYn 												/*TS정보확인결과*/
+				, A.ErrCode AS ErrCode 												/*TS정보확인오류코드*/		
+				, A.ExpireTime / 6 AS ExpireDay
+				, A.ExpireTime AS oriExpireTime										/*카카오페이 인증만료기준시간*/		
+				, CONCAT(
+					FLOOR(TIME_FORMAT(SEC_TO_TIME(TIMESTAMPDIFF(SECOND, NOW(), DATE_ADD(A.RegisterTime, INTERVAL A.ExpireTime HOUR))), '%H') / 6)
+					, '일 '
+					, MOD(TIME_FORMAT(SEC_TO_TIME(TIMESTAMPDIFF(SECOND, NOW(), DATE_ADD(A.RegisterTime, INTERVAL A.ExpireTime HOUR))), '%H'), 6)
+					, ':'
+					, TIME_FORMAT(SEC_TO_TIME(TIMESTAMPDIFF(SECOND, NOW(), DATE_ADD(A.RegisterTime, INTERVAL A.ExpireTime HOUR))), '%i:%s')
+				) AS ExpireTime	/*인증남은시간*/
+				
+				, CASE 
+					WHEN A.TransferForm = '00' THEN '해당사항없음' 
+					WHEN A.TransferForm = '01' THEN '개인-개인' 
+					WHEN A.TransferForm = '02' THEN '개인-판매법인(법인사업자)' 
+					WHEN A.TransferForm = '03' THEN '개인-판매상사(개인사업자)' 
+					WHEN A.TransferForm = '04' THEN '개인-일반법인' 
+					WHEN A.TransferForm = '05' THEN '판매상사(개인사업자)-판매법인(법인사업자)' 
+					WHEN A.TransferForm = '06' THEN '판매상사(개인사업자)-개인' 
+					WHEN A.TransferForm = '07' THEN '판매상사(개인사업자)-일반법인' 
+					WHEN A.TransferForm = '08' THEN '판매상사(개인사업자)-판매상사(개인사업자)' 
+					WHEN A.TransferForm = '09' THEN '판매법인(법인사업자)-판매법인(법인사업자)' 
+					WHEN A.TransferForm = '10' THEN '판매법인(법인사업자)-개인' 
+					WHEN A.TransferForm = '11' THEN '판매법인(법인사업자)-일반법인'
+					WHEN A.TransferForm = '12' THEN '판매법인(법인사업자)-판매상사(개인사업자)'
+					WHEN A.TransferForm = '13' THEN '일반법인-일반법인'
+					WHEN A.TransferForm = '14' THEN '일반법인-판매법인(법인사업자)'
+					WHEN A.TransferForm = '15' THEN '일반법인-개인'
+					WHEN A.TransferForm = '16' THEN '일반법인-판매상사(개인사업자)'
+					ELSE '-' END AS TransferForm 												/*거래형태*/
+				, IF(A.ProductType = 1, '이전등록', '-') AS ProductType							/*상품*/
+				, A.Stage AS Stage																/*상태*/
+				, DATE_FORMAT(A.StageTime, '%Y-%m-%d  %H:%i:%s') AS StageTime 		                /*상태변경일시*/
+				, TO_GetStage(A.Stage) AS StageTxt												/*소유권이전 상태값 TXT*/
+				, A.UserName AS UserName														/*신청자*/
+				, A.ResultCode AS ResultCode													/*이전등록*/
+				, IF(E.District_Major IS NULL, SUBSTRING_INDEX(C.Address_Base, ' ', 1) , E.District_Major) AS District_Major                                             			/* 매입 지자체(시도) */
+				, IF(E.District_Major_Gu IS NULL, SUBSTRING_INDEX(REPLACE(SUBSTRING_INDEX(C.Address_Base, ' ', 2), ' ', '#'), '#', -1), E.District_Major_Gu) AS District_Major_Gu 	/* 매입 지자체(구) */                                            /* 매입 지자체(시도) */
+				, IF(E.ValueType IS NULL, '-', E.ValueType) AS ValueType                                                       							/* 1 : 배기량, 2 : 대중소형, 3 : 인승, 4 : 1000cc/0.6톤, 5: 1000cc/1톤, 6: 전체cc/0.6톤, 7: 전체cc/1톤, 8: 1000cc */
+				, IF(E.bondInfo_Purchase_Value IS NULL, '-', E.bondInfo_Purchase_Value) AS bondInfo_Purchase_Value                           			/* 채권 구매 적용 값 - 비율 또는 금액 */
+				, IF(E.bondInfo_Purchase_Type IS NULL, '-', E.bondInfo_Purchase_Type) AS bondInfo_Purchase_Type                             			/* 채권 구매 적용 방식 - 0 : 채권구매 없음 / 1 : 비율적용 / 2 : 금액적용) */
+				, IF(E.bondInfo_Discount_Value IS NULL, '-', E.bondInfo_Discount_Value) AS bondInfo_Discount_Value                          		 	/* 채권 할인 적용 값 - 금액 */
+				, IF(E.bondInfo_Discount_Type IS NULL, '-', E.bondInfo_Discount_Type) AS bondInfo_Discount_Type                             			/* 채권 할인 적용 방식 - 0 : 면제없음 / 1 : 일부면제 / 2 : 전체면제 / 3 : 한도초과면제 */
+				, IF(E.bondInfo_CutOffType IS NULL, '-', E.bondInfo_CutOffType) AS bondInfo_CutOffType                                   				/* 채권 할인 후 금액 절사 형식 - 0 : 논리오류(절사없음) / 1 : 절사없음 / 2 : 2500원 미만 절사 / 3 : 5000원 / 4 : 10000원 */
+				, IF(E.bondInfo_SellingPrice_Basis IS NULL, '-', E.bondInfo_SellingPrice_Basis) AS bondInfo_SellingPrice_Basis                   		/* 채권 기준가 */
+				, IF(E.agencyFee_SellingBond_Bank_Ratio IS NULL, '-', E.agencyFee_SellingBond_Bank_Ratio) AS agencyFee_SellingBond_Bank_Ratio         	/* 은행 채권 매도 대행 수수료율 */
+				, IF(E.leftDayOfMonth IS NULL, '-', E.leftDayOfMonth) AS leftDayOfMonth                                             					/* 현재 월 남은일수 */
+				, IF(E.bondInfo_BankIncomeRate IS NULL, '-', E.bondInfo_BankIncomeRate) AS bondInfo_BankIncomeRate                          			/* 은행 이율 */
+				, IF(E.taxRate_Acquisition IS NULL, '-', E.taxRate_Acquisition) AS taxRate_Acquisition                                   				/* 취득세 비율 */
+				, IF(E.taxRate_Income IS NULL, '-', E.taxRate_Income) AS taxRate_Income                                             					/* 채권 매도 수익금 소득세율 */
+				, IF(E.taxRate_Local IS NULL, '-', E.taxRate_Local) AS taxRate_Local                                               						/* 채권 매도 수익금 지방세율 */
+				, IF(E.total_TransferOwner_Price IS NULL, '0', E.total_TransferOwner_Price) AS total_TransferOwner_Price                       			/* 총 이전비용(=이전비용 계, 이전등록비용) */
+				, IF(E.taxPrice_Acquisition_RealCost IS NULL, '-', E.taxPrice_Acquisition_RealCost) AS taxPrice_Acquisition_RealCost               		/* 취득세 최종금액 */
+				, IF(E.taxPrice_Acquisition IS NULL, '-', E.taxPrice_Acquisition) AS taxPrice_Acquisition                                 				/* 취득세 */
+				, IF(E.taxPrice_Acquisition_ReductionPrice IS NULL, '-', E.taxPrice_Acquisition_ReductionPrice) AS taxPrice_Acquisition_ReductionPrice  /* 취득세 할인면제금액 */
+				, IF(E.Bank_Nm IS NULL, '-', E.Bank_Nm) AS Bank_Nm                                                           							/* 채권매입은행 */
+				, IF(E.bondInfo_SellingPrice_Today IS NULL, '-', E.bondInfo_SellingPrice_Today) AS bondInfo_SellingPrice_Today                   		/* 채권매도단가 */
+				, IF(E.bondInfo_SellingPrice_Result IS NULL, '-', E.bondInfo_SellingPrice_Result) AS bondInfo_SellingPrice_Result                 		/* 채권매입금액 */
+				, IF(E.bondInfo_PurchasePrice_RealCost IS NULL, '-', E.bondInfo_PurchasePrice_RealCost) AS bondInfo_PurchasePrice_RealCost           	/* 즉시할인매도금액 */
+				, IF(E.agencyFee_SellingBond_Bank IS NULL, '-', E.agencyFee_SellingBond_Bank) AS agencyFee_SellingBond_Bank                     		/* 은행수수료 */
+				, IF(E.bondInfo_SellingProfit IS NULL, '-', E.bondInfo_SellingProfit) AS bondInfo_SellingProfit                             			/* 선급이자 */
+				, IF(E.taxPrice_Income IS NULL, '-', E.taxPrice_Income) AS taxPrice_Income                                           					/* 소득세 */
+				, IF(E.taxPrice_Local IS NULL, '-', E.taxPrice_Local) AS taxPrice_Local                                            	 					/* 지방소득세 */
+				, IF(E.agencyFee_PurchaseBond_CarBang IS NULL, '-', E.agencyFee_PurchaseBond_CarBang) AS agencyFee_PurchaseBond_CarBang             	/* 채권매입전산이용료(=채권대행료) */
+				, IF(E.officeCharge IS NULL, '-', E.officeCharge) AS officeCharge                                                 						/* 인지세 */
+				, IF(E.Revenue_StampPrice IS NULL, '-', E.Revenue_StampPrice) AS Revenue_StampPrice                                     				/* 전자수입인지 */
+				, IF(E.agencyFee_Office_Registration IS NULL, '-', E.agencyFee_Office_Registration) AS agencyFee_Office_Registration               		/* 관공서등록수수료 */
+				, IF(E.office_StampCost IS NULL, '-', E.office_StampCost) AS office_StampCost                                         					/* 인지대 */
+				, IF(E.agencyFee_Transfer_CarBang IS NULL, '-', E.agencyFee_Transfer_CarBang) AS agencyFee_Transfer_CarBang                     		/* 카방 이전등록대행료(=매출관리 대행료) */
+				, IF(E.bondExemptionYn IS NULL, '-', E.bondExemptionYn) AS bondExemptionYn                                           					/* 채권면제여부 */
+				, IF(E.bondInfo_PurchasePrice_Original IS NULL, '-', E.bondInfo_PurchasePrice_Original) AS bondInfo_PurchasePrice_Original           	/* 채권 구매 금액 (할인전) */
+				, IF(E.bondInfo_PurchasePrice_Result IS NULL, '-', E.bondInfo_PurchasePrice_Result) AS bondInfo_PurchasePrice_Result               		/* 채권 구매 금액 (할인후) */
+				, IF(E.bondInfo_SellingSelPayfPrice IS NULL, '-', E.bondInfo_SellingSelPayfPrice) AS bondInfo_SellingSelPayfPrice                 		/* 채권비용 계(채권즉시매도시 본인부담액) */
+				, IF(E.lastVehicleBasisPrice IS NULL, '', E.lastVehicleBasisPrice) AS lastVehicleBasisPrice                               				/* 차량과세표준금액 */
+				, IF(E.VehicleBasisPrice IS NULL, '', E.VehicleBasisPrice) AS VehicleBasisPrice	                                     				    /* 입력매매가격(부가세제외) */
+				, DATE_FORMAT(A.TsRegisterTime, '%Y-%m-%d %H:%i:%s') AS TsRegisterTime			 														/* TS이전신청일 */
+				, IF(G.RegisterTime IS NULL, '미입금', '입금') AS CarbangDeposit																			/*카방계산비용 입금유무*/
+				, IF(G.RegisterTime IS NULL, '-', DATE_FORMAT(G.RegisterTime, '%Y-%m-%d %H:%i:%s')) AS CarbangPayTime									/*카방계산비용 입금일*/
+				, IF(G.Bank_Deposit_Account IS NULL, '-', G.Bank_Deposit_Account) AS CarbangBank_Deposit_Account										/*카방계산비용 계좌번호*/
+				, IF(G.Bank_Deposit_Owner IS NULL, '-', G.Bank_Deposit_Owner) AS Bank_Deposit_Owner														/*카방계산비용 예금주*/
+				, IF(G.Bank_Deposit_Name IS NULL, '-', G.Bank_Deposit_Name) AS CarbangBank_Name										/*카방계산비용 은행명*/
+				, IF(G.Pay_Amount IS NULL, '0', G.Pay_Amount) AS CarbangBank_Price																		/*카방입금비용(=이전등록비용,고객 입금액,고객이체)*/
+				, IF(G.Bank_Cd IS NULL, '-', G.Bank_Cd) AS Customer_Bank_Cd																				/*고객출금 은행코드*/
+				, IF(G.Bank_Name IS NULL, '-', G.Bank_Name) AS Customer_Bank_Name																		/*고객출금 은행명*/
+				, IF(G.Bank_Account IS NULL, '-', G.Bank_Account) AS Customer_Account																	/*고객출금 계좌번호*/
+				, IF(G.Bank_Owner IS NULL, '-', G.Bank_Owner) AS Customer_Bank_Owner																	/*고객출금 계좌예금주*/
+				, IF(H.RegisterTime IS NULL, '미입금', '입금') AS CorpDeposit																				/*공단청구비용 입금유무*/
+				, IF(H.RegisterTime IS NULL, '-', DATE_FORMAT(H.RegisterTime, '%Y-%m-%d %H:%i:%s')) AS CorpPayTime										/*공단청구비용 입금일*/
+				, IF(H.Bank_Deposit_Account IS NULL, '-', H.Bank_Deposit_Account) AS CorpBank_Deposit_Account											/*공단청구비용 계좌번호*/
+				, IF(H.Bank_Deposit_Owner IS NULL, '-', H.Bank_Deposit_Owner) AS CorpBank_Deposit_Owner													/*공단청구비용 예금주*/
+				, (SELECT X.Bank_Name FROM TO_BANK_MNG X WHERE X.Bank_Cd = H.Bank_Cd) AS CorpBank_Name													/*공단청구비용 은행명*/
+				, IF(H.Pay_Amount IS NULL, '0', H.Pay_Amount) AS Corp_Price																				/*공단청구 이전등록비용(=공단이체)*/
+				, IF(A.Stage BETWEEN 17 AND 19, '입금',IF(A.Stage = 27, '무', IF(A.Stage = 21, '미입금', ''))) AS ReturnPayDeposit																		/*환급금액 입금유무*/
+				, IF(I.RegisterTime IS NULL, '-', DATE_FORMAT(I.RegisterTime, '%Y-%m-%d %H:%i:%s')) AS ReturnPayPayTime									/*환급금액 입금일*/
+				, IF(I.Bank_Deposit_Account IS NULL, '-', I.Bank_Deposit_Account)AS ReturnPayBank_Deposit_Account										/*환급금액 계좌번호*/
+				, IF(I.Bank_Deposit_Owner IS NULL, '-', I.Bank_Deposit_Owner) AS ReturnPayBank_Deposit_Owner											/*환급금액 예금주*/
+				, IF(I.Bank_Name IS NULL, '-', I.Bank_Name)AS ReturnPayBank_Name																		/*환급금액 은행명*/
+				, IF(I.Pay_Amount IS NULL, '0', I.Pay_Amount) AS ReturnPay_Price																			/*환급금액(=환불금액)*/
+				, IF(E.RegisterTime IS NULL, '-', DATE_FORMAT(E.RegisterTime, '%Y-%m-%d')) AS Bond_Selling_Date											/*채권기준일*/
+				, IF(E.CustomerAddPayPrice IS NULL, '0', E.CustomerAddPayPrice) AS CustomerAddPayPrice													/*고객추가금액*/
+				, IF(A.ApprovedTime IS NULL, '-', DATE_FORMAT(A.ApprovedTime, '%Y-%m-%d %H:%i')) AS ApprovedTime										/*등록완료일(=매출발생일)*/
+				, CASE 
+					WHEN A.Stage = 26 THEN '취소' 
+					WHEN A.Stage = 27 THEN '완료'
+					WHEN A.TsRegisterTime IS NOT NULL AND A.Stage > 7 AND A.Stage <> 27 THEN '진행중'
+					ELSE '-' END AS progressTxt																											/*진행상태*/
+				, ( 
+					IF(G.Pay_Amount IS NULL, 0, G.Pay_Amount) - IF(H.Pay_Amount IS NULL, 0, H.Pay_Amount) - IF(I.Pay_Amount IS NULL, 0, I.Pay_Amount) 
+				) AS SalesProfit																														/*영업이익*/
+			FROM TO_TRANSFEROWNER A 						/*소유권이전요청*/
+				INNER JOIN TO_TRANSFEROWNER_SELLER B		/*소유권이전판매자정보*/
+					ON A.idx = B.TransferOwnerIndex
+				INNER JOIN TO_TRANSFEROWNER_BUYER C			/*소유권이전구매자정보*/
+					ON A.idx = C.TransferOwnerIndex	
+				INNER JOIN TO_VEHICLE_REGISTRATION D		/*자동차등록원부*/
+					ON A.RegistrationIndex = D.idx				
+				LEFT OUTER JOIN TO_COST E		/*소유권이전금액정보*/
+					ON A.idx = E.TransferOwnerIndex				
+				LEFT OUTER JOIN TO_TRANSFEROWNER_COST_TS F	/*TS소유권이전 확정비용 금액정보*/
+					ON A.idx = F.TransferOwnerIndex				
+				LEFT OUTER JOIN TO_PAYMENT_HISTORY G		/*(고객) 결제내역*/
+					ON A.idx = G.TransferOwnerIndex
+					AND G.Pay_type = 1
+				LEFT OUTER JOIN TO_PAYMENT_HISTORY H		/*(공단) 결제내역*/
+					ON A.idx = H.TransferOwnerIndex
+					AND H.Pay_type = 2
+				LEFT OUTER JOIN TO_PAYMENT_HISTORY I		/*(고객환불) 결제내역*/
+					ON A.idx = I.TransferOwnerIndex
+					AND I.Pay_type = 3
+			WHERE 1=1
+		]]>  
+ 	</sql> 
+    <select id="selectCarSearchErrTypeCodeList" parameterType="map" resultType="map">
+ 		SELECT * from LETTCCMMNDETAILCODE 
+		WHERE CODE_ID = 'carSearchErrType'
+	</select>
+	
+    <select id="checkCert" parameterType="map" resultType="map">
+		SELECT A.idx,C.CertificationState AS State_Seller,B.CertificationState AS State_Buyer, 
+		C.CertificationId AS tx_id_Seller,B.CertificationId AS tx_id_Buyer 
+		FROM TO_TRANSFEROWNER_TS_HIS A, TO_TRANSFEROWNER_SELLER C, TO_TRANSFEROWNER_BUYER B, TO_TRANSFEROWNER D
+		WHERE 1=1
+		AND A.idx = C.idx
+		AND A.idx = B.idx
+		AND A.idx = D.idx 
+		AND A.REQST_SE_CODE = '9001'
+		AND A.RESN_CODE = '01'
+		AND (C.CertificationState = '2' OR C.CertificationState = '3' OR B.CertificationState = '2' OR B.CertificationState = '3')
+		AND (B.CertificationReqTime > DATE_SUB(NOW(), INTERVAL 24 HOUR) OR  C.CertificationReqTime > DATE_SUB(NOW(), INTERVAL 24 HOUR)) 
+		<![CDATA[
+			AND D.Stage <> '26' 
+			AND D.Stage <> '126'
+			AND D.Stage <> '226'
+			AND B.CertificationId <> ''
+			AND C.CertificationId <> ''
+		]]>
+	</select>
+	
+     <select id="checkSellerBuyer" parameterType="map" resultType="map">
+		SELECT B.idx,C.CertificationState AS State_Seller,B.CertificationState AS State_Buyer, 
+		C.CertificationId AS tx_id_Seller,B.CertificationId AS  tx_id_Buyer
+		FROM TO_TRANSFEROWNER_SELLER C, TO_TRANSFEROWNER_BUYER B, TO_TRANSFEROWNER A
+		WHERE 1=1
+		AND B.TransferOwnerIndex = C.TransferOwnerIndex
+		AND A.idx = B.TransferOwnerIndex
+		AND A.idx = #{idx}
+	</select>
+
+    <!-- 운영관리 목록조회 -->
+    <select id="selectAdmMngList" parameterType="map" resultType="map">
+		/*selectAdmMngList 운영관리 목록조회*/
+		<include refid="setRnSt"/>
+    	<![CDATA[
+			SELECT  A.Idx AS Idx														/*id*/
+			        , A.RegistrationIndex AS RegistrationIndex
+					, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d') AS RegisterTime 		/*이전신청일*/
+					, DATE_FORMAT(A.StageTime, '%Y-%m-%d  %H:%i:%s') AS StageTime 		/*상태변경일시*/
+					, DATE_FORMAT(A.CancelTime, '%Y-%m-%d  %H:%i:%s') AS CancelTime 		/*취소일시*/
+					, CASE 
+						WHEN A.TransferForm = '00' THEN '해당사항없음' 
+						WHEN A.TransferForm = '01' THEN '개인-개인' 
+						WHEN A.TransferForm = '02' THEN '개인-판매법인(법인사업자)' 
+						WHEN A.TransferForm = '03' THEN '개인-판매상사(개인사업자)' 
+						WHEN A.TransferForm = '04' THEN '개인-일반법인' 
+						WHEN A.TransferForm = '05' THEN '판매상사(개인사업자)-판매법인(법인사업자)' 
+						WHEN A.TransferForm = '06' THEN '판매상사(개인사업자)-개인' 
+						WHEN A.TransferForm = '07' THEN '판매상사(개인사업자)-일반법인' 
+						WHEN A.TransferForm = '08' THEN '판매상사(개인사업자)-판매상사(개인사업자)' 
+						WHEN A.TransferForm = '09' THEN '판매법인(법인사업자)-판매법인(법인사업자)' 
+						WHEN A.TransferForm = '10' THEN '판매법인(법인사업자)-개인' 
+						WHEN A.TransferForm = '11' THEN '판매법인(법인사업자)-일반법인'
+						WHEN A.TransferForm = '12' THEN '판매법인(법인사업자)-판매상사(개인사업자)'
+						WHEN A.TransferForm = '13' THEN '일반법인-일반법인'
+						WHEN A.TransferForm = '14' THEN '일반법인-판매법인(법인사업자)'
+						WHEN A.TransferForm = '15' THEN '일반법인-개인'
+						WHEN A.TransferForm = '16' THEN '일반법인-판매상사(개인사업자)'
+						ELSE '-' END AS TransferForm 								/*거래형태*/
+					, IF(A.ProductType = 1, '이전등록', '-') AS ProductType			/*상품*/
+					, A.Stage AS Stage												/*상태*/
+					, TO_GetStage(A.Stage) AS StageTxt								/*상태값 txt*/
+					, A.UserName AS UserName										/*신청자*/
+					, A.PurchasePrice AS PurchasePrice								/*매매금액*/
+					, A.ResultCode AS ResultCode									/*이전등록*/
+					, B.Name AS sellerName											/*판매자명(양도인)*/
+					, B.CertificationState AS CertificationState_B					/*양도인인증여부*/
+					, C.NAME AS buyerName											/*구매자명(양수인)*/
+					, C.CertificationState AS CertificationState_C					/*양수인인증여부*/
+					, D.NAME AS carName												/*차명*/
+					, D.Type AS carType												/*차종*/
+					, A.Request_VehicleNumber AS Request_VehicleNumber				/*차량번호*/
+					FROM TO_TRANSFEROWNER A 
+				INNER JOIN TO_TRANSFEROWNER_SELLER B
+					ON A.idx = B.TransferOwnerIndex
+				INNER JOIN TO_TRANSFEROWNER_BUYER C
+					ON A.idx = C.TransferOwnerIndex	
+				INNER JOIN TO_VEHICLE_REGISTRATION D
+					ON A.RegistrationIndex = D.idx
+			WHERE 1=1
+		]]> 
+		<!-- 차량번호 -->
+		<if test="searchTxt != null and searchTxt != ''">
+			AND (
+				A.Request_VehicleNumber LIKE CONCAT ('%', #{searchTxt},'%')
+				OR
+				B.Name LIKE CONCAT ('%', #{searchTxt},'%')
+				OR
+				C.Name LIKE CONCAT ('%', #{searchTxt},'%')
+			) 
+		</if>
+		<if test='chkg_1.equals("0") and chkg_2.equals("0")'><![CDATA[
+			AND 1 = 2  
+		]]></if> 
+		<if test='chkg_1.equals("0") and chkg_2.equals("1")'><![CDATA[
+			AND (A.Stage = 27 OR A.Stage = 18)   
+		]]></if> 
+		<if test='chkg_1.equals("1") and chkg_2.equals("0")'><![CDATA[
+			AND A.Stage <> 27
+			AND A.Stage <> 18 
+		]]></if> 		
+		<if test='chkg_1.equals("1") and chkg_2.equals("1")'>
+		</if>  
+		<![CDATA[
+		AND A.RegisterTime >= STR_TO_DATE(CONCAT(#{from},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.RegisterTime <= STR_TO_DATE(CONCAT(#{to},' 23:59:59'), '%Y%m%d %H:%i:%s')
+		]]>
+		ORDER BY A.idx DESC
+		<include refid="setRnEd"/>
+    </select> 
+    <!-- 운영관리 목록 각 탭별 cnt -->
+    <select id="selectAdmMngListCnt" resultType="map"> 
+    	/*selectAdmMngListCnt 운영관리 목록 각 탭별 cnt*/
+    	SELECT '전체', COUNT(*) AS cnt				/*0*/
+		FROM TO_TRANSFEROWNER
+		UNION 
+		
+		SELECT '취소', COUNT(*) AS cnt	/*1*/
+		FROM TO_TRANSFEROWNER
+		WHERE (Stage = 26 OR Stage = 126 OR Stage = 226)
+		UNION
+		
+		
+		SELECT '고객정보오류', COUNT(*) AS cnt	/*2*/
+		FROM TO_TRANSFEROWNER
+		WHERE Stage BETWEEN 8 AND 9
+		UNION
+			
+		SELECT '이전신청오류', COUNT(*) AS cnt	/*3*/
+		FROM TO_TRANSFEROWNER
+		WHERE Stage = 112
+		UNION
+			
+		SELECT '인증진행중', COUNT(*) AS cnt				/*4*/
+		FROM TO_TRANSFEROWNER
+		WHERE Stage BETWEEN 1 AND 5
+		UNION
+		
+		SELECT '고객미결제', COUNT(*) AS cnt		/*5*/
+		FROM TO_TRANSFEROWNER
+		WHERE Stage BETWEEN 10 AND 12
+		UNION
+		
+		SELECT '공단입금', COUNT(*) AS cnt			/*6*/
+		FROM TO_TRANSFEROWNER
+		WHERE Stage BETWEEN 14 AND 15
+		UNION	
+		
+		SELECT '결제준비중', COUNT(*) AS cnt		/*7*/
+		FROM TO_TRANSFEROWNER
+		WHERE Stage = 13
+		UNION
+			
+		SELECT '이전등록완료', COUNT(*) AS cnt	/*8*/
+		FROM TO_TRANSFEROWNER
+		WHERE Stage = 27
+		UNION
+			
+		SELECT '이전등록오류', COUNT(*) AS cnt	/*9*/
+		FROM TO_TRANSFEROWNER
+		WHERE Stage = 113
+		UNION 
+
+
+		SELECT '환급대상', COUNT(*) AS cnt	/*10*/
+		FROM TO_TRANSFEROWNER
+		WHERE Stage BETWEEN 21 AND 23
+		UNION
+		SELECT '환급처리완료', COUNT(*) AS cnt	    /*11*/
+		FROM TO_TRANSFEROWNER
+		WHERE (Stage BETWEEN 17 AND 20 OR  Stage = 226)  
+		UNION
+		
+		SELECT 'payErrCnt', COUNT(*) AS cnt	/*12*/
+		FROM TO_TRANSFEROWNER
+		WHERE Stage BETWEEN 24 AND 25
+<!-- 
+		SELECT '이전등록상태', COUNT(*) AS cnt		/*이전등록미완료*/
+		FROM TO_TRANSFEROWNER
+		WHERE Stage = 16
+			UNION -->
+
+<!-- 					SELECT 'transferWaitCnt', COUNT(*) AS cnt		/*이전신청 직전단계*/
+		FROM TO_TRANSFEROWNER
+		WHERE Stage BETWEEN 6 AND 7
+		UNION
+			 -->
+    </select>
+    
+    <!-- 소유권이전요청상세 -->
+    <select id="selectToTransferOwner" parameterType="map" resultType="map">
+    	/*selectToTransferOwner 소유권이전요청상세*/
+    	<include refid="transferOwnerDtlSQL"/>
+		<![CDATA[
+	    	AND A.Idx= #{idx}
+			ORDER BY E.RegisterTime DESC
+			LIMIT 1
+		]]>
+    </select>    
+    
+   <!-- 차량분석오류, 등록원부 조회 -->
+    <select id="selectCarAnalysis" parameterType="map" resultType="map">
+    	/*selectCarAnalysis 차량분석오류, 등록원부 조회*/
+    	<include refid="setRnSt"/>
+    	<![CDATA[ 
+    		SELECT A.idx														/*id*/
+					, IF(A.RegNumber IS NULL, A.InputRegNumber, A.RegNumber) AS RegNumber	/*차량번호*/
+					, IF(A.LastOwner IS NULL, A.InputOwner, A.LastOwner) AS LastOwner		/*소유자명(현소유자명)*/
+					, IF(A.ErrType = 1, '쿠콘', '카방') AS ErrType					/*오류구분*/
+					, A.ResultCd AS ResultCd									/*결과코드*/
+					, A.ResultMg AS ResultMg									/*결과메시지*/
+					, A.ReqId AS ReqId											/*신청자ID*/
+					, A.ReqMobilePhone AS ReqMobilePhone						/*핸드폰번호*/
+					, IF(A.RegType = 1, 'APP', '관리자') AS RegType				/*조회구분*/
+					, A.PassYn AS PassYn										/*정상유무*/
+					, A.Name AS carName											/*차명*/						
+					, A.InputOwner AS reqOwner									/*입력소유자명*/								
+					, A.SeizeCollateralEntrustYn as SeizeCollateralEntrustYn	/*압류저당촉탁유무*/
+					, A.Purpose AS Purpose										/*용도*/
+					, A.Type as CarType											/*차종*/
+					, CONCAT(A.Purpose,A.Type) AS PurposeType					/*용도및차종*/
+					, A.ModelYear as ModelYear									/*모델연식*/
+					, A.ChassisNumber as ChassisNumber							/*차대번호*/
+					, IF(A.sellerCertYn = 'N', '양도인인증미완료', '양도인인증완료') as sellerCertYn		/*양도인 인증여부*/
+					, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d %H:%i:%s') AS RegisterTime	/*분석일시*/ 
+					, B.Name AS ReqName  
+					, REPLACE(B.Mobile_Phone,'+82','0') AS Mobile_Phone 
+			FROM TO_VEHICLE_REGISTRATION A LEFT JOIN TO_USERS B ON A.reqId = B.idx  
+			WHERE 1=1 
+    	]]>     
+		<if test="idx != null and idx != ''">
+			AND A.idx = #{idx} 
+		</if>
+    	<!-- 차량번호 --><!-- 소유자명 -->
+		<if test="searchTxt != null and searchTxt != ''">
+			AND (A.RegNumber LIKE CONCAT ('%', #{searchTxt},'%') OR A.InputRegNumber LIKE CONCAT ('%', #{searchTxt},'%')  OR A.InputOwner LIKE CONCAT ('%', #{searchTxt},'%') OR A.LastOwner LIKE CONCAT ('%', #{searchTxt},'%')  OR B.Name LIKE CONCAT ('%', #{searchTxt},'%') )
+		</if> 
+		<!-- 자동차 분석오류 --> 
+		<if test = 'inqType.equals("1")'>
+			<![CDATA[
+				AND A.PassYn = 'N'
+				AND A.RegType = 1
+				AND A.RegisterTime >= STR_TO_DATE(CONCAT(#{from},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.RegisterTime <= STR_TO_DATE(CONCAT(#{to},' 23:59:59'), '%Y%m%d %H:%i:%s')
+			]]>
+		</if>
+		ORDER BY A.RegisterTime DESC
+		<include refid="setRnEd"/>
+    </select>
+    
+    <!-- 메모목록 조회 -->
+    <select id="selectMemoList" parameterType="map" resultType="map">
+   		/*selectMemoList 메모목록조회*/
+   		<include refid="setRnSt"/>
+    	<![CDATA[
+    		SELECT CONCAT(A.idx,'') AS memoIdx
+            	, CONCAT(A.TransferOwnerIdx,'') AS TransferOwnerIdx
+				, A.MemoContents AS MemoContents
+				, A.RegID AS RegID
+				, A.RegName AS RegName
+				, A.DelYn AS DelYn
+				, DATE_FORMAT(A.Regdate, '%Y-%m-%d %H:%i') AS Regdate
+				, DATE_FORMAT(A.Updatedate, '%Y-%m-%d %H:%i') AS Updatedate
+		FROM TO_TRANSFEROWNER_MEMO A
+			INNER JOIN TO_TRANSFEROWNER B
+				ON A.TransferOwnerIdx = B.Idx
+		WHERE 1=1
+		AND A.TransferOwnerIdx = #{idx}
+		AND A.DelYn = 'N'
+		ORDER BY A.Regdate DESC
+    	]]>
+    	<include refid="setRnEd"/>
+    </select>
+    
+    <!-- 메모등록 -->
+    <insert id="insertMemo" parameterType="map">
+    	/*insertMemo 메모등록*/
+    	INSERT INTO TO_TRANSFEROWNER_MEMO (
+			TransferOwnerIdx
+			, MemoContents
+			, RegID
+			, RegName
+    	) VALUES (
+    		#{TransferOwnerIdx}
+    		, #{MemoContents}
+    		, #{SESS_USERID}
+          	, #{SESS_USERNM}
+    	)
+    </insert>
+    
+    <!-- 메모삭제 -->
+    <update id="deleteMemo" parameterType="map">
+    	UPDATE TO_TRANSFEROWNER_MEMO SET
+    		DelYn = 'Y'
+    		, Updatedate = CURRENT_TIMESTAMP 
+    	WHERE idx = #{memoIdx} 
+    	AND TransferOwnerIdx = #{TransferOwnerIdx}
+    </update>
+    
+
+    <!-- 약관목록/상세 조회 -->
+    <select id="selectTermsInfo" parameterType="map" resultType="map">
+   		/*selectTermList 약관목록/상세 조회*/
+   		<include refid="setRnSt"/>
+    	<![CDATA[
+    		SELECT A.idx
+				, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d %H:%i') AS RegisterTime
+				, DATE_FORMAT(A.UpdateTime, '%Y-%m-%d %H:%i') AS UpdateTime
+				, DATE_FORMAT(A.EnableTime, '%Y-%m-%d') AS EnableTime 
+				, A.Selected
+				, A.Enable
+				, A.TermsTitle
+				, A.TermsContents
+				, A.TermsUpCd
+				, A.IsPassed
+			FROM TO_TERMS A
+			WHERE 1=1
+			AND A.TermsUpCd = #{TermsUpCd}
+    	]]>
+    	<!-- 약관상세 -->
+    	<if test="termsId != null and termsId != ''">
+    		AND A.idx = #{termsId} 
+    	</if>
+    	ORDER BY A.idx DESC
+    	<include refid="setRnEd"/>
+    </select>
+    <select id="selectGonggiInfo" parameterType="map" resultType="map">
+   		/*selectGonggiInfo 공지목록/상세 조회*/
+   		<include refid="setRnSt"/>
+   		<![CDATA[
+    		SELECT A.idx
+				, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d %H:%i') AS RegisterTime
+				, DATE_FORMAT(A.UpdateTime, '%Y-%m-%d %H:%i') AS UpdateTime
+				, DATE_FORMAT(A.EnableTime, '%Y-%m-%d') AS EnableTime 
+				, A.Enable
+				, A.TermsTitle
+				, A.TermsContents
+				, A.Wid
+				, A.IsPassed
+				, DATE_FORMAT(A.fromDt, '%Y-%m-%d') AS fromDt  
+				, DATE_FORMAT(A.toDt, '%Y-%m-%d') AS toDt
+			FROM TO_GONGGI A  
+			WHERE 1=1 
+			]]>    
+	    	<if test="idx != null and idx != ''">
+	    		AND A.idx = #{idx}   
+	    	</if>
+			ORDER BY A.idx DESC
+    		<include refid="setRnEd"/>  
+    </select>
+       
+    <!-- 약관등록 -->
+    <insert id="isnertTerm" parameterType="map">
+    		/*isnertTerm 약관등록*/
+    		INSERT INTO TO_TERMS(
+				Selected  
+				, TermsTitle
+				, TermsContents
+				, TermsUpCd
+				, EnableTime
+				, RegisterTime
+				, IsPassed
+    		) VALUES (
+				#{Selected}
+				, #{TermsTitle}
+				, #{TermsContents}
+				, #{TermsUpCd}
+				, CONCAT(#{EnableTime},' 00:00:00') 
+				, CURRENT_TIMESTAMP
+				, 'N'
+    		)
+    </insert>
+    <!-- 공지등록 -->
+    <insert id="isnertGonggi" parameterType="map">
+    		/*isnertGonggi 공지등록*/
+    		INSERT INTO TO_GONGGI(
+				Enable  
+				, TermsTitle
+				, TermsContents
+				, Wid
+				, RegisterTime
+				, UpdateTime
+				, fromDt
+				, toDt
+    		) VALUES (
+				#{Enable}
+				, #{TermsTitle}
+				, #{TermsContents}
+				, #{SESS_USERID}
+				, CURRENT_TIMESTAMP
+				, CURRENT_TIMESTAMP
+				, CONCAT(#{fromDt},' 00:00:00')  
+				, CONCAT(#{toDt},' 23:59:59') 
+    		)
+    </insert>
+    <!-- 약관 일괄 미적용처리 -->
+    <update id="deleteTermsEnable" parameterType="map">
+    		/*deleteTermsEnable 선택 항목약관 일괄 미적용*/
+    		UPDATE TO_TERMS SET
+    			Enable = 'N'
+    		WHERE 1=1
+    		<if test="TermsUpCd != null and TermsUpCd != ''">
+    			AND TermsUpCd = #{TermsUpCd} 
+    		</if>
+    </update>
+    
+    <!-- 약관 일괄 미적용처리 -->
+    <update id="deleteTermsSelected" parameterType="map">
+    		/*deleteTermsEnable 선택 항목약관 일괄 미적용*/
+    		UPDATE TO_TERMS SET
+    			Selected = 'N'
+    			, UpdateTime = CURRENT_TIMESTAMP 
+    		WHERE 1=1
+    		<if test="TermsUpCd != null and TermsUpCd != ''">
+    			AND TermsUpCd = #{TermsUpCd} 
+    		</if>
+    </update>
+    
+    
+     <update id="updateTerms" parameterType="map">
+    		/*updateTerms 약관수정*/
+    		UPDATE TO_TERMS SET
+	    		  EnableTime		= #{EnableTime} 
+	    		<if test="Enable != null and Enable != ''">
+				, Enable			= #{Enable}
+				</if>
+				, Selected			= #{Selected}
+				, TermsTitle		= #{TermsTitle}
+				, TermsContents		= #{TermsContents}
+				, UpdateTime		= CURRENT_TIMESTAMP
+    		WHERE TermsUpCd = #{TermsUpCd}
+    		AND idx = #{idx}
+    </update>
+    
+    
+     <update id="updateGonggi" parameterType="map">
+    		/*updateGonggi 공지수정*/
+    		UPDATE TO_GONGGI SET
+				TermsTitle		= #{TermsTitle}
+				, TermsContents		= #{TermsContents}
+				, UpdateTime		= CURRENT_TIMESTAMP
+				, fromDt = CONCAT(#{fromDt},' 00:00:00')
+				, toDt = CONCAT(#{toDt},' 23:59:59')	
+    		WHERE 1=1
+    		AND idx = #{idx} 
+    </update>      
+
+			
+    
+    <!-- 금융기관DB 목록/상세조회 -->
+    <select id="selectFincialDbList" parameterType="map" resultType="map">
+    	/*selectFincialDbList 금융기관DB 목록조회*/
+    	<include refid="setRnSt"/>
+    	<![CDATA[
+    		SELECT A.idx														/*id*/
+					, A.FinacType AS FinacType									/*금융사분류명*/
+					, A.FinacName AS FinacName									/*금융기관명*/
+					, A.EditFinacName AS EditFinacName							/*금융기관명(수정)*/
+					, A.BusinessRstNumber AS BusinessRstNumber					/*사업자번호*/
+					, A.CopRstNumber AS CopRstNumber							/*법인등록번호*/
+					, A.OwnerName AS OwnerName									/*대표자명*/
+					, A.FinacManager AS FinacManager							/*담당자*/
+					, A.FinacAddress AS FinacAddress							/*주소*/
+					, A.CorpPhone AS CorpPhone									/*회사전화번호*/
+					, A.ManagerPhone AS ManagerPhone							/*담당자전화번호*/
+					, A.Note AS Note											/*비고*/
+					, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d') AS RegisterTime	/*등록일*/
+					, DATE_FORMAT(A.UpdateTime, '%Y-%m-%d') AS UpdateTime		/*수정일*/
+					, A.RegisterTime AS oriRegisterTime
+		 	FROM TO_RAWDATA_FINANCIALINSTITUTION A
+		 	WHERE 1=1
+    	]]>
+	   	 	<!-- 금융기관명 -->
+			<if test="searchTxt != null and searchTxt != ''">
+				AND A.FinacName LIKE CONCAT ('%', #{searchTxt},'%') 
+			</if>
+			<!-- 전화번호 -->
+			<if test="searchTxt2 != null and searchTxt2 != ''">
+				AND A.CorpPhone LIKE CONCAT ('%', #{searchTxt2},'%') 
+			</if>
+    	<!-- 금융기관DB 상세 -->
+    	<if test = 'inqType.equals("2")'>
+    		AND A.idx = #{idx}
+    	</if>
+    	ORDER BY oriRegisterTime DESC
+    	<include refid="setRnEd"/>
+    </select>
+    
+    <!-- 금융기관DB 저장 -->
+    <insert id="insertFincialDbInfo" parameterType="map">
+	    <![CDATA[
+	    	/*insertFincialDbInfo 금융기관DB 저장*/
+	    	INSERT INTO TO_RAWDATA_FINANCIALINSTITUTION (
+		    	FinacType
+		    	, FinacName
+		    	, EditFinacName
+		    	, BusinessRstNumber
+		    	, CopRstNumber
+		    	, OwnerName
+		    	, FinacManager
+		    	, FinacAddress
+		    	, CorpPhone
+		    	, ManagerPhone
+		    	, Note)
+		    VALUES
+	    ]]>
+	    <foreach collection="fincialList" item="item" separator=" , " >
+	    	(
+	    		#{item.FinacType}
+		    	, #{item.FinacName}
+		    	, #{item.EditFinacName}
+		    	, #{item.BusinessRstNumber}
+		    	, #{item.CopRstNumber}
+		    	, #{item.OwnerName}
+		    	, #{item.FinacManager}
+		    	, #{item.FinacAddress}
+		    	, #{item.CorpPhone}
+		    	, #{item.ManagerPhone}
+		    	, #{item.Note}
+	    	)
+	    </foreach>
+    </insert>
+    <!-- 금융기관DB 수정 -->
+    <update id="updateFincial" parameterType="map">
+	    <![CDATA[
+	    	/*insertFincial 금융기관DB 수정*/
+	    	UPDATE TO_RAWDATA_FINANCIALINSTITUTION SET
+		    	FinacType = #{FinacType}
+		    	, FinacName = #{FinacName}
+		    	, EditFinacName = #{EditFinacName}
+		    	, BusinessRstNumber = #{BusinessRstNumber}
+		    	, CopRstNumber = #{CopRstNumber}
+		    	, OwnerName = #{OwnerName}
+		    	, FinacManager = #{FinacManager}
+		    	, FinacAddress = #{FinacAddress}
+		    	, CorpPhone = #{CorpPhone}
+		    	, ManagerPhone = #{ManagerPhone}
+		    	, Note = #{Note}
+		    WHERE idx = #{idx}
+	    ]]>
+    </update>  
+    
+    
+    
+    <!-- 금융기관DB 삭제 -->
+    <delete id="deleteFincialDbInfo" parameterType="map">
+    	/*deleteFincialDbInfo 금융기관DB 삭제*/
+    	DELETE FROM TO_RAWDATA_FINANCIALINSTITUTION
+    </delete>
+    
+    <!-- 의뢰시간 조회 (초기 데이터를 UPDATE처리) -->
+    <select id="selectAskDateInfo" resultType="map">
+    	<![CDATA[
+    		/*selectAskDateInfo 의뢰시간 조회*/
+    		SELECT idx															/*ID*/
+					, InStTime													/*유효시작시간*/
+					, InEdTime													/*유효종료시간*/
+					, InCompletTime												/*예상완료당일시간*/
+					, InComment													/*유효시간비고*/
+					, OutStTime													/*영업외시작시간*/
+					, OutEdTime													/*영업외종료시간*/
+					, OutCompletTime											/*예상완료익일시간*/
+					, OutComment												/*영업외시간비고*/
+					, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d') AS RegisterTime	/*등록일*/
+					, DATE_FORMAT(A.UpdateTime, '%Y-%m-%d') AS UpdateTime		/*수정일*/
+					, IF(TIME_FORMAT(NOW(), '%H') < InStTime OR TIME_FORMAT(NOW(), '%H') >= OutEdTime, 'N', 'Y') AS transferPsblYn /*이전가능여부*/
+			FROM TO_REQUESTDATE_MNG A
+    	]]>
+    </select>
+    
+    <!-- 의뢰시간 저장 --> 
+    <update id="updateAskDateInfo" parameterType="map">
+    	/*updateAskDateInfo 의뢰시간 저장*/
+    	UPDATE TO_REQUESTDATE_MNG SET
+    		InStTime			= #{InStTime} 
+			, InEdTime			= #{InEdTime}
+			, InCompletTime		= #{InCompletTime}
+			, InComment			= #{InComment}
+			, OutStTime			= #{OutStTime}
+			, OutEdTime			= #{OutEdTime}
+			, OutCompletTime	= #{OutCompletTime}
+			, OutComment		= #{OutComment}
+			, UpdateTime		= CURRENT_TIMESTAMP
+		WHERE idx = #{idx}
+    </update>
+    
+    <!-- 소유권이전코드관리 목록조회 -->
+    <select id="selectToCodeList" parameterType="map" resultType="map">
+   		/*selectToCodeList 소유권이전코드관리 목록조회*/
+    	<![CDATA[
+    		SELECT A.CODE_ID AS CODE_ID				/*대분류 코드ID*/
+				, A.CODE  AS ErrCode				/*코드*/
+				, A.CODE_NM  AS ErrTxt				/*코드설명*/
+				, IF(C.TransferEnable = '1', '1', '2') AS TransferEnable	/*소유권이전가능유무(1:가능/2:불가능)*/
+			FROM LETTCCMMNDETAILCODE A
+				INNER JOIN LETTCCMMNCODE B
+					ON A.CODE_ID = B.CODE_ID
+				LEFT OUTER JOIN TO_TRANSFER_CODE_MNG C
+					ON A.CODE = C.ErrCode
+			WHERE 1=1		
+			AND A.CODE_ID = 'toCodeList'
+			AND A.USE_AT = 'Y'
+    	]]>
+    	<if test="ErrCode != null and ErrCode != ''">
+    		AND A.CODE IN (${ErrCode})
+    	</if>
+    </select> 
+    <!-- 소유권이전코드별 이전가능여부 업데이트 -->
+    <!-- <update id="updateToCodeList" parameterType="map">
+    	/*updateToCodeList 소유권이전코드별 이전가능여부 업데이트*/
+    	<foreach item="codeMap" collection="transferCodeList" open="" close="" separator=";">
+    		UPDATE TO_TRANSFER_CODE_MNG SET
+    			TransferEnable = #{codeMap.TransferEnable}
+    			, UpdateTime = CURRENT_TIMESTAMP
+    		WHERE 1=1
+    		AND idx = #{codeMap.idx}
+    	</foreach>
+    </update> -->
+    
+    <!-- 소유권이전 코드등록 -->
+    <insert id="insertToCodeList" parameterType="map">
+    	<![CDATA[
+    	/*insertToCodeList 소유권이전 코드등록*/
+    	INSERT INTO TO_TRANSFER_CODE_MNG(
+			ErrCode
+			, ErrTxt
+			, TransferEnable
+		) VALUES
+		]]>
+    	<foreach collection="toCodeList" item="item" separator=" , " >
+    	( 
+   			#{item.ErrCode}
+			, #{item.ErrTxt}
+			, #{item.TransferEnable}
+    	)
+    	</foreach>
+    </insert>
+    
+    <!-- 소유권이전 코드 전체삭제 -->
+    <delete id="deleteToCodeList">
+    	/*deleteToCodeList  소유권이전 코드 전체삭제*/
+    	DELETE FROM TO_TRANSFER_CODE_MNG
+    </delete>
+    
+    <!-- 일별 채권단가조회 -->
+    <select id="selectBondPriceInfo" parameterType="map" resultType="map">
+    	/*selectBondPriceInfo 일별 채권단가조회*/
+    	<include refid="setRnSt"/>
+    	<![CDATA[
+    		SELECT A.idx AS idx 															/*ID*/
+				, DATE_FORMAT(A.Today, '%Y-%m-%d') AS Today									/*날짜*/
+				, CASE 
+					WHEN WEEKDAY(A.Today) = 0 THEN '월요일'
+					WHEN WEEKDAY(A.Today) = 1 THEN '화요일'
+					WHEN WEEKDAY(A.Today) = 2 THEN '수요일'
+					WHEN WEEKDAY(A.Today) = 3 THEN '목요일'
+					WHEN WEEKDAY(A.Today) = 4 THEN '금요일'
+					WHEN WEEKDAY(A.Today) = 5 THEN '토요일'
+					WHEN WEEKDAY(A.Today) = 6 THEN '일요일'
+					ELSE '' END AS DAY														/*요일*/
+				, IF(A.Daysection = 'N', '영업일', '휴일') AS Daysection						/*휴일구분*/
+				, A.A_BondPrice_Basis AS A_BondPrice_Basis 									/*서울도시철도채권 원금액*/
+				, A.B_BondPrice_Basis AS B_BondPrice_Basis 									/*지방도시철도채권 원금액*/
+				, A.C_BondPrice_Basis AS C_BondPrice_Basis 									/*지역개발채권채권 원금액*/
+				, B.A_BondAddPrice_Basis AS ADD_A_BondAddPrice_Basis 						/*서울도시철도채권 추가금액*/
+				, B.B_BondAddPrice_Basis AS ADD_B_BondAddPrice_Basis 						/*지방도시철도채권 추가금액*/
+				, B.C_BondAddPrice_Basis AS ADD_C_BondAddPrice_Basis 						/*지역개발채권 추가금액*/
+				, A.A_BondPrice_Basis - B.A_BondAddPrice_Basis AS TOT_A_BondPrice_Basis 	/*서울도시철도채권 적용금액*/
+				, A.B_BondPrice_Basis - B.B_BondAddPrice_Basis AS TOT_B_BondPrice_Basis 	/*지방도시철도채권 적용금액*/
+				, A.C_BondPrice_Basis - B.C_BondAddPrice_Basis AS TOT_C_BondPrice_Basis 	/*지역개발채권 적용금액*/
+		FROM TO_TRANSFERBOND_UPRICE A
+			INNER JOIN TO_TRANSFERBOND_ADD_UPRICE B
+				ON A.idx = B.bondUpriceIdx
+		ORDER BY A.idx DESC
+    	]]>
+    	<include refid="setRnEd"/>
+    </select>
+    
+    <!-- 일별채권 추가적용금액 목록조회 -->
+    <select id="selectBondAddPriceInfo" parameterType="map" resultType="map">
+    	/*selectBondAddPriceInfo 일별채권 추가적용금액 목록조회*/
+    	<include refid="setRnSt"/>
+    	<![CDATA[
+    		SELECT A.idx AS idx											/*ID*/
+					, A.bondUpriceIdx AS bondUpriceIdx					/*일별채권단가ID*/
+					, DATE_FORMAT(A.Today, '%Y-%m-%d') AS Today			/*일자*/
+					, A.Time AS Time									/*시분*/
+					, SUBSTR(A.TIME,1,2) AS HH							/*시간*/
+					, SUBSTR(A.TIME,3,2) AS MM							/*분*/
+					, A.A_BondAddPrice_Basis AS A_BondAddPrice_Basis	/*서울도시철도채권 원금액*/
+					, A.B_BondAddPrice_Basis AS B_BondAddPrice_Basis	/*지방도시철도채권 원금액*/
+					, A.C_BondAddPrice_Basis AS C_BondAddPrice_Basis	/*지역개발채권 원금액*/
+			FROM TO_TRANSFERBOND_ADD_UPRICE A
+    	]]>
+    	<include refid="setRnEd"/>
+    </select>
+    
+    <!-- 일별채권단가 추가적용금액 수정 (당일것만 수정가능)-->
+    <update id="updateAddBondPrice" parameterType="map">
+    	/*updateBondPrice 일별채권단가 추가적용금액 수정*/
+    	UPDATE TO_TRANSFERBOND_ADD_UPRICE SET
+    		Time = #{Time}
+    		, A_BondAddPrice_Basis = #{A_BondAddPrice_Basis}
+    		, B_BondAddPrice_Basis = #{B_BondAddPrice_Basis}
+    		, C_BondAddPrice_Basis = #{C_BondAddPrice_Basis}
+    	WHERE idx= #{idx}
+    </update>
+    
+    <!-- 일별채권단가 수정 (당일것만 수정가능) -->
+    <update id="updateBondPrice" parameterType="map">
+    	/*updateBondPrice 일별채권단가 수정*/
+    	UPDATE TO_TRANSFERBOND_UPRICE SET
+    		  A_BondPrice_Basis = #{A_BondPrice_Basis}
+    		, B_BondPrice_Basis = #{B_BondPrice_Basis}
+    		, C_BondPrice_Basis = #{C_BondPrice_Basis}
+    	WHERE idx= #{idx}
+    </update>
+    
+    <!-- 자동차 등록원부 저장(2021.01.12 호출 시 쿠콘 분석 전 먼저 insert 하도록 변경) -->
+    <insert id="insertToVehicleRegistration" parameterType="map" useGeneratedKeys="true" keyProperty="idx">
+    	/*insertToVehicleRegistration 자동차 등록원부 저장*/
+    	INSERT INTO TO_VEHICLE_REGISTRATION (
+			InputOwner
+			, InputRegNumber
+			, ReqId
+			, ReqMobilePhone
+			, RegType
+		)  VALUES( 
+			#{OWNER_NAME}
+			, #{CAR_NUM}
+			, #{ReqId}
+			, #{PHONE_NUM}
+			, #{RegType}
+		)	
+    </insert>
+    
+    <!-- 자동차 등록원부 수정(2021.01.12 호출 시 쿠콘 분석 전 먼저 insert, 분석 후 update 하도록 변경) -->
+    <update id="updateToVehicleRegistration" parameterType="map">
+    	/*updateToVehicleRegistration 자동차 등록원부 수정*/
+    	UPDATE TO_VEHICLE_REGISTRATION SET 
+    		RegNumber                            = #{RegNumber}
+			, SpecMgmtNumber                     = REPLACE(#{SpecMgmtNumber}, '-', '')
+			, CanceledDate                       = #{CanceledDate}
+			, Name                               = #{Name}
+			, Name_Index                         = REPLACE(#{Name}, ' ', '')
+			, Type                               = #{Type}
+			, ChassisNumber                      = #{ChassisNumber}
+			, MoverType                          = #{MoverType}
+			, Purpose                            = #{Purpose}
+			, ModelYear                          = #{ModelYear}
+			, Color                              = #{Color}
+			, SourceDivision                     = #{SourceDivision}
+			, FirstRegDate                       = #{FirstRegDate}
+			, DetailType                         = #{DetailType}
+			, ProductDate                        = #{ProductDate}
+			, LastOwner                          = #{LastOwner}
+			, PersonalRegNumber                  = #{PersonalRegNumber}
+			, PrimaryUseLocation                 = #{PrimaryUseLocation}
+			, InspectionExpireDate               = #{InspectionExpireDate}
+			, ConfirmDate                        = #{ConfirmDate}
+			, CloseDate                          = #{CloseDate}
+			, PrintName                          = #{PrintName}
+			, SeizeCollateralEntrustYn           = #{SeizeCollateralEntrustYn}
+			, PassYn                             = #{PassYn}
+			, ResultCd                           = #{ResultCd}
+			, ResultMg                           = #{ResultMg}
+			, ErrType                            = #{ErrType}
+		WHERE idx = #{idx}
+    </update>
+
+    <!-- 자동차 등록원부 오류 시 수정(2021.01.12 호출 시 쿠콘 분석 전 먼저 insert, 분석 후 update 하도록 변경) -->
+    <update id="updateToVehicleRegistrationErr" parameterType="map">
+    	/*updateToVehicleRegistrationErr 자동차 등록원부 오류 시 수정*/
+    	UPDATE TO_VEHICLE_REGISTRATION SET 
+			ResultCd	= #{ResultCd}
+			, ResultMg	= #{ResultMg}
+			, ErrType	= #{ErrType}
+			, PassYn	= #{PassYn}
+		WHERE idx = #{idx}
+    </update>
+    
+    <!-- 자동차 등록원부 저장 -->
+    <!-- <insert id="insertToVehicleRegistration" parameterType="map" useGeneratedKeys="true" keyProperty="idx">
+    	/*insertToVehicleRegistration 자동차 등록원부 저장*/
+    	INSERT INTO TO_VEHICLE_REGISTRATION (
+			RegNumber
+			, SpecMgmtNumber
+			, CanceledDate
+			, Name
+			, Name_Index
+			, Type
+			, ChassisNumber
+			, MoverType
+			, Purpose
+			, ModelYear
+			, Color
+			, SourceDivision
+			, FirstRegDate
+			, DetailType
+			, ProductDate
+			, LastOwner
+			, PersonalRegNumber
+			, PrimaryUseLocation
+			, InspectionExpireDate
+			, ConfirmDate
+			, CloseDate
+			, PrintName 
+			, SeizeCollateralEntrustYn
+			, PassYn
+			, InputOwner
+			, InputRegNumber
+			, ResultCd
+			, ResultMg
+			, ReqId
+			, ReqMobilePhone
+			, RegType
+			, ErrType
+	
+		)  VALUES( 
+			#{RegNumber}
+			, REPLACE(#{SpecMgmtNumber}, '-', '')
+			, #{CanceledDate}
+			, #{Name}
+			, REPLACE(#{Name}, ' ', '')
+			, #{Type}
+			, #{ChassisNumber}
+			, #{MoverType}
+			, #{Purpose}
+			, #{ModelYear}
+			, #{Color}
+			, #{SourceDivision}
+			, #{FirstRegDate}
+			, #{DetailType}
+			, #{ProductDate}
+			, #{LastOwner}
+			, #{PersonalRegNumber}
+			, #{PrimaryUseLocation}
+			, #{InspectionExpireDate}
+			, #{ConfirmDate}
+			, #{CloseDate}
+			, #{PrintName} 
+			, #{SeizeCollateralEntrustYn}
+			, #{PassYn}
+			, #{InputOwner}
+			, #{InputRegNumber}
+			, #{ResultCd}
+			, #{ResultMg}
+			, #{ReqId}
+			, #{ReqMobilePhone}
+			, #{RegType}
+			, #{ErrType}
+		)	
+    </insert> -->
+    
+    <!-- 자동차 등록원부 갑지 저장 -->
+     <insert id="insertToVehicleRstMaster" parameterType="map">
+    	/*insertToVehicleRstMaster 자동차 등록원부갑지 저장*/
+    	<![CDATA[
+    	INSERT INTO TO_VEHICLE_REGISTRATION_MASTERDETAIL(
+   			RegistrationIndex
+   			, MainNumber
+   			, SubNumber
+   			, PersonalRegNumber
+   			, RegistrationDate
+   			, ReceiptNumber
+   			, MainCheck
+   			, DetailDescription
+    	)  VALUES
+    	]]>
+    	<foreach collection="masterDetailList" item="item" separator=" , " >
+    	( 
+   			#{item.RegistrationIndex}
+   			, #{item.MainNumber}
+   			, #{item.SubNumber}
+   			, #{item.PersonalRegNumber}
+   			, #{item.RegistrationDate}
+   			, #{item.ReceiptNumber}
+   			, #{item.MainCheck}
+   			, #{item.DetailDescription} 
+    	)
+    	</foreach>
+    </insert>
+    
+    <!-- 자동차 등록원부 을지 저장 -->
+     <insert id="insertToVehicleRstSlave" parameterType="map">
+     	/*insertToVehicleRstSlave 자동차 등록원부을지 저장*/
+     	<![CDATA[
+     	INSERT INTO TO_VEHICLE_REGISTRATION_SLAVEDETAIL(
+        		RegistrationIndex
+        		, MortgageNumber
+        		, MortgageName
+        		, MortgageAddress
+        		, MortgagorName
+        		, MortgagorAddress
+        		, DebtorName
+        		, DebtorAddress
+        		, BondAmount
+        		, MortgageRegDate
+        		, MortgageCancelDate
+        		, MortgageClose 
+        		, EbNo 
+        	) VALUES 
+        ]]>
+        <foreach collection="slaveDetailList" item="item" separator=" , " >
+        	( 
+        		#{item.RegistrationIndex}
+        		, #{item.MortgageNumber}
+        		, #{item.MortgageName}
+        		, #{item.MortgageAddress}
+        		, #{item.MortgagorName}
+        		, #{item.MortgagorAddress}
+        		, #{item.DebtorName}
+        		, #{item.DebtorAddress}
+        		, #{item.BondAmount}
+        		, #{item.MortgageRegDate}
+        		, #{item.MortgageCancelDate}
+        		, #{item.MortgageClose}
+        		, #{item.EbNo}
+        	)
+        </foreach>
+    </insert>
+    
+    <!-- 시가표준액 각 탭별 cnt -->
+    <select id="selectStndCarPriceListCnt" resultType="map">
+    	/*selectStndCarPriceListCnt 시가표준액 각 탭별 cnt*/
+    	SELECT 'allCnt', COUNT(*) AS cnt				/*전체*/
+		FROM TO_RAWDATA_TAXBASE_BASISPRICE
+			UNION
+		SELECT 'carCnt', COUNT(*) AS cnt				/*승용*/
+		FROM TO_RAWDATA_TAXBASE_BASISPRICE
+		WHERE VehicleType = '승용'
+			UNION
+		SELECT 'vanCnt', COUNT(*) AS cnt		/*승합*/
+		FROM TO_RAWDATA_TAXBASE_BASISPRICE
+		WHERE VehicleType = '승합'
+			UNION
+		SELECT 'freightCnt', COUNT(*) AS cnt	/*화물*/
+		FROM TO_RAWDATA_TAXBASE_BASISPRICE
+		WHERE VehicleType = '화물'
+			UNION
+		SELECT 'otherCnt', COUNT(*) AS cnt	/*기타*/
+		FROM TO_RAWDATA_TAXBASE_BASISPRICE
+		WHERE VehicleType NOT IN ('승용', '승합', '화물')
+    </select>
+    <!-- 시가표준액 조회 -->
+    <select id="selectStndCarPriceList" parameterType="map" resultType="map">
+    	/*selectStndCarPriceList 시가표준액 조회*/
+    	<include refid="setRnSt"/>
+    	<![CDATA[ 
+    		SELECT A.CountryOrigin AS CountryOrigin								/*제조국*/
+					, A.VehicleType AS VehicleType								/*차종*/
+					, A.Manufacturer AS Manufacturer							/*제작사*/
+			 		, A.Name AS Name											/*차량명*/
+					, A.FormName AS FormName									/*형식명*/
+					, A.Price AS Price											/*기준가격*/
+					, A.EngineType AS EngineType								/*엔진형식*/
+					, A.Note AS Note											/*비고*/
+					, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d') AS RegisterTime	/*적용일*/
+			FROM TO_RAWDATA_TAXBASE_BASISPRICE A
+			WHERE 1=1
+    	]]>
+    	 <!-- 핸드폰번호 --><!-- 회원명 -->
+		<if test="searchTxt != null and searchTxt != ''">
+			AND (A.Name LIKE CONCAT ('%', #{searchTxt},'%') OR A.FormName LIKE CONCAT ('%', #{searchTxt},'%') )
+		</if>
+		
+    	<!-- 0:전체, 1:승용, 2:승합, 3:화물, 4:기타 -->
+    	<if test='inqType != null and inqType != "" and !inqType.equals("0")'>
+    		<choose>
+    			<when test='inqType.equals("1")'>
+    				AND A.VehicleType = '승용'
+    			</when>
+    			<when test='inqType.equals("2")'>
+    				AND A.VehicleType = '승합'
+    			</when>
+    			<when test='inqType.equals("3")'>
+    				AND A.VehicleType = '화물'
+    			</when>
+    			<when test='inqType.equals("5")'>
+    				AND A.EcoFriendly = 'Y'
+    			</when>
+    			<otherwise>
+    				AND A.VehicleType NOT IN ('승용', '승합', '화물')
+    			</otherwise>
+    		</choose>
+    	</if>
+    	<!-- 검색어 -->
+    	<if test="searchCarName != null and searchCarName != ''">
+    		AND A.Name LIKE CONCAT ('%', #{searchCarName},'%')
+    	</if>
+    	<if test="searchFormName != null and searchFormName != ''">
+    		AND A.FormName LIKE CONCAT ('%', #{searchFormName},'%')
+    	</if>
+    	<![CDATA[
+			ORDER BY VehicleType
+    	]]>
+    	<include refid="setRnEd"/>
+    </select>
+    <!-- TS차량 DB관리 각 탭별 cnt -->
+    <select id="selectTsCarDbMngListCnt" resultType="map">
+    	/*selectTsCarDbMngListCnt TS차량 DB관리 각 탭별 cnt*/
+    	SELECT 'allCnt', COUNT(*) AS cnt				/*전체*/
+		FROM TO_RAWDATA_VEHICLE_SPECIFICATION_TS
+			UNION 
+		SELECT 'carCnt', COUNT(*) AS cnt				/*승용*/
+		FROM TO_RAWDATA_VEHICLE_SPECIFICATION_TS
+		WHERE VehicleType = '승용'
+			UNION
+		SELECT 'vanCnt', COUNT(*) AS cnt		/*승합*/
+		FROM TO_RAWDATA_VEHICLE_SPECIFICATION_TS
+		WHERE VehicleType = '승합'
+			UNION
+		SELECT 'freightCnt', COUNT(*) AS cnt	/*화물*/
+		FROM TO_RAWDATA_VEHICLE_SPECIFICATION_TS
+		WHERE VehicleType = '화물'
+			UNION
+		SELECT 'otherCnt', COUNT(*) AS cnt	/*기타*/
+		FROM TO_RAWDATA_VEHICLE_SPECIFICATION_TS
+		WHERE VehicleType NOT IN ('승용', '승합', '화물')
+					UNION
+		SELECT 'ecoCnt', COUNT(*) AS cnt	/*친환경*/
+		FROM TO_RAWDATA_VEHICLE_SPECIFICATION_TS
+		WHERE EcoFriendly = 'Y'
+    </select>
+    <!-- TS차량 DB관리 조회 -->
+    <select id="selectTsCarDbMngList" parameterType="map" resultType="map">
+    	/*selectTsCarDbMngList TS차량 DB관리 조회*/
+<!--     	<include refid="setRnSt"/> -->
+    	<![CDATA[
+    		SELECT A.SpecMgmtNumber AS SpecMgmtNumber		/*제원관리번호*/
+					, A.VehicleType AS VehicleType			/*[차량형식] 승용, 승합, 화물*/
+					, A.Class AS Class						/*차종분류*/
+					, A.Purpose	AS Purpose					/*차종유형*/
+					, A.FormName AS FormName				/*형식명*/
+					, A.Displacement AS Displacement		/*배기량*/
+					, A.RidingCapacity AS RidingCapacity	/*승차정원*/
+					, A.MaxLoad	AS MaxLoad					/*최대적재량*/
+					, A.Name AS Name						/*차명*/
+					, A.Fuel AS Fuel						/*사용연료*/
+					, A.Weight AS Weight					/*차체중량*/
+					, A.Manufacturer AS Manufacturer 		/*제조/수입사(TS추가정보요청컬럼값)*/
+					, A.Note AS Note						/*기타*/
+					, A.CountryOrigin AS CountryOrigin		/*국산수입*/
+					, A.BodyLength AS BodyLength			/*차체길이*/
+					, A.BodyWidth AS BodyWidth				/*차체너비*/
+					, A.BodyHeight AS BodyHeight			/*차체높이*/
+					, A.FuelRatio AS FuelRatio 				/*복합연비*/
+					, IF(A.EcoFriendly IS NULL, 'N', A.EcoFriendly) AS EcoFriendly	/*친환경차 유무*/
+					, A.FuelTank AS FuelTank				/*연료탱크*/
+			FROM TO_RAWDATA_VEHICLE_SPECIFICATION_TS A
+			WHERE 1=1
+    	]]>
+    	<!-- 0:전체, 1:승용, 2:승합, 3:화물, 4:기타, 5:친환경면제차량 -->
+    	<if test='inqType != null and inqType != "" and !inqType.equals("0")'>
+    		<choose>
+    			<when test='inqType.equals("1")'>
+    				AND A.VehicleType = '승용'
+    			</when>
+    			<when test='inqType.equals("2")'>
+    				AND A.VehicleType = '승합'
+    			</when>
+    			<when test='inqType.equals("3")'>
+    				AND A.VehicleType = '화물'
+    			</when>
+    			<when test='inqType.equals("4")'>
+    				AND A.VehicleType NOT IN ('승용', '승합', '화물')
+    			</when>
+    			<otherwise>
+    				AND A.EcoFriendly = 'Y'
+    			</otherwise>
+    		</choose>
+    	</if>
+    	<!-- 검색어 -->
+    	<if test="specMgmtNumber != null and specMgmtNumber != ''">
+    		AND A.SpecMgmtNumber LIKE CONCAT ('%', #{specMgmtNumber},'%')
+    	</if>
+    	<if test="searchCarName != null and searchCarName != ''">
+    		AND A.Name LIKE CONCAT ('%', #{searchCarName},'%')
+    	</if>
+    	<if test="searchFormName != null and searchFormName != ''">
+    		AND A.FormName LIKE CONCAT ('%', #{searchFormName},'%')
+    	</if>
+ <!--    	<include refid="setRnEd"/> -->
+		<!-- limit 0,100     -->	 
+    </select>
+    
+    <!-- TS차량 DB관리 상세조회 -->
+    <select id="selectTsCarDbMngDetail" parameterType="map" resultType="map">
+    	<![CDATA[
+    		/*selectTsCarDbMngDetail TS차량 DB관리 상세조회*/
+    		SELECT A.SpecMgmtNumber AS SpecMgmtNumber		/*제원관리번호*/
+					, A.VehicleType AS VehicleType			/*[차량형식] 승용, 승합, 화물*/
+					, A.Class AS Class						/*차종분류*/
+					, A.Purpose	AS Purpose					/*차종유형*/
+					, A.FormName AS FormName				/*형식명*/
+					, A.Displacement AS Displacement		/*배기량*/
+					, A.RidingCapacity AS RidingCapacity	/*승차정원*/
+					, A.MaxLoad	AS MaxLoad					/*최대적재량*/
+					, A.Name AS Name						/*차명*/
+					, A.Fuel AS Fuel						/*사용연료*/
+					, A.Weight AS Weight					/*차체중량*/
+					, A.Manufacturer AS Manufacturer 		/*제조/수입사(TS추가정보요청컬럼값)*/
+					, A.Note AS Note						/*기타*/
+					, A.CountryOrigin AS CountryOrigin		/*국산수입*/
+					, A.BodyLength AS BodyLength			/*차체길이*/
+					, A.BodyWidth AS BodyWidth				/*차체너비*/
+					, A.BodyHeight AS BodyHeight			/*차체높이*/
+					, A.FuelRatio AS FuelRatio 				/*복합연비*/
+					, IF(A.EcoFriendly IS NULL, 'N', A.EcoFriendly) AS EcoFriendly	/*친환경차 유무*/
+					, A.FuelTank AS FuelTank				/*연료탱크*/
+					, A.Fuel AS Fuel						/*연료*/
+					, A.UpdateTime 
+			FROM TO_RAWDATA_VEHICLE_SPECIFICATION_TS A
+			WHERE 1=1
+			AND A.SpecMgmtNumber = #{SpecMgmtNumber}
+    	]]>
+    </select>
+    
+    <!-- 차량정보 전체보기 팝업 -->
+    <select id="selectCarInfoDetail" parameterType="map" resultType="map">
+    	<![CDATA[
+    		/*selectCarInfoDetail 차량정보 전체보기*/
+    		SELECT A.idx AS idx /*id*/
+					, A.RegNumber AS RegNumber	/*자동차등록번호*/
+					, A.Name AS Name/*차명*/
+					, A.ChassisNumber AS ChassisNumber /*차대번호*/
+					, A.ModelYear AS ModelYear	/*모델연도*/
+					, A.Purpose AS Purpose2 /*용도*/
+					, A.FirstRegDate AS FirstRegDate /*최초등록일*/
+					, A.SpecMgmtNumber AS SpecMgmtNumber /*제원관리번호*/
+					, A.LastOwner AS LastOwner /*최종소유자*/
+					, A.MoverType AS MoverType /*원동기형식*/
+					, A.Color AS Color /*색상*/
+					, A.DetailType AS DetailType /*세부유형*/
+					, A.TYPE AS TYPE	/*차종,형식*/
+					, SUBSTR(A.TYPE, 1,2) AS CarType /*차종*/
+					, SUBSTR(A.TYPE, 3) AS CarFrom /*차량형식*/
+					, A.SourceDivision AS SourceDivision	/*출처구분*/
+					, A.ProductDate AS ProductDate /*제작연월일*/
+					, A.InspectionExpireDate AS InspectionExpireDate	/*검사유효기간, 주행거리*/
+					, A.CanceledDate AS CanceledDate	/*말소등록일*/
+					, '준비중' AS ReviveCar	/*부활차량(갑지 사항란에 있어야하나 현재 패턴검색불가(케이스가 없음) 우선 준비중으로 fix처리)*/
+					, IF(B.EcoFriendly IS NULL, 'N', B.EcoFriendly) AS EcoFriendly
+					, IF(B.EcoFriendly = 'Y', '유', '무') AS EcoFriendlyTxt
+					, B.CountryOrigin AS CountryOrigin	/*국산/수입구분*/
+					, B.Displacement AS Displacement /*배기량*/
+					, B.RidingCapacity AS RidingCapacity /*승차정원*/
+					, B.Fuel AS Fuel /*사용연료명*/
+					, B.Purpose AS Purpose /*차종유형명*/
+					, B.FuelRatio AS FuelRatio /*복합연비*/
+					, B.MaxLoad AS MaxLoad /*최대적재량*/
+					, B.Class AS Class	/*차종분류*/
+					, B.Weight AS Weight	/*차체중량*/
+					, IF(C.Price IS NULL, '0', C.Price) AS Price	/*기준가액*/
+					, (SELECT COUNT(idx) FROM TO_VEHICLE_REGISTRATION_SLAVEDETAIL AA WHERE RegistrationIndex = #{idx}) AS MortgageCnt	/*저당건수*/
+					, (SELECT COUNT(idx) FROM TO_VEHICLE_REGISTRATION_MASTERDETAIL AA WHERE RegistrationIndex = #{idx} AND DetailDescription LIKE '%압류%') AS SeizeCnt /*압류촉탁건수*/
+					, (SELECT COUNT(idx) FROM TO_VEHICLE_REGISTRATION_MASTERDETAIL AA WHERE RegistrationIndex = #{idx} AND DetailDescription LIKE '%구조변경%') AS StructCngCnt /*구조변경건수*/
+					, (SELECT COUNT(idx) FROM TO_VEHICLE_REGISTRATION_MASTERDETAIL AA WHERE RegistrationIndex = #{idx} AND ( DetailDescription LIKE '%용도변경%' OR DetailDescription LIKE '%(번호) 용도%')) AS UseCngCnt /*용도변경건수*/
+					, (SELECT COUNT(idx) 
+						FROM TO_VEHICLE_REGISTRATION_MASTERDETAIL AA 
+						WHERE RegistrationIndex = #{idx}
+						AND ( 
+							DetailDescription LIKE '%명의이전등록%'
+							OR DetailDescription LIKE '%신규등록(신조차)%'
+							OR DetailDescription LIKE '%공동소유자%'
+						)				
+					) AS OwnerCngCnt	/*소유권변경횟수*/
+			FROM TO_VEHICLE_REGISTRATION A							/*자동차등록원부*/
+				INNER JOIN TO_RAWDATA_VEHICLE_SPECIFICATION_TS B 	/*교통안전공단 차량제원정보*/
+					ON A.SpecMgmtNumber = B.SpecMgmtNumber
+				LEFT OUTER JOIN TO_RAWDATA_TAXBASE_BASISPRICE C		/*시가표준액(신모델의 경우 FORMNAME이 없을 수 있음)*/
+					ON REPLACE(B.FormName,' ','') = REPLACE(C.FormName,' ','')
+					AND REPLACE(REPLACE(A.NAME, ' ',''), '-', '') = REPLACE(REPLACE(B.NAME, ' ',''), '-', '') /*차명조건추가, 공백, 하이픈 제거 후 비교처리*/
+			WHERE 1=1
+			AND A.idx = #{idx}
+			ORDER BY C.Price DESC /*그럼에도 불구하고 동일한게 있을 때는 기준가격이 높은 건을 기준으로 잡는다*/
+			LIMIT 1
+    	]]>
+    </select>
+    
+    <!-- 자동차등록원부 갑지 목록 -->
+    <select id="selectCarInfoMaster" parameterType="map" resultType="map">
+    	/*selectCarInfoMaster 자동차등록원부 갑지 목록*/
+    	<include refid="setRnSt"/>
+    	<![CDATA[
+    		SELECT A.idx AS idx														/*ID*/
+					, A.RegistrationIndex AS RegistrationIndex						/*자동차등록원부ID*/
+					, A.MainNumber AS MainNumber									/*순위번호-주등록*/
+					, A.SubNumber AS SubNumber										/*순위번호-부기등록*/
+					, A.PersonalRegNumber AS PersonalRegNumber						/*주민(법인)등록번호*/
+					, A.RegistrationDate AS RegistrationDate						/*등록일*/
+					, A.ReceiptNumber AS ReceiptNumber								/*접수번호*/
+					, A.MainCheck AS MainCheck										/*항목코드*/
+					, A.DetailDescription AS DetailDescription						/*사항란*/
+					, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d') AS RegisterTime 		/*등록일*/
+			FROM TO_VEHICLE_REGISTRATION_MASTERDETAIL A
+			WHERE 1=1
+			AND RegistrationIndex = #{idx}
+    	]]>
+    	<include refid="setRnEd"/>
+    </select>
+    
+    <!-- 자동차등록원부 을지 목록 -->
+    <select id="selectCarInfoSlave" parameterType="map" resultType="map">
+    	/*selectCarInfoSlave 자동차등록원부 을지 목록*/
+    	<include refid="setRnSt"/>
+    	<![CDATA[
+    		SELECT A.idx AS idx														/*ID*/
+					, '저당' AS Type													/*구분*/		
+					, A.EbNo AS EbNo												/*을부번호*/		
+					, A.RegistrationIndex AS RegistrationIndex						/*자동차등록원부ID*/
+					, A.MortgageNumber AS MortgageNumber							/*저당권설정 접수번호*/
+					, A.MortgageName AS MortgageName								/*저당권자 성명(명칭)*/
+					, A.MortgageAddress AS MortgageAddress							/*저당권자 주소*/
+					, A.MortgagorName AS MortgagorName								/*저당권설정자 성명(명칭)*/
+					, A.MortgagorAddress AS MortgagorAddress						/*저당권설정자 주소*/
+					, A.DebtorName AS DebtorName									/*채무자 성명*/
+					, A.DebtorAddress AS DebtorAddress								/*채무자 주소*/
+					, A.BondAmount AS BondAmount									/*채권가액*/
+					, A.MortgageRegDate AS MortgageRegDate							/*저당권설정일*/
+					, A.MortgageCancelDate AS MortgageCancelDate					/*저당권말소일*/
+					, A.MortgageClose AS MortgageClose								/*폐쇄연월일*/
+					, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d') AS RegisterTime 		/*등록일*/
+					, (SELECT CorpPhone FROM TO_RAWDATA_FINANCIALINSTITUTION WHERE FinacName = A.MortgageName OR EditFinacName LIKE A.MortgageName) AS MortgagePhone /*저당권자 연락처*/
+			FROM TO_VEHICLE_REGISTRATION_SLAVEDETAIL A
+			WHERE 1=1
+			AND RegistrationIndex = #{idx}
+    	]]>
+    	<include refid="setRnEd"/>
+    </select>
+    
+    <!-- 차량시세조회 프로시저 호출 (사용안함)-->
+    <!-- <select id="callTOGetUsedCarRemainingPriceByKcar" statementType="CALLABLE" parameterType="map" resultType="map">
+    	{
+    		call TO_GetUsedCarRemainingPriceByKcar(
+				#{Name}								/*차명*/
+				,0									/* 금액(0으로 set) */
+				,#{SpecMgmtNumber}					/*제원관리번호*/
+				,#{ProductDate}						/*제작년월일*/
+				,#{CarType}							/*차종*/
+				,#{CarFrom}							/*차량형식*/
+				,#{CountryOrigin}					/*생산구분*/
+				,TO_GetFuelType(#{Fuel},1)				/*유종*/
+			)	
+    	}
+    </select> -->
+    
+    <!-- 차량시세조회 (프로시저 호출대신 to_be 차량감가율 테이블을 참조하여 계산하기로 협의.)-->
+    <select id="selectRemainingPrice" parameterType="map" resultType="map">
+		<![CDATA[    	
+	    	/* selectRemainingPrice 차량시세조회 */
+	    	SELECT B.ElapsedYear AS ElapsedYear 									/*연차*/
+					, #{Price} AS 'stndardPrice'									/*기준가격*/
+					, B.VehicleType AS 'VehicleType' 								/*차종*/
+					, B.CountryOrigin AS 'CountryOrigin' 							/*제조국*/
+					, B.RemainingPriceRate AS 'RemainingPriceRate' 					/*감가율*/
+					, C.ExtraRate AS 'ExtraRate' 									/*추가감가율*/
+					, TRUNCATE(B.RemainingPriceRate + C.ExtraRate, 3) AS 'depreciationRate' 				/*시세계산용감가율*/
+					, TRUNCATE(#{Price} * (B.RemainingPriceRate + C.ExtraRate), 0) AS 'marketLowPrice' 		/*시세계산용하한가*/
+					, #{Price} * B.RemainingPriceRate AS 'bondStndardPrice' 		/*채권계산용감가상각적용금액*/
+					, X.VehicleElapsedYear_Original AS VehicleElapsedYear_Original	/*경과년*/
+					, X.VehicleElapsedMonth AS VehicleElapsedMonth					/*경과월*/
+					, X.VehicleElapsedDay AS VehicleElapsedDay						/*경과일*/
+			FROM  TO_RAWDATA_VEHICLE_REMAININGRATE B
+				INNER JOIN TO_RAWDATA_VEHICLE_REMAININGRATE_EXTRA C
+					ON B.ElapsedYear = C.ElapsedYear
+					AND B.VehicleType = C.VehicleType
+					AND B.CountryOrigin = C.CountryOrigin
+			CROSS JOIN 
+			(SELECT TRUNCATE(TO_GetElapsedMonth(#{ProductDate})/12,0) AS VehicleElapsedYear_Original
+					,TRUNCATE(TO_GetElapsedMonth(#{ProductDate})/12,0)+1 AS ElapsedYear_Calc
+					, TO_GetElapsedMonth(#{ProductDate})%12 AS VehicleElapsedMonth
+					, DAY(FROM_UNIXTIME(UNIX_TIMESTAMP(DATE(NOW()))-UNIX_TIMESTAMP(DATE(#{ProductDate})),'%Y%m%d')) AS VehicleElapsedDay
+			) X
+			WHERE 1=1
+			AND B.Purpose = '비영업용'
+		]]>  
+		<choose>
+			<!-- 이전계산용. 차량제작년도 기준 21.01.22 이지선K -->
+			<when test='calcTransferCost != null and calcTransferCost.equals("Y")'>
+				AND B.ElapsedYear = DATE_FORMAT(NOW(), '%Y') - SUBSTR(#{ProductDate}, 1, 4)	/*연차*/
+			</when>
+			<!-- 차량상세 시세계산용. 경과년도 기준 21.04.22 이지선K -->
+			<otherwise>
+				AND B.ElapsedYear = X.VehicleElapsedYear_Original 	/*연차*/	
+			</otherwise>
+		</choose>
+		<![CDATA[
+			AND B.VehicleType = #{CarType}						/*차종*/
+			AND B.CountryOrigin = #{CountryOrigin}				/*생산구분*/
+			AND C.FuelType = TO_GetFuelType(#{Fuel},1)				/*유종*/
+		]]>
+    </select>
+    
+    
+    <!-- 차량시세 중간가/상한가 조회 -->
+    <select id="selectGetAddRatio" parameterType="map" resultType="map">
+    	/* selectGetAddRatio 차량시세 중간가/상한가 조회 */
+    	<choose>
+    		<!-- 차량시세 요건정의 변경 21.04.22 영업지원부  -->
+    		<when test="marketLowPrice != null">
+				SELECT ROUND(C.UpRate1) AS UpRate,ROUND(C.MdlRate1) AS MdlRate
+				FROM 
+				(
+					SELECT 
+					/*
+					(A.BASISNUM + (A.BASISNUM * (MdlRate/100)))+((A.BASISNUM+ (A.BASISNUM * (B.MdlRate/100))) * (B.UpRate/100)) AS UpRate1, A.BASISNUM + (A.BASISNUM * (B.MdlRate/100) 
+					) AS MdlRate1
+					*/
+					(A.BASISNUM) AS UpRate1, A.BASISNUM + (A.BASISNUM * (B.MdlRate/100) 
+					) AS MdlRate1
+					FROM 
+					(SELECT ROUND(#{marketLowPrice}/1000)*1000 BASISNUM) A,
+					TO_RAWDATA_VEHICLE_REMAININGRATE_ADDRATIO B
+				) C
+    		</when>
+    		<otherwise>
+    			SELECT UpRate AS UpRate 
+					, MdlRate AS MdlRate
+				FROM TO_RAWDATA_VEHICLE_REMAININGRATE_ADDRATIO
+    		</otherwise>
+    	</choose>
+    </select>
+     
+    <!-- 차량 감가적용율 목록 -->
+    <select id="selectOriRateListList" parameterType="map" resultType="map">
+    	/* selectOriRateListList 차량 감가적용율 목록 */
+    	SELECT A.idx AS idx														/*ID*/
+				, A.ElapsedYear AS ElapsedYear									/*연차*/
+				, A.Purpose AS Purpose											/*영업, 비영업 구분 컬럼*/
+				, A.VehicleType AS VehicleType									/*차종*/
+				, A.CountryOrigin AS CountryOrigin								/*제조국(국산,  외산, 통합)*/
+				, A.RemainingPriceRate AS RemainingPriceRate					/*잔존가액*/
+				, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d') AS RegisterTime		/*등록일*/
+		FROM TO_RAWDATA_VEHICLE_REMAININGRATE A
+		WHERE 1=1
+		AND Purpose = '비영업용'	/*개인용 소유권이전에 영업용차량 해당없음.  INSERT시 영업용 제외 */
+		ORDER BY A.VehicleType, A.CountryOrigin, A.ElapsedYear
+    </select>
+    
+    <!-- 차량 시세 추가적용율 목록 -->
+    <select id="selectAddRateList" parameterType="map" resultType="map">
+    	/* selectAddRateList 차량 시세 추가적용율 목록 */
+    	SELECT A.idx AS idx													/*ID*/
+				, A.ElapsedYear AS ElapsedYear								/*연차*/
+				, A.VehicleType AS VehicleType								/*[차종] 승용, 승합, 화물*/
+				, A.CountryOrigin AS CountryOrigin							/*[제조국] 국산,  외산, 통합*/
+				, A.FuelType AS FuelType									/*유종*/
+				, CASE 
+					WHEN A.FuelType = 1 THEN '휘발유'
+					WHEN A.FuelType = 2 THEN '경유'
+					WHEN A.FuelType = 3 THEN '엘피지'
+					WHEN A.FuelType = 4 THEN '하이브리드'
+					WHEN A.FuelType = 5 THEN '전기'
+					WHEN A.FuelType = 6 THEN '수소'
+					ELSE '해당없음' END AS FuelTypeTxt							/*유종명*/
+				, A.ExtraRate AS ExtraRate									/*차량 경감율 추가 경감비율 적용값*/
+				, A.AccidentReductionRate									
+				, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d') AS RegisterTime	/*등록일*/
+		FROM TO_RAWDATA_VEHICLE_REMAININGRATE_EXTRA A
+		ORDER BY A.VehicleType, A.CountryOrigin, A.FuelType, A.ElapsedYear
+    </select>
+    
+    <!-- 차량시세적용율(감가율+추가적용율) -->
+    <select id="selectTotalRateList" parameterType="map" resultType="map">
+    	/* selectTotalRateList 차량시세적용율(감가율+추가적용율) */
+    	SELECT A.idx AS idx														/*ID*/												
+				, A.ElapsedYear AS ElapsedYear									/*연차*/
+				, A.Purpose AS Purpose											/*영업, 비영업 구분 컬럼*/
+				, A.VehicleType AS VehicleType									/*차종*/
+				, A.CountryOrigin AS CountryOrigin								/*제조국(국산,  외산, 통합)*/
+				, A.RemainingPriceRate AS RemainingPriceRate					/*잔존가액*/				
+				, B.ExtraRate	
+				, IF(LENGTH(A.RemainingPriceRate + B.ExtraRate) > 6
+					, TRUNCATE(A.RemainingPriceRate + B.ExtraRate, 4)
+					, A.RemainingPriceRate + B.ExtraRate
+				) AS SumRate													/*차량시세적용율(감가율+추가율)*/			
+				, B.FuelType													/*유종*/
+				, CASE 
+					WHEN B.FuelType = 1 THEN '휘발유'
+					WHEN B.FuelType = 2 THEN '경유'
+					WHEN B.FuelType = 3 THEN '엘피지'
+					WHEN B.FuelType = 4 THEN '하이브리드'
+					WHEN B.FuelType = 5 THEN '전기'
+					WHEN B.FuelType = 6 THEN '수소'
+					ELSE '해당없음' END AS FuelTypeTxt								/*유종명*/
+				, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d') AS RegisterTime		/*등록일*/				
+		FROM TO_RAWDATA_VEHICLE_REMAININGRATE A
+			LEFT OUTER JOIN TO_RAWDATA_VEHICLE_REMAININGRATE_EXTRA B
+			ON A.ElapsedYear = B.ElapsedYear AND A.VehicleType = B.VehicleType AND A.CountryOrigin = B.CountryOrigin
+		WHERE 1=1
+		AND Purpose = '비영업용'	/*개인용 소유권이전에 영업용차량 해당없음.  INSERT시 영업용 제외 */
+		ORDER BY A.VehicleType, A.CountryOrigin, B.FuelType, A.ElapsedYear
+    </select>
+    
+    <!-- 차량 감가적용율 삭제 -->
+    <delete id="deleteOriRate" parameterType="map">
+    	/*deleteOriRate 차량 감가적용율 삭제*/
+    	DELETE FROM TO_RAWDATA_VEHICLE_REMAININGRATE
+    </delete>
+
+	<!-- 차량 시세 추가적용율 삭제 -->
+    <delete id="deleteAddRate" parameterType="map">
+    	/*deleteAddRate 차량 시세 추가적용율 삭제*/
+    	DELETE FROM TO_RAWDATA_VEHICLE_REMAININGRATE_EXTRA
+    </delete>
+    
+    <!-- 차량 감가적용율 저장 -->
+    <insert id="insertOriRate" parameterType="map">
+    	<![CDATA[
+	    	/*insertOriRate 차량 감가적용율 저장*/
+	    	INSERT INTO TO_RAWDATA_VEHICLE_REMAININGRATE (
+				ElapsedYear
+				, Purpose
+				, VehicleType
+				, CountryOrigin
+				, RemainingPriceRate)
+		    VALUES
+	    ]]>
+    	<foreach collection="vehicleRateList" item="item" separator=" , " >
+	    	(
+	    		#{item.ElapsedYear}
+		    	, #{item.Purpose}
+		    	, #{item.VehicleType}
+		    	, #{item.CountryOrigin}
+		    	, #{item.RemainingPriceRate}
+	    	)
+	    </foreach>
+    </insert>
+    
+    <!-- 차량 시세 추가적용율 저장 -->
+    <insert id="insertAddRate" parameterType="map">
+    	<![CDATA[
+	    	/*insertAddRate 차량 시세 추가적용율 저장*/
+	    	INSERT INTO TO_RAWDATA_VEHICLE_REMAININGRATE_EXTRA (
+				ElapsedYear
+				, VehicleType
+				, CountryOrigin
+				, FuelType
+				, ExtraRate
+				, AccidentReductionRate)
+		    VALUES
+	    ]]>
+    	<foreach collection="vehicleRateList" item="item" separator=" , " >
+	    	(
+	    		#{item.ElapsedYear}
+		    	, #{item.VehicleType}
+		    	, #{item.CountryOrigin}
+		    	, #{item.FuelType}
+		    	, #{item.ExtraRate}
+		    	, #{item.AccidentReductionRate}
+	    	)
+	    </foreach>
+    </insert>
+    
+    <!-- 차량 중간/상한가 비율 수정 -->
+    <update id="updateAddRatePercent" parameterType="map">
+    	/*updateAddRatePercent 차량 중간/상한가 비율 수정*/
+    	UPDATE TO_RAWDATA_VEHICLE_REMAININGRATE_ADDRATIO SET
+    		UpRate = #{UpRate}
+    		, MdlRate = #{MdlRate}
+    </update>
+    
+            
+    <!-- 2020.12.07 모바일 추가 -->
+    
+    <!-- 회원목록조회 -->
+    <select id="selectToUsersList" parameterType="map" resultType="com.carbang365.ToUserVO">
+    	/*selectToUsersList 회원목록조회*/
+    	SELECT A.idx AS idx                                                         /* 고객id */
+				, A.ID_Kakao AS idKakao				                                /* 카카오ID */
+				, A.ID_Naver AS idNaver                                             /* 네이버ID */
+				, A.ID_Facebook AS idFacebook                                       /* 페이스북ID */
+				, A.Password AS password                                            /* 자동로그인에 사용되는 임시 비밀번호 보관, 수동 로그인시 랜덤 생성된 비밀번호 재할당 */
+				, A.Email AS email                                                  /* 고객이메일 */
+				, A.Name AS name                                                    /* 고객명 */
+				, A.Sex AS sex                                                      /* [성별] 1 : 남성 / 2 : 여성 */
+				, A.BirthDate AS birthDate                                          /* 생년월일 */
+				, A.Mobile_Phone AS mobilePhone                                     /* 휴대폰번호 */
+				, A.Mobile_Carrier_Major AS mobileCarrierMajor                      /* [이동통신사] 1 : SKT / 2 : KT / 3 : LG / 4: 알뜰폰(추가) / 0 : 마이그레이션 사용자 중 통신사 정보가 없는 사용자 */ 
+				, A.Home_Address AS homeAddress                                     /* 집주소 */
+				, A.Home_Phone AS homePhone                                         /* 집전화번호 */
+				, A.Job_Name AS jobName                                             /* 직업명 */
+				, A.Job_Company AS jobCompany                                       /* 회사명 */
+				, A.Job_Address AS jobAddress                                       /* 회사주소 */
+				, A.Job_Phone AS jobPhone                                           /* 회사전화번호 */
+				, A.ProfileImage AS profileImage                                    /* 프로필이미지 */
+				, A.ProfileCertification AS profileCertification                    
+				, A.ProfileTemporaryCertification AS profileTemporaryCertification 
+				, A.FCMToken AS fCMToken                                            /* 푸쉬 알림 발송용 Firebase Token */
+				, A.DeviceID AS deviceID                                            /* 휴대폰ID(휴대폰UUID인지 확인..) */
+				, A.OsType AS osType                                                /* [OS 종류] 1 : 안드로이드 / 2 : iOS */
+				, A.Enabled AS enabled                                              /* [차단 사용자 설정] 0 : 로그인 차단 / 2 : 로그인 가능 */
+				, A.LoginTokenRefreshTime AS loginTokenRefreshTime                  /* 임시 로그인 비밀번호 사용가능 기간 (현재 미사용, 추후 상황에 따라 적용 예정) */
+				, A.LoginTime AS loginTime                                          /* [최종 로그인 시간] */
+				, A.LoginCount AS loginCount                                        /* [총 로그인 횟수] */
+				, A.SecretKey AS secretKey                                          /* 사용자 인증정보 암호화 키 (여기에 보안번호 들어가면 될듯) */
+				, DATE_FORMAT(A.UpdateTime, '%Y-%m-%d') AS updateTime      			/* 수정일시 */
+				, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d') AS registerTime           /* 등록일시 */
+				, A.CorRstrNumber AS corRstrNumber                                  /* 법인등록번호 */
+				, A.LeaveYn AS leaveYn                                              /* 적용유무(탈퇴여부)(Y:탈퇴) */
+				, DATE_FORMAT(A.LeaveTime, '%Y-%m-%d %H:%i:%s') AS leaveTime        /* 탈퇴일 */
+				, A.LeaveReqId AS leaveReqId			                            /* 탈퇴신청자 */
+				, A.joinType AS joinType                                            /* 가입구분(1:개인소유권이전, 2:카방) 추후 고객정보 통합관리를 위함. 현재는 app 가입시 다 1 */
+    	FROM TO_USERS A
+    	WHERE 1=1
+    <!-- 핸드폰번호 -->
+	<if test="searchTxt != null and searchTxt != ''">
+		AND A.Mobile_Phone LIKE CONCAT ('%', #{searchTxt},'%')
+	</if>
+	<!-- 회원명 -->
+	<if test="searchTxt2 != null and searchTxt2 != ''">
+		AND A.name LIKE CONCAT ('%', #{searchTxt2},'%') 
+	</if>
+    	ORDER BY registerTime DESC
+    </select>
+    
+    <!-- 회원상세조회 -->
+    <select id="selectToUsersDetail" parameterType="map" resultType="com.carbang365.ToUserVO">
+    	/*selectToUsersDetail 회원상세조회 _____1792*/
+    	SELECT A.idx AS idx                                                         /* 고객id */
+				, A.ID_Kakao AS idKakao				                                /* 카카오ID */
+				, A.ID_Naver AS idNaver                                             /* 네이버ID */
+				, A.ID_Facebook AS idFacebook                                       /* 페이스북ID */
+				, A.Password AS password                                            /* 자동로그인에 사용되는 임시 비밀번호 보관, 수동 로그인시 랜덤 생성된 비밀번호 재할당 */
+				, A.Email AS email                                                  /* 고객이메일 */
+				, A.Name AS name                                                    /* 고객명 */
+				, A.Sex AS sex                                                      /* [성별] 1 : 남성 / 2 : 여성 */
+				, A.BirthDate AS birthDate                                          /* 생년월일 */
+				, A.Mobile_Phone AS mobilePhone                                     /* 휴대폰번호 */
+				, A.Mobile_Carrier_Major AS mobileCarrierMajor                      /* [이동통신사] 1 : SKT / 2 : KT / 3 : LG / 4: 알뜰폰(추가) / 0 : 마이그레이션 사용자 중 통신사 정보가 없는 사용자 */ 
+				, A.Home_Address AS homeAddress                                     /* 집주소 */
+				, A.Home_Phone AS homePhone                                         /* 집전화번호 */
+				, A.Job_Name AS jobName                                             /* 직업명 */
+				, A.Job_Company AS jobCompany                                       /* 회사명 */
+				, A.Job_Address AS jobAddress                                       /* 회사주소 */
+				, A.Job_Phone AS jobPhone                                           /* 회사전화번호 */
+				, A.ProfileImage AS profileImage                                    /* 프로필이미지 */
+				, A.ProfileCertification AS profileCertification                    
+				, A.ProfileTemporaryCertification AS profileTemporaryCertification 
+				, A.FCMToken AS fCMToken                                            /* 푸쉬 알림 발송용 Firebase Token */
+				, A.DeviceID AS deviceID                                            /* 휴대폰ID(휴대폰UUID인지 확인..) */
+				, A.OsType AS osType                                                /* [OS 종류] 1 : 안드로이드 / 2 : iOS */
+				, A.Enabled AS enabled                                              /* [차단 사용자 설정] 0 : 로그인 차단 / 2 : 로그인 가능 */
+				, A.LoginTokenRefreshTime AS loginTokenRefreshTime                  /* 임시 로그인 비밀번호 사용가능 기간 (현재 미사용, 추후 상황에 따라 적용 예정) */
+				, A.LoginTime AS loginTime                                          /* [최종 로그인 시간] */
+				, A.LoginCount AS loginCount                                        /* [총 로그인 횟수] */
+				, A.SecretKey AS secretKey                                          /* 사용자 인증정보 암호화 키 (여기에 보안번호 들어가면 될듯) */
+				, DATE_FORMAT(A.UpdateTime, '%Y-%m-%d') AS updateTime      			/* 수정일시 */
+				, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d') AS registerTime           /* 등록일시 */
+				, A.CorRstrNumber AS corRstrNumber                                  /* 법인등록번호 */
+				, A.LeaveYn AS leaveYn                                              /* 적용유무(탈퇴여부)(Y:탈퇴) */
+				, DATE_FORMAT(A.LeaveTime, '%Y-%m-%d %H:%i:%s') AS leaveTime        /* 탈퇴일 */
+				, A.LeaveReqId AS leaveReqId			                            /* 탈퇴신청자 */
+				, A.joinType AS joinType                                            /* 가입구분(1:개인소유권이전, 2:카방) 추후 고객정보 통합관리를 위함. 현재는 app 가입시 다 1 */
+				, IF(A.leaveTime IS NULL, '신규', '기존') AS new_yn					/* 신규/기존 구분(관리자에서 사용) */
+				, A.LoginFailCount AS loginFailCount								/* 로그인실패회수 */ 
+    	FROM TO_USERS A
+    	WHERE 1=1  
+    	<!-- 모바일 사용자 조회 -->
+    	<if test="loginType != null and loginType != ''">
+    		<choose>
+    			<!-- 카카오 로그인 -->
+    			<when test='loginType.equals("1")'>
+    				AND ID_Kakao = #{id}
+    			</when>
+    			<!-- 네이버 로그인 --> 
+    			<when test='loginType.equals("2")'>
+    				AND ID_Naver = #{id}
+    			</when>
+    			<!-- 페이스북 로그인 -->
+    			<otherwise>
+    				AND ID_Facebook = #{id}
+    			</otherwise>	
+    		</choose>
+    	</if>
+    	<!-- 운영자 사용자조회 -->
+    	<if test="idx != null and idx != ''">
+    		AND idx = #{idx}
+    	</if>
+    </select>
+    
+    <!-- 회원상세조회 -->
+    <select id="selectToUsersDetailBySecretKey" parameterType="map" resultType="com.carbang365.ToUserVO">
+    	/*selectToUsersDetailBySecretKey 회원상세조회*/
+    	SELECT A.idx AS idx                                                         /* 고객id */
+				, A.ID_Kakao AS idKakao				                                /* 카카오ID */
+				, A.ID_Naver AS idNaver                                             /* 네이버ID */
+				, A.ID_Facebook AS idFacebook                                       /* 페이스북ID */
+				, A.Password AS password                                            /* 자동로그인에 사용되는 임시 비밀번호 보관, 수동 로그인시 랜덤 생성된 비밀번호 재할당 */
+				, A.Email AS email                                                  /* 고객이메일 */
+				, A.Name AS name                                                    /* 고객명 */
+				, A.Sex AS sex                                                      /* [성별] 1 : 남성 / 2 : 여성 */
+				, A.BirthDate AS birthDate                                          /* 생년월일 */
+				, A.Mobile_Phone AS mobilePhone                                     /* 휴대폰번호 */
+				, A.Mobile_Carrier_Major AS mobileCarrierMajor                      /* [이동통신사] 1 : SKT / 2 : KT / 3 : LG / 4: 알뜰폰(추가) / 0 : 마이그레이션 사용자 중 통신사 정보가 없는 사용자 */ 
+				, A.Home_Address AS homeAddress                                     /* 집주소 */
+				, A.Home_Phone AS homePhone                                         /* 집전화번호 */
+				, A.Job_Name AS jobName                                             /* 직업명 */
+				, A.Job_Company AS jobCompany                                       /* 회사명 */
+				, A.Job_Address AS jobAddress                                       /* 회사주소 */
+				, A.Job_Phone AS jobPhone                                           /* 회사전화번호 */
+				, A.ProfileImage AS profileImage                                    /* 프로필이미지 */
+				, A.ProfileCertification AS profileCertification                    
+				, A.ProfileTemporaryCertification AS profileTemporaryCertification 
+				, A.FCMToken AS fCMToken                                            /* 푸쉬 알림 발송용 Firebase Token */
+				, A.DeviceID AS deviceID                                            /* 휴대폰ID(휴대폰UUID인지 확인..) */
+				, A.OsType AS osType                                                /* [OS 종류] 1 : 안드로이드 / 2 : iOS */
+				, A.Enabled AS enabled                                              /* [차단 사용자 설정] 0 : 로그인 차단 / 2 : 로그인 가능 */
+				, A.LoginTokenRefreshTime AS loginTokenRefreshTime                  /* 임시 로그인 비밀번호 사용가능 기간 (현재 미사용, 추후 상황에 따라 적용 예정) */
+				, A.LoginTime AS loginTime                                          /* [최종 로그인 시간] */
+				, A.LoginCount AS loginCount                                        /* [총 로그인 횟수] */
+				, A.SecretKey AS secretKey                                          /* 사용자 인증정보 암호화 키 (여기에 보안번호 들어가면 될듯) */
+				, DATE_FORMAT(A.UpdateTime, '%Y-%m-%d') AS updateTime      			/* 수정일시 */
+				, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d') AS registerTime           /* 등록일시 */
+				, A.CorRstrNumber AS corRstrNumber                                  /* 법인등록번호 */
+				, A.LeaveYn AS leaveYn                                              /* 적용유무(탈퇴여부)(Y:탈퇴) */
+				, DATE_FORMAT(A.LeaveTime, '%Y-%m-%d') AS leaveTime               	/* 탈퇴일 */
+				, A.LeaveReqId AS leaveReqId			                            /* 탈퇴신청자 */
+				, A.joinType AS joinType                                            /* 가입구분(1:개인소유권이전, 2:카방) 추후 고객정보 통합관리를 위함. 현재는 app 가입시 다 1 */
+				, IF(A.leaveTime IS NULL, '신규', '기존')								/* 신규/기존 구분(관리자에서 사용) */
+				, A.LoginFailCount AS loginFailCount								/* 로그인실패회수 */
+    	FROM TO_USERS A
+    	WHERE 1=1
+    	<!-- 모바일 사용자 조회 -->
+    	<if test="loginType != null and loginType != ''">
+    		<choose>
+    			<!-- 카카오 로그인 -->
+    			<when test='loginType.equals("1")'>
+    				AND ID_Kakao = #{id}
+    			</when>
+    			<!-- 네이버 로그인 -->
+    			<when test='loginType.equals("2")'>
+    				AND ID_Naver = #{id}
+    			</when>
+    			<!-- 페이스북 로그인 -->
+    			<otherwise>
+    				AND ID_Facebook = #{id}
+    			</otherwise>	
+    		</choose>
+    	</if>
+    	<!-- 운영자 사용자조회 -->
+    	<if test="idx != null and idx != ''">
+    		AND idx = #{idx}
+    	</if>
+    	AND SecretKey = #{SecretKey}
+    </select>
+        
+    <!-- 회원탈퇴 -->
+    <update id="updateToUsersLeaveYn" parameterType="map">
+    	/* updateToUsersLeaveYn 회원탈퇴 */
+    	UPDATE TO_USERS SET 
+	    	<if test="leaveYn != null and leaveYn != ''">
+	    		leaveYn = #{leaveYn}
+	    		, LeaveTime = CURRENT_TIMESTAMP
+	    	</if>
+    		, LeaveReqId = #{SESS_USERID}
+    	WHERE idx = #{idx}
+    </update>
+    
+    <!-- 미가입 사용자 회원가입 -->
+    <insert id="insertToUsers" parameterType="map">
+    	/* insertToUsers 미가입 사용자 회원가입 */
+    	INSERT INTO TO_USERS(
+			ID_Kakao               /* 카카오ID */
+			, ID_Naver             /* 네이버ID */
+			, ID_Facebook          /* 페이스북ID */
+			, Password             /* 보안번호 */
+			, Email                /* 고객이메일 */
+			, Name                 /* 고객명 */
+			, Sex                  /* [성별] 1 : 남성 / 2 : 여성 */
+			, BirthDate            /* 생년월일 */
+			, Mobile_Phone         /* 휴대폰번호 */
+			, Mobile_Carrier_Major /* [이동통신사] 1 : SKT / 2 : KT / 3 : LG / 4: 알뜰폰(추가) / 0 : 마이그레이션 사용자 중 통신사 정보가 없는 사용자 */ 
+			, FCMToken             /* 푸쉬 알림 발송용 Firebase Token */
+			, DeviceID             /* 휴대폰ID */
+			, OsType               /* [OS 종류] 1:안드로이드 /2:iOS/ 3:web */
+			, LoginTime            /* [최종 로그인 시간] */
+			, SecretKey            /* 사용자 인증정보 암호화 키 */
+			, joinType             /* 가입구분(1:개인소유권이전, 2:카방) */
+    	) VALUES (
+    		#{ID_Kakao}
+			, #{ID_Naver}
+			, #{ID_Facebook}
+			, #{Password}
+			, #{Email}
+			, #{Name}
+			, #{Sex}
+			, #{BirthDate}
+			, #{Mobile_Phone}
+			, #{Mobile_Carrier_Major} 
+			, #{FCMToken}
+			, #{DeviceID}
+			, #{OsType}
+			, CURRENT_TIMESTAMP
+			, #{SecretKey}
+			, '1'
+    	)
+    </insert>
+    <!-- 탈퇴 사용자 회원가입 -->
+    <update id="updateToUsers" parameterType="map">
+    	/*updateToUsers 탈퇴 사용자 회원가입*/
+    	UPDATE TO_USERS SET
+    		Password = #{Password}								/* 비밀번호 */
+    		, SecretKey = #{Password}						    /* 보안번호 */
+	    	, Email = #{Email}									/* 고객이메일 */
+	    	, Mobile_Phone = #{Mobile_Phone}					/* 휴대폰번호 */
+	    	, Mobile_Carrier_Major = #{Mobile_Carrier_Major}	/* [이동통신사] 1 : SKT / 2 : KT / 3 : LG / 4: 알뜰폰(추가) / 0 : 마이그레이션 사용자 중 통신사 정보가 없는 사용자 */
+	    	, FCMToken = #{FCMToken}							/* 푸쉬 알림 발송용 Firebase Token */
+	    	, DeviceID = #{DeviceID}							/* [OS 종류] 1:안드로이드 /2:iOS/ 3:web */
+	    	, LeaveYn	= 'N'									/* 적용유무(탈퇴여부)(Y:탈퇴) */
+	    	, UpdateTime = CURRENT_TIMESTAMP					/* 수정일(탈퇴후재가입시사용) */
+    	WHERE 1=1
+    	<!-- 모바일 사용자 조회 -->
+    	<if test="loginType != null and loginType != ''">
+    		<choose>
+    			<!-- 카카오 로그인 -->
+    			<when test='loginType.equals("1")'>
+    				AND ID_Kakao = #{id}
+    			</when>
+    			<!-- 네이버 로그인 -->
+    			<when test='loginType.equals("2")'>
+    				AND ID_Naver = #{id}
+    			</when>
+    			<!-- 페이스북 로그인 -->
+    			<otherwise>
+    				AND ID_Facebook = #{id}
+    			</otherwise>	
+    		</choose>
+    	</if>
+    	<!-- 운영자 사용자조회 -->
+    	<if test="idx != null and idx != ''">
+    		AND idx = #{idx}
+    	</if>  
+    </update>
+    
+    <!-- 약관조회 -->
+    <select id="selectTermsList" parameterType="map" resultType="map">
+    	/*selectTermsList 약관조회*/
+    	SELECT A.idx AS idx
+			, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d') AS RegisterTime
+			, DATE_FORMAT(A.UpdateTime, '%Y-%m-%d') AS UpdateTime
+			, DATE_FORMAT(A.EnableTime, '%Y-%m-%d') AS EnableTime
+			, A.Enable
+			, A.TermsTitle
+			, A.TermsContents
+			, A.TermsUpCd
+		FROM TO_TERMS A
+		WHERE 1=1
+		AND Enable = 1
+    </select>
+    
+    <!-- 소유권이전 상태값 update -->
+    <update id="updateToTransferOwnerStage" parameterType="map">
+    	/*updateToTransferOwnerStage 소유권이전 상태값 update*/
+    	<![CDATA[
+	    	UPDATE TO_TRANSFEROWNER SET 
+	    		Stage = #{Stage}
+	    		, StageTime = CURRENT_TIMESTAMP
+    	]]>
+    	<if test="Stage.equals('26')  or Stage.equals('126')  or Stage.equals('226') ">
+    		, CancelTime = CURRENT_TIMESTAMP
+    	</if>
+    	<if test="updateTsDtYn != null and updateTsDtYn != ''">
+    		, TsRegisterTime = CURRENT_TIMESTAMP
+    		, ContractImage = #{ContractImage}
+    	</if>
+    	<if test="compYn != null and compYn != ''">
+    		, ResultCode = #{ResultCode}
+    		, ApprovedTime = CURRENT_TIMESTAMP
+    	</if>
+    	<![CDATA[
+	    	WHERE idx = #{idx}
+    	]]>
+    </update>
+    <update id="updateToTransferOwnerCVPL_REQST_NO" parameterType="map">
+    	/*updateToTransferOwnerCVPL_REQST_NO 민원신청번호 update*/
+    	<![CDATA[
+	    	UPDATE TO_TRANSFEROWNER SET 
+	    		CVPL_REQST_NO = #{CVPL_REQST_NO}
+    	]]>
+    	<![CDATA[
+	    	WHERE idx = #{idx}
+    	]]>
+    </update>
+	<!-- 소유권이전 판매자정보 insert -->  
+	<insert id="insertToTransferOwnerSeller" parameterType="map" useGeneratedKeys="true" keyProperty="idx">
+		/*insertToTransferOwnerSeller 소유권이전 판매자정보 insert*/
+		INSERT INTO TO_TRANSFEROWNER_SELLER (
+			TransferOwnerIndex			/* 소유권이전 ID */
+			, Name						/* 판매자명 */
+			, SocialNumber_First		/* 주민번호 앞자리 */
+			, SocialNumber_Second		/* 주민번호 뒷자리 */
+			, PhoneNumber				/* 전화번호 */
+			, Address_Base				/* 주소 */
+			, Address_Detail			/* 상세주소 */
+			, Address_ZipCode			/* 우편번호 */
+			, Loan_BankCode				/* 대출은행코드(현버전 사용안함) */
+			, Loan_BankName				/* 대출 은행명(현버전 사용안함) */
+			, Loan_BankNumber			/* 대출계좌번호(현버전 사용안함) */
+			, Loan_BankOwner			/* 대출 계좌주(현버전 사용안함) */
+			, CertificationState 		/* 카카오페이 인증상태 */
+			, CertificationId			/* 카카오페이 인증 접수번호 */
+			, CertificationReqTime		/* 인증요청일 */
+		) VALUES (
+			#{TransferOwnerIndex}
+			, #{sellerName}
+			, #{sellerSocialNumber_First}
+			, #{enc_sellerSocialNumber_Second}
+			, #{sellerPhoneNumber}
+			, #{sellerAddress_Base}
+			, #{sellerAddress_Detail}
+			, #{sAddress_ZipCode}
+			, ''
+			, ''
+			, ''
+			, ''
+			, 2
+			, ''
+			, CURRENT_TIMESTAMP
+		)
+	</insert>
+
+	<!-- 소유권이전 구매자정보 insert -->
+	<insert id="insertToTransferOwnerBuyer" parameterType="map" useGeneratedKeys="true" keyProperty="idx">
+		/*insertToTransferOwnerBuyer 소유권이전 구매자정보 insert*/
+		INSERT INTO TO_TRANSFEROWNER_BUYER (
+			TransferOwnerIndex			/* 소유권이전 ID */
+			, Name						/* 판매자명 */
+			, SocialNumber_First		/* 주민번호 앞자리 */
+			, SocialNumber_Second		/* 주민번호 뒷자리 */
+			, PhoneNumber				/* 전화번호 */
+			, Address_Base				/* 주소 */
+			, Address_Detail			/* 상세주소 */
+			, Address_ZipCode			/* 우편번호 */
+			, CertificationState 		/* 카카오페이 인증상태 */
+			, CertificationId			/* 카카오페이 인증 접수번호 */
+			, CertificationReqTime		/* 인증요청일 */
+		) VALUES (
+			#{TransferOwnerIndex}
+			, #{buyerName}
+			, #{buyerSocialNumber_First}
+			, #{enc_buyerSocialNumber_Second} 
+			, #{buyerPhoneNumber}
+			, #{buyerAddress_Base}
+			, #{buyerAddress_Detail}
+			, #{bAddress_ZipCode}
+			, 2
+			, ''
+			, CURRENT_TIMESTAMP
+		)
+	</insert>
+	
+	<!-- 소유권이전 판매자 인증정보 update -->
+	<update id="updateToTransferOwnerSeller" parameterType="map">
+		/* updateToTransferOwnerSeller 소유권이전 판매자 인증정보 update */
+		<![CDATA[
+			UPDATE TO_TRANSFEROWNER_SELLER SET
+		]]>
+		<choose>
+			<when test='updateType.equals("1")'>
+				CertificationState = #{CertificationState} 		/* 인증상태 */
+				, CertificationId = #{CertificationId}			/* 카카오페이인증요청접수번호 */
+			WHERE idx = #{sellerIdx}
+			</when>
+			<otherwise>
+				CertificationState = #{CertificationState} 		/* 인증상태 */
+				, CertificationData = #{CertificationData}		/* 전자서명데이터 */
+				, CertificationApproveTime = CURRENT_TIMESTAMP	/* 인증완료일 */
+			WHERE CertificationId = #{CertificationId}
+			</otherwise>
+		</choose>
+	</update>
+
+	<!-- 소유권이전 구매자 인증정보 update -->
+	<update id="updateToTransferOwnerBuyer" parameterType="map">
+		/* updateToTransferOwnerBuyer 소유권이전 구매자 인증정보 update */
+		<![CDATA[
+			UPDATE TO_TRANSFEROWNER_BUYER SET
+		]]>
+		<choose>
+			<when test='updateType.equals("1")'>
+				CertificationState = #{CertificationState} 		/* 인증상태 */
+				, CertificationId = #{CertificationId}			/* 카카오페이인증요청접수번호 */
+			WHERE idx = #{buyerIdx}
+			</when>
+			<otherwise>
+				CertificationState = #{CertificationState} 		/* 인증상태 */
+				, CertificationData = #{CertificationData}		/* 전자서명데이터 */
+				, CertificationApproveTime = CURRENT_TIMESTAMP	/* 인증완료일 */
+			WHERE CertificationId = #{CertificationId}
+			</otherwise>
+		</choose>
+	</update>
+	
+
+	<!-- TS확정비용 insert -->
+	<insert id="insertTransferCostTs" parameterType="map">
+		/*insertTransferCostTs TS확정비용 insert*/
+		INSERT INTO TO_TRANSFEROWNER_COST_TS(
+			cvplReqstNo              /* 민원신청접수번호(공단pk) */
+			, TransferOwnerIndex     /* 소유권이전 idx */
+			, reqstRceptNo           /* 신청접수번호(20자리) */
+			, cntcInsttCode          /* 연계기관코드 */
+			, bizrno                 /* 사업자등록번호 */
+			, ntpbndDscntAmount      /* 공채(할인) */
+			, acqstxAmount           /* 취득세 */
+			, revenueStmptaxAmount   /* 수입증지금액 */
+			, elctrnPayFeeAmount     /* 전자납부수수료 */
+			, totRgfeAmount          /* 총등록비금액 (공채(할인) + 취득세 + 수입증지금액 + 전자납부수수료) */
+			, ntpbndPrcsAmount       /* 공채(매입) */
+			, ACCO_NAME
+			, BNK_CODE
+			, ACCO_NO
+		) VALUES (
+			#{cvplReqstNo}
+			, #{TransferOwnerIdx}
+			, #{reqstRceptNo}
+			, #{cntcInsttCode}
+			, #{bizrno}
+			, #{ntpbndDscntAmount}
+			, #{acqstxAmount}
+			, #{revenueStmptaxAmount}
+			, #{elctrnPayFeeAmount}
+			, #{totRgfeAmount}
+			, #{ntpbndPrcsAmount}
+			, #{ACCO_NAME}
+			, #{BNK_CODE}
+			, #{ACCO_NO}
+		)
+	</insert>
+	
+	<!-- 소유권이전 insert -->
+	<insert id="insertToTransferOwner" parameterType="map" useGeneratedKeys="true" keyProperty="idx">
+		/* insertToTransferOwner 소유권이전 insert */
+		INSERT INTO TO_TRANSFEROWNER (
+			UserIndex					
+			, Request_VehicleNumber		
+			, Request_OwnerName			
+			, Request_DrivingDistance	
+			, RegistrationIndex			
+			, TransferDistrict			
+			, PurchasePrice				
+			, UserName					
+			, SerialNumber				
+			, Request_Type				
+			, TransferType				
+			, PaymentType				
+			, ContractImage				
+			, Stage						
+			, RequestApproval			 
+			, ResultCode				
+			, TransferForm				
+			, ProductType				
+			, PassYn					
+			, ErrCode					
+			, InsurSstate				
+			, ExpireTime
+			, TsRegisterTime			
+		)VALUES(
+			#{UserIndex}                        /* 신청자고유번호(TO_USERS테이블 IDX) */                                                                            
+			, #{Request_VehicleNumber}          /* 요청시점의 차량번호 */                                                                                          
+			, #{Request_OwnerName}              /* 요청 시점의 소유자 이름 */                                                                                       
+			, #{Request_DrivingDistance}        /* 요청시점의 주행거리 */                                                                                          
+			, #{RegistrationIndex}              /* 자동차등록원부 색인번호 - 소유권 이전에 따라 차량 정보가 요청 시점과 다를수 있음 */                                                      
+			, #{TransferDistrict}               /* 소유권 이전지역 */                                                                                            
+			, #{PurchasePrice}                  /* 매매금액 (부가세 포함) */                                                                                       
+			, #{UserName}                       /* 신청자명(로그인사용자명) */                                                                                       
+			, TO_GetSerialNumber()                 /* 공유 고유키 (TO_GetSerialNumber 펑션을 호출하여 만들어지는 unique한값) */                                                    
+			, '1'                               /* 소유권이전 요청자 형식 1 : 양수인 시작 / 2 : 양도인 시작 (1고정. 본인명의로 결제) */                                                
+			, '1'                               /* [소유권이전 형식] 1 : 매매 / 2 : 증여 / 3 : 상속 / 4 : 기타 (1고정) */                                                  
+			, '1'                               /* 소유권이전 비용 지불 방식 - 1 : 계좌이체 / 2 : 카드결제 (1고정) */                                                          
+			, ''                                /* 양도증명서 파일명 (우선 공백. 이전신청 전문발송 시점에 UPDATE) */                                                             
+			, #{Stage}                          /* 진행상태 (소유권이전 각 상태값 상세 참조) */                                                                            
+			, 0                                /* 교통안전공단(TS) 소유권 이전 요청 상태 기록(기본값0, 인증시간 만료 시 1로 업데이트) - 요청 전이므로 공백. 이전신청 전문 발송 시점에 UPDATE */             
+			, ''                                /* 소유권 이전 신청 결과값(TS이전등록결과전문 응답값 TS전문확정 후 응답코드값 정리 - 공백. 이전신청 전문 발송 시점에 UPDATE */                          
+			, '01'                                /* 거래형태. TS정보확인/이전등록요청 전문호출 후 응답값으로 오는 거래형태 - 공백. 이전신청 전문 발송 시점에 UPDATE */                                
+			, '1'                               /* 상품타입 (1:이전등록) */                                                                                       
+			, ''                                /* 정보확인정상여부(Y:정상, N:오류) (default: Y)- 공백. 이전신청 전문 발송 시점에 UPDATE */                                        
+			, ''                                /* 정보확인 오류코드- 공백. 이전신청 전문 발송 시점에 UPDATE */                                                                
+			, #{InsurSstate}                    /* 보험가입여부(1:가입, 2:미가입, 3:해당없음(등록 전 시점에 오류 등) */                                                           
+			, #{ExpireTime}                    /* 인증남은시간 */   
+			, CURRENT_TIMESTAMP                    /* TS이전신청일 */                                                          
+		)
+	</insert>
+	
+	<!-- 취득세율 및 감면금액 조회 -->
+	<select id="selectAcquistionPrice" parameterType="map" resultType="map">
+		/*selectAcquistionPrice 취득세율 및 감면금액 조회*/
+		SELECT A.idx AS idx												/*ID*/
+				, A.VehicleType AS VehicleType							/*차량형식(승용/승합/화물)*/
+				, A.Class AS Class										/*차종분류(1: 경형, 2: 소/중/대형)*/
+				, A.Fuel AS Fuel										/*연료종류*/
+				, A.Order AS ViewOrder									/*노출순서*/
+				, CASE 
+					WHEN A.Fuel = '1' THEN '휘발유'
+					WHEN A.Fuel = '2' THEN '경유'
+					WHEN A.Fuel = '3' THEN '가스'
+					WHEN A.Fuel = '4' THEN '하이브리드'
+					WHEN A.Fuel = '5' THEN '전기'
+					WHEN A.Fuel = '6' THEN '수소'
+					ELSE '' END AS FuelTxt								/*유종명*/
+				, A.Year AS Year										/*적용연도*/
+				, A.Acquisition_taxRate AS Acquisition_taxRate 			/*취득세율*/
+				, B.ReductionPrice AS ReductionPrice1 					/*기본감면금액*/
+				, B.LimitDate AS LimitDate1 							/*기본감면금액적용기한*/
+				, C.ReductionPrice AS ReductionPrice2 					/*친환경감면금액*/
+				, C.LimitDate AS LimitDate2 							/*친환경감면금액적용기한*/
+		FROM TO_ACQUISTION_TAX_RATE A
+			INNER JOIN TO_ACQUISTION_REDUCTION_PRICE B
+				ON A.VehicleType = B.VehicleType
+				AND A.Class = B.Class
+				AND A.Fuel = B.Fuel
+				AND A.YEAR = B.Year
+				AND B.ReductionType = '1' 								/*기본감면*/
+			INNER JOIN TO_ACQUISTION_REDUCTION_PRICE C
+				ON A.VehicleType = C.VehicleType
+				AND A.Class = C.Class
+				AND A.Fuel = C.Fuel
+				AND A.YEAR = C.Year
+				AND C.ReductionType = '2' 								/*친환경감면*/	
+		WHERE 1=1
+		AND A.Year = #{Year}
+		ORDER BY A.VehicleType, A.Class, A.Order
+	</select>
+	
+	<!-- 취득세율 삭제 -->
+	<delete id="deleteAcquistionTax" parameterType="map">
+		/*deleteAcquistionTax 취득세율 삭제*/
+		DELETE FROM TO_ACQUISTION_TAX_RATE
+		WHERE Year = #{Year}
+	</delete>
+	
+	<!-- 감면금액 삭제 -->
+	<delete id="deleteAcquistionReducePrice" parameterType="map">
+		/*deleteAcquistionReducePrice 감면금액 삭제*/
+		DELETE FROM TO_ACQUISTION_REDUCTION_PRICE
+		WHERE Year = #{Year}
+	</delete>
+	
+	<!-- 취득세율 저장 -->
+	<insert id="insertAcquistionTax" parameterType="map">
+		/*insertAcquistionTax 취득세율 저장*/
+		<![CDATA[
+		INSERT INTO TO_ACQUISTION_TAX_RATE (
+			`VehicleType`
+			, `Class`
+			, `Fuel`
+			, `Year`
+			, `Acquisition_taxRate`
+			, `Order`) 
+		VALUES
+	    ]]>
+	    <foreach collection="acquistionPriceList" item="item" separator=" , " >
+	    	(
+	    		#{item.VehicleType}
+		    	, #{item.Class}
+		    	, #{item.Fuel}
+		    	, #{item.Year}
+		    	, #{item.Acquisition_taxRate}
+		    	, #{item.ViewOrder}
+	    	)
+	    </foreach>
+	</insert>
+
+	<!-- 기본감면금액 저장 -->
+	<insert id="insertAcquistionReducePrice" parameterType="map">
+		/*insertAcquistionReducePrice 기본감면금액 저장*/
+		<![CDATA[
+		INSERT INTO TO_ACQUISTION_REDUCTION_PRICE (
+			VehicleType
+			, `Class`
+			, `Fuel`
+			, `Year`
+			, `ReductionPrice`
+			, `ReductionType`
+			, `Order`
+			, `LimitDate`) 
+		VALUES
+	    ]]>
+	    <foreach collection="acquistionPriceList" item="item" separator=" , " >
+	    	(
+	    		#{item.VehicleType}
+		    	, #{item.Class}
+		    	, #{item.Fuel}
+		    	, #{item.Year}
+		    	, #{item.ReductionPrice1}
+		    	, '1'
+		    	, #{item.ViewOrder}
+		    	, #{item.LimitDate1}
+	    	)
+	    </foreach>
+	</insert>
+
+	<!-- 친환경감면금액 저장 -->
+	<insert id="insertAcquistionReducePriceEco" parameterType="map">
+		/*insertAcquistionReducePriceEco 친환경감면금액 저장*/
+		<![CDATA[
+		INSERT INTO TO_ACQUISTION_REDUCTION_PRICE (
+			VehicleType
+			, `Class`
+			, `Fuel`
+			, `Year`
+			, `ReductionPrice`
+			, `ReductionType`
+			, `Order`
+			, `LimitDate`) 
+		VALUES
+	    ]]>
+	    <foreach collection="acquistionPriceList" item="item" separator=" , " >
+	    	(
+	    		#{item.VehicleType}
+		    	, #{item.Class}
+		    	, #{item.Fuel}
+		    	, #{item.Year}
+		    	, #{item.ReductionPrice2}
+		    	, '2'
+		    	, #{item.ViewOrder}
+		    	, #{item.LimitDate2}
+	    	)
+	    </foreach>
+	</insert>
+	
+	<!-- 은행목록조회 -->
+	<select id="selectBankList" parameterType="map" resultType="map">
+		<![CDATA[
+			/*selectBankList 은행목록조회*/
+			SELECT A.Bank_Name AS Bank_Name, A.Bank_Cd AS Bank_Cd
+			FROM TO_BANK_MNG A
+			WHERE 1=1
+		]]>
+		<if test="searchTxt != null and searchTxt != ''">
+			AND A.Bank_Name LIKE CONCAT ('%', #{searchTxt},'%') 
+		</if>
+		ORDER BY Bank_Name
+	</select>
+	
+	<!-- 비용관리 조회 -->
+	<select id="selectToTransferCostMng" resultType="map">
+		/*selectToTransferCostMng 비용관리 조회*/
+		SELECT A.idx AS idx																/*id*/
+				, A.District_Major AS District_Major									/*지역*/
+				, A.`Order` AS ViewOrder												/*노출순서*/
+				, A.Bank_Cd AS Bank_Cd													/*금융기관은행코드*/
+				, (SELECT X.Bank_Name FROM TO_BANK_MNG X WHERE X.Bank_Cd = A.Bank_Cd) AS Bank_Nm	/*금융기관은행명*/
+				, A.Bank_IncomeRate AS Bank_IncomeRate									/*은행이율*/
+				, A.Bank_IncomeTax AS Bank_IncomeTax									/*소득세*/
+				, A.Bank_LocalTax AS Bank_LocalTax										/*지방소득세*/
+				, A.Bank_AgencyFee AS Bank_AgencyFee									/*증권/은행 대행수수료*/
+				, A.PurchaseBond_CarBang AS PurchaseBond_CarBang						/*채권구매대행율*/
+				, A.Office_StampPrice AS Office_StampPrice								/*인지대*/
+				, A.Office_RegistrationFee AS Office_RegistrationFee					/*등록수수료*/
+				, A.Revenue_StampPrice AS Revenue_StampPrice							/*수입인지*/
+				, A.Carbang_RegistrationFee AS Carbang_RegistrationFee					/*카방대행수수료*/
+				, A.Carbang_EtcFee AS Carbang_EtcFee									/*카방기타비용*/
+				, A.Carbang_BankCd AS Carbang_BankCd									/*카방계좌은행코드(관리는 하지만 실사용하지 않음. ksnet 계약 시 등록한 모계좌로 정산)*/
+				, (SELECT X.Bank_Name FROM TO_BANK_MNG X WHERE X.Bank_Cd = A.Carbang_BankCd) AS Carbang_BankNm	/*카방은행명*/
+				, A.Carbang_BankNumber AS Carbang_BankNumber							/*카방계좌번호*/
+				, A.Carbang_BankOwner AS Carbang_BankOwner								/*카방계좌예금주*/
+				, A.Cutoff_Type AS Cutoff_Type											/*절사구분 (1: 5,000원미만 절사/2: 10,000원 미만 절사/3: 최저매입금액 5천원(2,500원 미만 0원적용[0-2499], 5,000원 적용[2500-7499], 10,000원적용[7500-9999])*/	
+		FROM TO_TRANSFEROWNER_COST_MNG A
+		ORDER BY A.`Order`
+	</select>
+	
+	<!-- 비용관리 삭제 -->
+	<delete id="deleteToTransferCostMng">
+		/*deleteToTransferCostMng 비용관리 삭제*/
+		DELETE FROM TO_TRANSFEROWNER_COST_MNG
+	</delete>
+	
+	<!-- 비용관리 저장 -->
+	<insert id="insertToTransferCostMng" parameterType="map">
+		/*insertToTransferCostMng 비용관리 저장*/
+		<![CDATA[
+		INSERT INTO TO_TRANSFEROWNER_COST_MNG (
+			`District_Major`
+			, `Order`
+			, `Bank_Cd`
+			, `Bank_IncomeRate`
+			, `Bank_IncomeTax`
+			, `Bank_LocalTax`
+			, `Bank_AgencyFee`
+			, `PurchaseBond_CarBang`
+			, `Office_StampPrice`
+			, `Office_RegistrationFee`
+			, `Revenue_StampPrice`
+			, `Carbang_RegistrationFee`
+			, `Carbang_EtcFee`
+			, `Carbang_BankCd`
+			, `Carbang_BankNumber`
+			, `Carbang_BankOwner`
+			, `Cutoff_Type`)   
+		VALUES
+	    ]]>
+	    <foreach collection="costMngList" item="item" separator=" , " >
+	    	(
+	    		#{item.District_Major}
+				, #{item.ViewOrder}
+				, #{item.Bank_Cd}
+				, #{item.Bank_IncomeRate}
+				, #{item.Bank_IncomeTax}
+				, #{item.Bank_LocalTax}
+				, #{item.Bank_AgencyFee}
+				, #{item.PurchaseBond_CarBang}
+				, #{item.Office_StampPrice}
+				, #{item.Office_RegistrationFee}
+				, #{item.Revenue_StampPrice}
+				, #{item.Carbang_RegistrationFee}
+				, #{item.Carbang_EtcFee}
+				, #{item.Carbang_BankCd}
+				, #{item.Carbang_BankNumber}
+				, #{item.Carbang_BankOwner}
+				, #{item.Cutoff_Type}
+	    	)
+	    </foreach>
+	</insert>
+	
+	<!-- 이전비용계산 시작 -->
+	
+	<!-- 지역에 따른 채권계산방법 구분조회 -->
+	<select id="selectToBondBasisValueType" parameterType="map" resultType="string">
+		/*selectToBondBasisValueType 지역에 따른 채권계산방법 구분조회*/
+		SELECT ValueType AS calcValueType
+		FROM TO_RAWDATA_BOND_BASISVALUETYPE
+		WHERE District_Major LIKE CONCAT ('%', #{District_Major},'%') 
+		AND VehicleType = #{VehicleType}
+	</select> 
+	
+	<!-- 이전비용계산 수수료 조회 -->
+	<select id="selectToTransferCostPrice" parameterType="map" resultType="map">
+		/*selectToTransferCostPrice 이전비용계산 수수료 조회 */
+		SELECT A.Cutoff_Type AS Cutoff_Type								/*절사구분 (1: 5,000원미만 절사/2: 10,000원 미만 절사/3: 최저매입금액 5천원(2,500원 미만 0원적용[0-2499], 5,000원 적용[2500-7499], 10,000원적용[7500-9999])*/
+				, A.Bank_AgencyFee AS Bank_AgencyFee					/*증권/은행 대행수수료*/
+				, A.PurchaseBond_CarBang AS PurchaseBond_CarBang		/*카방 채권구매 대행율*/
+				, A.Bank_IncomeRate	AS Bank_IncomeRate					/*은행이율*/
+				, A.Office_StampPrice AS Office_StampPrice				/*인지대*/
+				, A.Revenue_StampPrice AS Revenue_StampPrice			/*수입인지*/
+				, A.Office_RegistrationFee AS Office_RegistrationFee	/*등록수수료*/
+				, A.Carbang_RegistrationFee AS Carbang_RegistrationFee	/*카방대행수수료*/
+				, A.Bank_IncomeTax AS Bank_IncomeTax					/*소득세선금이자*/
+				, A.Bank_LocalTax AS Bank_LocalTax						/*은행지방소득세*/
+				, (SELECT X.Bank_Name FROM TO_BANK_MNG X WHERE X.Bank_Cd = A.Bank_Cd) AS Bank_Nm	/*금융기관은행명*/
+				, (DAYOFMONTH(DATE_SUB(DATE_FORMAT(DATE_ADD(NOW(),INTERVAL 1 MONTH),'%Y-%m-01'),INTERVAL 1 DAY))-DAYOFMONTH(NOW())) AS LeftDayOfMonth	/*현재월 남은일수*/
+		FROM TO_TRANSFEROWNER_COST_MNG A
+	    WHERE District_Major LIKE CONCAT ('%', #{District_Major},'%')
+	</select>
+	
+	<!-- 현재시간에 따라 추가율 적용/미적용 된 일별 채권단가 조회 -->
+	<select id="selectToUpriceByTime" parameterType="map" resultType="map">
+		/*selectToUpriceByTime 추가적용 포함 채권단가 조회*/
+		<![CDATA[
+		SELECT BondPrice_Basis AS BondPrice_Basis																						/*채권기준단가*/
+			, CASE 
+				WHEN #{ditrictMajorCd} = 1 AND B.TIME > DATE_FORMAT(NOW(), '%H%i') THEN A.A_BondPrice_Basis 							/*서울도시철도채권 원금액*/
+				WHEN #{ditrictMajorCd} = 2 AND B.TIME > DATE_FORMAT(NOW(), '%H%i') THEN A.B_BondPrice_Basis 							/*지방도시철도채권 원금액*/
+				WHEN #{ditrictMajorCd} = 3 AND B.TIME > DATE_FORMAT(NOW(), '%H%i') THEN A.C_BondPrice_Basis 							/*지역개발채권 원금액*/
+				WHEN #{ditrictMajorCd} = 1 AND B.TIME <= DATE_FORMAT(NOW(), '%H%i') THEN A.A_BondPrice_Basis - B.A_BondAddPrice_Basis 	/*서울도시철도채권 추가금액*/
+				WHEN #{ditrictMajorCd} = 2 AND B.TIME <= DATE_FORMAT(NOW(), '%H%i') THEN A.B_BondPrice_Basis - B.B_BondAddPrice_Basis 	/*지방도시철도채권 추가액*/
+				WHEN #{ditrictMajorCd} = 3 AND B.TIME <= DATE_FORMAT(NOW(), '%H%i') THEN A.C_BondPrice_Basis - B.C_BondAddPrice_Basis 	/*지역개발채권 추가금액*/
+				ELSE 0 END AS BondPrice_Today		
+			, IF(B.TIME > DATE_FORMAT(NOW(), '%H%i'), 'N', 'Y') AS AddPriceYn															/*추가적용여부*/
+	    FROM TO_TRANSFERBOND_UPRICE A
+	    	INNER JOIN TO_TRANSFERBOND_ADD_UPRICE B
+	    		ON A.Today = B.Today
+		WHERE 1=1
+		AND A.Today = DATE_FORMAT(CURRENT_DATE(), '%Y%m%d')
+		]]>
+ 	</select>
+ 	
+ 	<!-- 지역별 채권율 계산 타입/적용값조회(금액/율) -->
+ 	<select id="selectBondPurchaseTypeValue" parameterType="map" resultType="map">
+ 		/*selectBondPurchaseTypeValue 지역별 채권율 계산 타입/적용값조회(금액/율)*/
+ 		SELECT ApplyType AS ApplyType					/* 값 적용방식(0 : 해당없음 / 1 : 비율적용 / 2 : 고정금액적용) */
+ 				, ApplyValue AS ApplyValue				/* 채권적용값 */
+		FROM TO_RAWDATA_BOND_PURCHASERATE 
+		WHERE NewVehicle = #{NewVehicle}
+		AND District_Major LIKE CONCAT ('%', #{District_Major},'%')  
+		AND VehicleType = #{VehicleType}
+		
+		<if test="Fuel != null and Fuel != ''">
+			<choose>
+				<!-- 승용/승합/화물 중 전기,수소 차 일때 -->
+				<when test='Fuel.equals("전기") or Fuel.equals("수소")'>
+					AND Class = #{Class}
+					AND ItemCd = 11
+					AND Fuel = #{Fuel}
+				</when>
+				
+				<!-- 그외 -->
+				<otherwise>
+					<choose>
+						<!-- 1. 승용 -->
+						<when test='VehicleType.equals("승용")'>
+							<choose>
+								<!-- 7인승 이상 -->
+								<when test="RidingCapacity >= 7">
+									AND ItemCd = 10 	
+								</when>
+								<!-- 다목적 -->
+								<when test='Purpose.equals("다목적")'>
+									AND ItemCd = 9	
+								</when>
+								<!-- 배기량 -->
+								<when test='calcValueType.equals("1")'>
+									<![CDATA[
+										AND ItemCd = 1
+										AND Displacement_Low <= #{Displacement}
+										AND Displacement_High > #{Displacement}
+									]]>
+								</when>
+								<!-- 대중소형 -->
+								<when test='calcValueType.equals("2")'>
+									<![CDATA[
+										AND Class = #{Class}
+										AND ItemCd = 2
+									]]>
+									<!-- 타입조회 -->
+									<if test='sortType.equals("1")'>
+									    ORDER BY ApplyType DESC limit 1
+									</if>
+									<!-- 값 조회 -->
+									<if test='sortType.equals("2")'>
+									    ORDER BY ApplyValue DESC limit 1
+									</if>
+								</when>
+							</choose>
+						</when>
+						<!-- 2. 승합 -->
+						<when test='VehicleType.equals("승합")'>
+							<choose>
+								<!-- 배기량 -->
+								<when test='calcValueType.equals("1")'>
+									<![CDATA[
+										AND ItemCd = 1 
+										AND Displacement_Low <= #{Displacement}
+										AND Displacement_High > #{Displacement}
+									]]>
+								</when>
+								<!-- 대중소형 -->
+								<when test='calcValueType.equals("2")'>
+									<![CDATA[
+										AND Class = #{Class}
+										AND ItemCd = 2
+										ORDER BY ApplyType desc limit 1
+									]]>
+								</when>
+								<!-- 인승 -->
+								<when test='calcValueType.equals("3")'>
+									<![CDATA[
+										AND ItemCd = 3
+										AND RidingCapacity = #{RidingCapacity}
+										ORDER BY ApplyValue desc limit 1
+									]]>
+								</when>
+							</choose>
+						</when>
+						<!-- 3. 화물 -->
+						<otherwise>
+							<!-- 기존 프로시저와 동일 대상값이 없으면 재조회 -->
+							<if test="otherCase != null and otherCase != ''"></if>
+							<choose>
+								<when test='otherCase.equals("1")'>
+									AND Class = #{Class} 
+									AND Fuel = '경유' 
+									AND Displacement_Low = 0	/* 배기량low */
+									AND Displacement_High = 0 	/* 배기량max */
+									AND Weight_Ton_Low = 0 		/* 차량무게low */
+									AND Weight_Ton_High = 0		/* 차량무게max */
+									<!-- 타입조회 -->
+									<if test='sortType.equals("1")'>
+										ORDER BY ApplyType DESC limit 1
+									</if>
+									<!-- 값조회 -->
+									<if test='sortType.equals("1")'>
+										ORDER BY ApplyValue DESC limit 1
+									</if>
+								</when>
+								<when test='otherCase.equals("2")'>
+									<![CDATA[
+										AND Fuel = '경유' 
+										AND Displacement_Low = 0 				/* 배기량low */
+										AND Displacement_High = 1000000			/* 배기량max */
+										AND Weight_Ton_Low <= #{Weight}
+										AND Weight_Ton_High > #{Weight}  
+										AND ApplyType > 0
+									]]>
+									<!-- 타입조회 -->
+									<if test='sortType.equals("1")'>
+										ORDER BY ApplyType DESC limit 1
+									</if>
+									<!-- 값조회 -->
+									<if test='sortType.equals("1")'>
+										ORDER BY ApplyValue DESC limit 1
+									</if>
+								</when>
+								<when test='otherCase.equals("3")'>
+									<![CDATA[
+										AND Fuel = '경유' 
+										AND Displacement_Low = 1000 
+										AND Displacement_High = 1000000
+										AND Weight_Ton_Low <= #{Weight}  
+										AND Weight_Ton_High > #{Weight}  
+										AND ApplyType > 0
+									]]>
+									<!-- 타입조회 -->
+									<if test='sortType.equals("1")'>
+										ORDER BY ApplyType DESC limit 1
+									</if>
+									<!-- 값조회 -->
+									<if test='sortType.equals("1")'>
+										ORDER BY ApplyValue DESC limit 1
+									</if>
+								</when>
+								<otherwise>
+									<![CDATA[
+										AND Fuel = '경유' 
+										AND Displacement_Low <= #{Displacement}
+										AND Displacement_High > #{Displacement}
+										AND Weight_Ton_Low = 0
+										AND Weight_Ton_High = 0 
+										AND ApplyType > 0
+									]]>
+									<!-- 타입조회 -->
+									<if test='sortType.equals("1")'>
+										ORDER BY ApplyType DESC limit 1
+									</if>
+									<!-- 값조회 -->
+									<if test='sortType.equals("1")'>
+										ORDER BY ApplyValue DESC limit 1
+									</if>
+								</otherwise>
+							</choose>
+						</otherwise>
+					</choose>
+				</otherwise>
+			</choose>
+		</if>
+ 	</select>
+ 	
+ 	<!-- 지역별 채권 할인율 계산 타입/적용값조회(금액/율) -->
+ 	<select id="selectBondDiscountTypeValue" parameterType="map" resultType="map">
+ 		/*selectBondDiscountTypeValue 지역별 채권율 계산 타입/적용값조회(금액/율)*/
+ 		SELECT ApplyType AS ApplyType					/* 값 적용방식(0 : 해당없음 / 1 : 비율적용 / 2 : 고정금액적용) */
+ 				, ApplyValue AS ApplyValue				/* 채권적용값 */
+		FROM TO_RAWDATA_BOND_DISCOUNTRATE 
+		WHERE NewVehicle = #{NewVehicle}
+		AND District_Major LIKE CONCAT ('%', #{District_Major},'%')
+		AND VehicleType = #{VehicleType}
+		
+		<if test="Fuel != null and Fuel != ''">
+			<choose>
+				<!-- 승용/승합/화물 중 전기,수소 차 일때 -->
+				<when test='Fuel.equals("전기") or Fuel.equals("수소")'>
+					AND Class = #{Class} 
+					AND ItemCd = 11
+					AND Fuel = #{Fuel}
+				</when>
+				<!-- 친환경 -->
+				<when test='EcoFriendly.equals("1")'>
+					AND ItemCd = 12
+				</when>
+				<!-- 그외 -->
+				<otherwise>
+					<choose>
+						<!-- 1. 승용 -->
+						<when test='VehicleType.equals("승용")'>
+							<choose>
+								<!-- 7인승 이상 -->
+								<when test="RidingCapacity >= 7">
+									AND ItemCd = 10 	
+								</when>
+								<!-- 다목적 -->
+								<when test='Purpose.equals("다목적")'>
+									AND ItemCd = 9	
+								</when>
+								<!-- 배기량 -->
+								<when test='calcValueType.equals("1")'>
+									<![CDATA[
+										AND ItemCd = 1
+										AND Displacement_Low <= #{Displacement}
+										AND Displacement_High > #{Displacement}
+									]]>
+								</when>
+								<!-- 대중소형 -->
+								<when test='calcValueType.equals("2")'>
+									<![CDATA[
+										AND Class = #{Class} 
+										AND ItemCd = 2
+										ORDER BY ApplyValue DESC limit 1
+									]]>
+								</when>
+							</choose>
+						</when>
+						<!-- 2. 승합 -->
+						<when test='VehicleType.equals("승합")'>
+							<choose>
+								<!-- 배기량 -->
+								<when test='calcValueType.equals("1")'>
+									<![CDATA[
+										AND ItemCd = 1 
+										AND Displacement_Low <= #{Displacement}
+										AND Displacement_High > #{Displacement}
+									]]>
+								</when>
+								<!-- 대중소형 -->
+								<when test='calcValueType.equals("2")'>
+									<![CDATA[
+										AND Class = #{Class}
+										AND ItemCd = 2
+										ORDER BY ApplyType desc limit 1
+									]]>
+								</when>
+								<!-- 인승 -->
+								<when test='calcValueType.equals("3")'>
+									<![CDATA[
+										AND ItemCd = 3 
+										AND RidingCapacity = #{RidingCapacity}
+										ORDER BY ApplyValue desc limit 1
+									]]>
+								</when>
+							</choose>
+						</when>
+						<!-- 3. 화물 -->
+						<otherwise>
+							<!-- 기존 프로시저와 동일 대상값이 없으면 재조회 -->
+							<if test="otherCase != null and otherCase != ''"></if>
+							<choose>
+								<when test='otherCase.equals("1")'>
+									AND Class = #{Class} 
+									AND Fuel = '경유' 
+									AND Displacement_Low = 0	/* 배기량low */
+									AND Displacement_High = 0 	/* 배기량max */
+									AND Weight_Ton_Low = 0 		/* 차량무게low */
+									AND Weight_Ton_High = 0		/* 차량무게max */
+									<!-- 타입조회 -->
+									<if test='sortType.equals("1")'>
+										ORDER BY ApplyType DESC limit 1
+									</if>
+									<!-- 값조회 -->
+									<if test='sortType.equals("1")'>
+										ORDER BY ApplyValue DESC limit 1
+									</if>
+								</when>
+								<when test='otherCase.equals("2")'>
+									<![CDATA[
+										AND Fuel = '경유' 
+										AND Displacement_Low = 0 				/* 배기량low */
+										AND Displacement_High = 1000000			/* 배기량max */
+										AND Weight_Ton_Low <= #{Weight}
+										AND Weight_Ton_High > #{Weight}  
+										AND ApplyType > 0
+									]]>
+									<!-- 타입조회 -->
+									<if test='sortType.equals("1")'>
+										ORDER BY ApplyType DESC limit 1
+									</if>
+									<!-- 값조회 -->
+									<if test='sortType.equals("1")'>
+										ORDER BY ApplyValue DESC limit 1
+									</if>
+								</when>
+								<when test='otherCase.equals("3")'>
+									<![CDATA[
+										AND Fuel = '경유' 
+										AND Displacement_Low = 1000 
+										AND Displacement_High = 1000000
+										AND Weight_Ton_Low <= #{Weight}  
+										AND Weight_Ton_High > #{Weight}  
+										AND ApplyType > 0
+									]]>
+									<!-- 타입조회 -->
+									<if test='sortType.equals("1")'>
+										ORDER BY ApplyType DESC limit 1
+									</if>
+									<!-- 값조회 -->
+									<if test='sortType.equals("1")'>
+										ORDER BY ApplyValue DESC limit 1
+									</if>
+								</when>
+								<otherwise>
+									<![CDATA[
+										AND Fuel = '경유' 
+										AND Displacement_Low <= #{Displacement}
+										AND Displacement_High > #{Displacement}
+										AND Weight_Ton_Low = 0
+										AND Weight_Ton_High = 0 
+										AND ApplyType > 0
+									]]>
+									<!-- 타입조회 -->
+									<if test='sortType.equals("1")'>
+										ORDER BY ApplyType DESC limit 1
+									</if>
+									<!-- 값조회 -->
+									<if test='sortType.equals("1")'>
+										ORDER BY ApplyValue DESC limit 1
+									</if>
+								</otherwise>
+							</choose>
+						</otherwise>
+					</choose>
+				</otherwise>
+			</choose>
+		</if>
+ 	</select>
+	
+	<!-- 원단위 절사가 적용된 금액을 구한다 -->
+	<select id="getBondInfoPurchasePriceCutoff" parameterType="map" resultType="bigDecimal">
+		SELECT TO_BondInfo_PurchasePrice_Cutoff(#{targetPrice}, #{type})
+	</select>
+	
+	<!-- 이전비 계산용 취득세/감면비율 조회 -->
+	<select id="selectAcquistionPriceByTransfer" parameterType="map" resultType="map">
+		/*selectAcquistionPriceByTransfer 이전비 계산용 취득세/감면비율 조회*/
+		SELECT A.idx AS acqusIdx									/*id*/
+				, A.VehicleType AS acqusVehicleType					/*차량형식(승용/승합/화물)*/
+				, A.Class AS acqusClass								/*차종분류(1: 경형, 2: 소/중/대형)*/
+				, A.Fuel AS acqusFuel								/*연료종류(1 : 휘발유 / 2 : 경유 / 3 : 가스 / 4 : 하이브리드 / 5 : 전기 / 6 : 수소)*/
+				, A.YEAR AS acqusYear								/*적용연도*/
+				, A.Acquisition_taxRate AS Acquisition_taxRate		/*취득세율*/
+				, B.LimitDate AS LimitDate							/*기본감면 적용기한*/
+				, IF( DATE_FORMAT(B.LimitDate,'%Y%m%d') > DATE_FORMAT(NOW(), '%Y%m%d'), B.ReductionPrice, 0) AS ReductionPrice1	/*기본감면금액*/
+				, C.LimitDate AS LimitDate2							/*친환경감면 적용기한*/
+				, IF( DATE_FORMAT(C.LimitDate,'%Y%m%d') > DATE_FORMAT(NOW(), '%Y%m%d'), C.ReductionPrice, 0) AS ReductionPrice2	/*친환경감면금액*/
+		FROM TO_ACQUISTION_TAX_RATE A
+			INNER JOIN TO_ACQUISTION_REDUCTION_PRICE B
+				ON A.VehicleType = B.VehicleType
+				AND A.Class = B.Class
+				AND A.Fuel = B.Fuel
+				AND A.YEAR = B.YEAR
+				AND B.ReductionType = '1' /* 기본감면*/
+			INNER JOIN TO_ACQUISTION_REDUCTION_PRICE C
+				ON A.VehicleType = C.VehicleType
+				AND A.Class = C.Class
+				AND A.Fuel = C.Fuel
+				AND A.YEAR = C.YEAR
+				AND C.ReductionType = '2' /* 친환경감면*/
+		WHERE 1=1
+		AND A.YEAR = YEAR(NOW())
+		AND A.VehicleType = #{VehicleType}
+		AND A.Class = #{classType}
+		AND A.Fuel = TO_GetFuelType(#{Fuel}, 1)
+	</select>
+	<!-- 이전비용계산 끝 -->
+	
+	<!-- 소유권이전 금액정보 insert -->
+	<insert id="insertToTransferownerCost" parameterType="map">
+		/*insertToTransferownerCost 소유권이전 금액정보 insert*/
+		INSERT INTO TO_COST(
+			TransferOwnerIndex
+			, District_Major
+			, District_Major_Gu
+			, ValueType
+			, bondInfo_Purchase_Value
+			, bondInfo_Purchase_Type
+			, bondInfo_Discount_Value
+			, bondInfo_Discount_Type
+			, bondInfo_CutOffType
+			, bondInfo_SellingPrice_Basis
+			, agencyFee_SellingBond_Bank_Ratio
+			, leftDayOfMonth
+			, bondInfo_BankIncomeRate
+			, taxRate_Acquisition
+			, taxRate_Income
+			, taxRate_Local
+			, total_TransferOwner_Price
+			, total_TransferOwner_Price_Ori
+			, taxPrice_Acquisition_RealCost
+			, taxPrice_Acquisition
+			, taxPrice_Acquisition_ReductionPrice
+			, Bank_Nm
+			, bondInfo_SellingPrice_Today
+			, bondInfo_SellingPrice_Result
+			, bondInfo_PurchasePrice_RealCost
+			, agencyFee_SellingBond_Bank
+			, bondInfo_SellingProfit
+			, taxPrice_Income
+			, taxPrice_Local
+			, agencyFee_PurchaseBond_CarBang
+			, officeCharge
+			, Revenue_StampPrice
+			, agencyFee_Office_Registration
+			, office_StampCost
+			, agencyFee_Transfer_CarBang
+			, bondExemptionYn
+			, bondInfo_PurchasePrice_Original
+			, bondInfo_PurchasePrice_Result
+			, bondInfo_SellingSelPayfPrice
+			, lastVehicleBasisPrice
+			, VehicleBasisPrice
+			, UsedCarRemainingPrice
+		) VALUES (
+			#{toTransferOwnerIdx}                        /* 소유권이전요청idx */
+			, #{District_Major}                          /* 매입 지자체(시도) */
+			, #{District_Major_Gu}                       /* 매입 지자체(구) */
+			, #{ValueType}                               /* 1 : 배기량, 2 : 대중소형, 3 : 인승, 4 : 1000cc/0.6톤, 5: 1000cc/1톤, 6: 전체cc/0.6톤, 7: 전체cc/1톤, 8: 1000cc */
+			, #{bondInfo_Purchase_Value}                 /* 채권 구매 적용 값 - 비율 또는 금액 */
+			, #{bondInfo_Purchase_Type}                  /* 채권 구매 적용 방식 - 0 : 채권구매 없음 / 1 : 비율적용 / 2 : 금액적용) */
+			, #{bondInfo_Discount_Value}                 /* 채권 할인 적용 값 - 금액 */
+			, #{bondInfo_Discount_Type}                  /* 채권 할인 적용 방식 - 0 : 면제없음 / 1 : 일부면제 / 2 : 전체면제 / 3 : 한도초과면제 */
+			, #{bondInfo_CutOffType}                     /* 채권 할인 후 금액 절사 형식 - 0 : 논리오류(절사없음) / 1 : 절사없음 / 2 : 2500원 미만 절사 / 3 : 5000원 / 4 : 10000원 */
+			, #{bondInfo_SellingPrice_Basis}             /* 채권 기준가 */
+			, #{agencyFee_SellingBond_Bank_Ratio}        /* 은행 채권 매도 대행 수수료율 */
+			, #{leftDayOfMonth}                          /* 현재 월 남은일수 */
+			, #{bondInfo_BankIncomeRate}                 /* 은행 이율 */
+			, #{taxRate_Acquisition}                     /* 취득세 비율 */
+			, #{taxRate_Income}                          /* 채권 매도 수익금 소득세율 */
+			, #{taxRate_Local}                           /* 채권 매도 수익금 지방세율 */
+			
+			, #{total_TransferOwner_Price}               /* 총 이전비용 */
+			, #{total_TransferOwner_Price}               /* 총 이전비용(최초) */ 
+			
+			, #{taxPrice_Acquisition_RealCost}           /* 취득세 최종금액 */
+			, #{taxPrice_Acquisition}                    /* 취득세 */
+			, #{taxPrice_Acquisition_ReductionPrice}     /* 취득세 할인면제금액 */
+			, #{Bank_Nm}                                 /* 채권매입은행 */
+			, #{bondInfo_SellingPrice_Today}             /* 채권매도단가 */
+			, #{bondInfo_SellingPrice_Result}            /* 채권매입금액 */
+			, #{bondInfo_PurchasePrice_RealCost}         /* 즉시할인매도금액 */
+			, #{agencyFee_SellingBond_Bank}              /* 은행수수료 */
+			, #{bondInfo_SellingProfit}                  /* 선급이자 */
+			, #{taxPrice_Income}                         /* 소득세 */
+			, #{taxPrice_Local}                          /* 지방소득세 */
+			, #{agencyFee_PurchaseBond_CarBang}          /* 채권매입전산이용료 */
+			, #{officeCharge}                            /* 인지세 */
+			, #{Revenue_StampPrice}                      /* 전자수입인지 */
+			, #{agencyFee_Office_Registration}           /* 관공서등록수수료 */
+			, #{office_StampCost}                        /* 인지대 */
+			, #{agencyFee_Transfer_CarBang}              /* 카방 이전등록대행료 */
+			, #{bondExemptionYn}                         /* 채권면제여부 */
+			, #{bondInfo_PurchasePrice_Original}         /* 채권 구매 금액 (할인전) */
+			, #{bondInfo_PurchasePrice_Result}           /* 채권 구매 금액 (할인후) */
+			, #{bondInfo_SellingSelPayfPrice}            /* 채권비용 계(채권즉시매도시 본인부담액) */
+			, #{lastVehicleBasisPrice}                   /* 차량과세표준금액 */
+			, #{VehicleBasisPrice}                       /* 입력매매가격(부가세제외) */
+			, #{UsedCarRemainingPrice}                   /* 시가적용금액(표준가격에서경감율적용) */ 
+		)  
+	</insert> 
+	<!-- 소유권이전 금액정보 고객추가금액 UPDATE -->
+	<delete id="deleteTransferownerCost" parameterType="map">
+		/*deleteTransferownerCost 금액 UPDATE*/
+		DELETE FROM TO_COST WHERE TransferOwnerIndex = #{toTransferOwnerIdx}
+	</delete>	
+	<!-- 소유권이전 금액정보 고객추가금액 UPDATE -->
+	<update id="updateToTransferownerCost" parameterType="map">
+		/*updateToTransferownerCost 소유권이전 금액정보 고객추가금액 UPDATE*/
+		UPDATE TO_COST A, (SELECT (total_TransferOwner_Price_Ori+#{CustomerAddPayPrice}) AS TOT,TransferOwnerIndex from TO_COST where TransferOwnerIndex =  #{CostIdx} )  B
+		SET 
+		A.CustomerAddPayPrice = #{CustomerAddPayPrice},  
+		A.total_TransferOwner_Price = B.TOT
+		WHERE A.TransferOwnerIndex = B.TransferOwnerIndex
+	</update>
+	<!-- 수입인지 미사용 계약번호 조회 -->
+	<select id="selectToEtcInfos" resultType="map">
+		/* selectToEtcInfos 수입인지 미사용 계약번호 조회 */
+		SELECT A.ID AS ID												/*ID*/
+				, DATE_FORMAT(A.CREATED_AT, '%Y-%m-%d') AS CREATED_AT 	/*등록일*/
+				, A.NO AS NO 											/*계약번호*/
+				, A.AMOUNT AS AMOUNT 									/*구매금액*/
+				, A.USED AS USED										/*사용금액*/
+		FROM TO_ETS_INFOS A
+		WHERE 1=1
+		AND A.AMOUNT > A.USED
+		ORDER BY CREATED_AT
+		LIMIT 1
+	</select>
+	
+	<!-- 수입인지 사용 계약번호 구매금액 업데이트 --> 
+	<update id="updateToEtcInfos" parameterType="map">
+		/* updateToEtcInfos 수입인지 사용 계약번호 구매금액 업데이트 */
+		UPDATE TO_ETS_INFOS SET
+			USED = USED+3000
+			, UPDATED_AT = CURRENT_TIMESTAMP 
+		WHERE ID = #{ID}
+	</update>
+	
+	<!-- 소유권이전요청 조회 -->
+	<select id="selectToTransferOwnerDetail" parameterType="map" resultType="map">
+		/*selectToTransferOwnerDetail 소유권이전요청 조회*/
+		SELECT A.*, B.Carbang_BankCd, B.Carbang_BankNumber, B.Carbang_BankOwner 
+		FROM TO_TRANSFEROWNER A, TO_TRANSFEROWNER_COST_MNG B
+		WHERE 1=1
+		AND A.idx = #{TransferownerIdx}
+		AND A.TransferDistrict = B.District_Major
+	</select>
+	<!-- 소유권이전요청 삭제 -->
+	<delete id="deleteCostTs" parameterType="map">
+		DELETE  FROM TO_TRANSFEROWNER_COST_TS
+		WHERE cvplReqstNo = #{cvplReqstNo}
+	</delete>
+	<!-- 소유권이전요청 판매자정보 조회 -->
+	<select id="selectToTransferOwnerSellerDetail" parameterType="map" resultType="map">
+		/*selectToTransferOwnerSellerDetail 소유권이전요청 판매자정보 조회*/
+		SELECT * FROM TO_TRANSFEROWNER_SELLER WHERE idx = #{TransferownerSellerIdx}
+	</select>
+
+	<!-- 소유권이전요청 구매자정보 조회 -->
+	<select id="selectToTransferOwnerBuyerDetail" parameterType="map" resultType="map">
+		/*selectToTransferOwnerBuyerDetail 소유권이전요청 구매자정보 조회*/
+		SELECT * FROM TO_TRANSFEROWNER_BUYER WHERE idx = #{TransferownerBuyerIdx}
+	</select>
+	
+	<!-- 소유권이전요청 삭제 -->
+	<delete id="deleteToTransferOwnerDetail" parameterType="map">
+		/*deleteToTransferOwnerDetail 소유권이전요청 삭제*/
+		DELETE FROM TO_TRANSFEROWNER WHERE idx = #{idx}
+	</delete>
+	<!-- 소유권이전요청 판매자정보 삭제 -->
+	<delete id="deleteToTransferOwnerSellerDetail" parameterType="map">
+		/*deleteToTransferOwnerSellerDetail 소유권이전요청 판매자정보 삭제*/
+		DELETE FROM TO_TRANSFEROWNER_SELLER WHERE idx = #{idx}
+	</delete>
+	<!-- 소유권이전요청 구매자정보 삭제 -->
+	<delete id="deleteToTransferOwnerBuyerDetail" parameterType="map">
+		/*deleteToTransferOwnerBuyerDetail 소유권이전요청 구매자정보 삭제*/
+		DELETE FROM TO_TRANSFEROWNER_BUYER WHERE idx = #{idx}
+	</delete>
+	
+	<!-- 소유권이전요청 copy insert -->
+	<insert id="insertToTransferOwnerCopy"  parameterType="map" useGeneratedKeys="true" keyProperty="idx">
+		/*insertToTransferOwnerCopy 소유권이전요청 copy insert*/
+		INSERT INTO TO_TRANSFEROWNER (
+			UserIndex
+			, SerialNumber
+			, Request_Type
+			, Request_VehicleNumber
+			, Request_OwnerName
+			, Request_DrivingDistance
+			, RegistrationIndex
+			, TransferType
+			, TransferDistrict
+			, PurchasePrice
+			, PaymentType
+			, PaymentDate
+			, DelayedTransfer
+			, ContractImage
+			, Stage
+			, RequestApproval
+			, ResultCode
+			, ApprovedTime
+			, ExpireTime
+			, TransferForm
+			, ProductType
+			, UserName
+			, PassYn
+			, ErrCode
+			, InsurSstate
+		) VALUES (
+			#{UserIndex}
+			, #{SerialNumber}
+			, #{Request_Type}
+			, #{Request_VehicleNumber}
+			, #{Request_OwnerName}
+			, #{Request_DrivingDistance}
+			, #{RegistrationIndex}
+			, #{TransferType}
+			, #{TransferDistrict}
+			, #{PurchasePrice}
+			, #{PaymentType}
+			, #{PaymentDate}
+			, #{DelayedTransfer}
+			, #{ContractImage}
+			, #{Stage}
+			, #{RequestApproval}
+			, #{ResultCode}
+			, #{ApprovedTime}
+			, #{ExpireTime}
+			, #{TransferForm}
+			, #{ProductType}
+			, #{UserName}
+			, #{PassYn}
+			, #{ErrCode}
+			, #{InsurSstate}
+		)
+	</insert>
+	<!-- 소유권이전요청 판매자정보 copy insert -->
+	<insert id="insertToTransferOwnerSellerCopy"  parameterType="map" useGeneratedKeys="true" keyProperty="idx">
+		/*insertToTransferOwnerSellerCopy 소유권이전요청 판매자정보 copy insert*/
+		INSERT INTO TO_TRANSFEROWNER_SELLER (
+			TransferOwnerIndex
+			, Name
+			, SocialNumber_First
+			, SocialNumber_Second
+			, PhoneNumber
+			, Address_Base
+			, Address_Detail
+			, Address_ZipCode
+			, Signing
+			, Loan_BankCode
+			, Loan_BankName
+			, Loan_BankNumber
+			, Loan_BankOwner
+			, CertificationState
+			, CertificationId
+			, CertificationData
+			, CertificationReqTime
+			, CertificationApproveTime
+		) VALUES (
+			#{TransferOwnerIndex}
+			, #{Name}
+			, #{SocialNumber_First}
+			, #{SocialNumber_Second}
+			, #{PhoneNumber}
+			, #{Address_Base}
+			, #{Address_Detail}
+			, #{Address_ZipCode}
+			, #{Signing}
+			, #{Loan_BankCode}
+			, #{Loan_BankName}
+			, #{Loan_BankNumber}
+			, #{Loan_BankOwner}
+			, #{CertificationState}
+			, #{CertificationId}
+			, #{CertificationData}
+			, #{CertificationReqTime}
+			, #{CertificationApproveTime}
+		)
+	</insert>
+	<!-- 소유권이전요청 구매자정보 copy insert -->
+	<insert id="insertToTransferOwnerBuyerCopy"  parameterType="map" useGeneratedKeys="true" keyProperty="idx">
+		/*insertToTransferOwnerBuyerCopy 소유권이전요청 구매자정보 copy insert*/
+		INSERT INTO TO_TRANSFEROWNER_BUYER (
+			TransferOwnerIndex
+			, Name
+			, SocialNumber_First
+			, SocialNumber_Second
+			, PhoneNumber
+			, Address_Base
+			, Address_Detail
+			, Address_ZipCode
+			, Signing
+			, CertificationState
+			, CertificationId
+			, CertificationData
+			, CertificationReqTime
+			, CertificationApproveTime
+		) VALUES (
+			 #{TransferOwnerIndex}
+			, #{Name}
+			, #{SocialNumber_First}
+			, #{SocialNumber_Second}
+			, #{PhoneNumber}
+			, #{Address_Base}
+			, #{Address_Detail}
+			, #{Address_ZipCode}
+			, #{Signing}
+			, #{CertificationState}
+			, #{CertificationId}
+			, #{CertificationData}
+			, #{CertificationReqTime}
+			, #{CertificationApproveTime}
+		)
+	</insert>
+	
+	<!-- 결제전문 테이블 전문번호 조회 (임시로 주석처리. 추후 개발db 합치면 주석해제) -->
+	<select id="selectTradeReqBinSeq" resultType="string">
+		/* selectTradeReqBinSeq 결제전문 테이블 전문번호 조회 */
+		SELECT MAX(SEQ_NO)
+		FROM TRADE_REQUEST_BIN
+		WHERE 1=1
+		AND DATE_FORMAT(REGDATE, '%Y%m%d') = DATE_FORMAT(SYSDATE(), '%Y%m%d')
+	</select>
+	
+	<!-- 결제전문 insert (임시로 주석처리. 추후 개발db 합치면 주석해제) -->
+	<insert id="insertTradeRequestBin" parameterType="map">
+		/* insertTradeRequestBin 결제전문 insert */
+		INSERT INTO TRADE_REQUEST_BIN(
+			REQ_DATE
+			, REQ_TIME
+			, SVC_TYPE
+			, BANK_CODE
+			, COMP_CODE
+			, SEQ_NO
+			, MSG_CODE
+			, SEND_FLAG
+			, RECV_FLAG
+			, SEND_DATE
+			, SEND_TIME
+			, RECV_DATE
+			, RECV_TIME
+			, SEND_MSG
+			, RECV_MSG
+			, BIN_DATA
+			, REGDATE
+		) VALUES (
+			#{reqDt}							/* 요청일자     */
+			, DATE_FORMAT(NOW(), '%H%i%s')      /* 요청시간     */
+			, #{serviceType}      				/* 서비스타입   */
+			, #{bankCd}     					/* 은행코드     */
+			, #{compCode}     					/* 업체코드     */
+			, #{seqNo}        					/* 전문일련번호 */
+			, #{msgCode}      					/* 전문구분     */
+			, "N"     							/* 전송여부     */
+			, "N"    							/* 응답수신여부 */
+			, ""     							/* 송신일자     */
+			, ""    						 	/* 송신시간     */
+			, ""     							/* 수신일자     */
+			, ""     							/* 수신시간     */
+			, #{sendMsg}      					/* 요청전문     */
+			, ""      							/* 응답전문     */
+			, NULL      						/* 증빙자료     */
+			, CURRENT_TIMESTAMP       			/* 등록일시     */
+		)
+	</insert>
+	<insert id="insertTradeRequestBinForTO" parameterType="map">
+		/* insertTradeRequestBin 결제전문의 TO결과처리스케쥴러용 insert */
+		INSERT INTO TO_TRADE_REQUEST_BIN(
+			REQ_DATE
+			, BANK_CODE
+			, COMP_CODE
+			, SEQ_NO
+			, SERVICE
+			, PARAM
+			, REGDATE
+		) VALUES (
+			#{reqDt}							/* 요청일자     */
+			, #{bankCd}     					/* 은행코드     */
+			, #{compCode}     					/* 업체코드     */
+			, #{seqNo}        					/* 전문일련번호 */
+			, #{SERVICE}        				/* 결과확인후수행할서비스 */
+			, #{PARAM}        					/* 결과확인후수행할파람스 */
+			, CURRENT_TIMESTAMP       			/* 등록일시     */
+		)
+	</insert>
+	
+	<!-- 결제전문 응답값 조회  (임시로 주석처리. 추후 개발db 합치면 주석해제)-->
+	<select id="selectTradeRequestBin" parameterType="map" resultType="map">
+		/* selectTradeRequestBin 결제전문 응답값 조회 */
+		SELECT REQ_DATE
+			, REQ_TIME
+			, SVC_TYPE
+			, BANK_CODE
+			, COMP_CODE
+			, SEQ_NO
+			, MSG_CODE
+			, SEND_FLAG
+			, RECV_FLAG
+			, SEND_DATE
+			, SEND_TIME
+			, RECV_DATE
+			, RECV_TIME
+			, SEND_MSG
+			, RECV_MSG
+		FROM TRADE_REQUEST_BIN
+		WHERE 1=1
+		AND REQ_DATE = #{reqDt}
+		AND BANK_CODE = #{bankCd}
+		AND COMP_CODE = #{compCode}
+		AND SEQ_NO = #{seqNo}
+	</select>
+	
+	<!-- 고객 결제정보 저장 -->
+	<insert id="insertToUserPaymentInfo" parameterType="map">
+		/* insertToUserPaymentInfo 고객 결제정보 저장  */
+		INSERT INTO TO_USER_PAYMENT_INFO(
+			TraceNo
+			, BirthDate
+			, Bank_Cd
+			, Bank_Name
+			, Bank_Account
+			, Bank_Owner
+			, UserIndex
+			, Pay_Password
+			, RegisterTime
+		) VALUES(
+			#{traceNo}               /* 납부자번호  */
+			, #{birthday}           /* 생년월일    */
+			, #{bankCd}             /* 은행코드    */
+			, #{bankNm}          	/* 은행명      */
+			, #{accountNo}        	/* 계좌번호    */
+			, #{bankOwner}          /* 계좌소유주  */
+			, #{userIndex}           /* 사용자ID  */
+			, #{Pay_Password}        /* 결제비밀번호 */
+			, CURRENT_TIMESTAMP   	 /* 등록일자     */
+		)
+	</insert>
+	
+	<!-- 고객결제정보 조회 -->
+	<select id="selectToUserPaymentInfo" parameterType="map" resultType="map">
+		<![CDATA[
+			/* selectToUserPaymentInfo 고객결제정보 조회 */
+			SELECT TraceNo AS TraceNo
+				, BirthDate AS BirthDate
+				, Bank_Cd AS Bank_Cd
+				, Bank_Name AS Bank_Name
+				, Bank_Account AS Bank_Account
+				, Bank_Owner AS Bank_Owner
+				, UserIndex AS UserIndex
+				, Pay_Password AS Pay_Password
+			FROM TO_USER_PAYMENT_INFO
+			WHERE 1=1
+			AND UserIndex = #{userIdx}
+		]]>
+		<if test="traceNo != null and traceNo != ''">
+			AND TraceNo = #{traceNo}
+		</if>
+	</select>
+	
+	<!-- 결제 히스토리 저장 -->
+	<insert id="insertToPaymentHistory" parameterType="map">
+		/*insertToPaymentHistory 결제 히스토리 저장*/
+		INSERT INTO TO_PAYMENT_HISTORY (
+			TransferOwnerIndex
+			, Pay_type
+			, Bank_Cd
+			, Bank_Name
+			, Bank_Account
+			, Bank_Owner
+			, Pay_Amount
+			, Bank_Deposit_Account
+			, Bank_Deposit_Owner
+			, Bank_Deposit_Cd
+			, Bank_Deposit_Name
+			, TraceNo
+			, Pay_Bank_Comnt
+			, Deposit_Bank_Comnt
+			, UserIndex
+		) VALUES( 
+			#{TransferOwnerIdx}			/*소유권이전색인번호*/
+			, #{Pay_type}           	/*결제구분 (1: 고객-카방, 2: 카방-공단, 3: 카방-고객)*/
+			, #{bankCd}					/*출금은행코드*/
+			, #{bankNm}					/*출금은행명*/
+			, #{accountNo}          	/*출금계좌번호*/
+			, #{bankOwner}				/*출금계좌예금주*/
+			, #{payAmount}            	/*출금금액*/
+			, #{bank_deposit_account} 	/*입금계좌번호*/
+			, #{bank_deposit_owner}		/*입금계좌예금주*/
+			, #{bank_deposit_cd}		/*입금계좌은행코드*/
+			, #{bank_deposit_name}		/*입금계좌명*/
+			, #{traceNo}               	/*납부자번호*/
+			, #{payComnt}        		/*출금통장적요*/
+			, #{depositComnt}    		/*입금통장적요*/
+			, #{userIdx}             	/*사용자ID*/
+		)
+	</insert>
+	
+	<!-- 이전신청 예상완료일 조회 -->
+	<select id="selectCompletDt" parameterType="map" resultType="string">
+		<![CDATA[		
+			/* selectCompletDt 이전신청 예상완료일 조회 */
+			SELECT 
+				CASE 
+				# 영업일 영업시간 내
+				WHEN B.Daysection = 'N' AND  TIME_FORMAT(A.TsRegisterTime,'%H') >= X.InStTime AND TIME_FORMAT(A.TsRegisterTime,'%H') < X.InEdTime
+					THEN CONCAT(DATE_FORMAT(A.TsRegisterTime,'%Y.%m.%d'), ' ', X.InCompletTime, ':00')
+				# 영업일 영업시간 외
+				WHEN B.Daysection = 'N' AND  TIME_FORMAT(A.TsRegisterTime,'%H') >= X.OutStTime AND TIME_FORMAT(A.TsRegisterTime,'%H') < X.OutEdTime
+					THEN CONCAT(DATE_FORMAT(DATE_ADD(A.TsRegisterTime, INTERVAL 1 DAY),'%Y.%m.%d'), ' ', X.OutCompletTime, ':00')
+				# 비영업일
+				WHEN B.Daysection <> 'N' THEN CONCAT(DATE_FORMAT(B.Next_workday, '%Y.%m.%d'), ' ', X.InCompletTime, ':00')
+				ELSE ''
+				END AS COMDT
+			FROM TO_TRANSFEROWNER A
+				INNER JOIN TO_RawData_Calendar B
+					ON DATE_FORMAT(A.TsRegisterTime,'%Y%m%d') = B.Today
+				CROSS JOIN (
+					SELECT idx															/*ID*/
+							, InStTime													/*유효시작시간*/
+							, InEdTime													/*유효종료시간*/
+							, InCompletTime												/*예상완료당일시간*/
+							, OutStTime													/*영업외시작시간*/
+							, OutEdTime													/*영업외종료시간*/
+							, OutCompletTime											/*예상완료익일시간*/
+					FROM TO_REQUESTDATE_MNG A
+					WHERE 1=1
+					AND idx = 1
+				) X
+			WHERE A.idx = #{idx}
+		]]>
+	</select>
+	
+	<!-- 지역목록 조회 -->
+	<select id="selectToRawdataDistrictMajor" resultType="map">
+		/* selectToRawdataDistrictMajor 지역목록 조회 */
+		SELECT CONCAT(A.idx,'') AS idx
+			, A.Name
+			, A.Name_Short
+			, A.AreaCode
+			, A.ORDER
+		FROM TO_RAWDATA_DISTRICT_MAJOR A
+		ORDER BY A.`Order`
+	</select>
+	
+	<!-- 지역별 채권율 목록조회 -->
+	<select id="selectRgonBondList" parameterType="map" resultType="map">
+		/*selectRgonBondList 지역별 채권율 목록조회 */
+		<![CDATA[
+			SELECT CONCAT(A.idx,'') AS idx
+				, A.NewVehicle  AS NewVehicle					/*[신차여부] 1 : 신차 / 0 : 중고차*/		
+				, A.ItemName AS ItemName						/*구분(배기량, 대중소형, 인승 등)*/
+				, A.District_Major AS District_Major			/*지역*/
+				, A.VehicleType AS VehicleType					/*차량형식*/
+				, A.Class AS Class								/*차종분류*/
+				, A.Purpose AS Purpose							/*목적*/
+				, A.RidingCapacity AS RidingCapacity			/*승차인원*/
+				, A.Displacement_Low AS Displacement_Low		/*배기량*/
+				, A.Displacement_High AS Displacement_High		/*배기량*/
+				, CONCAT(A.Weight_Ton_Low,'') AS Weight_Ton_Low			/*무게*/
+				, CONCAT(A.Weight_Ton_High,'') AS Weight_Ton_High			/*무게*/
+				, A.Fuel AS Fuel								/*연료종류*/
+				, CONCAT(A.ApplyValue,'') AS ApplyValue					/*채권적용값*/
+				, CONCAT(A.ApplyType,'') AS ApplyType						/*[값 적용 방식] 0 : 해당없음 / 1 : 비율적용 / 2 : 고정금액적용*/
+				, CONCAT(A.ORDER,'') AS TypeOrder							/*순서*/
+				, A.ItemCd AS ItemCd							/*구분코드*/
+			FROM TO_RAWDATA_BOND_PURCHASERATE A
+			WHERE 1=1
+			]]>
+		<choose>
+			<!-- 대분류 (1: 승용, 2: 전기수소, 3: 승합, 4: 화물) -->
+			<!-- 승용 -->  
+			<when test='inqType1.equals("1") and inqType2.equals("1")'>
+				AND (A.itemCd = 1 OR A.itemCd = 2 OR A.itemCd = 9 OR A.itemCd = 10)
+			</when>
+			<!-- 승합 -->
+			<when test='inqType1.equals("3") and inqType2.equals("1")'>
+				AND (A.itemCd = 1 OR A.itemCd = 2 OR A.itemCd = 3)
+			</when>
+			<when test='inqType1.equals("2")'>
+				AND (A.itemCd = 3)
+			</when>
+			<!-- 화물 -->
+			<when test='inqType1.equals("4")'>
+				AND A.itemCd = #{itemCd}
+			</when>
+		</choose>
+		<choose>
+			<!-- 대분류 (1: 승용, 2: 전기수소, 3: 승합, 4: 화물) -->
+			<!-- 승용 -->
+			<when test='inqType1.equals("1")'>
+				AND A.VehicleType = '승용'
+			</when>
+			<!-- 승합 -->
+			<when test='inqType1.equals("3")'>
+				AND A.VehicleType = '승합'
+			</when>
+			<!-- 전기수소 -->
+			<when test='inqType1.equals("2")'>
+				AND (A.VehicleType = '승용' OR A.VehicleType = '승합')
+			</when>
+			<!-- 화물 -->
+			<when test='inqType1.equals("4")'>
+				AND A.VehicleType = '화물'
+			</when>
+		</choose>
+		<![CDATA[
+		]]>
+	</select>
+	
+	<!-- 지역별 채권율 목록조회(전기수소) -->
+	<select id="selectRgonBondListByElec" parameterType="map" resultType="map">
+		/*selectRgonBondListByElec 지역별 채권율 목록조회(전기수소)*/
+		SELECT A.*, B.`Order` AS DistrictOrder
+		FROM (
+			SELECT A.ItemName					AS ItemName			/*구분(배기량, 대중소형, 인승 등)*/		
+						, MAX(A.NewVehicle)		AS NewVehicle		/*[신차여부] 1 : 신차 / 0 : 중고차*/
+						, MAX(A.District_Major)	AS District_Major	/*지역*/
+						, MAX(A.VehicleType)	AS VehicleType		/*차량형식*/
+						, MAX(A.Class) 			AS Class			/*차종분류*/
+						, MAX(A.Purpose) 		AS Purpose			/*목적*/
+						, MAX(A.Fuel) 			AS Fuel				/*연료종류*/
+						, MAX(A.ApplyValue) 	AS ApplyValue		/*채권적용값*/
+						, MAX(A.ApplyType) 		AS ApplyType		/*[값 적용 방식] 0 : 해당없음 / 1 : 비율적용 / 2 : 고정금액적용*/
+						, MAX(A.ORDER) 			AS TypeOrder		/*순서*/
+						, MAX(A.ItemCd) 		AS ItemCd			/*구분코드*/
+			FROM TO_RAWDATA_BOND_PURCHASERATE A
+			WHERE 1=1
+			AND A.ItemCd = 11
+			GROUP BY A.ItemName, A.District_Major
+			ORDER BY MAX(A.ORDER)
+		) A 
+			INNER JOIN TO_RAWDATA_DISTRICT_MAJOR B
+				ON A.District_Major = B.NAME
+		ORDER BY A.TypeOrder, B.`Order`
+	</select>
+	
+	<!-- 지역별 채권 할인율 목록조회 -->
+	<select id="selectRgonBondDiscountList" parameterType="map" resultType="map">
+		/*selectRgonBondDiscountList 지역별 채권 할인율 목록조회*/
+		<![CDATA[
+			SELECT CONCAT(A.idx,'') AS idx
+					, A.NewVehicle AS NewVehicle                    /* [신차여부] 1 : 신차 / 0 : 중고차 */
+					, A.ItemName AS ItemName                        /* 구분(배기량, 대중소형, 인승 등) */
+					, A.District_Major AS District_Major            /* 지역 */
+					, A.VehicleType AS VehicleType                  /* 차량형식 */
+					, A.Class AS Class                              /* 차종분류 */
+					, A.Purpose AS Purpose                          /* 목적 */
+					, A.RidingCapacity AS RidingCapacity            /* 승차인원 (7인승 이상 승용차를 구분하기 위한 값으로 미구분 항목은 모두 0으로 할당) */
+					, A.Displacement_Low AS Displacement_Low        /* 배기량 */
+					, A.Displacement_High AS Displacement_High      /* 배기량 */
+					, A.Weight_Ton_Low AS Weight_Ton_Low            /* 무게 */
+					, A.Weight_Ton_High AS Weight_Ton_High          /* 무게 */
+					, A.Fuel AS Fuel                                /* 연료종류 */
+					, A.EcoFriendly AS EcoFriendly                  /* 친환경 차량 */
+					, A.ApplyValue AS ApplyValue                    /* 채권할인적용값 */
+					, A.ApplyType AS ApplyType                      /* [값 적용 방식] 0 : 면제없음 / 1 : 일부면제 (아래에서 자름) / 2 : 전체면제 / 3 : 한도초과면제 (위에서 자름) */
+					, A.LimitDate AS LimitDate                      /* 면제기한 */
+					, A.ORDER AS typeOrder                          /* 순서 */
+					, A.ItemCd AS ItemCd                            /* 구분코드 */
+			FROM TO_RAWDATA_BOND_DISCOUNTRATE A
+			WHERE 1=1
+		]]>
+		<choose>
+			<!-- 대분류 (1: 승용, 2: 전기수소, 3: 승합, 4: 화물) -->
+			<!-- 승용 -->
+			<when test='inqType1.equals("1") and inqType2.equals("2")'>
+				AND (A.itemCd = 1 OR A.itemCd = 2 OR A.itemCd = 9 OR A.itemCd = 10 OR A.itemCd = 12)
+			</when>
+			<!-- 승합 -->
+			<when test='inqType1.equals("3") and inqType2.equals("2")'>
+				AND (A.itemCd = 1 OR A.itemCd = 2 OR A.itemCd = 3 OR A.itemCd = 12)  
+			</when>
+			<when test='inqType1.equals("2")'>
+				AND (A.itemCd = 3)
+			</when>
+			<!-- 화물 -->
+			<when test='inqType1.equals("4")'>
+				AND A.itemCd = #{itemCd}
+			</when>
+		</choose>
+		<choose>
+			<!-- 대분류 (1: 승용, 2: 전기수소, 3: 승합, 4: 화물) -->
+			<!-- 승용 -->
+			<when test='inqType1.equals("1")'>
+				AND A.VehicleType = '승용'
+			</when>
+			<!-- 승합 -->
+			<when test='inqType1.equals("3")'>
+				AND A.VehicleType = '승합'
+			</when>
+			<!-- 전기수소 -->
+			<when test='inqType1.equals("2")'>
+				AND (A.VehicleType = '승용' OR A.VehicleType = '승합')
+			</when>
+			<!-- 화물 -->
+			<when test='inqType1.equals("4")'>
+				AND A.VehicleType = '화물'
+			</when>
+		</choose>
+		<![CDATA[
+		]]>
+	</select>
+	
+	<!-- 지역별 채권 할인율 목록조회(전기수소) -->
+	<select id="selectRgonBondDiscountListByElec" parameterType="map" resultType="map">
+		/*selectRgonBondDiscountListByElec 지역별 채권 할인율 목록조회(전기수소)*/
+		SELECT A.*, B.`Order` AS DistrictOrder
+		FROM (
+			SELECT A.ItemName					AS ItemName			/*구분(배기량, 대중소형, 인승 등)*/		
+						, MAX(A.NewVehicle)		AS NewVehicle		/*[신차여부] 1 : 신차 / 0 : 중고차*/
+						, MAX(A.District_Major)	AS District_Major	/*지역*/
+						, MAX(A.VehicleType)	AS VehicleType		/*차량형식*/
+						, MAX(A.Class) 			AS Class			/*차종분류*/
+						, MAX(A.Purpose) 		AS Purpose			/*목적*/
+						, MAX(A.Fuel) 			AS Fuel				/*연료종류*/
+						, MAX(A.ApplyValue) 	AS ApplyValue		/*채권적용값*/
+						, MAX(A.ApplyType) 		AS ApplyType		/*[값 적용 방식] 0 : 해당없음 / 1 : 비율적용 / 2 : 고정금액적용*/
+						, MAX(A.ORDER) 			AS TypeOrder		/*순서*/
+						, MAX(A.ItemCd) 		AS ItemCd			/*구분코드*/
+			FROM TO_RAWDATA_BOND_DISCOUNTRATE A
+			WHERE 1=1
+			AND A.ItemCd = 11
+			GROUP BY A.ItemName, A.District_Major
+			ORDER BY MAX(A.ORDER)
+		) A 
+			INNER JOIN TO_RAWDATA_DISTRICT_MAJOR B
+				ON A.District_Major = B.NAME
+		ORDER BY A.TypeOrder, B.`Order`
+	</select>
+	
+	<!-- 지역별 채권율 계산타입관리 조회 -->
+	<select id="selectToRawdataBondBasisvaluetype" resultType="map">
+		/*selectToRawdataBondBasisvaluetype 지역별 채권율 구분관리 조회*/
+		SELECT CONCAT(A.idx,'') AS idx
+			, A.District_Major			/*지역*/
+			, A.VehicleType				/*차종명*/
+			, A.ValueType				/*구분코드*/
+			, CASE
+				WHEN A.ValueType = 1 THEN '배기량'
+				WHEN A.ValueType = 2 THEN '대중소형'
+				WHEN A.ValueType = 3 THEN '인승'
+				WHEN A.ValueType = 4 THEN '1000cc/0.6톤'
+				WHEN A.ValueType = 5 THEN '1000cc/1톤'
+				WHEN A.ValueType = 6 THEN '전체cc/0.6톤'
+				WHEN A.ValueType = 7 THEN '전체cc/1톤'
+				WHEN A.ValueType = 8 THEN '1000cc'
+				ELSE '해당없음' 
+			END AS ValueTypeTxt			/*구분코드명*/
+		FROM TO_RAWDATA_BOND_BASISVALUETYPE A
+	</select>
+	
+	<!-- 지역별 채권율 구분관리 업데이트 -->
+	<update id="updateToRawdataBondBasisvaluetype" parameterType="map">
+		/*updateToRawdataBondBasisvaluetype 지역별 채권율 구분관리 업데이트*/
+		<foreach item="basisValMap" collection="basisValList" open="" close="" separator=";">
+    		UPDATE TO_RAWDATA_BOND_BASISVALUETYPE SET ValueType = #{basisValMap.ValueType} WHERE idx = #{basisValMap.idx}
+    	</foreach>
+	</update>
+	
+	<!-- 지역별 채권율 업데이트 -->
+	<update id="updateRgonBondList" parameterType="map" >
+		/*updateRgonBondList 지역별 채권율 업데이트*/
+		<foreach item="targetMap" collection="targetList" open="" close="" separator=";">
+    		UPDATE TO_RAWDATA_BOND_PURCHASERATE SET
+    			ApplyValue = #{targetMap.ApplyValue} 
+				, ApplyType = #{targetMap.ApplyType}
+    		WHERE 1=1
+    		AND idx = #{targetMap.idx}
+    	</foreach>
+	</update>
+	
+	<!-- 지역별 채권율 업데이트(전기수소) -->
+	<update id="updateRgonBondListByElec" parameterType="map">
+		/*updateRgonBondListByElec 지역별 채권율 업데이트(전기수소)*/
+		<foreach item="elecMap" collection="sizeListByElec" open="" close="" separator=";">
+			UPDATE TO_RAWDATA_BOND_PURCHASERATE SET
+				ApplyValue = #{elecMap.ApplyValue} 
+				, ApplyType = #{elecMap.ApplyType}
+			WHERE itemCd = 11
+			AND District_Major = #{elecMap.District_Major}
+			AND ItemName = #{elecMap.ItemName}
+		</foreach>
+	</update>
+	
+	<!-- 지역별 채권 할인율 업데이트 -->
+	<update id="updateRgonBondDiscountList" parameterType="map" >
+		/*updateRgonBondDiscountList 지역별 채권 할인율 업데이트*/
+		<foreach item="targetMap" collection="targetList" open="" close="" separator=";">
+    		UPDATE TO_RAWDATA_BOND_DISCOUNTRATE SET
+    			ApplyValue = #{targetMap.ApplyValue} 
+				, ApplyType = #{targetMap.ApplyType}
+    		WHERE 1=1
+    		AND idx = #{targetMap.idx}
+    	</foreach>
+	</update>
+	
+	<!-- 지역별 채권 할인율 업데이트(전기수소) -->
+	<update id="updateRgonBondDiscountListByElec" parameterType="map">
+		/*updateRgonBondDiscountListByElec 지역별 채권 할인율 업데이트(전기수소)*/
+		<foreach item="elecMap" collection="sizeListByElec" open="" close="" separator=";">
+			UPDATE TO_RAWDATA_BOND_DISCOUNTRATE SET
+				ApplyValue = #{elecMap.ApplyValue} 
+				, ApplyType = #{elecMap.ApplyType}
+			WHERE itemCd = 11
+			AND District_Major = #{elecMap.District_Major}
+			AND ItemName = #{elecMap.ItemName}
+		</foreach>
+	</update>
+	
+	<!-- TS차량 DB관리 친환경차 유뮤 업데이트 -->
+	<update id="updateTsCarDbMng" parameterType="map">
+		/*updateTsCarDbMng TS차량 DB관리 친환경차 유뮤 업데이트*/
+		UPDATE TO_RAWDATA_VEHICLE_SPECIFICATION_TS SET
+			EcoFriendly = #{EcoFriendly},
+			UpdateTime = CURRENT_TIMESTAMP
+		WHERE SpecMgmtNumber = #{SpecMgmtNumber}
+	</update>
+	
+	<!-- 매출관리 -->
+	<select id="selectSalesMngList" parameterType="map" resultType="map">
+		/*selectSalesMngList 매출관리*/
+		<include refid="transferOwnerDtlSQL"/>
+		<![CDATA[
+	    	AND A.ApprovedTime IS NOT NULL /*이전완료건만 조회*/
+	    	ORDER BY E.RegisterTime DESC, H.RegisterTime  DESC 
+		]]>
+	</select>
+	
+	<!-- 영수증 조회 -->
+	<select id="selectReceiptInfo" parameterType="map" resultType="map">
+		/*selectReceiptInfo 영수증 조회 */
+		SELECT A.Request_VehicleNumber AS Request_VehicleNumber /*차량번호*/
+				, DATE_FORMAT(A.ApprovedTime, '%Y-%m-%d') AS ApprovedTime	/*이전등록일*/
+				, C.NAME AS ByuerName /*양수인명*/
+				, B.taxPrice_Acquisition_RealCost AS taxPrice_Acquisition_RealCost /*취등록세*/
+				, B.bondInfo_SellingSelPayfPrice /*채권(공채)세액 및 비용*/
+				, E.Office_RegistrationFee AS Office_RegistrationFee /*등록수수료*/
+				, E.Revenue_StampPrice AS Revenue_StampPrice /*전자수입인지*/
+				, E.Carbang_RegistrationFee AS Carbang_RegistrationFee /*카방대행수수료*/
+				, IF(B.total_TransferOwner_Price IS NULL, 0, B.total_TransferOwner_Price) AS total_TransferOwner_Price /*총이전비용*/
+				, IF(D.Pay_Amount IS NULL, 0, D.Pay_Amount) AS Pay_Amount /*고객수취금액*/
+		FROM TO_TRANSFEROWNER A
+			INNER JOIN TO_COST B
+				ON A.idx = B.TransferOwnerIndex
+			INNER JOIN TO_TRANSFEROWNER_BUYER C
+				ON A.idx = C.TransferOwnerIndex
+			INNER JOIN TO_PAYMENT_HISTORY D
+				ON A.idx = D.TransferOwnerIndex
+				AND D.Pay_type = 1
+			INNER JOIN (
+				SELECT Office_RegistrationFee AS Office_RegistrationFee /*등록수수료*/
+						, Revenue_StampPrice AS Revenue_StampPrice /*전자수입인지*/
+						, Carbang_RegistrationFee AS Carbang_RegistrationFee /*카방대행수수료*/
+						, District_Major AS District_Major
+				FROM TO_TRANSFEROWNER_COST_MNG A
+			) E
+				ON B.District_Major = E.District_Major
+		WHERE A.idx = #{idx}
+		ORDER BY B.RegisterTime DESC	/*같은건으로 금액조회를 여러번 할 수도 있으므로 가장 마지막 금액 1건만 조회*/ 
+		LIMIT 1 
+	</select>
+	
+	<select id="selectBiztalkInfo" parameterType="map" resultType="map">
+		/*selectBiztalkInfo 비즈톡,영수증함께사용할 데이터 */
+		SELECT CAST((A.agencyFee_Transfer_CarBang + A.agencyFee_PurchaseBond_CarBang + B.totRgfeAmount) AS unsigned integer) AS TOTAL_PRICE 
+		,A.agencyFee_Transfer_CarBang, A.agencyFee_PurchaseBond_CarBang , A.CustomerAddPayPrice,B.totRgfeAmount, C.Pay_Amount
+		FROM TO_COST A 
+		LEFT OUTER JOIN TO_PAYMENT_HISTORY C ON A.TransferOwnerIndex = C.TransferOwnerIndex AND C.Pay_type = 3
+		LEFT JOIN TO_TRANSFEROWNER_COST_TS B ON A.TransferOwnerIndex = B.TransferOwnerIndex
+		WHERE 1=1
+		AND A.TransferOwnerIndex = #{idx}
+		LIMIT 1
+	</select>
+		
+	
+	<!-- 시가표준액등록 -->
+    <insert id="updateStndCarPriceList" parameterType="map">
+    	<![CDATA[
+		INSERT INTO `TO_RAWDATA_TAXBASE_BASISPRICE` (`CountryOrigin`, `VehicleType`, `Manufacturer`, `Name`, `FormName`, `Price`, `EngineType`,`Note`,`RegisterTime`) VALUES
+		]]>
+    	<foreach collection="excelList" item="item" separator=" , " >
+    	(#{item.CountryOrigin},#{item.VehicleType}, #{item.Manufacturer}, #{item.Name}, #{item.FormName}, #{item.Price}, #{item.EngineType}, #{item.Note}, CONCAT(#{item.RegisterTime},' 00:00:00'))
+    	</foreach>
+    </insert>
+	<delete id="deleteStndCarPriceList" parameterType="map">
+		/*TO_RAWDATA_TAXBASE_BASISPRICE 시가표준액 삭제*/
+		DELETE FROM TO_RAWDATA_TAXBASE_BASISPRICE
+	</delete>
+    <!-- 
+    
+    /*운영관리 남은메뉴*/
+    
+    // 고객결제정보 조회
+    public Map<String, Object> selectUserPayment(Map<String, Object> map);
+    
+    
+    // 양도증명서 조회
+    public List<?> selectcarCertificateInfo(Map<String, Object> map);
+    
+	
+
+
+
+
+    
+    
+    // 시가표준액 저장(메뉴 삭제처리. 구현제외)
+    public int updateStndCarPriceList(Map<String, Object> map);
+    //TS차량 DB관리 저장(메뉴 삭제처리. 구현제외)
+    public int updateTsCarDbMngList(Map<String, Object> map);
+    
+    
+    -->
+    
+    
+   	<!-- 소유권이전 BUYER update -->
+	<update id="update_TO_TRANSFEROWNER_BUYER" parameterType="map">
+		UPDATE TO_TRANSFEROWNER_BUYER SET
+			Name = #{bName} 		
+			,SocialNumber_First = #{bSocialNumber_First}
+			,SocialNumber_Second = #{enc_bSocialNumber_Second}
+			,PhoneNumber = #{bPhoneNumber}
+			,Address_Base = #{bAddress_Base}
+			,Address_Detail = #{bAddress_Detail}
+			,Address_ZipCode = #{bAddress_ZipCode}
+		WHERE idx = #{bIdx}
+	</update>
+   	<!-- 소유권이전 Seller update -->
+	<update id="update_TO_TRANSFEROWNER_SELLER" parameterType="map">
+		UPDATE TO_TRANSFEROWNER_SELLER SET
+			Name = #{sName} 		
+			,SocialNumber_First = #{sSocialNumber_First}
+			,SocialNumber_Second = #{enc_sSocialNumber_Second}
+			,PhoneNumber = #{sPhoneNumber}
+			,Address_Base = #{sAddress_Base}
+			,Address_Detail = #{sAddress_Detail}
+			,Address_ZipCode = #{sAddress_ZipCode}
+		WHERE idx = #{sIdx}
+	</update>	
+        
+
+	<!-- selectCarbangBankInfo구하기 -->
+	<select id="selectCarbangBankInfo" parameterType="map" resultType="map">
+		SELECT B.Carbang_BankCd AS bankCd,B.Carbang_BankNumber AS accountNo,B.Carbang_BankOwner AS bankOwner,C.Bank_Name AS bankNm
+		FROM TO_TRANSFEROWNER A, TO_TRANSFEROWNER_COST_MNG B, TO_BANK_MNG C
+		WHERE A.idx = #{idx}
+		AND A.TransferDistrict = B.District_Major
+		AND B.Carbang_BankCd = C.Bank_Cd
+	</select>
+
+	<!-- autoIncrement구하기 -->
+	<select id="selectAutoIncrement" parameterType="map" resultType="string">
+		<![CDATA[
+        	SELECT AUTO_INCREMENT
+			FROM information_schema.tables
+			WHERE table_name = #{table_name}
+			AND table_schema = DATABASE( ) ;
+		]]>
+	</select>
+		
+	<select id="selectToInfoForTs" parameterType="map" resultType="map">
+			SELECT  
+			A.CVPL_REQST_NO, 
+			CONCAT(DATE_FORMAT(A.REGISTERTIME, '%Y%m%d%H%i%s'),LPAD(A.Idx,6,'0')) AS REQST_RCEPT_NO,
+			A.Idx AS Idx														/*id*/
+			        , A.RegistrationIndex AS RegistrationIndex
+					, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d') AS RegisterTime 		/*이전신청일*/
+					, DATE_FORMAT(A.StageTime, '%Y-%m-%d  %H:%i:%s') AS StageTime 		/*상태변경일시*/
+					, DATE_FORMAT(A.CancelTime, '%Y-%m-%d  %H:%i:%s') AS CancelTime 		/*취소일시*/
+					, CASE  
+						WHEN A.TransferForm = '00' THEN '해당사항없음' 
+						WHEN A.TransferForm = '01' THEN '개인-개인' 
+						WHEN A.TransferForm = '02' THEN '개인-판매법인(법인사업자)' 
+						WHEN A.TransferForm = '03' THEN '개인-판매상사(개인사업자)' 
+						WHEN A.TransferForm = '04' THEN '개인-일반법인' 
+						WHEN A.TransferForm = '05' THEN '판매상사(개인사업자)-판매법인(법인사업자)' 
+						WHEN A.TransferForm = '06' THEN '판매상사(개인사업자)-개인' 
+						WHEN A.TransferForm = '07' THEN '판매상사(개인사업자)-일반법인' 
+						WHEN A.TransferForm = '08' THEN '판매상사(개인사업자)-판매상사(개인사업자)' 
+						WHEN A.TransferForm = '09' THEN '판매법인(법인사업자)-판매법인(법인사업자)' 
+						WHEN A.TransferForm = '10' THEN '판매법인(법인사업자)-개인' 
+						WHEN A.TransferForm = '11' THEN '판매법인(법인사업자)-일반법인'
+						WHEN A.TransferForm = '12' THEN '판매법인(법인사업자)-판매상사(개인사업자)'
+						WHEN A.TransferForm = '13' THEN '일반법인-일반법인'
+						WHEN A.TransferForm = '14' THEN '일반법인-판매법인(법인사업자)'
+						WHEN A.TransferForm = '15' THEN '일반법인-개인'
+						WHEN A.TransferForm = '16' THEN '일반법인-판매상사(개인사업자)'
+						ELSE '-' END AS TransferForm 								/*거래형태*/
+					, IF(A.ProductType = 1, '이전등록', '-') AS ProductType			/*상품*/
+					, A.Stage AS Stage												/*상태*/
+					, TO_GetStage(A.Stage) AS StageTxt								/*상태값 txt*/
+					, A.UserName AS UserName										/*신청자*/
+					, A.PurchasePrice AS PurchasePrice								/*매매금액*/
+					, A.ResultCode AS ResultCode									/*이전등록*/
+					, B.Name AS sellerName											/*판매자명(양도인)*/
+					, B.PhoneNumber AS sellerPhoneNumber
+					, B.SocialNumber_First AS  sellerSocialNumber_First
+					, B.SocialNumber_Second AS sellerSocialNumber_Second
+					, B.CertificationState AS CertificationState_B					/*양도인인증여부*/
+					, C.NAME AS buyerName											/*구매자명(양수인)*/
+					, C.PhoneNumber AS buyerPhoneNumber
+					, C.SocialNumber_First AS  buyerSocialNumber_First
+					, C.SocialNumber_Second AS buyerSocialNumber_Second
+					, C.CertificationState AS CertificationState_C					/*양수인인증여부*/
+					, D.NAME AS carName												/*차명*/
+					, D.Type AS carType												/*차종*/
+					, D.ChassisNumber AS ChassisNumber /*차대번호*/
+					, A.Request_VehicleNumber AS Request_VehicleNumber				/*차량번호*/
+					, A.Request_DrivingDistance AS Request_DrivingDistance
+					FROM TO_TRANSFEROWNER A 
+				INNER JOIN TO_TRANSFEROWNER_SELLER B
+					ON A.idx = B.TransferOwnerIndex
+				INNER JOIN TO_TRANSFEROWNER_BUYER C
+					ON A.idx = C.TransferOwnerIndex	
+				INNER JOIN TO_VEHICLE_REGISTRATION D
+					ON A.RegistrationIndex = D.idx
+			WHERE 1=1 AND A.idx = #{idx} 
+	</select>
+		 
+   <select id="selectToUsersDetailBySecretKeyTemp" parameterType="map" resultType="com.carbang365.ToUserVO">
+    	/*selectToUsersDetailBySecretKey 회원상세조회 임시보안번호로*/
+    	SELECT A.idx AS idx                                                         /* 고객id */
+				, A.ID_Kakao AS idKakao				                                /* 카카오ID */
+				, A.ID_Naver AS idNaver                                             /* 네이버ID */
+				, A.ID_Facebook AS idFacebook                                       /* 페이스북ID */
+				, A.Password AS password                                            /* 자동로그인에 사용되는 임시 비밀번호 보관, 수동 로그인시 랜덤 생성된 비밀번호 재할당 */
+				, A.Email AS email                                                  /* 고객이메일 */
+				, A.Name AS name                                                    /* 고객명 */
+				, A.Sex AS sex                                                      /* [성별] 1 : 남성 / 2 : 여성 */
+				, A.BirthDate AS birthDate                                          /* 생년월일 */
+				, A.Mobile_Phone AS mobilePhone                                     /* 휴대폰번호 */
+				, A.Mobile_Carrier_Major AS mobileCarrierMajor                      /* [이동통신사] 1 : SKT / 2 : KT / 3 : LG / 4: 알뜰폰(추가) / 0 : 마이그레이션 사용자 중 통신사 정보가 없는 사용자 */ 
+				, A.Home_Address AS homeAddress                                     /* 집주소 */
+				, A.Home_Phone AS homePhone                                         /* 집전화번호 */
+				, A.Job_Name AS jobName                                             /* 직업명 */
+				, A.Job_Company AS jobCompany                                       /* 회사명 */
+				, A.Job_Address AS jobAddress                                       /* 회사주소 */
+				, A.Job_Phone AS jobPhone                                           /* 회사전화번호 */
+				, A.ProfileImage AS profileImage                                    /* 프로필이미지 */
+				, A.ProfileCertification AS profileCertification                    
+				, A.ProfileTemporaryCertification AS profileTemporaryCertification 
+				, A.FCMToken AS fCMToken                                            /* 푸쉬 알림 발송용 Firebase Token */
+				, A.DeviceID AS deviceID                                            /* 휴대폰ID(휴대폰UUID인지 확인..) */
+				, A.OsType AS osType                                                /* [OS 종류] 1 : 안드로이드 / 2 : iOS */
+				, A.Enabled AS enabled                                              /* [차단 사용자 설정] 0 : 로그인 차단 / 2 : 로그인 가능 */
+				, A.LoginTokenRefreshTime AS loginTokenRefreshTime                  /* 임시 로그인 비밀번호 사용가능 기간 (현재 미사용, 추후 상황에 따라 적용 예정) */
+				, A.LoginTime AS loginTime                                          /* [최종 로그인 시간] */
+				, A.LoginCount AS loginCount                                        /* [총 로그인 횟수] */
+				, A.SecretKey AS secretKey                                          /* 사용자 인증정보 암호화 키 (여기에 보안번호 들어가면 될듯) */
+				, DATE_FORMAT(A.UpdateTime, '%Y-%m-%d') AS updateTime      			/* 수정일시 */
+				, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d') AS registerTime           /* 등록일시 */
+				, A.CorRstrNumber AS corRstrNumber                                  /* 법인등록번호 */
+				, A.LeaveYn AS leaveYn                                              /* 적용유무(탈퇴여부)(Y:탈퇴) */
+				, DATE_FORMAT(A.LeaveTime, '%Y-%m-%d') AS leaveTime               	/* 탈퇴일 */
+				, A.LeaveReqId AS leaveReqId			                            /* 탈퇴신청자 */
+				, A.joinType AS joinType                                            /* 가입구분(1:개인소유권이전, 2:카방) 추후 고객정보 통합관리를 위함. 현재는 app 가입시 다 1 */
+				, IF(A.leaveTime IS NULL, '신규', '기존')								/* 신규/기존 구분(관리자에서 사용) */
+				, A.LoginFailCount AS loginFailCount								/* 로그인실패회수 */ 
+    	FROM TO_USERS A
+    	WHERE 1=1
+    	<!-- 모바일 사용자 조회 -->
+    	<if test="loginType != null and loginType != ''">
+    		<choose>
+    			<!-- 카카오 로그인 -->
+    			<when test='loginType.equals("1")'>
+    				AND ID_Kakao = #{id}
+    			</when>
+    			<!-- 네이버 로그인 -->
+    			<when test='loginType.equals("2")'>
+    				AND ID_Naver = #{id}
+    			</when>
+    			<!-- 페이스북 로그인 -->
+    			<otherwise>
+    				AND ID_Facebook = #{id}
+    			</otherwise>	
+    		</choose>
+    	</if>
+    	<!-- 운영자 사용자조회 -->
+    	<if test="idx != null and idx != ''">
+    		AND idx = #{idx}
+    	</if>
+    	AND SecretKeyTemp = #{SecretKeyTemp}
+    </select> 
+
+
+   <select id="selectToUsersLeaveYn" parameterType="map" resultType="com.carbang365.ToUserVO">
+    	/*selectToUsersLeaveYn 탈퇴여부판단*/
+    	SELECT A.idx AS idx                                                         /* 고객id */
+				, A.ID_Kakao AS idKakao				                                /* 카카오ID */
+				, A.ID_Naver AS idNaver                                             /* 네이버ID */
+				, A.ID_Facebook AS idFacebook                                       /* 페이스북ID */
+				, A.Password AS password                                            /* 자동로그인에 사용되는 임시 비밀번호 보관, 수동 로그인시 랜덤 생성된 비밀번호 재할당 */
+				, A.Email AS email                                                  /* 고객이메일 */
+				, A.Name AS name                                                    /* 고객명 */
+				, A.Sex AS sex                                                      /* [성별] 1 : 남성 / 2 : 여성 */
+				, A.BirthDate AS birthDate                                          /* 생년월일 */
+				, A.Mobile_Phone AS mobilePhone                                     /* 휴대폰번호 */
+				, A.Mobile_Carrier_Major AS mobileCarrierMajor                      /* [이동통신사] 1 : SKT / 2 : KT / 3 : LG / 4: 알뜰폰(추가) / 0 : 마이그레이션 사용자 중 통신사 정보가 없는 사용자 */ 
+				, A.Home_Address AS homeAddress                                     /* 집주소 */
+				, A.Home_Phone AS homePhone                                         /* 집전화번호 */
+				, A.Job_Name AS jobName                                             /* 직업명 */
+				, A.Job_Company AS jobCompany                                       /* 회사명 */
+				, A.Job_Address AS jobAddress                                       /* 회사주소 */
+				, A.Job_Phone AS jobPhone                                           /* 회사전화번호 */
+				, A.ProfileImage AS profileImage                                    /* 프로필이미지 */
+				, A.ProfileCertification AS profileCertification                    
+				, A.ProfileTemporaryCertification AS profileTemporaryCertification 
+				, A.FCMToken AS fCMToken                                            /* 푸쉬 알림 발송용 Firebase Token */
+				, A.DeviceID AS deviceID                                            /* 휴대폰ID(휴대폰UUID인지 확인..) */
+				, A.OsType AS osType                                                /* [OS 종류] 1 : 안드로이드 / 2 : iOS */
+				, A.Enabled AS enabled                                              /* [차단 사용자 설정] 0 : 로그인 차단 / 2 : 로그인 가능 */
+				, A.LoginTokenRefreshTime AS loginTokenRefreshTime                  /* 임시 로그인 비밀번호 사용가능 기간 (현재 미사용, 추후 상황에 따라 적용 예정) */
+				, A.LoginTime AS loginTime                                          /* [최종 로그인 시간] */
+				, A.LoginCount AS loginCount                                        /* [총 로그인 횟수] */
+				, A.SecretKey AS secretKey                                          /* 사용자 인증정보 암호화 키 (여기에 보안번호 들어가면 될듯) */
+				, DATE_FORMAT(A.UpdateTime, '%Y-%m-%d') AS updateTime      			/* 수정일시 */
+				, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d') AS registerTime           /* 등록일시 */
+				, A.CorRstrNumber AS corRstrNumber                                  /* 법인등록번호 */
+				, A.LeaveYn AS leaveYn                                              /* 적용유무(탈퇴여부)(Y:탈퇴) */
+				, DATE_FORMAT(A.LeaveTime, '%Y-%m-%d') AS leaveTime               	/* 탈퇴일 */
+				, A.LeaveReqId AS leaveReqId			                            /* 탈퇴신청자 */
+				, A.joinType AS joinType                                            /* 가입구분(1:개인소유권이전, 2:카방) 추후 고객정보 통합관리를 위함. 현재는 app 가입시 다 1 */
+				, IF(A.leaveTime IS NULL, '신규', '기존')								/* 신규/기존 구분(관리자에서 사용) */
+				, A.LoginFailCount AS loginFailCount								/* 로그인실패회수 */ 
+    	FROM TO_USERS A
+    	WHERE 1=1
+    	<!-- 모바일 사용자 조회 -->
+    	<if test="loginType != null and loginType != ''">
+    		<choose>
+    			<!-- 카카오 로그인 -->
+    			<when test='loginType.equals("1")'>
+    				AND ID_Kakao = #{id}
+    			</when>
+    			<!-- 네이버 로그인 -->
+    			<when test='loginType.equals("2")'>
+    				AND ID_Naver = #{id}
+    			</when>
+    			<!-- 페이스북 로그인 -->
+    			<otherwise>
+    				AND ID_Facebook = #{id}
+    			</otherwise>	
+    		</choose>
+    	</if>
+    	<!-- 운영자 사용자조회 -->
+    	<if test="idx != null and idx != ''">
+    		AND idx = #{idx}
+    	</if>
+    </select> 
+	<select id="selectUserPhoneEmail" parameterType="map" resultType="map">
+		<![CDATA[
+			SELECT REPLACE(Mobile_Phone,'+82','0') AS Mobile_Phone,Email FROM TO_USERS
+			WHERE BirthDate = #{BirthDate}
+			AND leaveYn <> 'Y'
+		]]>
+    	<!-- 모바일 사용자 조회 -->
+    	<if test="loginType != null and loginType != ''">
+    		<choose>
+    			<!-- 카카오 로그인 -->
+    			<when test='loginType.equals("1")'>
+    				AND ID_Kakao = #{id}
+    			</when>
+    			<!-- 네이버 로그인 -->
+    			<when test='loginType.equals("2")'>
+    				AND ID_Naver = #{id}
+    			</when>
+    			<!-- 페이스북 로그인 -->
+    			<otherwise>
+    				AND ID_Facebook = #{id}
+    			</otherwise>	
+    		</choose>
+    	</if>
+		limit 1;
+	</select>
+     <update id="updateLoginFailCount" parameterType="map">
+   		UPDATE TO_USERS SET
+   			  LoginFailCount = #{loginFailCount}
+		WHERE 1=1
+    	<!-- 모바일 사용자 조회 -->
+    	<if test="loginType != null and loginType != ''">
+    		<choose>
+    			<!-- 카카오 로그인 -->
+    			<when test='loginType.equals("1")'>
+    				AND ID_Kakao = #{id}
+    			</when>
+    			<!-- 네이버 로그인 -->
+    			<when test='loginType.equals("2")'>
+    				AND ID_Naver = #{id}
+    			</when>
+    			<!-- 페이스북 로그인 -->
+    			<otherwise>
+    				AND ID_Facebook = #{id}
+    			</otherwise>	
+    		</choose>
+    	</if>
+    </update>
+
+     <update id="updateSecretKeyTemp" parameterType="map">
+    	<![CDATA[
+    		UPDATE TO_USERS SET
+    			  SecretKeyTemp = #{SecretKeyTemp}
+    			, Enabled = '1'
+    			, UpdateTime = CURRENT_TIMESTAMP 
+			WHERE BirthDate = #{BirthDate}
+			AND leaveYn <> 'Y'
+		]]>
+    	<!-- 모바일 사용자 조회 -->
+    	<if test="loginType != null and loginType != ''">
+    		<choose>
+    			<!-- 카카오 로그인 -->
+    			<when test='loginType.equals("1")'>
+    				AND ID_Kakao = #{id}
+    			</when>
+    			<!-- 네이버 로그인 -->
+    			<when test='loginType.equals("2")'>
+    				AND ID_Naver = #{id}
+    			</when>
+    			<!-- 페이스북 로그인 -->
+    			<otherwise>
+    				AND ID_Facebook = #{id}
+    			</otherwise>	
+    		</choose>
+    	</if>			
+    </update>
+     <update id="updateSecretKey" parameterType="map">
+    	<![CDATA[
+    		UPDATE TO_USERS SET
+    			  SecretKey = #{SecretKey}
+    			, Password = #{SecretKey}
+    			, SecretKeyTemp = #{SecretKeyTemp}
+    			, Enabled = '1'
+    			, UpdateTime = CURRENT_TIMESTAMP 
+    			, LoginFailCount = '0' 
+			WHERE BirthDate = #{BirthDate}
+			AND leaveYn <> 'Y'
+		]]>
+    	<!-- 모바일 사용자 조회 -->
+    	<if test="loginType != null and loginType != ''">
+    		<choose>
+    			<!-- 카카오 로그인 -->
+    			<when test='loginType.equals("1")'>
+    				AND ID_Kakao = #{id}
+    			</when>
+    			<!-- 네이버 로그인 -->
+    			<when test='loginType.equals("2")'>
+    				AND ID_Naver = #{id}
+    			</when>
+    			<!-- 페이스북 로그인 -->
+    			<otherwise>
+    				AND ID_Facebook = #{id}
+    			</otherwise>	
+    		</choose>
+    	</if>		
+    </update>
+
+	<!-- 결제시간 IsTimeOn -->
+	<select id="selecIsTimeOn" parameterType="map" resultType="map">
+		<![CDATA[
+			SELECT B.InStTime, B.OUTEdTime, CASE WHEN B.InStDt <= NowTime AND B.OUTEdDt >= NowTime THEN 
+			'1' ELSE '0' END AS IsTimeOn
+			FROM (
+				SELECT A.InStTime, A.OUTEdTime, REPLACE(CONCAT(A.RegisterTime,A.InStTime),' ','') AS InStDt,REPLACE( CONCAT(A.RegisterTime,A.OUTEdTime),' ','') AS OUTEdDt, CONCAT(DATE_FORMAT(CURRENT_TIMESTAMP, 
+				'%Y%m%d%H%i%s'),'') AS NowTime
+				FROM (
+					SELECT DATE_FORMAT(RegisterTime, '%Y%m%d ') AS 
+					RegisterTime, (
+					SELECT REPLACE(InStTime,':','')
+					FROM TO_REQUESTDATE_MNG
+					WHERE idx = '1') AS InStTime, (
+					SELECT 
+					REPLACE(OUTEdTime,':','') 
+					FROM TO_REQUESTDATE_MNG
+					WHERE idx = '1') AS OUTEdTime
+					FROM TO_COST
+					WHERE TransferOwnerIndex =#{TransferOwnerIndex}
+				) A
+			) B
+		]]>
+	</select>
+	<!-- 소유권이전신청버튼 의뢰시간 IsTimeOn -->
+	<select id="selecIsTimeOnForTORequest" parameterType="map" resultType="map">
+		<![CDATA[
+			SELECT Z.InStTime, Z.InEdTime,Z.NOWSIBUN ,
+			CASE WHEN Z.InStTime <= Z.NOWSIBUN AND Z.InEdTime >= Z.NOWSIBUN THEN '1' 
+			ELSE '0' 
+			END AS IsTimeOn
+			FROM (
+				SELECT
+					CONCAT(NOWSIBUN,'') AS NOWSIBUN,
+					CASE 
+					WHEN X.NOWDAY <> X.LASTDAY
+						THEN (SELECT REPLACE(InStTime,':','') AS InStTime FROM TO_REQUESTDATE_MNG WHERE idx = '2')
+					WHEN X.NOWDAY = X.LASTDAY AND  B.Daysection = 'N'
+						THEN (SELECT REPLACE(InStTime,':','') AS InStTime FROM TO_REQUESTDATE_MNG WHERE idx = '3')
+					WHEN X.NOWDAY = X.LASTDAY AND  B.Daysection <> 'N'
+						THEN (SELECT REPLACE(InStTime,':','') AS InStTime FROM TO_REQUESTDATE_MNG WHERE idx = '4')
+					ELSE ''
+					END AS InStTime,
+					CASE 
+					WHEN X.NOWDAY <> X.LASTDAY
+						THEN (SELECT REPLACE(InEdTime,':','') AS InEdTime  FROM TO_REQUESTDATE_MNG WHERE idx = '2')
+					WHEN X.NOWDAY = X.LASTDAY AND  B.Daysection = 'N'
+						THEN (SELECT REPLACE(InEdTime,':','') AS InEdTime FROM TO_REQUESTDATE_MNG WHERE idx = '3')
+					WHEN X.NOWDAY = X.LASTDAY AND  B.Daysection <> 'N'
+						THEN (SELECT REPLACE(InEdTime,':','') AS InEdTime FROM TO_REQUESTDATE_MNG WHERE idx = '4')
+					ELSE ''
+					END AS InEdTime	
+				FROM TO_RawData_Calendar B ,(
+						SELECT 
+								DATE_FORMAT(CURRENT_TIMESTAMP, '%Y%m%d') AS NOWDAY,
+								DATE_FORMAT(CURRENT_TIMESTAMP, '%H%i') AS NOWSIBUN,
+								DATE_FORMAT(LAST_DAY(NOW()), '%Y%m%d') AS LASTDAY,
+								idx															/*ID*/
+								, InStTime													/*유효시작시간*/
+								, InEdTime													/*유효종료시간*/
+								, InCompletTime												/*예상완료당일시간*/
+								, OutStTime													/*영업외시작시간*/
+								, OutEdTime													/*영업외종료시간*/
+								, OutCompletTime											/*예상완료익일시간*/
+						FROM TO_REQUESTDATE_MNG A
+						WHERE 1=1
+						AND idx = 1
+					) X
+				WHERE DATE_FORMAT(CURRENT_TIMESTAMP,'%Y%m%d') = B.Today
+			) Z
+		]]>
+	</select>
+
+    <insert id="insertTsHis" parameterType="map">
+    	/*insertTsHis ts history */ 
+		INSERT INTO TO_TRANSFEROWNER_TS_HIS
+		(idx,REQST_SE_CODE,REQST_RCEPT_NO,registerTime,TsRequestYn,registerId,TsParams,TsResponseTime,TsResponse ,RESN_CODE,RESN_DTLS,RESN_DTLS_MSG)
+		VALUES
+		(#{idx},#{REQST_SE_CODE},#{REQST_RCEPT_NO},CURRENT_TIMESTAMP,#{TsRequestYn},#{registerId},#{TsParams},CURRENT_TIMESTAMP,#{TsResponse},#{RESN_CODE},#{RESN_DTLS},#{RESN_DTLS_MSG})
+    </insert>
+    <update id="updateToForTs" parameterType="map">
+    	/*updateToForTs */  
+		UPDATE TO_TRANSFEROWNER SET
+		<if test="TsRequestYn1100 != null and TsRequestYn1100 != ''">
+			TsRequestYn1100 = #{TsRequestYn1100},
+			TsRequestTime1100 = CURRENT_TIMESTAMP
+		</if>
+		<if test="TsResponse1100 != null and TsResponse1100 != ''">
+   			,TsResponse1100 = #{TsResponse1100}, 
+   			TsResponseTime1100 = CURRENT_TIMESTAMP
+   		</if>
+   		<if test="TsParams1100 != null and TsParams1100 != ''">
+   			,TsParams1100 =#{TsParams1100} 
+   			,TsParamsInsertTime1100 =  CURRENT_TIMESTAMP 
+   		</if>
+		<if test="CVPL_REQST_NO != null and CVPL_REQST_NO != ''">
+   			,CVPL_REQST_NO = #{CVPL_REQST_NO}
+   		</if>   		
+		WHERE 1=1 
+		AND idx = #{idx}
+    </update>
+	
+
+    <select id="selectToTransferownerTsHis" parameterType="map" resultType="map">
+		SELECT * FROM TO_TRANSFEROWNER_TS_HIS
+		WHERE idx = ${idx}
+		AND REQST_SE_CODE = ${REQST_SE_CODE}
+		AND RESN_CODE IS NOT NULL 
+		ORDER BY registerTime desc
+    </select>
+
+	<!-- [스케쥴러] TS 비용확정 전문 수신후 입금에대한 결과확인 -->
+    <select id="selectListForInsertTradeRequest" parameterType="map" resultType="map">
+        /*[결제1:이전비용확정통보후공단입금:selectListForInsertTradeRequest]*/
+		SELECT A.REQ_DATE,A.BANK_CODE,A.COMP_CODE,A.SEQ_NO,A.RECV_FLAG,A.RECV_MSG,T.RESULT_YN,T.SERVICE,T.PARAM 
+		FROM TRADE_REQUEST_BIN A 
+		INNER JOIN TO_TRADE_REQUEST_BIN T 	
+		ON A.REQ_DATE = T.REQ_DATE 
+		AND A.BANK_CODE = T.BANK_CODE 
+		AND A.COMP_CODE = T.COMP_CODE 
+		AND A.SEQ_NO = T.SEQ_NO
+		WHERE T.SERVICE = #{SERVICE}
+		AND (T.RESULT_YN IS NULL OR T.RESULT_YN = '' OR T.RESULT_YN = 'N')
+    </select>
+    <!-- [스케쥴러] 약관 적용처리 -->
+     <update id="updateTermsEnable" parameterType="map">
+    	<![CDATA[
+    		UPDATE TO_TERMS SET
+    			  Enable = 'Y'
+    			, IsPassed = 'Y'
+    			, UpdateTime = CURRENT_TIMESTAMP 
+			WHERE 1=1
+			AND SELECTED = "Y"
+			AND (CAST(DATE_FORMAT(NOW(), '%Y%m%d')  AS SIGNED) > (CAST(DATE_FORMAT(EnableTime, '%Y%m%d')  AS SIGNED)-1))
+		]]>
+   		<if test="TermsUpCd != null and TermsUpCd != ''">
+   			AND TermsUpCd = #{TermsUpCd} 
+   		</if>			
+    </update>
+    <select id="selectForUpdateTermsEnable" parameterType="map" resultType="map">
+    	<![CDATA[
+    		SELECT * 
+    		FROM TO_TERMS  
+			WHERE 1=1
+			AND ENABLE <> "Y"
+			AND (CAST(DATE_FORMAT(NOW(), '%Y%m%d')  AS SIGNED) > (CAST(DATE_FORMAT(EnableTime, '%Y%m%d')  AS SIGNED)-1))
+			AND SELECTED = "Y"
+		]]>
+		<if test="TermsUpCd != null and TermsUpCd != ''">
+   			AND TermsUpCd = #{TermsUpCd} 
+   		</if>
+    </select>
+    <select id="selectTermsUpCds" parameterType="map" resultType="map">
+    	<![CDATA[
+    		SELECT TermsUpCd
+    		FROM TO_TERMS 
+			GROUP BY TermsUpCd
+    	]]>
+    </select>
+    <select id="selectTermsContents" parameterType="map" resultType="map">
+    	<![CDATA[
+		    SELECT TermsContents FROM TO_TERMS
+			WHERE ENABLE = 'Y' AND TERMSUPCD = #{idx} 
+    	]]>
+    </select>
+    <select id="selectGonggis" parameterType="map" resultType="map"><![CDATA[
+		SELECT * FROM TO_GONGGI
+		WHERE 1=1
+		AND fromDt <= CURRENT_TIMESTAMP
+		AND toDt >= CURRENT_TIMESTAMP
+    	]]>
+    </select>  
+    <!-- [스케쥴러] 입금결과 후처리완료업데이트 -->
+    <update id="updateResultForTOTradeRequestBin" parameterType="map">
+    	<![CDATA[
+    		UPDATE TO_TRADE_REQUEST_BIN SET
+    			 RESULT_YN = #{RESULT_YN}
+    			,RES_CD = #{RES_CD}
+    			,RES_CONTENTS = #{RES_CONTENTS}
+    			,UPTDATE = CURRENT_TIMESTAMP 
+			WHERE 1=1
+			AND REQ_DATE = 	#{REQ_DATE}
+			AND BANK_CODE = 	#{BANK_CODE}  
+			AND COMP_CODE = 	#{COMP_CODE}   
+			AND SEQ_NO = 		#{SEQ_NO} 
+    	]]>
+    </update>
+	<!-- [스케쥴러] TS 비용확정 전문 수신후 입금에대한 결과확인 -->
+    <select id="selectListTransferOwnerRstTs" parameterType="map" resultType="map">
+    	/*[결제2:소유권이전완료후환불처리:getTransferOwnerRstTsForSchedule]*/
+		SELECT A.REQ_DATE,A.BANK_CODE,A.COMP_CODE,A.SEQ_NO,A.RECV_FLAG,A.RECV_MSG,T.RESULT_YN,T.SERVICE,T.PARAM 
+		FROM TRADE_REQUEST_BIN A 
+		INNER JOIN TO_TRADE_REQUEST_BIN T 	
+		ON A.REQ_DATE = T.REQ_DATE 
+		AND A.BANK_CODE = T.BANK_CODE 
+		AND A.COMP_CODE = T.COMP_CODE 
+		AND A.SEQ_NO = T.SEQ_NO
+		WHERE T.SERVICE = 'getTransferOwnerRstTsForSchedule'
+		AND (T.RESULT_YN IS NULL OR T.RESULT_YN = '' OR T.RESULT_YN = 'N')
+    </select>    
+    
+    
+    
+	<!-- [스케쥴러] TS 1100 신청 -->
+    <select id="selectFor1100" parameterType="map" resultType="map">
+    	/*[1100신청]*/
+	    SELECT CONCAT(idx,'') AS idx,RegisterTime,TsParams1100,CVPL_REQST_NO FROM TO_TRANSFEROWNER
+		WHERE TsRequestYn1100 = 'N' AND TsParams1100 IS NOT NULL
+    </select>    
+    <select id="reExeTs1100" parameterType="map" resultType="map">
+    	/*[1100재요청]*/
+	    SELECT idx,CONCAT(idx,'') AS idx,RegisterTime,TsParams1100 FROM TO_TRANSFEROWNER where idx = #{idx}
+    </select>    
+
+	<!-- 이전채널 설정 목록 조회 -->
+	<select id="selectTrfnChnlList" parameterType="map" resultType="map">
+		/* selectTrfnChnlList 이전채널 설정 목록 조회 */
+		SELECT X.* 
+		FROM (		
+			SELECT 
+				A.CHNL_MGNT_NO 						AS chnlMgntNo			/* 채널관리번호 */
+				, A.VHCL_TYP_CD 					AS vhclTypCd			/* 차량유형코드 */
+				, (SELECT CODE_NM 
+					FROM LETTCCMMNDETAILCODE 
+					WHERE CODE_ID = 'PSN001' 
+						AND CODE = A.VHCL_TYP_CD) 	AS vhclTypNm  			/* 차량유형명 */
+				, A.TFRN_CHNL_DV_FILT_CD 			AS tfrnChnlDvFiltCd		/* 이전채널 구분필터 코드 */
+				, A.TFRN_CHNL_CD 					AS tfrnChnlCd			/* 이전채널코드 */
+				, (SELECT CODE_NM 
+					FROM LETTCCMMNDETAILCODE 
+					WHERE CODE_ID = 'PSN002' 
+						AND CODE = A.TFRN_CHNL_CD) 	AS tfrnChnlNm 			/* 차량유형명 */ 
+				, A.TFRN_CHNL_DESC 					AS tfrnChnlDesc			/* 이전채널설명 */
+				, A.USE_YN 							AS useYn				/* 사용여부 */
+				, A.DEL_YN							AS delYn				/* 삭제여부 */
+				, A.LST_UPD_DTM						AS lstUpdDtm			/* 최종변경일시 */
+			FROM TO_TFRN_CHNL_MGNT_BASE A
+		) X	
+		WHERE delYn != 'Y'
+		<if test="vhclTypNm != null and vhclTypNm != ''">
+	    	AND X.vhclTypNm like CONCAT('%', #{vhclTypNm}, '%')
+	    </if>
+		
+		<if test="tfrnChnlCd != null and tfrnChnlCd != ''">
+	    	AND X.tfrnChnlCd = #{tfrnChnlCd}
+	    </if>
+	    ORDER BY X.vhclTypCd
+	</select>
+	
+    <!-- 이전채널 등록 -->
+    <insert id="insertTrfnChnl" parameterType="map">
+    	/*insertTrfnChnl 이전채널 등록*/
+    	INSERT INTO TO_TFRN_CHNL_MGNT_BASE (
+			VHCL_TYP_CD
+			, TFRN_CHNL_DV_FILT_CD
+			, TFRN_CHNL_CD
+			, TFRN_CHNL_DESC
+			, USE_YN
+			<include refid="com_Insert_col"/>
+    	) VALUES (
+    		#{vhclTypCd}
+    		, #{tfrnChnlDvFiltCd}
+          	, #{tfrnChnlCd}
+          	, #{tfrnChnlDesc}
+    		, #{useYn}
+    		<include refid="com_Insert_val"/>
+    	)
+    </insert>
+    
+    <!-- 이전채널 정보 업데이트 -->
+    <update id="updateTrfnChnl" parameterType="map">
+    	/*updateTrfnChnl 이전채널 업데이트 */
+    	UPDATE TO_TFRN_CHNL_MGNT_BASE SET
+    		TFRN_CHNL_CD = #{tfrnChnlCd}
+    		, TFRN_CHNL_DESC = #{tfrnChnlDesc}
+    		, USE_YN = #{useYn}
+    		<include refid="com_Update"/> 
+    	WHERE CHNL_MGNT_NO = #{chnlMgntNo} 
+    </update>
+    		
+    <!-- 이전채널 삭제 -->
+    <delete id="deleteTrfnChnl" parameterType="map">
+    	/*deleteTrfnChnl 이전채널 삭제 */
+    	DELETE FROM TO_TFRN_CHNL_MGNT_BASE  
+    	WHERE CHNL_MGNT_NO = #{chnlMgntNo} 
+    </delete>
+    
+	<!-- 이전채널 조회  from 차량분석결과 -->
+	<select id="selectTrfnChnlCd" resultType="string">
+		/* selectTrfnChnlCd 이전채널 설정 목록 조회 */
+		SELECT IFNULL(MAX(TFRN_CHNL_CD), '02') 					AS tfrnChnlCd			/* 이전채널코드 */
+		FROM TO_TFRN_CHNL_MGNT_BASE
+		WHERE VHCL_TYP_CD = #{vhclTypCd}
+			AND TFRN_CHNL_DV_FILT_CD = #{tfrnChnlDvFiltCd}
+			AND DEL_YN != 'Y'
+	</select>
+	
+    <!-- 제조사 차량 가격 등록 -->
+    <insert id="insertMfcoPrcMgntBase" parameterType="map">
+    	/*insertMfcoPrcMgntBase 제조사 차량가격 등록*/
+    	INSERT INTO VHCL_MFCO_PRC_MGNT_BASE (
+			VHID_NO
+			, MDL_NM
+			, SCLSS_NM
+			, BASE_PRC
+			, SALE_PRC
+			, USE_YN
+			<include refid="com_Insert_col"/>
+    	) VALUES (
+    		#{vhidNo}
+    		, #{mdlNm}
+          	, #{sclssNm}
+          	, #{basePrc}
+          	, #{salePrc}
+    		, 'Y'
+    		<include refid="com_Insert_val"/>
+    	)
+    </insert>
+    
+    <!-- 제조사 차량 옵션 가격 등록 -->
+    <insert id="insertMfcoOptPrcPtcl" parameterType="map">
+    	/*insertMfcoOptPrcPtcl 제조사 차량 옵션가격 등록*/
+    	INSERT INTO VHCL_MFCO_OPT_PRC_PTCL (
+			VHID_NO
+			, OPT_SEQ_NO
+			, OPT_CD
+			, OPT_CD_NM
+			, OPT_PRC
+			, USE_YN
+			<include refid="com_Insert_col"/>
+    	) VALUES (
+    		#{vhidNo}
+    		, (SELECT X.SEQ+1 FROM (SELECT IFNULL(MAX(OPT_SEQ_NO), 0) AS SEQ FROM VHCL_MFCO_OPT_PRC_PTCL WHERE VHID_NO = #{vhidNo}) AS X)
+          	, #{optCd}
+          	, #{optCdNm}
+          	, #{optPrc}
+    		, 'Y'
+    		<include refid="com_Insert_val"/>
+    	)
+    </insert>
+
+	<!-- 제조사 차량가격 조회 -->
+    <select id="selectVhclMfcoPrcMgntBase" parameterType="map" resultType="map">
+    	/* selectVhclMfcoPrcMgntBase 제조사 차량가격조회 */
+    	SELECT VHID_NO AS vhidNo									/*차대번호*/												
+				, MDL_NM AS mdlNm									/*모델명*/
+				, BASE_PRC AS basePrc								/*기본가격*/
+				, SALE_PRC AS salePrc								/*판매가격*/
+		FROM VHCL_MFCO_PRC_MGNT_BASE
+		WHERE VHID_NO = #{vhidNo}
+	</select>
+
+	<!-- 통합납부 영수증 목록 조회 -->
+	<select id="selectUnfyPayVouList" parameterType="map" resultType="map">
+		/* selectUnfyPayVouList 통합납부 영수증 목록 조회 */
+		SELECT 
+			UNFY_PAY_VOU_MNG_NO 	AS unfyPayVouMngNo	/* 통합납부영수증 관리번호 */
+			, PAYR_NM 				AS payrNm			/* 납부자명 */
+			, PAY_AMT 				AS payAmt			/* 납부금액 */
+			, VHCL_NO 				AS vhclNo			/* 차량번호 */
+			, PAY_DT 				AS payDt			/* 납부일자 */
+			, ELEC_PAY_NO			AS elecPayNo		/* 전자납부번호 */
+			, FST_REG_DTM			AS fstRegDtm		/* 최초등록일시 */
+		FROM TO_UNFY_PAY_VOU_MGNT_BASE
+		WHERE DEL_YN != 'Y'
+			AND PAY_DT BETWEEN #{payDtFrom} and #{payDtTo}
+		<if test="payNm!= null and payNm != ''">
+	    	AND X.payNm like CONCAT('%', #{payNm}, '%')
+	    </if>
+	    ORDER BY PAY_DT
+	</select>
+	
+	<!-- 통합납부 영수증 매핑 대상 목록 조회 -->
+	<select id="selectUnfyPayVouMappingList" parameterType="map" resultType="map">
+		/* selectUnfyPayVouMappingList 통합납부 영수증 매핑 대상목록 조회 */
+		SELECT DISTINCT
+			A.idx 										AS idx				/* 소유권이전 idx */
+			, A.ELEC_PAY_NO 							AS elecPayNo		/* 전자납부번호 */
+			, A.Request_VehicleNumber 					AS vhclNo			/* 차량번호 */
+			, DATE_FORMAT(A.TsRegisterTime, '%Y%m%d') 	AS regDt			/* 등록일 */
+			, B.ChassisNumber							AS vhidNo			/* 차대번호 */
+			, C.Name									AS payrNm			/* 납부자성명 */
+		FROM TO_TRANSFEROWNER A
+			INNER JOIN TO_VEHICLE_REGISTRATION B
+			ON A.Request_VehicleNumber = B.RegNumber
+			INNER JOIN TO_TRANSFEROWNER_BUYER C
+			ON A.idx = C.TransferOwnerIndex
+		WHERE A.TsRegisterTime BETWEEN CONCAT(#{payDt}, '000000') AND CONCAT(#{payDt}, '235959')
+			AND A.Stage IN ('18', '27')
+			AND A.TFRN_CHNL_CD = '02'
+			AND A.UNFY_PAY_VOU_MNG_NO IS NULL
+	    ORDER BY A.idx
+	</select>
+
+    <!-- 통합납부 영수증 관리 인서트 -->
+    <insert id="insertToUnfyPayVouMgntBase" parameterType="map" useGeneratedKeys="true" keyProperty="unfyPayVouMngNo">
+    	/*insertToUnfyPayVouMgntBase 통합납부 영수증 관리 입력 */
+    	INSERT INTO TO_UNFY_PAY_VOU_MGNT_BASE (
+			PAYR_NM
+			, PAY_AMT
+			, VHCL_NO
+			, PAY_DT
+			, ELEC_PAY_NO
+			, PAY_VOU_FILE_NM
+			, USE_YN
+			<include refid="com_Insert_col"/>
+		)  VALUES( 
+			#{payrNm}
+			, #{payAmt}
+			, #{vhclNo}
+			, #{payDt}
+			, #{elecPayNo}
+			, #{payVouFileNm}
+			, 'Y'
+			<include refid="com_Insert_val"/>
+		)	
+    </insert>
+
+   	<!-- 소유권이전 통합납부영수증 관리번호 업데이트 -->
+	<update id="updateUnfyPayVouMngNo" parameterType="map">
+		UPDATE TO_TRANSFEROWNER SET
+			UNFY_PAY_VOU_MNG_NO = #{unfyPayVouMngNo} 		
+		WHERE idx = #{idx}
+	</update>	    
+    			    
+    <sql id="com_Update">
+    	, LST_UPDR_ID = 'admin'
+    	, LST_UPD_DTM = now()
+ 	</sql>
+ 	
+ 	<sql id="com_Insert_col">
+ 		, FST_REGR_ID
+ 		, FST_REG_DTM
+ 		, LST_UPDR_ID
+ 		, LST_UPD_DTM
+ 		, DEL_YN
+ 	</sql>
+ 	
+ 	<sql id="com_Insert_val">
+ 		, 'admin'
+ 		, now()
+ 		, 'admin'
+ 		, now()
+ 		, 'N'
+ 	</sql>
+ 	
+ 	<!-- 공통 코드 조회 -->
+	<select id="selectComCdByName" parameterType="map" resultType="string">
+ 		SELECT CODE from LETTCCMMNDETAILCODE 
+		WHERE CODE_ID = #{codeId}
+			AND CODE_NM = #{codeNm}
+	</select>	
+ 	
+ 	<!-- 경로 결정을 위한  차종 조회 -->
+	<select id="carTypeSelect" parameterType="map" resultType="map">
+ 		SELECT CODE from LETTCCMMNDETAILCODE 
+		WHERE 1=1
+		AND CODE_ID = 'PSN001'
+		AND CODE_NM = #{CODE_DC}
+	</select>	
+				
+	<!-- 경로 결정을 위한  친환경 조회 -->
+	<select id="ecoTypeSelect" parameterType="map" resultType="map">
+ 		SELECT CODE from LETTCCMMNDETAILCODE 
+		WHERE 1=1
+		AND CODE_ID = 'PSN003'
+		AND CODE_NM = #{CODE_NM}
+	</select>
+ 	
+ 	
+ </mapper>

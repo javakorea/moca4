@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>AreaChart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css" href="../css/moca_layout.css">
+<script language="JavaScript" src="../js/jquery-3.3.1.min.js"></script>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongManager.js"></SCRIPT>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongSampleData.js"></SCRIPT>
+<SCRIPT language="JavaScript" src="./chart/js/mchart/kongChart.js"></SCRIPT>	
+  	<script>
+
+	$(document).ready(function() {
+			chart19();
+			chart19_1();
+			chart19_2();
+			chart19_3();
+			
+	});//초기화 영역-------------------------------------------------------------
+  	</script>
+</head> 
+<body>
+		<div class="moca_cont_wrap2">
+					<div class="moca_titbox">
+						<h3>Normal Distribution Chart</h3>
+					</div>
+					<div id="chart19_desc" class="modulebox">
+						<div id="chart19_1title" class="moca_titbox">
+							<h4>9. 정규분포(확률밀도함수)</h4>
+						</div> 
+						<p>
+						확률론과 통계학에서, 정규분포또는 가우스분포는 연속확률분포의 하나이다.<br>정규분포는 수집된 자료의 분포를 근사하는 데에 자주 사용되며, 이것은 중심극한정리에 의하여 독립적인 확률변수들의 평균은 정규분포에 가까워지는 성질이 있기때문이다.
+						정규분포는 2개의 매개 변수 평균과 표준편차에 대해 모양이 결정되고, 특히 평균이 0이고, 표준편차가 1인 정규분포를 표준정규분포라고 한다.
+						</p>
+						<div id="chart19" class="crt_box mt20"></div>	
+						
+						<table class="tbl mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>데이터생성속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">var meanArr = [1411,1044,1577];</td>
+									<td>시리즈별 평균값배열</td>
+								</tr>
+								<tr>
+									<td class="sct">var stdvArr = [705.5,522,788.5];</td>
+									<td>시리즈별 표준편차값배열</td>
+								</tr>
+								<tr>
+									<td class="sct">var InpValCnt = 3000;</td>
+									<td>시리즈별 사용되는값의개수(0부터 X까지)</td>
+								</tr>
+								<tr>
+									<td class="sct">var seriesCnt = 1;</td>
+									<td>시리즈개수</td>
+								</tr>
+								<tr>
+									<td class="sct">var seriesArr = chartUtil.getNdData(meanArr,stdvArr,InpValCnt,seriesCnt);</td>
+									<td>정규분포데이터(<b style='color:blue'>확률밀도함수사용</b>)생성<br>(누적분포함수는 별도문의)</td>
+								</tr>
+							</tbody>
+						</table>	
+
+
+					</div>        
+
+
+
+
+
+
+
+					<div id="chart19_1desc" class="modulebox">
+						<div id="chart19_1title" class="moca_titbox">
+							<h4>9_1. Multi Series(0~3,000)(차트 width보다 큰경우)</h4>
+						</div> 
+						<div id="chart19_1" class="crt_box mt20"></div>	 
+						
+						<table class="tbl mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">aSeries3.s_sizeDefault = 4;<br>aSeries3.s_sizeDefault = 2;<br>aSeries3.s_sizeDefault = 1;</td>
+									<td>웹접근성고려 각 시리즈의 두께를 각각 다르게 셋팅</td>
+								</tr>
+								<tr>
+									<td class="sct">createSeries('any sereis1',...);</td>
+									<td>'any sereis1','any sereis2','any sereis3' → 각시리즈명 명은 반드시 중복되지않아야함!</td>
+								</tr>
+								<tr>
+									<td class="sct">createSeries(...,,chartUtil.formatData_profile2(seriesArr[0],false,0.0056,0,4));</td>
+									<td>seriesArr[0]는 데이터배열, false는 x축의 min,max자동구하기여부, 그다음은 max, min, y축 눈금구분개수</td>
+								</tr>		
+
+								<tr>
+									<td class="sct">createSeries('any sereis1','ndSpline',chartUtil.formatData_profile2(seriesArr[0],false<b style='color:red'>,0.00016,0,4</b>));</td>
+									<td>Y축의 0.00016가 최대값,0이최소값, 4가 눈금개수 </td>
+								</tr>
+								<tr>
+									<td class="sct">createSeries('any sereis1',<b style='color:red'>'ndSpline'</b>...</td>
+									<td>시리즈종류는 ndSpline(normal Distribution:정규분포)</td>
+								</tr>		
+								<tr>
+									<td class="sct">aSeries.s_shape='rect';</td>
+									<td>그래프에 찍는 점의모양 'circle'보다 'rect'가 성능이 좋음</td>
+								</tr>		
+							</tbody>
+						</table>	
+
+						
+					</div>  
+
+
+					<div id="chart19_2desc" class="modulebox">
+						<div id="chart19_2title" class="moca_titbox">
+							<h4>9_2. Single Series(0~300)(차트 width보다 작은경우)</h4>
+						</div> 
+						<div id="chart19_2" class="crt_box mt20"></div>	
+						<table class="tbl mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">aSeries.s_color='rgba(0,128,192,1)';<br>aSeries.s_shapeColor = aSeries.s_color;</td>
+									<td>s_color: 라인색, s_shapeColor: 점(사각, 원형)색을 동일하게 셋팅</td>
+								</tr>
+							</tbody>
+						</table>	
+						
+						<table class="tbl y mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">option.rpTooltipUse = false;</td>
+									<td>마우스포인터를 따라다니는 툴팁상자를 사용안함</td>
+								</tr>
+								<tr>
+									<td class="sct">option.rpTooltipUse = true;</td>
+									<td>마우스포인터를 따라다니는 툴팁상자를 사용</td>
+								</tr>			
+								<tr>
+									<td class="sct">option.tooltipShow = false;</td>
+									<td>좌측상단에 표시되는 bar형text상세툴팁을 사용안함</td>
+								</tr>			
+
+
+								<tr>
+									<td class="sct">option.min = 0;</td>
+									<td>최소값을 지정함</td>
+								</tr>
+								<tr>
+									<td class="sct">option.xmin = option.min;</td>
+									<td>최소값과 x축의 시작좌표값을 동일하게 맞춤</td>
+								</tr>
+								<tr>
+									<td class="sct">option.xmax = InpValCnt;</td>
+									<td>x축의 최대값을 value의 최대개수값으로 입력함.</td>
+								</tr>	
+							</tbody>
+						</table>	
+					</div>    
+
+
+
+
+
+
+						
+					<div id="chart19_3desc" class="modulebox">
+						<div id="chart19_3title" class="moca_titbox">
+							<h4>9_3. Single Series(0~800)(차트 width보다 작은경우)</h4>
+						</div> 
+						<div id="chart19_3" class="crt_box mt20"></div>	
+						<table class="tbl mt20">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>시리즈속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">var aSeries 	= createSeries('any sereis1','ndSpline',chartUtil.formatData_profile2(seriesArr[0],false,0.0056,0,4));</td>
+									<td>시리즈타입을 ndSpline로 주면 해상도보다 많은 양의 데이터는 scatter로 적은양의 데이터는 line으로 내부적으로 자동변경되어 성능을 향상시킴</td>
+								</tr>
+							</tbody>
+						</table>		
+						
+						<table class="tbl y mt10">
+							<colgroup>
+								<col style="width:50%">
+								<col style="">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>차트속성</th>
+									<th>설명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="sct">option.legendPosition= 'top';</td>
+									<td>범례를 상단에 위치시킨다.</td>
+								</tr>
+								<tr>
+									<td class="sct">option.legendPositionH= 'titleRight';</td>
+									<td>범례를 제목우측에 붙인다.</td>
+								</tr>
+							</tbody>
+						</table>
+					</div> 
+		</div>
+</body>
+</html>
+
