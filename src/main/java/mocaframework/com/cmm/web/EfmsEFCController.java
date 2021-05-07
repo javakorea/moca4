@@ -299,13 +299,17 @@ public class EfmsEFCController {
 	
 	@RequestMapping(value = "/code_json.do")	
 	public View getCode(@RequestParam Map param, ModelMap map) {
+		System.out.println("==============================code_json.do"+param);
 		Map resultMap = new HashMap();
 		try {
 			ObjectMapper mapper = new ObjectMapper(); 
 
 			Map<String, Object> bodyObj = new HashMap<String, Object>(); 
+			System.out.println("==============================body "+param.get("body").toString());
 			bodyObj = mapper.readValue(param.get("body").toString(), HashMap.class); 
+			System.out.println("==============================bodyObj "+bodyObj);
 			Map configMap = (Map)bodyObj.get("config");//:{grd_1.age={code=age, allOption={label=-선택-, value=}}, grd_1.nation={code=nation, allOption={label=*, value=}}, cmb_1={code=nation, allOption={label=전체, value=}}}
+			System.out.println("==============================configMap "+configMap);
 			Set st = configMap.keySet();
 			Iterator it = st.iterator();
 			while(it.hasNext()) {
