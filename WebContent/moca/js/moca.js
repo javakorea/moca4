@@ -2841,13 +2841,12 @@ Moca.prototype.searchComboSelectedClick = function(thisObj) {
 	var scmb = $(thisObj).closest('[type=searchCombo]');
 	var prev_v = scmb.attr('value');
 	var text_v = scmb.attr('text');
-	
 	if(prev_v != v){
 		eval(scmb[0].inneronchange)(prev_v,text_v,v,t);
 	}
 	scmb.attr('value',v);
 	scmb.attr('text',t);
-	var ipt = scmb.find('.moca_select');
+	var ipt = scmb.find('.moca_input');
 	ipt.val(t);
 	var div = scmb.find('.searchCmbTable');
 	if(div.is(':visible')){
