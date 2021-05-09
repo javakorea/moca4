@@ -122,6 +122,10 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_select::-ms-expand {display:none}
 .moca_select {position:relative; width:100%; height:100%; padding:0 22px 0 4px; border:0; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -webkit-appearance:none; -moz-appearance:none; appearance:none; background: url(../images/ico_cmb_arrow.png) no-repeat 100% 50%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
 
+
+/*MOCA seacrhCombo*/
+.moca_searchCombo {height:24px; width:100%;background-color:#fff; border:1px solid #d7d7de; border-radius:2px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -webkit-appearance:none; -moz-appearance:none; appearance:none}
+
 /* MOCA inputCalendar */
 .moca_ica {width:110px;display:block; position:relative; height:24px; border:1px solid #d7d7de; background:#fff; border-radius:2px; -moz-box-sizing:border-box; box-sizing:border-box}
 .moca_ica[type="inputMultiCalendar"]{width:205px; text-align:left; border:0; background:none}
