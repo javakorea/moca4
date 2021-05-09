@@ -2818,6 +2818,148 @@ Moca.prototype.renderCombo = function(_divObj,_val,_gubun,_pageId,_srcId) {
 		_divObj.innerHTML = _html;
 	}
 };
+Moca.prototype.searchComboClick = function(thisObj) {
+	var scmb = $(thisObj).closest('[type=searchCombo]');
+	var div = scmb.find('.searchCmbTable');
+	if(div.is(':visible')){
+		div.hide();
+	}else{
+		div.show();
+		var scmbObj = scmb[0];
+		var v = scmb.attr('value');
+		
+		if(scmbObj.prevli != null){
+			$(scmbObj.prevli).removeClass('on');
+		}
+		scmbObj.prevli = div.find('li[value='+v+']');
+		$(scmbObj.prevli).addClass('on');
+	}
+};
+Moca.prototype.searchComboSelectedClick = function(thisObj) {
+	var v = event.srcElement.getAttribute("value");
+	var t = event.srcElement.innerHTML;
+	var scmb = $(thisObj).closest('[type=searchCombo]');
+	var prev_v = scmb.attr('value');
+	var text_v = scmb.attr('text');
+	
+	if(prev_v != v){
+		eval(scmb[0].inneronchange)(prev_v,text_v,v,t);
+	}
+	scmb.attr('value',v);
+	scmb.attr('text',t);
+	var ipt = scmb.find('.moca_select');
+	ipt.val(t);
+	var div = scmb.find('.searchCmbTable');
+	if(div.is(':visible')){
+		div.hide();
+	}else{
+		div.show();
+	}
+};
+Moca.prototype.searchComboSelectedMouseover = function(thisObj) {
+	var scmb = $(thisObj).closest('[type=searchCombo]');
+	var scmbObj = scmb[0];
+	if(scmbObj.prevli != null){
+		$(scmbObj.prevli).removeClass('on');
+	}
+	scmbObj.prevli = event.srcElement;
+	$(scmbObj.prevli).addClass('on');
+};
+Moca.prototype.searchComboBlur = function(thisObj) {
+	setTimeout(function(){
+		var _type = $(thisObj).attr("type");
+		var scmb;
+		if(_type == 'searchCombo'){
+			scmb = $(thisObj);
+		}else{
+			scmb = $(thisObj).closest('[type=searchCombo]');
+		}
+		var v = scmb.attr('value');
+		var t = scmb.attr('text');
+		
+		var scmbObj = scmb[0];
+		var div = scmb.find('.searchCmbTable');
+		if(scmbObj.prevli != null){
+			$(scmbObj.prevli).removeClass('on');
+		}
+		scmbObj.prevli = div.find('li[value='+v+']');
+		$(scmbObj.prevli).addClass('on');
+		t = scmbObj.prevli.html();
+		scmb.attr('text',t);
+		var ipt = scmb.find('.moca_select');
+		ipt.val(t);
+		
+		div.hide();
+	},200);
+};
+
+Moca.prototype.searchComboSetter = function(thisObj) {
+	var _type = $(thisObj).attr("type");
+	var scmb;
+	if(_type == 'searchCombo'){
+		scmb = $(thisObj);
+	}else{
+		scmb = $(thisObj).closest('[type=searchCombo]');
+	}
+	var v = scmb.attr('value');
+	var t = scmb.attr('text');
+	
+	var scmbObj = scmb[0];
+	var div = scmb.find('.searchCmbTable');
+	if(scmbObj.prevli != null){
+		$(scmbObj.prevli).removeClass('on');
+	}
+	scmbObj.prevli = div.find('li[value='+v+']');
+	$(scmbObj.prevli).addClass('on');
+	t = scmbObj.prevli.html();
+	scmb.attr('text',t);
+	var ipt = scmb.find('.moca_select');
+	ipt.val(t);
+	
+	div.hide();
+};
+
+
+Moca.prototype.searchComboFocus = function(thisObj) {
+	var scmb = $(thisObj).closest('[type=searchCombo]');
+	var scmbObj = scmb[0];
+	if(scmbObj.text != ''){
+		var filterDiv = $(thisObj).closest('div.filterheader').next();
+		filterDiv.find('li').css('display','');
+		filterDiv.find('li:not(:contains("'+thisObj.value+'"))').css('display','none');
+	}else{
+		var div = scmb.find('.searchCmbTable');
+		div.show();
+	}
+};
+
+
+Moca.prototype.searchComboFilter = function(thisObj) {
+	['콤보내찾기'];
+	var filterDiv = $(thisObj).closest('div.filterheader').next();
+	var lis = filterDiv.find('li');
+	lis.css('display','');
+	filterDiv.find('li:not(:contains("'+thisObj.value+'"))').css('display','none');
+	
+	var lis_visible = filterDiv.find('li:visible');
+	if(event.key == 'Enter' && lis_visible.length > 0){
+		var v = lis_visible[0].getAttribute("value");
+		var t = lis_visible[0].innerHTML;
+		var scmb = $(thisObj).closest('[type=searchCombo]');
+		scmb.attr('value',v);
+		scmb.attr('text',t);
+		var ipt = scmb.find('.moca_select');
+		ipt.val(t);
+		var div = scmb.find('.searchCmbTable');
+		if(div.is(':visible')){
+			div.hide();
+		}else{
+			div.show();
+		}
+	}
+};
+
+
 Moca.prototype.renderSearchCombo = function(_divObj,_val,_gubun,_pageId,_srcId) {
 	['renderSearchCombo'];
 	var _list= _divObj['list'];
@@ -2850,18 +2992,15 @@ Moca.prototype.renderSearchCombo = function(_divObj,_val,_gubun,_pageId,_srcId) 
 		var _onchange = _divObj.getAttribute('onchange');
 		var _inneronchange = _divObj.getAttribute('inneronchange');
 		if(moca.trim(_inneronchange) != ''){
-			_onchange = _inneronchange;
+			_inneronchange = _inneronchange.replace(/\(.*?\)/,'');
+			_divObj.inneronchange = _inneronchange;
 		}
 		var _html = '';
 		_html += '<div class="filterheader">';
-		_html += '	<input type="text" class="moca_select" style="" value="" onkeyup="moca.realtimeSearch(this)" placeholder="검색어를 입력하세요">';
+		_html += '	<input type="text" class="moca_select" style="" value="" onkeyup="moca.searchComboFilter(this)" placeholder="검색어를 입력하세요" onclick="moca.searchComboClick(this)" onblur="moca.searchComboBlur(this)" onfocus="moca.searchComboFocus(this)">';
 		_html += '</div>';
-		_html += '<div class="searchCmbTable" style="">';
-		_html += '<ul top_position="348" style="max-height: 497px;">';
-		
-		
-		
-
+		_html += '<div class="searchCmbTable" style="display:none">';
+		_html += '<ul top_position="348" style="max-height: 497px;" onclick="moca.searchComboSelectedClick(this)" onmouseover="moca.searchComboSelectedMouseover(this)">';
 		
 		var cdKey = _divObj.getAttribute('cdField');
 		var nmKey = _divObj.getAttribute('nmField');
@@ -2887,7 +3026,7 @@ Moca.prototype.renderSearchCombo = function(_divObj,_val,_gubun,_pageId,_srcId) 
 			}else{
 				_reLabel = _allOpt.label;
 			}
-			_html += '<li class="on" value="'+_allOpt.value+'" selected>'+_reLabel+'</li>';
+			_html += '<li class="" value="'+_allOpt.value+'" selected>'+_reLabel+'</li>';
 		}
 		
 		
@@ -2913,7 +3052,7 @@ Moca.prototype.renderSearchCombo = function(_divObj,_val,_gubun,_pageId,_srcId) 
 			if(cd == _val){
 				selectedStr = 'selected';
 			}
-			_html += '<li class="on" value="'+cd+'" '+selectedStr+'>'+_reLabel+'</li>';
+			_html += '<li class="" value="'+cd+'" '+selectedStr+'>'+_reLabel+'</li>';
 		}
 		_html += '</ul></div>';
 		_divObj.innerHTML = _html;
@@ -7632,7 +7771,13 @@ Moca.prototype.getCORP_CD = function(){
 Moca.prototype.getCombo = function(_id){
 	return $(moca.getObj(_id)).find('select').val();
 };
-
+Moca.prototype.getSearchCombo = function(_id){
+	var jobj = $(moca.getObj(_id));
+	return {value:jobj.attr("value"),text:jobj.attr("text")};
+};
+Moca.prototype.getCombo = function(_id){
+	return $(moca.getObj(_id)).find('select').val();
+};
 Moca.prototype.getComboLabel = function(_id){
 	var o = $(moca.getObj(_id)).find('select');
 	var v = o.val();
@@ -8090,7 +8235,7 @@ Moca.prototype.realtimeSearch = function(_thisObj) {
 	var filterDiv = $(_thisObj).closest('div.filterheader').next();
 	filterDiv.find('li').css('display','');
 	filterDiv.find('li:not(:contains("'+_thisObj.value+'"))').css('display','none');
-}
+};
 
 Moca.prototype.writeMessage = function(_obj) {
 	['메세지보이기'];
@@ -9579,6 +9724,17 @@ Moca.prototype.rendering = function(o,_aTag) {
 	moca[_srcId].getCombo = function(_id){
 		var o = $(moca.getObj(_id,null,this.pageId,this.srcId)).find('select');
 		return o.val();
+	};
+	moca[_srcId].getSearchCombo = function(_id){
+		var jobj = $(moca.getObj(_id,null,this.pageId,this.srcId));
+		return {value:jobj.attr("value"),text:jobj.attr("text")};
+	};
+	moca[_srcId].setSearchCombo = function(_id,_value){
+		var thisObj = moca.getObj(_id,null,this.pageId,this.srcId);
+		var o = $(thisObj);
+		o.attr('value',_value);
+		moca.searchComboSetter(thisObj);
+		return o;
 	};
 	moca[_srcId].getComboLabel = function(_id){
 		var o = $(moca.getObj(_id,null,this.pageId,this.srcId)).find('select');

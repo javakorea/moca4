@@ -76,7 +76,6 @@
 			url:'/moca/comp/COMP_UPLD.html',
 			title:"파일업로드",
 			callback:function(result){
-				debugger;
 				var fileSize = result.fileSize
 				var fileLength = result.fileLength
 				var originalFilename = result.originalFilename
@@ -96,8 +95,8 @@
 	};	
 
 	
-	moca.EFC_PROP.selectSetter = function() {
-		
+	moca.EFC_PROP.selectSetter = function(prev_v,prev_t,after_v,after_t) {
+		debugger;
 	};	
 	
 </script>
@@ -126,9 +125,9 @@
 								<th class="tb_th pr10">NativeComboTest</th>
 								<td class="tb_td">
 									<div type="combo" 
-									id="cmb_[row]_[col]" 
+									id="cmb_1" 
 									class="moca_searchCombo" 
-									innerOnchange="moca.EFC_PROP.selectSetter(this)" 
+									onchange="moca.EFC_PROP.selectSetter(this)" 
 									style="width:200px" 
 									displayFormat="[label]" 
 									cdField="cd" 
@@ -140,14 +139,14 @@
 								<th class="tb_th pr10">SearchComboTest</th>
 								<td class="tb_td">
 									<div type="searchCombo" 
-									id="cmb_[row]_[col]" 
+									id="scmb_1" 
 									class="moca_searchCombo" 
-									innerOnchange="moca.EFC_PROP.selectSetter(this)" 
+									inneronchange="moca.EFC_PROP.selectSetter(this)" 
 									style="width:200px" 
 									displayFormat="[label]" 
 									cdField="cd" 
 									nmField="nm"   
-									itemset='[{"cd":"0","nm":"해당없음 "},{"cd":"1","nm":"(%) 비율"},{"cd":"2","nm":"(원) 금액"}]'>
+									itemset='[{"cd":"0","nm":"해당없음 "},{"cd":"1","nm":"(%)비율"},{"cd":"2","nm":"(원)금액"}]'>
 									</div>
 								</td>
 							</tr>
