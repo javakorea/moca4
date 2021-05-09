@@ -2997,7 +2997,8 @@ Moca.prototype.renderSearchCombo = function(_divObj,_val,_gubun,_pageId,_srcId) 
 		}
 		var _html = '';
 		_html += '<div class="filterheader">';
-		_html += '	<input type="text" class="moca_select" style="" value="" onkeyup="moca.searchComboFilter(this)" placeholder="검색어를 입력하세요" onclick="moca.searchComboClick(this)" onblur="moca.searchComboBlur(this)" onfocus="moca.searchComboFocus(this)">';
+		_html += '	<input type="text" class="moca_input" style="" value="" onkeyup="moca.searchComboFilter(this)" placeholder="검색어를 입력하세요" onclick="moca.searchComboClick(this)" onblur="moca.searchComboBlur(this)" onfocus="moca.searchComboFocus(this)">';
+		_html += '	<a class="btn_cmb"></a>';
 		_html += '</div>';
 		_html += '<div class="searchCmbTable" style="display:none">';
 		_html += '<ul top_position="348" style="max-height: 497px;" onclick="moca.searchComboSelectedClick(this)" onmouseover="moca.searchComboSelectedMouseover(this)">';
