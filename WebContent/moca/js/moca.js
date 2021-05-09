@@ -2818,6 +2818,108 @@ Moca.prototype.renderCombo = function(_divObj,_val,_gubun,_pageId,_srcId) {
 		_divObj.innerHTML = _html;
 	}
 };
+Moca.prototype.renderSearchCombo = function(_divObj,_val,_gubun,_pageId,_srcId) {
+	['renderSearchCombo'];
+	var _list= _divObj['list'];
+	var _codeOpt= _divObj['codeOpt'];
+	if(_codeOpt == null){
+		_codeOpt = {};
+	}
+	
+	if(_list == null){
+		var _id = _divObj.id;
+		var _label = _divObj.getAttribute("label");
+		var _listStr = _divObj.getAttribute('itemset');
+		if(_listStr != null){
+			var _listObj = JSON.parse(_listStr);
+			_divObj['list'] = _listObj;
+			_list = _divObj['list'];
+			_gubun = 'normal';
+		}
+		var _codeOptStr = _divObj.getAttribute("codeOpt");
+		if(_codeOptStr != null){
+			var __codeOpt = JSON.parse(_codeOptStr);
+			_divObj['codeOpt'] = __codeOpt;
+			_codeOpt =_divObj['codeOpt'];
+			_gubun = 'normal';
+		}
+	}
+	if(_list != null){
+		var _grdId = _divObj.id;
+		var _displayFormat = _divObj.getAttribute('displayFormat');
+		var _onchange = _divObj.getAttribute('onchange');
+		var _inneronchange = _divObj.getAttribute('inneronchange');
+		if(moca.trim(_inneronchange) != ''){
+			_onchange = _inneronchange;
+		}
+		var _html = '';
+		_html += '<div class="itemTable2" style="position: fixed; width: 169px; top: 295px; left: 1436px; z-index: 6200;">';
+		_html += '<div class="filterheader">';
+		_html += '	<input type="text" class="moca_input req" style="" value="" onkeyup="moca.realtimeSearch(this)" placeholder="검색어를 입력하세요">';
+		_html += '</div>';
+		_html += '<ul top_position="348" style="max-height: 497px;">';
+		
+		
+		
+
+		
+		var cdKey = _divObj.getAttribute('cdField');
+		var nmKey = _divObj.getAttribute('nmField');
+		if(cdKey == null){
+			cdKey = "cd";
+		}
+		if(nmKey == null){
+			nmKey = "nm";
+		}		
+		
+		var _allOpt = _codeOpt['allOption']; 
+		var _selectedValue = _codeOpt['selectedValue']; 
+		if(_selectedValue != null){
+			_val = _selectedValue;
+		}
+		
+		
+		if(_allOpt != null){
+			var _reLabel = '';
+			var _value = '';
+			if(_displayFormat != null && _displayFormat != 'null' && _allOpt != null && _allOpt.value != ''){
+				_reLabel = _displayFormat.replace('[value]',_allOpt.value).replace('[label]',_allOpt.label);
+			}else{
+				_reLabel = _allOpt.label;
+			}
+			_html += '<li class="on" value="'+_allOpt.value+'" selected>'+_reLabel+'</li>';
+		}
+		
+		
+	
+		for(var i=0; i < _list.length; i++){
+			var row = _list[i];
+			var cd = row[cdKey];
+			var nm = row[nmKey];
+			var _checked = row.checked;
+			var selectedStr = '';
+			if(_checked == 'true'){
+				selectedStr = 'selected';
+			}
+			var _reLabel = '';
+			var _value = '';
+			if(_displayFormat != null && _displayFormat != 'null' && cd != ''){
+				_reLabel = _displayFormat.replace('[value]',cd).replace('[label]',nm);
+			}else{
+				_reLabel = nm;
+			}
+			
+			
+			if(cd == _val){
+				selectedStr = 'selected';
+			}
+			_html += '<li class="on" value="'+cd+'" '+selectedStr+'>'+_reLabel+'</li>';
+		}
+		_html += '</ul></div>';
+		_divObj.innerHTML = _html;
+	}
+};
+
 
 Moca.prototype.renderCheckbox = function(_divObj,_val,_gubun) {
 	['render Checkbox'];
@@ -3372,6 +3474,13 @@ Moca.prototype.init = function(_tabId,_srcId,_url,_json_data,_callback) {
 			var aTag = arr[i];
 			moca.renderCombo(aTag);
 		};	
+		var arr = _tabObj.find('div[type=searchCombo][pageid='+_tabObj.attr('tab_id')+']');
+		for(var i=0; i < arr.length; i++){
+			var aTag = arr[i];
+			moca.renderSearchCombo(aTag);
+		};	
+		
+		
 		
 		var arr = _tabObj.find('div[type=grid][pageid='+_tabObj.attr('tab_id')+']');
 		if(arr.length > 0){
@@ -6433,12 +6542,7 @@ Moca.prototype.doFilterForSingle = function(_thisObj,_e,grd) {
 	var o = $(_thisObj).closest('TH');
 	var _id = o.attr('id');
 	var itemTable = $(_thisObj).closest('.moca_grid_body').find(".itemTable[thid="+_id+"]");
-	/*
-	if(itemTable.length > 0){
-		$(_thisObj).closest('.moca_grid_body').find(".itemTable[thid="+_id+"]").remove();
-		itemTable = $(_thisObj).closest('.moca_grid_body').find(".itemTable[thid="+_id+"]");
-	}
-	*/
+
 	
 	//if(itemTable.length == 0){
 	//onScroll이벤트로 인해 오픈할때마다 새로그림
@@ -6490,30 +6594,7 @@ Moca.prototype.doFilterForSingle = function(_thisObj,_e,grd) {
 	
 			var _reLabel = _nm;
 			_reLabel = moca.trim(_reLabel);
-			/*
-			var _reLabel = '';
-			var _cd = k;
-			var checkedStr = '';
-			if(_celltype == 'select'){
-				var _nm = column_map[k+''];
-				if(_nm == null){
-					_nm = "";
-				}
-				
-				
-				if(_displayFormat != null && _displayFormat != 'null'){
-					_reLabel = _displayFormat.replace('[value]',_cd).replace('[label]',_nm);
-				}else{
-					_reLabel = _nm;
-				}
-			}else{
-				_reLabel = k;
-			}
-	
-			
-			*/
-			
-			//console.log('::'+_cd+'::'+_nm,'-'+filter+'-');
+
 			if(filter != null && filter.indexOf(_cd) > -1){
 				checkedStr = "checked";
 			}else if(filter == null){
