@@ -5586,7 +5586,6 @@ var sampleCalendar ={
 			
 		},
 		calendarLayout : function (type){
-			
 			let layoutHtml = "";
 			//type
 			/*	0 : 날짜 선택형
@@ -5809,15 +5808,13 @@ var sampleCalendar ={
 		},calendarDateBtnEventSetting : function(calendarVariable,dateStr, objIndex){
 
 			let returnDateVal = "";
-			
 			if(calendarVariable.returnDateType == 0){
-				returnDateVal = calendarVariable.dateArray.year+ "-" +calendarVariable.dateArray.month+ "-" +comLib.gfn_toTwoChar(dateStr);
+				returnDateVal = calendarVariable.dateArray.year.replace(/\s/g,'')+ "-" +comLib.gfn_toTwoChar(moca.trim(calendarVariable.dateArray.month).replace(/\s/g,''))+ "-" +comLib.gfn_toTwoChar(dateStr.replace(/\s/g,''));
 			}else if(calendarVariable.returnDateType == 1){
-				returnDateVal = calendarVariable.dateArray.year+ "-" +calendarVariable.dateArray.month;
+				returnDateVal = calendarVariable.dateArray.year.replace(/\s/g,'')+ "-" +comLib.gfn_toTwoChar(moca.trim(calendarVariable.dateArray.month).replace(/\s/g,'')); 
 			}else{
-				returnDateVal = calendarVariable.dateArray.year;
+				returnDateVal = calendarVariable.dateArray.year.replace(/\s/g,'');
 			}
-			//document.getElementById(calendarVariable.putId).value = moca.getDisplayFormat_value(document.getElementById(calendarVariable.putObj).parentElement,calendarVariable.dateArray.year+calendarVariable.dateArray.month+ comLib.gfn_toTwoChar(dateStr));
 			$(calendarVariable.putObj).val(returnDateVal);
 			
 			var ondateSelectedFuncStr = calendarVariable.putObj.closest("[type=inputCalendar]").attr('ondateSelected');
@@ -10789,20 +10786,27 @@ Moca.prototype.renderMocaButton = function(o) {
 	var _innerStyle = '';
 	var _innerClass = '';
 	var _label = '';
+	var _disabled = '';
 	if(o.tagName == 'DIV'){
 		_value = moca.nul(o.getAttribute("value"));
 		_label = moca.nul(o.getAttribute("label"));
 		_id = moca.nul(o.getAttribute("id"));
 		_innerStyle = moca.nul(o.getAttribute("innerStyle"));
 		_innerClass = moca.nul(o.getAttribute("innerClass"));
+		var tmp_disabled = moca.nul(o.getAttribute("innerDisabled"));
+		if(tmp_disabled == 'true'){
+			_disabled = "disabled";
+		}
+		
 		var _tmp = moca.nul(o.getAttribute("readonly"));
 		if(_tmp == "true"){
 			_readonly = "readonly";
 		}else{
 			_readonly = "";
 		}
+		
 		var _html = '';
-		_html += '<button id="button_'+moca.nul(_id)+'"  style="'+_innerStyle+'" class="'+_innerClass+'"  >'+moca.nul(_label)+'</button>';
+		_html += '<button id="button_'+moca.nul(_id)+'"  style="'+_innerStyle+'" class="'+_innerClass+'" '+_disabled+' >'+moca.nul(_label)+'</button>';
 		o.innerHTML = _html;
 	}else{
 		_value = moca.nul(o.value);	
@@ -10810,6 +10814,12 @@ Moca.prototype.renderMocaButton = function(o) {
 		_id = moca.nul(o.id);
 		_innerStyle = moca.nul(o.innerStyle);
 		_innerClass = moca.nul(o.innerClass);
+		var tmp_disabled = moca.nul(o.innerDisabled);
+		if(tmp_disabled == 'true'){
+			_disabled = "disabled";
+		}
+		
+		
 		var _tmp = moca.nul(o.readonly);	
 		if(_tmp == "true"){
 			_readonly = "readonly";
@@ -10819,12 +10829,41 @@ Moca.prototype.renderMocaButton = function(o) {
 		
 		var _html = '';
 		_html += '<div id="'+moca.nul(o.id)+'"  class="mocaButton '+moca.nul(o.addClass)+'" onclick="'+moca.nul(o.onclick)+'(this)" style="'+moca.nul(o.style)+'">';
-		_html += '<button id="button_'+moca.nul(o.id)+'"  style="'+_innerStyle+'" class="'+_innerClass+'"  >'+moca.nul(o.label)+'</button>';
+		_html += '<button id="button_'+moca.nul(o.id)+'"  style="'+_innerStyle+'" class="'+_innerClass+'" '+_disabled+' >'+moca.nul(o.label)+'</button>';
 		_html += '</div>';
 		
 		return _html;
 	}
 };
+
+Moca.prototype.setDisabled = function(o,_value) {
+	['컴포넌트 비활성화설정'];
+	if(o != null){
+		if(moca.isTrue(_value)){
+			o.setAttribute("disabled",true);
+		}else{
+			o.removeAttribute("disabled");
+		}
+	}
+};
+Moca.prototype.setButtonLabel = function(o,_value) {
+	['버튼 라벨 지정'];
+	if(o != null){
+		o.innerHTML = _value;
+	}
+};
+
+Moca.prototype.isTrue = function(_value) {
+	['true여부'];
+	var tmp = '';
+	tmp += _value;
+	if(tmp == 'true'){
+		return true;
+	}else{
+		return false;
+	}
+};
+
 
 Moca.prototype.renderMocaLabel = function(o) {
 	['MocaLabel만들기'];
