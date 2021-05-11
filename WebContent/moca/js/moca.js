@@ -922,7 +922,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 				_style = cellTd.getAttribute("style");
 				_required = cellTd.getAttribute("required");
 				
-				//여기
+
 				_popupUrl = cellTd.getAttribute("popupUrl");
 				_popupData = cellTd.getAttribute("popupData");
 				
@@ -4491,7 +4491,7 @@ Moca.prototype._row_add = function(_thisObj){
 		grd.list = [];
 	}
 	grd.list.unshift(aRow);	
-	moca[grd.getAttribute('srcId')].drawGrid(grd,grd.list);//여기
+	moca[grd.getAttribute('srcId')].drawGrid(grd,grd.list);
 	var rowForFocus = $(grd).find('tbody:first').children()[0];
 	if(rowForFocus != null){
 		moca._setSelectRowIndex(rowForFocus);
@@ -5573,7 +5573,6 @@ var sampleCalendar ={
 			$("#"+calendarId).find(".moca_calendar_btn_today").off("click").on("click",function(){
 				event.stopPropagation();
 				var now = new Date();
-
 				let tempId = $(this).attr("calendarId");
 				
 				sampleCalendar.calendarVariable.type = 0;
@@ -5582,6 +5581,8 @@ var sampleCalendar ={
 				sampleCalendar.calendarVariable.dateArray.month = comLib.gfn_toTwoChar(now.getMonth()+1);
 				
 				sampleCalendar.dateViewSetting($("#"+tempId).find(".moca_calendar_btn_prev"), sampleCalendar.calendarVariable);
+				sampleCalendar.calendarDateBtnEventSetting(sampleCalendar.calendarVariable,now.getDate(), null);
+				sampleCalendar.calId = null;	
 			});
 			
 		},
@@ -5822,6 +5823,22 @@ var sampleCalendar ={
 			}
 			moca.closeCalendar($('#'+calendarVariable.id));
 			sampleCalendar.calendarVariableResset();
+		}
+		,calendarGoToday : function(calendarVariable,dateStr, objIndex){
+			let returnDateVal = "";
+			if(calendarVariable.returnDateType == 0){
+				returnDateVal = (calendarVariable.dateArray.year+'').replace(/\s/g,'')+ "-" +comLib.gfn_toTwoChar(moca.trim(calendarVariable.dateArray.month+"").replace(/\s/g,''))+ "-" +comLib.gfn_toTwoChar(dateStr+"".replace(/\s/g,''));
+			}else if(calendarVariable.returnDateType == 1){
+				returnDateVal = (calendarVariable.dateArray.year+'').replace(/\s/g,'')+ "-" +comLib.gfn_toTwoChar(moca.trim(calendarVariable.dateArray.month+"").replace(/\s/g,'')); 
+			}else{
+				returnDateVal = (calendarVariable.dateArray.year+'').replace(/\s/g,'');
+			}
+			$(calendarVariable.putObj).val(returnDateVal);
+			
+			var ondateSelectedFuncStr = calendarVariable.putObj.closest("[type=inputCalendar]").attr('ondateSelected');
+			if(moca.trim(ondateSelectedFuncStr) != ''){
+				eval(ondateSelectedFuncStr)(returnDateVal);
+			}
 		}
 	}
 
@@ -6373,7 +6390,7 @@ var multiCalendar ={
 			
 			multiCalendar.dateViewSetting($(multiCalendar.calendarVariable.calArray[0].obj).find(".moca_calendar_btn_prev"), multiCalendar.calendarVariable.calArray[0],0);
 			multiCalendar.dateViewSetting($(multiCalendar.calendarVariable.calArray[1].obj).find(".moca_calendar_btn_prev"), multiCalendar.calendarVariable.calArray[1],1);
-//여기
+
 			
 			multiCalendar.initEvent(multiCalendar.calendarVariable.calArray[0].id);
 
@@ -10854,8 +10871,15 @@ Moca.prototype.renderMocaButton = function(o) {
 Moca.prototype.setDisabled = function(o,_value) {
 	['컴포넌트 비활성화설정'];
 	if(o != null){
+		if(o.tagName == 'DIV'){
+			var tmp  = $(o).find('button');
+			if(tmp != null && tmp.length > 0){
+				o = tmp[0];
+			}
+		}
 		if(moca.isTrue(_value)){
 			o.setAttribute("disabled",true);
+			$(o).css('background','#aaa');
 		}else{
 			o.removeAttribute("disabled");
 			$(o).css('background','');
@@ -10869,7 +10893,7 @@ Moca.prototype.setButtonLabel = function(o,_value) {
 	}
 };
 
-Moca.prototype.isTrue = function(_value) {
+Moca.prototype.isTrue = function(_value) { 
 	['true여부'];
 	var tmp = '';
 	tmp += _value;
