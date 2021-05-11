@@ -347,6 +347,7 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 
 .grid_btn button{padding: 0 7px; background: #476d8e; color: #fff; border-radius: 2px; height: 24px; box-sizing: border-box; opacity: 0.9;	}
 .grid_btn button:active{opacity:1}
+.grid_btn button:disabled{background:#aaa; opacity:1}
 
 .moca_grid_list {position:absolute; top:0; right:0; bottom:0; left:0; border-top:1px solid #9a9ea8; border-bottom:1px solid #9a9ea8; background-color:#f6f6f6; overflow:hidden}
 .moca_grid_list .moca_grid_body {position:absolute; overflow-x:auto; overflow-y:hidden; background:url(../images/moca_gray.png) no-repeat 50% 50%; background-size: 190px; left:0; right:0; top:0; bottom:0}
