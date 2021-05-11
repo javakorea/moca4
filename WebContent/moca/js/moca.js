@@ -5806,14 +5806,13 @@ var sampleCalendar ={
 				});
 			}
 		},calendarDateBtnEventSetting : function(calendarVariable,dateStr, objIndex){
-
 			let returnDateVal = "";
 			if(calendarVariable.returnDateType == 0){
-				returnDateVal = calendarVariable.dateArray.year.replace(/\s/g,'')+ "-" +comLib.gfn_toTwoChar(moca.trim(calendarVariable.dateArray.month).replace(/\s/g,''))+ "-" +comLib.gfn_toTwoChar(dateStr.replace(/\s/g,''));
+				returnDateVal = (calendarVariable.dateArray.year+'').replace(/\s/g,'')+ "-" +comLib.gfn_toTwoChar(moca.trim(calendarVariable.dateArray.month+"").replace(/\s/g,''))+ "-" +comLib.gfn_toTwoChar(dateStr+"".replace(/\s/g,''));
 			}else if(calendarVariable.returnDateType == 1){
-				returnDateVal = calendarVariable.dateArray.year.replace(/\s/g,'')+ "-" +comLib.gfn_toTwoChar(moca.trim(calendarVariable.dateArray.month).replace(/\s/g,'')); 
+				returnDateVal = (calendarVariable.dateArray.year+'').replace(/\s/g,'')+ "-" +comLib.gfn_toTwoChar(moca.trim(calendarVariable.dateArray.month+"").replace(/\s/g,'')); 
 			}else{
-				returnDateVal = calendarVariable.dateArray.year.replace(/\s/g,'');
+				returnDateVal = (calendarVariable.dateArray.year+'').replace(/\s/g,'');
 			}
 			$(calendarVariable.putObj).val(returnDateVal);
 			
@@ -8766,8 +8765,22 @@ Moca.prototype.renderGridToolbarButton = function(x1Obj,_id) {
 	}else{
 		x1Obj.addClassStr = x1Obj.addClass;
 	}
+	var _innerStyle = '';
+	if(x1Obj.innerStyle != null){
+		_innerStyle = x1Obj.innerStyle;
+	}
+	var _disabled = '';
+	var tmp_disabled = '';
+	var tmp_disabled_style = '';
+	tmp_disabled = x1Obj.innerDisabled;
+	if(moca.isTrue(tmp_disabled)){
+		_disabled = "disabled";
+		_innerStyle += ";background:#aaa;";
+	}
+	
+
 	_html += '<div class="grid_btn '+x1Obj.addClassStr+'" grdkey="'+_id+'">';
-	_html += '<button type="button" onclick="'+x1Obj.onclick+'(this)">'+x1Obj.label+'</button>';
+	_html += '<button type="button" style="'+_innerStyle+'" onclick="'+x1Obj.onclick+'(this)" '+_disabled+' >'+x1Obj.label+'</button>';
 	_html += '</div>';
 	return _html;
 };
@@ -10794,12 +10807,13 @@ Moca.prototype.renderMocaButton = function(o) {
 		_innerStyle = moca.nul(o.getAttribute("innerStyle"));
 		_innerClass = moca.nul(o.getAttribute("innerClass"));
 		var tmp_disabled = moca.nul(o.getAttribute("innerDisabled"));
-		if(tmp_disabled == 'true'){
+		if(moca.isTrue(tmp_disabled)){
 			_disabled = "disabled";
+			_innerStyle += ";background:#aaa;";
 		}
 		
 		var _tmp = moca.nul(o.getAttribute("readonly"));
-		if(_tmp == "true"){
+		if(moca.isTrue(_tmp)){
 			_readonly = "readonly";
 		}else{
 			_readonly = "";
@@ -10815,13 +10829,14 @@ Moca.prototype.renderMocaButton = function(o) {
 		_innerStyle = moca.nul(o.innerStyle);
 		_innerClass = moca.nul(o.innerClass);
 		var tmp_disabled = moca.nul(o.innerDisabled);
-		if(tmp_disabled == 'true'){
+		if(moca.isTrue(tmp_disabled)){
 			_disabled = "disabled";
+			_innerStyle += ";background:#aaa;";
 		}
 		
 		
 		var _tmp = moca.nul(o.readonly);	
-		if(_tmp == "true"){
+		if(moca.isTrue(_tmp)){
 			_readonly = "readonly";
 		}else{
 			_readonly = "";
@@ -10843,6 +10858,7 @@ Moca.prototype.setDisabled = function(o,_value) {
 			o.setAttribute("disabled",true);
 		}else{
 			o.removeAttribute("disabled");
+			$(o).css('background','');
 		}
 	}
 };

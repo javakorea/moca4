@@ -35,8 +35,10 @@ moca.TO_008.fn_search = function(){
 			
 			var g = moca.TO_008.getObj('grd_08');
 			g.list = moca.getResList(response.bondPriceInfo,"bondPriceList");
-			g.list[0]._system.status = 'C';
-			moca.TO_008.drawGrid(g,g.list);
+			if(g.list != null && g.list.length > 0){
+				g.list[0]._system.status = 'C';
+				moca.TO_008.drawGrid(g,g.list);
+			}
 		}
 	});
 };
