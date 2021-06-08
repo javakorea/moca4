@@ -4580,5 +4580,21 @@
 		AND CODE_NM = #{CODE_NM}
 	</select>
  	
+ 	<!-- 게시판 조회 -->
+    <select id="SelectBoardList" parameterType="map" resultType="map">
+        SELECT A.BOAD_TITLE, A.BOAD_WRITER, A.BOAD_DATE 
+		FROM EFCBOAD A
+		WHERE 1=1
+		<if test="BOAD_WRITER != null and BOAD_WRITER != ''">
+            AND A.BOAD_WRITER like CONCAT('%', #{BOAD_WRITER}, '%')
+        </if>
+        <if test="BOAD_TITLE != null and BOAD_TITLE != ''">
+            AND A.BOAD_TITLE like CONCAT('%', #{BOAD_TITLE}, '%')
+        </if>
+        <!-- AND A.BOAD_DATE BETWEEN #{FROM} AND #{TO} -->
+        <![CDATA[
+        AND A.BOAD_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOAD_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')
+        ]]>
+    </select>
  	
  </mapper>

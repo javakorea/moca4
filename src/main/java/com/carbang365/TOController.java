@@ -5208,5 +5208,23 @@ public class TOController{
 			model.addAttribute("error", e.getMessage());
 		}
         return jsonview;
-	}	
+	}
+	
+//	게시판조회  
+	@RequestMapping(value = "/EFC_BOAD/selectBoardList.do")
+	public View SelectBoardList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			model.addAttribute("SelectBoardList", TOMapper.SelectBoardList(paramMap));
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
 }

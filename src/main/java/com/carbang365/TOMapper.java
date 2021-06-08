@@ -415,4 +415,7 @@ public interface TOMapper {
     public Map <String, Object> ecoTypeSelect(Map<String, Object> map);
     
  
+    // 게시판조회
+	public List<Map<String, Object>> SelectBoardList(Map<String, Object> map);
+
 }
