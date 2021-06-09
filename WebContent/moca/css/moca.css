@@ -1184,7 +1184,8 @@ td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:2
 .mocaInput input[type="text"]{height: 24px;width: 100%; padding:0 4px; border: 1px solid #d7d7de; border-radius: 2px; box-sizing: border-box; appearance: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
 .mocaInput.req input[type="text"]{border:1px solid #e79f78; background:#fffbe8;}
 .mocaInput.req input[type="text"]:hover{border:1px solid #e45c2d;background:#fffbe8}
-.mocaInput input[type="text"]:read-only{border:0}
+.mocaInput input[type="text"]:read-only{border:0; background:unset !important}
+.mocaInput input[type="text"]:read-only:hover{border:0}
 .mocaInput input[type="text"]:disabled{border: 1px solid #d7d7de; background: #eee;}
 /* MOCA inputButton */
 .mocaInputButton {position:relative; text-indent:0; height:24px; border:1px solid #ddd; background:#fff; -moz-box-sizing:border-box; box-sizing:border-box}

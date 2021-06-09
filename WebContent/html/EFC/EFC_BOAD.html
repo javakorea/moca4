@@ -20,9 +20,39 @@
 	            }
 	        },          
 	        callback : function(response){
-	            moca.EFC_BOAD.drawGrid('grd_1',moca.getResList(response,"SelectBoardList"));
+	            moca.EFC_BOAD.drawGrid('grd_1',moca.getResList(response,"selectBoardList"));
 	        }
 	    });
+	};
+	
+	moca.EFC_BOAD.popId = "EFC_BOAD_POP";
+	moca.EFC_BOAD.fn_pop = function(_thisObj){
+	    ['글쓰기 팝업']
+	    var o = {};
+	    o.id = moca.EFC_BOAD.popId2;
+	    o.url = '/html/EFC/EFC_BOAD_POP.html';
+	    o.type = "POPUP";
+	    o.modal = "false";
+	    o.title = '게시물작성';
+	    o.callback = moca.EFC_BOAD.fn_pop_callback;
+	    o.scopeId = moca.EFC_BOAD.pageId;
+	    o.data = {popTitle:"게시물작성"};
+	    moca.popup(o,_thisObj);
+	};
+	moca.EFC_BOAD.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
+	    ['게시글상세']
+	    var _BoardTitle = _grd.list[rowIndex].BOAD_TITLE;
+	    var _BoardIdx = moca.getCellData(_grd,rowIndex,'BOAD_IDX');
+	    var o = {};
+	    o.id = moca.EFC_BOAD.popId;
+	    o.url = '/html/EFC/EFC_BOAD_POP.html';
+	    o.type = "POPUP";
+	    o.modal = "false";
+	    o.title = '게시글상세';
+	    o.callback = moca.EFC_BOAD.fn_pop_callback;
+	    o.scopeId = moca.EFC_BOAD.pageId;
+	    o.data = {"BOAD_IDX":_BoardIdx+'',"BOAD_TITLE":_BoardTitle};
+	    moca.popup(o,_grd);
 	};
 </script>
 
@@ -80,13 +110,14 @@
 								toolbar_detail="true"
 								toolbar_exup="false"
 								toolbar_exdn="true"
-								toolbar_addrow="true"
+								toolbar_addrow="false"
 								toolbar_delrow="false"
 								toolbar_nextbtn="false"
 								toolbar_full="true"
-								
-								toolbar_grid_button1='{"position":"right","id":"btn_save","label":"선택삭제","onclick":"moca.EFC_BOAD.fn_exe","addClass":"","innerDisabled":"false"}'
+								toolbar_grid_button1='{"position":"right","id":"btn_add","label":"글쓰기","onclick":"moca.EFC_BOAD.fn_pop","addClass":"","innerDisabled":"false"}'
+								toolbar_grid_button2='{"position":"right","id":"btn_save","label":"선택삭제","onclick":"moca.EFC_BOAD.fn_exe","addClass":"","innerDisabled":"false"}'
 
+                                onDblClick = "moca.EFC_BOAD.grd_1__onDblClick"
 								label="게시물"
 			
 			>
@@ -94,24 +125,27 @@
 						<colgroup>
 								<col style="width:60px">
 								<col style="width:60px">
+								<col style="width:60px">
 								<col style="">
-								<col style="width:220px">
+								<col style="width:100px">
 								<col style="width:150px">		
 						</colgroup>
 						<thead>
 							<tr>
 								<th scope="col" id="H_status">상태</th>
 								<th scope="col" id="H_chk">선택</th>
+								<th scope="col" id="H_BOAD_IDX">ID</th>
 								<th scope="col" id="H_BOAD_TITLE">제목</th>
 								<th scope="col" id="H_BOAD_WRITER">작성자</th>
-								<th scope="col" id="H_BOAD_DATE">작성일</th>
+								<th scope="col" id="H_BOAD_DATE">작성일시</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
 								<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택"></td>
-								<td id="BOAD_TITLE" celltype="input" style="text-align:left" required="true" name="제목" readOnly="true"></td>
+								<td id="BOAD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
+								<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true"></td>
 								<td id="BOAD_WRITER" celltype="input" style="text-align:center" name="작성자" readOnly="true"></td>
 								<td id="BOAD_DATE" celltype="input" style="" name="작성일" readOnly="true" displayFunction="moca.longToDate"></td>
 							</tr>

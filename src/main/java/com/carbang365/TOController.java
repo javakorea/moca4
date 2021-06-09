@@ -5210,16 +5210,16 @@ public class TOController{
         return jsonview;
 	}
 	
-//	게시판조회  
+	//게시판 조회  
 	@RequestMapping(value = "/EFC_BOAD/selectBoardList.do")
-	public View SelectBoardList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+	public View selectBoardList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
 			// 서비스 테스트용 구문 추가
 			if(MapUtils.isEmpty(paramMap)) {
 				paramMap = mocaMap;
 			}
-			model.addAttribute("SelectBoardList", TOMapper.SelectBoardList(paramMap));
+			model.addAttribute("selectBoardList", TOMapper.selectBoardList(paramMap));
 			
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -5227,4 +5227,50 @@ public class TOController{
 		}
         return jsonview;
 	}
+	
+	//게시글 작성
+	@RequestMapping(value = "/EFC_BOAD/insertBoard.do")
+	public View insertBoard(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			model.addAttribute("cnt", TOMapper.insertBoard(paramMap));
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
+	
+	//게시판 조회  
+	@RequestMapping(value = "/EFC_BOAD/selectBoardInfo.do")
+	public View selectBoardInfo(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			model.addAttribute("selectBoardInfo", TOMapper.selectBoardInfo(paramMap));
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
+	//게시판 수정
+	@RequestMapping(value = "/EFC_BOAD/updateBoard.do")
+	public View UpdateBoardInfo(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			int cnt = TOMapper.updateBoardInfo(paramMap);
+			model.addAttribute("cnt", cnt);		
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	} 
 }

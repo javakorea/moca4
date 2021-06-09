@@ -4581,8 +4581,8 @@
 	</select>
  	
  	<!-- 게시판 조회 -->
-    <select id="SelectBoardList" parameterType="map" resultType="map">
-        SELECT A.BOAD_TITLE, A.BOAD_WRITER, A.BOAD_DATE 
+    <select id="selectBoardList" parameterType="map" resultType="map">
+        SELECT A.BOAD_IDX, A.BOAD_TITLE, A.BOAD_WRITER, A.BOAD_DATE 
 		FROM EFCBOAD A
 		WHERE 1=1
 		<if test="BOAD_WRITER != null and BOAD_WRITER != ''">
@@ -4597,4 +4597,48 @@
         ]]>
     </select>
  	
+ 	<!-- 게시물 작성 -->
+    <insert id="insertBoard" parameterType="map">
+        /*insertBoard 게시물 작성*/
+            INSERT INTO EFCBOAD(
+	            BOAD_TITLE,
+	            BOAD_CONT,
+	            BOAD_WRITER,
+	            BOAD_DATE
+            )VALUES (
+	            #{BOAD_TITLE},
+	            #{BOAD_CONT},
+	            #{BOAD_WRITER},
+	            CURRENT_TIMESTAMP
+            )
+    </insert>
+    
+    <!-- 게시물 수정 -->
+    <update id="updateBoardInfo" parameterType="map">
+         /*updateBoardInfo 게시물수정*/
+         UPDATE EFCBOAD SET 
+            BOAD_TITLE = #{BOAD_TITLE},
+            BOAD_CONT = #{BOAD_CONT},
+            BOAD_WRITER = #{BOAD_WRITER},
+            BOAD_DATE = CURRENT_TIMESTAMP
+         WHERE 1=1
+         AND BOAD_IDX=#{BOAD_IDX}
+    </update>
+    
+    <!-- 게시물 단건조회 -->
+    <select id="selectBoardInfo" parameterType="map" resultType="map">
+        SELECT
+            A.BOAD_IDX, 
+            A.BOAD_TITLE, 
+            A.BOAD_CONT, 
+            A.BOAD_WRITER,
+            DATE_FORMAT(A.BOAD_DATE, '%Y-%m-%d  %H:%i:%s') AS BOAD_DATE
+            
+        FROM EFCBOAD A
+        WHERE 1=1
+        <if test="BOAD_IDX != null and BOAD_IDX != ''">
+            AND A.BOAD_IDX = #{BOAD_IDX}
+        </if>
+    </select>
+    
  </mapper>

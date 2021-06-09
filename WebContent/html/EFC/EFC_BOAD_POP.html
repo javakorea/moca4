@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head meta_width="1400px" meta_height="700px">
+<script>
+moca.EFC_BOAD_POP.___ready = function(args){
+	if(args != null){
+		moca.EFC_BOAD_POP.args = args;
+	}
+
+	moca.EFC_BOAD_POP.fn_search();
+};
+moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
+	var _boardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
+	var _BoardTitle = moca.EFC_BOAD_POP.args.parent.data.BOAD_TITLE;
+	if(_boardIdx != null){
+		moca.EFC_BOAD_POP.exe({
+			url : moca._domain+moca._contextRoot+"/EFC_BOAD/selectBoardInfo.do",
+			loadingbar:false,
+			data : {
+				"header" : moca.header,
+				"body" : {
+					"BOAD_IDX":_boardIdx
+					}
+			},			
+			callback : function(response){
+				//if(response.selectBoardList != null && response.selectBoardList.length > 0)
+					if(response.selectBoardInfo != null ){
+					var data = response.selectBoardInfo;
+					CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
+						'instanceReady':function(evt){
+							//CKEDITOR.instances.editor.focus();
+					}}}	);
+					CKEDITOR.instances.editor.setData(data.BOAD_CONT);
+					moca.setValue(moca.EFC_BOAD_POP.getObj("wtitle"),data.BOAD_TITLE);
+					moca.setValue(moca.EFC_BOAD_POP.getObj("wdate"),data.BOAD_DATE);
+					moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),data.BOAD_WRITER);
+				    moca.setValue(moca.EFC_BOAD_POP.getObj("widx"),data.BOAD_IDX);
+				}else{
+					moca.error(response.error);
+				}
+			}
+		});
+	}else{
+		moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),moca.getSs("USER_ID"));
+		moca.setValue(moca.EFC_BOAD_POP.getObj("wdate"),dateLib.getToday());
+		moca.setValue(moca.EFC_BOAD_POP.getObj("widx"),"등록후채번됨");
+		
+		
+		
+		CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
+			'instanceReady':function(evt){
+				CKEDITOR.instances.editor.focus();
+		}}}	);
+	}
+};
+
+moca.EFC_BOAD_POP.fn_update = function(_thisObj){
+	debugger;
+}
+moca.EFC_BOAD_POP.fn_save = function(_grd,_idx,tdObj,_thisObj){
+    moca.confirm('저장하시겠습니까?',function(result){
+        if(result == 'Y'){
+        	var _BoardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
+            var _BoardTitle = moca.EFC_BOAD_POP.args.parent.data.BOAD_TITLE;
+            if(_BoardIdx == null){
+                //게시물등록
+                moca.EFC_BOAD_POP.exe({
+                    url : moca._domain+moca._contextRoot+"/EFC_BOAD/insertBoard.do",
+                    loadingbar:true,
+                    data : {
+                        "header" : moca.header,
+                        "body" : {
+                            "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
+                            "BOAD_CONT":CKEDITOR.instances.editor.getData(),
+                            "BOAD_WRITER":moca.getValue(moca.EFC_BOAD_POP.getObj("wid"))
+                            }
+                    },          
+                    callback : function(response){
+                        if(response.cnt > 0){
+                            moca.alert('성공적으로 저장하였습니다.');
+                            moca.popClose(moca.EFC_BOAD_POP.pageId);
+                            moca.EFC_BOAD.fn_search();
+                        }
+                    }
+                });
+            }else{
+                //이력수정
+                moca.EFC_BOAD_POP.exe({
+                    url : moca._domain+moca._contextRoot+"/EFC_BOAD/updateBoard.do",
+                    loadingbar:true,
+                    data : {
+                        "header" : moca.header,
+                        "body" : {
+                            "BOAD_IDX":moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX+"",
+                            "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
+                            "BOAD_CONT":CKEDITOR.instances.editor.getData(),
+                            "BOAD_WRITER":moca.getSs("USER_ID")
+                            }
+                    },          
+                    callback : function(response){
+                        if(response.cnt > 0){
+                            moca.alert('성공적으로 저장하였습니다.');
+                            moca.popClose(moca.EFC_BOAD_POP.pageId);
+                            moca.EFC_BOAD.fn_search();
+                        }
+                    }
+                });
+            }
+        }
+    });
+};
+</script>
+<style>
+</style>
+</head>
+<body>
+	<div class="moca_pop_cont_wrap">
+		<div type="form" id="form_3" class="moca_table toolbar" style=""
+				label="게시물작성"
+				showRowSelection="false"
+				addition='[
+				{"type":"button","position":"right","id":"btn_update","label":"수정","onclick":"moca.EFC_BOAD_POP.fn_update","addClass":""},
+				{"type":"button","position":"right","id":"btn_save","label":"저장","onclick":"moca.EFC_BOAD_POP.fn_save","addClass":""}
+					]'
+				>
+					<table class="moca_table_cont" style="">
+						<colgroup>
+								<col style="width:80px">
+								<col style="">
+								<col style="width:200px">
+								<col style="width:120px">
+						</colgroup>
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>제목</th>
+								<th>작성일시</th>
+								<th>작성자</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<div type="input" id="widx" class="mocaInput" innerClass="tac" onclick="" style="" value="" readonly="true"></div>
+								</td>
+								<td>
+									<div type="input" class="mocaInput req" style="width:100%;" innerStyle="" id="wtitle" displayFormat=""  readonly="true"
+										defaultValue="" 
+										selecterItem=""
+										showRadioOption="false"
+									></div>
+								</td>
+								<td>
+									<div type="input" class="mocaInput" style="width:100%;text-align:center;" innerStyle="text-align:center;" id="wdate" displayFunction="moca.dateFormat"  readonly="true"
+										defaultValue="" 
+										selecterItem=""
+										showRadioOption="false"
+									></div>
+								</td>
+								<td>
+									<div type="input" class="mocaInput" style="width:100%;text-align:center;" innerStyle="text-align:center;" id="wid" displayFormat=""  readonly="true"
+										defaultValue="" 
+										selecterItem=""
+										showRadioOption="false"
+									></div>
+								</td>
+							</tr>  
+						</tbody>
+					</table>
+					<div class="mt10 terms_edit">
+						<div contenteditable="true" placeholder="" id="editor"  style="height:150px"></div>
+					</div>
+		</div>
+
+		
+	</div>
+</body>
+</html>
