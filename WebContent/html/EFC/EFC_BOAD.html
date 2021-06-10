@@ -56,25 +56,36 @@
 	};
 	moca.EFC_BOAD.fn_delList = function(){
         if(moca.EFC_BOAD.validate("grd_1","status","C,U,D")){
-            moca.confirm('선택된 목록들을 삭제하시겠습니까?',function(result){
-                if(result == 'Y'){
-                    moca.EFC_BOAD.exe({
-                        url : moca._domain+moca._contextRoot+"/EFC_BOAD/deleteBoardList.do",
-                        data : {
-                            "header" : moca.header,
-                            "body" : {
-                                paramList:Moca.prototype.getCheckedData(moca.EFC_BOAD.getObj("grd_1"),"chk")
+        	var _writeArr = [];
+        	var _write = Moca.prototype.getCheckedData(moca.EFC_BOAD.getObj("grd_1"),"chk");
+        	for(var i=0; i<_write.length; i++){
+        		if(_write[i].BOAD_WRITER != moca.getSs("USER_ID")){
+        			_writeArr[i] = _write[i].BOAD_WRITER;
+        		}
+        	}
+        	if(_writeArr.length > 0 && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){ //작성자가 본인이 아닐경우
+        		moca.alert('본인이 작성한 게시글만 삭제하실 수 있습니다.');
+        	}else{
+        		moca.confirm('선택된 목록들을 삭제하시겠습니까?',function(result){
+                    if(result == 'Y'){
+                        moca.EFC_BOAD.exe({
+                            url : moca._domain+moca._contextRoot+"/EFC_BOAD/deleteBoardList.do",
+                            data : {
+                                "header" : moca.header,
+                                "body" : {
+                                    paramList:Moca.prototype.getCheckedData(moca.EFC_BOAD.getObj("grd_1"),"chk")
+                                }
+                            },      
+                            callback : function(){
+                               moca.alert('성공적으로 삭제되었습니다!',function(){
+                                   moca.EFC_BOAD.fn_search();
+                                   return;
+                               });  
                             }
-                        },      
-                        callback : function(){
-                           moca.alert('성공적으로 삭제되었습니다!',function(){
-                               moca.EFC_BOAD.fn_search();
-                               return;
-                           });  
-                        }
-                    });
-                }
-            });
+                        });
+                    }
+                });
+        	}
         }
     };
 </script>
