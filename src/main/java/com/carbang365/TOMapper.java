@@ -417,13 +417,12 @@ public interface TOMapper {
  
     // 게시판조회
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map);
-
 	// 게시글등록
 	public int insertBoard(Map<String, Object> map);
-	
 	// 게시글수정
 	public int updateBoardInfo(Map<String, Object> map);
-	
+	// 게시글삭제
+	public int deleteBoard(Map<String, Object> map);
 	// 게시물단건조회
 	public Map <String, Object> selectBoardInfo(Map<String, Object> map); 
 }

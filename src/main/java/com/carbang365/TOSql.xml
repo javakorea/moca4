@@ -4625,6 +4625,14 @@
          AND BOAD_IDX=#{BOAD_IDX}
     </update>
     
+     <!-- 게시물 삭제  -->
+    <delete id="deleteBoard" parameterType="map">
+        /*deleteBoard 게시물삭제*/
+        DELETE FROM EFCBOAD
+		WHERE 1=1
+		AND BOAD_IDX=#{BOAD_IDX}
+    </delete>
+    
     <!-- 게시물 단건조회 -->
     <select id="selectBoardInfo" parameterType="map" resultType="map">
         SELECT

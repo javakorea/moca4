@@ -1186,11 +1186,11 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 					_inTag = _reLabel;
 				}else{
 					_inTag = '<div class="moca_checkbox_grid">';
-					_inTag += '<input type="checkbox" class="moca_checkbox_input" name="cbx" id="cbx_'+moca.pageId+'_'+moca.srcId+'_'+_grd.id+'_'+_nowIndex+'" grd_id='+_grd.id+' onclick="moca._uptData(this);" value="'+_trueValue+'"   '+isChecked+' >';
+					_inTag += '<input type="checkbox" class="moca_checkbox_input" name="cbx" id="cbx_'+moca.pageId+'_'+moca.srcId+'_'+_grd.id+'_'+_nowIndex+'" grd_id='+_grd.id+'  value="'+_trueValue+'"   '+isChecked+' >';
 					_inTag += '<label class="moca_checkbox_label" for="cbx_'+moca.pageId+'_'+moca.srcId+'_'+_grd.id+'_'+_nowIndex+'"  >label</label>';
 					_inTag += '</div>';
 				}
-				row	+= '<td id="'+_id+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" trueValue="'+_trueValue+'" falseValue="'+_falseValue+'">'+_inTag+'</td>';
+				row	+= '<td id="'+_id+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" trueValue="'+_trueValue+'" falseValue="'+_falseValue+'"    onclick="moca._uptData(this);" >'+_inTag+'</td>';
 			}
 		}
 	}
@@ -4556,7 +4556,7 @@ Moca.prototype.setCellData = function(_grd,_realRowIndex,_colId,_data){
 	if(_data == null || _data == "null"){
 		_data = "";
 	}
-	if(oriVal != _data){
+	if( !(_data == "0" && oriVal == "")  && oriVal != _data ){
 		var status_now = moca.getCellData(_grd,_realRowIndex,'status');
 		if(status_now !='C'){
 			if(_colId == "status"){
@@ -4584,7 +4584,7 @@ Moca.prototype.setCellData = function(_grd,_realRowIndex,_colId,_data){
 					if(currentVal == null || currentVal == "null"){
 						currentVal = "";
 					}
-					if(oriVal != currentVal){
+					if(           !(currentVal == "0" && oriVal == "")  && oriVal != currentVal   ){
 						flag = false;
 						break;
 					}
@@ -4614,6 +4614,7 @@ Moca.prototype.removeRow = function(_grd,_rowIndex){
 
 Moca.prototype._uptData = function(_thisObj){
 	['에디팅데이터 실시간 dataList에 반영'];
+	moca._selectFocus(_thisObj);
 	var grd = $(_thisObj).closest('div[type=grid]')[0];
 	var _thisTd = $(_thisObj).closest('td');
 	var colid = $(_thisObj).closest('td')[0].id;
@@ -4621,7 +4622,23 @@ Moca.prototype._uptData = function(_thisObj){
 	var _thisTr = $(_thisObj).closest('tr');
 	var rowIndex = _tbody.children().index(_thisTr);
 	var realRowIndex = grd.getAttribute("selectedRealRowIndex");
+	
+	if(_thisObj.tagName == "TD"){
+		moca._selectFocus(_thisObj);
+		var temp = $(_thisObj).find(".moca_checkbox_grid>input");
+		if(temp.length > 0){
+			_thisObj = temp[0];
+			if($(_thisObj).prop("checked")){
+				$(_thisObj).prop("checked",false);
+			}else{
+				$(_thisObj).prop("checked",true);
+			}
+		}
+	}
+	
+	
 	if(_thisObj.type == 'checkbox'){
+		//grd.ori_list[parseInt(rowIndex)][colid];
 		if(_thisObj.checked){
 			var v = _thisTd[0].getAttribute("trueValue");
 			if(v == null){
@@ -12327,6 +12344,47 @@ Moca.prototype.rpad = function(_this,padLen, padStr) {
     str = str.length >= padLen ? str.substring(0, padLen) : str;
     return str;
 };
+
+Moca.prototype.setReadOnly = function(_mocaInputObj,_trueFalse){
+    if(_trueFalse){
+        _mocaInputObj.setAttribute("readonly",true);
+        $(_mocaInputObj).find('input')[0].setAttribute("readonly",true);
+    }else{
+        _mocaInputObj.removeAttribute("readonly");
+        $(_mocaInputObj).find('input')[0].removeAttribute("readonly");
+    }
+    
+};
+
+
+Moca.prototype.show = function(_mocaInputObj){
+   $(_mocaInputObj).show();
+    
+};
+
+
+Moca.prototype.hide = function(_mocaInputObj){
+	   $(_mocaInputObj).hide();
+	    
+};
+
+
+Moca.prototype.getCheckedData = function(_grd,_colId){
+	var trueVal = _grd.cellInfo.chk.getAttribute("truevalue");
+	var reArray = [];
+	for(var i=0; i < _grd.list.length; i++){
+		var row = _grd.list[i];
+		var v = row[_colId];
+		if(trueVal == v){
+			reArray.push(row);
+		}
+	}
+	return reArray;
+};
+
+
+
+
 
 
 

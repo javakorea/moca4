@@ -54,6 +54,29 @@
 	    o.data = {"BOAD_IDX":_BoardIdx+'',"BOAD_TITLE":_BoardTitle};
 	    moca.popup(o,_grd);
 	};
+	moca.EFC_BOAD.fn_delList = function(){
+        if(moca.EFC_BOAD.validate("grd_1","status","C,U,D")){
+            moca.confirm('선택된 목록들을 삭제하시겠습니까?',function(result){
+                if(result == 'Y'){
+                    moca.EFC_BOAD.exe({
+                        url : moca._domain+moca._contextRoot+"/EFC_BOAD/deleteBoardList.do",
+                        data : {
+                            "header" : moca.header,
+                            "body" : {
+                                paramList:Moca.prototype.getCheckedData(moca.EFC_BOAD.getObj("grd_1"),"chk")
+                            }
+                        },      
+                        callback : function(){
+                           moca.alert('성공적으로 삭제되었습니다!',function(){
+                               moca.EFC_BOAD.fn_search();
+                               return;
+                           });  
+                        }
+                    });
+                }
+            });
+        }
+    };
 </script>
 
 </head>
@@ -115,7 +138,7 @@
 								toolbar_nextbtn="false"
 								toolbar_full="true"
 								toolbar_grid_button1='{"position":"right","id":"btn_add","label":"글쓰기","onclick":"moca.EFC_BOAD.fn_pop","addClass":"","innerDisabled":"false"}'
-								toolbar_grid_button2='{"position":"right","id":"btn_save","label":"선택삭제","onclick":"moca.EFC_BOAD.fn_exe","addClass":"","innerDisabled":"false"}'
+								toolbar_grid_button2='{"position":"right","id":"btn_save","label":"선택삭제","onclick":"moca.EFC_BOAD.fn_delList","addClass":"","innerDisabled":"false"}'
 
                                 onDblClick = "moca.EFC_BOAD.grd_1__onDblClick"
 								label="게시물"

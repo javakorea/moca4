@@ -5272,5 +5272,46 @@ public class TOController{
 			model.addAttribute("error", e.getMessage());
 		}
         return jsonview;
-	} 
+	}
+	//게시판 단건삭제
+	@RequestMapping(value = "/EFC_BOAD/deleteBoard.do")
+	public View deleteBoard(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			model.addAttribute("cnt", TOMapper.deleteBoard(paramMap));
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
+	
+	@RequestMapping(value = "/EFC_BOAD/deleteBoardList.do")
+	public View deleteBoardList(@RequestParam Map param, 
+			@RequestParam Map <String, Object> mocaMap,
+			ModelMap model) throws Exception {
+		if(!U.preCheck(model)) {return jsonview;}
+		
+    	Map bodyMap = U.getBody(mocaMap);
+    	List list = (List)bodyMap.get("paramList"); //자바스크립트에서 받아온 값을 자바언어구조로 바꿈
+    	try {
+        	for(int i=0;i < list.size() ;i++) {
+        		Map row = (Map)list.get(i);
+        		//row.put("CORP_CD", bodyMap.get("CORP_CD"));
+        		//row.put("SYS_CD", bodyMap.get("SYS_CD"));
+
+            	//if("U".equalsIgnoreCase(U.getStatus(row)) ) {
+            		TOMapper.deleteBoard(row);
+            	//}
+        	}
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+        return jsonview;
+	}
 }
