@@ -80,15 +80,15 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_checkbox_input {}
 .moca_radio_label,
 .moca_checkbox_label {font-size:11.5px; line-height:1em}
-
 .moca_radio_input,
-.moca_checkbox_input {position:absolute; width:12px; height:12px; filter:alpha(opacity=0); opacity:0; padding:0; margin:0; top:0}
+.moca_checkbox_input {position:absolute; width:12px; height:12px; filter:alpha(opacity=0); opacity:0; padding:0; margin:0; top:6px}
 /*.moca_radio_input:focus + .moca_radio_label:before,
 .moca_checkbox_input:focus + .moca_checkbox_label:before {outline:1px dotted}*/
 .shbox_inner.moca_radio.shbox,  .shbox_inner .moca_checkbox.shbox{display:inline-block; height:20px}
 .shbox_inner .moca_radio.shbox .moca_radio_label,  .shbox_inner .moca_checkbox.shbox .moca_checkbox_label {padding-left: 15px}
 .moca_radio_input + .moca_radio_label,
 .moca_checkbox_input + .moca_checkbox_label {display:inline-block; position:relative; padding-left:15px; padding-top:1px}
+.moca_checkbox_label + .moca_checkbox_input{padding-right:10px;}
 .moca_radio_input + .moca_radio_label:before,
 .moca_checkbox_input + .moca_checkbox_label:before {position:absolute; left:0; top:1px; width:12px; height:12px; content:''}
 .moca_radio_input + .moca_radio_label:before {background:url(../images/ico_rad.png) no-repeat 0 0}
@@ -372,6 +372,7 @@ button:disabled{background:#aaa; opacity:1}
 .moca_grid_list .moca_grid_body > table > tbody tr.active td {background-color:#cdecf0; color:#000}
 .moca_grid_list .moca_radio_grid,
 .moca_grid_list .moca_checkbox_grid {position:relative; -moz-box-sizing:border-box; box-sizing:border-box}
+.moca_grid_list .moca_checkbox_input{top: 3px; left: calc(50% - 6px);}
 .moca_grid_list .moca_radio_grid .moca_radio_label,
 .moca_grid_list .moca_checkbox_grid .moca_checkbox_label {padding:0; text-indent:-9999px}
 .moca_grid_list .moca_radio_input + .moca_radio_label:before,
@@ -467,6 +468,9 @@ div[contenteditable=true] {
 .moca_shbox + .moca_table.sc_row2{top:139px}
 .moca_shbox + .moca_table.sc_row3{top:169px}
 .moca_shbox + .moca_table.sc_row4{top:195px}
+.moca_shbox .mocaRadio label:last-child {margin-right:0 !important;}
+.moca_shbox .checkboxGroup label:last-child {margin-right:0 !important;}
+.moca_shbox .tb .tb_td > div[type="checkboxGroup"].bd {padding:0 4px; border: 1px solid #bbc3ce; background: #e8e8e8; border-radius: 3px;}
 
 /*.moca_table_body{position:absolute; bottom:42px; left:15px; right:15px}*/
 .moca_table_list{position:relative; top:0; bottom:0; left:0; right:0}

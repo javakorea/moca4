@@ -9501,7 +9501,7 @@ Moca.prototype.renderCheckboxGroup = function(_divObj,_val,_gubun) {
 		
 		
 		_html += '<input type="checkbox" class="moca_checkbox_input" name="'+_id+'" id="'+_id+'_'+i+'" '+checkedStr+' value="'+obj.value+'">';
-		_html += '<label class="moca_checkbox_label" for="'+_id+'_'+i+'" '+onclickStr+'>'+obj.label+'</label>';
+		_html += '<label class="moca_checkbox_label mr15" for="'+_id+'_'+i+'" '+onclickStr+'>'+obj.label+'</label>';
 	}
 	_divObj.innerHTML = _html;
 };

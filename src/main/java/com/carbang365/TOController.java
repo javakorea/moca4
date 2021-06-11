@@ -5234,6 +5234,8 @@ public class TOController{
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
 			model.addAttribute("cnt", TOMapper.insertBoard(paramMap));
+			//System.out.println("요기~~~~"+paramMap);
+			paramMap.put("status", "C");TOMapper.insertBoardHis(paramMap);
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());
@@ -5241,7 +5243,7 @@ public class TOController{
         return jsonview;
 	}
 	
-	//게시판 조회  
+	//게시판 상세조회  
 	@RequestMapping(value = "/EFC_BOAD/selectBoardInfo.do")
 	public View selectBoardInfo(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 		try {
@@ -5265,6 +5267,7 @@ public class TOController{
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
 			int cnt = TOMapper.updateBoardInfo(paramMap);
+			paramMap.put("status", "U");TOMapper.insertBoardHis(paramMap);
 			model.addAttribute("cnt", cnt);		
 			
 		}catch(Exception e) {
@@ -5282,8 +5285,8 @@ public class TOController{
 			if(MapUtils.isEmpty(paramMap)) {
 				paramMap = mocaMap;
 			}
+			paramMap.put("status", "D");TOMapper.insertBoardHis(paramMap);
 			model.addAttribute("cnt", TOMapper.deleteBoard(paramMap));
-			
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());
@@ -5306,12 +5309,63 @@ public class TOController{
         		//row.put("SYS_CD", bodyMap.get("SYS_CD"));
 
             	//if("U".equalsIgnoreCase(U.getStatus(row)) ) {
+        			row.put("status", "MD");TOMapper.insertBoardHis(row);
             		TOMapper.deleteBoard(row);
+            		
             	//}
         	}
     	}catch(Exception e) {
     		e.printStackTrace();
     	}
+        return jsonview;
+	}
+	
+	//게시글 이력작성
+	@RequestMapping(value = "/EFC_BOAD/insertBoardHis.do")
+	public View insertBoardHis(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			model.addAttribute("cnt", TOMapper.insertBoardHis(paramMap));
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
+		
+	//게시판이력 조회  
+	@RequestMapping(value = "/EFC_BOAD_HIS/selectBoardHisList.do")
+	public View selectBoardHisList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			model.addAttribute("selectBoardHisList", TOMapper.selectBoardHisList(paramMap));
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
+	
+	//게시판이력 상세조회  
+	@RequestMapping(value = "/EFC_BOAD_HIS/selectBoardHisInfo.do")
+	public View selectBoardHisInfo(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			model.addAttribute("selectBoardHisInfo", TOMapper.selectBoardHisInfo(paramMap));
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
         return jsonview;
 	}
 }

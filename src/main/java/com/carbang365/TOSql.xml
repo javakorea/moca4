@@ -4595,10 +4595,11 @@
         <![CDATA[
         AND A.BOAD_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOAD_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')
         ]]>
+        ORDER BY A.BOAD_IDX DESC
     </select>
  	
  	<!-- 게시물 작성 -->
-    <insert id="insertBoard" parameterType="map">
+    <insert id="insertBoard" parameterType="map" useGeneratedKeys="true" keyProperty="BOAD_IDX">
         /*insertBoard 게시물 작성*/
             INSERT INTO EFCBOAD(
 	            BOAD_TITLE,
@@ -4649,4 +4650,57 @@
         </if>
     </select>
     
+    <!-- 게시물이력 작성 -->
+    <insert id="insertBoardHis" parameterType="map">
+        /*insertBoardHis 게시물이력 작성*/
+            INSERT INTO EFCBOADHIS (
+                SELECT 0 AS BOADHIS_IDX, 
+                       #{status} AS BOADHIS_STATUS,
+                       CURRENT_TIMESTAMP,
+                       A.BOAD_IDX,
+                       A.BOAD_TITLE,
+                       A.BOAD_CONT,
+                       A.BOAD_WRITER
+                FROM EFCBOAD A 
+                WHERE 1=1
+                AND BOAD_IDX = #{BOAD_IDX}
+            )
+    </insert>
+    
+    <!-- 게시판이력 상세조회 -->
+    <select id="selectBoardHisInfo" parameterType="map" resultType="map">
+        SELECT
+            A.BOADHIS_IDX, 
+            A.BOADHIS_STATUS, 
+            DATE_FORMAT(A.BOADHIS_DATE, '%Y-%m-%d  %H:%i:%s') AS BOADHIS_DATE,
+            A.BOAD_IDX, 
+            A.BOAD_TITLE, 
+            A.BOAD_CONT, 
+            A.BOAD_WRITER
+        FROM EFCBOADHIS A
+        WHERE 1=1
+        <if test="BOADHIS_IDX != null and BOADHIS_IDX != ''">
+            AND A.BOADHIS_IDX = #{BOADHIS_IDX}
+        </if>
+    </select>
+    
+    <!-- 게시판이력 조회 -->
+    <select id="selectBoardHisList" parameterType="map" resultType="map">
+        SELECT *
+        FROM EFCBOADHIS A
+        WHERE 1=1
+        <if test="BOAD_IDX != null and BOAD_IDX != ''">
+            AND A.BOAD_IDX = #{BOAD_IDX}
+        </if>
+        <if test="BOAD_WRITER != null and BOAD_WRITER != ''">
+            AND A.BOAD_WRITER like CONCAT('%', #{BOAD_WRITER}, '%')
+        </if>
+        <if test="BOAD_TITLE != null and BOAD_TITLE != ''">
+            AND A.BOAD_TITLE like CONCAT('%', #{BOAD_TITLE}, '%')
+        </if>
+        <![CDATA[
+        AND A.BOADHIS_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOADHIS_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')
+        ]]>
+        ORDER BY A.BOADHIS_IDX DESC
+    </select>
  </mapper>

@@ -425,4 +425,11 @@ public interface TOMapper {
 	public int deleteBoard(Map<String, Object> map);
 	// 게시물단건조회
 	public Map <String, Object> selectBoardInfo(Map<String, Object> map); 
+	
+	// 게시글이력등록
+	public int insertBoardHis(Map<String, Object> map);
+	// 게시판이력조회
+	public List<Map<String, Object>> selectBoardHisList(Map<String, Object> map);
+	// 게시물단건이력조회
+	public Map <String, Object> selectBoardHisInfo(Map<String, Object> map); 
 }
