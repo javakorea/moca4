@@ -3445,8 +3445,17 @@ Moca.prototype.renderGrid = function(_divObj) {
 		if(aTh != null){
 			var before = aTh.innerHTML;
 			var _after = '';
-			_after += '<div class="moca_grid_sort_box">';
-			_after += '<span>'+before+'</span>';
+			var thCelltype = aTh.getAttribute("celltype");
+			if(thCelltype == 'checkbox'){
+				$(aTh).off("click").on("click",moca.cellAllCheck);
+				_after = '<div class="moca_checkbox_grid" >';
+				_after += '<input type="checkbox" class="moca_checkbox_input allcheck" name="cbxAll" id="cbx_'+moca.pageId+'_'+moca.srcId+'_'+_id+'" grd_id='+_id+'>';
+				_after += '<label class="moca_checkbox_label" for="cbx_'+moca.pageId+'_'+moca.srcId+'_'+_id+'"  >label</label>';
+				_after += '</div>';
+			}else{
+				_after += '<div class="moca_grid_sort_box">';
+				_after += '<span>'+before+'</span>';
+			}
 			
 			var sortable = aTh.getAttribute("sortable");
 			if(sortable == "true"){
@@ -4600,7 +4609,7 @@ Moca.prototype.setCellData = function(_grd,_realRowIndex,_colId,_data){
 };
 
 Moca.prototype.removeRow = function(_grd,_rowIndex){
-	['grid setCellData']
+	['grid removeRow']
 	_grd.list.splice(_rowIndex,1);
 	if(_grd.list.length > 0){
 		_grd.setAttribute("selectedRealRowIndex","0");
@@ -4614,6 +4623,7 @@ Moca.prototype.removeRow = function(_grd,_rowIndex){
 
 Moca.prototype._uptData = function(_thisObj){
 	['에디팅데이터 실시간 dataList에 반영'];
+	event.preventDefault();
 	moca._selectFocus(_thisObj);
 	var grd = $(_thisObj).closest('div[type=grid]')[0];
 	var _thisTd = $(_thisObj).closest('td');
@@ -4639,6 +4649,25 @@ Moca.prototype._uptData = function(_thisObj){
 	
 	if(_thisObj.type == 'checkbox'){
 		//grd.ori_list[parseInt(rowIndex)][colid];
+
+		var allCheckbox = $(grd).find('input[name=cbxAll]');
+		var arr_all = $(grd).find('td input[type=checkbox]');
+		var arr_checked = $(grd).find('td input[type=checkbox]:checked');
+		if(arr_all.length == arr_checked.length){
+			allCheckbox.prop('checked',true);
+			allCheckbox.prop('indeterminate',false);
+		}else if(arr_all.length == 0){
+			allCheckbox.prop('checked',false);
+			allCheckbox.prop('indeterminate',false);
+		}else{
+			allCheckbox.prop('checked',false);
+			if(arr_checked.length == 0){
+				allCheckbox.prop('indeterminate',false);
+			}else{
+				allCheckbox.prop('indeterminate',true);
+			}
+		}
+		
 		if(_thisObj.checked){
 			var v = _thisTd[0].getAttribute("trueValue");
 			if(v == null){
@@ -6859,7 +6888,11 @@ Moca.prototype.doFilterForSingle = function(_thisObj,_e,grd) {
 				allCheckbox.prop('indeterminate',false);
 			}else{
 				allCheckbox.prop('checked',false);
-				allCheckbox.prop('indeterminate',true);
+				if(arr_checked.length == 0){
+					allCheckbox.prop('indeterminate',false);
+				}else{
+					allCheckbox.prop('indeterminate',true);
+				}
 			}
 			moca.filterSetColor(this);
 		});
@@ -12359,13 +12392,11 @@ Moca.prototype.setReadOnly = function(_mocaInputObj,_trueFalse){
 
 Moca.prototype.show = function(_mocaInputObj){
    $(_mocaInputObj).show();
-    
 };
 
 
 Moca.prototype.hide = function(_mocaInputObj){
-	   $(_mocaInputObj).hide();
-	    
+	$(_mocaInputObj).hide();
 };
 
 
@@ -12380,6 +12411,32 @@ Moca.prototype.getCheckedData = function(_grd,_colId){
 		}
 	}
 	return reArray;
+};
+
+Moca.prototype.cellAllCheck = function(_thisObj){
+	
+   event.preventDefault();
+   var tdId = $(this).attr("targetid");
+   var isChecked = $(this).find('input').is(':checked');  
+   if(isChecked){
+	   $(this).find('input').prop("checked",false);
+	   var grd = this.closest('div[type=grid]');
+	   var _list = grd.list;
+	   for(var i=0; i < _list.length; i++){
+		   var row = _list[i];
+		   row[tdId] = $(grd.cellInfo[tdId]).attr("falsevalue");
+	   }
+   }else{
+	   $(this).find('input').prop("checked",true);
+	   $(this).find('input').prop('indeterminate',false);
+	   var grd = this.closest('div[type=grid]');
+	   var _list = grd.list;
+	   for(var i=0; i < _list.length; i++){
+		   var row = _list[i];
+		   row[tdId] = $(grd.cellInfo[tdId]).attr("truevalue");
+	   }
+   }
+   moca[$(grd).attr("srcid")].redrawGrid(grd);
 };
 
 

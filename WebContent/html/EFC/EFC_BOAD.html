@@ -57,7 +57,7 @@
 	moca.EFC_BOAD.fn_delList = function(){
         if(moca.EFC_BOAD.validate("grd_1","status","C,U,D")){
         	var _writeArr = [];
-        	var _write = Moca.prototype.getCheckedData(moca.EFC_BOAD.getObj("grd_1"),"chk");
+        	var _write = moca.getCheckedData(moca.EFC_BOAD.getObj("grd_1"),"chk");
         	for(var i=0; i<_write.length; i++){
         		if(_write[i].BOAD_WRITER != moca.getSs("USER_ID")){
         			_writeArr[i] = _write[i].BOAD_WRITER;
@@ -159,24 +159,21 @@
 						<colgroup>
 								<col style="width:60px">
 								<col style="width:60px">
-								<col style="width:60px">
 								<col style="">
-								<col style="width:100px">
+								<col style="width:200px">
 								<col style="width:150px">		
 						</colgroup>
 						<thead>
 							<tr>
-								<th scope="col" id="H_status">상태</th>
-								<th scope="col" id="H_chk">선택</th>
+								<th scope="col" celltype="checkbox" id="H_chk" targetId="chk">선택</th>
 								<th scope="col" id="H_BOAD_IDX">ID</th>
 								<th scope="col" id="H_BOAD_TITLE">제목</th>
-								<th scope="col" id="H_BOAD_WRITER">작성자</th>
+								<th scope="col" id="H_BOAD_WRITER"  filterable="true" filterableId="BOAD_WRITER">작성자</th>
 								<th scope="col" id="H_BOAD_DATE">작성일시</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
 								<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택"></td>
 								<td id="BOAD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
 								<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true"></td>
