@@ -4703,4 +4703,31 @@
         ]]>
         ORDER BY A.BOADHIS_IDX DESC
     </select>
+    
+    <!-- 게시물첨부파일 insert -->
+    <insert id="insertBoardFile" parameterType="map">
+        /*insertBoardFile 게시물첨부파일*/
+        INSERT INTO EFCBOADFILE (
+		    SELECT 0 AS BOADFILE_IDX, 
+		       A.BOAD_IDX,
+		       #{BOADFILE_NAME} AS BOADFILE_NAME,
+		       #{BOADFILE_NAMESERVER} AS BOADFILE_NAMESERVER,
+		       #{BOADFILE_PATH} AS BOADFILE_PATH,
+		       #{BOADFILE_SIZE} AS BOADFILE_SIZE
+		    FROM EFCBOAD A
+		    WHERE 1=1
+            AND BOAD_IDX = #{BOAD_IDX}
+		)
+    </insert>
+    
+    <!-- 게시판파일조회 -->
+    <select id="selectBoardFileList" parameterType="map" resultType="map">
+        SELECT *
+        FROM EFCBOADFILE A
+        WHERE 1=1
+        <if test="BOAD_IDX != null and BOAD_IDX != ''">
+            AND A.BOAD_IDX = #{BOAD_IDX}
+        </if>
+        ORDER BY A.BOADFILE_IDX DESC
+    </select>
  </mapper>

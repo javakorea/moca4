@@ -7,38 +7,38 @@ moca.EFC_BOAD_POP.___ready = function(args){
 	if(args != null){
 		moca.EFC_BOAD_POP.args = args;
 	}
-	moca.EFC_BOAD_POP.fn_search();
+	CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
+        'instanceReady':function(ev){
+            moca.EFC_BOAD_POP.editor = ev.editor;
+            if(moca.EFC_BOAD_POP._boardIdx != null){
+                moca.EFC_BOAD_POP.editor.setReadOnly(true);
+            }
+            $('#contents').show();
+            moca.EFC_BOAD_POP.fn_search();
+    }}} ); 
+	/*
     CKEDITOR.on('instanceReady', function(ev) {
-    	moca.EFC_BOAD_POP.editor = ev.editor;
-    	if(_boardIdx != null){
-    		moca.EFC_BOAD_POP.editor.setReadOnly(true);
-    	}
-    	$('#contents').show();
+
     });
-    
+    */
 };
 moca.EFC_BOAD_POP._boardIdx;
 moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
-	_boardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
+	moca.EFC_BOAD_POP._boardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
 	var _BoardTitle = moca.EFC_BOAD_POP.args.parent.data.BOAD_TITLE;
-	if(_boardIdx != null){
+	if(moca.EFC_BOAD_POP._boardIdx != null){
 		moca.EFC_BOAD_POP.exe({
 			url : moca._domain+moca._contextRoot+"/EFC_BOAD/selectBoardInfo.do",
-			loadingbar:false,
+			loadingbar:true,
 			data : {
 				"header" : moca.header,
 				"body" : {
-					"BOAD_IDX":_boardIdx
+					"BOAD_IDX":moca.EFC_BOAD_POP._boardIdx
 					}
 			},			
 			callback : function(response){
-				//if(response.selectBoardList != null && response.selectBoardList.length > 0)
 					if(response.selectBoardInfo != null ){
 					var data = response.selectBoardInfo;
-					CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
-						'instanceReady':function(evt){
-							//CKEDITOR.instances.editor.focus();
-					}}}	);
 					CKEDITOR.instances.editor.setData(data.BOAD_CONT);
 					moca.setValue(moca.EFC_BOAD_POP.getObj("wtitle"),data.BOAD_TITLE);
 					moca.setValue(moca.EFC_BOAD_POP.getObj("wdate"),data.BOAD_DATE);
@@ -49,6 +49,8 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 				    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
 				    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
 				    }
+				    //moca.EFC_BOAD_POP.fn_searchfile();
+				    moca.EFC_BOAD_POP.drawGrid('grd_file',moca.getResList(response,"selectBoardFileList"));
 				}else{
 					moca.error(response.error);
 				}
@@ -81,6 +83,9 @@ moca.EFC_BOAD_POP.fn_save = function(_grd,_idx,tdObj,_thisObj){
         if(result == 'Y'){
         	var _BoardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
             var _BoardTitle = moca.EFC_BOAD_POP.args.parent.data.BOAD_TITLE;
+            for(var i=0; i<grd_file.list.length;i++){
+            	grd_file.list[i]._system.status = "C";
+            };
             if(_BoardIdx == null){
                 //게시물등록
                 moca.EFC_BOAD_POP.exe({
@@ -91,7 +96,8 @@ moca.EFC_BOAD_POP.fn_save = function(_grd,_idx,tdObj,_thisObj){
                         "body" : {
                             "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
                             "BOAD_CONT":CKEDITOR.instances.editor.getData(),
-                            "BOAD_WRITER":moca.getValue(moca.EFC_BOAD_POP.getObj("wid"))
+                            "BOAD_WRITER":moca.getValue(moca.EFC_BOAD_POP.getObj("wid")),
+                            "fileList":moca.EFC_BOAD_POP.getFilteredList("grd_file","status","C")
                             }
                     },          
                     callback : function(response){
@@ -153,7 +159,61 @@ moca.EFC_BOAD_POP.fn_del = function(_grd,_idx,tdObj,_thisObj){
             });
         }
     });
-}
+};
+moca.EFC_BOAD_POP.fn_searchfile = function(_grd,_idx,tdObj,_thisObj){
+    moca.EFC_BOAD_POP._boardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
+    var _BoardTitle = moca.EFC_BOAD_POP.args.parent.data.BOAD_TITLE;
+    if(moca.EFC_BOAD_POP._boardIdx != null){
+        moca.EFC_BOAD_POP.exe({
+            url : moca._domain+moca._contextRoot+"/EFC_BOAD/selectBoardFileList.do",
+            loadingbar:false,
+            data : {
+                "header" : moca.header,
+                "body" : {
+                    "BOAD_IDX":moca.EFC_BOAD_POP._boardIdx
+                    }
+            },          
+            callback : function(response){
+            	moca.EFC_BOAD_POP.drawGrid('grd_file',moca.getResList(response,"selectBoardFileList"));
+            }
+        });
+    }
+};
+moca.EFC_BOAD_POP._openFileUpload = function() {
+    moca.popup({
+        type:"POPUP",
+        modal:"false",
+        url:'/moca/comp/COMP_UPLD.html',
+        title:"파일업로드",
+        callback:function(result){
+            //업로드완료후 리턴업로드된파일정보를 받아서
+            //이후 파일관련테이블에 insert하는 로직을 추가한다.
+            var fileSize = result.fileSize;
+            var fileLength = result.fileLength;
+            var originalFilename = result.originalFilename;
+            var physicalFilename = result.physicalFilename;
+            var physicalFilepath = result.physicalFilepath;
+            var subDir = result.subDir;
+            var uploadDir = result.uploadDir;
+            var arr = grd_file.list;
+            var row = {BOADFILE_NAME:originalFilename,BOADFILE_SIZE:fileSize,BOADFILE_NAMESERVER:physicalFilename,BOADFILE_PATH:physicalFilepath}; 
+            row._system = {"status":""};
+            var sn = arr.length;
+            arr[sn] =  row;
+            moca.EFC_BOAD_POP.drawGrid('grd_file',arr);
+            //grd_file.list[sn]._system.status = "C";
+        },
+        data:{
+            subDir:"EFC_BOAD_POP",
+            onFileSelected:"moca.EFC_BOAD_POP.onFileSelected"
+        }
+    });
+};
+moca.EFC_BOAD_POP.onFileSelected = function(filename,filesize,_e,_this) {
+    //filename이나 filesize를 활용하여 업로드여부를 체크할수있다.
+    
+    return true;//or false
+};
 </script>
 <style>
 </style>
@@ -213,11 +273,50 @@ moca.EFC_BOAD_POP.fn_del = function(_grd,_idx,tdObj,_thisObj){
 							</tr>  
 						</tbody>
 					</table>
-					<div class="mt10 terms_edit">
-						<div contenteditable="true" placeholder="" id="editor"  style="height:150px"></div>
-					</div>
+					
 		</div>
-
+		<div type="grid" class="moca_grid toolbar sc_row1" default_cell_height="26px" id="grd_file" style="top:110px; bottom:399px" rowSelectedColor="#434e5f"
+        
+                            toolbar_search_size="false"
+                            toolbar_detail="false"
+                            toolbar_exup="false"
+                            toolbar_exdn="false"
+                            toolbar_addrow="false"
+                            toolbar_delrow="false"
+                            toolbar_nextbtn="false"
+                            toolbar_full="false"
+                            toolbar_grid_button1='{"position":"right","id":"btn_add","label":"파일선택","onclick":"moca.EFC_BOAD_POP._openFileUpload","addClass":"","innerDisabled":"false"}'
+                            label="첨부파일"
+        
+        >
+                <table style="width: 100%">
+                    <colgroup>
+                            <col style="width:80px">
+                            <col style="width:80px">
+                            <col style="">
+                            <col style="width:150px">       
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th scope="col" id="H_BOADFILE_IDX">파일ID</th>
+                            <th scope="col" id="H_BOAD_IDX">게시판ID</th>
+                            <th scope="col" id="H_BOADFILE_NAME">파일명</th>
+                            <th scope="col" id="H_BOADFILE_SIZE">파일크기</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="BOADFILE_IDX" celltype="input" style="" readOnly="true" name="파일ID"></td>
+                            <td id="BOAD_IDX" celltype="input" style="" readOnly="true" name="게시판ID"></td>
+                            <td id="BOADFILE_NAME" celltype="input" style="text-align:left" name="파일명" readOnly="true"></td>
+                            <td id="BOADFILE_SIZE" celltype="input" style="" name="파일크기" readOnly="true"></td>
+                        </tr>
+                    </tbody>
+                </table>                
+        </div>
+        <div class="mt10 terms_edit"  style="top:251px">
+            <div contenteditable="true" placeholder="" id="editor"></div>
+        </div>
 		
 	</div>
 </body>

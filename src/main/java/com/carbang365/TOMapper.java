@@ -432,4 +432,9 @@ public interface TOMapper {
 	public List<Map<String, Object>> selectBoardHisList(Map<String, Object> map);
 	// 게시물단건이력조회
 	public Map <String, Object> selectBoardHisInfo(Map<String, Object> map); 
+	// 게시판파일업로드조회
+	public List<Map<String, Object>> selectBoardFileList(Map<String, Object> map);
+	
+	// 게시글이력등록
+	public int insertBoardFile(Map<String, Object> map);
 }

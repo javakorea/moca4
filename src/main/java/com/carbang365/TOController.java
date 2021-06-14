@@ -5234,8 +5234,19 @@ public class TOController{
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
 			model.addAttribute("cnt", TOMapper.insertBoard(paramMap));
-			//System.out.println("요기~~~~"+paramMap);
+			System.out.println("요기~~~~"+paramMap);
 			paramMap.put("status", "C");TOMapper.insertBoardHis(paramMap);
+			
+	    	List list = (List)paramMap.get("fileList"); //자바스크립트에서 받아온 값을 자바언어구조로 바꿈
+	    	System.out.println("요기2~~~~"+list);
+        	for(int i=0;i < list.size() ;i++) {
+        		Map row = (Map)list.get(i);
+        		row.put("BOAD_IDX", paramMap.get("BOAD_IDX"));
+            	if("C".equalsIgnoreCase(U.getStatus(row)) ) {
+        			TOMapper.insertBoardFile(row);
+            	}
+        	}
+        	
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());
@@ -5253,7 +5264,7 @@ public class TOController{
 				paramMap = mocaMap;
 			}
 			model.addAttribute("selectBoardInfo", TOMapper.selectBoardInfo(paramMap));
-			
+			model.addAttribute("selectBoardFileList", TOMapper.selectBoardFileList(paramMap));
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());
@@ -5368,4 +5379,23 @@ public class TOController{
 		}
         return jsonview;
 	}
+	
+	//게시판파일업로드 조회  
+	@RequestMapping(value = "/EFC_BOAD/selectBoardFileList.do")
+	public View selectBoardFileList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			model.addAttribute("selectBoardFileList", TOMapper.selectBoardFileList(paramMap));
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
+	
 }

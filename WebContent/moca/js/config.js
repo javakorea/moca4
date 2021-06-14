@@ -5,7 +5,7 @@ var config = {
 		multifilter : false,
 		default_cell_height : "26px" 
 	},
-	defaultMenuId : "li1000000",
+	defaultMenuId : "li6030000",
 	userLogInsert : false,
 	isDevMode : function(){
 		var h = location.host;
