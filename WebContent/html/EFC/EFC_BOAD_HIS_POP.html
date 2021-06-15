@@ -7,27 +7,29 @@ moca.EFC_BOAD_HIS_POP.___ready = function(args){
 	if(args != null){
 		moca.EFC_BOAD_HIS_POP.args = args;
 	}
-	moca.EFC_BOAD_HIS_POP.fn_search();
-    CKEDITOR.on('instanceReady', function(ev) {
-    	moca.EFC_BOAD_HIS_POP.editor = ev.editor;
-    	if(_boardIdx != null){
-    		moca.EFC_BOAD_HIS_POP.editor.setReadOnly(true);
-    	}
-    	$('#contents').show();
-    });
-    
+	CKEDITOR.replace( 'editor',{uiColor:'#e5e8ef',on:{
+        'instanceReady':function(ev){
+        	moca.EFC_BOAD_HIS_POP.editor = ev.editor;
+            if(moca.EFC_BOAD_HIS_POP._boardIdx != null){
+                moca.EFC_BOAD_HIS_POP.editor.setReadOnly(true);
+            }
+            $('#contents').show();
+            moca.EFC_BOAD_HIS_POP.fn_search();
+    }}} ); 
 };
 moca.EFC_BOAD_HIS_POP._boardIdx;
 moca.EFC_BOAD_HIS_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
-	_boardIdx = moca.EFC_BOAD_HIS_POP.args.parent.data.BOADHIS_IDX;
+	moca.EFC_BOAD_HIS_POP._boardIdx = moca.EFC_BOAD_HIS_POP.args.parent.data.BOADHIS_IDX;
 	var _BoardTitle = moca.EFC_BOAD_HIS_POP.args.parent.data.BOAD_TITLE;
+	var _BoardIdx = moca.EFC_BOAD_HIS_POP.args.parent.data.BOAD_IDX;
 		moca.EFC_BOAD_HIS_POP.exe({
 			url : moca._domain+moca._contextRoot+"/EFC_BOAD_HIS/selectBoardHisInfo.do",
 			loadingbar:false,
 			data : {
 				"header" : moca.header,
 				"body" : {
-					"BOADHIS_IDX":_boardIdx
+					"BOADHIS_IDX":moca.EFC_BOAD_HIS_POP._boardIdx,
+					"BOAD_IDX":_BoardIdx
 					}
 			},			
 			callback : function(response){
@@ -35,10 +37,6 @@ moca.EFC_BOAD_HIS_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 					if(response.selectBoardHisInfo != null ){
 					var data = response.selectBoardHisInfo;
 					var argdata = moca.EFC_BOAD_HIS_POP.args.parent.data;
-					CKEDITOR.replace( 'editor',{uiColor:'#e5e8ef',on:{
-						'instanceReady':function(evt){
-							//CKEDITOR.instances.editor.focus();
-					}}}	);
 					CKEDITOR.instances.editor.setData(data.BOAD_CONT);
 					moca.setValue(moca.EFC_BOAD_HIS_POP.getObj("wtitle"),data.BOAD_TITLE);
 					moca.setValue(moca.EFC_BOAD_HIS_POP.getObj("wdate"),data.BOADHIS_DATE);
@@ -51,13 +49,13 @@ moca.EFC_BOAD_HIS_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 				    	moca.hide(moca.EFC_BOAD_HIS_POP.getObj("btn_update"));
 				    	moca.hide(moca.EFC_BOAD_HIS_POP.getObj("btn_del"));
 				    }
+				    moca.EFC_BOAD_HIS_POP.drawGrid('grd_file',moca.getResList(response,"selectBoardFileList"));
 				}else{
 					moca.error(response.error);
 				}
 			}
 		});
 };
-
 </script>
 <style>
 </style>
@@ -124,12 +122,45 @@ moca.EFC_BOAD_HIS_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 							</tr>  
 						</tbody>
 					</table>
-					<div class="mt10 terms_edit">
-						<div contenteditable="true" placeholder="" id="editor"  style="height:150px"></div>
-					</div>
 		</div>
-
-		
+        <div type="grid" class="moca_grid toolbar sc_row1" default_cell_height="26px" id="grd_file" style="top:110px; bottom:399px" rowSelectedColor="#434e5f"
+        
+                            toolbar_search_size="false"
+                            toolbar_detail="false"
+                            toolbar_exup="false"
+                            toolbar_exdn="false"
+                            toolbar_addrow="false"
+                            toolbar_delrow="false"
+                            toolbar_nextbtn="false"
+                            toolbar_full="false"
+                            label="첨부파일"
+        
+        >
+                <table style="width: 100%">
+                    <colgroup>
+                            <col style="width:80px">
+                            <col style="">
+                            <col style="width:150px">       
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th scope="col" id="H_BOADFILE_IDX">파일ID</th>
+                            <th scope="col" id="H_BOADFILE_NAME">파일명</th>
+                            <th scope="col" id="H_BOADFILE_SIZE">파일크기</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="BOADFILE_IDX" celltype="input" style="" readOnly="true" name="파일ID"></td>
+                            <td id="BOADFILE_NAME" celltype="input" style="text-align:left" name="파일명" readOnly="true"></td>
+                            <td id="BOADFILE_SIZE" celltype="input" style="" name="파일크기" readOnly="true"></td>
+                        </tr>
+                    </tbody>
+                </table>                
+        </div>
+		<div class="mt10 terms_edit" style="top:251px">
+            <div contenteditable="true" placeholder="" id="editor"></div>
+        </div>
 	</div>
 </body>
 </html>

@@ -5,7 +5,9 @@
 	moca.EFC_BOAD_HIS.___ready = function(args){
 		moca.EFC_BOAD_HIS.code({
             "grd_1.BOADHIS_STATUS":{code:'crud'}
-        },function(){
+        },function(result){
+        	var list = result['grd_1.BOADHIS_STATUS'];
+        	moca.setCheckboxGroupList(moca.EFC_BOAD_HIS.getObj('chkg_1'),list,{label:"codeNm",value:"code",checked:true});
         	moca.EFC_BOAD_HIS.fn_search();
         });
 	};
@@ -21,7 +23,8 @@
 	            	"BOAD_TITLE":moca.EFC_BOAD_HIS.getInput("ipt_TITLE"),
 	            	"BOAD_IDX":moca.EFC_BOAD_HIS.getInput("ipt_BOADIDX"),
 	            	"FROM":moca.EFC_BOAD_HIS.getFrom("CREATE_DTTM").replace(/-/g,''),
-                    "TO":moca.EFC_BOAD_HIS.getTo("CREATE_DTTM").replace(/-/g,'')
+                    "TO":moca.EFC_BOAD_HIS.getTo("CREATE_DTTM").replace(/-/g,''),
+                    "statusList":moca.getCheckboxGroupCheckedList(moca.EFC_BOAD_HIS.getObj('chkg_1'))
 	            }
 	        },          
 	        callback : function(response){
@@ -34,7 +37,8 @@
 	moca.EFC_BOAD_HIS.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 	    ['게시판이력상세']
 	    var _BoardTitle = _grd.list[rowIndex].BOAD_TITLE;
-	    var _BoardIdx = moca.getCellData(_grd,rowIndex,'BOADHIS_IDX');
+	    var _BoardIdx = moca.getCellData(_grd,rowIndex,'BOAD_IDX');
+	    var _BoardHisIdx = moca.getCellData(_grd,rowIndex,'BOADHIS_IDX');
 	    var _BoardHisStatus = moca.getCellViewData(_grd,rowIndex,'BOADHIS_STATUS');
 	    
 	    var o = {};
@@ -45,7 +49,7 @@
 	    o.title = '게시판이력상세';
 	    o.callback = moca.EFC_BOAD_HIS.fn_pop_callback;
 	    o.scopeId = moca.EFC_BOAD_HIS.pageId;
-	    o.data = {"BOADHIS_IDX":_BoardIdx+'',"BOAD_TITLE":_BoardTitle,"BOADHIS_STATUS":_BoardHisStatus};
+	    o.data = {"BOAD_IDX":_BoardIdx+'',"BOADHIS_IDX":_BoardHisIdx+'',"BOAD_TITLE":_BoardTitle,"BOADHIS_STATUS":_BoardHisStatus};
 	    moca.popup(o,_grd);
 	};
 </script>
@@ -123,31 +127,32 @@
 			>
 					<table style="width: 100%">
 						<colgroup>
+						        <col style="width:150px">
 								<col style="width:60px">
 								<col style="width:60px">
 								<col style="width:100px">
 								<col style="">
 								<col style="width:100px">
-								<col style="width:150px">		
 						</colgroup>
 						<thead>
 							<tr>
+							    <th scope="col" id="H_BOADHIS_DATE">작성일시</th>
 								<th scope="col" id="H_BOADHIS_IDX">이력ID</th>
 								<th scope="col" id="H_BOAD_IDX">게시판ID</th>
 								<th scope="col" id="H_BOADHIS_STATUS">이력상태</th>
 								<th scope="col" id="H_BOAD_TITLE">제목</th>
 								<th scope="col" id="H_BOAD_WRITER">작성자</th>
-								<th scope="col" id="H_BOADHIS_DATE">작성일시</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
+                                <td id="BOADHIS_DATE" celltype="input" style="" name="작성일시" readOnly="true" displayFunction="moca.longToDate"></td>
 								<td id="BOADHIS_IDX" celltype="input" style="" readOnly="true" name="이력ID"></td>
 								<td id="BOAD_IDX" celltype="input" style="" readOnly="true" name="게시판ID"></td>
 								<td id="BOADHIS_STATUS" celltype="select" style="text-align:left" readOnly="true"  displayFormat="[value] [label]"  name="이력상태"></td>
 								<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true"></td>
 								<td id="BOAD_WRITER" celltype="input" style="text-align:center" name="작성자" readOnly="true"></td>
-								<td id="BOADHIS_DATE" celltype="input" style="" name="작성일시" readOnly="true" displayFunction="moca.longToDate"></td>
+								
 							</tr>
 						</tbody>
 					</table>				

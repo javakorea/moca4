@@ -89,6 +89,15 @@
         	}
         }
     };
+    moca.EFC_BOAD.dispCnt= function(_thisVal){
+    	if(_thisVal !=null && _thisVal != 0){
+    		return _thisVal;
+    	}else{
+    		_thisVal = '';
+    		return _thisVal;
+    	}
+    }
+    
 </script>
 
 </head>
@@ -161,6 +170,7 @@
 								<col style="width:60px">
 								<col style="width:60px">
 								<col style="">
+								<col style="width:60px">
 								<col style="width:200px">
 								<col style="width:150px">		
 						</colgroup>
@@ -169,6 +179,7 @@
 								<th scope="col" celltype="checkbox" id="H_chk" targetId="chk">선택</th>
 								<th scope="col" id="H_BOAD_IDX">ID</th>
 								<th scope="col" id="H_BOAD_TITLE">제목</th>
+								<th scope="col" id="H_BOAD_FILECNT">첨부</th>
 								<th scope="col" id="H_BOAD_WRITER"  filterable="true" filterableId="BOAD_WRITER">작성자</th>
 								<th scope="col" id="H_BOAD_DATE">작성일시</th>
 							</tr>
@@ -178,6 +189,7 @@
 								<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택"></td>
 								<td id="BOAD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
 								<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true"></td>
+								<td id="CNT" celltype="input" style="" name="첨부" readOnly="true" displayFunction="moca.EFC_BOAD.dispCnt"></td>
 								<td id="BOAD_WRITER" celltype="input" style="text-align:center" name="작성자" readOnly="true"></td>
 								<td id="BOAD_DATE" celltype="input" style="" name="작성일" readOnly="true" displayFunction="moca.longToDate"></td>
 							</tr>

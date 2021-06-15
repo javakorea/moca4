@@ -434,7 +434,9 @@ public interface TOMapper {
 	public Map <String, Object> selectBoardHisInfo(Map<String, Object> map); 
 	// 게시판파일업로드조회
 	public List<Map<String, Object>> selectBoardFileList(Map<String, Object> map);
-	
-	// 게시글이력등록
+	// 게시글파일업로드
 	public int insertBoardFile(Map<String, Object> map);
+	// 게시글파일삭제
+	public int deleteBoardFileList(Map<String, Object> map);
+	
 }

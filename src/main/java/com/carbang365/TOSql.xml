@@ -1271,6 +1271,7 @@
 			FROM TO_RAWDATA_VEHICLE_SPECIFICATION_TS A
 			WHERE 1=1
     	]]>
+    	
     	<!-- 0:전체, 1:승용, 2:승합, 3:화물, 4:기타, 5:친환경면제차량 -->
     	<if test='inqType != null and inqType != "" and !inqType.equals("0")'>
     		<choose>
@@ -4582,8 +4583,8 @@
  	
  	<!-- 게시판 조회 -->
     <select id="selectBoardList" parameterType="map" resultType="map">
-        SELECT A.BOAD_IDX, A.BOAD_TITLE, A.BOAD_WRITER, A.BOAD_DATE 
-		FROM EFCBOAD A
+        SELECT A.BOAD_IDX, A.BOAD_TITLE, A.BOAD_WRITER, A.BOAD_DATE, COUNT(F.BOAD_IDX) AS CNT
+		FROM EFCBOAD A LEFT OUTER JOIN EFCBOADFILE F ON A.BOAD_IDX = F.BOAD_IDX
 		WHERE 1=1
 		<if test="BOAD_WRITER != null and BOAD_WRITER != ''">
             AND A.BOAD_WRITER like CONCAT('%', #{BOAD_WRITER}, '%')
@@ -4595,6 +4596,7 @@
         <![CDATA[
         AND A.BOAD_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOAD_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')
         ]]>
+        GROUP BY A.BOAD_IDX
         ORDER BY A.BOAD_IDX DESC
     </select>
  	
@@ -4698,6 +4700,17 @@
         <if test="BOAD_TITLE != null and BOAD_TITLE != ''">
             AND A.BOAD_TITLE like CONCAT('%', #{BOAD_TITLE}, '%')
         </if>
+        <choose>
+		    <when test="statusList.size > 0">
+		        AND BOADHIS_STATUS in 
+		        <foreach collection="statusList" item="item" index="index" separator="," open="(" close=")">
+		          #{item}
+		        </foreach>
+		    </when>
+		    <otherwise>
+		        AND A.BOADHIS_STATUS = ''
+		    </otherwise>
+		</choose>
         <![CDATA[
         AND A.BOADHIS_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOADHIS_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')
         ]]>
@@ -4720,7 +4733,7 @@
 		)
     </insert>
     
-    <!-- 게시판파일조회 -->
+    <!-- 게시판첨부파일조회 -->
     <select id="selectBoardFileList" parameterType="map" resultType="map">
         SELECT *
         FROM EFCBOADFILE A
@@ -4730,4 +4743,11 @@
         </if>
         ORDER BY A.BOADFILE_IDX DESC
     </select>
+    <!-- 게시판첨부파일 삭제  -->
+    <delete id="deleteBoardFileList" parameterType="map">
+        /*deleteBoard 게시물삭제*/
+        DELETE FROM EFCBOADFILE
+        WHERE 1=1
+        AND BOAD_IDX=#{BOAD_IDX}
+    </delete>
  </mapper>

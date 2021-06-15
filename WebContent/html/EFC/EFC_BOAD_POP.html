@@ -45,6 +45,7 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 					moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),data.BOAD_WRITER);
 				    moca.setValue(moca.EFC_BOAD_POP.getObj("widx"),data.BOAD_IDX);
 				    moca.hide(moca.EFC_BOAD_POP.getObj("btn_save"));
+				    moca.hide(moca.EFC_BOAD_POP.getObj("btn_add"));
 				    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wid")) != moca.getSs("USER_ID") && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
 				    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
 				    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
@@ -77,6 +78,7 @@ moca.EFC_BOAD_POP.fn_update = function(_thisObj){
 	moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
 	moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
 	moca.show(moca.EFC_BOAD_POP.getObj("btn_save"));
+	moca.show(moca.EFC_BOAD_POP.getObj("btn_add"));
 }
 moca.EFC_BOAD_POP.fn_save = function(_grd,_idx,tdObj,_thisObj){
     moca.confirm('저장하시겠습니까?',function(result){
@@ -119,7 +121,8 @@ moca.EFC_BOAD_POP.fn_save = function(_grd,_idx,tdObj,_thisObj){
                             "BOAD_IDX":moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX+"",
                             "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
                             "BOAD_CONT":CKEDITOR.instances.editor.getData(),
-                            "BOAD_WRITER":moca.getSs("USER_ID")
+                            "BOAD_WRITER":moca.getSs("USER_ID"),
+                            "fileList":moca.EFC_BOAD_POP.getFilteredList("grd_file","status","C")
                             }
                     },          
                     callback : function(response){
@@ -282,7 +285,7 @@ moca.EFC_BOAD_POP.onFileSelected = function(filename,filesize,_e,_this) {
                             toolbar_exup="false"
                             toolbar_exdn="false"
                             toolbar_addrow="false"
-                            toolbar_delrow="false"
+                            toolbar_delrow="true"
                             toolbar_nextbtn="false"
                             toolbar_full="false"
                             toolbar_grid_button1='{"position":"right","id":"btn_add","label":"파일선택","onclick":"moca.EFC_BOAD_POP._openFileUpload","addClass":"","innerDisabled":"false"}'
@@ -291,12 +294,14 @@ moca.EFC_BOAD_POP.onFileSelected = function(filename,filesize,_e,_this) {
         >
                 <table style="width: 100%">
                     <colgroup>
+                            <col style="width:60px">
                             <col style="width:80px">
                             <col style="">
                             <col style="width:150px">       
                     </colgroup>
                     <thead>
                         <tr>
+                            <th scope="col" id="H_status">상태</th>
                             <th scope="col" id="H_BOADFILE_IDX">파일ID</th>
                             <th scope="col" id="H_BOADFILE_NAME">파일명</th>
                             <th scope="col" id="H_BOADFILE_SIZE">파일크기</th>
@@ -304,6 +309,7 @@ moca.EFC_BOAD_POP.onFileSelected = function(filename,filesize,_e,_this) {
                     </thead>
                     <tbody>
                         <tr>
+                            <td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
                             <td id="BOADFILE_IDX" celltype="input" style="" readOnly="true" name="파일ID"></td>
                             <td id="BOADFILE_NAME" celltype="input" style="text-align:left" name="파일명" readOnly="true"></td>
                             <td id="BOADFILE_SIZE" celltype="input" style="" name="파일크기" readOnly="true"></td>

@@ -8839,15 +8839,18 @@ Moca.prototype.renderGridToolbarButton = function(x1Obj,_id) {
 	var _disabled = '';
 	var tmp_disabled = '';
 	var tmp_disabled_style = '';
+	var _btnid = '';
 	tmp_disabled = x1Obj.innerDisabled;
 	if(moca.isTrue(tmp_disabled)){
 		_disabled = "disabled";
 		_innerStyle += ";background:#aaa;";
 	}
+	if(x1Obj.id != null){
+	   _btnid = x1Obj.id;
+	}
 	
-
 	_html += '<div class="grid_btn '+x1Obj.addClassStr+'" grdkey="'+_id+'">';
-	_html += '<button type="button" style="'+_innerStyle+'" onclick="'+x1Obj.onclick+'(this)" '+_disabled+' >'+x1Obj.label+'</button>';
+	_html += '<button type="button" id="'+_btnid+'" style="'+_innerStyle+'" onclick="'+x1Obj.onclick+'(this)" '+_disabled+' >'+x1Obj.label+'</button>';
 	_html += '</div>';
 	return _html;
 };
@@ -9507,7 +9510,7 @@ Moca.prototype.renderRadio = function(_divObj,_val,_gubun) {
 
 };
 
-Moca.prototype.renderCheckboxGroup = function(_divObj,_val,_gubun) {
+Moca.prototype.renderCheckboxGroup = function(_divObj,_val,_gubun,_metaObj) {
 	['render CheckboxGroup'];
 	$(_divObj).addClass('checkboxGroup');
 	var _id = _divObj.getAttribute("id");
@@ -9524,7 +9527,9 @@ Moca.prototype.renderCheckboxGroup = function(_divObj,_val,_gubun) {
 		var obj = _itemsetArray[i];
 		var checkedStr = '';
 		if(obj.checked){
-			checkedStr = 'checked';
+		  checkedStr = 'checked';
+		}else if(_metaObj.checked){
+		  checkedStr = 'checked';
 		}
 		
 		var onclickStr = '';
@@ -9532,6 +9537,10 @@ Moca.prototype.renderCheckboxGroup = function(_divObj,_val,_gubun) {
 			onclickStr = 'onclick="'+obj.onclick+'(this)"';
 		}
 		
+		if(_metaObj != null){
+		  obj.label = obj[_metaObj.label];
+		  obj.value = obj[_metaObj.value];
+		}
 		
 		_html += '<input type="checkbox" class="moca_checkbox_input" name="'+_id+'" id="'+_id+'_'+i+'" '+checkedStr+' value="'+obj.value+'">';
 		_html += '<label class="moca_checkbox_label mr15" for="'+_id+'_'+i+'" '+onclickStr+'>'+obj.label+'</label>';
@@ -12439,6 +12448,21 @@ Moca.prototype.cellAllCheck = function(_thisObj){
    moca[$(grd).attr("srcid")].redrawGrid(grd);
 };
 
+Moca.prototype.setCheckboxGroupList = function(obj,_checkGroupList,metaObj){
+	obj.setAttribute('itemset',JSON.stringify(_checkGroupList));
+	moca.renderCheckboxGroup(obj,null,null,metaObj);
+};
+
+
+Moca.prototype.getCheckboxGroupCheckedList = function(obj){
+	var returnArr = [];
+	var arr = $(obj).find('[type=checkbox]:checked');
+	for(var i=0;i < arr.length; i++){
+		var aCheck = arr[i];
+		returnArr.push(aCheck.value);
+	}
+	return returnArr;
+};
 
 
 

@@ -47,11 +47,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.View;
+
 import com.google.gson.Gson;
 import com.ibm.icu.text.SimpleDateFormat;
+
 import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.service.Globals;
-
 import mocaframework.com.cmm.U;
 import mocaframework.com.cmm.Util;
 
@@ -5234,12 +5235,10 @@ public class TOController{
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
 			model.addAttribute("cnt", TOMapper.insertBoard(paramMap));
-			System.out.println("요기~~~~"+paramMap);
 			paramMap.put("status", "C");TOMapper.insertBoardHis(paramMap);
 			
 	    	List list = (List)paramMap.get("fileList"); //자바스크립트에서 받아온 값을 자바언어구조로 바꿈
-	    	System.out.println("요기2~~~~"+list);
-        	for(int i=0;i < list.size() ;i++) {
+	    	for(int i=0;i < list.size() ;i++) {
         		Map row = (Map)list.get(i);
         		row.put("BOAD_IDX", paramMap.get("BOAD_IDX"));
             	if("C".equalsIgnoreCase(U.getStatus(row)) ) {
@@ -5279,6 +5278,23 @@ public class TOController{
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
 			int cnt = TOMapper.updateBoardInfo(paramMap);
 			paramMap.put("status", "U");TOMapper.insertBoardHis(paramMap);
+			
+			System.out.println("작성...."+paramMap);
+			List list = (List)paramMap.get("fileList"); //자바스크립트에서 받아온 값을 자바언어구조로 바꿈
+			System.out.println("사이즈...."+list);
+			if(list != null) {
+				
+				model.addAttribute("cnt", TOMapper.deleteBoardFileList(paramMap));
+				for(int i=0;i < list.size() ;i++) {
+	        		Map row = (Map)list.get(i);
+	        		row.put("BOAD_IDX", paramMap.get("BOAD_IDX"));
+	            	if("C".equalsIgnoreCase(U.getStatus(row)) ) {
+	        			TOMapper.insertBoardFile(row);
+	            	}
+	        	}
+			}
+	    	
+	    	
 			model.addAttribute("cnt", cnt);		
 			
 		}catch(Exception e) {
@@ -5354,7 +5370,6 @@ public class TOController{
 				paramMap = mocaMap;
 			}
 			model.addAttribute("selectBoardHisList", TOMapper.selectBoardHisList(paramMap));
-			
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());
@@ -5372,7 +5387,7 @@ public class TOController{
 				paramMap = mocaMap;
 			}
 			model.addAttribute("selectBoardHisInfo", TOMapper.selectBoardHisInfo(paramMap));
-			
+			model.addAttribute("selectBoardFileList", TOMapper.selectBoardFileList(paramMap));
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());
