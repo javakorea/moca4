@@ -5278,12 +5278,8 @@ public class TOController{
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
 			int cnt = TOMapper.updateBoardInfo(paramMap);
 			paramMap.put("status", "U");TOMapper.insertBoardHis(paramMap);
-			
-			System.out.println("작성...."+paramMap);
 			List list = (List)paramMap.get("fileList"); //자바스크립트에서 받아온 값을 자바언어구조로 바꿈
-			System.out.println("사이즈...."+list);
 			if(list != null) {
-				
 				model.addAttribute("cnt", TOMapper.deleteBoardFileList(paramMap));
 				for(int i=0;i < list.size() ;i++) {
 	        		Map row = (Map)list.get(i);

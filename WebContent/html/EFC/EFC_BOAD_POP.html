@@ -87,7 +87,9 @@ moca.EFC_BOAD_POP.fn_save = function(_grd,_idx,tdObj,_thisObj){
         	var _BoardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
             var _BoardTitle = moca.EFC_BOAD_POP.args.parent.data.BOAD_TITLE;
             for(var i=0; i<grd_file.list.length;i++){
-            	grd_file.list[i]._system.status = "C";
+            	if(grd_file.list[i]._system.status != "D"){
+            		grd_file.list[i]._system.status = "C";
+            	}
             };
             if(_BoardIdx == null){
                 //게시물등록
