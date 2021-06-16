@@ -10,6 +10,7 @@ moca.EFC_BOAD_HIS_POP.___ready = function(args){
 	CKEDITOR.replace( 'editor',{uiColor:'#e5e8ef',on:{
         'instanceReady':function(ev){
         	moca.EFC_BOAD_HIS_POP.editor = ev.editor;
+        	moca.EFC_BOAD_HIS_POP._boardIdx = moca.EFC_BOAD_HIS_POP.args.parent.data.BOADHIS_IDX;
             if(moca.EFC_BOAD_HIS_POP._boardIdx != null){
                 moca.EFC_BOAD_HIS_POP.editor.setReadOnly(true);
             }
