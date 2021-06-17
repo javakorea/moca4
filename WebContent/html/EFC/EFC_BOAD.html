@@ -43,6 +43,7 @@
 	    ['게시글상세']
 	    var _BoardTitle = _grd.list[rowIndex].BOAD_TITLE;
 	    var _BoardIdx = moca.getCellData(_grd,rowIndex,'BOAD_IDX');
+	    var __BoardReplyIdx = moca.getCellData(_grd,rowIndex,'BOADREPLY_IDX');
 	    var o = {};
 	    o.id = moca.EFC_BOAD.popId;
 	    o.url = '/html/EFC/EFC_BOAD_POP.html';
@@ -51,7 +52,7 @@
 	    o.title = '게시글상세';
 	    o.callback = moca.EFC_BOAD.fn_pop_callback;
 	    o.scopeId = moca.EFC_BOAD.pageId;
-	    o.data = {"BOAD_IDX":_BoardIdx+'',"BOAD_TITLE":_BoardTitle};
+	    o.data = {"BOAD_IDX":_BoardIdx+'',"BOAD_PIDX":__BoardReplyIdx+'',"BOAD_TITLE":_BoardTitle};
 	    moca.popup(o,_grd);
 	};
 	moca.EFC_BOAD.fn_delList = function(){
@@ -110,7 +111,6 @@
 				src="/html/titlebox.html"
 				data = '{"sreenCd":"EFC_BOAD","sreenNm":"게시판","sreenPath":"시스템설정,게시판"}'
 			></div>
-
 			<div class="moca_shbox">
 				<div class="shbox_inner">
 					<table class="tb">
@@ -142,12 +142,6 @@
 					<button type="button" class="button btn_sc" onclick="moca.EFC_BOAD.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
 				</div>
 			</div>
-			
-			
-			
-			
-			
-			
 			<div type="grid" class="moca_grid toolbar sc_row1" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
 			
 								toolbar_search_size="false"
@@ -169,6 +163,7 @@
 						<colgroup>
 								<col style="width:60px">
 								<col style="width:60px">
+								<col style="width:60px">
 								<col style="">
 								<col style="width:60px">
 								<col style="width:200px">
@@ -177,6 +172,7 @@
 						<thead>
 							<tr>
 								<th scope="col" celltype="checkbox" id="H_chk" targetId="chk">선택</th>
+								<th scope="col" id="H_BOADREPLY_IDX">부모ID</th>
 								<th scope="col" id="H_BOAD_IDX">ID</th>
 								<th scope="col" id="H_BOAD_TITLE">제목</th>
 								<th scope="col" id="H_BOAD_FILECNT">첨부</th>
@@ -187,6 +183,7 @@
 						<tbody>
 							<tr>
 								<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택"></td>
+								<td id="BOADREPLY_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
 								<td id="BOAD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
 								<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true"></td>
 								<td id="CNT" celltype="input" style="" name="첨부" readOnly="true" displayFunction="moca.EFC_BOAD.dispCnt"></td>

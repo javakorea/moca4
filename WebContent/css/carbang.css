@@ -167,7 +167,7 @@
 /*약관관리에디터 TO_000P07*/
 /*.terms_edit{position:absolute; top:101px; left:15px; right:15px; bottom:15px}*/
 .terms_edit {position: absolute; left: 15px; right: 15px; bottom: 0; top: 101px;}
-.terms_edit .cke_editor_editor{position: absolute; right: 0; left: 0; bottom: 15px; top: 0;}
+.terms_edit .cke_chrome{position: absolute; right: 0; left: 0; bottom: 15px; top: 0;}
 .terms_edit .cke_bottom{user-select: none; position: absolute; left: 0; right: 0; bottom: 0;}
 .terms_edit > div[contenteditable=true] {height:100%; overflow-y:auto}
 .terms_edit .cke_contents{height: inherit !important; position: absolute; top: 108px; left: 0; right: 0; bottom: 27px;}
