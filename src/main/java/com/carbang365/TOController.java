@@ -5235,8 +5235,12 @@ public class TOController{
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
 			model.addAttribute("cnt", TOMapper.insertBoard(paramMap));
+			if(paramMap.get("BOAD_PIDX") == null) {
+				System.out.println("여기"+paramMap.get("BOAD_PIDX"));
+				paramMap.put("BOAD_PIDX", paramMap.get("BOAD_IDX"));
+				TOMapper.updateBoardInfo(paramMap);
+			}
 			paramMap.put("status", "C");TOMapper.insertBoardHis(paramMap);
-			
 	    	List list = (List)paramMap.get("fileList"); //자바스크립트에서 받아온 값을 자바언어구조로 바꿈
 	    	for(int i=0;i < list.size() ;i++) {
         		Map row = (Map)list.get(i);

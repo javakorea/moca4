@@ -30,40 +30,89 @@ moca.EFC_BOAD_POP.___ready = function(args){
     */
 };
 moca.EFC_BOAD_POP._boardIdx;
+moca.EFC_BOAD_POP._boardPIdx;
 moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 	moca.EFC_BOAD_POP._boardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
+	moca.EFC_BOAD_POP._boardPIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_PIDX;
 	var _BoardTitle = moca.EFC_BOAD_POP.args.parent.data.BOAD_TITLE;
 	if(moca.EFC_BOAD_POP._boardIdx != null){
-		moca.EFC_BOAD_POP.exe({
-			url : moca._domain+moca._contextRoot+"/EFC_BOAD/selectBoardInfo.do",
-			loadingbar:true,
-			data : {
-				"header" : moca.header,
-				"body" : {
-					"BOAD_IDX":moca.EFC_BOAD_POP._boardIdx
+		$(moca.EFC_BOAD_POP.getObj("cke_editor")).find('#cke_1_top').hide();
+		//답변일경우
+		if(moca.EFC_BOAD_POP._boardPIdx != "" && moca.EFC_BOAD_POP._boardIdx != moca.EFC_BOAD_POP._boardPIdx){
+			//showhide처리
+			$(moca.EFC_BOAD_POP.getObj("cke_editor")).find("[id$='_top']").hide();
+			$(moca.EFC_BOAD_POP.getObj("cke_reply_editor")).find("[id$='_top']").hide();
+			$(moca.EFC_BOAD_POP.getObj("reply_area")).show();
+			$(moca.EFC_BOAD_POP.getObj("btn_reply")).hide();
+			$(moca.EFC_BOAD_POP.getObj("btn_update")).hide();
+			$(moca.EFC_BOAD_POP.getObj("btn_del")).hide();
+			$(moca.EFC_BOAD_POP.getObj("btn_reply_add")).hide();
+			$(moca.EFC_BOAD_POP.getObj("btn_reply_save")).hide();
+			moca.EFC_BOAD_POP.exe({
+				url : moca._domain+moca._contextRoot+"/EFC_BOAD/selectBoardInfo.do",
+				loadingbar:true,
+				data : {
+					"header" : moca.header,
+					"body" : {
+						"BOAD_IDX":moca.EFC_BOAD_POP._boardPIdx
+						}
+				},			
+				callback : function(response){
+						if(response.selectBoardInfo != null ){
+						var data = response.selectBoardInfo;
+						CKEDITOR.instances.editor.setData(data.BOAD_CONT);
+						moca.setValue(moca.EFC_BOAD_POP.getObj("wtitle"),data.BOAD_TITLE);
+						moca.setValue(moca.EFC_BOAD_POP.getObj("wdate"),data.BOAD_DATE);
+						moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),data.BOAD_WRITER);
+					    moca.setValue(moca.EFC_BOAD_POP.getObj("widx"),data.BOAD_IDX);
+					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_save"));
+					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_add"));
+					    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wid")) != moca.getSs("USER_ID") && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
+					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
+					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
+					    }
+					    //moca.EFC_BOAD_POP.fn_searchfile();
+					    moca.EFC_BOAD_POP.drawGrid('grd_file',moca.getResList(response,"selectBoardFileList"));
+					    
+					    moca.EFC_BOAD_POP.fn_reply_search();
+					}else{
+						moca.error(response.error);
 					}
-			},			
-			callback : function(response){
-					if(response.selectBoardInfo != null ){
-					var data = response.selectBoardInfo;
-					CKEDITOR.instances.editor.setData(data.BOAD_CONT);
-					moca.setValue(moca.EFC_BOAD_POP.getObj("wtitle"),data.BOAD_TITLE);
-					moca.setValue(moca.EFC_BOAD_POP.getObj("wdate"),data.BOAD_DATE);
-					moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),data.BOAD_WRITER);
-				    moca.setValue(moca.EFC_BOAD_POP.getObj("widx"),data.BOAD_IDX);
-				    moca.hide(moca.EFC_BOAD_POP.getObj("btn_save"));
-				    moca.hide(moca.EFC_BOAD_POP.getObj("btn_add"));
-				    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wid")) != moca.getSs("USER_ID") && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
-				    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
-				    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
-				    }
-				    //moca.EFC_BOAD_POP.fn_searchfile();
-				    moca.EFC_BOAD_POP.drawGrid('grd_file',moca.getResList(response,"selectBoardFileList"));
-				}else{
-					moca.error(response.error);
 				}
-			}
-		});
+			});
+		}else{
+			moca.EFC_BOAD_POP.exe({
+				url : moca._domain+moca._contextRoot+"/EFC_BOAD/selectBoardInfo.do",
+				loadingbar:true,
+				data : {
+					"header" : moca.header,
+					"body" : {
+						"BOAD_IDX":moca.EFC_BOAD_POP._boardIdx
+						}
+				},			
+				callback : function(response){
+						if(response.selectBoardInfo != null ){
+						var data = response.selectBoardInfo;
+						CKEDITOR.instances.editor.setData(data.BOAD_CONT);
+						$(moca.EFC_BOAD_POP.getObj("cke_editor")).find("[id$='_top']").hide();
+						moca.setValue(moca.EFC_BOAD_POP.getObj("wtitle"),data.BOAD_TITLE);
+						moca.setValue(moca.EFC_BOAD_POP.getObj("wdate"),data.BOAD_DATE);
+						moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),data.BOAD_WRITER);
+					    moca.setValue(moca.EFC_BOAD_POP.getObj("widx"),data.BOAD_IDX);
+					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_save"));
+					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_add"));
+					    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wid")) != moca.getSs("USER_ID") && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
+					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
+					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
+					    }
+					    //moca.EFC_BOAD_POP.fn_searchfile();
+					    moca.EFC_BOAD_POP.drawGrid('grd_file',moca.getResList(response,"selectBoardFileList"));
+					}else{
+						moca.error(response.error);
+					}
+				}
+			});
+		}
 	}else{
 		moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),moca.getSs("USER_ID"));
 		moca.setValue(moca.EFC_BOAD_POP.getObj("wdate"),dateLib.getToday());
@@ -80,73 +129,155 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 };
 
 moca.EFC_BOAD_POP.fn_update = function(_thisObj){
-	moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wtitle"),false);
-	moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),moca.getSs("USER_ID"));
-	moca.EFC_BOAD_POP.editor.setReadOnly(false);
-	moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
-	moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
-	moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply"));
-	moca.show(moca.EFC_BOAD_POP.getObj("btn_save"));
-	moca.show(moca.EFC_BOAD_POP.getObj("btn_add"));
+	if(_thisObj.id != 'btn_reply_update'){
+		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wtitle"),false);
+		moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),moca.getSs("USER_ID"));
+		moca.EFC_BOAD_POP.editor.setReadOnly(false);
+		moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
+		moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
+		moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply"));
+		moca.show(moca.EFC_BOAD_POP.getObj("btn_save"));
+		moca.show(moca.EFC_BOAD_POP.getObj("btn_add"));
+	}else{
+		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wreplytitle"),false);
+		$(moca.EFC_BOAD_POP.getObj("cke_reply_editor")).find("[id$='_top']").show();
+		moca.setValue(moca.EFC_BOAD_POP.getObj("wreplyid"),moca.getSs("USER_ID"));
+		moca.EFC_BOAD_POP.editor.setReadOnly(false);
+		moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_update"));
+		moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_del"));
+		moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply"));
+		moca.show(moca.EFC_BOAD_POP.getObj("btn_reply_save"));
+		moca.show(moca.EFC_BOAD_POP.getObj("btn_reply_add"));
+	}
 }
-moca.EFC_BOAD_POP.fn_save = function(_grd,_idx,tdObj,_thisObj){
-    moca.confirm('저장하시겠습니까?',function(result){
-        if(result == 'Y'){
-        	var _BoardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
-            var _BoardTitle = moca.EFC_BOAD_POP.args.parent.data.BOAD_TITLE;
-            for(var i=0; i<grd_file.list.length;i++){
-            	if(grd_file.list[i]._system.status != "D"){
-            		grd_file.list[i]._system.status = "C";
-            	}
-            };
-            if(_BoardIdx == null){
-                //게시물등록
-                moca.EFC_BOAD_POP.exe({
-                    url : moca._domain+moca._contextRoot+"/EFC_BOAD/insertBoard.do",
-                    loadingbar:true,
-                    data : {
-                        "header" : moca.header,
-                        "body" : {
-                            "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
-                            "BOAD_CONT":CKEDITOR.instances.editor.getData(),
-                            "BOAD_WRITER":moca.getValue(moca.EFC_BOAD_POP.getObj("wid")),
-                            "fileList":moca.EFC_BOAD_POP.getFilteredList("grd_file","status","C")
-                            }
-                    },          
-                    callback : function(response){
-                        if(response.cnt > 0){
-                            moca.alert('성공적으로 저장하였습니다.');
-                            moca.popClose(moca.EFC_BOAD_POP.pageId);
-                            moca.EFC_BOAD.fn_search();
-                        }
-                    }
-                });
-            }else{
-                //이력수정
-                moca.EFC_BOAD_POP.exe({
-                    url : moca._domain+moca._contextRoot+"/EFC_BOAD/updateBoard.do",
-                    loadingbar:true,
-                    data : {
-                        "header" : moca.header,
-                        "body" : {
-                            "BOAD_IDX":moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX+"",
-                            "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
-                            "BOAD_CONT":CKEDITOR.instances.editor.getData(),
-                            "BOAD_WRITER":moca.getSs("USER_ID"),
-                            "fileList":moca.EFC_BOAD_POP.getFilteredList("grd_file","status","C")
-                            }
-                    },          
-                    callback : function(response){
-                        if(response.cnt > 0){
-                            moca.alert('성공적으로 저장하였습니다.');
-                            moca.popClose(moca.EFC_BOAD_POP.pageId);
-                            moca.EFC_BOAD.fn_search();
-                        }
-                    }
-                });
-            }
-        }
-    });
+moca.EFC_BOAD_POP.fn_save = function(_thisObj){
+	if(_thisObj.id == 'btn_save'){
+		moca.confirm('저장하시겠습니까?',function(result){
+	        if(result == 'Y'){
+	        	var _BoardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
+	        	var _BoardPIdx = (moca.EFC_BOAD_POP.args.parent.data.BOAD_PIDX != null ?moca.EFC_BOAD_POP.args.parent.data.BOAD_PIDX:'');
+	        	
+	            var _BoardTitle = moca.EFC_BOAD_POP.args.parent.data.BOAD_TITLE;
+	            for(var i=0; i<grd_file.list.length;i++){
+	            	if(grd_file.list[i]._system.status != "D"){
+	            		grd_file.list[i]._system.status = "C";
+	            	}
+	            };
+	            if(_BoardIdx == null){
+	                //게시물등록
+	                moca.EFC_BOAD_POP.exe({
+	                    url : moca._domain+moca._contextRoot+"/EFC_BOAD/insertBoard.do",
+	                    loadingbar:true,
+	                    data : {
+	                        "header" : moca.header,
+	                        "body" : {
+	                            "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
+	                            "BOAD_CONT":CKEDITOR.instances.editor.getData(),
+	                            "BOAD_WRITER":moca.getValue(moca.EFC_BOAD_POP.getObj("wid")),
+	                            "fileList":moca.EFC_BOAD_POP.getFilteredList("grd_file","status","C")
+	                            }
+	                    },          
+	                    callback : function(response){
+	                        if(response.cnt > 0){
+	                            moca.alert('성공적으로 저장하였습니다.');
+	                            moca.popClose(moca.EFC_BOAD_POP.pageId);
+	                            moca.EFC_BOAD.fn_search();
+	                        }
+	                    }
+	                });
+	            }else{
+            		//게시글수정
+            		 moca.EFC_BOAD_POP.exe({
+                         url : moca._domain+moca._contextRoot+"/EFC_BOAD/updateBoard.do",
+                         loadingbar:true,
+                         data : {
+                             "header" : moca.header,
+                             "body" : {
+                                 "BOAD_IDX":_BoardIdx,
+                                 "BOAD_PIDX":_BoardIdx,
+                                 "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
+                                 "BOAD_CONT":CKEDITOR.instances.editor.getData(),
+                                 "BOAD_WRITER":moca.getSs("USER_ID"),
+                                 "fileList":moca.EFC_BOAD_POP.getFilteredList("grd_file","status","C")
+                                 }
+                         },          
+                         callback : function(response){
+                             if(response.cnt > 0){
+                                 moca.alert('성공적으로 저장하였습니다.');
+                                 moca.popClose(moca.EFC_BOAD_POP.pageId);
+                                 moca.EFC_BOAD.fn_search();
+                             }
+                         }
+                     });
+	            }
+	        }
+	    });
+	}else{
+		//답변저장
+		moca.confirm('답변을 저장하시겠습니까?',function(result){
+	        if(result == 'Y'){
+	        	var _BoardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
+	        	var _BoardPIdx = (moca.EFC_BOAD_POP.args.parent.data.BOAD_PIDX != null ?moca.EFC_BOAD_POP.args.parent.data.BOAD_PIDX:'');
+	            var _BoardTitle = moca.EFC_BOAD_POP.args.parent.data.BOAD_TITLE;
+	            var _ReplyIdx = moca.getValue(moca.EFC_BOAD_POP.getObj("wreplyidx"));
+	            for(var i=0; i<grd_reply_file.list.length;i++){
+	            	if(grd_reply_file.list[i]._system.status != "D"){
+	            		grd_reply_file.list[i]._system.status = "C";
+	            	}
+	            };
+	            if(_ReplyIdx == null || _ReplyIdx == ""){
+	    			//답변등록
+	        		moca.EFC_BOAD_POP.exe({
+	                    url : moca._domain+moca._contextRoot+"/EFC_BOAD/insertBoard.do",
+	                    loadingbar:true,
+	                    data : {
+	                        "header" : moca.header,
+	                        "body" : {
+	                        	"BOAD_PIDX":_BoardIdx,
+	                            "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wreplytitle")),
+	                            "BOAD_CONT":CKEDITOR.instances.reply_editor.getData(),
+	                            "BOAD_WRITER":moca.getValue(moca.EFC_BOAD_POP.getObj("wreplyid")),
+	                            "fileList":moca.EFC_BOAD_POP.getFilteredList("grd_reply_file","status","C")
+	                            }
+	                    },          
+	                    callback : function(response){
+	                        if(response.cnt > 0){
+	                            moca.alert('성공적으로 저장하였습니다.');
+	                            moca.popClose(moca.EFC_BOAD_POP.pageId);
+	                            moca.EFC_BOAD.fn_search();
+	                        }
+	                    }
+	                });
+	        	}else{
+	        		//답변수정
+	        		 moca.EFC_BOAD_POP.exe({
+	                     url : moca._domain+moca._contextRoot+"/EFC_BOAD/updateBoard.do",
+	                     loadingbar:true,
+	                     data : {
+	                         "header" : moca.header,
+	                         "body" : {
+	                        	 "BOAD_PIDX":_BoardPIdx,
+	                         	 "BOAD_IDX":_BoardIdx,
+	                             "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wreplytitle")),
+	                             "BOAD_CONT":CKEDITOR.instances.reply_editor.getData(),
+	                             "BOAD_WRITER":moca.getSs("USER_ID"),
+	                             "fileList":moca.EFC_BOAD_POP.getFilteredList("grd_reply_file","status","C")
+	                             }
+	                     },          
+	                     callback : function(response){
+	                         if(response.cnt > 0){
+	                             moca.alert('성공적으로 저장하였습니다.');
+	                             moca.popClose(moca.EFC_BOAD_POP.pageId);
+	                             moca.EFC_BOAD.fn_search();
+	                         }
+	                     }
+	                 });
+	        	}
+	        }
+	    });
+		
+	}
+    
 };
 moca.EFC_BOAD_POP.fn_del = function(_grd,_idx,tdObj,_thisObj){
 	moca.confirm('삭제하시겠습니까?',function(result){
@@ -193,7 +324,8 @@ moca.EFC_BOAD_POP.fn_searchfile = function(_grd,_idx,tdObj,_thisObj){
         });
     }
 };
-moca.EFC_BOAD_POP._openFileUpload = function() {
+moca.EFC_BOAD_POP._openFileUpload = function(_thisObj) {
+	debugger;
     moca.popup({
         type:"POPUP",
         modal:"false",
@@ -209,12 +341,21 @@ moca.EFC_BOAD_POP._openFileUpload = function() {
             var physicalFilepath = result.physicalFilepath;
             var subDir = result.subDir;
             var uploadDir = result.uploadDir;
-            var arr = grd_file.list;
+            if(_thisObj.id == "btn_add"){
+            	 var arr = grd_file.list;
+            }else{
+            	 var arr = grd_reply_file.list;
+            }
             var row = {BOADFILE_NAME:originalFilename,BOADFILE_SIZE:fileSize,BOADFILE_NAMESERVER:physicalFilename,BOADFILE_PATH:physicalFilepath}; 
             row._system = {"status":""};
             var sn = arr.length;
             arr[sn] =  row;
-            moca.EFC_BOAD_POP.drawGrid('grd_file',arr);
+            if(_thisObj.id == "btn_add"){
+            	moca.EFC_BOAD_POP.drawGrid('grd_file',arr);
+            }else{
+            	moca.EFC_BOAD_POP.drawGrid('grd_reply_file',arr);
+            }
+            
             //grd_file.list[sn]._system.status = "C";
         },
         data:{
@@ -243,118 +384,47 @@ moca.EFC_BOAD_POP.fn_reply = function(_thisObj){
     $(moca.EFC_BOAD_POP.getObj("reply_area")).show();
     moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply"));
     moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
+    moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_update"));
     moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
+    moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_del"));
     moca.setValue(moca.EFC_BOAD_POP.getObj("wreplyid"),moca.getSs("USER_ID"));
 };
 
 moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
-    moca.EFC_BOAD_POP._boardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
-    var _BoardTitle = moca.EFC_BOAD_POP.args.parent.data.BOAD_TITLE;
-    if(moca.EFC_BOAD_POP._boardIdx != null){
-        moca.EFC_BOAD_POP.exe({
-            url : moca._domain+moca._contextRoot+"/EFC_BOAD/selectBoardInfo.do",
-            loadingbar:true,
-            data : {
-                "header" : moca.header,
-                "body" : {
-                    "BOADREPLY_IDX":moca.EFC_BOAD_POP._boardIdx
-                    }
-            },          
-            callback : function(response){
-                    if(response.selectBoardInfo != null ){
-                    var data = response.selectBoardInfo;
-                    CKEDITOR.instances.editor.setData(data.BOAD_CONT);
-                    moca.setValue(moca.EFC_BOAD_POP.getObj("wtitle"),data.BOAD_TITLE);
-                    moca.setValue(moca.EFC_BOAD_POP.getObj("wdate"),data.BOAD_DATE);
-                    moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),data.BOAD_WRITER);
-                    moca.setValue(moca.EFC_BOAD_POP.getObj("widx"),data.BOAD_IDX);
-                    moca.hide(moca.EFC_BOAD_POP.getObj("btn_save"));
-                    moca.hide(moca.EFC_BOAD_POP.getObj("btn_add"));
-                    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wid")) != moca.getSs("USER_ID") && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
-                        moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
-                        moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
-                    }
-                    //moca.EFC_BOAD_POP.fn_searchfile();
-                    moca.EFC_BOAD_POP.drawGrid('grd_file',moca.getResList(response,"selectBoardFileList"));
-                }else{
-                    moca.error(response.error);
-                }
-            }
-        });
-    }else{
-        moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),moca.getSs("USER_ID"));
-        moca.setValue(moca.EFC_BOAD_POP.getObj("wdate"),dateLib.getToday());
-        moca.setValue(moca.EFC_BOAD_POP.getObj("widx"),"등록후채번됨");
-        moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
-        moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
-        moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply"));
-        moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wtitle"),false);
-        CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
-            'instanceReady':function(evt){
-                CKEDITOR.instances.editor.focus();
-        }}} );
-    }
+	moca.EFC_BOAD_POP._boardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
+	moca.EFC_BOAD_POP.exe({
+		url : moca._domain+moca._contextRoot+"/EFC_BOAD/selectBoardInfo.do",
+		loadingbar:true,
+		data : {
+			"header" : moca.header,
+			"body" : {
+				"BOAD_IDX":moca.EFC_BOAD_POP._boardIdx
+				}
+		},			
+		callback : function(response){
+				if(response.selectBoardInfo != null ){
+				var data = response.selectBoardInfo;
+				CKEDITOR.instances.reply_editor.setData(data.BOAD_CONT);
+				moca.setValue(moca.EFC_BOAD_POP.getObj("wreplytitle"),data.BOAD_TITLE);
+				moca.setValue(moca.EFC_BOAD_POP.getObj("wreplydate"),data.BOAD_DATE);
+				moca.setValue(moca.EFC_BOAD_POP.getObj("wreplyid"),data.BOAD_WRITER);
+			    moca.setValue(moca.EFC_BOAD_POP.getObj("wreplyidx"),data.BOAD_IDX);
+			    moca.hide(moca.EFC_BOAD_POP.getObj("btn_save"));
+			    moca.hide(moca.EFC_BOAD_POP.getObj("btn_add"));
+			    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wid")) != moca.getSs("USER_ID") && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
+			    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
+			    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
+			    }
+			    //moca.EFC_BOAD_POP.fn_searchfile();
+			    moca.EFC_BOAD_POP.drawGrid('grd_reply_file',moca.getResList(response,"selectBoardFileList"));
+			    
+			}else{
+				moca.error(response.error);
+			}
+		}
+	});
 };
-moca.EFC_BOAD_POP.fn_reply_save = function(_grd,_idx,tdObj,_thisObj){
-    moca.confirm('저장하시겠습니까?',function(result){
-        if(result == 'Y'){
-            var _BoardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
-            var _BoardTitle = moca.EFC_BOAD_POP.args.parent.data.BOAD_TITLE;
-            for(var i=0; i<grd_file.list.length;i++){
-                if(grd_file.list[i]._system.status != "D"){
-                    grd_file.list[i]._system.status = "C";
-                }
-            };
-            if(_BoardIdx == null){
-                //답변등록
-                moca.EFC_BOAD_POP.exe({
-                    url : moca._domain+moca._contextRoot+"/EFC_BOAD/insertBoard.do",
-                    loadingbar:true,
-                    data : {
-                        "header" : moca.header,
-                        "body" : {
-                        	"BOAD_IDX":moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX,
-                            "BOADREPLY_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
-                            "BOADREPLY_CONT":CKEDITOR.instances.editor.getData(),
-                            "BOADREPLY_WRITER":moca.getValue(moca.EFC_BOAD_POP.getObj("wid")),
-                            "fileList":moca.EFC_BOAD_POP.getFilteredList("grd_reply_file","status","C")
-                            }
-                    },          
-                    callback : function(response){
-                        if(response.cnt > 0){
-                            moca.alert('성공적으로 저장하였습니다.');
-                            moca.popClose(moca.EFC_BOAD_POP.pageId);
-                            moca.EFC_BOAD.fn_search();
-                        }
-                    }
-                });
-            }else{
-                //이력수정
-                moca.EFC_BOAD_POP.exe({
-                    url : moca._domain+moca._contextRoot+"/EFC_BOAD/updateBoard.do",
-                    loadingbar:true,
-                    data : {
-                        "header" : moca.header,
-                        "body" : {
-                            "BOAD_IDX":moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX+"",
-                            "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
-                            "BOAD_CONT":CKEDITOR.instances.editor.getData(),
-                            "BOAD_WRITER":moca.getSs("USER_ID"),
-                            "fileList":moca.EFC_BOAD_POP.getFilteredList("grd_file","status","C")
-                            }
-                    },          
-                    callback : function(response){
-                        if(response.cnt > 0){
-                            moca.alert('성공적으로 저장하였습니다.');
-                            moca.popClose(moca.EFC_BOAD_POP.pageId);
-                            moca.EFC_BOAD.fn_search();
-                        }
-                    }
-                });
-            }
-        }
-    });
-}
+
 </script>
 <style>
 </style>
@@ -471,7 +541,9 @@ moca.EFC_BOAD_POP.fn_reply_save = function(_grd,_idx,tdObj,_thisObj){
                             label="게시물답변"
                             showRowSelection="false"
                             addition='[
-                            {"type":"button","position":"right","id":"btn_reply_save","label":"저장","onclick":"moca.EFC_BOAD_POP.fn_save","addClass":""}
+                            {"type":"button","position":"right","id":"btn_reply_update","label":"답변수정","onclick":"moca.EFC_BOAD_POP.fn_update","addClass":""},
+			                {"type":"button","position":"right","id":"btn_reply_del","label":"답변삭제","onclick":"moca.EFC_BOAD_POP.fn_del","addClass":""},
+                            {"type":"button","position":"right","id":"btn_reply_save","label":"답변저장","onclick":"moca.EFC_BOAD_POP.fn_save","addClass":""}
                                 ]'
                             >
                                 <table class="moca_table_cont" style="">
@@ -554,7 +626,7 @@ moca.EFC_BOAD_POP.fn_reply_save = function(_grd,_idx,tdObj,_thisObj){
                                     <tr>
                                         <td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
                                         <td id="BOADFILE_IDX" celltype="input" style="" readOnly="true" name="파일ID"></td>
-                                        <td id="BOADFILE_ANS_NAME" celltype="input" style="text-align:left" name="파일명" readOnly="true"></td>
+                                        <td id="BOADFILE_NAME" celltype="input" style="text-align:left" name="파일명" readOnly="true"></td>
                                         <td id="BOADFILE_SIZE" celltype="input" style="" name="파일크기" readOnly="true"></td>
                                     </tr>
                                 </tbody>

@@ -4583,10 +4583,9 @@
  	
  	<!-- 게시판 조회 -->
     <select id="selectBoardList" parameterType="map" resultType="map">
-        SELECT A.BOAD_IDX, A.BOAD_TITLE, A.BOAD_WRITER, A.BOAD_DATE, COUNT(F.BOAD_IDX) AS CNT, R.BOADREPLY_IDX
+        SELECT A.BOAD_PIDX, A.BOAD_IDX, A.BOAD_TITLE, A.BOAD_WRITER, A.BOAD_DATE, COUNT(F.BOAD_IDX) AS CNT
 		FROM EFCBOAD A 
 		LEFT OUTER JOIN EFCBOADFILE F ON A.BOAD_IDX = F.BOAD_IDX
-		LEFT OUTER JOIN EFCBOADREPLY R ON A.BOAD_IDX = R.BOAD_IDX
 		
 		WHERE 1=1
 		<if test="BOAD_WRITER != null and BOAD_WRITER != ''">
@@ -4600,19 +4599,25 @@
         AND A.BOAD_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOAD_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')
         ]]>
         GROUP BY A.BOAD_IDX
-        ORDER BY A.BOAD_IDX DESC
+        ORDER BY A.BOAD_PIDX DESC, A.BOAD_DATE ASC
     </select>
  	
  	<!-- 게시물 작성 -->
     <insert id="insertBoard" parameterType="map" useGeneratedKeys="true" keyProperty="BOAD_IDX">
         /*insertBoard 게시물 작성*/
             INSERT INTO EFCBOAD(
+           	 	<if test='BOAD_PIDX != null'>
+           	 		BOAD_PIDX,
+           		</if>
 	            BOAD_TITLE,
 	            BOAD_CONT,
 	            BOAD_WRITER,
 	            BOAD_DATE
             )VALUES (
-	            #{BOAD_TITLE},
+            	<if test='BOAD_PIDX != null'>
+           	 		#{BOAD_PIDX},
+           		</if>
+				#{BOAD_TITLE},
 	            #{BOAD_CONT},
 	            #{BOAD_WRITER},
 	            CURRENT_TIMESTAMP
@@ -4623,6 +4628,7 @@
     <update id="updateBoardInfo" parameterType="map">
          /*updateBoardInfo 게시물수정*/
          UPDATE EFCBOAD SET 
+            BOAD_PIDX = #{BOAD_PIDX},
             BOAD_TITLE = #{BOAD_TITLE},
             BOAD_CONT = #{BOAD_CONT},
             BOAD_WRITER = #{BOAD_WRITER},

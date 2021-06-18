@@ -43,7 +43,12 @@
 	    ['게시글상세']
 	    var _BoardTitle = _grd.list[rowIndex].BOAD_TITLE;
 	    var _BoardIdx = moca.getCellData(_grd,rowIndex,'BOAD_IDX');
-	    var __BoardReplyIdx = moca.getCellData(_grd,rowIndex,'BOADREPLY_IDX');
+	    var __BoardParentIdx;
+	    if( moca.getCellData(_grd,rowIndex,'BOAD_PIDX') != null){
+	    	 __BoardParentIdx = moca.getCellData(_grd,rowIndex,'BOAD_PIDX');
+	    }else{
+	    	__BoardParentIdx = '';
+	    }
 	    var o = {};
 	    o.id = moca.EFC_BOAD.popId;
 	    o.url = '/html/EFC/EFC_BOAD_POP.html';
@@ -52,7 +57,7 @@
 	    o.title = '게시글상세';
 	    o.callback = moca.EFC_BOAD.fn_pop_callback;
 	    o.scopeId = moca.EFC_BOAD.pageId;
-	    o.data = {"BOAD_IDX":_BoardIdx+'',"BOAD_PIDX":__BoardReplyIdx+'',"BOAD_TITLE":_BoardTitle};
+	    o.data = {"BOAD_IDX":_BoardIdx+'',"BOAD_PIDX":__BoardParentIdx+'',"BOAD_TITLE":_BoardTitle};
 	    moca.popup(o,_grd);
 	};
 	moca.EFC_BOAD.fn_delList = function(){
@@ -99,6 +104,13 @@
     	}
     }
     
+    moca.EFC_BOAD.dispReply= function(_thisVal, _grd, _realrow){
+    	if(_grd.list[_realrow].BOAD_IDX != _grd.list[_realrow].BOAD_PIDX){
+    		return "<i class='reply'></i>"+_thisVal;
+    	}else{
+    		return _thisVal;
+    	}
+    }
 </script>
 
 </head>
@@ -172,7 +184,7 @@
 						<thead>
 							<tr>
 								<th scope="col" celltype="checkbox" id="H_chk" targetId="chk">선택</th>
-								<th scope="col" id="H_BOADREPLY_IDX">부모ID</th>
+								<th scope="col" id="H_BOAD_PIDX">부모ID</th>
 								<th scope="col" id="H_BOAD_IDX">ID</th>
 								<th scope="col" id="H_BOAD_TITLE">제목</th>
 								<th scope="col" id="H_BOAD_FILECNT">첨부</th>
@@ -183,9 +195,9 @@
 						<tbody>
 							<tr>
 								<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택"></td>
-								<td id="BOADREPLY_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
+								<td id="BOAD_PIDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
 								<td id="BOAD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
-								<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true"></td>
+								<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true" displayFunction="moca.EFC_BOAD.dispReply"></td>
 								<td id="CNT" celltype="input" style="" name="첨부" readOnly="true" displayFunction="moca.EFC_BOAD.dispCnt"></td>
 								<td id="BOAD_WRITER" celltype="input" style="text-align:center" name="작성자" readOnly="true"></td>
 								<td id="BOAD_DATE" celltype="input" style="" name="작성일" readOnly="true" displayFunction="moca.longToDate"></td>
