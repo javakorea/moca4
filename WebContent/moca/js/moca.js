@@ -890,6 +890,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 			var readOnly = undefined;
 			var _celltype = undefined;
 			var _id = undefined;
+			var _class = undefined;
 			var _name = undefined;
 			var _toolTip = undefined;
 			var _displayFormat = undefined;
@@ -912,6 +913,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 				readOnly = cellTd.getAttribute("readOnly");
 				_celltype = cellTd.getAttribute("celltype");
 				_id = cellTd.getAttribute("id");
+				(cellTd.getAttribute("class") != null?_class = cellTd.getAttribute("class"):_class="");
 				_name = cellTd.getAttribute("name");
 				_toolTip = cellTd.getAttribute("toolTip");
 				_displayFormat = cellTd.getAttribute("displayFormat");
@@ -931,11 +933,11 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 				_levelId = cellTd.getAttribute("levelId");
 				_labelId = cellTd.getAttribute("labelId");
 			}
+			
 			var _keyMaskStr = '';
 			if(_keyMask != null){
 				_keyMaskStr = _keyMask;
 			}
-			
 			
 			var _level = '';
 			if(_levelId != null){
@@ -952,7 +954,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 			}
 			
 			if(_celltype == 'select'){
-				row	+= '<td id="'+_id+'" name="'+_name+'" toolTip="'+_toolTip+'" celltype="'+_celltype+'" displayFormat="'+_displayFormat+'" keyMask="'+_keyMask+'" displayFunction="'+_displayFunction+'" readOnly="'+readOnly+'"  style="'+_style+'"  >';
+				row	+= '<td id="'+_id+'" class="'+_class+'" name="'+_name+'" toolTip="'+_toolTip+'" celltype="'+_celltype+'" displayFormat="'+_displayFormat+'" keyMask="'+_keyMask+'" displayFunction="'+_displayFunction+'" readOnly="'+readOnly+'"  style="'+_style+'"  >';
 				
 				if($(_grd)[0][_id] != null){
 					var arr = $(_grd)[0][_id].list;
@@ -1053,7 +1055,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 					}
 					
 				}
-				row	+= '<td id="'+_id+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'">'+_inTag+'</td>';
+				row	+= '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'">'+_inTag+'</td>';
 			}else if(_celltype == 'inputButton'){
 				var _reLabel = '';
 				if(_displayFunction != null && eval(_displayFunction) != null){
@@ -1077,7 +1079,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 					}
 					
 				}
-				row	+= '<td id="'+_id+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'">'+_inTag+'</td>';
+				row	+= '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'">'+_inTag+'</td>';
 			}else if(_celltype == 'button'){
 				var btnLabel = cellTd.getAttribute("btnLabel");
 				var _reLabel = '';
@@ -1096,7 +1098,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 						_inTag += '</div>';
 					}
 				}
-				row	+= '<td id="'+_id+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'">'+_inTag+'</td>';				
+				row	+= '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'">'+_inTag+'</td>';				
 			}else if(_celltype == 'tree'){
 				var _inTag = '';
 				if($.trim(_label) != ''){
@@ -1170,7 +1172,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 				}else{
 					_inTag += '';
 				}
-				row	+= '<td id="'+_id+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" class="tal">'+_inTag+'</td>';
+				row	+= '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" class="tal">'+_inTag+'</td>';
 			}else if(_celltype == 'checkbox'){
 				var _trueValue = cellTd.getAttribute("trueValue");
 				var _falseValue = cellTd.getAttribute("falseValue");
@@ -1190,7 +1192,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 					_inTag += '<label class="moca_checkbox_label" for="cbx_'+moca.pageId+'_'+moca.srcId+'_'+_grd.id+'_'+_nowIndex+'"  >label</label>';
 					_inTag += '</div>';
 				}
-				row	+= '<td id="'+_id+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" trueValue="'+_trueValue+'" falseValue="'+_falseValue+'"    onclick="moca._uptData(this);" >'+_inTag+'</td>';
+				row	+= '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" trueValue="'+_trueValue+'" falseValue="'+_falseValue+'"    onclick="moca._uptData(this);" >'+_inTag+'</td>';
 			}
 		}
 	}
