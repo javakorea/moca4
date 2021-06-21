@@ -365,7 +365,11 @@ moca.EFC_BOAD_POP._openFileUpload = function(_thisObj) {
     });
 };
 moca.EFC_BOAD_POP.grd_fileDownload = function(_grd,rowIndex,colIndex,colId){
-    var _list = moca.EFC_BOAD_POP.getObj('grd_file').list;
+	if(_grd.id != 'grd_reply_file'){
+		var _list = moca.EFC_BOAD_POP.getObj('grd_file').list;
+	}else{
+		var _list = moca.EFC_BOAD_POP.getObj('grd_reply_file').list;
+	}
     moca.fileDownloadAjax({
         url:moca._contextRoot+"/moca/fileDownload.do",
         param:{originalFilename:_list[rowIndex]["BOADFILE_NAME"],physicalFilename:_list[rowIndex]["BOADFILE_NAMESERVER"],subDir:moca.EFC_BOAD_POP.srcId}
