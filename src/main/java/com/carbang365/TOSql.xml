@@ -4599,7 +4599,7 @@
         AND A.BOAD_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOAD_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')
         ]]>
         GROUP BY A.BOAD_IDX
-        ORDER BY A.BOAD_PIDX DESC, A.BOAD_DATE ASC
+        ORDER BY A.BOAD_PIDX DESC, A.BOAD_IDX ASC
     </select>
  	
  	<!-- 게시물 작성 -->

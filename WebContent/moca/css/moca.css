@@ -1209,7 +1209,13 @@ td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:2
 .edit {position: absolute; left: 0px; right:0px; bottom: 0; top: 101px;}
 .edit .cke_chrome{position: absolute; right: 0; left: 0; bottom: 0px; top: 0;}
 .edit .cke_bottom{user-select: none; position: absolute; left: 0; right: 0; bottom: 0;}
+/*.edit > div[role=application] .cke_contents.cke_reset{height: calc(100% - 200px) !important;}*/
+.edit > div[role=application] .cke_inner{height: 100%}
 .edit > div[contenteditable=true] {height:100%; overflow-y:auto}
+.edit > div[role=application].editmode .cke_inner{height: calc(100% - 27px)}
+.edit > div[role=application].editmode .cke_contents.cke_reset{height:100% !important; min-height:200px;}
+
+
 .moca_shbox .mocaRadio input[type="radio"]:checked + label {font-weight:bold; color:#b32601 !important}
 .moca_shbox .mocaRadio label:last-child {margin-right:0 !important;}
 .moca_shbox .tb .tb_td > div[type="radio"]{border: 1px solid #bbc3ce; background: #e8e8e8; border-radius: 3px;}
