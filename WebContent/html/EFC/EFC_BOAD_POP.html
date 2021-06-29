@@ -106,7 +106,6 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
 					    }
 					    //moca.EFC_BOAD_POP.fn_searchfile();
-					    moca.EFC_BOAD_POP.fn_editHeight();
 					    moca.EFC_BOAD_POP.drawGrid('grd_file',moca.getResList(response,"selectBoardFileList"));
 					}else{
 						moca.error(response.error);
@@ -125,7 +124,6 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 		CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
 			'instanceReady':function(evt){
 				CKEDITOR.instances.editor.focus();
-				moca.EFC_BOAD_POP.fn_editHeight();
 		}}}	);
 	}
 	
@@ -153,7 +151,6 @@ moca.EFC_BOAD_POP.fn_update = function(_thisObj){
 		moca.show(moca.EFC_BOAD_POP.getObj("btn_reply_save"));
 		moca.show(moca.EFC_BOAD_POP.getObj("btn_reply_add"));
 	}
-	moca.EFC_BOAD_POP.fn_editHeight();
 }
 moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	if(_thisObj.id == 'btn_save'){
@@ -397,7 +394,6 @@ moca.EFC_BOAD_POP.fn_reply = function(_thisObj){
     moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
     moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_del"));
     moca.setValue(moca.EFC_BOAD_POP.getObj("wreplyid"),moca.getSs("USER_ID"));
-    moca.EFC_BOAD_POP.fn_editHeight();
 };
 
 moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){

@@ -40,8 +40,8 @@
 .moca_lnb {width:210px;}
 .moca_mdi{left:211px}
 .moca_lnb .moca_tree {top:46px}
-.moca_header h1{left:50px; top:26px; width:inherit}
-.moca_header h1 img{width:170px}
+/*.moca_header h1{left:50px; top:26px; width:inherit}*/
+/*.moca_header h1 img{width:170px}*/
 .moca_header nav > ul > li.active > button:after {background: #d24d2a;}
 .moca_tree.workmenu > ul > li > span.moca_tree_tbx {background:#87a3c3;}
 /* .moca_titbox .stampcost_charge{cursor: pointer; padding: 0 10px; border-radius: 20px; background: #3666d2; color: #fff; height: 16px; line-height: 14px; border: 1px solid #274fa7; box-sizing: border-box; opacity:0.9}

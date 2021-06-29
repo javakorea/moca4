@@ -64,7 +64,6 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 /****************************************************************************************************************************
 	MOCA 화면 CSS
 *****************************************************************************************************************************/
-
 /* MOCA Checkbox, radio */
 .checkboxGroup > div[type="checkbox"]{float:left}
 .checkboxGroup.vertical > div[type="checkbox"]{float:none}

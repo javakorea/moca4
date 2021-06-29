@@ -111,6 +111,14 @@
     		return _thisVal;
     	}
     }
+    
+    moca.EFC_BOAD.disabled= function(_thisVal, _grd, _realrow){
+    	if(_grd.list[_realrow].BOAD_WRITER != moca.getSs("USER_ID") && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
+    		return true;
+    	}else{
+    		return false;
+    	}
+    }
 </script>
 
 </head>
@@ -194,7 +202,7 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택"></td>
+								<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" disabledFunction="moca.EFC_BOAD.disabled"></td>
 								<td id="BOAD_PIDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
 								<td id="BOAD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
 								<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true" displayFunction="moca.EFC_BOAD.dispReply"></td>

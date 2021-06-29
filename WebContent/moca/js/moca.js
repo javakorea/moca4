@@ -897,6 +897,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 			
 			var _keyMask = undefined;
 			var _displayFunction = undefined;
+			var _disabledFunction = undefined;
 			
 			var _align = undefined;
 			var addRowEditable = undefined;
@@ -919,6 +920,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 				_displayFormat = cellTd.getAttribute("displayFormat");
 				_keyMask = cellTd.getAttribute("keyMask");
 				_displayFunction = cellTd.getAttribute("displayFunction");
+				_disabledFunction = cellTd.getAttribute("disabledFunction");
 				_addRowEditable = cellTd.getAttribute("addRowEditable");
 				_align = cellTd.getAttribute("align");
 				_style = cellTd.getAttribute("style");
@@ -1177,7 +1179,20 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 				var _trueValue = cellTd.getAttribute("trueValue");
 				var _falseValue = cellTd.getAttribute("falseValue");
 				var _reLabel = '';
-				_reLabel = cell;	
+				var isDisabled = "";
+				try{
+					if(_disabledFunction != null && eval(_disabledFunction) != null){
+						_reLabel = eval(_disabledFunction)(cell,_grd,_row["_system"]["realIndex"]);
+						if(_reLabel == true){
+							isDisabled = "disabled"
+						}	
+					}else{
+						_reLabel = cell;		
+					}
+				}catch(e){
+					console.log("1090:"+e);
+				}
+
 				var _inTag = '';
 				var isChecked = "";
 
@@ -1188,11 +1203,11 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 					_inTag = _reLabel;
 				}else{
 					_inTag = '<div class="moca_checkbox_grid">';
-					_inTag += '<input type="checkbox" class="moca_checkbox_input" name="cbx" id="cbx_'+moca.pageId+'_'+moca.srcId+'_'+_grd.id+'_'+_nowIndex+'" grd_id='+_grd.id+'  value="'+_trueValue+'"   '+isChecked+' >';
+					_inTag += '<input type="checkbox" class="moca_checkbox_input" name="cbx" id="cbx_'+moca.pageId+'_'+moca.srcId+'_'+_grd.id+'_'+_nowIndex+'" grd_id='+_grd.id+'  value="'+_trueValue+'"   '+isChecked+' '+isDisabled+' >';
 					_inTag += '<label class="moca_checkbox_label" for="cbx_'+moca.pageId+'_'+moca.srcId+'_'+_grd.id+'_'+_nowIndex+'"  >label</label>';
 					_inTag += '</div>';
 				}
-				row	+= '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" trueValue="'+_trueValue+'" falseValue="'+_falseValue+'"    onclick="moca._uptData(this);" >'+_inTag+'</td>';
+				row	+= '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" trueValue="'+_trueValue+'" falseValue="'+_falseValue+'"  disabledFunction="'+_disabledFunction+'" onclick="moca._uptData(this);" >'+_inTag+'</td>';
 			}
 		}
 	}
