@@ -1180,22 +1180,22 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 				var _falseValue = cellTd.getAttribute("falseValue");
 				var _reLabel = '';
 				var isDisabled = "";
+				var _isdis = false;
 				try{
 					if(_disabledFunction != null && eval(_disabledFunction) != null){
-						_reLabel = eval(_disabledFunction)(cell,_grd,_row["_system"]["realIndex"]);
-						if(_reLabel == true){
+						_isdis = eval(_disabledFunction)(cell,_grd,_row["_system"]["realIndex"]);
+						if(_isdis){
 							isDisabled = "disabled"
 						}	
-					}else{
-						_reLabel = cell;		
 					}
+					_reLabel = cell;		
 				}catch(e){
 					console.log("1090:"+e);
 				}
 
 				var _inTag = '';
 				var isChecked = "";
-
+				
 				if(_reLabel == _trueValue){
 					isChecked = "checked";
 				}
@@ -5095,7 +5095,11 @@ Moca.prototype.genTbody = function(_grd,_list,_idx,isEnd) {
 		$(_grd).on('dblclick','tr', function(e) {
 			var nowGrd = e.delegateTarget;
 			var rowIndex = e.currentTarget.getAttribute('realrowindex');
-			var colId = event.srcElement.id;
+			if(event.srcElement.tagName == 'DIV'){
+				var colId = $(event.srcElement).parent().attr('id');
+			}else if(event.srcElement.tagName == 'TD'){
+				var colId = event.srcElement.id;
+			}
 			var colIndex = $(e.currentTarget).find('td[id='+colId+']').index();
 			var _onDblClickFunc = nowGrd.getAttribute("onDblClick");
 			eval(_onDblClickFunc)(nowGrd,rowIndex,colIndex,colId);
@@ -12430,17 +12434,18 @@ Moca.prototype.getCheckedData = function(_grd,_colId){
 	var trueVal = _grd.cellInfo.chk.getAttribute("truevalue");
 	var reArray = [];
 	for(var i=0; i < _grd.list.length; i++){
-		var row = _grd.list[i];
-		var v = row[_colId];
-		if(trueVal == v){
-			reArray.push(row);
+		if($($(_grd).find('td[id='+_colId+']')[i]).find('input').is(':disabled') == false){
+			var row = _grd.list[i];
+			var v = row[_colId];
+			if(trueVal == v){
+				reArray.push(row);
+			}
 		}
 	}
 	return reArray;
 };
 
 Moca.prototype.cellAllCheck = function(_thisObj){
-	
    event.preventDefault();
    var tdId = $(this).attr("targetid");
    var isChecked = $(this).find('input').is(':checked');  
@@ -12459,7 +12464,9 @@ Moca.prototype.cellAllCheck = function(_thisObj){
 	   var _list = grd.list;
 	   for(var i=0; i < _list.length; i++){
 		   var row = _list[i];
-		   row[tdId] = $(grd.cellInfo[tdId]).attr("truevalue");
+		   if($($(grd).find('td[id='+tdId+']')[i]).find('input').is(':disabled') == false){
+			   row[tdId] = $(grd.cellInfo[tdId]).attr("truevalue");
+		   }
 	   }
    }
    moca[$(grd).attr("srcid")].redrawGrid(grd);
