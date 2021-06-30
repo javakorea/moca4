@@ -4583,11 +4583,12 @@
  	
  	<!-- 게시판 조회 -->
     <select id="selectBoardList" parameterType="map" resultType="map">
-        SELECT A.BOAD_PIDX, A.BOAD_IDX, A.BOAD_TITLE, A.BOAD_WRITER, A.BOAD_DATE, COUNT(F.BOAD_IDX) AS CNT
+        SELECT A.BOAD_PIDX, A.BOAD_IDX, A.BOAD_TITLE, A.BOAD_WRITER, A.BOAD_DATE, A.BOAD_TYPE, COUNT(F.BOAD_IDX) AS CNT
 		FROM EFCBOAD A 
 		LEFT OUTER JOIN EFCBOADFILE F ON A.BOAD_IDX = F.BOAD_IDX
 		
 		WHERE 1=1
+		AND A.BOAD_TYPE like CONCAT('%', #{BOAD_TYPE}, '%')
 		<if test="BOAD_WRITER != null and BOAD_WRITER != ''">
             AND A.BOAD_WRITER like CONCAT('%', #{BOAD_WRITER}, '%')
         </if>
@@ -4606,6 +4607,7 @@
     <insert id="insertBoard" parameterType="map" useGeneratedKeys="true" keyProperty="BOAD_IDX">
         /*insertBoard 게시물 작성*/
             INSERT INTO EFCBOAD(
+            	BOAD_TYPE,
            	 	<if test='BOAD_PIDX != null'>
            	 		BOAD_PIDX,
            		</if>
@@ -4614,6 +4616,7 @@
 	            BOAD_WRITER,
 	            BOAD_DATE
             )VALUES (
+           		#{BOAD_TYPE},
             	<if test='BOAD_PIDX != null'>
            	 		#{BOAD_PIDX},
            		</if>
@@ -4628,6 +4631,7 @@
     <update id="updateBoardInfo" parameterType="map">
          /*updateBoardInfo 게시물수정*/
          UPDATE EFCBOAD SET 
+            BOAD_TYPE = #{BOAD_TYPE},
             BOAD_PIDX = #{BOAD_PIDX},
             BOAD_TITLE = #{BOAD_TITLE},
             BOAD_CONT = #{BOAD_CONT},
@@ -4665,10 +4669,11 @@
     <insert id="insertBoardHis" parameterType="map">
         /*insertBoardHis 게시물이력 작성*/
             INSERT INTO EFCBOADHIS (
-                SELECT 0 AS BOADHIS_IDX, 
+                SELECT 0 AS BOADHIS_IDX,
                        #{status} AS BOADHIS_STATUS,
                        CURRENT_TIMESTAMP,
                        A.BOAD_IDX,
+                       A.BOAD_TYPE, 
                        A.BOAD_TITLE,
                        A.BOAD_CONT,
                        A.BOAD_WRITER
@@ -4681,6 +4686,7 @@
     <!-- 게시판이력 상세조회 -->
     <select id="selectBoardHisInfo" parameterType="map" resultType="map">
         SELECT
+        	A.BOAD_TYPE,
             A.BOADHIS_IDX, 
             A.BOADHIS_STATUS, 
             DATE_FORMAT(A.BOADHIS_DATE, '%Y-%m-%d  %H:%i:%s') AS BOADHIS_DATE,
@@ -4730,7 +4736,7 @@
     <insert id="insertBoardFile" parameterType="map">
         /*insertBoardFile 게시물첨부파일*/
         INSERT INTO EFCBOADFILE (
-		    SELECT 0 AS BOADFILE_IDX, 
+		    SELECT 0 AS BOADFILE_IDX,
 		       A.BOAD_IDX,
 		       #{BOADFILE_NAME} AS BOADFILE_NAME,
 		       #{BOADFILE_NAMESERVER} AS BOADFILE_NAMESERVER,

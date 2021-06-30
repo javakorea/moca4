@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
 <script>
+	moca.EFC_BOAD.boardType ='ERP';
 	moca.EFC_BOAD.___ready = function(args){
 	    moca.EFC_BOAD.fn_search();
 	};
@@ -13,6 +14,7 @@
 	        data : {
 	            "header" : moca.header,
 	            "body" : {
+	            	"BOAD_TYPE":moca.EFC_BOAD.boardType,
 	            	"BOAD_WRITER":moca.EFC_BOAD.getInput("ipt_WRITER"),
 	            	"BOAD_TITLE":moca.EFC_BOAD.getInput("ipt_TITLE"),
 	            	"FROM":moca.EFC_BOAD.getFrom("CREATE_DTTM").replace(/-/g,''),
@@ -36,7 +38,7 @@
 	    o.title = '게시물작성';
 	    o.callback = moca.EFC_BOAD.fn_pop_callback;
 	    o.scopeId = moca.EFC_BOAD.pageId;
-	    o.data = {popTitle:"게시물작성"};
+	    o.data = {popTitle:"게시물작성","BOAD_TYPE":moca.EFC_BOAD.boardType};
 	    moca.popup(o,_thisObj);
 	};
 	moca.EFC_BOAD.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
@@ -57,7 +59,7 @@
 	    o.title = '게시글상세';
 	    o.callback = moca.EFC_BOAD.fn_pop_callback;
 	    o.scopeId = moca.EFC_BOAD.pageId;
-	    o.data = {"BOAD_IDX":_BoardIdx+'',"BOAD_PIDX":__BoardParentIdx+'',"BOAD_TITLE":_BoardTitle};
+	    o.data = {"BOAD_IDX":_BoardIdx+'',"BOAD_PIDX":__BoardParentIdx+'',"BOAD_TITLE":_BoardTitle,"BOAD_TYPE":moca.EFC_BOAD.boardType};
 	    moca.popup(o,_grd);
 	};
 	moca.EFC_BOAD.fn_delList = function(){
@@ -129,7 +131,7 @@
 		<div class="moca_cont_wrap">
 			<div type="wframe" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
 				src="/html/titlebox.html"
-				data = '{"sreenCd":"EFC_BOAD","sreenNm":"게시판","sreenPath":"시스템설정,게시판"}'
+				data = '{"sreenCd":"EFC_BOAD","sreenNm":"업무게시판","sreenPath":"시스템설정,업무게시판"}'
 			></div>
 			<div class="moca_shbox">
 				<div class="shbox_inner">
@@ -182,6 +184,7 @@
 					<table style="width: 100%">
 						<colgroup>
 								<col style="width:60px">
+								<!-- <col style="width:60px"> -->
 								<col style="width:60px">
 								<col style="width:60px">
 								<col style="">
@@ -192,6 +195,7 @@
 						<thead>
 							<tr>
 								<th scope="col" celltype="checkbox" id="H_chk" targetId="chk">선택</th>
+								<!--<th scope="col" id="H_BOAD_TYPE">게시판유형</th> -->
 								<th scope="col" id="H_BOAD_PIDX">부모ID</th>
 								<th scope="col" id="H_BOAD_IDX">ID</th>
 								<th scope="col" id="H_BOAD_TITLE">제목</th>
@@ -203,6 +207,7 @@
 						<tbody>
 							<tr>
 								<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" disabledFunction="moca.EFC_BOAD.disabled"></td>
+								<!--<td id="BOAD_TYPE" celltype="input" style="text-align:center" name="ID" readOnly="true"></td> -->
 								<td id="BOAD_PIDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
 								<td id="BOAD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
 								<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true" displayFunction="moca.EFC_BOAD.dispReply"></td>

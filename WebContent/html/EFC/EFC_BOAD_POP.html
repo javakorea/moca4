@@ -3,9 +3,17 @@
 <head meta_width="1400px" meta_height="700px">
 <script>
 moca.EFC_BOAD_POP.editor;
+moca.EFC_BOAD_POP._boardIdx;
+moca.EFC_BOAD_POP._boardPIdx;
+moca.EFC_BOAD_POP._boardType;
+moca.EFC_BOAD_POP._boardTitle;
 moca.EFC_BOAD_POP.___ready = function(args){
 	if(args != null){
 		moca.EFC_BOAD_POP.args = args;
+		moca.EFC_BOAD_POP._boardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
+		moca.EFC_BOAD_POP._boardPIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_PIDX;
+		moca.EFC_BOAD_POP._boardType = moca.EFC_BOAD_POP.args.parent.data.BOAD_TYPE;
+		moca.EFC_BOAD_POP._boardTitle = moca.EFC_BOAD_POP.args.parent.data.BOAD_TITLE;
 	}
 	CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
         'instanceReady':function(ev){
@@ -29,12 +37,8 @@ moca.EFC_BOAD_POP.___ready = function(args){
     });
     */
 };
-moca.EFC_BOAD_POP._boardIdx;
-moca.EFC_BOAD_POP._boardPIdx;
+
 moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
-	moca.EFC_BOAD_POP._boardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
-	moca.EFC_BOAD_POP._boardPIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_PIDX;
-	var _BoardTitle = moca.EFC_BOAD_POP.args.parent.data.BOAD_TITLE;
 	if(moca.EFC_BOAD_POP._boardIdx != null){
 		$(moca.EFC_BOAD_POP.getObj("cke_editor")).find('#cke_1_top').hide();
 		//답변일경우
@@ -156,16 +160,13 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	if(_thisObj.id == 'btn_save'){
 		moca.confirm('저장하시겠습니까?',function(result){
 	        if(result == 'Y'){
-	        	var _BoardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
-	        	var _BoardPIdx = (moca.EFC_BOAD_POP.args.parent.data.BOAD_PIDX != null ?moca.EFC_BOAD_POP.args.parent.data.BOAD_PIDX:'');
-	        	
-	            var _BoardTitle = moca.EFC_BOAD_POP.args.parent.data.BOAD_TITLE;
 	            for(var i=0; i<grd_file.list.length;i++){
 	            	if(grd_file.list[i]._system.status != "D"){
 	            		grd_file.list[i]._system.status = "C";
 	            	}
 	            };
-	            if(_BoardIdx == null){
+	            
+	            if(moca.EFC_BOAD_POP._boardIdx == null){
 	                //게시물등록
 	                moca.EFC_BOAD_POP.exe({
 	                    url : moca._domain+moca._contextRoot+"/EFC_BOAD/insertBoard.do",
@@ -173,6 +174,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                    data : {
 	                        "header" : moca.header,
 	                        "body" : {
+	                        	"BOAD_TYPE":moca.EFC_BOAD_POP._boardType,
 	                            "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
 	                            "BOAD_CONT":CKEDITOR.instances.editor.getData(),
 	                            "BOAD_WRITER":moca.getValue(moca.EFC_BOAD_POP.getObj("wid")),
@@ -183,20 +185,26 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                        if(response.cnt > 0){
 	                            moca.alert('성공적으로 저장하였습니다.');
 	                            moca.popClose(moca.EFC_BOAD_POP.pageId);
-	                            moca.EFC_BOAD.fn_search();
+	                            if(moca.EFC_BOAD_POP._boardType == 'ERP'){
+	                            	moca.EFC_BOAD.fn_search();
+	                            }else{
+	                            	moca.EFC_BOAD_WS.fn_search();
+	                            }
 	                        }
 	                    }
 	                });
 	            }else{
             		//게시글수정
+            		
             		 moca.EFC_BOAD_POP.exe({
                          url : moca._domain+moca._contextRoot+"/EFC_BOAD/updateBoard.do",
                          loadingbar:true,
                          data : {
                              "header" : moca.header,
                              "body" : {
-                                 "BOAD_IDX":_BoardIdx,
-                                 "BOAD_PIDX":_BoardIdx,
+                            	 "BOAD_TYPE":moca.EFC_BOAD_POP._boardType,
+                                 "BOAD_IDX":moca.EFC_BOAD_POP._boardIdx,
+                                 "BOAD_PIDX":moca.EFC_BOAD_POP._boardIdx,
                                  "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
                                  "BOAD_CONT":CKEDITOR.instances.editor.getData(),
                                  "BOAD_WRITER":moca.getSs("USER_ID"),
@@ -207,7 +215,11 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
                              if(response.cnt > 0){
                                  moca.alert('성공적으로 저장하였습니다.');
                                  moca.popClose(moca.EFC_BOAD_POP.pageId);
-                                 moca.EFC_BOAD.fn_search();
+                                 if(moca.EFC_BOAD_POP._boardType == 'ERP'){
+ 	                            	moca.EFC_BOAD.fn_search();
+ 	                             }else{
+ 	                            	moca.EFC_BOAD_WS.fn_search();
+ 	                             }
                              }
                          }
                      });
@@ -218,9 +230,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 		//답변저장
 		moca.confirm('답변을 저장하시겠습니까?',function(result){
 	        if(result == 'Y'){
-	        	var _BoardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
-	        	var _BoardPIdx = (moca.EFC_BOAD_POP.args.parent.data.BOAD_PIDX != null ?moca.EFC_BOAD_POP.args.parent.data.BOAD_PIDX:'');
-	            var _BoardTitle = moca.EFC_BOAD_POP.args.parent.data.BOAD_TITLE;
+	        	
 	            var _ReplyIdx = moca.getValue(moca.EFC_BOAD_POP.getObj("wreplyidx"));
 	            for(var i=0; i<grd_reply_file.list.length;i++){
 	            	if(grd_reply_file.list[i]._system.status != "D"){
@@ -235,7 +245,8 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                    data : {
 	                        "header" : moca.header,
 	                        "body" : {
-	                        	"BOAD_PIDX":_BoardIdx,
+	                        	"BOAD_TYPE":moca.EFC_BOAD_POP._boardType,
+	                        	"BOAD_PIDX":moca.EFC_BOAD_POP._boardIdx,
 	                            "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wreplytitle")),
 	                            "BOAD_CONT":CKEDITOR.instances.reply_editor.getData(),
 	                            "BOAD_WRITER":moca.getValue(moca.EFC_BOAD_POP.getObj("wreplyid")),
@@ -246,7 +257,11 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                        if(response.cnt > 0){
 	                            moca.alert('성공적으로 저장하였습니다.');
 	                            moca.popClose(moca.EFC_BOAD_POP.pageId);
-	                            moca.EFC_BOAD.fn_search();
+	                            if(moca.EFC_BOAD_POP._boardType == 'ERP'){
+	                            	moca.EFC_BOAD.fn_search();
+	                            }else{
+	                            	moca.EFC_BOAD_WS.fn_search();
+	                            }
 	                        }
 	                    }
 	                });
@@ -258,8 +273,9 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                     data : {
 	                         "header" : moca.header,
 	                         "body" : {
-	                        	 "BOAD_PIDX":_BoardPIdx,
-	                         	 "BOAD_IDX":_BoardIdx,
+	                        	 "BOAD_TYPE":moca.EFC_BOAD_POP._boardType,
+	                        	 "BOAD_PIDX":moca.EFC_BOAD_POP._boardPIdx,
+	                         	 "BOAD_IDX":moca.EFC_BOAD_POP._boardIdx,
 	                             "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wreplytitle")),
 	                             "BOAD_CONT":CKEDITOR.instances.reply_editor.getData(),
 	                             "BOAD_WRITER":moca.getSs("USER_ID"),
@@ -270,7 +286,11 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                         if(response.cnt > 0){
 	                             moca.alert('성공적으로 저장하였습니다.');
 	                             moca.popClose(moca.EFC_BOAD_POP.pageId);
-	                             moca.EFC_BOAD.fn_search();
+	                             if(moca.EFC_BOAD_POP._boardType == 'ERP'){
+                            		moca.EFC_BOAD.fn_search();
+	                             }else{
+	                             	moca.EFC_BOAD_WS.fn_search();
+	                             }
 	                         }
 	                     }
 	                 });
@@ -284,8 +304,6 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 moca.EFC_BOAD_POP.fn_del = function(_grd,_idx,tdObj,_thisObj){
 	moca.confirm('삭제하시겠습니까?',function(result){
         if(result == 'Y'){
-            var _BoardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
-            var _BoardTitle = moca.EFC_BOAD_POP.args.parent.data.BOAD_TITLE;
             //삭제
             moca.EFC_BOAD_POP.exe({
                 url : moca._domain+moca._contextRoot+"/EFC_BOAD/deleteBoard.do",
@@ -293,14 +311,18 @@ moca.EFC_BOAD_POP.fn_del = function(_grd,_idx,tdObj,_thisObj){
                 data : {
                     "header" : moca.header,
                     "body" : {
-                        "BOAD_IDX":moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX+"",
+                        "BOAD_IDX":moca.EFC_BOAD_POP._boardIdx
                         }
                 },          
                 callback : function(response){
                     if(response.cnt > 0){
                         moca.alert('삭제가 완료되었습니다.');
                         moca.popClose(moca.EFC_BOAD_POP.pageId);
-                        moca.EFC_BOAD.fn_search();
+                        if(moca.EFC_BOAD_POP._boardType == 'ERP'){
+                        	moca.EFC_BOAD.fn_search();
+                        }else{
+                        	moca.EFC_BOAD_WS.fn_search();
+                        }
                     }
                 }
             });
@@ -308,8 +330,6 @@ moca.EFC_BOAD_POP.fn_del = function(_grd,_idx,tdObj,_thisObj){
     });
 };
 moca.EFC_BOAD_POP.fn_searchfile = function(_grd,_idx,tdObj,_thisObj){
-    moca.EFC_BOAD_POP._boardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
-    var _BoardTitle = moca.EFC_BOAD_POP.args.parent.data.BOAD_TITLE;
     if(moca.EFC_BOAD_POP._boardIdx != null){
         moca.EFC_BOAD_POP.exe({
             url : moca._domain+moca._contextRoot+"/EFC_BOAD/selectBoardFileList.do",
@@ -327,7 +347,6 @@ moca.EFC_BOAD_POP.fn_searchfile = function(_grd,_idx,tdObj,_thisObj){
     }
 };
 moca.EFC_BOAD_POP._openFileUpload = function(_thisObj) {
-	debugger;
     moca.popup({
         type:"POPUP",
         modal:"false",
@@ -397,7 +416,6 @@ moca.EFC_BOAD_POP.fn_reply = function(_thisObj){
 };
 
 moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
-	moca.EFC_BOAD_POP._boardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
 	moca.EFC_BOAD_POP.exe({
 		url : moca._domain+moca._contextRoot+"/EFC_BOAD/selectBoardInfo.do",
 		loadingbar:true,
