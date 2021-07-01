@@ -119,7 +119,7 @@ function fnInit() {
 <body  onload="fnInit();">
 	<div class="wrap">
 		<div class="login_box">
-			<h1 class="logo">CARBANG</h1>
+			<h1 class="logo">teammoca ERP</h1>
 			<div class="login_img"></div>
 			<form:form id="loginForm" name="loginForm" method="post">
  			<select name="CORP_CD" id="CORP_CD">
