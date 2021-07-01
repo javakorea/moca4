@@ -12427,7 +12427,7 @@ Moca.prototype.hide = function(_mocaInputObj){
 
 
 Moca.prototype.getCheckedData = function(_grd,_colId){
-	var trueVal = _grd.cellInfo.chk.getAttribute("truevalue");
+	var trueVal = _grd.cellInfo[_colId].getAttribute("truevalue");
 	var reArray = [];
 	for(var i=0; i < _grd.list.length; i++){
 		var row = _grd.list[i];
