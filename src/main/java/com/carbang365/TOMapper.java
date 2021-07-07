@@ -421,8 +421,12 @@ public interface TOMapper {
 	public int insertBoard(Map<String, Object> map);
 	// 게시글수정
 	public int updateBoardInfo(Map<String, Object> map);
-	// 게시글삭제
+	// 게시글물리삭제(관리자삭제)
 	public int deleteBoard(Map<String, Object> map);
+	// 게시글논리삭제
+	public int deleteStatusBoard(Map<String, Object> map);
+	
+	
 	// 게시물단건조회
 	public Map <String, Object> selectBoardInfo(Map<String, Object> map); 
 	

@@ -213,11 +213,17 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 .moca_grid.btn {bottom:70px}
 .moca_grid.title {top:166px}
 
+
 .lybox .ly_column .moca_grid.sc_row{top:0}
 .lybox .ly_column .moca_grid{position:relative; left:0; right:0; height:100%}
 .lybox .ly_column .moca_table{position:relative; left:0; right:0}
 .lybox .ly_row .moca_grid.sc_row{top:0}
 .lybox .ly_row .moca_grid{position:relative; left:0; right:0; top:0; height:100%}
+
+.moca_grid.fold, .lybox .ly_column .moca_grid.fold{height:auto !important;}
+.flex_column {display:flex; flex-direction:column}
+.flex_column > .fit {position:relative; height:fit-content; flex:auto}
+
 .moca_grid.sc_row{top:52px}
 .moca_shbox + .moca_grid.sc_row1 {top:110px}
 .moca_shbox + .moca_grid.sc_row2 {top:139px}

@@ -8,6 +8,8 @@ moca.EFC_BOAD_POP._boardPIdx;
 moca.EFC_BOAD_POP._boardType;
 moca.EFC_BOAD_POP._boardTitle;
 moca.EFC_BOAD_POP.___ready = function(args){
+	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_file')).find('.moca_grid_list'));
+	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_reply_file')).find('.moca_grid_list'));
 	if(args != null){
 		moca.EFC_BOAD_POP.args = args;
 		moca.EFC_BOAD_POP._boardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
@@ -40,18 +42,21 @@ moca.EFC_BOAD_POP.___ready = function(args){
 
 moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 	if(moca.EFC_BOAD_POP._boardIdx != null){
-		$(moca.EFC_BOAD_POP.getObj("cke_editor")).find('#cke_1_top').hide();
+		moca.hide($(moca.EFC_BOAD_POP.getObj("cke_editor")).find('#cke_1_top'));
 		//답변일경우
 		if(moca.EFC_BOAD_POP._boardPIdx != "" && moca.EFC_BOAD_POP._boardIdx != moca.EFC_BOAD_POP._boardPIdx){
 			//showhide처리
-			$(moca.EFC_BOAD_POP.getObj("cke_editor")).find("[id$='_top']").hide();
-			$(moca.EFC_BOAD_POP.getObj("cke_reply_editor")).find("[id$='_top']").hide();
-			$(moca.EFC_BOAD_POP.getObj("reply_area")).show();
-			$(moca.EFC_BOAD_POP.getObj("btn_reply")).hide();
-			$(moca.EFC_BOAD_POP.getObj("btn_update")).hide();
-			$(moca.EFC_BOAD_POP.getObj("btn_del")).hide();
-			$(moca.EFC_BOAD_POP.getObj("btn_reply_add")).hide();
-			$(moca.EFC_BOAD_POP.getObj("btn_reply_save")).hide();
+			moca.hide($(moca.EFC_BOAD_POP.getObj("cke_editor")).find("[id$='_top']"));
+			moca.hide($(moca.EFC_BOAD_POP.getObj("cke_reply_editor")).find("[id$='_top']"));
+			moca.show(moca.EFC_BOAD_POP.getObj("reply_area"));
+			moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply"));
+			moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
+			moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
+			moca.hide(moca.EFC_BOAD_POP.getObj("btn_del_admin"));
+			moca.show(moca.EFC_BOAD_POP.getObj("btn_reply_del_admin"));
+			moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_add"));
+			moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_save"));
+			moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_showGrid"));
 			moca.EFC_BOAD_POP.exe({
 				url : moca._domain+moca._contextRoot+"/EFC_BOAD/selectBoardInfo.do",
 				loadingbar:true,
@@ -71,10 +76,12 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 					    moca.setValue(moca.EFC_BOAD_POP.getObj("widx"),data.BOAD_IDX);
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_save"));
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_add"));
+					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_showGrid"));
 					    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wid")) != moca.getSs("USER_ID") && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
-					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
-					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
+					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_update"));
+					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_del"));
 					    }
+					    
 					    //moca.EFC_BOAD_POP.fn_searchfile();
 					    moca.EFC_BOAD_POP.drawGrid('grd_file',moca.getResList(response,"selectBoardFileList"));
 					    
@@ -98,13 +105,14 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 						if(response.selectBoardInfo != null ){
 						var data = response.selectBoardInfo;
 						CKEDITOR.instances.editor.setData(data.BOAD_CONT);
-						$(moca.EFC_BOAD_POP.getObj("cke_editor")).find("[id$='_top']").hide();
+						moca.hide($(moca.EFC_BOAD_POP.getObj("cke_editor")).find("[id$='_top']"));
 						moca.setValue(moca.EFC_BOAD_POP.getObj("wtitle"),data.BOAD_TITLE);
 						moca.setValue(moca.EFC_BOAD_POP.getObj("wdate"),data.BOAD_DATE);
 						moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),data.BOAD_WRITER);
 					    moca.setValue(moca.EFC_BOAD_POP.getObj("widx"),data.BOAD_IDX);
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_save"));
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_add"));
+					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_showGrid"));
 					    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wid")) != moca.getSs("USER_ID") && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
 					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
 					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
@@ -124,17 +132,23 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply"));
+		moca.hide(moca.EFC_BOAD_POP.getObj("btn_del_admin"));
 		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wtitle"),false);
 		CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
 			'instanceReady':function(evt){
 				CKEDITOR.instances.editor.focus();
 		}}}	);
 	}
-	
+	if(moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
+    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_del_admin"));
+    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_del_admin"));
+    }
 };
 
 moca.EFC_BOAD_POP.fn_update = function(_thisObj){
-	if(_thisObj.id != 'btn_reply_update'){
+	moca.hide(moca.EFC_BOAD_POP.getObj("btn_del_admin"));
+	moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_del_admin"));
+	if(_thisObj.id != 'btn_reply_update'){ //수정버튼
 		$(moca.EFC_BOAD_POP.getObj("cke_editor")).find("[id$='_top']").show();
 		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wtitle"),false);
 		moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),moca.getSs("USER_ID"));
@@ -144,16 +158,21 @@ moca.EFC_BOAD_POP.fn_update = function(_thisObj){
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply"));
 		moca.show(moca.EFC_BOAD_POP.getObj("btn_save"));
 		moca.show(moca.EFC_BOAD_POP.getObj("btn_add"));
-	}else{
+		moca.show(moca.EFC_BOAD_POP.getObj("btn_showGrid"));
+		moca.hide(moca.EFC_BOAD_POP.getObj("btn_del_admin"));
+	}else{ //답변수정
 		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wreplytitle"),false);
 		$(moca.EFC_BOAD_POP.getObj("cke_reply_editor")).find("[id$='_top']").show();
 		moca.setValue(moca.EFC_BOAD_POP.getObj("wreplyid"),moca.getSs("USER_ID"));
 		moca.EFC_BOAD_POP.editor.setReadOnly(false);
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_update"));
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_del"));
+		moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_del_admin"));
+		
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply"));
 		moca.show(moca.EFC_BOAD_POP.getObj("btn_reply_save"));
 		moca.show(moca.EFC_BOAD_POP.getObj("btn_reply_add"));
+		moca.show(moca.EFC_BOAD_POP.getObj("btn_reply_showGrid"));
 	}
 }
 moca.EFC_BOAD_POP.fn_save = function(_thisObj){
@@ -174,6 +193,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                    data : {
 	                        "header" : moca.header,
 	                        "body" : {
+	                        	"BOAD_DELYN":'N',
 	                        	"BOAD_TYPE":moca.EFC_BOAD_POP._boardType,
 	                            "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
 	                            "BOAD_CONT":CKEDITOR.instances.editor.getData(),
@@ -245,6 +265,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                    data : {
 	                        "header" : moca.header,
 	                        "body" : {
+	                        	"BOAD_DELYN":'N',
 	                        	"BOAD_TYPE":moca.EFC_BOAD_POP._boardType,
 	                        	"BOAD_PIDX":moca.EFC_BOAD_POP._boardIdx,
 	                            "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wreplytitle")),
@@ -301,8 +322,14 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	}
     
 };
-moca.EFC_BOAD_POP.fn_del = function(_grd,_idx,tdObj,_thisObj){
-	moca.confirm('삭제하시겠습니까?',function(result){
+moca.EFC_BOAD_POP.fn_adminDel = function(_thisObj){
+	['게시글물리삭제 관리자삭제']
+	if(_thisObj.id == 'btn_del_admin'){
+		_msg = '삭제하시면 데이터를 더이상 복구하실 수 없습니다.<br/>또한 원글을 삭제하실경우 답글까지도 삭제됩니다.<br/>그래도 삭제하시겠습니까?';
+	}else{
+		_msg = '삭제하시면 데이터를 더이상 복구하실 수 없습니다.<br/>그래도 삭제하시겠습니까?';
+	}
+	moca.confirm(_msg,function(result){
         if(result == 'Y'){
             //삭제
             moca.EFC_BOAD_POP.exe({
@@ -328,6 +355,35 @@ moca.EFC_BOAD_POP.fn_del = function(_grd,_idx,tdObj,_thisObj){
             });
         }
     });
+};
+moca.EFC_BOAD_POP.fn_del = function(_thisObj){
+	['게시글논리삭제 delYN :Y']
+	 moca.confirm('삭제하시겠습니까?',function(result){
+        if(result == 'Y'){
+        	//게시글삭제
+         	moca.EFC_BOAD_POP.exe({
+                 url : moca._domain+moca._contextRoot+"/EFC_BOAD/deleteStatusBoard.do",
+                 loadingbar:true,
+                 data : {
+                     "header" : moca.header,
+                     "body" : {
+                         "BOAD_IDX":moca.EFC_BOAD_POP._boardIdx,
+                         }
+                 },          
+                 callback : function(response){
+                     if(response.cnt > 0){
+                     	moca.alert('삭제가 완료되었습니다.');
+                         moca.popClose(moca.EFC_BOAD_POP.pageId);
+                         if(moca.EFC_BOAD_POP._boardType == 'ERP'){
+                         	moca.EFC_BOAD.fn_search();
+                          }else{
+                         	moca.EFC_BOAD_WS.fn_search();
+                          }
+                     }
+                 }
+             });
+        }
+	 });
 };
 moca.EFC_BOAD_POP.fn_searchfile = function(_grd,_idx,tdObj,_thisObj){
     if(moca.EFC_BOAD_POP._boardIdx != null){
@@ -385,6 +441,16 @@ moca.EFC_BOAD_POP._openFileUpload = function(_thisObj) {
         }
     });
 };
+moca.EFC_BOAD_POP._openFileGrid = function(_thisObj) {
+	if(_thisObj.id == "btn_showGrid"){
+		$(moca.EFC_BOAD_POP.getObj('grd_file')).removeClass('fold');
+		$(moca.EFC_BOAD_POP.getObj('grd_file')).find('.moca_grid_list').show();
+	}else{
+		$(moca.EFC_BOAD_POP.getObj('grd_reply_file')).removeClass('fold');
+		$(moca.EFC_BOAD_POP.getObj('grd_reply_file')).find('.moca_grid_list').show();
+	}
+}
+
 moca.EFC_BOAD_POP.grd_fileDownload = function(_grd,rowIndex,colIndex,colId){
 	if(_grd.id != 'grd_reply_file'){
 		var _list = moca.EFC_BOAD_POP.getObj('grd_file').list;
@@ -448,6 +514,14 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 		}
 	});
 };
+moca.EFC_BOAD_POP.fn_showhideGrid = function(_thisObj){
+	$(moca.EFC_BOAD_POP.getObj('grd_file')).removeClass('fold');
+	$(moca.EFC_BOAD_POP.getObj('grd_file')).find('.moca_grid_list').show()
+
+	$(moca.EFC_BOAD_POP.getObj('grd_file')).addClass('fold');
+	$(moca.EFC_BOAD_POP.getObj('grd_file')).find('.moca_grid_list').hide()
+	
+}
 
 </script>
 <style>
@@ -457,7 +531,7 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 	<div class="moca_pop_cont_wrap" style="display:none" id="contents">
         <div class="lybox sc_row flex">
             <div class="ly_column col_5">
-                <div class="ly_col_cont">
+                <div class="ly_col_cont flex_column">
 			         <div type="form" id="form_3" class="moca_table toolbar" style=""
 			                label="게시물작성"
 			                showRowSelection="false"
@@ -465,7 +539,8 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 			                {"type":"button","position":"right","id":"btn_reply","label":"답변작성","onclick":"moca.EFC_BOAD_POP.fn_reply","addClass":""},
 			                {"type":"button","position":"right","id":"btn_update","label":"수정","onclick":"moca.EFC_BOAD_POP.fn_update","addClass":""},
 			                {"type":"button","position":"right","id":"btn_del","label":"삭제","onclick":"moca.EFC_BOAD_POP.fn_del","addClass":""},
-			                {"type":"button","position":"right","id":"btn_save","label":"저장","onclick":"moca.EFC_BOAD_POP.fn_save","addClass":""}
+			                {"type":"button","position":"right","id":"btn_save","label":"저장","onclick":"moca.EFC_BOAD_POP.fn_save","addClass":""},
+			                {"type":"button","position":"right","id":"btn_del_admin","label":"관리자삭제","onclick":"moca.EFC_BOAD_POP.fn_adminDel","innerStyle":"background:#ff3333", "addClass":""}
 			                    ]'
 			                >
 			                    <table class="moca_table_cont" style="">
@@ -514,7 +589,7 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 			                    </table>
 			                    
 			        </div>
-			        <div type="grid" class="moca_grid toolbar sc_row1 mt10" default_cell_height="26px" id="grd_file" style="top:0; height:141px" rowSelectedColor="#434e5f"
+			        <div type="grid" class="moca_grid toolbar sc_row1 mt10 fold" default_cell_height="26px" id="grd_file" style="top:0; height:141px" rowSelectedColor="#434e5f"
 			        
 			                            toolbar_search_size="false"
 			                            toolbar_detail="false"
@@ -524,7 +599,8 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 			                            toolbar_delrow="true"
 			                            toolbar_nextbtn="false"
 			                            toolbar_full="false"
-			                            toolbar_grid_button1='{"position":"right","id":"btn_add","label":"파일추가","onclick":"moca.EFC_BOAD_POP._openFileUpload","addClass":"","innerDisabled":"false"}'
+			                            toolbar_grid_button1='{"position":"right","id":"btn_showGrid","label":"파일추가","onclick":"moca.EFC_BOAD_POP._openFileGrid","addClass":"","innerDisabled":"false"}'
+			                            toolbar_grid_button2='{"position":"right","id":"btn_add","label":"업로드","onclick":"moca.EFC_BOAD_POP._openFileUpload","addClass":"","innerDisabled":"false"}'
 			                            onDblClick = "moca.EFC_BOAD_POP.grd_fileDownload"
 			                            label="첨부파일"
 			        
@@ -554,20 +630,21 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 			                    </tbody>
 			                </table>                
 			        </div>
-			        <div class="mt10 edit"  style="top:237px">
+			        <div class="mt10 edit fit"  style="top:0">
 			            <div contenteditable="true" placeholder="" id="editor"></div>
 			        </div>
                 </div>
             </div>
             <div class="ly_column col_5" id="reply_area" style="display:none;">
-                <div class="ly_col_cont pl15">
+                <div class="ly_col_cont pl15 flex_column">
                      <div type="form" id="form_reply" class="moca_table toolbar" style=""
                             label="게시물답변"
                             showRowSelection="false"
                             addition='[
                             {"type":"button","position":"right","id":"btn_reply_update","label":"답변수정","onclick":"moca.EFC_BOAD_POP.fn_update","addClass":""},
 			                {"type":"button","position":"right","id":"btn_reply_del","label":"답변삭제","onclick":"moca.EFC_BOAD_POP.fn_del","addClass":""},
-                            {"type":"button","position":"right","id":"btn_reply_save","label":"답변저장","onclick":"moca.EFC_BOAD_POP.fn_save","addClass":""}
+                            {"type":"button","position":"right","id":"btn_reply_save","label":"답변저장","onclick":"moca.EFC_BOAD_POP.fn_save","addClass":""},
+                            {"type":"button","position":"right","id":"btn_reply_del_admin","label":"관리자삭제","onclick":"moca.EFC_BOAD_POP.fn_adminDel","innerStyle":"background:#ff3333", "addClass":""}
                                 ]'
                             >
                                 <table class="moca_table_cont" style="">
@@ -616,7 +693,7 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
                                 </table>
                                 
                     </div>
-                    <div type="grid" class="moca_grid toolbar sc_row mt10" default_cell_height="26px" id="grd_reply_file" style="top:0; height:141px" rowSelectedColor="#434e5f"
+                    <div type="grid" class="moca_grid toolbar sc_row mt10 fold" default_cell_height="26px" id="grd_reply_file" style="top:0; height:141px" rowSelectedColor="#434e5f"
                     
                                         toolbar_search_size="false"
                                         toolbar_detail="false"
@@ -626,7 +703,8 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
                                         toolbar_delrow="true"
                                         toolbar_nextbtn="false"
                                         toolbar_full="false"
-                                        toolbar_grid_button1='{"position":"right","id":"btn_reply_add","label":"파일추가","onclick":"moca.EFC_BOAD_POP._openFileUpload","addClass":"","innerDisabled":"false"}'
+                                         toolbar_grid_button1='{"position":"right","id":"btn_reply_showGrid","label":"파일추가","onclick":"moca.EFC_BOAD_POP._openFileGrid","addClass":"","innerDisabled":"false"}'
+                                        toolbar_grid_button2='{"position":"right","id":"btn_reply_add","label":"업로드","onclick":"moca.EFC_BOAD_POP._openFileUpload","addClass":"","innerDisabled":"false"}'
                                         onDblClick = "moca.EFC_BOAD_POP.grd_fileDownload"
                                         label="답변 첨부파일"
                     
@@ -656,7 +734,7 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
                                 </tbody>
                             </table>                
                     </div>
-                    <div class="mt10 edit"  style="top:237px">
+                    <div class="mt10 edit fit"  style="top:0">
                         <div contenteditable="true" placeholder="" id="reply_editor"></div>
                     </div>
                 </div>

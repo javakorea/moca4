@@ -5236,7 +5236,6 @@ public class TOController{
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
 			model.addAttribute("cnt", TOMapper.insertBoard(paramMap));
 			if(paramMap.get("BOAD_PIDX") == null) {
-				System.out.println("여기"+paramMap.get("BOAD_PIDX"));
 				paramMap.put("BOAD_PIDX", paramMap.get("BOAD_IDX"));
 				TOMapper.updateBoardInfo(paramMap);
 			}
@@ -5281,20 +5280,24 @@ public class TOController{
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
 			int cnt = TOMapper.updateBoardInfo(paramMap);
-			paramMap.put("status", "U");TOMapper.insertBoardHis(paramMap);
-			List list = (List)paramMap.get("fileList"); //자바스크립트에서 받아온 값을 자바언어구조로 바꿈
-			if(list != null) {
-				model.addAttribute("cnt", TOMapper.deleteBoardFileList(paramMap));
-				for(int i=0;i < list.size() ;i++) {
-	        		Map row = (Map)list.get(i);
-	        		row.put("BOAD_IDX", paramMap.get("BOAD_IDX"));
-	            	if("C".equalsIgnoreCase(U.getStatus(row)) ) {
-	        			TOMapper.insertBoardFile(row);
-	            	}
-	        	}
+			String BOAD_DELYN = (String) paramMap.get("BOAD_DELYN");
+			if("Y".equals(BOAD_DELYN)) {
+				paramMap.put("status", "D");
+			}else {
+				paramMap.put("status", "U");
+				List list = (List)paramMap.get("fileList"); //자바스크립트에서 받아온 값을 자바언어구조로 바꿈
+				if(list != null) {
+					model.addAttribute("cnt", TOMapper.deleteBoardFileList(paramMap));
+					for(int i=0;i < list.size() ;i++) {
+		        		Map row = (Map)list.get(i);
+		        		row.put("BOAD_IDX", paramMap.get("BOAD_IDX"));
+		            	if("C".equalsIgnoreCase(U.getStatus(row)) ) {
+		        			TOMapper.insertBoardFile(row);
+		            	}
+		        	}
+				}
 			}
-	    	
-	    	
+			TOMapper.insertBoardHis(paramMap);
 			model.addAttribute("cnt", cnt);		
 			
 		}catch(Exception e) {
@@ -5303,7 +5306,8 @@ public class TOController{
 		}
         return jsonview;
 	}
-	//게시판 단건삭제
+	
+	//게시판 단건물리삭제(관리자삭제)
 	@RequestMapping(value = "/EFC_BOAD/deleteBoard.do")
 	public View deleteBoard(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 		try {
@@ -5312,7 +5316,7 @@ public class TOController{
 			if(MapUtils.isEmpty(paramMap)) {
 				paramMap = mocaMap;
 			}
-			paramMap.put("status", "D");TOMapper.insertBoardHis(paramMap);
+			paramMap.put("status", "AD");TOMapper.insertBoardHis(paramMap);
 			model.addAttribute("cnt", TOMapper.deleteBoard(paramMap));
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -5321,6 +5325,7 @@ public class TOController{
         return jsonview;
 	}
 	
+	//게시판 리스트물리삭제(관리자삭제)
 	@RequestMapping(value = "/EFC_BOAD/deleteBoardList.do")
 	public View deleteBoardList(@RequestParam Map param, 
 			@RequestParam Map <String, Object> mocaMap,
@@ -5336,9 +5341,54 @@ public class TOController{
         		//row.put("SYS_CD", bodyMap.get("SYS_CD"));
 
             	//if("U".equalsIgnoreCase(U.getStatus(row)) ) {
-        			row.put("status", "MD");TOMapper.insertBoardHis(row);
+        			row.put("status", "AD");TOMapper.insertBoardHis(row);
             		TOMapper.deleteBoard(row);
             		
+            	//}
+        	}
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+        return jsonview;
+	}
+	
+	//게시판 단건논리삭제(DELYN)
+	@RequestMapping(value = "/EFC_BOAD/deleteStatusBoard.do")
+	public View deleteStatusBoard(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			paramMap.put("status", "D");TOMapper.insertBoardHis(paramMap);
+			model.addAttribute("cnt", TOMapper.deleteStatusBoard(paramMap));
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
+	
+	//게시판 리스트논리삭제(DELYN)
+	@RequestMapping(value = "/EFC_BOAD/deleteStatusBoardList.do")
+	public View updateDeleteBoardList(@RequestParam Map param, 
+			@RequestParam Map <String, Object> mocaMap,
+			ModelMap model) throws Exception {
+		if(!U.preCheck(model)) {return jsonview;}
+		
+    	Map bodyMap = U.getBody(mocaMap);
+    	List list = (List)bodyMap.get("paramList"); //자바스크립트에서 받아온 값을 자바언어구조로 바꿈
+    	try {
+        	for(int i=0;i < list.size() ;i++) {
+        		Map row = (Map)list.get(i);
+        		//row.put("CORP_CD", bodyMap.get("CORP_CD"));
+        		//row.put("SYS_CD", bodyMap.get("SYS_CD"));
+
+            	//if("U".equalsIgnoreCase(U.getStatus(row)) ) {
+        			row.put("status", "MD");TOMapper.insertBoardHis(row);
+            		//TOMapper.deleteBoard(row);
+            		TOMapper.deleteStatusBoard(row);
             	//}
         	}
     	}catch(Exception e) {

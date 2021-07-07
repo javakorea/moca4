@@ -4,6 +4,9 @@
 <script>
 	moca.EFC_BOAD.boardType ='ERP';
 	moca.EFC_BOAD.___ready = function(args){
+		if(moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
+	    	moca.hide(moca.EFC_BOAD.getObj("btn_del_admin"));
+	    }
 	    moca.EFC_BOAD.fn_search();
 	};
 	
@@ -22,6 +25,7 @@
 	            }
 	        },          
 	        callback : function(response){
+	        	var money = '200,000'
 	            moca.EFC_BOAD.drawGrid('grd_1',moca.getResList(response,"selectBoardList"));
 	        }
 	    });
@@ -62,39 +66,52 @@
 	    o.data = {"BOAD_IDX":_BoardIdx+'',"BOAD_PIDX":__BoardParentIdx+'',"BOAD_TITLE":_BoardTitle,"BOAD_TYPE":moca.EFC_BOAD.boardType};
 	    moca.popup(o,_grd);
 	};
-	moca.EFC_BOAD.fn_delList = function(){
+	moca.EFC_BOAD.fn_adminDelList = function(){
+		['게시글 물리삭제 관리자삭제']
+        if(moca.EFC_BOAD.validate("grd_1","status","C,U,D")){
+       		moca.confirm('삭제하시면 데이터를 더이상 복구하실 수 없습니다.<br/>또한 원글을 삭제하실경우 답글까지도 삭제됩니다.<br/>그래도 삭제하시겠습니까?',function(result){
+                   if(result == 'Y'){
+                       moca.EFC_BOAD.exe({
+                           url : moca._domain+moca._contextRoot+"/EFC_BOAD/deleteBoardList.do",
+                           data : {
+                               "header" : moca.header,
+                               "body" : {
+                                   paramList:moca.getCheckedData(moca.EFC_BOAD.getObj("grd_1"),"chk")
+                               }
+                           },      
+                           callback : function(){
+                              moca.alert('성공적으로 삭제되었습니다!',function(){
+                                  moca.EFC_BOAD.fn_search();
+                                  return;
+                              });  
+                           }
+                       });
+                   }
+               });
+        }
+    };
+    moca.EFC_BOAD.fn_delList = function(){
 		['게시글 삭제']
         if(moca.EFC_BOAD.validate("grd_1","status","C,U,D")){
-        	var _writeArr = [];
-        	var _write = moca.getCheckedData(moca.EFC_BOAD.getObj("grd_1"),"chk");
-        	for(var i=0; i<_write.length; i++){
-        		if(_write[i].BOAD_WRITER != moca.getSs("USER_ID")){
-        			_writeArr[i] = _write[i].BOAD_WRITER;
-        		}
-        	}
-        	if(_writeArr.length > 0 && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){ //작성자가 본인이 아닐경우
-        		moca.alert('본인이 작성한 게시글만 삭제하실 수 있습니다.');
-        	}else{
-        		moca.confirm('선택된 목록들을 삭제하시겠습니까?',function(result){
-                    if(result == 'Y'){
-                        moca.EFC_BOAD.exe({
-                            url : moca._domain+moca._contextRoot+"/EFC_BOAD/deleteBoardList.do",
-                            data : {
-                                "header" : moca.header,
-                                "body" : {
-                                    paramList:moca.getCheckedData(moca.EFC_BOAD.getObj("grd_1"),"chk")
-                                }
-                            },      
-                            callback : function(){
-                               moca.alert('성공적으로 삭제되었습니다!',function(){
-                                   moca.EFC_BOAD.fn_search();
-                                   return;
-                               });  
-                            }
-                        });
-                    }
-                });
-        	}
+       		moca.confirm('원글을 삭제하실경우 답글까지도 삭제됩니다.<br/>선택된 목록들을 삭제하시겠습니까?',function(result){
+                   if(result == 'Y'){
+                       moca.EFC_BOAD.exe({
+                           url : moca._domain+moca._contextRoot+"/EFC_BOAD/deleteStatusBoardList.do",
+                           data : {
+                               "header" : moca.header,
+                               "body" : {
+                                   paramList:moca.getCheckedData(moca.EFC_BOAD.getObj("grd_1"),"chk")
+                               }
+                           },      
+                           callback : function(){
+                              moca.alert('성공적으로 삭제되었습니다!',function(){
+                                  moca.EFC_BOAD.fn_search();
+                                  return;
+                              });  
+                           }
+                       });
+                   }
+               });
         }
     };
     moca.EFC_BOAD.dispCnt= function(_thisVal){
@@ -120,6 +137,10 @@
     	}else{
     		return false;
     	}
+    }
+    
+    moca.EFC_BOAD.fn_check = function(_thisVal, _grd, _realrow){
+		alert('');debugger;    	
     }
 </script>
 
@@ -175,8 +196,9 @@
 								toolbar_nextbtn="false"
 								toolbar_full="true"
 								toolbar_grid_button1='{"position":"right","id":"btn_add","label":"글쓰기","onclick":"moca.EFC_BOAD.fn_pop","addClass":"","innerDisabled":"false"}'
-								toolbar_grid_button2='{"position":"right","id":"btn_save","label":"선택삭제","onclick":"moca.EFC_BOAD.fn_delList","addClass":"","innerDisabled":"false"}'
-
+								toolbar_grid_button2='{"position":"right","id":"btn_del","label":"선택삭제","onclick":"moca.EFC_BOAD.fn_delList","addClass":"","innerDisabled":"false"}'
+								toolbar_grid_button3='{"position":"right","id":"btn_del_admin","label":"관리자삭제","onclick":"moca.EFC_BOAD.fn_adminDelList","innerStyle":"background:#ff3333","innerDisabled":"false"}'
+								toolbar_grid_label_span='{"position":"left","id":"todayCnt","label":"총금액","value":"200,000원","valueClass":"txt_blue"}'
                                 onDblClick = "moca.EFC_BOAD.grd_1__onDblClick"
 								label="게시물"
 			
@@ -185,6 +207,7 @@
 						<colgroup>
 								<col style="width:60px">
 								<!-- <col style="width:60px"> -->
+								<col style="width:60px">
 								<col style="width:60px">
 								<col style="width:60px">
 								<col style="">
@@ -198,6 +221,7 @@
 								<!--<th scope="col" id="H_BOAD_TYPE">게시판유형</th> -->
 								<th scope="col" id="H_BOAD_PIDX">부모ID</th>
 								<th scope="col" id="H_BOAD_IDX">ID</th>
+								<th scope="col" id="H_BOAD_STATUS">상태</th>
 								<th scope="col" id="H_BOAD_TITLE">제목</th>
 								<th scope="col" id="H_BOAD_FILECNT">첨부</th>
 								<th scope="col" id="H_BOAD_WRITER"  filterable="true" filterableId="BOAD_WRITER">작성자</th>
@@ -206,10 +230,11 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" disabledFunction="moca.EFC_BOAD.disabled"></td>
+								<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" disabledFunction="moca.EFC_BOAD.disabled" ></td>
 								<!--<td id="BOAD_TYPE" celltype="input" style="text-align:center" name="ID" readOnly="true"></td> -->
 								<td id="BOAD_PIDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
 								<td id="BOAD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
+								<td id="BOAD_STATUS" celltype="input" style="text-align:center" name="상태" readOnly="true"></td>
 								<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true" displayFunction="moca.EFC_BOAD.dispReply"></td>
 								<td id="CNT" celltype="input" style="" name="첨부" readOnly="true" displayFunction="moca.EFC_BOAD.dispCnt"></td>
 								<td id="BOAD_WRITER" celltype="input" style="text-align:center" name="작성자" readOnly="true"></td>

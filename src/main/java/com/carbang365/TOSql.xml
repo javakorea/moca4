@@ -4583,11 +4583,12 @@
  	
  	<!-- 게시판 조회 -->
     <select id="selectBoardList" parameterType="map" resultType="map">
-        SELECT A.BOAD_PIDX, A.BOAD_IDX, A.BOAD_TITLE, A.BOAD_WRITER, A.BOAD_DATE, A.BOAD_TYPE, COUNT(F.BOAD_IDX) AS CNT
+        SELECT A.BOAD_PIDX, A.BOAD_IDX, A.BOAD_DELYN, A.BOAD_TITLE, A.BOAD_WRITER, A.BOAD_DATE, A.BOAD_TYPE, COUNT(F.BOAD_IDX) AS CNT
 		FROM EFCBOAD A 
 		LEFT OUTER JOIN EFCBOADFILE F ON A.BOAD_IDX = F.BOAD_IDX
 		
 		WHERE 1=1
+		AND A.BOAD_DELYN = 'N'
 		AND A.BOAD_TYPE like CONCAT('%', #{BOAD_TYPE}, '%')
 		<if test="BOAD_WRITER != null and BOAD_WRITER != ''">
             AND A.BOAD_WRITER like CONCAT('%', #{BOAD_WRITER}, '%')
@@ -4607,6 +4608,7 @@
     <insert id="insertBoard" parameterType="map" useGeneratedKeys="true" keyProperty="BOAD_IDX">
         /*insertBoard 게시물 작성*/
             INSERT INTO EFCBOAD(
+            	BOAD_DELYN,
             	BOAD_TYPE,
            	 	<if test='BOAD_PIDX != null'>
            	 		BOAD_PIDX,
@@ -4616,6 +4618,7 @@
 	            BOAD_WRITER,
 	            BOAD_DATE
             )VALUES (
+           		#{BOAD_DELYN},
            		#{BOAD_TYPE},
             	<if test='BOAD_PIDX != null'>
            	 		#{BOAD_PIDX},
@@ -4640,15 +4643,24 @@
          WHERE 1=1
          AND BOAD_IDX=#{BOAD_IDX}
     </update>
-    
-     <!-- 게시물 삭제  -->
+
+    <!-- 게시물 논리 삭제 -->
+    <update id="deleteStatusBoard" parameterType="map">
+         /* 게시물논리삭제*/
+         UPDATE EFCBOAD SET 
+         	 BOAD_DELYN = 'Y'
+         WHERE 1=1
+         AND BOAD_IDX=#{BOAD_IDX}
+    </update>
+
+	<!-- 게시물 물리 삭제 (관리자삭제) -->
     <delete id="deleteBoard" parameterType="map">
         /*deleteBoard 게시물삭제*/
         DELETE FROM EFCBOAD
 		WHERE 1=1
 		AND BOAD_IDX=#{BOAD_IDX}
     </delete>
-    
+        
     <!-- 게시물 단건조회 -->
     <select id="selectBoardInfo" parameterType="map" resultType="map">
         SELECT

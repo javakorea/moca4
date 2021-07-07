@@ -342,7 +342,7 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .grid_label_span .label{font-weight:bold; margin-right:5px; line-height:24px;}
 .grid_label_span .label:before{content: ''; display: inline-block; width: 3px; height: 3px; background: #00abde;margin-right: 5px; border-radius: 3px; position: relative; top: -3px;}
 .grid_label_span .moca_combo{height:23px; top:-1px}
-
+.grid_label_span em{font-weight:normal; font-style:normal}
 .grid_btn button{padding: 0 7px; background: #476d8e; color: #fff; border-radius: 2px; height: 24px; box-sizing: border-box; opacity: 0.9;	}
 .grid_btn button:active{opacity:1}
 button:disabled{background:#aaa; opacity:1}
@@ -1208,6 +1208,14 @@ td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:2
 .edit {position: absolute; left: 0px; right:0px; bottom: 0; top: 101px;}
 .edit .cke_chrome{position: absolute; right: 0; left: 0; bottom: 0px; top: 0;}
 .edit .cke_bottom{user-select: none; position: absolute; left: 0; right: 0; bottom: 0;}
+/*
+.edit {position: absolute; left: 0px; right:0px; bottom: 0; top: 101px;}
+.edit .cke_chrome{position: absolute; right: 0; left: 0; bottom: 0px; top: 0;}
+.edit .cke_bottom{user-select: none; position: absolute; left: 0; right: 0; bottom: 0;}
+*/
+
+
+
 /*.edit > div[role=application] .cke_contents.cke_reset{height: calc(100% - 200px) !important;}*/
 .edit > div[role=application] .cke_inner{height: calc(100% - 27px); display: flex; flex-direction: column;}
 .edit > div[role=application] .cke_inner > .cke_top{height: calc(100% - 200px) !important;}
@@ -1224,4 +1232,3 @@ td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:2
 .moca_shbox .shbox_group{border: 1px solid #bbc3ce; background: #e8e8e8; border-radius: 3px; padding:0 3px}
 .moca_shbox .shbox_group .moca_ica[type="inputMultiCalendar"] > div{height: 20px; top: 1px;}
 
-.lybox .ly_col_cont.pl15 .edit{left:15px;}

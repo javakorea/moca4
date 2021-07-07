@@ -8894,9 +8894,15 @@ Moca.prototype.renderGridToolbarLabelSpan = function(x1Obj) {
 	}else{
 		x1Obj.addClassStr = x1Obj.addClass;
 	}
+	
+	if(x1Obj.valueClass == null){
+		x1Obj.valueClassStr = '';
+	}else{
+		x1Obj.valueClassStr = x1Obj.valueClass;
+	}
 	_html += '<div class="grid_label_span '+x1Obj.addClassStr+'">';
 	_html += '<span class="label">'+x1Obj.label+'</span>';
-	_html += '<span  id="'+x1Obj.id+'" name="'+x1Obj.id+'" >'+x1Obj.value+'</span>';
+	_html += '<span  id="'+x1Obj.id+'" class="'+x1Obj.valueClassStr+'" name="'+x1Obj.id+'" >'+x1Obj.value+'</span>';
 	_html += '</div>';
 	return _html;
 };
@@ -12488,6 +12494,27 @@ Moca.prototype.getCheckboxGroupCheckedList = function(obj){
 	return returnArr;
 };
 
+Moca.prototype.getLabel = function(_thisObj){
+	var _label = $(_thisObj).siblings().text();
+	return _label;
+};
+
+Moca.prototype.setLabel = function(_thisObj,_value){
+	var _label = $(_thisObj).siblings().text();
+	_label = $(_thisObj).siblings().text(_value);
+	return _label;
+};
+
+Moca.prototype.getLabelValue = function(_thisObj){
+	var _labelVal = $(_thisObj).text();
+	return _labelVal;
+};
+
+Moca.prototype.setLabelValue = function(_thisObj,_value){
+	var _labelVal = $(_thisObj).text();
+	_labelVal = $(_thisObj).text(_value);
+	return _labelVal;
+};
 
 
 
