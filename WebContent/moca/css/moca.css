@@ -980,7 +980,15 @@ button.moca_calendar_dynamic:hover {background-color:#f3a95e; color:#fff}
 	button.col_showhide {background-image:url(../images/btn_gear.png); background-position:2px -1px}
 	button.col_showhide:active {background-position:2px 0px}		
 
-			
+	/*그리드 접기*/
+	button.grid_fold {background-image:url(../images/btn_arrowdown.png); background-position:2px 0}
+	button.grid_fold:active {background-position:2px 1px}
+	
+	/*그리드 접기*/
+	button.grid_unfold {background-image:url(../images/btn_arrowup.png); background-position:2px 0}
+	button.grid_unfold:active {background-position:2px 1px}
+	/* a.btn.del_row.w2anchor_disabled {background-position: 3px bottom } */
+	
 /* 김세창추가 끝 *****************************************************************************************************************************************************/
 
 /*화면분할*/

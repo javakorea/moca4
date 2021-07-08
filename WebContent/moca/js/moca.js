@@ -3140,6 +3140,7 @@ Moca.prototype.renderGrid = function(_divObj) {
 	var toolbar_delrow = _divObj.getAttribute("toolbar_delrow");
 	var toolbar_nextbtn = _divObj.getAttribute("toolbar_nextbtn");
 	var toolbar_full = _divObj.getAttribute("toolbar_full");
+	var toolbar_fold = _divObj.getAttribute("toolbar_fold");
 
 	var _html = '';
 	if(_toolbar){
@@ -3220,14 +3221,15 @@ Moca.prototype.renderGrid = function(_divObj) {
 	
 		_html += '<div class="rta" grdkey="'+_id+'">';
 
-		if(toolbar_col_showhide == "true") _html += '<button type="button" class="button col_showhide" title="컬럼숨기기" grdkey="'+_id+'" onclick="moca._col_showhide(this)"></button>';
-		if(toolbar_detail == "true") _html += '<button type="button" class="button grid_detail" title="디테일뷰" grdkey="'+_id+'" onclick="moca._detailview(this)"></button>';
-		if(toolbar_exup == "true") _html += '<button type="button" class="button excel_up" title="엑셀업로드" grdkey="'+_id+'" onclick="moca._excel_up(this)"></button>';
-		if(toolbar_exdn == "true") _html += '<button type="button" class="button excel_dn" title="엑셀다운로드" grdkey="'+_id+'" onclick="moca._excel_down(this)"></button>';
-		if(toolbar_addrow == "true") _html += '<button type="button" class="button add_row" title="행추가" grdkey="'+_id+'" onclick="moca._row_add(this)"></button>';
-		if(toolbar_delrow == "true") _html += '<button type="button" class="button del_row" title="행삭제" grdkey="'+_id+'" onclick="moca._row_del(this)"></button>';
-		if(toolbar_nextbtn == "true") _html += '<button type="button" class="button read_next" title="다음" grdkey="'+_id+'" onclick="moca._next(this)"></button>';
-		if(toolbar_full == "true") _html += '<button type="button" class="button grid_full" title="그리드 전체화면"  grdkey="'+_id+'" onclick="moca._fullScreenGrid(this)"></button>';
+		if(toolbar_col_showhide == "true") _html += '<button type="button" id="'+_id+'_col_showhide" class="button col_showhide" title="컬럼숨기기" grdkey="'+_id+'" onclick="moca._col_showhide(this)"></button>';
+		if(toolbar_detail == "true") _html += '<button type="button" id="'+_id+'_btn_detail" class="button grid_detail" title="디테일뷰" grdkey="'+_id+'" onclick="moca._detailview(this)"></button>';
+		if(toolbar_exup == "true") _html += '<button type="button" id="'+_id+'_btn_exup" class="button excel_up" title="엑셀업로드" grdkey="'+_id+'" onclick="moca._excel_up(this)"></button>';
+		if(toolbar_exdn == "true") _html += '<button type="button" id="'+_id+'_btn_exdn" class="button excel_dn" title="엑셀다운로드" grdkey="'+_id+'" onclick="moca._excel_down(this)"></button>';
+		if(toolbar_addrow == "true") _html += '<button type="button" id="'+_id+'_btn_addrow" class="button add_row" title="행추가" grdkey="'+_id+'" onclick="moca._row_add(this)"></button>';
+		if(toolbar_delrow == "true") _html += '<button type="button" id="'+_id+'_btn_delrow" class="button del_row" title="행삭제" grdkey="'+_id+'" onclick="moca._row_del(this)"></button>';
+		if(toolbar_nextbtn == "true") _html += '<button type="button" id="'+_id+'_btn_nextbtn" class="button read_next" title="다음" grdkey="'+_id+'" onclick="moca._next(this)"></button>';
+		if(toolbar_full == "true") _html += '<button type="button" id="'+_id+'_btn_full" class="button grid_full" title="그리드 전체화면"  grdkey="'+_id+'" onclick="moca._fullScreenGrid(this)"></button>';
+		if(toolbar_fold == "true") _html += '<button type="button" id="'+_id+'_btn_fold" class="button grid_fold" title="그리드 접기"  grdkey="'+_id+'" onclick="moca._foldGrid(this)"></button>';
 		
 		
 		for(var k=0; k <attArray.length; k++){
@@ -4409,6 +4411,27 @@ Moca.prototype._fullScreenGrid = function(_thisObj){
 		moca.sFunction(yscrollObj[0]);
 	//},100);
 	
+	
+};
+
+Moca.prototype._foldGrid = function(_thisObj){
+	var g = _thisObj.parentElement.parentElement.parentElement;
+	var g_jq = $(g);
+	var b_jq = $(_thisObj);
+	//var fs = _thisObj.getAttribute('full_screen');
+	if(g_jq.find('.moca_grid_list').is(":visible")){
+		b_jq.siblings().hide();
+		b_jq.removeClass('grid_unfold');
+		b_jq.addClass('grid_fold');
+		g_jq.addClass('fold');
+		g_jq.find('.moca_grid_list').hide();
+	}else{
+		b_jq.siblings().show();
+		b_jq.removeClass('grid_fold');
+		b_jq.addClass('grid_unfold');
+		g_jq.removeClass('fold');
+		g_jq.find('.moca_grid_list').show();
+	}
 	
 };
 
@@ -9166,12 +9189,13 @@ Moca.prototype.renderTable = function(_divObj) {
 	
 		_html += '<div class="rta" grdkey="'+_id+'">';
 
-		if(toolbar_col_showhide == "true") _html += '<button type="button" class="button col_showhide" title="컬럼숨기기" grdkey="'+_id+'" onclick="moca._col_showhide(this)" renderType="'+_type+'"></button>';
-		if(toolbar_detail == "true") _html += '<button type="button" class="button grid_detail" title="디테일뷰" grdkey="'+_id+'" onclick="moca._detailview(this)" renderType="'+_type+'"></button>';
-		if(toolbar_exup == "true") _html += '<button type="button" class="button excel_up" title="엑셀업로드" grdkey="'+_id+'" onclick="moca._excel_up(this)" renderType="'+_type+'"></button>';
-		if(toolbar_exdn == "true") _html += '<button type="button" class="button excel_dn" title="엑셀다운로드" grdkey="'+_id+'" onclick="moca._excel_down(this)" renderType="'+_type+'"></button>';
-		if(toolbar_nextbtn == "true") _html += '<button type="button" class="button read_next" title="다음" grdkey="'+_id+'" onclick="moca._next(this)" renderType="'+_type+'"></button>';
-		if(toolbar_full == "true") _html += '<button type="button" class="button grid_full" title="그리드 전체화면"  grdkey="'+_id+'" onclick="moca._fullScreenGrid(this)" renderType="'+_type+'"></button>';
+		if(toolbar_col_showhide == "true") _html += '<button type="button" id="'+_id+'_col_showhide" class="button col_showhide" title="컬럼숨기기" grdkey="'+_id+'" onclick="moca._col_showhide(this)" renderType="'+_type+'"></button>';
+		if(toolbar_detail == "true") _html += '<button type="button" id="'+_id+'_btn_detail" class="button grid_detail" title="디테일뷰" grdkey="'+_id+'" onclick="moca._detailview(this)" renderType="'+_type+'"></button>';
+		if(toolbar_exup == "true") _html += '<button type="button" id="'+_id+'_btn_exup" class="button excel_up" title="엑셀업로드" grdkey="'+_id+'" onclick="moca._excel_up(this)" renderType="'+_type+'"></button>';
+		if(toolbar_exdn == "true") _html += '<button type="button" id="'+_id+'_btn_exdn" class="button excel_dn" title="엑셀다운로드" grdkey="'+_id+'" onclick="moca._excel_down(this)" renderType="'+_type+'"></button>';
+		if(toolbar_nextbtn == "true") _html += '<button type="button" id="'+_id+'_btn_nextbtn" class="button read_next" title="다음" grdkey="'+_id+'" onclick="moca._next(this)" renderType="'+_type+'"></button>';
+		if(toolbar_full == "true") _html += '<button type="button" id="'+_id+'_btn_full" class="button grid_full" title="그리드 전체화면"  grdkey="'+_id+'" onclick="moca._fullScreenGrid(this)" renderType="'+_type+'"></button>';
+		if(toolbar_fold == "true") _html += '<button type="button"id="'+_id+'_btn_fold" class="button grid_fold" title="그리드 접기"  grdkey="'+_id+'" onclick="moca._foldGrid(this)" renderType="'+_type+'"></button>';
 		
 		
 		for(var k=0; k <attArray.length; k++){
