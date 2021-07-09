@@ -4,6 +4,8 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
+	/*
+	 * toolbar default
 	// Toolbar configuration generated automatically by the editor based on config.toolbarGroups.
 	config.toolbar = [
 		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', '-', 'Save', 'NewPage', 'ExportPdf', 'Preview', 'Print', '-', 'Templates' ] },
@@ -22,6 +24,28 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'others', items: [ '-' ] },
 		{ name: 'about', items: [ 'About' ] }
 	];
+	*/
+	config.toolbar = [{
+        name: 'document',
+        items: ['Source', '-', 'Undo', 'Redo']
+      },
+      {
+        name: 'basicstyles',
+        items: ['Bold', 'Italic', 'Strike', '-', 'RemoveFormat']
+      },
+      {
+        name: 'links',
+        items: ['Link', 'Unlink', 'Anchor']
+      },
+      {
+        name: 'insert',
+        items: ['Image', 'Format']
+      },
+      {
+        name: 'tools',
+        items: ['Maximize', 'ShowBlocks', 'About']
+      }
+    ];
 
 	// Toolbar groups configuration.
 	config.toolbarGroups = [
@@ -61,5 +85,6 @@ CKEDITOR.editorConfig = function( config ) {
 	
 	config.extraPlugins = 'pastefromexcel,pastefromword,resize,colordialog,tableresize,imageresizerowandcolumn';
 	config.resize_dir = 'vertical';// both || vertical || horizontal
-	
+	config.toolbarStartupExpanded = false; // 툴바 접기
+	  
 };

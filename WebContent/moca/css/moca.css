@@ -1230,7 +1230,7 @@ td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:2
 
 /*.edit > div[role=application] .cke_contents.cke_reset{height: calc(100% - 200px) !important;}*/
 .edit > div[role=application] .cke_inner{height: calc(100% - 27px); display: flex; flex-direction: column;}
-.edit > div[role=application] .cke_inner > .cke_top{height: calc(100% - 200px) !important;}
+/*.edit > div[role=application] .cke_inner > .cke_top{height: calc(100% - 200px) !important;}*/
 .edit > div[role=application] .cke_inner > .cke_contents{flex:auto; height:100% !important;}
 .edit > div[contenteditable=true] {height:100%; overflow-y:auto}
 /*

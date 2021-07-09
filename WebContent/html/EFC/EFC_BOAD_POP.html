@@ -41,12 +41,6 @@ moca.EFC_BOAD_POP.___ready = function(args){
             'instanceReady':function(ev){
 
         }}} );
-    	
-    	/*
-        CKEDITOR.on('instanceReady', function(ev) {
-
-        });
-        */
     
     });
 };
@@ -156,10 +150,6 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wtitle"),false);
 		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wphone"),false);
 		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wemail"),false);
-		CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
-			'instanceReady':function(evt){
-				CKEDITOR.instances.editor.focus();
-		}}}	);
 	}
 	if(moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
     	moca.hide(moca.EFC_BOAD_POP.getObj("btn_del_admin"));
