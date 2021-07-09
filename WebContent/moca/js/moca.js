@@ -4421,14 +4421,14 @@ Moca.prototype._foldGrid = function(_thisObj){
 	//var fs = _thisObj.getAttribute('full_screen');
 	if(g_jq.find('.moca_grid_list').is(":visible")){
 		b_jq.siblings().hide();
-		g_jq.find('.grid_btn').hide();
+		g_jq.find('.grid_btn').find('button').hide();
 		b_jq.removeClass('grid_unfold');
 		b_jq.addClass('grid_fold');
 		g_jq.addClass('fold');
 		g_jq.find('.moca_grid_list').hide();
 	}else{
 		b_jq.siblings().show();
-		g_jq.find('.grid_btn').show();
+		g_jq.find('.grid_btn').find('button').show();
 		b_jq.removeClass('grid_fold');
 		b_jq.addClass('grid_unfold');
 		g_jq.removeClass('fold');
