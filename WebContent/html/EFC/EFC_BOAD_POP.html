@@ -74,6 +74,7 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 						if(response.selectBoardInfo != null ){
 						var data = response.selectBoardInfo;
 						CKEDITOR.instances.editor.setData(data.BOAD_CONT);
+						moca.setValue(moca.EFC_BOAD_POP.getObj("cmb_board"),data.BOAD_SUPPORT);
 						moca.setValue(moca.EFC_BOAD_POP.getObj("wtitle"),data.BOAD_TITLE);
 						moca.setValue(moca.EFC_BOAD_POP.getObj("wdate"),data.BOAD_DATE);
 						moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),data.BOAD_WRITER);
@@ -110,6 +111,7 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 						var data = response.selectBoardInfo;
 						CKEDITOR.instances.editor.setData(data.BOAD_CONT);
 						moca.hide($(moca.EFC_BOAD_POP.getObj("cke_editor")).find("[id$='_top']"));
+						moca.setValue(moca.EFC_BOAD_POP.getObj("cmb_board"),data.BOAD_SUPPORT);
 						moca.setValue(moca.EFC_BOAD_POP.getObj("wtitle"),data.BOAD_TITLE);
 						moca.setValue(moca.EFC_BOAD_POP.getObj("wdate"),data.BOAD_DATE);
 						moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),data.BOAD_WRITER);
@@ -130,6 +132,7 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 			});
 		}
 	}else{
+		moca.setValue(moca.EFC_BOAD_POP.getObj("cmb_board"),"N");
 		moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),moca.getSs("USER_ID"));
 		moca.setValue(moca.EFC_BOAD_POP.getObj("wdate"),dateLib.getToday());
 		moca.setValue(moca.EFC_BOAD_POP.getObj("widx"),"등록후채번됨");
@@ -198,6 +201,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                        "header" : moca.header,
 	                        "body" : {
 	                        	"BOAD_DELYN":'N',
+	                        	"BOAD_SUPPORT":moca.EFC_BOAD_POP.getCombo('cmb_board'),
 	                        	"BOAD_TYPE":moca.EFC_BOAD_POP._boardType,
 	                            "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
 	                            "BOAD_CONT":CKEDITOR.instances.editor.getData(),
@@ -227,6 +231,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
                              "header" : moca.header,
                              "body" : {
                             	 "BOAD_TYPE":moca.EFC_BOAD_POP._boardType,
+                            	 "BOAD_SUPPORT":moca.EFC_BOAD_POP.getCombo('cmb_board'),
                                  "BOAD_IDX":moca.EFC_BOAD_POP._boardIdx,
                                  "BOAD_PIDX":moca.EFC_BOAD_POP._boardIdx,
                                  "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
@@ -270,6 +275,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                        "header" : moca.header,
 	                        "body" : {
 	                        	"BOAD_DELYN":'N',
+	                        	"BOAD_SUPPORT":moca.EFC_BOAD_POP.getCombo('cmb_reply'),
 	                        	"BOAD_TYPE":moca.EFC_BOAD_POP._boardType,
 	                        	"BOAD_PIDX":moca.EFC_BOAD_POP._boardIdx,
 	                            "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wreplytitle")),
@@ -299,6 +305,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                         "header" : moca.header,
 	                         "body" : {
 	                        	 "BOAD_TYPE":moca.EFC_BOAD_POP._boardType,
+	                        	 "BOAD_SUPPORT":moca.EFC_BOAD_POP.getCombo('cmb_reply'),
 	                        	 "BOAD_PIDX":moca.EFC_BOAD_POP._boardPIdx,
 	                         	 "BOAD_IDX":moca.EFC_BOAD_POP._boardIdx,
 	                             "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wreplytitle")),
@@ -465,6 +472,7 @@ moca.EFC_BOAD_POP.onFileSelected = function(filename,filesize,_e,_this) {
 moca.EFC_BOAD_POP.popId = "EFC_BOAD_ANS_POP";
 moca.EFC_BOAD_POP.fn_reply = function(_thisObj){
     ['답변달기']
+    moca.setValue(moca.EFC_BOAD_POP.getObj("cmb_reply"),"N");
     $(moca.EFC_BOAD_POP.getObj("cke_editor")).find('#cke_1_top').hide();
     moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wreplytitle"),false);
     $(moca.EFC_BOAD_POP.getObj("reply_area")).show();
@@ -493,6 +501,7 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 				if(response.selectBoardInfo != null ){
 				var data = response.selectBoardInfo;
 				CKEDITOR.instances.reply_editor.setData(data.BOAD_CONT);
+				moca.setValue(moca.EFC_BOAD_POP.getObj("cmb_reply"),data.BOAD_SUPPORT);
 				moca.setValue(moca.EFC_BOAD_POP.getObj("wreplytitle"),data.BOAD_TITLE);
 				moca.setValue(moca.EFC_BOAD_POP.getObj("wreplydate"),data.BOAD_DATE);
 				moca.setValue(moca.EFC_BOAD_POP.getObj("wreplyid"),data.BOAD_WRITER);
@@ -537,6 +546,7 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 			                        <colgroup>
 			                                <col style="width:80px">
 			                                <col style="">
+			                                <col style="width:70px">
 			                                <col style="width:200px">
 			                                <col style="width:120px">
 			                        </colgroup>
@@ -544,6 +554,7 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 			                            <tr>
 			                                <th>ID</th>
 			                                <th>제목</th>
+			                                <th>상태</th>
 			                                <th>작성일시</th>
 			                                <th>작성자</th>
 			                            </tr>
@@ -559,6 +570,9 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 			                                        selecterItem=""
 			                                        showRadioOption="false"
 			                                    ></div>
+			                                </td>
+			                                <td>
+												<div type="combo" id="cmb_board" class="moca_combo" innerOnchange="" readonly="true" style="width:100%" displayFormat="[label]" cdField="cd" nmField="nm"   itemset='[{"cd":"Y","nm":"완료 "},{"cd":"N","nm":"미완료"}]'></div>
 			                                </td>
 			                                <td>
 			                                    <div type="input" class="mocaInput" style="width:100%;text-align:center;" innerStyle="text-align:center;" id="wdate" displayFunction="moca.dateFormat"  readonly="true"
@@ -641,6 +655,7 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
                                     <colgroup>
                                             <col style="width:80px">
                                             <col style="">
+                                            <col style="width:70px">
                                             <col style="width:200px">
                                             <col style="width:120px">
                                     </colgroup>
@@ -648,6 +663,7 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
                                         <tr>
                                             <th class="bg_green">답변ID</th>
                                             <th class="bg_green">제목</th>
+                                            <th class="bg_green">상태</th>
                                             <th class="bg_green">작성일시</th>
                                             <th class="bg_green">작성자</th>
                                         </tr>
@@ -664,6 +680,9 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
                                                     showRadioOption="false"
                                                 ></div>
                                             </td>
+                                            <td>
+												<div type="combo" id="cmb_reply" class="moca_combo" innerOnchange="" readonly="true" style="width:100%" displayFormat="[label]" cdField="cd" nmField="nm"   itemset='[{"cd":"Y","nm":"완료 "},{"cd":"N","nm":"미완료"}]'></div>
+			                                </td>
                                             <td>
                                                 <div type="input" class="mocaInput" style="width:100%; text-align:center;" innerStyle="text-align:center;" id="wreplydate" displayFunction="moca.dateFormat"  readonly="true"
                                                     defaultValue="" 

@@ -4583,7 +4583,7 @@
  	
  	<!-- 게시판 조회 -->
     <select id="selectBoardList" parameterType="map" resultType="map">
-        SELECT A.BOAD_PIDX, A.BOAD_IDX, A.BOAD_DELYN, A.BOAD_TITLE, A.BOAD_WRITER, A.BOAD_DATE, A.BOAD_TYPE, COUNT(F.BOAD_IDX) AS CNT
+        SELECT A.BOAD_PIDX, A.BOAD_IDX, A.BOAD_SUPPORT, A.BOAD_DELYN, A.BOAD_TITLE, A.BOAD_WRITER, A.BOAD_DATE, A.BOAD_TYPE, COUNT(F.BOAD_IDX) AS CNT
 		FROM EFCBOAD A 
 		LEFT OUTER JOIN EFCBOADFILE F ON A.BOAD_IDX = F.BOAD_IDX
 		
@@ -4613,6 +4613,7 @@
            	 	<if test='BOAD_PIDX != null'>
            	 		BOAD_PIDX,
            		</if>
+           		BOAD_SUPPORT,
 	            BOAD_TITLE,
 	            BOAD_CONT,
 	            BOAD_WRITER,
@@ -4623,6 +4624,7 @@
             	<if test='BOAD_PIDX != null'>
            	 		#{BOAD_PIDX},
            		</if>
+           		#{BOAD_SUPPORT},
 				#{BOAD_TITLE},
 	            #{BOAD_CONT},
 	            #{BOAD_WRITER},
@@ -4636,6 +4638,7 @@
          UPDATE EFCBOAD SET 
             BOAD_TYPE = #{BOAD_TYPE},
             BOAD_PIDX = #{BOAD_PIDX},
+           	BOAD_SUPPORT = #{BOAD_SUPPORT},
             BOAD_TITLE = #{BOAD_TITLE},
             BOAD_CONT = #{BOAD_CONT},
             BOAD_WRITER = #{BOAD_WRITER},
@@ -4666,6 +4669,7 @@
         SELECT
             A.BOAD_IDX, 
             A.BOAD_TITLE, 
+            A.BOAD_SUPPORT, 
             A.BOAD_CONT, 
             A.BOAD_WRITER,
             DATE_FORMAT(A.BOAD_DATE, '%Y-%m-%d  %H:%i:%s') AS BOAD_DATE

@@ -124,9 +124,28 @@
     }
     
     moca.EFC_BOAD.dispReply= function(_thisVal, _grd, _realrow){
+    	var _showVal = '';
     	if(_grd.list[_realrow].BOAD_IDX != _grd.list[_realrow].BOAD_PIDX){
-    		return "<i class='reply'></i>"+_thisVal;
+    		if(_grd.list[_realrow].BOAD_SUPPORT == "Y"){
+    			_showVal = "<i class='reply'></i><i class='success mr5'>완료</i>"+_thisVal;
+    		}else{
+    			_showVal = "<i class='reply'></i>"+_thisVal;
+    		}
     	}else{
+    		if(_grd.list[_realrow].BOAD_SUPPORT == "Y"){
+    			_showVal = "<i class='success mr5'>완료</i>"+_thisVal;
+    		}else{
+    			_showVal = _thisVal;
+    		}
+    	}
+    	return _showVal;
+    }
+    
+    moca.EFC_BOAD.dispSupport= function(_thisVal){
+    	if(_thisVal !=null && _thisVal != 'N'){
+    		return ""
+    	}else{
+    		_thisVal = '';
     		return _thisVal;
     	}
     }
@@ -197,8 +216,10 @@
 								toolbar_full="true"
 								toolbar_grid_button1='{"position":"right","id":"btn_add","label":"글쓰기","onclick":"moca.EFC_BOAD.fn_pop","addClass":"","innerDisabled":"false"}'
 								toolbar_grid_button2='{"position":"right","id":"btn_del","label":"선택삭제","onclick":"moca.EFC_BOAD.fn_delList","addClass":"","innerDisabled":"false"}'
-								toolbar_grid_button3='{"position":"right","id":"btn_del_admin","label":"관리자삭제","onclick":"moca.EFC_BOAD.fn_adminDelList","innerStyle":"background:#ff3333","innerDisabled":"false"}'
-								toolbar_grid_label_span='{"position":"left","id":"todayCnt","label":"총금액","value":"200,000원","valueClass":"txt_blue"}'
+								toolbar_grid_button3='{"position":"right","id":"btn_del_admin","label":"관리자삭제","onclick":"moca.EFC_BOAD.fn_adminDelList","innerStyle":"background:#ff3333","innerDisabled":"true"}'
+								toolbar_grid_label = '{"position":"left","id":"totalCost","label":"총금액","width":"150px"}'
+                                toolbar_grid_label_input='{"position":"left","id":"totalCost3","label":"총금액","value":"200,000","valueClass":"txt_blue","unit":"원"}'
+                               
                                 onDblClick = "moca.EFC_BOAD.grd_1__onDblClick"
 								label="게시물"
 			
@@ -209,9 +230,10 @@
 								<!-- <col style="width:60px"> -->
 								<col style="width:60px">
 								<col style="width:60px">
-								<col style="width:60px">
+								
 								<col style="">
 								<col style="width:60px">
+								<col style="width:40px">
 								<col style="width:200px">
 								<col style="width:150px">		
 						</colgroup>
@@ -221,9 +243,9 @@
 								<!--<th scope="col" id="H_BOAD_TYPE">게시판유형</th> -->
 								<th scope="col" id="H_BOAD_PIDX">부모ID</th>
 								<th scope="col" id="H_BOAD_IDX">ID</th>
-								<th scope="col" id="H_BOAD_STATUS">상태</th>
 								<th scope="col" id="H_BOAD_TITLE">제목</th>
 								<th scope="col" id="H_BOAD_FILECNT">첨부</th>
+								<th scope="col" id="H_BOAD_SUPPORT">상태</th>
 								<th scope="col" id="H_BOAD_WRITER"  filterable="true" filterableId="BOAD_WRITER">작성자</th>
 								<th scope="col" id="H_BOAD_DATE">작성일시</th>
 							</tr>
@@ -234,9 +256,9 @@
 								<!--<td id="BOAD_TYPE" celltype="input" style="text-align:center" name="ID" readOnly="true"></td> -->
 								<td id="BOAD_PIDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
 								<td id="BOAD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
-								<td id="BOAD_STATUS" celltype="input" style="text-align:center" name="상태" readOnly="true"></td>
 								<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true" displayFunction="moca.EFC_BOAD.dispReply"></td>
 								<td id="CNT" celltype="input" style="" name="첨부" readOnly="true" displayFunction="moca.EFC_BOAD.dispCnt"></td>
+								<td id="BOAD_SUPPORT" celltype="input" style="text-align:center" name="상태" readOnly="true" displayFunction="moca.EFC_BOAD.dispSupport"></td>
 								<td id="BOAD_WRITER" celltype="input" style="text-align:center" name="작성자" readOnly="true"></td>
 								<td id="BOAD_DATE" celltype="input" style="" name="작성일" readOnly="true" displayFunction="moca.longToDate"></td>
 							</tr>

@@ -2740,7 +2740,7 @@ Moca.prototype.setMultiCalendar = function(_divObj,initJson) {
 
 
 Moca.prototype.renderCombo = function(_divObj,_val,_gubun,_pageId,_srcId) {
-	['renderInputCalendar'];
+	['renderCombo'];
 	var _list= _divObj['list'];
 	var _codeOpt= _divObj['codeOpt'];
 	if(_codeOpt == null){
@@ -8923,9 +8923,15 @@ Moca.prototype.renderGridToolbarLabelSpan = function(x1Obj) {
 	}else{
 		x1Obj.valueClassStr = x1Obj.valueClass;
 	}
+	if(x1Obj.unit == null){
+		x1Obj.unitStr = '';
+	}else{
+		x1Obj.unitStr = x1Obj.unit;
+	}
 	_html += '<div class="grid_label_span '+x1Obj.addClassStr+'">';
 	_html += '<span class="label">'+x1Obj.label+'</span>';
-	_html += '<span  id="'+x1Obj.id+'" class="'+x1Obj.valueClassStr+'" name="'+x1Obj.id+'" >'+x1Obj.value+'</span>';
+	_html += '<span id="'+x1Obj.id+'" class="'+x1Obj.valueClassStr+'" name="'+x1Obj.id+'" >'+x1Obj.value+'</span>';
+	_html += '<span>'+x1Obj.unitStr+'</span>';
 	_html += '</div>';
 	return _html;
 };
@@ -12519,28 +12525,45 @@ Moca.prototype.getCheckboxGroupCheckedList = function(obj){
 };
 
 Moca.prototype.getLabel = function(_thisObj){
-	var _label = $(_thisObj).siblings().text();
+	var _label;
+	if($(_thisObj).attr('class') == 'label'){
+		_label = $(_thisObj).text();
+	}else{
+		_label = $(_thisObj).prev().text();
+	}
 	return _label;
 };
 
 Moca.prototype.setLabel = function(_thisObj,_value){
-	var _label = $(_thisObj).siblings().text();
-	_label = $(_thisObj).siblings().text(_value);
+	var _label = $(_thisObj).prev().text();
+	
+	if($(_thisObj).attr('class') == 'label'){
+		_label = $(_thisObj).text(_value);
+	}else{
+		_label = $(_thisObj).prev().text(_value);
+	}
+	
 	return _label;
 };
 
 Moca.prototype.getLabelValue = function(_thisObj){
-	var _labelVal = $(_thisObj).text();
+	var _labelVal;
+	if(_thisObj.tagName == 'INPUT'){
+		_labelVal = $(_thisObj).val();
+	}else{
+		_labelVal = $(_thisObj).text();
+	}
 	return _labelVal;
 };
 
 Moca.prototype.setLabelValue = function(_thisObj,_value){
-	var _labelVal = $(_thisObj).text();
-	_labelVal = $(_thisObj).text(_value);
-	return _labelVal;
+	var _labelVal;
+	if(_thisObj.tagName == 'INPUT'){
+		_labelVal = $(_thisObj).val(_value);
+	}else{
+		_labelVal = $(_thisObj).text(_value);
+	}
 };
-
-
 
 
 
