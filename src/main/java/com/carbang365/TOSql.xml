@@ -4628,7 +4628,10 @@
 	            BOAD_TITLE,
 	            BOAD_CONT,
 	            BOAD_WRITER,
+	            BOAD_PHONE,
+	            BOAD_EMAIL,
 	            BOAD_DATE
+	            
             )VALUES (
            		#{BOAD_DELYN},
            		#{BOAD_TYPE},
@@ -4639,6 +4642,8 @@
 				#{BOAD_TITLE},
 	            #{BOAD_CONT},
 	            #{BOAD_WRITER},
+	            #{BOAD_PHONE},
+	            #{BOAD_EMAIL},
 	            CURRENT_TIMESTAMP
             )
     </insert>
@@ -4653,6 +4658,8 @@
             BOAD_TITLE = #{BOAD_TITLE},
             BOAD_CONT = #{BOAD_CONT},
             BOAD_WRITER = #{BOAD_WRITER},
+            BOAD_PHONE = #{BOAD_PHONE},
+            BOAD_EMAIL = #{BOAD_EMAIL},
             BOAD_DATE = CURRENT_TIMESTAMP
          WHERE 1=1
          AND BOAD_IDX=#{BOAD_IDX}
@@ -4683,6 +4690,8 @@
             A.BOAD_SUPPORT, 
             A.BOAD_CONT, 
             A.BOAD_WRITER,
+            A.BOAD_PHONE,
+            A.BOAD_EMAIL,
             DATE_FORMAT(A.BOAD_DATE, '%Y-%m-%d  %H:%i:%s') AS BOAD_DATE
             
         FROM EFCBOAD A

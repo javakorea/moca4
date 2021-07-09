@@ -86,6 +86,8 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 						moca.setValue(moca.EFC_BOAD_POP.getObj("wdate"),data.BOAD_DATE);
 						moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),data.BOAD_WRITER);
 					    moca.setValue(moca.EFC_BOAD_POP.getObj("widx"),data.BOAD_IDX);
+					    moca.setValue(moca.EFC_BOAD_POP.getObj("wphone"),data.BOAD_PHONE);
+					    moca.setValue(moca.EFC_BOAD_POP.getObj("wemail"),data.BOAD_EMAIL);
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_save"));
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_add"));
 					    moca.hide(moca.EFC_BOAD_POP.getObj('grd_file_btn_fold'));
@@ -123,6 +125,9 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 						moca.setValue(moca.EFC_BOAD_POP.getObj("wdate"),data.BOAD_DATE);
 						moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),data.BOAD_WRITER);
 					    moca.setValue(moca.EFC_BOAD_POP.getObj("widx"),data.BOAD_IDX);
+					    moca.setValue(moca.EFC_BOAD_POP.getObj("wemail"),data.BOAD_EMAIL);
+					    moca.setValue(moca.EFC_BOAD_POP.getObj("wphone"),data.BOAD_PHONE);
+					    
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_save"));
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_add"));
 					    moca.hide(moca.EFC_BOAD_POP.getObj('grd_file_btn_fold'));
@@ -142,13 +147,15 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 		moca.setValue(moca.EFC_BOAD_POP.getObj("cmb_board"),"N");
 		moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),moca.getSs("USER_ID"));
 		moca.setValue(moca.EFC_BOAD_POP.getObj("wdate"),dateLib.getToday());
-		moca.setValue(moca.EFC_BOAD_POP.getObj("widx"),"등록후채번됨");
+		moca.setValue(moca.EFC_BOAD_POP.getObj("widx"),"등록후채번");
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply"));
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_del_admin"));
 		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("cmb_board"),false);
 		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wtitle"),false);
+		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wphone"),false);
+		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wemail"),false);
 		CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
 			'instanceReady':function(evt){
 				CKEDITOR.instances.editor.focus();
@@ -167,6 +174,8 @@ moca.EFC_BOAD_POP.fn_update = function(_thisObj){
 		$(moca.EFC_BOAD_POP.getObj("cke_editor")).find("[id$='_top']").show();
 		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wtitle"),false);
 		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("cmb_board"),false);
+		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wphone"),false);
+		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wemail"),false);
 		moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),moca.getSs("USER_ID"));
 		moca.EFC_BOAD_POP.editor.setReadOnly(false);
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
@@ -216,6 +225,8 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                            "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
 	                            "BOAD_CONT":CKEDITOR.instances.editor.getData(),
 	                            "BOAD_WRITER":moca.getValue(moca.EFC_BOAD_POP.getObj("wid")),
+	                            "BOAD_PHONE":moca.getValue(moca.EFC_BOAD_POP.getObj("wphone")),
+	                            "BOAD_EMAIL":moca.getValue(moca.EFC_BOAD_POP.getObj("wemail")),
 	                            "fileList":moca.EFC_BOAD_POP.getFilteredList("grd_file","status","C")
 	                            }
 	                    },          
@@ -247,6 +258,8 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
                                  "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
                                  "BOAD_CONT":CKEDITOR.instances.editor.getData(),
                                  "BOAD_WRITER":moca.getSs("USER_ID"),
+                                 "BOAD_PHONE":moca.getValue(moca.EFC_BOAD_POP.getObj("wphone")),
+ 	                             "BOAD_EMAIL":moca.getValue(moca.EFC_BOAD_POP.getObj("wemail")),
                                  "fileList":moca.EFC_BOAD_POP.getFilteredList("grd_file","status","C")
                                  }
                          },          
@@ -558,8 +571,10 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 			                                <col style="width:80px">
 			                                <col style="">
 			                                <col style="width:70px">
-			                                <col style="width:200px">
-			                                <col style="width:120px">
+			                                <col style="width:150px">
+			                                <col style="width:80px">
+			                                <col style="width:110px">
+			                                <col style="width:150px">
 			                        </colgroup>
 			                        <thead>
 			                            <tr>
@@ -568,6 +583,8 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 			                                <th>상태</th>
 			                                <th>작성일시</th>
 			                                <th>작성자</th>
+			                                <th>휴대폰번호</th>
+			                                <th>이메일</th>
 			                            </tr>
 			                        </thead>
 			                        <tbody>
@@ -594,6 +611,20 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 			                                </td>
 			                                <td>
 			                                    <div type="input" class="mocaInput" style="width:100%;text-align:center;" innerStyle="text-align:center;" id="wid" displayFormat=""  readonly="true"
+			                                        defaultValue="" 
+			                                        selecterItem=""
+			                                        showRadioOption="false"
+			                                    ></div>
+			                                </td>
+			                                <td>
+			                                    <div type="input" class="mocaInput" style="width:100%; " innerStyle="text-align:center;" id="wphone" displayFormat=""  readonly="true"
+			                                        defaultValue="" 
+			                                        keyMask="onlyNumber" displayFunction="moca.phoneWithDashFormatter"
+			                                        showRadioOption="false"
+			                                    ></div>
+			                                </td>
+			                                <td>
+			                                    <div type="input" class="mocaInput" style="width:100%;text-align:center;" innerStyle="" id="wemail" displayFormat=""  readonly="true"
 			                                        defaultValue="" 
 			                                        selecterItem=""
 			                                        showRadioOption="false"
