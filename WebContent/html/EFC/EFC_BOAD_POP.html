@@ -8,40 +8,45 @@ moca.EFC_BOAD_POP._boardPIdx;
 moca.EFC_BOAD_POP._boardType;
 moca.EFC_BOAD_POP._boardTitle;
 moca.EFC_BOAD_POP.___ready = function(args){
-	moca.hide(moca.EFC_BOAD_POP.getObj('grd_file_btn_delrow'));
-	moca.hide(moca.EFC_BOAD_POP.getObj('grd_reply_file_btn_delrow'));
-	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_file_btn_fold')).siblings());
-	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_reply_file_btn_fold')).siblings());
-	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_file')).find('.moca_grid_list'));
-	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_reply_file')).find('.moca_grid_list'));
-	if(args != null){
-		moca.EFC_BOAD_POP.args = args;
-		moca.EFC_BOAD_POP._boardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
-		moca.EFC_BOAD_POP._boardPIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_PIDX;
-		moca.EFC_BOAD_POP._boardType = moca.EFC_BOAD_POP.args.parent.data.BOAD_TYPE;
-		moca.EFC_BOAD_POP._boardTitle = moca.EFC_BOAD_POP.args.parent.data.BOAD_TITLE;
-	}
-	CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
-        'instanceReady':function(ev){
-            moca.EFC_BOAD_POP.editor = ev.editor;
-            moca.EFC_BOAD_POP._boardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
-            if(moca.EFC_BOAD_POP._boardIdx != null){
-                moca.EFC_BOAD_POP.editor.setReadOnly(true);
-            }
-            $('#contents').show();
-            moca.EFC_BOAD_POP.fn_search();
-            
-    }}} );
-	CKEDITOR.replace( 'reply_editor',{uiColor:'#deecea',on:{
-        'instanceReady':function(ev){
+	moca.EFC_BOAD_POP.code({
+        "cmb_board":{code:'boardStatus'}
+    },function(result){
+    	moca.hide(moca.EFC_BOAD_POP.getObj('grd_file_btn_delrow'));
+    	moca.hide(moca.EFC_BOAD_POP.getObj('grd_reply_file_btn_delrow'));
+    	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_file_btn_fold')).siblings());
+    	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_reply_file_btn_fold')).siblings());
+    	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_file')).find('.moca_grid_list'));
+    	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_reply_file')).find('.moca_grid_list'));
+    	if(args != null){
+    		moca.EFC_BOAD_POP.args = args;
+    		moca.EFC_BOAD_POP._boardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
+    		moca.EFC_BOAD_POP._boardPIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_PIDX;
+    		moca.EFC_BOAD_POP._boardType = moca.EFC_BOAD_POP.args.parent.data.BOAD_TYPE;
+    		moca.EFC_BOAD_POP._boardTitle = moca.EFC_BOAD_POP.args.parent.data.BOAD_TITLE;
+    	}
+    	CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
+            'instanceReady':function(ev){
+                moca.EFC_BOAD_POP.editor = ev.editor;
+                moca.EFC_BOAD_POP._boardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
+                if(moca.EFC_BOAD_POP._boardIdx != null){
+                    moca.EFC_BOAD_POP.editor.setReadOnly(true);
+                }
+                $('#contents').show();
+                moca.EFC_BOAD_POP.fn_search();
+                
+        }}} );
+    	CKEDITOR.replace( 'reply_editor',{uiColor:'#deecea',on:{
+            'instanceReady':function(ev){
 
-    }}} );
-	
-	/*
-    CKEDITOR.on('instanceReady', function(ev) {
+        }}} );
+    	
+    	/*
+        CKEDITOR.on('instanceReady', function(ev) {
 
+        });
+        */
+    
     });
-    */
 };
 
 moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
@@ -140,6 +145,7 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply"));
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_del_admin"));
+		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("cmb_board"),false);
 		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wtitle"),false);
 		CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
 			'instanceReady':function(evt){
@@ -158,6 +164,7 @@ moca.EFC_BOAD_POP.fn_update = function(_thisObj){
 	if(_thisObj.id != 'btn_reply_update'){ //수정버튼
 		$(moca.EFC_BOAD_POP.getObj("cke_editor")).find("[id$='_top']").show();
 		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wtitle"),false);
+		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("cmb_board"),false);
 		moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),moca.getSs("USER_ID"));
 		moca.EFC_BOAD_POP.editor.setReadOnly(false);
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
@@ -168,6 +175,7 @@ moca.EFC_BOAD_POP.fn_update = function(_thisObj){
 		moca.show(moca.EFC_BOAD_POP.getObj('grd_file_btn_fold'));
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_del_admin"));
 	}else{ //답변수정
+		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("cmb_reply"),false);
 		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wreplytitle"),false);
 		$(moca.EFC_BOAD_POP.getObj("cke_reply_editor")).find("[id$='_top']").show();
 		moca.setValue(moca.EFC_BOAD_POP.getObj("wreplyid"),moca.getSs("USER_ID"));
@@ -474,6 +482,7 @@ moca.EFC_BOAD_POP.fn_reply = function(_thisObj){
     ['답변달기']
     moca.setValue(moca.EFC_BOAD_POP.getObj("cmb_reply"),"N");
     $(moca.EFC_BOAD_POP.getObj("cke_editor")).find('#cke_1_top').hide();
+    moca.setReadOnly(moca.EFC_BOAD_POP.getObj("cmb_reply"),false);
     moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wreplytitle"),false);
     $(moca.EFC_BOAD_POP.getObj("reply_area")).show();
     moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply"));
@@ -527,11 +536,11 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 </style>
 </head>
 <body>
-	<div class="moca_pop_cont_wrap" style="display:none" id="contents">
+	<div class="moca_pop_cont_wrap" style="display:none;" id="contents">
         <div class="lybox sc_row flex">
             <div class="ly_column col_5">
                 <div class="ly_col_cont flex_column">
-			         <div type="form" id="form_3" class="moca_table toolbar" style=""
+			         <div type="form" id="form_board" class="moca_table toolbar" style=""
 			                label="게시물작성"
 			                showRowSelection="false"
 			                addition='[
@@ -572,7 +581,7 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 			                                    ></div>
 			                                </td>
 			                                <td>
-												<div type="combo" id="cmb_board" class="moca_combo" innerOnchange="" readonly="true" style="width:100%" displayFormat="[label]" cdField="cd" nmField="nm"   itemset='[{"cd":"Y","nm":"완료 "},{"cd":"N","nm":"미완료"}]'></div>
+			                                	<div type="combo" id="cmb_board" class="moca_combo" readonly="true" displayFormat="[label]" cdField="code" nmField="codeNm" ></div>
 			                                </td>
 			                                <td>
 			                                    <div type="input" class="mocaInput" style="width:100%;text-align:center;" innerStyle="text-align:center;" id="wdate" displayFunction="moca.dateFormat"  readonly="true"
@@ -681,7 +690,7 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
                                                 ></div>
                                             </td>
                                             <td>
-												<div type="combo" id="cmb_reply" class="moca_combo" innerOnchange="" readonly="true" style="width:100%" displayFormat="[label]" cdField="cd" nmField="nm"   itemset='[{"cd":"Y","nm":"완료 "},{"cd":"N","nm":"미완료"}]'></div>
+												<div type="combo" id="cmb_reply" class="moca_combo" innerOnchange="" readonly="true" style="width:100%; text-align:center" displayFormat="[label]" cdField="cd" nmField="nm"   itemset='[{"cd":"Y","nm":"완료 "},{"cd":"N","nm":"미완료"}]'></div>
 			                                </td>
                                             <td>
                                                 <div type="input" class="mocaInput" style="width:100%; text-align:center;" innerStyle="text-align:center;" id="wreplydate" displayFunction="moca.dateFormat"  readonly="true"

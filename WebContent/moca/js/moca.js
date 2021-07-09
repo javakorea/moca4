@@ -12445,12 +12445,18 @@ Moca.prototype.rpad = function(_this,padLen, padStr) {
 };
 
 Moca.prototype.setReadOnly = function(_mocaInputObj,_trueFalse){
+	var _mocaObj ;
+	if($(_mocaInputObj).attr('type') == 'input'){
+		_mocaObj = $(_mocaInputObj).find('input')[0];
+	}else{
+		_mocaObj = _mocaInputObj;
+	}
     if(_trueFalse){
         _mocaInputObj.setAttribute("readonly",true);
-        $(_mocaInputObj).find('input')[0].setAttribute("readonly",true);
+        _mocaObj.setAttribute("readonly",true);
     }else{
         _mocaInputObj.removeAttribute("readonly");
-        $(_mocaInputObj).find('input')[0].removeAttribute("readonly");
+        _mocaObj.removeAttribute("readonly");
     }
     
 };

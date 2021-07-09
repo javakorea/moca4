@@ -4596,6 +4596,17 @@
         <if test="BOAD_TITLE != null and BOAD_TITLE != ''">
             AND A.BOAD_TITLE like CONCAT('%', #{BOAD_TITLE}, '%')
         </if>
+        <choose>
+		    <when test="BOAD_SUPPORT.size > 0">
+		        AND BOAD_SUPPORT in 
+		        <foreach collection="BOAD_SUPPORT" item="item" index="index" separator="," open="(" close=")">
+		          #{item}
+		        </foreach>
+		    </when>
+		    <otherwise>
+		        AND A.BOAD_SUPPORT = ''
+		    </otherwise>
+		</choose>
         <!-- AND A.BOAD_DATE BETWEEN #{FROM} AND #{TO} -->
         <![CDATA[
         AND A.BOAD_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOAD_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')

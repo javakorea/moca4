@@ -4,10 +4,16 @@
 <script>
 	moca.EFC_BOAD.boardType ='ERP';
 	moca.EFC_BOAD.___ready = function(args){
-		if(moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
-	    	moca.hide(moca.EFC_BOAD.getObj("btn_del_admin"));
-	    }
-	    moca.EFC_BOAD.fn_search();
+	    moca.EFC_BOAD.code({
+            "chkg_1":{code:'boardStatus'}
+        },function(result){
+        	if(moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
+    	    	moca.hide(moca.EFC_BOAD.getObj("btn_del_admin"));
+    	    }
+        	var list = result['chkg_1'];
+        	moca.setCheckboxGroupList(moca.EFC_BOAD.getObj('chkg_1'),list,{label:"codeNm",value:"code",checked:true});
+        	moca.EFC_BOAD.fn_search();
+        });
 	};
 	
 	moca.EFC_BOAD.fn_search = function(){
@@ -21,7 +27,8 @@
 	            	"BOAD_WRITER":moca.EFC_BOAD.getInput("ipt_WRITER"),
 	            	"BOAD_TITLE":moca.EFC_BOAD.getInput("ipt_TITLE"),
 	            	"FROM":moca.EFC_BOAD.getFrom("CREATE_DTTM").replace(/-/g,''),
-                    "TO":moca.EFC_BOAD.getTo("CREATE_DTTM").replace(/-/g,'')
+                    "TO":moca.EFC_BOAD.getTo("CREATE_DTTM").replace(/-/g,''),
+                    "BOAD_SUPPORT":moca.getCheckboxGroupCheckedList(moca.EFC_BOAD.getObj('chkg_1'))
 	            }
 	        },          
 	        callback : function(response){
@@ -126,11 +133,7 @@
     moca.EFC_BOAD.dispReply= function(_thisVal, _grd, _realrow){
     	var _showVal = '';
     	if(_grd.list[_realrow].BOAD_IDX != _grd.list[_realrow].BOAD_PIDX){
-    		if(_grd.list[_realrow].BOAD_SUPPORT == "Y"){
-    			_showVal = "<i class='reply'></i><i class='success mr5'>완료</i>"+_thisVal;
-    		}else{
-    			_showVal = "<i class='reply'></i>"+_thisVal;
-    		}
+    		_showVal = "<i class='reply'></i>"+_thisVal;
     	}else{
     		if(_grd.list[_realrow].BOAD_SUPPORT == "Y"){
     			_showVal = "<i class='success mr5'>완료</i>"+_thisVal;
@@ -186,7 +189,14 @@
                                         showRadioOption="false"
                                     ></div>
 								</td>
-								
+								<th class="tb_th pr10">상태</th>
+								<td class="tb_td">
+								    <div type="checkboxGroup" class="fl mr15 bd" direction="vertical" id="chkg_1"
+                                        itemset='[
+                                            {"id":"chk1","label":"완료","value":"Y","checked":"true"}
+                                        ]'>
+                                    </div>
+                                </td>
 								<th class="tb_th pr10">작성자</th>
 								<td class="tb_td">
 									<input type="text" class="moca_input sh" style="width:100px" id="ipt_WRITER"  autocomplete="off" onkeyup="moca.default_keyup(this)">
@@ -217,8 +227,7 @@
 								toolbar_grid_button1='{"position":"right","id":"btn_add","label":"글쓰기","onclick":"moca.EFC_BOAD.fn_pop","addClass":"","innerDisabled":"false"}'
 								toolbar_grid_button2='{"position":"right","id":"btn_del","label":"선택삭제","onclick":"moca.EFC_BOAD.fn_delList","addClass":"","innerDisabled":"false"}'
 								toolbar_grid_button3='{"position":"right","id":"btn_del_admin","label":"관리자삭제","onclick":"moca.EFC_BOAD.fn_adminDelList","innerStyle":"background:#ff3333","innerDisabled":"true"}'
-								toolbar_grid_label = '{"position":"left","id":"totalCost","label":"총금액","width":"150px"}'
-                                toolbar_grid_label_input='{"position":"left","id":"totalCost3","label":"총금액","value":"200,000","valueClass":"txt_blue","unit":"원"}'
+								toolbar_grid_label_span='{"position":"left","id":"todayCnt","label":"총금액","value":"200,000","valueClass":"txt_blue","unit":"원"}'
                                
                                 onDblClick = "moca.EFC_BOAD.grd_1__onDblClick"
 								label="게시물"
