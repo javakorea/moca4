@@ -217,7 +217,8 @@
  	</sql> 
     <select id="selectCarSearchErrTypeCodeList" parameterType="map" resultType="map">
  		SELECT * from LETTCCMMNDETAILCODE 
-		WHERE CODE_ID = 'carSearchErrType'
+		WHERE CODE_ID = 'carSearchErrType' 
+		ORDER BY INQ_SEQ ASC
 	</select>
 	
     <select id="checkCert" parameterType="map" resultType="map">

@@ -28,6 +28,7 @@
 				<![CDATA[A.CODE_NM LIKE CONCAT('%', #searchKeyword#, '%')]]>
 			</isEqual>
 			 LIMIT  #recordCountPerPage# OFFSET #firstIndex#
+			 ORDER BY INQ_SEQ ASC
 	</select>
 	
 	<select id="CmmnDetailCodeManageDAO.selectCmmnDetailCodeListAdmin" parameterClass="CmmnDetailCodeVO" resultClass="egovMap">
@@ -49,6 +50,7 @@
 			<isEqual prepend="AND" property="searchCondition" compareValue="3">
 				<![CDATA[A.CODE_NM LIKE CONCAT('%', #searchKeyword#, '%')]]>
 			</isEqual>
+			 order by A.INQ_SEQ ASC , A.CODE_ID ASC
 			 LIMIT  #recordCountPerPage# OFFSET #firstIndex#
 	</select>	
 
