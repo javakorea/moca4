@@ -7253,7 +7253,9 @@ Moca.prototype._excel_up = function(_thisObj) {
 		title:"엑셀업로드",
 		callback:moca[grd[0].getAttribute("srcid")]._excelCallback,
 		data:{
-			mapper:_jsonMap,grdId:grd[0].id,pageId:grd[0].getAttribute("pageid"),
+			mapper:_jsonMap,
+			grdId:grd[0].id,
+			pageId:grd[0].getAttribute("pageid"),
 			srcId:grd[0].getAttribute("srcid"),
 			excel_start_index:_excel_start_index,
 			scopeId:grd[0].getAttribute("pageid")
@@ -7270,10 +7272,15 @@ Moca.prototype._excel_down = function(_thisObj) {
 	for(var i=0,j=ks.length;i < j; i++){
 		var key = ks[i];
 		var cellTd = grd[0].cellInfo[key];
+		if(cellTd.getAttribute("excelIndex")){
+			cellInfo[key] = cellTd.getAttribute("name");
+		}
+		/*
 		var isDisplayNone = grd.find('td[id='+cellTd.id+']').css('display');
 		if(isDisplayNone != 'none'){
 			cellInfo[key] = cellTd.getAttribute("name");
 		}
+		*/
 	}
 
 	var list = grd[0].list;
