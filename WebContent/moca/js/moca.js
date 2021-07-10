@@ -2807,6 +2807,9 @@ Moca.prototype.renderCombo = function(_divObj,_val,_gubun,_pageId,_srcId) {
 			_html += '<option value="'+_allOpt.value+'" selected>'+_reLabel+'</option>';
 		}
 		
+		
+		var codeToLabelMap = {};
+		var codeToDispLabelMap = {};
 		for(var i=0; i < _list.length; i++){
 			var row = _list[i];
 			var cd = row[cdKey];
@@ -2829,8 +2832,11 @@ Moca.prototype.renderCombo = function(_divObj,_val,_gubun,_pageId,_srcId) {
 				selectedStr = 'selected';
 			}
 			_html += '<option value="'+cd+'" '+selectedStr+'>'+_reLabel+'</option>';
+			codeToLabelMap[cd] = nm;
+			codeToDispLabelMap[cd] = _reLabel;
 		}
-		
+		_divObj['codeToLabelMap'] = codeToLabelMap;
+		_divObj['codeToDispLabelMap'] = codeToDispLabelMap;
 		_html += '</select>';
 		_divObj.innerHTML = _html;
 	}
@@ -2858,7 +2864,7 @@ Moca.prototype.searchComboSelectedClick = function(thisObj) {
 	var scmb = $(thisObj).closest('[type=searchCombo]');
 	var prev_v = scmb.attr('value');
 	var text_v = scmb.attr('text');
-	if(prev_v != v){
+	if(prev_v != v && scmb[0].inneronchange){
 		eval(scmb[0].inneronchange)(prev_v,text_v,v,t);
 	}
 	scmb.attr('value',v);
@@ -3075,7 +3081,8 @@ Moca.prototype.renderSearchCombo = function(_divObj,_val,_gubun,_pageId,_srcId) 
 		}
 		
 		
-	
+		var codeToLabelMap = {};
+		var codeToDispLabelMap = {};
 		for(var i=0; i < _list.length; i++){
 			var row = _list[i];
 			var cd = row[cdKey];
@@ -3098,7 +3105,11 @@ Moca.prototype.renderSearchCombo = function(_divObj,_val,_gubun,_pageId,_srcId) 
 				selectedStr = 'selected';
 			}
 			_html += '<li class="" value="'+cd+'" '+selectedStr+'>'+_reLabel+'</li>';
+			codeToLabelMap[cd] = nm;
+			codeToDispLabelMap[cd] = _reLabel;			
 		}
+		_divObj['codeToLabelMap'] = codeToLabelMap;
+		_divObj['codeToDispLabelMap'] = codeToDispLabelMap;		
 		_html += '</ul></div>';
 		_divObj.innerHTML = _html;
 	}
@@ -3912,10 +3923,14 @@ Moca.prototype.code = function(_config,_callback,_url,_pageId,_srcId) {
 						//일반
 						var compId = gridAndCellArr[0];
 						var compObj = moca.getObj(compId,null,_pageId,_srcId);
-						if(compObj != null && compObj['list'] == null){
+						if(compObj != null ){//&& compObj['list'] == null
 							compObj['list'] = l;
 							compObj['codeOpt'] = v;
-							moca.renderCombo(compObj,null,'normal',_pageId,_srcId);
+							if(compObj.getAttribute("type") == "searchCombo"){
+								moca.renderSearchCombo(compObj,null,'normal',_pageId,_srcId);
+							}else if(compObj.getAttribute("type") == "combo"){
+								moca.renderCombo(compObj,null,'normal',_pageId,_srcId);
+							}
 						} 					
 					}else{
 						//그리드
@@ -11417,6 +11432,16 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
 		}catch(e){
 			console.log(e);
 		}
+	}else if('searchCombo' == $(_comp).attr('type')){
+		var v = _comp.codeToDispLabelMap[_value];
+		try{
+			$(_comp).attr('value',_value);
+			$(_comp).attr('text',v);
+			var ipt = $(_comp).find('.moca_input');
+			ipt.val(v);
+		}catch(e){
+			console.log(e);
+		}		
 	}else if('radio' == $(_comp).attr('type') || 'radio' == $(_comp).attr('compType')){
 		__value = moca.trim(__value);
 		$(_comp).find('input[value='+__value+']').prop('checked', true); 
