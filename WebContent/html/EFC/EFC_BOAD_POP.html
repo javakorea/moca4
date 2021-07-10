@@ -9,7 +9,8 @@ moca.EFC_BOAD_POP._boardType;
 moca.EFC_BOAD_POP._boardTitle;
 moca.EFC_BOAD_POP.___ready = function(args){
 	moca.EFC_BOAD_POP.code({
-        "cmb_board":{code:'boardStatus'}
+        "cmb_board":{code:'boardStatus'},
+        "cmb_reply":{code:'boardStatus'}
     },function(result){
     	moca.hide(moca.EFC_BOAD_POP.getObj('grd_file_btn_delrow'));
     	moca.hide(moca.EFC_BOAD_POP.getObj('grd_reply_file_btn_delrow'));
@@ -647,7 +648,7 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 			                            toolbar_nextbtn="false"
 			                            toolbar_full="false"
 			                            toolbar_fold="true"
-			                            toolbar_grid_button2='{"position":"left","id":"btn_add","label":"파일추가","onclick":"moca.EFC_BOAD_POP._openFileUpload","addClass":"","innerDisabled":"false"}'
+			                            toolbar_grid_button2='{"position":"left","id":"btn_add","label":"파일찾기","onclick":"moca.EFC_BOAD_POP._openFileUpload","addClass":"","innerDisabled":"false"}'
 			                            onDblClick = "moca.EFC_BOAD_POP.grd_fileDownload"
 			                            label="첨부파일"
 			        
@@ -724,7 +725,18 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
                                                 ></div>
                                             </td>
                                             <td>
-												<div type="combo" id="cmb_reply" class="moca_combo" innerOnchange="" readonly="true" style="width:100%; text-align:center" displayFormat="[label]" cdField="cd" nmField="nm"   itemset='[{"cd":"Y","nm":"완료 "},{"cd":"N","nm":"미완료"}]'></div>
+			                                	<!-- <div type="combo" id="cmb_board" class="moca_combo" readonly="true" displayFormat="[label]" cdField="code" nmField="codeNm" ></div> -->
+			                                	<div type="searchCombo" 
+												id="cmb_reply" 
+												class="moca_searchCombo" 
+												inneronchange="" 
+												style="width:100%" 
+												readOnly="true"
+												displayFormat="[label]" 
+												cdField="code" 
+												nmField="codeNm"   
+												itemset='[{"cd":"0","nm":"해당없음 "},{"cd":"1","nm":"(%)비율"}]'>
+												</div>
 			                                </td>
                                             <td>
                                                 <div type="input" class="mocaInput" style="width:100%; text-align:center;" innerStyle="text-align:center;" id="wreplydate" displayFunction="moca.dateFormat"  readonly="true"
@@ -756,7 +768,7 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
                                         toolbar_nextbtn="false"
                                         toolbar_full="false"
                                         toolbar_fold="true"
-                                        toolbar_grid_button2='{"position":"left","id":"btn_reply_add","label":"업로드","onclick":"moca.EFC_BOAD_POP._openFileUpload","addClass":"","innerDisabled":"false"}'
+                                        toolbar_grid_button2='{"position":"left","id":"btn_reply_add","label":"파일찾기","onclick":"moca.EFC_BOAD_POP._openFileUpload","addClass":"","innerDisabled":"false"}'
                                         onDblClick = "moca.EFC_BOAD_POP.grd_fileDownload"
                                         label="답변 첨부파일"
                     
