@@ -244,8 +244,8 @@ ex) 3#2 : 수요일#2째주 에 참
     <bean id="TO_012_updateEnable_Scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
-            	<ref bean="TO_012_updateEnable_Trigger" /><!-- 해당일자에 적용할 약관이 있는지 확인후 적용함 -->
-            	<ref bean="TS_1100_Trigger" /><!-- 민원신청시간타임아웃이나 고객이결제했는데 TS사정으로 민원신청이 제대로 들어가지않은건들을 모아서 다음날9시 다시 요청하게함 -->
+            	<!-- <ref bean="TO_012_updateEnable_Trigger" /> --><!-- 해당일자에 적용할 약관이 있는지 확인후 적용함 -->
+            	<!-- <ref bean="TS_1100_Trigger" /> --><!-- 민원신청시간타임아웃이나 고객이결제했는데 TS사정으로 민원신청이 제대로 들어가지않은건들을 모아서 다음날9시 다시 요청하게함 -->
             	<!-- <ref bean="TS_9100_getStatus_Trigger" /> --><!-- 인증여부를 화면없이도 체크하게함 -->   
             	
 <!--             	<ref bean="reciveTransferOwnerPriceTsAfter_Trigger" />
