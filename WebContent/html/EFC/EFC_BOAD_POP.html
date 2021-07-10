@@ -211,7 +211,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                        "header" : moca.header,
 	                        "body" : {
 	                        	"BOAD_DELYN":'N',
-	                        	"BOAD_SUPPORT":moca.EFC_BOAD_POP.getCombo('cmb_board'),
+	                        	"BOAD_SUPPORT":moca.EFC_BOAD_POP.getSearchCombo('cmb_board').value,
 	                        	"BOAD_TYPE":moca.EFC_BOAD_POP._boardType,
 	                            "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
 	                            "BOAD_CONT":CKEDITOR.instances.editor.getData(),
@@ -289,7 +289,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                        "header" : moca.header,
 	                        "body" : {
 	                        	"BOAD_DELYN":'N',
-	                        	"BOAD_SUPPORT":moca.EFC_BOAD_POP.getCombo('cmb_reply'),
+	                        	"BOAD_SUPPORT":moca.EFC_BOAD_POP.getSearchCombo('cmb_reply').value,
 	                        	"BOAD_TYPE":moca.EFC_BOAD_POP._boardType,
 	                        	"BOAD_PIDX":moca.EFC_BOAD_POP._boardIdx,
 	                            "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wreplytitle")),
@@ -319,7 +319,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                         "header" : moca.header,
 	                         "body" : {
 	                        	 "BOAD_TYPE":moca.EFC_BOAD_POP._boardType,
-	                        	 "BOAD_SUPPORT":moca.EFC_BOAD_POP.getCombo('cmb_reply'),
+	                        	 "BOAD_SUPPORT":moca.EFC_BOAD_POP.getSearchCombo('cmb_reply').value,
 	                        	 "BOAD_PIDX":moca.EFC_BOAD_POP._boardPIdx,
 	                         	 "BOAD_IDX":moca.EFC_BOAD_POP._boardIdx,
 	                             "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wreplytitle")),
