@@ -12487,20 +12487,25 @@ Moca.prototype.rpad = function(_this,padLen, padStr) {
 };
 
 Moca.prototype.setReadOnly = function(_mocaInputObj,_trueFalse){
-	var _mocaObj ;
-	if($(_mocaInputObj).attr('type') == 'input'){
-		_mocaObj = $(_mocaInputObj).find('input')[0];
+	if($(_mocaInputObj).attr('type') == 'searchCombo'){
+		$(_mocaInputObj).attr('readOnly',_trueFalse);
+		moca.renderSearchCombo(_mocaInputObj,null,'normal',_mocaInputObj.getAttribute("pageid"),_mocaInputObj.getAttribute("srcId"));
+		moca.setValue(_mocaInputObj,$(_mocaInputObj).attr("value"));
 	}else{
-		_mocaObj = _mocaInputObj;
+		var _mocaObj ;
+		if($(_mocaInputObj).attr('type') == 'input'){
+			_mocaObj = $(_mocaInputObj).find('input')[0];
+		}else{
+			_mocaObj = _mocaInputObj;
+		}
+	    if(_trueFalse){
+	        _mocaInputObj.setAttribute("readonly",true);
+	        _mocaObj.setAttribute("readonly",true);
+	    }else{
+	        _mocaInputObj.removeAttribute("readonly");
+	        _mocaObj.removeAttribute("readonly");
+	    }
 	}
-    if(_trueFalse){
-        _mocaInputObj.setAttribute("readonly",true);
-        _mocaObj.setAttribute("readonly",true);
-    }else{
-        _mocaInputObj.removeAttribute("readonly");
-        _mocaObj.removeAttribute("readonly");
-    }
-    
 };
 
 
