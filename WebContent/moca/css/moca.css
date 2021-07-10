@@ -474,8 +474,8 @@ div[contenteditable=true] {
 .moca_shbox + .moca_table.sc_row4{top:195px}
 .moca_shbox .mocaRadio label:last-child {margin-right:0 !important;}
 .moca_shbox .checkboxGroup label:last-child {margin-right:0 !important;}
-.moca_shbox .tb .tb_td > div[type="checkboxGroup"].bd {padding:0 4px; border: 1px solid #bbc3ce; background: #e8e8e8; border-radius: 3px;}
-
+.moca_shbox .tb .tb_td > div[type="checkboxGroup"].bd {padding:0 5px; line-height:22px; box-sizing:border-box; border: 1px solid #bbc3ce; background: #fff; border-radius: 3px;}
+.moca_shbox .checkboxGroup > *{}
 /*.moca_table_body{position:absolute; bottom:42px; left:15px; right:15px}*/
 .moca_table_list{position:relative; top:0; bottom:0; left:0; right:0}
 .moca_table_body{position:relative; top:0; left:0;right:0; overflow-x:auto; clear:both}
