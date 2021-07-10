@@ -590,7 +590,18 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 			                                    ></div>
 			                                </td>
 			                                <td>
-			                                	<div type="combo" id="cmb_board" class="moca_combo" readonly="true" displayFormat="[label]" cdField="code" nmField="codeNm" ></div>
+			                                	<!-- <div type="combo" id="cmb_board" class="moca_combo" readonly="true" displayFormat="[label]" cdField="code" nmField="codeNm" ></div> -->
+			                                	<div type="searchCombo" 
+												id="cmb_board" 
+												class="moca_searchCombo" 
+												inneronchange="" 
+												style="width:100%" 
+												readOnly="false"
+												displayFormat="[label]" 
+												cdField="cd" 
+												nmField="nm"   
+												itemset='[{"cd":"0","nm":"해당없음 "},{"cd":"1","nm":"(%)비율"}]'>
+												</div>
 			                                </td>
 			                                <td>
 			                                    <div type="input" class="mocaInput" style="width:100%;text-align:center;" innerStyle="text-align:center;" id="wdate" displayFunction="moca.dateFormat"  readonly="true"
