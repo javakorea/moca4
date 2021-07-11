@@ -123,7 +123,7 @@ function fnInit() {
 			<div class="login_img"></div>
 			<form:form id="loginForm" name="loginForm" method="post">
  			<select name="CORP_CD" id="CORP_CD">
-				<option value="001">카방(주)</option>
+				<option value="001"></option>
 			</select>
 
 			<input type="text" placeholder="아이디" title="아이디를 입력하세요." id="id" name="id" maxlength="10">
