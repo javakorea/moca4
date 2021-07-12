@@ -17,6 +17,8 @@ moca.EFC_BOAD_POP.___ready = function(args){
     	moca.hide(moca.EFC_BOAD_POP.getObj('btn_add'));
     	moca.hide(moca.EFC_BOAD_POP.getObj('btn_reply_add'));
     	moca.hide(moca.EFC_BOAD_POP.getObj('btn_receipt'));
+    	moca.hide(moca.EFC_BOAD_POP.getObj('btn_update'));
+    	moca.hide(moca.EFC_BOAD_POP.getObj('btn_reply_update'));
     	
     	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_file_btn_fold')).siblings());
     	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_reply_file_btn_fold')).siblings());
@@ -58,7 +60,6 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 			moca.hide($(moca.EFC_BOAD_POP.getObj("cke_reply_editor")).find("[id$='_top']"));
 			moca.show(moca.EFC_BOAD_POP.getObj("reply_area"));
 			moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply"));
-			moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
 			moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
 			moca.hide(moca.EFC_BOAD_POP.getObj("btn_del_admin"));
 			moca.show(moca.EFC_BOAD_POP.getObj("btn_reply_del_admin"));
@@ -89,7 +90,6 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_add"));
 					    moca.hide(moca.EFC_BOAD_POP.getObj('grd_file_btn_fold'));
 					    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wid")) != moca.getSs("USER_ID") && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
-					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_update"));
 					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_del"));
 					    }
 					    //moca.EFC_BOAD_POP.fn_searchfile();
@@ -127,9 +127,11 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_save"));
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_add"));
 					    moca.hide(moca.EFC_BOAD_POP.getObj('grd_file_btn_fold'));
-					    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wid")) != moca.getSs("USER_ID")){
-					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
+					    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wid")) != moca.getSs("USER_ID") && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
 					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
+					    }
+					    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wid")) == moca.getSs("USER_ID")){
+					    	moca.show(moca.EFC_BOAD_POP.getObj('btn_update'));
 					    }
 				    	if(moca.getSearchCombo('cmb_board').value == "N" ){
 					    	moca.show(moca.EFC_BOAD_POP.getObj("btn_receipt"));
@@ -531,6 +533,9 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 			    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wid")) != moca.getSs("USER_ID") && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
 			    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
 			    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
+			    }
+			    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wreplyid")) == moca.getSs("USER_ID")){
+			    	moca.show(moca.EFC_BOAD_POP.getObj("btn_reply_update"));
 			    }
 			    //moca.EFC_BOAD_POP.fn_searchfile();
 			    moca.EFC_BOAD_POP.drawGrid('grd_reply_file',moca.getResList(response,"selectBoardFileList"));
