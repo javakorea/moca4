@@ -5463,4 +5463,21 @@ public class TOController{
         return jsonview;
 	}
 	
+	//게시판 접수
+	@RequestMapping(value = "/EFC_BOAD/receiptBoard.do")
+	public View receiptBoard(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			paramMap.put("status", "R");TOMapper.insertBoardHis(paramMap);
+			model.addAttribute("cnt", TOMapper.receiptBoard(paramMap));
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
 }

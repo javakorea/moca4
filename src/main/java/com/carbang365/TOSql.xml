@@ -4802,4 +4802,13 @@
         WHERE 1=1
         AND BOAD_IDX=#{BOAD_IDX}
     </delete>
+    
+    <!-- 게시물 접수 -->
+    <update id="receiptBoard" parameterType="map">
+         /* 게시물접수 receiptBoard*/
+         UPDATE EFCBOAD SET 
+         	 BOAD_SUPPORT = 'R'
+         WHERE 1=1
+         AND BOAD_IDX=#{BOAD_IDX}
+    </update>
  </mapper>

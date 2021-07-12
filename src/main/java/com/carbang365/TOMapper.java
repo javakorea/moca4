@@ -429,7 +429,6 @@ public interface TOMapper {
 	
 	// 게시물단건조회
 	public Map <String, Object> selectBoardInfo(Map<String, Object> map); 
-	
 	// 게시글이력등록
 	public int insertBoardHis(Map<String, Object> map);
 	// 게시판이력조회
@@ -442,5 +441,6 @@ public interface TOMapper {
 	public int insertBoardFile(Map<String, Object> map);
 	// 게시글파일삭제
 	public int deleteBoardFileList(Map<String, Object> map);
-	
+	// 게시글수정
+	public int receiptBoard(Map<String, Object> map);
 }

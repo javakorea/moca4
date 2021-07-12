@@ -536,7 +536,38 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 		}
 	});
 };
-
+moca.EFC_BOAD_POP.fn_receipt = function(_thisObj){
+	 moca.confirm('접수하시겠습니까?',function(result){
+        if(result == 'Y'){
+        	moca.EFC_BOAD_POP.exe({
+        		url : moca._domain+moca._contextRoot+"/EFC_BOAD/receiptBoard.do",
+        		loadingbar:true,
+        		data : {
+        			"header" : moca.header,
+        			"body" : {
+        				"BOAD_IDX":moca.EFC_BOAD_POP._boardIdx
+        				}
+        		},			
+        		callback : function(response){
+        			if(response.cnt > 0){
+                        moca.alert('접수되었습니다.');
+                        moca.EFC_BOAD_POP.fn_search();
+                        //moca.popClose(moca.EFC_BOAD_POP.pageId);
+                       /*
+                        if(moca.EFC_BOAD_POP._boardType == 'ERP'){
+                        	moca.EFC_BOAD.fn_search();
+                        }else{
+                        	moca.EFC_BOAD_WS.fn_search();
+                        }*/
+                    }else{
+                    	moca.error(response.error);
+                    }
+        		}
+        	});
+        	
+        }
+	});
+}
 </script>
 <style>
 </style>
@@ -550,6 +581,7 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 			                label="게시물작성"
 			                showRowSelection="false"
 			                addition='[
+			                 {"type":"button","position":"right","id":"btn_receipt","label":"접수","onclick":"moca.EFC_BOAD_POP.fn_receipt","addClass":""},
 			                {"type":"button","position":"right","id":"btn_reply","label":"답변작성","onclick":"moca.EFC_BOAD_POP.fn_reply","addClass":""},
 			                {"type":"button","position":"right","id":"btn_update","label":"수정","onclick":"moca.EFC_BOAD_POP.fn_update","addClass":""},
 			                {"type":"button","position":"right","id":"btn_del","label":"삭제","onclick":"moca.EFC_BOAD_POP.fn_del","addClass":""},
