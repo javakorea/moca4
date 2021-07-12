@@ -133,30 +133,19 @@
     moca.EFC_BOAD.dispReply= function(_thisVal, _grd, _realrow){
     	var _showVal = '';
     	if(_grd.list[_realrow].BOAD_IDX != _grd.list[_realrow].BOAD_PIDX){
-    		if(_grd.list[_realrow].BOAD_SUPPORT == "Y"){
-    			_showVal = "<i class='reply'></i><i class='msg bg_lightgray mr5'>답변완료</i>"+_thisVal;
-    		}else{
     			_showVal = "<i class='reply'></i>"+_thisVal;
-    		}
     	}else{
     		if(_grd.list[_realrow].BOAD_SUPPORT == "Y"){
     			_showVal = "<i class='msg bg_green mr5'>완료</i>"+_thisVal;
     		}else if(_grd.list[_realrow].BOAD_SUPPORT == "R"){
     			_showVal = "<i class='msg bg_blue mr5'>접수</i>"+_thisVal;
+    		}else if(_grd.list[_realrow].BOAD_SUPPORT == "B"){
+    			_showVal = "<i class='msg bg_red mr5'>반려</i>"+_thisVal;
     		}else{
     			_showVal = _thisVal;
     		}
     	}
     	return _showVal;
-    }
-    
-    moca.EFC_BOAD.dispSupport= function(_thisVal){
-    	if(_thisVal !=null && _thisVal != 'N'){
-    		return ""
-    	}else{
-    		_thisVal = '';
-    		return _thisVal;
-    	}
     }
     
     moca.EFC_BOAD.disabled= function(_thisVal, _grd, _realrow){
@@ -249,6 +238,7 @@
 								<col style="">
 								<col style="width:60px">
 								<col style="width:200px">
+								<col style="width:150px">
 								<col style="width:150px">		
 						</colgroup>
 						<thead>
@@ -261,6 +251,7 @@
 								<th scope="col" id="H_BOAD_FILECNT">첨부</th>
 								<th scope="col" id="H_BOAD_WRITER"  filterable="true" filterableId="BOAD_WRITER">작성자</th>
 								<th scope="col" id="H_BOAD_DATE">작성일시</th>
+								<th scope="col" id="H_BOAD_RECEIPTIONER"  filterable="true" filterableId="BOAD_RECEIPTIONER">접수자</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -273,6 +264,7 @@
 								<td id="CNT" celltype="input" style="" name="첨부" readOnly="true" displayFunction="moca.EFC_BOAD.dispCnt"></td>
 								<td id="BOAD_WRITER" celltype="input" style="text-align:center" name="작성자" readOnly="true"></td>
 								<td id="BOAD_DATE" celltype="input" style="" name="작성일" readOnly="true" displayFunction="moca.longToDate"></td>
+								<td id="BOAD_RECEIPTIONER" celltype="input" style="text-align:center" name="접수자" readOnly="true"></td>
 							</tr>
 						</tbody>
 					</table>				

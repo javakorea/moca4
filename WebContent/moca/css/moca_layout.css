@@ -668,6 +668,7 @@ input[type=text].kor {-webkit-ime-mode:active; -moz-ime-mode:active; -ms-ime-mod
 .bg_blue{background-color:#2d84c1 !important}
 .bg_green{background-color:#36c12d !important}
 .bg_lightgray{background-color:#aaa !important}
+.bg_red{background-color:#ff3333 !important}
 
 .blind {visibility:visible;	position:absolute; overflow:hidden; clip:rect(0 0 0 0); margin:-1px; width:1px; height:1px; top:auto; left:auto; font-size:medium; line-height:normal}
 .hidden {overflow:hidden !important; position:absolute !important; top:0 !important; left:-2000em !important; line-height:0 !important;}

@@ -4584,7 +4584,17 @@
  	
  	<!-- 게시판 조회 -->
     <select id="selectBoardList" parameterType="map" resultType="map">
-        SELECT A.BOAD_PIDX, A.BOAD_IDX, A.BOAD_SUPPORT, A.BOAD_DELYN, A.BOAD_TITLE, A.BOAD_WRITER, A.BOAD_DATE, A.BOAD_TYPE, COUNT(F.BOAD_IDX) AS CNT
+        SELECT 
+        	A.BOAD_PIDX, 
+        	A.BOAD_IDX, 
+        	A.BOAD_SUPPORT, 
+        	A.BOAD_DELYN, 
+        	A.BOAD_TITLE, 
+        	A.BOAD_WRITER, 
+        	A.BOAD_DATE, 
+        	A.BOAD_TYPE,
+        	A.BOAD_RECEIPTIONER,
+        	COUNT(F.BOAD_IDX) AS CNT
 		FROM EFCBOAD A 
 		LEFT OUTER JOIN EFCBOADFILE F ON A.BOAD_IDX = F.BOAD_IDX
 		
@@ -4596,6 +4606,9 @@
         </if>
         <if test="BOAD_TITLE != null and BOAD_TITLE != ''">
             AND A.BOAD_TITLE like CONCAT('%', #{BOAD_TITLE}, '%')
+        </if>
+        <if test="BOAD_RECEIPTIONER != null and BOAD_RECEIPTIONER != ''">
+            AND A.BOAD_RECEIPTIONER like CONCAT('%', #{BOAD_RECEIPTIONER}, '%')
         </if>
         <choose>
 		    <when test="BOAD_SUPPORT.size > 0">
@@ -4632,7 +4645,6 @@
 	            BOAD_PHONE,
 	            BOAD_EMAIL,
 	            BOAD_DATE
-	            
             )VALUES (
            		#{BOAD_DELYN},
            		#{BOAD_TYPE},
@@ -4668,7 +4680,7 @@
 
     <!-- 게시물 논리 삭제 -->
     <update id="deleteStatusBoard" parameterType="map">
-         /* 게시물논리삭제*/
+         /* deleteStatusBoard 게시물논리삭제*/
          UPDATE EFCBOAD SET 
          	 BOAD_DELYN = 'Y'
          WHERE 1=1
@@ -4685,6 +4697,7 @@
         
     <!-- 게시물 단건조회 -->
     <select id="selectBoardInfo" parameterType="map" resultType="map">
+  	  /*selectBoardInfo 게시물 단건조회*/
         SELECT
             A.BOAD_IDX, 
             A.BOAD_TITLE, 
@@ -4693,6 +4706,7 @@
             A.BOAD_WRITER,
             A.BOAD_PHONE,
             A.BOAD_EMAIL,
+            A.BOAD_RECEIPTIONER,
             DATE_FORMAT(A.BOAD_DATE, '%Y-%m-%d  %H:%i:%s') AS BOAD_DATE
             
         FROM EFCBOAD A
@@ -4714,7 +4728,10 @@
                        A.BOAD_TITLE,
                        A.BOAD_CONT,
                        A.BOAD_WRITER,
-                       A.BOAD_SUPPORT
+                       A.BOAD_SUPPORT,
+                       A.BOAD_PHONE, 
+                       A.BOAD_EMAIL, 
+                       A.BOAD_RECEIPTIONER
                 FROM EFCBOAD A 
                 WHERE 1=1
                 AND BOAD_IDX = #{BOAD_IDX}
@@ -4723,15 +4740,20 @@
     
     <!-- 게시판이력 상세조회 -->
     <select id="selectBoardHisInfo" parameterType="map" resultType="map">
+    	/*selectBoardHisInfo 게시판이력 상세조회*/
         SELECT
         	A.BOAD_TYPE,
             A.BOADHIS_IDX, 
-            A.BOADHIS_STATUS, 
+            A.BOADHIS_STATUS,
             DATE_FORMAT(A.BOADHIS_DATE, '%Y-%m-%d  %H:%i:%s') AS BOADHIS_DATE,
             A.BOAD_IDX, 
             A.BOAD_TITLE, 
             A.BOAD_CONT, 
-            A.BOAD_WRITER
+            A.BOAD_WRITER,
+            A.BOAD_SUPPORT,
+	        A.BOAD_PHONE, 
+	        A.BOAD_EMAIL, 
+            A.BOAD_RECEIPTIONER
         FROM EFCBOADHIS A
         WHERE 1=1
         <if test="BOADHIS_IDX != null and BOADHIS_IDX != ''">
@@ -4741,6 +4763,7 @@
     
     <!-- 게시판이력 조회 -->
     <select id="selectBoardHisList" parameterType="map" resultType="map">
+    	/*selectBoardHisList 게시판이력 조회*/
         SELECT *
         FROM EFCBOADHIS A
         WHERE 1=1
@@ -4788,6 +4811,7 @@
     
     <!-- 게시판첨부파일조회 -->
     <select id="selectBoardFileList" parameterType="map" resultType="map">
+    	/*selectBoardFileList 게시판첨부파일조회*/
         SELECT *
         FROM EFCBOADFILE A
         WHERE 1=1
@@ -4804,11 +4828,12 @@
         AND BOAD_IDX=#{BOAD_IDX}
     </delete>
     
-    <!-- 게시물 접수 -->
+    <!-- 게시물 상태수정-->
     <update id="receiptBoard" parameterType="map">
          /* 게시물접수 receiptBoard*/
          UPDATE EFCBOAD SET 
-         	 BOAD_SUPPORT = 'R'
+         	 BOAD_SUPPORT = #{BOAD_SUPPORT},
+         	 BOAD_RECEIPTIONER = #{BOAD_RECEIPTIONER}
          WHERE 1=1
          AND BOAD_IDX=#{BOAD_IDX}
     </update>

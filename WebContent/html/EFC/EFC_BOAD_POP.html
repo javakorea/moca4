@@ -9,8 +9,7 @@ moca.EFC_BOAD_POP._boardType;
 moca.EFC_BOAD_POP._boardTitle;
 moca.EFC_BOAD_POP.___ready = function(args){
 	moca.EFC_BOAD_POP.code({
-        "cmb_board":{code:'boardStatus'},
-        "cmb_reply":{code:'boardStatus'}
+        "cmb_board":{code:'boardStatus'}
     },function(result){
     	moca.hide(moca.EFC_BOAD_POP.getObj('grd_file_btn_delrow'));
     	moca.hide(moca.EFC_BOAD_POP.getObj('grd_reply_file_btn_delrow'));
@@ -66,6 +65,17 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 			
 			moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_save"));
 			moca.hide(moca.EFC_BOAD_POP.getObj('grd_reply_file_btn_fold'));
+			moca.hide(moca.EFC_BOAD_POP.getObj("btn_receipt"));
+	    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_success"));
+	    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_reject"));
+	    	
+			moca.hide(moca.EFC_BOAD_POP.getObj("thEmail"))
+		    moca.hide(moca.EFC_BOAD_POP.getObj("tdEmail"));
+		    moca.hide(moca.EFC_BOAD_POP.getObj("thPhone"));
+		    moca.hide(moca.EFC_BOAD_POP.getObj("tdPhone"));
+		    $(moca.EFC_BOAD_POP.getObj('colPhone')).attr('style','display:none');
+		    $(moca.EFC_BOAD_POP.getObj('colEmail')).attr('style','display:none');	
+		    
 			moca.EFC_BOAD_POP.exe({
 				url : moca._domain+moca._contextRoot+"/EFC_BOAD/selectBoardInfo.do",
 				loadingbar:true,
@@ -86,9 +96,11 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 					    moca.setValue(moca.EFC_BOAD_POP.getObj("widx"),data.BOAD_IDX);
 					    moca.setValue(moca.EFC_BOAD_POP.getObj("wphone"),data.BOAD_PHONE);
 					    moca.setValue(moca.EFC_BOAD_POP.getObj("wemail"),data.BOAD_EMAIL);
+					    moca.setValue(moca.EFC_BOAD_POP.getObj("wreceiptid"),data.BOAD_RECEIPTIONER);
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_save"));
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_add"));
 					    moca.hide(moca.EFC_BOAD_POP.getObj('grd_file_btn_fold'));
+					    
 					    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wid")) != moca.getSs("USER_ID") && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
 					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_del"));
 					    }
@@ -123,7 +135,7 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 					    moca.setValue(moca.EFC_BOAD_POP.getObj("widx"),data.BOAD_IDX);
 					    moca.setValue(moca.EFC_BOAD_POP.getObj("wemail"),data.BOAD_EMAIL);
 					    moca.setValue(moca.EFC_BOAD_POP.getObj("wphone"),data.BOAD_PHONE);
-					    
+					    moca.setValue(moca.EFC_BOAD_POP.getObj("wreceiptid"),data.BOAD_RECEIPTIONER);
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_save"));
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_add"));
 					    moca.hide(moca.EFC_BOAD_POP.getObj('grd_file_btn_fold'));
@@ -133,7 +145,7 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 					    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wid")) == moca.getSs("USER_ID")){
 					    	moca.show(moca.EFC_BOAD_POP.getObj('btn_update'));
 					    }
-				    	if(moca.getSearchCombo('cmb_board').value == "N" ){
+				    	if(moca.getSearchCombo('cmb_board').value == "N" && moca.getSs("authorCode") == "ROLE_SUPER_ADMIN"){
 					    	moca.show(moca.EFC_BOAD_POP.getObj("btn_receipt"));
 					    }
 					    
@@ -159,6 +171,7 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wphone"),false);
 		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wemail"),false);
 	}
+	
 	if(moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
     	moca.hide(moca.EFC_BOAD_POP.getObj("btn_del_admin"));
     	moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_del_admin"));
@@ -184,7 +197,6 @@ moca.EFC_BOAD_POP.fn_update = function(_thisObj){
 		moca.show(moca.EFC_BOAD_POP.getObj('grd_file_btn_fold'));
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_del_admin"));
 	}else{ //답변수정
-		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("cmb_reply"),false);
 		moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wreplytitle"),false);
 		$(moca.EFC_BOAD_POP.getObj("cke_reply_editor")).find("[id$='_top']").show();
 		moca.setValue(moca.EFC_BOAD_POP.getObj("wreplyid"),moca.getSs("USER_ID"));
@@ -195,8 +207,18 @@ moca.EFC_BOAD_POP.fn_update = function(_thisObj){
 		
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply"));
 		moca.show(moca.EFC_BOAD_POP.getObj("btn_reply_save"));
-		moca.show(moca.EFC_BOAD_POP.getObj("btn_reply_add"));
 		moca.show(moca.EFC_BOAD_POP.getObj('grd_reply_file_btn_fold'));
+		//답변 작성자가 관리자본인이면서 담당자 배정이 되어있지 않을때
+		if(	moca.getValue(moca.EFC_BOAD_POP.getObj("wreplyid")) == moca.getSs("USER_ID") && 
+			moca.getSs("authorCode") == "ROLE_SUPER_ADMIN" && 
+			(moca.getValue(moca.EFC_BOAD_POP.getObj("wreceiptid")) == "" || moca.getValue(moca.EFC_BOAD_POP.getObj("wreceiptid")) == moca.getSs("USER_ID"))    
+		){
+			if(moca.getSearchCombo('cmb_board').value == "N" && moca.getSs("authorCode") == "ROLE_SUPER_ADMIN"){
+		    	moca.show(moca.EFC_BOAD_POP.getObj("btn_receipt"));
+		    }
+	    	moca.show(moca.EFC_BOAD_POP.getObj("btn_success"));
+	    	moca.show(moca.EFC_BOAD_POP.getObj("btn_reject"));
+		}
 	}
 }
 moca.EFC_BOAD_POP.fn_save = function(_thisObj){
@@ -296,7 +318,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                        "header" : moca.header,
 	                        "body" : {
 	                        	"BOAD_DELYN":'N',
-	                        	"BOAD_SUPPORT":moca.EFC_BOAD_POP.getSearchCombo('cmb_reply').value,
+	                        	"BOAD_SUPPORT":moca.EFC_BOAD_POP.getSearchCombo('cmb_board').value,
 	                        	"BOAD_TYPE":moca.EFC_BOAD_POP._boardType,
 	                        	"BOAD_PIDX":moca.EFC_BOAD_POP._boardIdx,
 	                            "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wreplytitle")),
@@ -325,8 +347,8 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                     data : {
 	                         "header" : moca.header,
 	                         "body" : {
+	                        	 "BOAD_SUPPORT":moca.EFC_BOAD_POP.getSearchCombo('cmb_board').value,
 	                        	 "BOAD_TYPE":moca.EFC_BOAD_POP._boardType,
-	                        	 "BOAD_SUPPORT":moca.EFC_BOAD_POP.getSearchCombo('cmb_reply').value,
 	                        	 "BOAD_PIDX":moca.EFC_BOAD_POP._boardPIdx,
 	                         	 "BOAD_IDX":moca.EFC_BOAD_POP._boardIdx,
 	                             "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wreplytitle")),
@@ -493,9 +515,7 @@ moca.EFC_BOAD_POP.onFileSelected = function(filename,filesize,_e,_this) {
 moca.EFC_BOAD_POP.popId = "EFC_BOAD_ANS_POP";
 moca.EFC_BOAD_POP.fn_reply = function(_thisObj){
     ['답변달기']
-    moca.setValue(moca.EFC_BOAD_POP.getObj("cmb_reply"),"N");
     $(moca.EFC_BOAD_POP.getObj("cke_editor")).find('#cke_1_top').hide();
-    moca.setReadOnly(moca.EFC_BOAD_POP.getObj("cmb_reply"),false);
     moca.setReadOnly(moca.EFC_BOAD_POP.getObj("wreplytitle"),false);
     $(moca.EFC_BOAD_POP.getObj("reply_area")).show();
     moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply"));
@@ -505,8 +525,24 @@ moca.EFC_BOAD_POP.fn_reply = function(_thisObj){
     moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_del"));
     moca.hide(moca.EFC_BOAD_POP.getObj("btn_del_admin"));
     moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_del_admin"));
-    
+    moca.hide(moca.EFC_BOAD_POP.getObj("thEmail"));
+    moca.hide(moca.EFC_BOAD_POP.getObj("tdEmail"));
+    moca.hide(moca.EFC_BOAD_POP.getObj("tdPhone"));
+    moca.hide(moca.EFC_BOAD_POP.getObj("thPhone"));
+    $(moca.EFC_BOAD_POP.getObj('colPhone')).attr('style','display:none');
+    $(moca.EFC_BOAD_POP.getObj('colEmail')).attr('style','display:none');
     moca.setValue(moca.EFC_BOAD_POP.getObj("wreplyid"),moca.getSs("USER_ID"));
+    debugger;
+    if(
+    		//접수자 null 아니면서 접수자가 세션아이디랑 다를때 
+    		//접수자가 null이 아니면서 관리자가 아닐때
+    	(moca.getValue(moca.EFC_BOAD_POP.getObj("wreceiptid")) != "" && moca.getValue(moca.EFC_BOAD_POP.getObj("wreceiptid")) != moca.getSs("USER_ID") ) ||
+    	(moca.getSs("authorCode") != "ROLE_SUPER_ADMIN")	
+    ){
+    		moca.hide(moca.EFC_BOAD_POP.getObj("btn_receipt"));
+        	moca.hide(moca.EFC_BOAD_POP.getObj("btn_success"));
+        	moca.hide(moca.EFC_BOAD_POP.getObj("btn_reject"));
+	}
 };
 
 moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
@@ -523,7 +559,6 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 				if(response.selectBoardInfo != null ){
 				var data = response.selectBoardInfo;
 				CKEDITOR.instances.reply_editor.setData(data.BOAD_CONT);
-				moca.setValue(moca.EFC_BOAD_POP.getObj("cmb_reply"),data.BOAD_SUPPORT);
 				moca.setValue(moca.EFC_BOAD_POP.getObj("wreplytitle"),data.BOAD_TITLE);
 				moca.setValue(moca.EFC_BOAD_POP.getObj("wreplydate"),data.BOAD_DATE);
 				moca.setValue(moca.EFC_BOAD_POP.getObj("wreplyid"),data.BOAD_WRITER);
@@ -537,7 +572,7 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 			    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wreplyid")) == moca.getSs("USER_ID")){
 			    	moca.show(moca.EFC_BOAD_POP.getObj("btn_reply_update"));
 			    }
-			    //moca.EFC_BOAD_POP.fn_searchfile();
+			    
 			    moca.EFC_BOAD_POP.drawGrid('grd_reply_file',moca.getResList(response,"selectBoardFileList"));
 			    
 			}else{
@@ -546,8 +581,16 @@ moca.EFC_BOAD_POP.fn_reply_search = function(_grd,_idx,tdObj,_thisObj){
 		}
 	});
 };
-moca.EFC_BOAD_POP.fn_receipt = function(_thisObj){
-	 moca.confirm('접수하시겠습니까?',function(result){
+moca.EFC_BOAD_POP._boardSupport ;
+moca.EFC_BOAD_POP.fn_status = function(_thisObj){
+	if(_thisObj.innerText == "접수"){
+		moca.EFC_BOAD_POP._boardSupport = "R";
+	}else if(_thisObj.innerText == "완료"){
+		moca.EFC_BOAD_POP._boardSupport = "Y";
+	}else if(_thisObj.innerText == "반려"){
+		moca.EFC_BOAD_POP._boardSupport = "B";
+	}
+	moca.confirm(_thisObj.innerText+'하시겠습니까?',function(result){
         if(result == 'Y'){
         	moca.EFC_BOAD_POP.exe({
         		url : moca._domain+moca._contextRoot+"/EFC_BOAD/receiptBoard.do",
@@ -555,12 +598,14 @@ moca.EFC_BOAD_POP.fn_receipt = function(_thisObj){
         		data : {
         			"header" : moca.header,
         			"body" : {
-        				"BOAD_IDX":moca.EFC_BOAD_POP._boardIdx
+        				"BOAD_SUPPORT":moca.EFC_BOAD_POP._boardSupport,
+        				"BOAD_IDX":moca.EFC_BOAD_POP._boardPIdx,
+        				"BOAD_RECEIPTIONER":moca.getSs("USER_ID")
         				}
         		},			
         		callback : function(response){
         			if(response.cnt > 0){
-                        moca.alert('접수되었습니다.');
+                        moca.alert(_thisObj.innerText+'되었습니다.');
                         moca.EFC_BOAD_POP.fn_search();
                         //moca.popClose(moca.EFC_BOAD_POP.pageId);
                        
@@ -591,7 +636,6 @@ moca.EFC_BOAD_POP.fn_receipt = function(_thisObj){
 			                label="게시물작성"
 			                showRowSelection="false"
 			                addition='[
-			                 {"type":"button","position":"right","id":"btn_receipt","label":"접수","onclick":"moca.EFC_BOAD_POP.fn_receipt","addClass":""},
 			                {"type":"button","position":"right","id":"btn_reply","label":"답변작성","onclick":"moca.EFC_BOAD_POP.fn_reply","addClass":""},
 			                {"type":"button","position":"right","id":"btn_update","label":"수정","onclick":"moca.EFC_BOAD_POP.fn_update","addClass":""},
 			                {"type":"button","position":"right","id":"btn_del","label":"삭제","onclick":"moca.EFC_BOAD_POP.fn_del","addClass":""},
@@ -606,8 +650,9 @@ moca.EFC_BOAD_POP.fn_receipt = function(_thisObj){
 			                                <col style="width:70px">
 			                                <col style="width:150px">
 			                                <col style="width:80px">
-			                                <col style="width:110px">
-			                                <col style="width:150px">
+			                                <col style="width:80px">
+			                                <col id="colPhone" style="width:110px">
+			                                <col id="colEmail" style="width:150px">
 			                        </colgroup>
 			                        <thead>
 			                            <tr>
@@ -616,8 +661,9 @@ moca.EFC_BOAD_POP.fn_receipt = function(_thisObj){
 			                                <th>상태</th>
 			                                <th>작성일시</th>
 			                                <th>작성자</th>
-			                                <th>휴대폰번호</th>
-			                                <th>이메일</th>
+			                                <th>접수자</th>
+			                                <th id="thPhone">휴대폰번호</th>
+			                                <th id="thEmail">이메일</th>
 			                            </tr>
 			                        </thead>
 			                        <tbody>
@@ -638,7 +684,7 @@ moca.EFC_BOAD_POP.fn_receipt = function(_thisObj){
 												id="cmb_board" 
 												class="moca_searchCombo" 
 												inneronchange="" 
-												style="width:100%" 
+												style="width:100%; text-align:center;" 
 												readOnly="true"
 												displayFormat="[label]" 
 												cdField="code" 
@@ -647,12 +693,13 @@ moca.EFC_BOAD_POP.fn_receipt = function(_thisObj){
 												</div>
 			                                </td>
 			                                <td>
-			                                    <div type="input" class="mocaInput" style="width:100%;text-align:center;" innerStyle="text-align:center;" id="wdate" displayFunction="moca.dateFormat"  readonly="true"
+			                                    <div type="input" id="wdate" class="mocaInput" style="width:100%;text-align:center;" innerStyle="text-align:center;" displayFunction="moca.dateFormat"  readonly="true"
 			                                        defaultValue="" 
 			                                        selecterItem=""
 			                                        showRadioOption="false"
 			                                    ></div>
 			                                </td>
+			                                
 			                                <td>
 			                                    <div type="input" class="mocaInput" style="width:100%;text-align:center;" innerStyle="text-align:center;" id="wid" displayFormat=""  readonly="true"
 			                                        defaultValue="" 
@@ -661,13 +708,20 @@ moca.EFC_BOAD_POP.fn_receipt = function(_thisObj){
 			                                    ></div>
 			                                </td>
 			                                <td>
+			                                    <div type="input" class="mocaInput" style="width:100%;text-align:center;" innerStyle="text-align:center;" id="wreceiptid" displayFunction="moca.dateFormat"  readonly="true"
+			                                        defaultValue="" 
+			                                        selecterItem=""
+			                                        showRadioOption="false"
+			                                    ></div>
+			                                </td>
+			                                <td id="tdPhone">
 			                                    <div type="input" class="mocaInput" style="width:100%; " innerStyle="text-align:center;" id="wphone" displayFormat=""  readonly="true"
 			                                        defaultValue="" 
 			                                        keyMask="onlyNumber" displayFunction="moca.phoneWithDashFormatter"
 			                                        showRadioOption="false"
 			                                    ></div>
 			                                </td>
-			                                <td>
+			                                <td id="tdEmail">
 			                                    <div type="input" class="mocaInput" style="width:100%;text-align:center;" innerStyle="" id="wemail" displayFormat=""  readonly="true"
 			                                        defaultValue="" 
 			                                        selecterItem=""
@@ -731,6 +785,9 @@ moca.EFC_BOAD_POP.fn_receipt = function(_thisObj){
                             label="게시물답변"
                             showRowSelection="false"
                             addition='[
+                            {"type":"button","position":"right","id":"btn_receipt","label":"접수","onclick":"moca.EFC_BOAD_POP.fn_status","addClass":""},
+                             {"type":"button","position":"right","id":"btn_success","label":"완료","onclick":"moca.EFC_BOAD_POP.fn_status","addClass":""},
+                              {"type":"button","position":"right","id":"btn_reject","label":"반려","onclick":"moca.EFC_BOAD_POP.fn_status","addClass":""},
                             {"type":"button","position":"right","id":"btn_reply_update","label":"답변수정","onclick":"moca.EFC_BOAD_POP.fn_update","addClass":""},
 			                {"type":"button","position":"right","id":"btn_reply_del","label":"답변삭제","onclick":"moca.EFC_BOAD_POP.fn_del","addClass":""},
                             {"type":"button","position":"right","id":"btn_reply_save","label":"답변저장","onclick":"moca.EFC_BOAD_POP.fn_save","addClass":""},
@@ -741,7 +798,6 @@ moca.EFC_BOAD_POP.fn_receipt = function(_thisObj){
                                     <colgroup>
                                             <col style="width:80px">
                                             <col style="">
-                                            <col style="width:70px">
                                             <col style="width:200px">
                                             <col style="width:120px">
                                     </colgroup>
@@ -749,7 +805,6 @@ moca.EFC_BOAD_POP.fn_receipt = function(_thisObj){
                                         <tr>
                                             <th class="bg_green">답변ID</th>
                                             <th class="bg_green">제목</th>
-                                            <th class="bg_green">상태</th>
                                             <th class="bg_green">작성일시</th>
                                             <th class="bg_green">작성자</th>
                                         </tr>
@@ -766,20 +821,6 @@ moca.EFC_BOAD_POP.fn_receipt = function(_thisObj){
                                                     showRadioOption="false"
                                                 ></div>
                                             </td>
-                                            <td>
-			                                	<!-- <div type="combo" id="cmb_board" class="moca_combo" readonly="true" displayFormat="[label]" cdField="code" nmField="codeNm" ></div> -->
-			                                	<div type="searchCombo" 
-												id="cmb_reply" 
-												class="moca_searchCombo" 
-												inneronchange="" 
-												style="width:100%" 
-												readOnly="true"
-												displayFormat="[label]" 
-												cdField="code" 
-												nmField="codeNm"   
-												itemset='[{"cd":"0","nm":"해당없음 "},{"cd":"1","nm":"(%)비율"}]'>
-												</div>
-			                                </td>
                                             <td>
                                                 <div type="input" class="mocaInput" style="width:100%; text-align:center;" innerStyle="text-align:center;" id="wreplydate" displayFunction="moca.dateFormat"  readonly="true"
                                                     defaultValue="" 
