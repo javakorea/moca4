@@ -4713,7 +4713,8 @@
                        A.BOAD_TYPE, 
                        A.BOAD_TITLE,
                        A.BOAD_CONT,
-                       A.BOAD_WRITER
+                       A.BOAD_WRITER,
+                       A.BOAD_SUPPORT
                 FROM EFCBOAD A 
                 WHERE 1=1
                 AND BOAD_IDX = #{BOAD_IDX}

@@ -5,7 +5,8 @@
 	moca.EFC_BOAD_HIS.___ready = function(args){
 		moca.EFC_BOAD_HIS.code({
             "grd_1.BOADHIS_STATUS":{code:'crud'},
-            "grd_1.BOAD_TYPE":{code:'boardType'}
+            "grd_1.BOAD_TYPE":{code:'boardType'},
+            "grd_1.BOAD_SUPPORT":{code:'boardStatus'},
         },function(result){
         	var list = result['grd_1.BOADHIS_STATUS'];
         	moca.setCheckboxGroupList(moca.EFC_BOAD_HIS.getObj('chkg_1'),list,{label:"codeNm",value:"code",checked:true});
@@ -132,6 +133,7 @@
 						        <col style="width:120px">
 								<col style="width:60px">
 								<col style="width:60px">
+								<col style="width:60px">
 								<col style="width:100px">
 								<col style="">
 								<col style="width:100px">
@@ -141,6 +143,7 @@
 								
 							    <th scope="col" id="H_BOADHIS_DATE">작성일시</th>
 							    <th scope="col" id="H_BOAD_TYPE">게시판유형</th>
+							    <th scope="col" id="H_BOAD_SUPPORT">접수상태</th>
 								<th scope="col" id="H_BOADHIS_IDX">이력ID</th>
 								<th scope="col" id="H_BOAD_IDX">게시판ID</th>
 								<th scope="col" id="H_BOADHIS_STATUS">이력상태</th>
@@ -152,7 +155,7 @@
 							<tr>
 								<td id="BOADHIS_DATE" celltype="input" style="" name="작성일시" readOnly="true" displayFunction="moca.longToDate"></td>
 								<td id="BOAD_TYPE" celltype="select" style="text-align:left" readOnly="true"  displayFormat="[value] [label]"  name="게시판유형"></td>
-                                
+								<td id="BOAD_SUPPORT" celltype="select" style="text-align:left" readOnly="true"  displayFormat="[value] [label]"  name="이력상태"></td>
 								<td id="BOADHIS_IDX" celltype="input" style="" readOnly="true" name="이력ID"></td>
 								<td id="BOAD_IDX" celltype="input" style="" readOnly="true" name="게시판ID"></td>
 								<td id="BOADHIS_STATUS" celltype="select" style="text-align:left" readOnly="true"  displayFormat="[value] [label]"  name="이력상태"></td>

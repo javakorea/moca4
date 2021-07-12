@@ -133,10 +133,16 @@
     moca.EFC_BOAD.dispReply= function(_thisVal, _grd, _realrow){
     	var _showVal = '';
     	if(_grd.list[_realrow].BOAD_IDX != _grd.list[_realrow].BOAD_PIDX){
-    		_showVal = "<i class='reply'></i>"+_thisVal;
+    		if(_grd.list[_realrow].BOAD_SUPPORT == "Y"){
+    			_showVal = "<i class='reply'></i><i class='msg bg_lightgray mr5'>답변완료</i>"+_thisVal;
+    		}else{
+    			_showVal = "<i class='reply'></i>"+_thisVal;
+    		}
     	}else{
     		if(_grd.list[_realrow].BOAD_SUPPORT == "Y"){
-    			_showVal = "<i class='success mr5'>완료</i>"+_thisVal;
+    			_showVal = "<i class='msg bg_green mr5'>완료</i>"+_thisVal;
+    		}else if(_grd.list[_realrow].BOAD_SUPPORT == "R"){
+    			_showVal = "<i class='msg bg_blue mr5'>접수</i>"+_thisVal;
     		}else{
     			_showVal = _thisVal;
     		}

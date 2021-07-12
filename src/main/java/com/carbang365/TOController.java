@@ -5472,8 +5472,9 @@ public class TOController{
 			if(MapUtils.isEmpty(paramMap)) {
 				paramMap = mocaMap;
 			}
-			paramMap.put("status", "R");TOMapper.insertBoardHis(paramMap);
 			model.addAttribute("cnt", TOMapper.receiptBoard(paramMap));
+			paramMap.put("status", "U");TOMapper.insertBoardHis(paramMap);
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());

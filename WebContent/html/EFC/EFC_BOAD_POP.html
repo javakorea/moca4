@@ -16,6 +16,8 @@ moca.EFC_BOAD_POP.___ready = function(args){
     	moca.hide(moca.EFC_BOAD_POP.getObj('grd_reply_file_btn_delrow'));
     	moca.hide(moca.EFC_BOAD_POP.getObj('btn_add'));
     	moca.hide(moca.EFC_BOAD_POP.getObj('btn_reply_add'));
+    	moca.hide(moca.EFC_BOAD_POP.getObj('btn_receipt'));
+    	
     	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_file_btn_fold')).siblings());
     	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_reply_file_btn_fold')).siblings());
     	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_file')).find('.moca_grid_list'));
@@ -90,7 +92,6 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_update"));
 					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_del"));
 					    }
-					    
 					    //moca.EFC_BOAD_POP.fn_searchfile();
 					    moca.EFC_BOAD_POP.drawGrid('grd_file',moca.getResList(response,"selectBoardFileList"));
 					    
@@ -126,10 +127,14 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_save"));
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_add"));
 					    moca.hide(moca.EFC_BOAD_POP.getObj('grd_file_btn_fold'));
-					    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wid")) != moca.getSs("USER_ID") && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
+					    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wid")) != moca.getSs("USER_ID")){
 					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
 					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
 					    }
+				    	if(moca.getSearchCombo('cmb_board').value == "N" ){
+					    	moca.show(moca.EFC_BOAD_POP.getObj("btn_receipt"));
+					    }
+					    
 					    //moca.EFC_BOAD_POP.fn_searchfile();
 					    moca.EFC_BOAD_POP.drawGrid('grd_file',moca.getResList(response,"selectBoardFileList"));
 					}else{
@@ -553,12 +558,12 @@ moca.EFC_BOAD_POP.fn_receipt = function(_thisObj){
                         moca.alert('접수되었습니다.');
                         moca.EFC_BOAD_POP.fn_search();
                         //moca.popClose(moca.EFC_BOAD_POP.pageId);
-                       /*
+                       
                         if(moca.EFC_BOAD_POP._boardType == 'ERP'){
                         	moca.EFC_BOAD.fn_search();
                         }else{
                         	moca.EFC_BOAD_WS.fn_search();
-                        }*/
+                        }
                     }else{
                     	moca.error(response.error);
                     }

@@ -1,4 +1,4 @@
-@charset "utf-8";
+ @charset "utf-8";
 
 html, body {width:100%; height:100%; margin:0; padding:0; overflow-y:auto}
 body {-webkit-font-smoothing: antialiased}
@@ -640,7 +640,7 @@ input[type=text].kor {-webkit-ime-mode:active; -moz-ime-mode:active; -ms-ime-mod
 /*TEXT COLOR-orange*/
 .txt_orange {color:#F45324 !important}
 /*TEXT COLOR-mint*/
-.txt_blue {color:#005aff !important}
+.txt_blue {color:#2d84c1 !important}
 /*TEXT COLOR-gray*/
 .txt_gray {color:#666 !important}
 /*TEXT COLOR-black*/
@@ -648,7 +648,7 @@ input[type=text].kor {-webkit-ime-mode:active; -moz-ime-mode:active; -ms-ime-mod
 /*TEXT COLOR-red*/
 .txt_red {color:#ff3333 !important}
 /*TEXT COLOR-green*/
-.txt_green {color:#7faf24 !important}
+.txt_green {color:#36c12d !important}
 /*TEXT COLOR-purple*/
 .txt_purple {color:#b852ff !important}
 /*TEXT COLOR-disabled*/
@@ -664,6 +664,10 @@ input[type=text].kor {-webkit-ime-mode:active; -moz-ime-mode:active; -ms-ime-mod
 .txt_12 {font-size:12px !important}
 .txt_14 {font-size:14px !important}
 .txt_16 {font-size:16px !important}
+
+.bg_blue{background-color:#2d84c1 !important}
+.bg_green{background-color:#36c12d !important}
+.bg_lightgray{background-color:#aaa !important}
 
 .blind {visibility:visible;	position:absolute; overflow:hidden; clip:rect(0 0 0 0); margin:-1px; width:1px; height:1px; top:auto; left:auto; font-size:medium; line-height:normal}
 .hidden {overflow:hidden !important; position:absolute !important; top:0 !important; left:-2000em !important; line-height:0 !important;}
