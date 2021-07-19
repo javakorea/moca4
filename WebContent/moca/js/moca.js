@@ -1207,7 +1207,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 					_inTag += '<label class="moca_checkbox_label" for="cbx_'+moca.pageId+'_'+moca.srcId+'_'+_grd.id+'_'+_nowIndex+'"  >label</label>';
 					_inTag += '</div>';
 				}
-				row	+= '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" trueValue="'+_trueValue+'" falseValue="'+_falseValue+'"  disabledFunction="'+_disabledFunction+'" onclick="moca._uptData(this);" >'+_inTag+'</td>';
+				row	+= '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" trueValue="'+_trueValue+'" falseValue="'+_falseValue+'"  disabledFunction="'+_disabledFunction+'" onclick="moca.defaultCellClick(this);" >'+_inTag+'</td>';
 			}
 		}
 	}
@@ -3147,7 +3147,8 @@ Moca.prototype.renderGrid = function(_divObj) {
 	var _rowSelectedColor = _divObj.getAttribute("rowSelectedColor");
 	var _onRowSelectedFunc = _divObj.getAttribute("onRowSelected");
 	var _onDblClickFunc = _divObj.getAttribute("onDblClick");
-
+	var _onBeforeClick = _divObj.getAttribute("onBeforeClick");
+	var _onAfterClick = _divObj.getAttribute("onAfterClick");
 	
 	
 	var toolbar_search_size = _divObj.getAttribute("toolbar_search_size");
@@ -4688,6 +4689,7 @@ Moca.prototype.removeRow = function(_grd,_rowIndex){
 
 Moca.prototype._uptData = function(_thisObj){
 	['에디팅데이터 실시간 dataList에 반영'];
+	
 	event.preventDefault();
 	moca._selectFocus(_thisObj);
 	var grd = $(_thisObj).closest('div[type=grid]')[0];
@@ -4714,7 +4716,7 @@ Moca.prototype._uptData = function(_thisObj){
 	
 	if(_thisObj.type == 'checkbox'){
 		//grd.ori_list[parseInt(rowIndex)][colid];
-
+		debugger;
 		var allCheckbox = $(grd).find('input[name=cbxAll]');
 		var arr_all = $(grd).find('td input[type=checkbox]');
 		var arr_checked = $(grd).find('td input[type=checkbox]:checked');
@@ -4759,14 +4761,14 @@ Moca.prototype._selectFocus = function(_thisObj){
 	var isTd = _thisObj;
 	if(isTd.tagName == 'TD'){
 		//input경우
-		var grd = isTd.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+		var grd = $(_thisObj).closest('div[type="grid"]')[0];
 		moca._setSelectRowIndex(isTd);
 		moca._setRowSelection(grd);
 	}else {
 		//select경우
 		isTd = _thisObj.parentElement;
 		if(isTd.tagName == 'TD'){
-			var grd = isTd.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+			var grd = $(_thisObj).closest('div[type="grid"]')[0];
 			var type = grd.getAttribute("type");
 			if(type == 'grid'){
 				moca._setSelectRowIndex(isTd);
@@ -4785,7 +4787,7 @@ Moca.prototype._setSelectRowIndex = function(_tdObj){
 		tr = _tdObj.parentElement;
 	}
 	var tbody = tr.parentElement;
-	var grd = tbody.parentElement.parentElement.parentElement.parentElement;
+	var grd = $(_tdObj).closest('div[type="grid"]')[0];
 	//var rowIndex = $(tbody).children().index($(tr));
 	var realrowindex = tr.getAttribute("realrowindex");
 	/*
@@ -5153,7 +5155,6 @@ Moca.prototype.genTbody = function(_grd,_list,_idx,isEnd) {
 			eval(_onDblClickFunc)(nowGrd,rowIndex,colIndex,colId);
 		});
 	}
-	
 	
 	if($._data(_grd,"events") == null || $._data(_grd,"events").mouseover == null || $._data(_grd,"events").mouseover.length < 1){
 		$(_grd).on('mouseenter','td', function(e) {
@@ -12617,6 +12618,28 @@ Moca.prototype.setLabelValue = function(_thisObj,_value){
 		_labelVal = $(_thisObj).text(_value);
 	}
 };
+
+Moca.prototype.defaultCellClick = function(_thisObj){
+	event.preventDefault();
+	var grd = $(_thisObj).closest('div[type=grid]')[0];
+	var _thisTd = $(_thisObj).closest('td');
+	var colId = $(_thisObj).closest('td')[0].id;
+	var _tbody = $(_thisObj).closest('tbody');
+	var _thisTr = $(_thisObj).closest('tr');
+	var rowIndex = _tbody.children().index(_thisTr);
+	var realRowIndex = grd.getAttribute("selectedRealRowIndex");
+	var onBeforeClickStr = grd.getAttribute("onBeforeClick");
+	
+	var pro = Promise.resolve();
+	pro = pro.then(function(re){
+		return eval(onBeforeClickStr)(grd,rowIndex,colId);
+	});
+	pro = pro.then(function(re){
+		return moca._uptData(_thisObj);
+	});
+	return pro;
+};
+
 
 
 
