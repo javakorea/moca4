@@ -12631,9 +12631,11 @@ Moca.prototype.defaultCellClick = function(_thisObj){
 	var onBeforeClickStr = grd.getAttribute("onBeforeClick");
 	
 	var pro = Promise.resolve();
-	pro = pro.then(function(re){
-		return eval(onBeforeClickStr)(grd,rowIndex,colId);
-	});
+	if(onBeforeClickStr != "" && onBeforeClickStr != null){
+		pro = pro.then(function(re){
+			return eval(onBeforeClickStr)(grd,rowIndex,colId);
+		});
+	}
 	pro = pro.then(function(re){
 		return moca._uptData(_thisObj);
 	});

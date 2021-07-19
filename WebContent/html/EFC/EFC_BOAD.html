@@ -15,7 +15,7 @@
         	moca.EFC_BOAD.fn_search();
         });
 	};
-	
+	moca.EFC_BOAD.grdList ;
 	moca.EFC_BOAD.fn_search = function(){
 	    moca.EFC_BOAD.exe({
 	        url : moca._domain+moca._contextRoot+"/EFC_BOAD/selectBoardList.do",
@@ -33,7 +33,8 @@
 	        },          
 	        callback : function(response){
 	        	var money = '200,000'
-	            moca.EFC_BOAD.drawGrid('grd_1',moca.getResList(response,"selectBoardList"));
+	        	moca.EFC_BOAD.grdList = moca.getResList(response,"selectBoardList");
+	            moca.EFC_BOAD.drawGrid('grd_1',moca.EFC_BOAD.grdList);
 	        }
 	    });
 	};
@@ -156,8 +157,26 @@
     	}
     }
     
-    moca.EFC_BOAD.fn_check_before = function(_grid,_rowIndex,_colId){
-    	debugger;
+    moca.EFC_BOAD.fn_check_before = function(_grd,_rowIndex,_colId){
+    	if(moca.getCellData(_grd,_rowIndex,'BOAD_IDX') == moca.getCellData(_grd,_rowIndex,'BOAD_PIDX')){
+    		for(var i=0; i < moca.EFC_BOAD.grdList.length ;i++){
+    			
+    		    if(moca.EFC_BOAD.grdList[i].BOAD_PIDX == moca.getCellData(_grd,_rowIndex,'BOAD_IDX') &&
+    		       moca.EFC_BOAD.grdList[i].BOAD_PIDX != moca.EFC_BOAD.grdList[i].BOAD_IDX
+    		    ){
+    		        var _chkbox = $($(moca.EFC_BOAD.getObj("grd_1")).find('tr')[i+1]).find('#chk input[type=checkbox]')
+    		        if(_chkbox.is(':checked')){
+    		        	_chkbox.prop("checked",false);
+    		        }else{
+    		        	_chkbox.prop("checked",true);
+    		        }
+    		        if(moca.EFC_BOAD.grdList[i].BOAD_PIDX != moca.getCellData(_grd,_rowIndex,'BOAD_PIDX')){
+        				break;	
+        			}
+    		    }
+    		    
+    		}
+    	}
     	/*
     	var pro = Promise.resolve();
     	pro = pro.then(function(re){
@@ -186,7 +205,6 @@
     	});    	
     	return pro;
     	*/
-    	console.log(_grid,_rowIndex,_colId);
     }
 </script>
 
