@@ -3435,7 +3435,6 @@ Moca.prototype.renderGrid = function(_divObj) {
 		}
 		
 		
-		
 		//event.srcElement.parentElement.parentElement 트리일 경우.
 		if(tdObj != null && tdObj.tagName == 'TD'){
 			moca._setSelectRowIndex(tdObj);
@@ -4716,7 +4715,6 @@ Moca.prototype._uptData = function(_thisObj){
 	
 	if(_thisObj.type == 'checkbox'){
 		//grd.ori_list[parseInt(rowIndex)][colid];
-		debugger;
 		var allCheckbox = $(grd).find('input[name=cbxAll]');
 		var arr_all = $(grd).find('td input[type=checkbox]');
 		var arr_checked = $(grd).find('td input[type=checkbox]:checked');
@@ -4762,6 +4760,9 @@ Moca.prototype._selectFocus = function(_thisObj){
 	if(isTd.tagName == 'TD'){
 		//input경우
 		var grd = $(_thisObj).closest('div[type="grid"]')[0];
+		if(grd == null){
+			grd = $("#"+_tdObj.id).closest('div[type="grid"]')[0];
+		}
 		moca._setSelectRowIndex(isTd);
 		moca._setRowSelection(grd);
 	}else {
@@ -4769,6 +4770,9 @@ Moca.prototype._selectFocus = function(_thisObj){
 		isTd = _thisObj.parentElement;
 		if(isTd.tagName == 'TD'){
 			var grd = $(_thisObj).closest('div[type="grid"]')[0];
+			if(grd == null){
+				grd = $("#"+_tdObj.id).closest('div[type="grid"]')[0];
+			}			
 			var type = grd.getAttribute("type");
 			if(type == 'grid'){
 				moca._setSelectRowIndex(isTd);
@@ -4788,23 +4792,15 @@ Moca.prototype._setSelectRowIndex = function(_tdObj){
 	}
 	var tbody = tr.parentElement;
 	var grd = $(_tdObj).closest('div[type="grid"]')[0];
-	//var rowIndex = $(tbody).children().index($(tr));
-	var realrowindex = tr.getAttribute("realrowindex");
-	/*
-	var _index = grd.getAttribute("selectedRowIndex");
-	var _realIndex = -1;
-	var _startIndex = grd.getAttribute("yscrollIdx");
-	if(_startIndex > -1){
-		_realIndex = rowIndex +parseInt(_startIndex);
+	if(grd == null){
+		grd = $("#"+_tdObj.id).closest('div[type="grid"]')[0];
 	}
-	*/
+	var realrowindex = tr.getAttribute("realrowindex");
 	grd.setAttribute("selectedRealRowIndex",realrowindex);
-	//grd.setAttribute("selectedRowIndex",rowIndex);
 };
 
 Moca.prototype._setRowSelection = function(grd,_tdObj){ 
 	['row select 표시'];
-	//var _index = parseInt(grd.getAttribute("selectedRowIndex"));
 	var _realIndex = grd.getAttribute("selectedRealRowIndex");
 	if(moca.trim(_realIndex) != ''){
 		var foundedRow = $(grd).find('tbody:first>tr[realrowindex='+_realIndex+']');
@@ -12626,19 +12622,26 @@ Moca.prototype.defaultCellClick = function(_thisObj){
 	var colId = $(_thisObj).closest('td')[0].id;
 	var _tbody = $(_thisObj).closest('tbody');
 	var _thisTr = $(_thisObj).closest('tr');
+	var realRowIndex = Number(_thisTr.attr("realrowindex"));
 	var rowIndex = _tbody.children().index(_thisTr);
-	var realRowIndex = grd.getAttribute("selectedRealRowIndex");
+	var selectedRealRowIndex = grd.getAttribute("selectedRealRowIndex");
 	var onBeforeClickStr = grd.getAttribute("onBeforeClick");
+	var onAfterClickStr = grd.getAttribute("onAfterClick");
 	
 	var pro = Promise.resolve();
 	if(onBeforeClickStr != "" && onBeforeClickStr != null){
 		pro = pro.then(function(re){
-			return eval(onBeforeClickStr)(grd,rowIndex,colId);
+			return eval(onBeforeClickStr)(grd,realRowIndex,colId);
 		});
 	}
 	pro = pro.then(function(re){
 		return moca._uptData(_thisObj);
 	});
+	if(onAfterClickStr != "" && onAfterClickStr != null){
+		pro = pro.then(function(re){
+			return eval(onAfterClickStr)(grd,realRowIndex,colId);
+		});
+	}	
 	return pro;
 };
 

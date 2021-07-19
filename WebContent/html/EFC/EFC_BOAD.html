@@ -156,56 +156,49 @@
     		return false;
     	}
     }
-    
     moca.EFC_BOAD.fn_check_before = function(_grd,_rowIndex,_colId){
-    	if(moca.getCellData(_grd,_rowIndex,'BOAD_IDX') == moca.getCellData(_grd,_rowIndex,'BOAD_PIDX')){
-    		for(var i=0; i < moca.EFC_BOAD.grdList.length ;i++){
-    			
-    		    if(moca.EFC_BOAD.grdList[i].BOAD_PIDX == moca.getCellData(_grd,_rowIndex,'BOAD_IDX') &&
-    		       moca.EFC_BOAD.grdList[i].BOAD_PIDX != moca.EFC_BOAD.grdList[i].BOAD_IDX
-    		    ){
-    		        var _chkbox = $($(moca.EFC_BOAD.getObj("grd_1")).find('tr')[i+1]).find('#chk input[type=checkbox]')
-    		        if(_chkbox.is(':checked')){
-    		        	_chkbox.prop("checked",false);
-    		        }else{
-    		        	_chkbox.prop("checked",true);
-    		        }
-    		        if(moca.EFC_BOAD.grdList[i].BOAD_PIDX != moca.getCellData(_grd,_rowIndex,'BOAD_PIDX')){
-        				break;	
-        			}
-    		    }
-    		    
-    		}
-    	}
-    	/*
     	var pro = Promise.resolve();
-    	pro = pro.then(function(re){
-    		return new Promise(function(resolve,reject){
-        	    moca.EFC_BOAD.exe({
-        	        url : moca._domain+moca._contextRoot+"/EFC_BOAD/selectBoardList.do",
-        	        loadingbar:true,
-        	        data : {
-        	            "header" : moca.header,
-        	            "body" : {
-        	            	"BOAD_TYPE":moca.EFC_BOAD.boardType,
-        	            	"BOAD_WRITER":moca.EFC_BOAD.getInput("ipt_WRITER"),
-        	            	"BOAD_TITLE":moca.EFC_BOAD.getInput("ipt_TITLE"),
-        	            	"FROM":moca.EFC_BOAD.getFrom("CREATE_DTTM").replace(/-/g,''),
-                            "TO":moca.EFC_BOAD.getTo("CREATE_DTTM").replace(/-/g,''),
-                            "BOAD_SUPPORT":moca.getCheckboxGroupCheckedList(moca.EFC_BOAD.getObj('chkg_1'))
-        	            }
-        	        },          
-        	        callback : function(response){debugger;resolve(response);}
-        	    });
-    		});
-    	});
-    	pro = pro.then(function(response){
-        	debugger;
-        	var money = '200,000'
-    	});    	
+    	if(_colId == 'chk'){
+        	pro = pro.then(function(re){
+        		return new Promise(function(resolve,reject){
+            	    moca.EFC_BOAD.exe({
+            	        url : moca._domain+moca._contextRoot+"/EFC_BOAD/selectBoardList.do",
+            	        loadingbar:true,
+            	        data : {
+            	            "header" : moca.header,
+            	            "body" : {
+            	            	"BOAD_TYPE":moca.EFC_BOAD.boardType,
+            	            	"BOAD_WRITER":moca.EFC_BOAD.getInput("ipt_WRITER"),
+            	            	"BOAD_TITLE":moca.EFC_BOAD.getInput("ipt_TITLE"),
+            	            	"FROM":moca.EFC_BOAD.getFrom("CREATE_DTTM").replace(/-/g,''),
+                                "TO":moca.EFC_BOAD.getTo("CREATE_DTTM").replace(/-/g,''),
+                                "BOAD_SUPPORT":moca.getCheckboxGroupCheckedList(moca.EFC_BOAD.getObj('chkg_1'))
+            	            }
+            	        },          
+            	        callback : function(response){resolve(response);}
+            	    });
+        		});
+        	});
+        	pro = pro.then(function(response){
+            	var money = '200,000'
+        	});    	
+    	}
     	return pro;
-    	*/
-    }
+    };
+    moca.EFC_BOAD.fn_check_after = function(_grd,_rowIndex,_colId){
+    	if(_colId == 'chk'){
+    		var checkedId = moca.getCellData(_grd,_rowIndex,'BOAD_IDX');
+    		var checkedValue = moca.getCellData(_grd,_rowIndex,'chk');
+    		for(var i=_rowIndex+1; i < moca.EFC_BOAD.grdList.length ;i++){
+    		    if(moca.EFC_BOAD.grdList[i].BOAD_PIDX == checkedId){
+    		    	moca.EFC_BOAD.setCellData(moca.EFC_BOAD.getObj("grd_1"),i,'chk',checkedValue);
+    		    }else{
+    		    	break;
+    		    }
+    		}
+    		moca.EFC_BOAD.redrawGrid(moca.EFC_BOAD.getObj("grd_1"));
+    	}
+    };
 </script>
 
 </head>
