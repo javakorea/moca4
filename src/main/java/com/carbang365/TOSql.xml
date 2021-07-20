@@ -4684,7 +4684,14 @@
          UPDATE EFCBOAD SET 
          	 BOAD_DELYN = 'Y'
          WHERE 1=1
-         AND BOAD_IDX=#{BOAD_IDX}
+         <choose>
+   			<when test="BOAD_PIDX != null and BOAD_PIDX != ''">
+   				AND BOAD_PIDX=#{BOAD_PIDX}
+   			</when>
+   			<otherwise>
+   				AND BOAD_IDX=#{BOAD_IDX}
+   			</otherwise>
+   		</choose>
     </update>
 
 	<!-- 게시물 물리 삭제 (관리자삭제) -->
@@ -4692,7 +4699,14 @@
         /*deleteBoard 게시물삭제*/
         DELETE FROM EFCBOAD
 		WHERE 1=1
-		AND BOAD_IDX=#{BOAD_IDX}
+		<choose>
+   			<when test="BOAD_PIDX != null and BOAD_PIDX != ''">
+   				AND BOAD_PIDX=#{BOAD_PIDX}
+   			</when>
+   			<otherwise>
+   				AND BOAD_IDX=#{BOAD_IDX}
+   			</otherwise>
+   		</choose>
     </delete>
         
     <!-- 게시물 단건조회 -->
