@@ -32,6 +32,10 @@ moca.EFC_BOAD_POP.___ready = function(args){
     	}
     	CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
             'instanceReady':function(ev){
+            	
+            	filebrowserUploadUrl : '${pageContext.request.contextPath }/adm/fileupload.do';
+            	
+            	
                 moca.EFC_BOAD_POP.editor = ev.editor;
                 moca.EFC_BOAD_POP._boardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
                 if(moca.EFC_BOAD_POP._boardIdx != null){
@@ -43,7 +47,7 @@ moca.EFC_BOAD_POP.___ready = function(args){
         }}} );
     	CKEDITOR.replace( 'reply_editor',{uiColor:'#deecea',on:{
             'instanceReady':function(ev){
-
+			
         }}} );
     
     });

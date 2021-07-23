@@ -86,5 +86,10 @@ CKEDITOR.editorConfig = function( config ) {
 	config.extraPlugins = 'pastefromexcel,pastefromword,resize,colordialog,tableresize,imageresizerowandcolumn';
 	config.resize_dir = 'vertical';// both || vertical || horizontal
 	config.toolbarStartupExpanded = false; // 툴바 접기
-	  
+	 
+	
+	/*이미지업로드추가*/
+	config.filebrowserUploadUrl      = '/upload.do?type=Files',
+	config.filebrowserImageUploadUrl = '/upload.do?type=Images',
+	config.filebrowserUploadMethod='form'; //파일 오류났을때 alert띄워줌
 };
