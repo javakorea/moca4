@@ -376,7 +376,7 @@ public class EfmsEFLController {
 
 		
         try {
-            System.out.println("RewardController reAddProCtrl uploadFile : " + uploadFile);
+            //System.out.println("RewardController reAddProCtrl uploadFile : " + uploadFile);
             
 //          UtilFile 객체 생성
             
@@ -386,7 +386,7 @@ public class EfmsEFLController {
 //          해당 경로만 받아 db에 저장
             //int n = rewardService.reAddServ(uploadPath, null);
             
-            System.out.println("RewardController reAddProCtrl uploadPath : " + uploadPath);
+            //System.out.println("RewardController reAddProCtrl uploadPath : " + uploadPath);
             Map mp = new HashMap();
             mp.put("uploadPath", uploadPath);
             
@@ -408,7 +408,7 @@ public class EfmsEFLController {
 			ModelMap model) {
 		Map exceptionMap = new HashMap();
 		exceptionInit(request, exceptionMap);
-		System.out.println("접수들어옴:"+files.length);
+		//System.out.println("접수들어옴:"+files.length);
 		try {
 		    Map mapvo = new HashMap();
 			Map param = requestToMap(request, mapvo);
@@ -419,9 +419,9 @@ public class EfmsEFLController {
 			if(files != null && files.length > 0) {
 				MultipartFile uploadFile= files[0];
 				String fileNm = uploadFile.getOriginalFilename();
-				System.out.println("------------------------------>fileNm:"+fileNm);
+				//System.out.println("------------------------------>fileNm:"+fileNm);
 				String info = arr0[0];
-				System.out.println("------------------------------>info:"+info);
+				//System.out.println("------------------------------>info:"+info);
 				String[] infoArr = info.split("@@");
 				String key3 = infoArr[6];//POPU_CD
 				String fileName = infoArr[2];
@@ -443,25 +443,25 @@ public class EfmsEFLController {
 			}else if(fileKey != null) {//무파일 접수!!!
 				String fileNm =(String)mapvo.get("fileNm");
 				String info = arr0[0];
-				System.out.println("info:"+info);
+				//System.out.println("info:"+info);
 				String[] infoArr = info.split("@@");
 				String key3 = infoArr[6];//POPU_CD
 				String fileName = infoArr[2];
 				String lastModified = infoArr[7];
-				System.out.println(fileKey+" 접수fileNm:"+fileNm);
-				System.out.println(fileKey+ "접수fileName:"+fileName);
+				//System.out.println(fileKey+" 접수fileNm:"+fileNm);
+				//System.out.println(fileKey+ "접수fileName:"+fileName);
 				Map map = setEmail(exceptionMap, mapvo);
 				map.put("POPU_CD", key3);
 				Map pathInfo = mocaEFLService.selectOne_EFC_POPU(map);
 				String input = (String)pathInfo.get("SEPA");
 				String CREATE_DT_TYPE = (String)pathInfo.get("CREATE_DT_TYPE");
 				pathInfo.put("uploadPath", uploadPath);
-				System.out.println("로컬해시:"+infoArr[5]);
-				System.out.println("서버해시:"+egovframework.batch.FileFnc.extractFileHashSHA256(uploadPath));
-				System.out.println("uploadPath:"+uploadPath);
+				//System.out.println("로컬해시:"+infoArr[5]);
+				//System.out.println("서버해시:"+egovframework.batch.FileFnc.extractFileHashSHA256(uploadPath));
+				//System.out.println("uploadPath:"+uploadPath);
 				File lastFile = new File(uploadPath);
 				String p = lastFile.getParent();
-				System.out.println("p:"+p);
+				//System.out.println("p:"+p);
 				File p_f = new File(p);
 				if(!p_f.exists()) {
 					p_f.mkdirs();
@@ -473,10 +473,10 @@ public class EfmsEFLController {
 					mapvo.put("lastModified", lastModified);
 					mapvo.put("fileMetaMap", U.getPatternMap(fileName, input,CREATE_DT_TYPE,lastModified));
 					
-					System.out.println("접수합니다:"+mapvo);
+					//System.out.println("접수합니다:"+mapvo);
 					fileBatchService.receipt(mapvo);
 				}else {
-					System.out.println("해시불일치:"+fileKey+" 접수fileNm:"+fileNm);
+					//System.out.println("해시불일치:"+fileKey+" 접수fileNm:"+fileNm);
 					
 					
 				}
@@ -497,12 +497,12 @@ public class EfmsEFLController {
 		try {
 		    Map mapvo = new HashMap();
 			Map param = requestToMap(request, mapvo);
-			System.out.println("-mapvo-->"+mapvo);
-			System.out.println("-param-->"+param);
+			//System.out.println("-mapvo-->"+mapvo);
+			//System.out.println("-param-->"+param);
 			if(files != null && files.length > 0) {
 				MultipartFile uploadFile= files[0];
 				String fileNm = uploadFile.getOriginalFilename();
-				System.out.println("-fileNm-->"+fileNm);
+				//System.out.println("-fileNm-->"+fileNm);
 				Map map = new HashMap();
 				map.put("CORP_CD", mapvo.get("CORP_CD"));
 				map.put("SYS_CD", mapvo.get("SYS_CD"));
@@ -526,9 +526,9 @@ public class EfmsEFLController {
 				if(uploadPath.endsWith(fileName) ) {
 					//모든조각이 업로도됨!
 					String dir = uploadPath.replaceAll("/"+fileName, "");
-					//System.out.println("dir1:"+dir);
+					////System.out.println("dir1:"+dir);
 					//dir = dir.replaceAll("receipt_bigsize", "receipt");
-					//System.out.println("dir2:"+dir);
+					////System.out.println("dir2:"+dir);
 					String newName = System.currentTimeMillis()+"";
 					uploadPath = Big.combineFile(newName, dir,trid,Integer.parseInt(total));
 					model.addAttribute("newName", newName);
@@ -890,7 +890,7 @@ public class EfmsEFLController {
 			mocaMap.put("header", header);
 			//////////////////////////////////////////////////////////////////////////
 			Map map = U.getBodyNoSess(mocaMap);
-			System.out.println("여기객체를 확인하고싶어요->"+map);
+			//System.out.println("여기객체를 확인하고싶어요->"+map);
 			String referer1 = request.getHeader("referer");
 			referer1 = referer1.replaceAll("&", "amp;");
 			if(false) {
@@ -907,7 +907,7 @@ public class EfmsEFLController {
 				String FILE_ID = (String)map.get("FILE_ID");
 				DownloadView fileDown = new DownloadView(); //파일다운로드 객체생성
 				Map popuMap = mocaEFLService.selectOne_EFL_CAFL(map);
-				System.out.println("map->"+map);
+				//System.out.println("map->"+map);
 				//map->{MF_SPARE1=임시1, FILE_SIZE=73.0KB, MF_DEPT_NM=null, MF_SPARE2=임시2, _system={status=U, expand=true, realIndex=0.0}, SESS_USERID=admin, CHK=1, R_CD=R76, NOW_STEP=01, AC_NM=프로그램 개발, FRST_REGISTER_ID=batchadmin, FRST_REGIST_PNTTM=1.573590207E12, SP_NM=프로그램개발, META_CONTENT_TYPE=null, SYS_CD=S01, MP_CD=M10, MF_ID=TRID20191113052329943__2.JPG, MEATA_HASH=f0e3858e38845b5f170d5de35e3c189535bc786352d433ea8d6d6f60781fb9b0, MF_TERM_CD=H01, META_AUTHOR=null, MEATA_TITLE=null, LAST_UPDT_PNTTM=1.573590207E12, META_CREATION_DATE=null, LAST_UPDUSR_ID=batchadmin, SESS_USERNM=관리자, MF_DEPT_CD=영업부(001), MF_DT=20191225, FILE_ID=TRID20191113052329943__2.JPG, POPU_CD=001S01P01, AC_CD=AC50, CA_CD=C-10-01-03, CORP_CD=001, SP_CD=SUB23, ETC=null, FILE_EXTEN=JPG, MP_NM=IT프로세스, MF_NM=null, META_LAST_MODIFIED=null, SESS_TRANID=TRAN_201922111324297905040502010603}
 
 				//모집단조회해서 파일위치확인
@@ -987,7 +987,7 @@ public class EfmsEFLController {
 				String FILE_ID = (String)map.get("FILE_ID");
 				DownloadView fileDown = new DownloadView(); //파일다운로드 객체생성
 				Map popuMap = mocaEFLService.selectOne_EFL_CAFL(map);
-				System.out.println("map->"+map);
+				//System.out.println("map->"+map);
 				//map->{MF_SPARE1=임시1, FILE_SIZE=73.0KB, MF_DEPT_NM=null, MF_SPARE2=임시2, _system={status=U, expand=true, realIndex=0.0}, SESS_USERID=admin, CHK=1, R_CD=R76, NOW_STEP=01, AC_NM=프로그램 개발, FRST_REGISTER_ID=batchadmin, FRST_REGIST_PNTTM=1.573590207E12, SP_NM=프로그램개발, META_CONTENT_TYPE=null, SYS_CD=S01, MP_CD=M10, MF_ID=TRID20191113052329943__2.JPG, MEATA_HASH=f0e3858e38845b5f170d5de35e3c189535bc786352d433ea8d6d6f60781fb9b0, MF_TERM_CD=H01, META_AUTHOR=null, MEATA_TITLE=null, LAST_UPDT_PNTTM=1.573590207E12, META_CREATION_DATE=null, LAST_UPDUSR_ID=batchadmin, SESS_USERNM=관리자, MF_DEPT_CD=영업부(001), MF_DT=20191225, FILE_ID=TRID20191113052329943__2.JPG, POPU_CD=001S01P01, AC_CD=AC50, CA_CD=C-10-01-03, CORP_CD=001, SP_CD=SUB23, ETC=null, FILE_EXTEN=JPG, MP_NM=IT프로세스, MF_NM=null, META_LAST_MODIFIED=null, SESS_TRANID=TRAN_201922111324297905040502010603}
 
 				//모집단조회해서 파일위치확인
@@ -1056,7 +1056,7 @@ public class EfmsEFLController {
 			
 			String referer1 = request.getHeader("referer");
 			//referer1 = referer1.replaceAll("&", "amp;");
-			//System.out.println("referer1>"+referer1+">");
+			////System.out.println("referer1>"+referer1+">");
 			Map map = new HashMap();
 			map.put("CHANNEL", channel);
 			map.put("FILE_ID", file_id);
@@ -1609,8 +1609,8 @@ public class EfmsEFLController {
 		String callback = request.getParameter("callback");
 		String full_cd = request.getParameter("full_cd");
 		try {
-			System.out.println("callback:"+callback);
-			System.out.println("full_cd:"+full_cd);
+			//System.out.println("callback:"+callback);
+			//System.out.println("full_cd:"+full_cd);
 			String[] arr = full_cd.split("@@");
 			Map map = new HashMap();
 			if(arr.length == 5) {
@@ -1649,9 +1649,9 @@ public class EfmsEFLController {
 			Map<String, Object> _map = U.getMap(json);
 			Map parentMap = (Map)_map.get("parent");
 			Map map = (Map)parentMap.get("data");
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>param:"+map);
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+			//System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+			//System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>param:"+map);
+			//System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 			
 			
 			
@@ -1733,7 +1733,7 @@ public class EfmsEFLController {
     		}
     		fileUploadDir += physicalFilename;
     		String fullPath = fileUploadDir;
-    		System.out.println(">>>>>>>>>>>>>file download path>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+fullPath);
+    		//System.out.println(">>>>>>>>>>>>>file download path>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+fullPath);
 			File targetFile = new File(fullPath);
 			if(targetFile != null) {
 				response.setContentType("application/octet-stream; charset=utf-8");
@@ -1829,7 +1829,7 @@ public class EfmsEFLController {
         	String rurl = request.getRequestURL().toString();
         	int startPosition = rurl.indexOf(cPath);
         	String urlHead = rurl.substring(0,startPosition);
-        	System.out.println("rootPath"+rootPath);
+        	//System.out.println("rootPath"+rootPath);
         	
             String fileName = System.currentTimeMillis()+upload.getOriginalFilename();
             byte[] bytes = upload.getBytes();
@@ -1840,7 +1840,7 @@ public class EfmsEFLController {
             String callback = request.getParameter("CKEditorFuncNum");
      
             printWriter = response.getWriter();
-            System.out.println("url"+urlHead+cPath+subDir+fileName);
+            //System.out.println("url"+urlHead+cPath+subDir+fileName);
             String fileUrl = urlHead+cPath+subDir+fileName;//url경로
      
             printWriter.println("<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction("
