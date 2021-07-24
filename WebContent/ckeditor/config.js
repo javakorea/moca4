@@ -89,7 +89,7 @@ CKEDITOR.editorConfig = function( config ) {
 	 
 	
 	/*이미지업로드추가*/
-	config.filebrowserUploadUrl      = '/upload.do?type=Files',
-	config.filebrowserImageUploadUrl = '/upload.do?type=Images',
+	config.filebrowserUploadUrl      = '/to/moca/ckEditor/imageUpload.do?type=Files',
+	config.filebrowserImageUploadUrl = '/to/moca/ckEditor/imageUpload.do?type=Images',
 	config.filebrowserUploadMethod='form'; //파일 오류났을때 alert띄워줌
 };

@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -1766,5 +1767,108 @@ public class EfmsEFLController {
             }
         }
 	};	
+    
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/moca/ckEditor/imageUpload.do")
+	public View moca_ckEditor_imageUpload_temp(HttpServletRequest request,
+			@RequestParam("file") MultipartFile[] files,
+			ModelMap model) throws Exception {
+		if(!U.preCheck(model)) {return jsonview;}
+		try {
+			MultipartFile uploadFile= files[0];
+			Map info = new HashMap();
+			info.put("RECEIPT_SERVER_DIR",EgovProperties.getPathProperty("Globals.fileUploadDir"));
+			String uploadPath = U.fileUpload(request, uploadFile, info,"EXCEL");
+			File ff = new File(uploadPath);
+			String cp = ff.getCanonicalPath();
+			String nm = ff.getName();
+			String onm = (String)info.get("originalFilename");
+
+			
+			Map resultMap = new HashMap();
+			resultMap.put("uploadDir", (String)info.get("RECEIPT_SERVER_DIR"));
+			resultMap.put("originalFilename", (String)info.get("originalFilename"));
+			resultMap.put("physicalFilename", nm);
+			resultMap.put("physicalFilepath", cp);
+			resultMap.put("fileLength", ff.length());
+			resultMap.put("fileSize", byteCalculation(ff.length()+""));
+			model.addAttribute("result", resultMap);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	    return jsonview; 
+    };	
+    
+    
+    
+    
+    /**
+     * 이미지 업로드
+     * @param request
+     * @param response
+     * @param upload
+     */
+    @RequestMapping(value = "/moca/ckEditor/imageUpload.do", method = RequestMethod.POST)
+    public void moca_ckEditor_imageUpload(HttpServletRequest request, HttpServletResponse response, @RequestParam MultipartFile upload) {
+     
+        OutputStream out = null;
+        PrintWriter printWriter = null;
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("text/html;charset=utf-8");
+     
+        try{
+        	String subDir = "/ckeditor/uploadImage";
+        	String rootPath = request.getServletContext().getRealPath("/");
+        	String cPath = request.getContextPath();
+        	String rurl = request.getRequestURL().toString();
+        	int startPosition = rurl.indexOf(cPath);
+        	String urlHead = rurl.substring(0,startPosition);
+        	System.out.println("rootPath"+rootPath);
+        	
+            String fileName = System.currentTimeMillis()+upload.getOriginalFilename();
+            byte[] bytes = upload.getBytes();
+            String uploadPath = rootPath + subDir+fileName;//저장경로
+     
+            out = new FileOutputStream(new File(uploadPath));
+            out.write(bytes);
+            String callback = request.getParameter("CKEditorFuncNum");
+     
+            printWriter = response.getWriter();
+            System.out.println("url"+urlHead+cPath+subDir+fileName);
+            String fileUrl = urlHead+cPath+subDir+fileName;//url경로
+     
+            printWriter.println("<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction("
+                    + callback
+                    + ",'"
+                    + fileUrl
+                    + "','이미지를 업로드 하였습니다.'"
+                    + ")</script>");
+            printWriter.flush();
+     
+        }catch(IOException e){
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+                if (printWriter != null) {
+                    printWriter.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+     
+        return;
+    }
+
+    
     
 }
