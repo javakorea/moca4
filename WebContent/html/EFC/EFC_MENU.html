@@ -77,7 +77,7 @@
 <body>
 <div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
 	<div class="moca_tab_cont" style="height:100%">
-		<div class="moca_cont_wrap">
+		<div class="moca_cont_wrap flex fcol">
 			<div type="wframe" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
 				src="/html/titlebox.html"
 				data = '{"sreenCd":"EFC_MENU","sreenNm":"메뉴관리","sreenPath":"기준정보관리,메뉴관리"}'
@@ -85,22 +85,20 @@
 
 			<div class="moca_shbox">
 				<div class="shbox_inner">
-					<table class="tb">
-						<tbody>
-							<tr>
-								<th class="tb_th pr10"></th>
-								<td class="tb_td">
-								</td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="flex fwrap">
+						<div class="tb fl">
+							<span class="tb_th fl"></span>
+							<span class="tb_td">
+							</span>
+						</div>
+					</div>
 				</div>
 				<div class="btn_shbox">
 					<button type="button" class="button btn_sc" onclick="moca.EFC_MENU.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
 				</div>
 			</div>
 			
-			<div type="grid" class="moca_grid toolbar sc_row1" default_cell_height="26px" id="grd_1"
+			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1"
 						toolbar_search_size="false"
 						toolbar_detail="true"
 						toolbar_exup="true"
@@ -152,7 +150,7 @@
 						<tbody>
 							<tr>
 								<td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
-								<td id="treeDepth" celltype="tree" levelId="depth" labelId="menuNm" parentNodeId="upperMenuId" nodeId="menuNo" style="" name="TREE"></td>
+								<td id="treeDepth" celltype="tree" levelId="depth" labelId="menuNm" parentNodeId="upperMenuId" nodeId="menuNo" style="text-align:left" name="TREE"></td>
 								<td id="depth" celltype="select" style="" required="true" name="LEVEL"></td>
 								<td id="upperMenuId" celltype="input" style="" required="true" name="상위메뉴"></td>
 								<td id="menuNo" celltype="input" style="" readOnly="true"  required="true" name="메뉴번호"></td>

@@ -14,13 +14,13 @@ button {border:0; background:0; cursor:pointer; -moz-box-sizing:border-box; box-
 /* 모카데모 레이아웃 */
 .moca_wrap {overflow:hidden; position:absolute; top:0; right:0; bottom:0; left:0; min-width:1279px;}
 .moca_wrap.pop1020{min-width:1020px !important;}
-.moca_aside {position:absolute; top:70px; bottom:45px; left:0; z-index:9; width:45px; background:#e2e4ea; box-shadow: 2px 0px 2px rgba(0, 0, 0, 0.1)}
+.moca_aside {position:absolute; top:70px; bottom:45px; left:0; z-index:9; width:45px; background:#e2e4ea}
 .moca_aside h1 {display:inline-block; height:50px; width:60px; margin:0; background:url(../images/ico_moca_logo.png) no-repeat 50% 50%; text-indent:-9999px}
 .moca_aside ul {position:relative; margin-top:44px}
 .moca_aside ul:last-child{position:absolute; left:0; bottom:0; width:100%;}
 /* .moca_aside ul li ~ li {margin-top:15px} */
 .moca_aside ul > li{border-top:1px solid #d3d7d9}
-.moca_aside ul li button {width:100%; padding:10px 0; background:none; border-top:1px solid #fff; color:#8e8e8e; font-size:11px; font-weight:700; text-align:center}
+.moca_aside ul li button {width:100%; padding:7px 0; background:none; border-top:1px solid #fff; color:#8e8e8e; font-size:11px; font-weight:700; text-align:center}
 .moca_aside ul li i {display:block; font-size:15px; text-align:center; color:#888}
 .moca_aside ul li i + span {display:block; margin-top:5px}
 .moca_aside ul li.active i {color:#555}
@@ -204,12 +204,12 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 .moca_layer_tab_list{background:linear-gradient(360deg, rgba(228,230,232,1) 0%, rgba(255,255,255,1) 100%); border: 1px solid #bbb; border-bottom: 0}
 .moca_layer_tab_list:hover{background: linear-gradient(360deg, rgba(228,235,242,1) 0%, rgba(212,217,222,1) 51%, rgba(228,235,242,1) 100%)}
 
-.moca_cont_wrap {position:absolute; top:0; right:0; bottom:0; left:0; padding:15px; min-width:640px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
-.moca_cont_wrap2 {position:relative; padding:15px; min-width:640px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
+.moca_cont_wrap {position:absolute; top:0; right:0; bottom:0; left:0; padding:10px 15px 15px 15px;/* min-width:640px; */box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
+.moca_cont_wrap2 {position:relative; padding:15px;min-width:640px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
 .moca_cont_wrap.popup{min-width:auto}
 
 .moca_layer_tab_cont > .moca_grid{top:0; bottom:0; left:0; right:0}
-.moca_grid {position:absolute; top:136px; right:15px; bottom:12px; left:15px}
+/*.moca_grid {position:absolute; top:136px; right:15px; bottom:12px; left:15px}*/
 .moca_grid.btn {bottom:70px}
 .moca_grid.title {top:166px}
 
@@ -221,8 +221,6 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 .lybox .ly_row .moca_grid{position:relative; left:0; right:0; top:0; height:100%}
 
 .moca_grid.fold, .lybox .ly_column .moca_grid.fold{height:auto !important;}
-.flex_column {display:flex; flex-direction:column}
-.flex_column > .fit {position:relative; height:fit-content; flex:auto}
 
 .moca_grid.sc_row{top:52px}
 .moca_shbox + .moca_grid.sc_row1 {top:110px}
@@ -261,7 +259,7 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 .searchCmbTable div.filterheader{height: 25px; padding-top: 4px; position: fixed; z-index: 1; background: #3f424a; width: inherit; border-bottom: 1px solid #fff}
 .searchCmbTable input[type='text']{ height: 21px; left: 2px; position: relative; top: 5px; right: 0; width: calc(100% - 4px); display:block}
 
-.moca_titbox {position:relative; width:100%; min-height:37px; padding:0; }
+.moca_titbox {position:relative; width:100%; min-height:36px; padding:0; }
 .moca_titbox:after {display:block; visibility:hidden; clear:both; height:0; font-size:0; line-height:0; content: '.'}
 .moca_titbox .btn_fav{width: 15px; height: 15px; overflow: hidden; text-indent: -999px; background: url(../images/mdi_fav.png) no-repeat right center; margin: 4px 5px 0 0;float:left}
 .moca_titbox .btn_fav.selected {background-position: left center}
@@ -291,11 +289,11 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 .moca_titbox + .modulebox {margin-top:20px}
 
 
-.moca_shbox {position:relative; padding:10px 17px; margin-top:10px; margin:0px; background:#f6f6f6; border-top:1px solid #9a9ea8; border-bottom:1px solid #9a9ea8; -moz-box-sizing:border-box; box-sizing:border-box}
-.moca_shbox .tb {border:0}
+.moca_shbox {position:relative; padding:10px 17px 0; margin-top:10px; margin:0px; background:#f6f6f6; border-top:1px solid #9a9ea8; border-bottom:1px solid #9a9ea8; -moz-box-sizing:border-box; box-sizing:border-box}
+.moca_shbox .tb {border:0; padding-bottom:10px}
 .moca_shbox .tb .tb_th,
 .moca_shbox .tb .tb_td {border:0; background:transparent; height:22px}
-.moca_shbox .tb .tb_th {color:#666; padding:0 3px 0 0; font-weight:700; text-align:left}
+.moca_shbox .tb .tb_th {color:#666; padding:0 10px 0 0; font-weight:700; text-align:left; line-height:24px}
 .moca_shbox .tb .tb_td {padding:2px 30px 2px 0}
 .moca_shbox .tb .tb_td > * {height:24px; line-height:24px}
 .moca_shbox .tb tr:first-child .tb_td {padding-top:0}
@@ -350,7 +348,7 @@ button:hover{opacity:1}
 /* .moca_shbox+.lybox{margin-top:9px; height: calc(100% - 151px)} */
 /* .lybox {position:relative; height: calc(100% - 64px)}layout 박스 */
 
-.lybox{position: absolute; top:51px; bottom: 12px; left: 15px; right: 15px;}
+/*.lybox{position: absolute; top:51px; bottom: 12px; left: 15px; right: 15px;}*/
 .moca_shbox + .lybox.sc_row1 {top:111px}
 .moca_shbox + .lybox.sc_row2 {top:139px}
 .moca_shbox + .lybox.sc_row3 {top:169px}

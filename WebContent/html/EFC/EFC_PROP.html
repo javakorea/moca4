@@ -106,7 +106,7 @@
 	
 <div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
 	<div class="moca_tab_cont" style="height:100%">
-		<div class="moca_cont_wrap">
+		<div class="moca_cont_wrap flex fcol">
 			<div type="wframe" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
 				src="/html/titlebox.html"
 				data = '{"sreenCd":"EFC_PROP","sreenNm":"시스템설정","sreenPath":"시스템관리,시스템설정"}'
@@ -114,17 +114,17 @@
 
 			<div class="moca_shbox">
 				<div class="shbox_inner">
-					<table class="tb">
-						<tbody>
-							<tr>
-								<th class="tb_th pr10">key</th>
-								<td class="tb_td">
-									<input type="text" class="moca_input sh" style="width:150px" id="PROP_KEY"  autocomplete="off" onkeyup="moca.default_keyup(this)">
-								</td>
-								
-								<th class="tb_th pr10">NativeComboTest</th>
-								<td class="tb_td">
-									<div type="combo" 
+					<div class="flex fwrap">
+						<div class="tb fl">
+							<span class="tb_th fl">key</span>
+							<span class="tb_td">
+								<input type="text" class="moca_input sh" style="width:150px" id="PROP_KEY"  autocomplete="off" onkeyup="moca.default_keyup(this)">
+							</span>
+						</div>
+						<div class="tb fl">
+							<span class="tb_th fl">NativeComboTest</span>
+							<span class="tb_td">
+								<div type="combo" 
 									id="cmb_1" 
 									class="moca_combo" 
 									onchange="moca.EFC_PROP.selectSetter(this)" 
@@ -133,12 +133,13 @@
 									cdField="cd" 
 									nmField="nm"   
 									itemset='[{"cd":"0","nm":"해당없음 "},{"cd":"1","nm":"(%) 비율"},{"cd":"2","nm":"(원) 금액"}]'>
-									</div>
-								</td>							
-								
-								<th class="tb_th pr10">SearchComboTest</th>
-								<td class="tb_td">
-									<div type="searchCombo" 
+								</div>
+							</span>
+						</div>
+						<div class="tb fl">
+							<span class="tb_th fl">SearchComboTest</span>
+							<span class="tb_td">
+								<div type="searchCombo" 
 									id="scmb_1" 
 									class="moca_searchCombo" 
 									inneronchange="moca.EFC_PROP.selectSetter(this)" 
@@ -148,24 +149,17 @@
 									cdField="cd" 
 									nmField="nm"   
 									itemset='[{"cd":"0","nm":"해당없음 "},{"cd":"1","nm":"(%)비율"},{"cd":"2","nm":"(원)금액"},{"cd":"3","nm":"(원)금액3"},{"cd":"4","nm":"(원)금액4"},{"cd":"5","nm":"(원)금액5"},{"cd":"6","nm":"(원)금액6"},{"cd":"7","nm":"(원)금액7"},{"cd":"8","nm":"(원)금액8"},{"cd":"9","nm":"(원)금액9"},{"cd":"10","nm":"(원)금액10"},{"cd":"11","nm":"(원)금액11"},{"cd":"12","nm":"(원)금액12"}]'>
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+								</div>
+							</span>
+						</div>
+					</div>
 				</div>
 				<div class="btn_shbox">
 					<button type="button" class="button btn_sc" onclick="moca.EFC_PROP.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
 					<button type="button" class="button btn_sc" onclick="moca.EFC_PROP._openFileUpload(this)"><i class="fas fa-search"></i><span>파일첨부</span></button>
 				</div>
 			</div>
-			
-			
-			
-			
-			
-			
-			<div type="grid" class="moca_grid toolbar sc_row1" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
+			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
 			
 								toolbar_search_size="false"
 								toolbar_detail="true"

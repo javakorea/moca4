@@ -15,7 +15,7 @@
         	moca.EFC_BOAD_WS.fn_search();
         });
 	};
-	
+	moca.EFC_BOAD_WS.grdList ;
 	moca.EFC_BOAD_WS.fn_search = function(){
 	    moca.EFC_BOAD_WS.exe({
 	        url : moca._domain+moca._contextRoot+"/EFC_BOAD/selectBoardList.do",
@@ -33,7 +33,8 @@
 	        },          
 	        callback : function(response){
 	        	var money = '200,000'
-	            moca.EFC_BOAD_WS.drawGrid('grd_1',moca.getResList(response,"selectBoardList"));
+	        	moca.EFC_BOAD_WS.grdList = moca.getResList(response,"selectBoardList");
+	            moca.EFC_BOAD_WS.drawGrid('grd_1',moca.EFC_BOAD_WS.grdList);
 	        }
 	    });
 	};
@@ -133,24 +134,19 @@
     moca.EFC_BOAD_WS.dispReply= function(_thisVal, _grd, _realrow){
     	var _showVal = '';
     	if(_grd.list[_realrow].BOAD_IDX != _grd.list[_realrow].BOAD_PIDX){
-    		_showVal = "<i class='reply'></i>"+_thisVal;
+    			_showVal = "<i class='reply'></i>"+_thisVal;
     	}else{
     		if(_grd.list[_realrow].BOAD_SUPPORT == "Y"){
-    			_showVal = "<i class='success mr5'>완료</i>"+_thisVal;
+    			_showVal = "<i class='msg bg_green mr5'>완료</i>"+_thisVal;
+    		}else if(_grd.list[_realrow].BOAD_SUPPORT == "R"){
+    			_showVal = "<i class='msg bg_blue mr5'>접수</i>"+_thisVal;
+    		}else if(_grd.list[_realrow].BOAD_SUPPORT == "B"){
+    			_showVal = "<i class='msg bg_red mr5'>반려</i>"+_thisVal;
     		}else{
     			_showVal = _thisVal;
     		}
     	}
     	return _showVal;
-    }
-    
-    moca.EFC_BOAD_WS.dispSupport= function(_thisVal){
-    	if(_thisVal !=null && _thisVal != 'N'){
-    		return ""
-    	}else{
-    		_thisVal = '';
-    		return _thisVal;
-    	}
     }
     
     moca.EFC_BOAD_WS.disabled= function(_thisVal, _grd, _realrow){
@@ -160,10 +156,51 @@
     		return false;
     	}
     }
-    
-    moca.EFC_BOAD_WS.fn_check = function(_thisVal, _grd, _realrow){
-		alert('');debugger;    	
-    }
+    moca.EFC_BOAD_WS.fn_check_before = function(_grd,_rowIndex,_colId){
+    	/*
+    	var pro = Promise.resolve();
+    	if(_colId == 'chk'){
+        	pro = pro.then(function(re){
+        		return new Promise(function(resolve,reject){
+            	    moca.EFC_BOAD_WS.exe({
+            	        url : moca._domain+moca._contextRoot+"/EFC_BOAD/selectBoardList.do",
+            	        loadingbar:true,
+            	        data : {
+            	            "header" : moca.header,
+            	            "body" : {
+            	            	"BOAD_TYPE":moca.EFC_BOAD_WS.boardType,
+            	            	"BOAD_WRITER":moca.EFC_BOAD_WS.getInput("ipt_WRITER"),
+            	            	"BOAD_TITLE":moca.EFC_BOAD_WS.getInput("ipt_TITLE"),
+            	            	"FROM":moca.EFC_BOAD_WS.getFrom("CREATE_DTTM").replace(/-/g,''),
+                                "TO":moca.EFC_BOAD_WS.getTo("CREATE_DTTM").replace(/-/g,''),
+                                "BOAD_SUPPORT":moca.getCheckboxGroupCheckedList(moca.EFC_BOAD_WS.getObj('chkg_1'))
+            	            }
+            	        },          
+            	        callback : function(response){resolve(response);}
+            	    });
+        		});
+        	});
+        	pro = pro.then(function(response){
+            	var money = '200,000'
+        	});    	
+    	}
+    	return pro;
+    	*/
+    };
+    moca.EFC_BOAD_WS.fn_check_after = function(_grd,_rowIndex,_colId){
+    	if(_colId == 'chk'){
+    		var checkedId = moca.getCellData(_grd,_rowIndex,'BOAD_IDX');
+    		var checkedValue = moca.getCellData(_grd,_rowIndex,'chk');
+    		for(var i=_rowIndex+1; i < moca.EFC_BOAD_WS.grdList.length ;i++){
+    		    if(moca.EFC_BOAD_WS.grdList[i].BOAD_PIDX == checkedId){
+    		    	moca.EFC_BOAD_WS.setCellData(moca.EFC_BOAD_WS.getObj("grd_1"),i,'chk',checkedValue);
+    		    }else{
+    		    	break;
+    		    }
+    		}
+    		moca.EFC_BOAD_WS.redrawGrid(moca.EFC_BOAD_WS.getObj("grd_1"));
+    	}
+    };
 </script>
 
 </head>
@@ -171,50 +208,53 @@
 	
 <div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
 	<div class="moca_tab_cont" style="height:100%">
-		<div class="moca_cont_wrap">
+		<div class="moca_cont_wrap flex fcol">
 			<div type="wframe" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
 				src="/html/titlebox.html"
 				data = '{"sreenCd":"EFC_BOAD_WS","sreenNm":"웹스퀘어 게시판","sreenPath":"시스템설정,웹스퀘어 게시판"}'
 			></div>
 			<div class="moca_shbox">
 				<div class="shbox_inner">
-					<table class="tb">
-						<tbody>
-							<tr>
-								<th class="tb_th pr10">조회일자</th>
-								<td class="tb_td">
-									<div type="inputMultiCalendar" class="moca_ica fl" style="width:auto" id="CREATE_DTTM" displayFormat="####-##-##" 
-                                        defaultValue="12개월전" 
-                                        selecterItem="오늘,3일전,6일전"
-                                        showRadioOption="false"
-                                    ></div>
-								</td>
-								<th class="tb_th pr10">상태</th>
-								<td class="tb_td">
-								    <div type="checkboxGroup" class="fl mr15 bd" direction="vertical" id="chkg_1"
-                                        itemset='[
-                                            {"id":"chk1","label":"완료","value":"Y","checked":"true"}
-                                        ]'>
-                                    </div>
-                                </td>
-								<th class="tb_th pr10">작성자</th>
-								<td class="tb_td">
-									<input type="text" class="moca_input sh" style="width:100px" id="ipt_WRITER"  autocomplete="off" onkeyup="moca.default_keyup(this)">
-								</td>							
-								
-								<th class="tb_th pr10">제목</th>
-								<td class="tb_td">
-									<input type="text" class="moca_input sh" style="width:250px" id="ipt_TITLE"  autocomplete="off" onkeyup="moca.default_keyup(this)">
-								</td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="flex fwrap">
+						<div class="tb fl">
+							<span class="tb_th fl">조회일자</span>
+							<span class="tb_td">
+								<div type="inputMultiCalendar" class="moca_ica fl" style="width:auto" id="CREATE_DTTM" displayFormat="####-##-##" 
+		                               defaultValue="12개월전" 
+		                               selecterItem="오늘,3일전,6일전"
+		                               showRadioOption="false"
+		                         ></div>
+							</span>
+						</div>
+						<div class="tb fl">
+							<span class="tb_th fl">상태</span>
+							<span class="tb_td">
+								<div type="checkboxGroup" class="fl bd" direction="vertical" id="chkg_1"
+	                                itemset='[
+	                                    {"id":"chk1","label":"완료","value":"Y","checked":"true"}
+	                                ]'>
+	                            </div>
+							</span>
+						</div>
+						<div class="tb fl">
+							<span class="tb_th fl">작성자</span>
+							<span class="tb_td">
+								<input type="text" class="moca_input sh" style="width:100px" id="ipt_WRITER"  autocomplete="off" onkeyup="moca.default_keyup(this)">
+							</span>
+						</div>
+						<div class="tb fl">
+							<span class="tb_th fl">제목</span>
+							<span class="tb_td">
+								<input type="text" class="moca_input sh" style="width:250px" id="ipt_TITLE"  autocomplete="off" onkeyup="moca.default_keyup(this)">
+							</span>
+						</div>
+					</div>
 				</div>
 				<div class="btn_shbox">
 					<button type="button" class="button btn_sc" onclick="moca.EFC_BOAD_WS.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
 				</div>
 			</div>
-			<div type="grid" class="moca_grid toolbar sc_row1" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
+			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
 			
 								toolbar_search_size="false"
 								toolbar_detail="true"
@@ -228,7 +268,8 @@
 								toolbar_grid_button2='{"position":"right","id":"btn_del","label":"선택삭제","onclick":"moca.EFC_BOAD_WS.fn_delList","addClass":"","innerDisabled":"false"}'
 								toolbar_grid_button3='{"position":"right","id":"btn_del_admin","label":"선택물리삭제","onclick":"moca.EFC_BOAD_WS.fn_adminDelList","innerStyle":"background:#ff3333","innerDisabled":"false"}'
 								toolbar_grid_label_span='{"position":"left","id":"todayCnt","label":"총금액","value":"200,000","valueClass":"txt_blue","unit":"원"}'
-                               
+                                onBeforeClick="moca.EFC_BOAD_WS.fn_check_before"
+                                onAfterClick="moca.EFC_BOAD_WS.fn_check_after"
                                 onDblClick = "moca.EFC_BOAD_WS.grd_1__onDblClick"
 								label="게시물"
 			
@@ -242,8 +283,8 @@
 								
 								<col style="">
 								<col style="width:60px">
-								<col style="width:40px">
 								<col style="width:200px">
+								<col style="width:150px">
 								<col style="width:150px">		
 						</colgroup>
 						<thead>
@@ -254,9 +295,9 @@
 								<th scope="col" id="H_BOAD_IDX">ID</th>
 								<th scope="col" id="H_BOAD_TITLE">제목</th>
 								<th scope="col" id="H_BOAD_FILECNT">첨부</th>
-								<th scope="col" id="H_BOAD_SUPPORT">상태</th>
 								<th scope="col" id="H_BOAD_WRITER"  filterable="true" filterableId="BOAD_WRITER">작성자</th>
 								<th scope="col" id="H_BOAD_DATE">작성일시</th>
+								<th scope="col" id="H_BOAD_RECEIPTIONER"  filterable="true" filterableId="BOAD_RECEIPTIONER">접수자</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -267,9 +308,9 @@
 								<td id="BOAD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
 								<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true" displayFunction="moca.EFC_BOAD_WS.dispReply"></td>
 								<td id="CNT" celltype="input" style="" name="첨부" readOnly="true" displayFunction="moca.EFC_BOAD_WS.dispCnt"></td>
-								<td id="BOAD_SUPPORT" celltype="input" style="text-align:center" name="상태" readOnly="true" displayFunction="moca.EFC_BOAD_WS.dispSupport"></td>
 								<td id="BOAD_WRITER" celltype="input" style="text-align:center" name="작성자" readOnly="true"></td>
 								<td id="BOAD_DATE" celltype="input" style="" name="작성일" readOnly="true" displayFunction="moca.longToDate"></td>
+								<td id="BOAD_RECEIPTIONER" celltype="input" style="text-align:center" name="접수자" readOnly="true"></td>
 							</tr>
 						</tbody>
 					</table>				

@@ -646,10 +646,10 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
 </style>
 </head>
 <body>
-	<div class="moca_pop_cont_wrap" style="display:none;" id="contents">
-        <div class="lybox sc_row flex">
-            <div class="ly_column col_5">
-                <div class="ly_col_cont flex_column">
+	<div class="moca_pop_cont_wrap flex" style="display:none;" id="contents">
+        <div class="lybox flex fauto">
+            <div class="ly_column col_5 fauto">
+                <div class="ly_col_cont flex fcol">
 			         <div type="form" id="form_board" class="moca_table toolbar" style=""
 			                label="게시물작성"
 			                showRowSelection="false"
@@ -797,8 +797,8 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
 			        </div>
                 </div>
             </div>
-            <div class="ly_column col_5" id="reply_area" style="display:none;">
-                <div class="ly_col_cont pl15 flex_column">
+            <div class="ly_column col_5 fauto" id="reply_area" style="display:none;">
+                <div class="ly_col_cont pl15 flex fcol">
                      <div type="form" id="form_reply" class="moca_table toolbar" style=""
                             label="게시물답변"
                             showRowSelection="false"
@@ -858,7 +858,7 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
                                 </table>
                                 
                     </div>
-                    <div type="grid" class="moca_grid toolbar sc_row mt10 fold" default_cell_height="26px" id="grd_reply_file" style="top:0; height:141px" rowSelectedColor="#434e5f"
+                    <div type="grid" class="moca_grid toolbar mt10 fold" default_cell_height="26px" id="grd_reply_file" style="top:0; height:141px" rowSelectedColor="#434e5f"
                     
                                         toolbar_search_size="false"
                                         toolbar_detail="false"

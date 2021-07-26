@@ -208,50 +208,53 @@
 	
 <div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
 	<div class="moca_tab_cont" style="height:100%">
-		<div class="moca_cont_wrap">
+		<div class="moca_cont_wrap flex fcol">
 			<div type="wframe" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
 				src="/html/titlebox.html"
 				data = '{"sreenCd":"EFC_BOAD","sreenNm":"업무게시판","sreenPath":"시스템설정,업무게시판"}'
 			></div>
 			<div class="moca_shbox">
 				<div class="shbox_inner">
-					<table class="tb">
-						<tbody>
-							<tr>
-								<th class="tb_th pr10">조회일자</th>
-								<td class="tb_td">
-									<div type="inputMultiCalendar" class="moca_ica fl" style="width:auto" id="CREATE_DTTM" displayFormat="####-##-##" 
-                                        defaultValue="12개월전" 
-                                        selecterItem="오늘,3일전,6일전"
-                                        showRadioOption="false"
-                                    ></div>
-								</td>
-								<th class="tb_th pr10">상태</th>
-								<td class="tb_td">
-								    <div type="checkboxGroup" class="fl mr15 bd" direction="vertical" id="chkg_1"
-                                        itemset='[
-                                            {"id":"chk1","label":"완료","value":"Y","checked":"true"}
-                                        ]'>
-                                    </div>
-                                </td>
-								<th class="tb_th pr10">작성자</th>
-								<td class="tb_td">
-									<input type="text" class="moca_input sh" style="width:100px" id="ipt_WRITER"  autocomplete="off" onkeyup="moca.default_keyup(this)">
-								</td>							
-								
-								<th class="tb_th pr10">제목</th>
-								<td class="tb_td">
-									<input type="text" class="moca_input sh" style="width:250px" id="ipt_TITLE"  autocomplete="off" onkeyup="moca.default_keyup(this)">
-								</td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="flex fwrap">
+						<div class="tb fl">
+							<span class="tb_th fl">조회일자</span>
+							<span class="tb_td">
+								<div type="inputMultiCalendar" class="moca_ica fl" style="width:auto" id="CREATE_DTTM" displayFormat="####-##-##" 
+		                               defaultValue="12개월전" 
+		                               selecterItem="오늘,3일전,6일전"
+		                               showRadioOption="false"
+		                         ></div>
+							</span>
+						</div>
+						<div class="tb fl">
+							<span class="tb_th fl">상태</span>
+							<span class="tb_td">
+								<div type="checkboxGroup" class="fl bd" direction="vertical" id="chkg_1"
+	                                itemset='[
+	                                    {"id":"chk1","label":"완료","value":"Y","checked":"true"}
+	                                ]'>
+	                            </div>
+							</span>
+						</div>
+						<div class="tb fl">
+							<span class="tb_th fl">작성자</span>
+							<span class="tb_td">
+								<input type="text" class="moca_input sh" style="width:100px" id="ipt_WRITER"  autocomplete="off" onkeyup="moca.default_keyup(this)">
+							</span>
+						</div>
+						<div class="tb fl">
+							<span class="tb_th fl">제목</span>
+							<span class="tb_td">
+								<input type="text" class="moca_input sh" style="width:250px" id="ipt_TITLE"  autocomplete="off" onkeyup="moca.default_keyup(this)">
+							</span>
+						</div>
+					</div>
 				</div>
 				<div class="btn_shbox">
 					<button type="button" class="button btn_sc" onclick="moca.EFC_BOAD.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
 				</div>
 			</div>
-			<div type="grid" class="moca_grid toolbar sc_row1" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
+			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
 			
 								toolbar_search_size="false"
 								toolbar_detail="true"

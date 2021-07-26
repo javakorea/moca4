@@ -111,35 +111,34 @@
 <body>
 <div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
 	<div class="moca_tab_cont" style="height:100%">
-		<div class="moca_cont_wrap">
+		<div class="moca_cont_wrap flex fcol">
 			<div type="wframe" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
 				src="/html/titlebox.html"
 				data = '{"sreenCd":"EFC_USER","sreenNm":"사용자관리","sreenPath":"기준정보관리,사용자관리"}'
 			></div>
 			<div class="moca_shbox">
 				<div class="shbox_inner">
-					<table class="tb">
-						<tbody>
-							<tr>
-								<th class="tb_th pr10">아이디</th>
-								<td class="tb_td">
-									<input type="text" class="moca_input sh" style="width:150px" id="userId" autocomplete="off" onkeyup="moca.default_keyup(this)">
-								</td>
-								
-								<th class="tb_th pr10">이름</th>
-								<td class="tb_td">
-									<input type="text" class="moca_input sh" style="width:150px" id="userNm" autocomplete="off" onkeyup="moca.default_keyup(this)">
-								</td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="flex fwrap">
+						<div class="tb fl">
+							<span class="tb_th fl">아이디</span>
+							<span class="tb_td">
+								<input type="text" class="moca_input sh" style="width:150px" id="userId" autocomplete="off" onkeyup="moca.default_keyup(this)">
+							</span>
+						</div>
+						<div class="tb fl">
+							<span class="tb_th fl">이름</span>
+							<span class="tb_td">
+								<input type="text" class="moca_input sh" style="width:150px" id="userNm" autocomplete="off" onkeyup="moca.default_keyup(this)">
+							</span>
+						</div>
+					</div>
 				</div>
 				<div class="btn_shbox">
 					<button type="button" class="button btn_sc" onclick="moca.EFC_USER.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
 				</div>
 			</div>
 			
-			<div type="grid" class="moca_grid toolbar sc_row1" default_cell_height="26px" id="grd_1"
+			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1"
 								toolbar_search_size="false"
 								toolbar_detail="true"
 								toolbar_exup="true"
