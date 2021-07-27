@@ -1522,7 +1522,7 @@ Moca.prototype.scopes = function(){
 	
 	
 };
-Moca.prototype.tree_click = function(_clickedMenuId){
+Moca.prototype.tree_click = function(_clickedMenuId,_mdiId){
 	['메뉴클릭'];
 	var node = $('#'+_clickedMenuId).find('SPAN')[0];
 	var _clickedNode = $('#'+_clickedMenuId)[0];
@@ -1555,7 +1555,7 @@ Moca.prototype.tree_click = function(_clickedMenuId){
 			
 			moca.openPop({width:1000,height:600,url:moca._contextRoot+_url,id:_label});
 		}else{
-			moca.openMdi(moca._contextRoot+_url,_srcId,_label,_clickedMenuId);
+			moca.openMdi(moca._contextRoot+_url,_srcId,_label,_clickedMenuId,_mdiId);
 		}
 		
 	}else{
@@ -1579,15 +1579,21 @@ Moca.prototype.url_to_srcId = function(_url){
 };
 
 
-Moca.prototype.openMdi = function(_url,_srcId,_label,_clickedMenuId){
+Moca.prototype.openMdi = function(_url,_srcId,_label,_clickedMenuId,_mdiId){
 	['_url MDI로 열기 '];
 		var o = {type:"MDI"};
 		o.url = _url;
 		o.srcId = _srcId;
 		o.label = _label;
 		o.clickedMenuId = _clickedMenuId;
+		debugger;
+		if(_mdiId == null){
+			_mdiId = "mdi_1"
+		}
+		
+		o.mdiId = _mdiId;
 		//오픈전에 닫아야 할것들 닫기
-		var arr = $('.moca_tab_ul>li');
+		var arr = $('#'+_mdiId+' .moca_tab_ul>li');
 		for(var i=0;i < arr.length; i++){
 			var aTab = arr[i];
 			var aUrl = $(aTab).attr('tab_url');
@@ -1595,8 +1601,8 @@ Moca.prototype.openMdi = function(_url,_srcId,_label,_clickedMenuId){
 				var _tab_id = moca.setPageArea(aTab);
 				arr.removeClass("active");
 				$(aTab).addClass('active');//탭액티브
-				$('.moca_tab_body').css('display','none');
-				var contDiv = $('.moca_tab_body').parent().find('div[id*="'+_tab_id+'"]');
+				$('#'+_mdiId+' .moca_tab_body').css('display','none');
+				var contDiv = $('#'+_mdiId+' .moca_tab_body').parent().find('div[id*="'+_tab_id+'"]');
 				contDiv.css('display','block');
 				return false;
 			}
@@ -1637,7 +1643,9 @@ Moca.prototype.openMdi = function(_url,_srcId,_label,_clickedMenuId){
 
 Moca.prototype.moca_mdi_click = function(_liObj){
 	['mdi tab click event'];
-	$('.moca_tab_body').css('display','none');
+	debugger;
+	var _mdiId = _liObj.closest('.moca_mdi').id;
+	$('#'+_mdiId+' .moca_tab_body').css('display','none');
 	//$('.moca_tab_ul').find('.active').removeClass('active');
 	
 	
@@ -1645,8 +1653,8 @@ Moca.prototype.moca_mdi_click = function(_liObj){
 		$($(_liObj).parent().find(".active")[0]).removeClass("active");
 		$(_liObj).addClass("active");
 		var _tab_id = moca.setPageArea(_liObj);
-		var arr = $('.moca_tab_body');
-		var contDiv = $('.moca_tab_body').parent().find('div[id*="'+_tab_id+'"]');
+		var arr = $('#'+_mdiId+' .moca_tab_body');
+		var contDiv = $('#'+_mdiId+' .moca_tab_body').parent().find('div[id*="'+_tab_id+'"]');
 		for(var i=0;i < arr.length; i++){
 			var _row = arr[i];
 			if(contDiv[0] === _row){
@@ -1678,15 +1686,18 @@ Moca.prototype.goMain = function(){
 
 
 
-Moca.prototype.tree_addTab = function(_label,_tabId,_url){
+Moca.prototype.tree_addTab = function(_label,_tabId,_url,_mdiId){
 	['tree_addTab'];
+	debugger;
 	var tabHtml = '<li class="moca_tab_list active" tab_url="'+_url+'" tab_label="'+_label+'" tab_id="'+_tabId+'" id="'+_tabId+'_li" onclick="moca.moca_mdi_click(this);"><span class="moca_tab_mark"></span><button type="button" role="tab" aria-controls="moca_tab_bridge1" class="moca_tab_label">'+_label+'</button>';
 	tabHtml += '<button type="button" class="moca_tab_close" onclick="moca.tabClose(this)">닫기</button></li>';
 	var _html = $('.moca_tab_ul').html();
 	var _full_html = _html.replace(/active/g,'')+tabHtml;
-	$('.moca_tab_ul').html(_full_html); 
-	if($('.moca_tab_close:last').length != 0){
-		($('.moca_tab_allclose').offset().left - $('.moca_tab_close:last').offset().left <= 150)? $('.moca_tab_ul').addClass('tabWidth') : $('.moca_tab_ul').removeClass('tabWidth');
+	$('#'+_mdiId+' .moca_tab_ul').html(_full_html); 
+
+
+	if($('#'+_mdiId+' .moca_tab_close:last').length != 0){
+		($('#'+_mdiId+' .moca_tab_allclose').offset().left - $('#'+_mdiId+' .moca_tab_close:last').offset().left <= 150)? $('#'+_mdiId+' .moca_tab_ul').addClass('tabWidth') : $('#'+_mdiId+' .moca_tab_ul').removeClass('tabWidth');
 	}
 };
 
@@ -1699,14 +1710,16 @@ Moca.prototype.tabClose = function(_liCloseButtonObj){
 			$('*[tab_id='+_tab_id+']').remove();
 			$(_liCloseButtonObj).parent().remove();
 			
+			var _mdi = $(_liCloseButtonObj).closest('.moca_mdi');
 			if(t.hasClass("active")){
 				//액티브상태에서 닫혔을때만 아래 적용
 				$('.moca_tab_ul>li:last-child').addClass('active');//탭액티브
 				$('.moca_tab_body').last().css('display','block');//컨텐츠액티브		
 			}
 			$('.moca_tab_ul').removeClass('tabWidth'); //탭메뉴리사이징
+			
 			if($('.moca_tab_close:last').length != 0){
-				($('.moca_tab_allclose').offset().left - $('.moca_tab_close:last').offset().left <= 150)? $('.moca_tab_ul').addClass('tabWidth') : $('.moca_tab_ul').removeClass('tabWidth');
+				($('#'+_mdi+' .moca_tab_allclose').offset().left - $('#'+_mdi+' .moca_tab_close:last').offset().left <= 150)? $('#'+_mdi+' .moca_tab_ul').addClass('tabWidth') : $('#'+_mdi+' .moca_tab_ul').removeClass('tabWidth');
 			}
 
 			event.preventDefault();
@@ -1720,12 +1733,13 @@ Moca.prototype.tabClose = function(_liCloseButtonObj){
 
 Moca.prototype.all_tab_close = function(_liCloseButtonObj){
 	['탭닫기']; 
+	var _mdiId = _liCloseButtonObj.closest('.moca_mdi').id;
 	moca.confirm('모든 화면을 닫으시겠습니까?',function(result){
 		if(result == 'Y'){
-			$('.moca_tab_ul>li').remove();//탭액티브
-			$('.moca_tab_body[id!=moca_main]').remove();//컨텐츠액티브
-			$('.moca_tab_body[id=moca_main]').css('display','block');
-			$('.moca_tab_ul').removeClass('tabWidth'); //탭메뉴리사이징
+			$('#'+_mdiId+' .moca_tab_ul>li').remove();//탭액티브
+			$('#'+_mdiId+' .moca_tab_body[id!=moca_main]').remove();//컨텐츠액티브
+			$('#'+_mdiId+' .moca_tab_body[id=moca_main]').css('display','block');
+			$('#'+_mdiId+' .moca_tab_ul').removeClass('tabWidth'); //탭메뉴리사이징
 			event.preventDefault();
 			event.stopPropagation();
 			event.stopImmediatePropagation();
@@ -9639,13 +9653,14 @@ Moca.prototype.rendering = function(o,_aTag) {
 	var _srcId = o.srcId;
 	var _label = o.label;
 	var _clickedMenuId = o.clickedMenuId;
+	var _mdiId = o.mdiId;
 	var htmlContents = o.htmlContents;
 	if(htmlContents == null){
 		htmlContents = o.data;
 	}
 	var _tabId = o.type+"_"+moca.now()+moca.shuffleRandom(6);
 	if(o.type == 'MDI' && moca.trim(_label) != ''){
-		   moca.tree_addTab(_label,_tabId,_url);  
+		   moca.tree_addTab(_label,_tabId,_url,_mdiId);  
 	}else{
 		//$('#__popup').html('<div id="'+o.popupId+'" pageid="'+_tabId+'" srcid="'+_srcId+'" class="moca_tab moca_mdi">');
 		
@@ -9676,10 +9691,11 @@ Moca.prototype.rendering = function(o,_aTag) {
 		   $(contDiv).attr("id","moca_main");
 	}
 	$(contDiv).attr("src",_url);
+	debugger;
 	if(o.type == 'MDI'){ 
 		$(contDiv).addClass('moca_tab_body');
 		$(contDiv).html(htmlContents);
-		$('.moca_tab').append(contDiv);
+		$('#'+_mdiId+'.moca_tab').append(contDiv);
 	}else if(o.type == 'POP'){
 		$(contDiv).addClass('moca_tab_body');
 		$(contDiv).html(htmlContents);
@@ -9821,6 +9837,10 @@ Moca.prototype.rendering = function(o,_aTag) {
 			
 		
 		
+	}
+	
+	if(moca[_srcId] == null){
+		return;
 	}
 	//console.log(_srcId,'rendering moca[_srcId]-',moca[_srcId]);
 	moca[_srcId].pageId = _tabId;
@@ -10211,6 +10231,9 @@ Moca.prototype.renderWframe = function(aTag) {
 };
 
 Moca.prototype.callReady = function(aTag) {
+	   if(aTag == null){
+		   return;
+	   }
 	   var _url = aTag.getAttribute("src");
 	   var _fileName = _url.substring(_url.lastIndexOf('/')+1);
 	   var _srcId = _fileName.substring(0,_fileName.indexOf('.'));

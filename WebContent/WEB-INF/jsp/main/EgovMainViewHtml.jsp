@@ -177,8 +177,9 @@ $(document).ready(function() {
 	<div class="moca_wrap">
 		<div type="wframe"  id="header" tag="moca:header" src="/to/moca/comm/header.html"></div>
 		<div type="wframe"  id="aside"tag="moca:aside" src="/to/moca/comm/aside.html"></div>
-		<div class="moca_container on">		
-			<div type="wframe"  id="lnb" tag="moca:lnb" src="/to/moca/comm/lnb.html"></div><div type="wframe"  id="mdi" tag="moca:mdi" src="/to/moca/comm/mdi.html"></div>
+		<div class="moca_container on flex">		
+			<div type="wframe" style="width:210px" id="lnb" tag="moca:lnb" src="/to/moca/comm/lnb.html"></div>
+			<div type="wframe" style="position:relative" class="fauto" id="mdi" tag="moca:mdi" src="/to/moca/comm/mdi.html"></div>
 		</div>
 		<div type="wframe"  id="footer" tag="moca:footer" src="/to/moca/comm/footer.html"></div>
 	</div>
