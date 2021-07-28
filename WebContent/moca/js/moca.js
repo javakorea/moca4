@@ -1586,7 +1586,6 @@ Moca.prototype.openMdi = function(_url,_srcId,_label,_clickedMenuId,_mdiId){
 		o.srcId = _srcId;
 		o.label = _label;
 		o.clickedMenuId = _clickedMenuId;
-		debugger;
 		if(_mdiId == null){
 			_mdiId = "mdi_1"
 		}
@@ -1643,7 +1642,6 @@ Moca.prototype.openMdi = function(_url,_srcId,_label,_clickedMenuId,_mdiId){
 
 Moca.prototype.moca_mdi_click = function(_liObj){
 	['mdi tab click event'];
-	debugger;
 	var _mdiId = _liObj.closest('.moca_mdi').id;
 	$('#'+_mdiId+' .moca_tab_body').css('display','none');
 	//$('.moca_tab_ul').find('.active').removeClass('active');
@@ -1688,7 +1686,6 @@ Moca.prototype.goMain = function(){
 
 Moca.prototype.tree_addTab = function(_label,_tabId,_url,_mdiId){
 	['tree_addTab'];
-	debugger;
 	var tabHtml = '<li class="moca_tab_list active" tab_url="'+_url+'" tab_label="'+_label+'" tab_id="'+_tabId+'" id="'+_tabId+'_li" onclick="moca.moca_mdi_click(this);"><span class="moca_tab_mark"></span><button type="button" role="tab" aria-controls="moca_tab_bridge1" class="moca_tab_label">'+_label+'</button>';
 	tabHtml += '<button type="button" class="moca_tab_close" onclick="moca.tabClose(this)">닫기</button></li>';
 	var _html = $('.moca_tab_ul').html();
@@ -9691,7 +9688,6 @@ Moca.prototype.rendering = function(o,_aTag) {
 		   $(contDiv).attr("id","moca_main");
 	}
 	$(contDiv).attr("src",_url);
-	debugger;
 	if(o.type == 'MDI'){ 
 		$(contDiv).addClass('moca_tab_body');
 		$(contDiv).html(htmlContents);

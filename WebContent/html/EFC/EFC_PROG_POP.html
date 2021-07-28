@@ -45,34 +45,30 @@
 </script>
 </head>
 <body>
-		<div class="moca_pop_cont_wrap">
+		<div class="moca_pop_cont_wrap flex fcol">
 			<div type="wframe" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
 				src="/html/titlebox.html"
 				data = '{"sreenCd":"EFC_PROG_POP","sreenNm":"프로그램검색","sreenPath":"메뉴관리,프로그램검색"}'
 			></div>
 			<div class="moca_shbox">
 				<div class="shbox_inner">
-					<table class="tb">
-						<tbody>
-							<tr>
-								<th class="tb_th pr10">프로그램명</th>
-								<td class="tb_td">
-									<div class="moca_ibn" style="width:150px">
-										<input type="text" class="moca_input" value="" id="searchKeyword" onkeyup="moca.default_keyup(this)">
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="flex fwrap">
+						<div class="tb">
+							<span class="tb_th">프로그램명</span>
+							<span class="tb_td">
+								<div class="moca_ibn" style="width:150px">
+									<input type="text" class="moca_input" value="" id="searchKeyword" onkeyup="moca.default_keyup(this)">
+								</div>
+							</span>
+						</div>
+					</div>
 				</div>
 				<div class="btn_shbox">
 					<button type="button" class="button btn_sc" onclick="moca.EFC_PROG_POP.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
 				</div>
 			</div>
-
-
-			<div type="grid" class="moca_grid toolbar sc_row1" default_cell_height="26px" id="pop_grd_1"
-				style="bottom:15px"
+			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="pop_grd_1"
+				style=""
 	 			ondblclick="moca.EFC_PROG_POP.fn_rowSelect(this)"
 				toolbar_grid_button2='{"position":"right","id":"button2","label":"적용","onclick":"moca.EFC_PROG_POP.fn_rowSelect","addClass":""}'	
 				label="프로그램목록">

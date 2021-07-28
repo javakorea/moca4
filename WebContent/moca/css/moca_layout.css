@@ -297,13 +297,12 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 .moca_shbox .tb .tb_td {border:0; background:transparent; height:24px; float:left}
 .moca_shbox .tb .tb_th {color:#666; padding:0 10px 0 0; font-weight:700; text-align:left; line-height:24px}
 .moca_shbox .tb .tb_td {padding:0 30px 0px 0}
-.moca_shbox .tb .tb_td > * {height:24px; line-height:24px}
+.moca_shbox .tb .tb_td > * {height:24px; line-height:24px; display:inline-block}
 .moca_shbox .tb tr:first-child .tb_td {padding-top:0}
 .moca_shbox .tb tr:last-child .tb_td {padding-bottom:0}
 .moca_shbox .shbox_inner {position:relative; padding:0; /* margin:0 105px 0 0 */}
 .moca_shbox .shbox_inner input[type="file"]{width:250px; height:24px}
 .moca_shbox .btn_shbox {position:absolute; bottom:10px; right:20px; height:24px; text-align:right}
-.moca_shbox .mocaInput {display:inline-block}
 .moca_shbox.sub{z-index:1; top: -2px; border-top: 0; padding-top: 0; display:none}
 .moca_shbox.sub.on{display:block;}
 

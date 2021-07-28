@@ -112,7 +112,7 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 /* MOCA combo */
 /* .moca_grid_list .moca_combo{border:1px solid #4880c1;}
 .moca_grid_list .moca_select{background: #f6f8fb url(../images/ico_cmb_arrow.png) no-repeat 100% 50%;} */
-.moca_combo {display:inline-block; position:relative; height:24px; margin:0; padding:0; border:1px solid #d7d7de; border-radius:2px; background-color:#fff; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
+.moca_combo {position:relative; height:24px; margin:0; padding:0; border:1px solid #d7d7de; border-radius:2px; background-color:#fff; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
 .moca_combo.req{border:1px solid #e79f78; background:#fffbe8;}
 .moca_combo.req:hover{border:1px solid #e45c2d;background:#fffbe8}
 .moca_combo.req option{background: #fffbe8;}
