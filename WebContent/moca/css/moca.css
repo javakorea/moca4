@@ -265,7 +265,6 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_tree ul {display:block; position:relative; margin:0; padding:5px 0 5px 5px; /* background:url(../images/line_tree_vr.gif) repeat-y 11px -1px; zoom:1 */}
 .moca_tree ul li {position:relative; padding:5px 0 0; line-height: 1.5; /* background:url(../images/line_tree_hr.gif) no-repeat 1px 5px !important; */ white-space:nowrap; list-style:none}
 .moca_tree ul li span.moca_tree_tbx {display:inline-block; position:relative; padding:0 4px; cursor:pointer; vertical-align:middle}
-.moca_tree ul li ul li span.moca_tree_tbx:hover {text-decoration:underline}
 .moca_tree ul li button {display:inline-block; padding:0; margin:0}
 .moca_tree ul li button.moca_tree_btn {position:relative; width:17px; height:12px; margin:0; border:none; text-indent:-9999px; cursor:pointer; vertical-align:middle}
 .moca_tree ul li ul {display:none; margin:0 0 0 17px; padding:0}
@@ -276,10 +275,14 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 
 .moca_tree ul li ul {display:none}
 .moca_tree ul li ul li {display:none}
+.moca_tree ul li ul li .mdi_choice{width: 50%; height: 25px; position: absolute; background: #c0d8e9; opacity:0.5}
+.moca_tree ul li ul li .mdi_choice:nth-child(2){right:0;background:#e9cfc0}
+    
+
 .moca_tree ul li.moca_tree_open > ul {display:block}
 .moca_tree ul li.moca_tree_open > ul li {display:block}
 .moca_tree ul li.moca_tree_last {/* background:url(../images/line_tree_last_hr.gif) no-repeat 0 5px !important */}
-.moca_tree ul li.active > span.moca_tree_tbx {background-color:#cdecf0 ; color:#000}
+.moca_tree ul li.active > span.moca_tree_tbx {background-color:#e5ebef}
 .moca_tree > ul > li.active > span.moca_tree_tbx{background-color:#7791af !important}
 .moca_tree .moca_checkbox_tree {display:inline-block; position:relative; width:15px; height:12px; vertical-align:middle; -moz-box-sizing:border-box; box-sizing:border-box}
 /*.moca_tree .moca_checkbox_tree input[type="checkbox"].moca_checkbox_input {position:absolute}
@@ -302,8 +305,10 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_tree.workmenu li button.tvw_btn_close {display:none !important}
 .moca_tree.workmenu ul li ul {margin:0; background: #354b5d;border-bottom:1px solid #49657c}
 .moca_tree.workmenu ul li ul li >span.moca_tree_tbx{overflow: hidden; text-overflow: ellipsis; padding-left:26px; border-bottom:1px solid #fff}
+/*
 .moca_tree.workmenu ul li ul li.active > span.moca_tree_tbx{text-decoration:underline; color:#02e4b3; background:#354b5d}
 .moca_tree.workmenu ul li ul li > span.moca_tree_tbx:hover {text-decoration:underline; color:#02e4b3}
+*/
 .moca_tree.workmenu li .moca_tree_btn {position:absolute; right:0; top:0; left:0; height:40px; width:100%; background-position:right 10px center !important}
 .moca_tree.workmenu ul li ul > li > .moca_tree_tbx {display:block; height:24px; padding:7px 10px 7px 20px; font-family: 'Spoqa Han Sans Bold'; font-size:12px; font-weight: 700; letter-spacing:-0.5px; line-height:22px; color:#eee}
 .moca_tree.workmenu ul li ul > li > ul > li .moca_tree_tbx {display:block; height:20px; padding:7px 10px 7px 30px; font-size:11px; line-height:22px; color:#eee}

@@ -1524,6 +1524,7 @@ Moca.prototype.scopes = function(){
 };
 Moca.prototype.tree_click = function(_clickedMenuId,_mdiId){
 	['메뉴클릭'];
+	debugger;
 	var node = $('#'+_clickedMenuId).find('SPAN')[0];
 	var _clickedNode = $('#'+_clickedMenuId)[0];
 	//basis.addClass('active');
@@ -1855,8 +1856,9 @@ Moca.prototype.tree_mt_loop = function(_treeId,_data,menuObjs){
 		}
 
 		//treeHtml += '<li id="li'+row.cd+'" class="'+openClass+' '+leafClass+'" ondrop="moca.tree_drop(this);" ondragstart="moca.tree_dragstart(this);"  ondragover="moca.tree_dragover(this);" onmousedown="moca.tree_mousedown(this);" onclick="moca.tree_click(\'li'+row.cd+'\');" draggable="true" treeId="'+_treeId+'"  level="'+row.level+'">';
-		treeHtml += '<li id="li'+row.cd+'" class="'+openClass+' '+leafClass+'" onmousedown="moca.tree_mousedown(this);"  onclick="moca.tree_click(\'li'+row.cd+'\');" treeId="'+_treeId+'"  level="'+row.level+'">';
-		
+		treeHtml += '<li id="li'+row.cd+'" class="'+openClass+' '+leafClass+'" onmousedown="moca.tree_mousedown(this);"  treeId="'+_treeId+'"  level="'+row.level+'">';
+		treeHtml += '<div class="mdi_choice" onclick="moca.tree_click(\'li'+row.cd+'\',\'mdi_1\');" ></div>';
+		treeHtml += '<div class="mdi_choice" onclick="moca.tree_click(\'li'+row.cd+'\',\'mdi_2\');" ></div>';
 		treeHtml += '<div class="moca_checkbox_tree"  >';
 		treeHtml += '<input type="checkbox" id="mnu'+row.cd+'"  class="moca_checkbox_input" onclick="moca.tree_check(this);"><label for="mnu'+row.cd+'"  class="moca_checkbox_label">'+row.nm+'</label>';
 		treeHtml += '</div>';

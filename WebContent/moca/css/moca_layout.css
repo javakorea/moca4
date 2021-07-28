@@ -74,8 +74,10 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 .moca_tree.workmenu li button.tvw_btn_close {display:none !important}
 .moca_tree.workmenu ul li ul {margin:0; background: #eef0f2;border-bottom:1px solid #dedede}
 /* .moca_tree.workmenu ul li.active > span.moca_tree_tbx {background-color:#434e5f; color:#fff} */
+/*
 .moca_tree.workmenu ul li ul li.active > span.moca_tree_tbx{text-decoration:underline; color:#4880c1; background:#e5ebef}
 .moca_tree.workmenu ul li ul li > span.moca_tree_tbx:hover {text-decoration:underline; color:#4880c1}
+*/
 .moca_tree.workmenu li .moca_tree_btn {position:absolute; right:0; top:0; left:0; height:40px; width:100%; background-position:right 10px center !important}
 .moca_tree.workmenu ul li ul > li > .moca_tree_tbx {display:block; height:24px; padding:7px 10px 7px 20px; font-family: 'Spoqa Han Sans Bold'; font-size:12px; font-weight: 700; letter-spacing:-0.5px; line-height:22px; color:#333}
 .moca_tree.workmenu ul li ul > li > ul > li .moca_tree_tbx {display:block; height:20px; padding:7px 10px 7px 30px; font-size:11px; line-height:22px; color:#333}
