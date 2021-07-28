@@ -276,16 +276,17 @@
 			>
 					<table style="width: 100%">
 						<colgroup>
-								<col style="width:60px">
+								<col style="width:30px">
 								<!-- <col style="width:60px"> -->
 								<col style="width:60px">
 								<col style="width:60px">
 								
-								<col style="">
-								<col style="width:60px">
-								<col style="width:200px">
+								<col style="min-width:347px">
+								<col style="width:40px">
+								<col style="width:100px">
 								<col style="width:150px">
-								<col style="width:150px">		
+								<col style="width:100px">	
+								<!--<col style="width:100px">-->	
 						</colgroup>
 						<thead>
 							<tr>
@@ -298,19 +299,21 @@
 								<th scope="col" id="H_BOAD_WRITER"  filterable="true" filterableId="BOAD_WRITER">작성자</th>
 								<th scope="col" id="H_BOAD_DATE">작성일시</th>
 								<th scope="col" id="H_BOAD_RECEIPTIONER"  filterable="true" filterableId="BOAD_RECEIPTIONER">접수자</th>
+								<!--<th scope="col" id="H_BOAD_BTN">버튼</th>-->
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" disabledFunction="moca.EFC_BOAD_WS.disabled" ></td>
 								<!--<td id="BOAD_TYPE" celltype="input" style="text-align:center" name="ID" readOnly="true"></td> -->
-								<td id="BOAD_PIDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
+								<td id="BOAD_PIDX" celltype="input" btnLabel="삭제" style="text-align:center" name="ID" readOnly="true"></td>
 								<td id="BOAD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
 								<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true" displayFunction="moca.EFC_BOAD_WS.dispReply"></td>
 								<td id="CNT" celltype="input" style="" name="첨부" readOnly="true" displayFunction="moca.EFC_BOAD_WS.dispCnt"></td>
 								<td id="BOAD_WRITER" celltype="input" style="text-align:center" name="작성자" readOnly="true"></td>
 								<td id="BOAD_DATE" celltype="input" style="" name="작성일" readOnly="true" displayFunction="moca.longToDate"></td>
 								<td id="BOAD_RECEIPTIONER" celltype="input" style="text-align:center" name="접수자" readOnly="true"></td>
+								<!--<td id="delBtn" name="삭제"  celltype="button" readonly="false" required="false" addRowEditable="false" callFunction="moca.TO_000P01.fn_onBtnClick" btnLabel="삭제"></td>-->
 							</tr>
 						</tbody>
 					</table>				
