@@ -178,7 +178,7 @@
 .moca_shbox .shbox_group .moca_ica[type="inputMultiCalendar"] > div{height: 20px; top: 1px;}
    
 /*지역별채권율 등록 TO004*/
-.absoluteTb .moca_table_body{position: absolute; left: 15px; right: 15px; top: 141px; bottom: 10px; border-top: 1px solid #9a9ea8; border-bottom: 1px solid #9a9ea8;}
+.absoluteTb .moca_table_body{position: absolute; left: 15px; right: 15px; top: 133px; bottom: 10px; border-top: 1px solid #9a9ea8; border-bottom: 1px solid #9a9ea8;}
 .absoluteTb .moca_table_cont{border-top:0}
 .absoluteTb thead th{position:sticky; z-index:1}
 .absoluteTb thead > tr:nth-child(1) > th:first-child{z-index:2}
