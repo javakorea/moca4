@@ -49,23 +49,21 @@ moca.TO_007.sendParam = function(_tabContentId,_tabContentIndex,_tabContentObj){
 <body>
 <div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
 	<div class="moca_tab_cont" style="height:100%">
-		<div class="moca_cont_wrap">
+		<div class="moca_cont_wrap flex fcol">
 			<div type="wframe" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
 				src="/html/titlebox.html"
 				data = '{"sreenCd":"TO_007","sreenNm":"시가표준액 등록 조회","sreenPath":"Quick Menu,시가표준액 등록 조회"}'
 			></div>
 			<div class="moca_shbox">
 				<div class="shbox_inner">
-					<table class="tb">
-						<tbody>
-							<tr>
-								<th class="tb_th pr10">차명/형식명</th>
-								<td class="tb_td">
-									<input type="text" class="moca_input" style="width:250px" id="keyWord" autocomplete="off" onkeyup="moca.default_keyup(this)">
-								</td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="flex fwrap">
+						<div class="tb">
+							<span class="tb_th">차명/형식명</span>
+							<span class="tb_td">
+								<input type="text" class="moca_input" style="width:250px" id="keyWord" autocomplete="off" onkeyup="moca.default_keyup(this)">
+							</span>
+						</div>
+					</div>
 				</div>
 				<div class="btn_shbox">
 					<button type="button" class="button btn_sc" onclick="moca.TO_007.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>

@@ -9706,6 +9706,7 @@ Moca.prototype.rendering = function(o,_aTag) {
 		$('#__body').append(contDiv);
 	}else if(o.type == 'TAB'){
 		$(contDiv).addClass('moca_layer_tab_cont');
+		$(contDiv).addClass('flex');
 		$(contDiv).html(htmlContents);
 		
 		$(_aTag).append(contDiv);

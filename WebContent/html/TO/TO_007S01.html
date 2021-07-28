@@ -17,7 +17,7 @@ moca.TO_007S01._excelCallback = function(_json){
 </head>
 <body>
 	<!-- TO_007S01 시가표준액 등록 조회 ::전체 -->
-	<div type="grid" class="moca_grid toolbar" default_cell_height="26px" id="grd_07_S01" 
+	<div type="grid" class="moca_grid toolbar fauto" default_cell_height="26px" id="grd_07_S01" 
 			toolbar_search_size="false"
 			toolbar_col_showhide="false"
 			toolbar_detail="false"
@@ -30,7 +30,7 @@ moca.TO_007S01._excelCallback = function(_json){
 			label="전체">
 			<table style="width: 100%">
 				<colgroup>
-					<!-- <col style="width:80px"> --><!-- 상태 -->
+					<col style="width:80px"><!-- 상태 -->
 					<col style="width:80px"><!-- 순번 -->
 					<col style="width:100px"><!-- 차종 -->
 					<col style="width:200px"><!-- 제작사 -->
@@ -43,7 +43,7 @@ moca.TO_007S01._excelCallback = function(_json){
 				</colgroup>
 				<thead>
 					<tr>
-						<!-- <th id="H_status">상태</th> -->
+						<th id="H_status">상태</th>
 						<th id="H_rowNum">순번</th>
 						<th id="H_vehicleType">차종</th>
 						<th id="H_manufacturerImport">제작사</th>
@@ -57,7 +57,7 @@ moca.TO_007S01._excelCallback = function(_json){
 				</thead>
 				<tbody>
 					<tr>
-						<!-- <td id="status" celltype="input" style="" readOnly="true" name="상태" ></td> -->
+						<td id="status" celltype="input" style="" readOnly="true" name="상태" ></td>
 						<td excelIndex="0"  id="rowNum" name="순번" celltype="input" style="" readonly="true" displayFunction="moca.fn_display_rownum"></td>
 						<td excelIndex="1"    id="VehicleType" name="차종" celltype="input" style="" readonly="true"  displayFunction=""></td>
 						<td excelIndex="2"    id="Manufacturer" name="제작사"  celltype="input" tooltip="true" style="text-align:left" readonly="true" required="false"></td>

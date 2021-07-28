@@ -144,7 +144,7 @@ moca.TO_006.fn_setter = function(_this){
 <body>
 <div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
 	<div class="moca_tab_cont" style="height:100%">
-		<div class="moca_cont_wrap">
+		<div class="moca_cont_wrap flex fcol">
 			<div type="wframe" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
 				src="/html/titlebox.html"
 				data = '{"sreenCd":"TO_006","sreenNm":"취득세율 및 감면금액","sreenPath":"Quick Menu,취득세율 및 감면금액"}'
@@ -152,18 +152,17 @@ moca.TO_006.fn_setter = function(_this){
 			
 			<div class="moca_shbox">
 				<div class="shbox_inner">
-					<table class="tb">
-						<tbody>
-							<tr>
-								<th class="tb_th pr10">적용년도설정</th>
-								<td class="tb_td">
-									<div type="radio" class="mocaRadio" style="width:100%" id="radio1" 
+					<div class="flex fwrap">
+						<div class="tb">
+							<span class="tb_th">적용년도설정</span>
+							<span class="tb_td">
+								<div type="radio" class="mocaRadio" style="" id="radio1" 
 									innerOnclick="moca.TO_006.fn_search"
-									itemset='[{"label":"당년","value":"thisYear","checked":"true"},{"label":"내년","value":"nextYear"}]'></div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+									itemset='[{"label":"당년","value":"thisYear","checked":"true"},{"label":"내년","value":"nextYear"}]'>
+								</div>
+							</span>
+						</div>
+					</div>
 				</div>
 				<!-- <div class="btn_shbox">
 					<button type="button" class="button btn_sc" onclick="moca.TO_006.fn_apply(this)"><span>적용</span></button>
@@ -171,7 +170,7 @@ moca.TO_006.fn_setter = function(_this){
 				</div> -->
 			</div>
 			<!-- 차량 시세 추가적용율 -->
-			<div type="form" id="form_2" class="moca_table toolbar mt12 mb12 absoluteTb" style=""
+			<div type="form" id="form_2" class="moca_table toolbar fauto mt12 mb12 absoluteTb" style=""
 				label="취득세율 및 감면금액" keyMask="onlyMoney"
 				addition='[
 					{"type":"button","position":"right","id":"btn_apply","label":"적용","onclick":"moca.TO_006.fn_save","addClass":""},

@@ -340,7 +340,7 @@ moca.TO_001.fn_toolkit_purcharse = function(_json){
 <body>
 	<div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
 	<div class="moca_tab_cont" style="height:100%">
-		<div class="moca_cont_wrap">
+		<div class="moca_cont_wrap flex fcol">
 			<div type="wframe" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
 				src="/html/titlebox.html"
 				data = '{"sreenCd":"TO_001","sreenNm":"운영관리","sreenPath":"운영관리"}'
@@ -352,34 +352,30 @@ moca.TO_001.fn_toolkit_purcharse = function(_json){
 			></div>
 			<div class="moca_shbox">
 				<div class="shbox_inner">
-					<table class="tb">
-						<tbody>
-							<tr>
-								<th class="tb_th pr10">상태</th>
-								<td class="tb_td">
-									<div type="checkboxGroup" class="fl mr15" direction="vertical" id="chkg_1"
-										itemset='[{"id":"chk1","label":"진행중","value":"1","checked":"true"}]'>
-									</div>
-									<div type="checkboxGroup" class="fl mr5" direction="vertical" id="chkg_2"
-											itemset='[{"id":"chk2","label":"완료","value":"0","checked":"false"}]'>
-									</div>
-									<div type="inputMultiCalendar" class="moca_ica fl" style="width:auto" id="CREATE_DTTM" displayFormat="####-##-##" 
-										defaultValue="6일전" 
-										selecterItem="오늘,3일전,6일전"
-										showRadioOption="false"
-									></div>
-								</td>
-								<th class="tb_th pr10">차량번호/양수인명/양도인명</th>
-								<td class="tb_td">
-									<div type="input" id="RegNumber" keyMask="enterSearchEvt" class="mocaInput"  style=""  readonly="false" ></div>
-								</td>
-<!-- 								<th class="tb_th pr10">양수인명/양도인명</th>
-								<td class="tb_td">
-									<div type="input" id="sellerNameAndbuyerName" keyMask="enterSearchEvt" class="mocaInput"  style=""  readonly="false" ></div>
-								</td> -->
-							</tr>
-						</tbody>
-					</table>
+					<div class="flex fwrap">
+						<div class="tb">
+							<span class="tb_th">상태</span>
+							<span class="tb_td">
+								<div type="checkboxGroup" class="fl mr15" direction="vertical" id="chkg_1"
+									itemset='[{"id":"chk1","label":"진행중","value":"1","checked":"true"}]'>
+								</div>
+								<div type="checkboxGroup" class="fl mr5" direction="vertical" id="chkg_2"
+										itemset='[{"id":"chk2","label":"완료","value":"0","checked":"false"}]'>
+								</div>
+								<div type="inputMultiCalendar" class="moca_ica fl" style="width:auto" id="CREATE_DTTM" displayFormat="####-##-##" 
+									defaultValue="6일전" 
+									selecterItem="오늘,3일전,6일전"
+									showRadioOption="false"
+								></div>
+							</span>
+						</div>
+						<div class="tb">
+							<span class="tb_th">차량번호/양수인명/양도인명</span>
+							<span class="tb_td">
+								<div type="input" id="RegNumber" keyMask="enterSearchEvt" class="mocaInput"  style=""  readonly="false" ></div>
+							</span>
+						</div>
+					</div>
 				</div>
 				<div class="btn_shbox">
 					<button type="button" class="button btn_sc" onclick="moca.TO_001.fn_search()"><i class="fas fa-search"></i><span>조회</span></button>

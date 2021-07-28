@@ -104,33 +104,33 @@ moca.TO_013._excelCallback = function(_json){
 <body>
 <div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
 	<div class="moca_tab_cont" style="height:100%">
-		<div class="moca_cont_wrap">
+		<div class="moca_cont_wrap flex fcol">
 			<div type="wframe" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
 				src="/html/titlebox.html"
 				data = '{"sreenCd":"TO_013","sreenNm":"금융기관 DB","sreenPath":"Quick Menu,금융기관 DB"}'
 			></div>
 			<div class="moca_shbox">
 				<div class="shbox_inner">
-					<table class="tb">
-						<tbody>
-							<tr>
-								<th class="tb_th pr10">금융기관명</th>
-								<td class="tb_td">
+					<div class="flex fwrap">
+						<div class="tb">
+							<span class="tb_th">금융기관명</span>
+							<span class="tb_td">
 								<div type="input" id="keyWordFinacName" class="mocaInput" innerClass="tac" keyMask="enterSearch"></div>
-								</td>
-								<th class="tb_th pr10">전화번호</th>
-								<td class="tb_td">
+							</span>
+						</div>
+						<div class="tb fl">
+							<span class="tb_th fl">전화번호</span>
+							<span class="tb_td">
 								<div type="input" id="keyWordCorpPhone" class="mocaInput" innerClass="tac" keyMask="enterSearch"></div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+							</span>
+						</div>
+					</div>
 				</div>
 				<div class="btn_shbox">
 					<button type="button" class="button btn_sc" onclick="moca.TO_013.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
 				</div>
 			</div>
-			<div type="grid" class="moca_grid toolbar sc_row1" default_cell_height="26px" id="grd_13" 
+			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_13" 
 					toolbar_search_size="false"
 					toolbar_col_showhide="false"
 					toolbar_detail="false"

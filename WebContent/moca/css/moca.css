@@ -1254,7 +1254,7 @@ td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:2
 
 .moca_shbox .mocaRadio input[type="radio"]:checked + label {font-weight:bold; color:#b32601 !important}
 .moca_shbox .mocaRadio label:last-child {margin-right:0 !important;}
-.moca_shbox .tb .tb_td > div[type="radio"]{border: 1px solid #bbc3ce; background: #e8e8e8; border-radius: 3px;}
+.moca_shbox .tb .tb_td > div[type="radio"]{display:inline-block; padding: 0 5px; line-height: 22px; box-sizing: border-box; border: 1px solid #bbc3ce; background: #fff; border-radius: 3px;}
 .moca_shbox .shbox_group{border: 1px solid #bbc3ce; background: #e8e8e8; border-radius: 3px; padding:0 3px}
 .moca_shbox .shbox_group .moca_ica[type="inputMultiCalendar"] > div{height: 20px; top: 1px;}
 
