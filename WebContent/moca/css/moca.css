@@ -275,10 +275,9 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 
 .moca_tree ul li ul {display:none}
 .moca_tree ul li ul li {display:none}
-.moca_tree ul li ul li .mdi_choice{width: 50%; height: 25px; position: absolute; background: #c0d8e9; opacity:0.5}
-.moca_tree ul li ul li .mdi_choice:nth-child(2){right:0;background:#e9cfc0}
+.moca_tree ul li ul li .mdi_choice{width: 50%; height: 25px; position: absolute;  opacity:0.5; z-index:1}
+.moca_tree ul li ul li .mdi_choice:nth-child(2){right:0}
     
-
 .moca_tree ul li.moca_tree_open > ul {display:block}
 .moca_tree ul li.moca_tree_open > ul li {display:block}
 .moca_tree ul li.moca_tree_last {/* background:url(../images/line_tree_last_hr.gif) no-repeat 0 5px !important */}
@@ -304,7 +303,7 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_tree.workmenu li .moca_checkbox_tree,
 .moca_tree.workmenu li button.tvw_btn_close {display:none !important}
 .moca_tree.workmenu ul li ul {margin:0; background: #354b5d;border-bottom:1px solid #49657c}
-.moca_tree.workmenu ul li ul li >span.moca_tree_tbx{overflow: hidden; text-overflow: ellipsis; padding-left:26px; border-bottom:1px solid #fff}
+.moca_tree.workmenu ul li ul li >span.moca_tree_tbx{overflow: hidden; text-overflow: ellipsis; padding-left:26px; border-bottom:1px solid #fff; background:linear-gradient(to right, #4963df, #95a5a6); color:#fff; font-weight:bold}
 /*
 .moca_tree.workmenu ul li ul li.active > span.moca_tree_tbx{text-decoration:underline; color:#02e4b3; background:#354b5d}
 .moca_tree.workmenu ul li ul li > span.moca_tree_tbx:hover {text-decoration:underline; color:#02e4b3}
