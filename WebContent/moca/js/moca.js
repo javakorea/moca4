@@ -1683,10 +1683,39 @@ Moca.prototype.goMain = function(){
 };
 
 
+Moca.prototype.dragStart_mdi = function(thisMdiLi){
+	['드레그시작'];
+	
+	var parentNode = event.target.parentElement;
+	event.dataTransfer.setDragImage(parentNode,0,0);  
+	console.log('dragStart',thisMdiLi);
+	event.dataTransfer.setData("mdi_tab_id",thisMdiLi.id);
 
+	//thisMdiLi
+};
+
+Moca.prototype.dragOver_mdi = function(thisMdiLi){
+	['드레그시작'];
+	console.log('dragOver_mdi');
+	event.preventDefault();
+};
+
+Moca.prototype.drop_mdi = function(thisMdiLi){
+	['드롭'];
+	//moca_tab_ul
+	var _mdi_tab_id = event.dataTransfer.getData("mdi_tab_id");
+	console.log('drop_mdi',_mdi_tab_id,$('#'+_mdi_tab_id)[0]);
+	$(thisMdiLi).find('.moca_tab_ul').append($('#'+_mdi_tab_id));
+	var contentId = _mdi_tab_id.replace(/(.*?)_li$/g,'$1')+"_dv";
+	//$(thisMdiLi).find('.moca_tab_body').append($('#'+_mdi_tab_id));
+	var targetDiv = $(thisMdiLi).closest('.moca_mdi');
+	targetDiv.append($('#'+contentId));
+	
+	//thisMdiLi
+};
 Moca.prototype.tree_addTab = function(_label,_tabId,_url,_mdiId){
 	['tree_addTab'];
-	var tabHtml = '<li class="moca_tab_list active" tab_url="'+_url+'" tab_label="'+_label+'" tab_id="'+_tabId+'" id="'+_tabId+'_li" onclick="moca.moca_mdi_click(this);"><span class="moca_tab_mark"></span><button type="button" role="tab" aria-controls="moca_tab_bridge1" class="moca_tab_label">'+_label+'</button>';
+	var tabHtml = '<li draggable="true" ondragstart="moca.dragStart_mdi(this)" class="moca_tab_list active" tab_url="'+_url+'" tab_label="'+_label+'" tab_id="'+_tabId+'" id="'+_tabId+'_li" onclick="moca.moca_mdi_click(this);"><span class="moca_tab_mark"></span><button type="button" role="tab" aria-controls="moca_tab_bridge1" class="moca_tab_label">'+_label+'</button>';
 	tabHtml += '<button type="button" class="moca_tab_close" onclick="moca.tabClose(this)">닫기</button></li>';
 	var _html = $('.moca_tab_ul').html();
 	var _full_html = _html.replace(/active/g,'')+tabHtml;
