@@ -12596,7 +12596,8 @@ Moca.prototype.setReadOnly = function(_mocaInputObj,_trueFalse){
 		moca.setValue(_mocaInputObj,$(_mocaInputObj).attr("value"));
 	}else{
 		var _mocaObj ;
-		if($(_mocaInputObj).attr('type') == 'input'){
+		debugger;
+		if($(_mocaInputObj).attr('type') == 'input' || $(_mocaInputObj).attr('celltype') == 'input' ){
 			_mocaObj = $(_mocaInputObj).find('input')[0];
 		}else{
 			_mocaObj = _mocaInputObj;
@@ -12751,7 +12752,44 @@ Moca.prototype.defaultCellClick = function(_thisObj){
 	return pro;
 };
 
-
+Moca.prototype.setCellReadOnly = function(_grd,_realRowIndex,_colId,_trueFalse){
+	['grid setCellReadOnly']
+	var key = _colId;
+	var cellTd = _grd.cellInfo[key];
+	var _celltype = cellTd.getAttribute("celltype");
+	var _displayFunction = cellTd.getAttribute("displayFunction");
+	var _required = cellTd.getAttribute("required");
+	var _keyMaskStr = cellTd.getAttribute("keyMask");
+	var _style = cellTd.getAttribute("style");
+	var targetRow = $(_grd).find('tbody:first>tr[realrowindex='+_realRowIndex+']');
+	
+	cellTd.setAttribute("readOnly",_trueFalse);
+	var _reLabel = '';
+	var _cellData = moca.getCellData(_grd,_realRowIndex,_colId);
+	try{
+		if(_displayFunction != null && eval(_displayFunction) != null){
+			_reLabel = eval(_displayFunction)(_cellData,_grd,_realRowIndex);		
+		}else{
+			_reLabel = _cellData;		
+		}
+	}catch(e){
+		console.log("12829:"+e);
+	}
+	
+	var _inTag = '';
+	if(_trueFalse){
+		_inTag = _reLabel;
+	}else{
+		
+		if(_required == 'true'){
+			_inTag = '<input type="text" onblur="moca.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="moca.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  class="moca_input req" style="'+_style+'" value="'+_reLabel+'" onkeyup="moca._uptData(this)" onfocus="moca._evt_selectFocus(this)">';
+		}else{
+			_inTag = '<input type="text" onblur="moca.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="moca.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  class="moca_input" style="'+_style+'" value="'+_reLabel+'" onkeyup="moca._uptData(this)" onfocus="moca._evt_selectFocus(this)">';
+		}
+	}
+	$(targetRow).find('td[id='+_colId+']').attr('readonly',_trueFalse);
+	$(targetRow).find('td[id='+_colId+']').html(_inTag);
+};
 
 
 $(document).ready(function() {
