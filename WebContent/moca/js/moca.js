@@ -1524,7 +1524,6 @@ Moca.prototype.scopes = function(){
 };
 Moca.prototype.tree_click = function(_clickedMenuId,_mdiId){
 	['메뉴클릭'];
-	debugger;
 	var node = $('#'+_clickedMenuId).find('SPAN')[0];
 	var _clickedNode = $('#'+_clickedMenuId)[0];
 	//basis.addClass('active');
@@ -1564,6 +1563,17 @@ Moca.prototype.tree_click = function(_clickedMenuId,_mdiId){
 		basis.parent().children().removeClass('active');
 		basis.addClass('active');
 	}
+};
+Moca.prototype.leafMenuOver = function(_clickedMenuId,_mdiId,areaObj){
+	['leaf메뉴에마우스올렸을때'];
+	var arr = $('.mdi_choice');
+	for(var i=0; i < arr.length; i++){
+		var backgroundColorStr = $(arr[i]).css('background-color');
+		if(backgroundColorStr == "rgb(255, 255, 0)"){
+			$(arr[i]).css('background-color','');
+		}
+	}
+	$(areaObj).css('background-color','yellow');
 };
 
 Moca.prototype.encode = function(_txt) {
@@ -1857,8 +1867,8 @@ Moca.prototype.tree_mt_loop = function(_treeId,_data,menuObjs){
 
 		//treeHtml += '<li id="li'+row.cd+'" class="'+openClass+' '+leafClass+'" ondrop="moca.tree_drop(this);" ondragstart="moca.tree_dragstart(this);"  ondragover="moca.tree_dragover(this);" onmousedown="moca.tree_mousedown(this);" onclick="moca.tree_click(\'li'+row.cd+'\');" draggable="true" treeId="'+_treeId+'"  level="'+row.level+'">';
 		treeHtml += '<li id="li'+row.cd+'" class="'+openClass+' '+leafClass+'" onmousedown="moca.tree_mousedown(this);"  treeId="'+_treeId+'"  level="'+row.level+'">';
-		treeHtml += '<div class="mdi_choice" onclick="moca.tree_click(\'li'+row.cd+'\',\'mdi_1\');" ></div>';
-		treeHtml += '<div class="mdi_choice" onclick="moca.tree_click(\'li'+row.cd+'\',\'mdi_2\');" ></div>';
+		treeHtml += '<div class="mdi_choice" onclick="moca.tree_click(\'li'+row.cd+'\',\'mdi_1\');" onmouseover="moca.leafMenuOver(\'li'+row.cd+'\',\'mdi_1\',this);"></div>';
+		treeHtml += '<div class="mdi_choice" onclick="moca.tree_click(\'li'+row.cd+'\',\'mdi_2\');" onmouseover="moca.leafMenuOver(\'li'+row.cd+'\',\'mdi_2\',this);"></div>';
 		treeHtml += '<div class="moca_checkbox_tree"  >';
 		treeHtml += '<input type="checkbox" id="mnu'+row.cd+'"  class="moca_checkbox_input" onclick="moca.tree_check(this);"><label for="mnu'+row.cd+'"  class="moca_checkbox_label">'+row.nm+'</label>';
 		treeHtml += '</div>';
