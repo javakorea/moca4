@@ -423,13 +423,19 @@ moca.EFC_BOAD_POP.fn_del = function(_thisObj){
 	['게시글논리삭제 delYN :Y']
 	var _idx;
 	var _pid;
+	
+	if(_thisObj.id == 'btn_del'){
+		_msg = '원글을 삭제하실경우 답글까지도 삭제됩니다.<br/>삭제하시겠습니까?';
+	}else{
+		_msg = '삭제하시겠습니까?';
+	}
 	if(moca.EFC_BOAD_POP._boardIdx == moca.EFC_BOAD_POP._boardPIdx){ //원글
 		_idx = moca.EFC_BOAD_POP._boardPIdx;
 		_pid = moca.EFC_BOAD_POP._boardPIdx;
 	}else{
 		_idx = moca.EFC_BOAD_POP._boardIdx;
 	}
-	 moca.confirm('원글을 삭제하실경우 답글까지도 삭제됩니다.<br/>삭제하시겠습니까?',function(result){
+	 moca.confirm(_msg,function(result){
         if(result == 'Y'){
         	//게시글삭제
          	moca.EFC_BOAD_POP.exe({
