@@ -976,6 +976,15 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 				_toolTip = "false";
 			}
 			
+			
+			if(_grd.list[_realRowIndex]["_system"][_colId]){
+				if(_grd.list[_realRowIndex]["_system"][_colId]['readonly'] != null){
+					readOnly = _grd.list[_realRowIndex]["_system"][_colId]['readonly'];
+				}
+			}
+
+			
+			
 			if(_celltype == 'select'){
 				row	+= '<td id="'+_id+'" class="'+_class+'" name="'+_name+'" toolTip="'+_toolTip+'" celltype="'+_celltype+'" displayFormat="'+_displayFormat+'" keyMask="'+_keyMask+'" displayFunction="'+_displayFunction+'" readOnly="'+readOnly+'"  style="'+_style+'"  >';
 				
@@ -12812,7 +12821,7 @@ Moca.prototype.defaultCellClick = function(_thisObj){
 Moca.prototype.setCellReadOnly = function(_grd,_realRowIndex,_colId,_trueFalse){
 	['grid setCellReadOnly']
 	var key = _colId;
-	var cellTd = _grd.cellInfo[key];
+	var cellTd = _grd.cellInfo[key];//코딩소스의 정보
 	var _celltype = cellTd.getAttribute("celltype");
 	var _displayFunction = cellTd.getAttribute("displayFunction");
 	var _required = cellTd.getAttribute("required");
@@ -12820,7 +12829,9 @@ Moca.prototype.setCellReadOnly = function(_grd,_realRowIndex,_colId,_trueFalse){
 	var _style = cellTd.getAttribute("style");
 	var targetRow = $(_grd).find('tbody:first>tr[realrowindex='+_realRowIndex+']');
 	
-	cellTd.setAttribute("readOnly",_trueFalse);
+	//cellTd.setAttribute("readOnly",_trueFalse);//컬럼단위로 변경해버림
+	_grd.list[_realRowIndex]["_system"][_colId]['readonly'] = _trueFalse;
+	
 	var _reLabel = '';
 	var _cellData = moca.getCellData(_grd,_realRowIndex,_colId);
 	try{
