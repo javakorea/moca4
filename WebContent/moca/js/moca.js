@@ -977,9 +977,9 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 			}
 			
 			
-			if(_grd.list[_realRowIndex]["_system"][_colId]){
-				if(_grd.list[_realRowIndex]["_system"][_colId]['readonly'] != null){
-					readOnly = _grd.list[_realRowIndex]["_system"][_colId]['readonly'];
+			if(_grd.list[_nowIndex]["_system"][_colId]){
+				if(_grd.list[_nowIndex]["_system"][_colId]['readonly'] != null){
+					readOnly = _grd.list[_nowIndex]["_system"][_colId]['readonly'];
 				}
 			}
 
