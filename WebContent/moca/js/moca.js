@@ -73,7 +73,6 @@ function Moca(){
 			//e.preventDefault();//팝업 드레그하여 블록 씌우기
 			
 		}
-		console.log(___m.resizingbarDiv,___m.curColForResize);
 		if (___m.curColForResize) {
 			var offsetWidth = e.clientX - ___m.curColForResize.curColXForResize;
 			var reWidth = ___m.curColForResize.aWidth +offsetWidth;
