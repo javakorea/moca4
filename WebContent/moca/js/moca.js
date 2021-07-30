@@ -1545,8 +1545,13 @@ Moca.prototype.scopes = function(){
 };
 Moca.prototype.tree_click = function(_clickedMenuId,_mdiId){
 	['메뉴클릭'];
+	var _mdi2 = $('#mdi_2').is(':visible');
+	if(!_mdi2){_mdiId = 'mdi_1'}
+	
 	var node = $('#'+_clickedMenuId).find('SPAN')[0];
 	var _clickedNode = $('#'+_clickedMenuId)[0];
+	
+	
 	//basis.addClass('active');
 	$('[menucd]').removeClass('active');
 	$('[menucd='+_clickedMenuId.replace('li','')+']').addClass('active');
@@ -1588,25 +1593,45 @@ Moca.prototype.tree_click = function(_clickedMenuId,_mdiId){
 Moca.prototype.leafMenuOver = function(_clickedMenuId,_mdiId,areaObj){
 	['leaf메뉴에마우스올렸을때'];
 	var arr = $('.mdi_choice');
-	for(var i=0; i < arr.length; i++){
-		var _target = $(arr[i]);
-		var _target_i = _target.find('i');
-		var backgroundColorStr = _target.css('background');
-		if(backgroundColorStr){
-			_target.css('background','');
-			_target_i.removeClass('left');
-			_target_i.removeClass('right');
+	if($('#mdi_2').is(':visible')){
+		//멀티
+		for(var i=0; i < arr.length; i++){
+			var _target = $(arr[i]);
+			var _target_i = _target.find('i');
+			var _target_p = _target.parent();
+			var backgroundColorStr = _target.css('background');
+			if(backgroundColorStr){
+				_target.css('background','');
+				_target_i.removeClass('left');
+				_target_i.removeClass('right');
+				_target_p.removeClass('hover');
+			}
 		}
-	}
-	if(_mdiId == 'mdi_1'){
-		$(areaObj).css('background','linear-gradient(to right, rgb(0 45 85), rgb(255, 255, 255,0))');
-		$(areaObj).find('i').addClass('left');
+		if(_mdiId == 'mdi_1'){
+			$(areaObj).css('background','linear-gradient(to right, rgb(0 45 85), rgb(255, 255, 255,0))');
+			$(areaObj).find('i').addClass('left');
+		}else{
+			$(areaObj).css('background','linear-gradient(to left, rgb(0 45 85), rgb(255, 255, 255,0))');
+			$(areaObj).find('i').addClass('right');
+		}
 	}else{
-		$(areaObj).css('background','linear-gradient(to left, rgb(0 45 85), rgb(255, 255, 255,0))');
-		$(areaObj).find('i').addClass('right');
+		for(var i=0; i < arr.length; i++){
+			var _target = $(arr[i]);
+			var _target_i = _target.find('i');
+			var _target_p = _target.parent();
+			var backgroundColorStr = _target.css('background');
+			if(backgroundColorStr){
+				_target.css('background','');
+				_target_i.removeClass('left');
+				_target_i.removeClass('right');
+				_target_p.removeClass('hover');
+			}
+			
+		}
+		$(areaObj).parent().addClass('hover');
 	}
-	
 };
+
 
 
 Moca.prototype.encode = function(_txt) {
@@ -1900,7 +1925,8 @@ Moca.prototype.tree_mt_loop = function(_treeId,_data,menuObjs){
 
 		//treeHtml += '<li id="li'+row.cd+'" class="'+openClass+' '+leafClass+'" ondrop="moca.tree_drop(this);" ondragstart="moca.tree_dragstart(this);"  ondragover="moca.tree_dragover(this);" onmousedown="moca.tree_mousedown(this);" onclick="moca.tree_click(\'li'+row.cd+'\');" draggable="true" treeId="'+_treeId+'"  level="'+row.level+'">';
 		treeHtml += '<li id="li'+row.cd+'" class="'+openClass+' '+leafClass+'" onmousedown="moca.tree_mousedown(this);"  treeId="'+_treeId+'"  level="'+row.level+'">';
-		treeHtml += '<div class="mdi_choice" onclick="moca.tree_click(\'li'+row.cd+'\',\'mdi_1\');" onmouseover="moca.leafMenuOver(\'li'+row.cd+'\',\'mdi_1\',this);"><i></i></div>';
+		treeHtml += '<div class="mdi_choice w50" onclick="moca.tree_click(\'li'+row.cd+'\',\'mdi_1\');" onmouseover="moca.leafMenuOver(\'li'+row.cd+'\',\'mdi_1\',this);"><i></i></div>';
+		treeHtml += '<div class="mdi_choice w50" onclick="moca.tree_click(\'li'+row.cd+'\',\'mdi_2\');" onmouseover="moca.leafMenuOver(\'li'+row.cd+'\',\'mdi_2\',this);"><i></i></div>';
 		treeHtml += '<div class="moca_checkbox_tree"  >';
 		treeHtml += '<input type="checkbox" id="mnu'+row.cd+'"  class="moca_checkbox_input" onclick="moca.tree_check(this);"><label for="mnu'+row.cd+'"  class="moca_checkbox_label">'+row.nm+'</label>';
 		treeHtml += '</div>';
@@ -12628,7 +12654,6 @@ Moca.prototype.setReadOnly = function(_mocaInputObj,_trueFalse){
 		moca.setValue(_mocaInputObj,$(_mocaInputObj).attr("value"));
 	}else{
 		var _mocaObj ;
-		debugger;
 		if($(_mocaInputObj).attr('type') == 'input' || $(_mocaInputObj).attr('celltype') == 'input' ){
 			_mocaObj = $(_mocaInputObj).find('input')[0];
 		}else{
