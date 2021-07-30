@@ -12830,6 +12830,9 @@ Moca.prototype.setCellReadOnly = function(_grd,_realRowIndex,_colId,_trueFalse){
 	var targetRow = $(_grd).find('tbody:first>tr[realrowindex='+_realRowIndex+']');
 	
 	//cellTd.setAttribute("readOnly",_trueFalse);//컬럼단위로 변경해버림
+	if(_grd.list[_realRowIndex]["_system"][_colId] == null){
+		_grd.list[_realRowIndex]["_system"][_colId] = {};
+	}
 	_grd.list[_realRowIndex]["_system"][_colId]['readonly'] = _trueFalse;
 	
 	var _reLabel = '';
