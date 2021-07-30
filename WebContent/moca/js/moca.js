@@ -43,6 +43,8 @@ function Moca(){
 	this.codeNm = 'codeNm';
 	this.rowSelectedColor = '#f3a95e';
 	this.curColForResize;
+	this.resizingbarDiv;
+	this.resizingbarDivOffsetLeft;
 	this.callbacks = {};
 	this.data = {};
 	var ___m = this;
@@ -63,7 +65,7 @@ function Moca(){
 		$('.itemTable').css('display','none');
 	};
 	document.addEventListener('mousemove', function (e) {
-		//console.log('document mousemove');
+		
 		if($(e.srcElement).hasClass('moca_tree_tbx')){
 			//트리이동일경우만 이벤트전파허용 drag는 이벤트 전파되야함
 			
@@ -71,14 +73,24 @@ function Moca(){
 			//e.preventDefault();//팝업 드레그하여 블록 씌우기
 			
 		}
-		
+		console.log(___m.resizingbarDiv,___m.curColForResize);
 		if (___m.curColForResize) {
 			var offsetWidth = e.clientX - ___m.curColForResize.curColXForResize;
-				var reWidth = ___m.curColForResize.aWidth +offsetWidth;
-				$(___m.curColForResize).width(reWidth);
+			var reWidth = ___m.curColForResize.aWidth +offsetWidth;
+			$(___m.curColForResize).width(reWidth);
+		}else if (___m.resizingbarDiv) {
+			/*
+			var leftMdi 	= ___m.resizingbarDiv.previousElementSibling;
+			var rightMdi 	= ___m.resizingbarDiv.nextElementSibling;
+			var offsetStart = ___m.resizingbarDivOffsetLeft;
+			var reWidthPercent = (e.screenX/offsetStart)*50;
+			$(leftMdi).css('width',reWidthPercent+"%");
+			
+			//console.log(offsetStart,e.screenX);
+			*/
+			document.body.style.cursor = ___m.resizeCursor;
+			e.preventDefault();
 		}
-		
-		
 	});
 	
 	
@@ -105,6 +117,16 @@ function Moca(){
 			
 			///////////////////////////////////////////////////
 			moca.hideDashed();
+		}else if (___m.resizingbarDiv) {
+			var leftMdi 	= ___m.resizingbarDiv.previousElementSibling;
+			var rightMdi 	= ___m.resizingbarDiv.nextElementSibling;
+			var offsetStart = ___m.resizingbarDivOffsetLeft;
+			var reWidthPercent = (e.screenX/offsetStart)*50;
+			$(leftMdi).css('width',reWidthPercent+"%");
+			___m.resizingbarDiv = null;
+			document.body.style.cursor = '';
+			e.preventDefault();
+			//console.log(offsetStart,e.screenX);
 		}
 		
 		//달력닫기처리
@@ -12790,6 +12812,13 @@ Moca.prototype.setCellReadOnly = function(_grd,_realRowIndex,_colId,_trueFalse){
 	$(targetRow).find('td[id='+_colId+']').attr('readonly',_trueFalse);
 	$(targetRow).find('td[id='+_colId+']').html(_inTag);
 };
+
+Moca.prototype.resizingbar_down = function(_resizingbarDiv){
+	['resizingbar_down']
+	this.resizingbarDiv = _resizingbarDiv;
+	this.resizingbarDivOffsetLeft = event.screenX;
+};
+
 
 
 $(document).ready(function() {
