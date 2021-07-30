@@ -86,7 +86,7 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 /* .moca_tree.workmenu li > span.moca_tree_tbx:hover:after {opacity:1; color:#fff; right:5px; transition:0.5s all} */
 .moca_tree.workmenu ul li ul > li > .moca_tree_tbx {/* background:url(../images/ico_lnb_doc.png) no-repeat 20px 50%; */ padding-left:26px; border-bottom:1px solid #fff}
 .moca_tree.workmenu ul li ul > li:last-child .moca_tree_tbx{border-bottom:0}
-.moca_tree.workmenu ul li ul > li > .moca_tree_tbx:before{content:''; display:inline-block; width:4px; height:4px; background:#aaa; border-radius:3px; position:relative; top:-2px; left:-5px }
+.moca_tree.workmenu ul li ul > li > .moca_tree_tbx:before{content:''; display:inline-block; width:4px; height:4px; background:#7791af; border-radius:3px; position:relative; top:-2px; left:-5px }
 .moca_tree.workmenu ul li ul li> span.moca_tree_tbx:hover:before, .moca_tree.workmenu ul li ul li.active > span.moca_tree_tbx:before{background:#c96f57}
 
 /*단축키 Shortcut*/
@@ -171,9 +171,12 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 /*.moca_mdi .moca_tab_list:first-child {margin-left:15px}*/
 .moca_mdi .moca_tab_list button.moca_tab_close {top:6px; right:6px; width:20px; height:20px; background:url(../images/ico_dp_close.png) no-repeat 50% -26px; border-radius:100%}
 .moca_tab .moca_tab_list.active button.moca_tab_close { background:url(../images/ico_dp_close.png) no-repeat 50% -2px;}
-.moca_mdi .moca_tab_listarea {right:/*54px;*/36px; left:30px}
-.moca_mdi .moca_tab_control {width:31px; padding-top:8px}
+.moca_mdi .moca_tab_listarea {right:60px; left:30px}
+.moca_mdi .moca_tab_control {width:60px; padding-top:8px}
 .moca_mdi .moca_tab_list.active button.moca_tab_label {background:transparent}
+.moca_tab .moca_tab_control .moca_tab_allclose {left:11px; position:relative; top:5px; width:16px; text-indent:-9999px; background-image:url(../images/ico_tab_close.png); background-repeat:no-repeat}
+.moca_tab .moca_tab_control .moca_tab_division {left:7px; position:relative; top:5px; width:16px; text-indent:-9999px; background-image:url(../images/ico_tab_division.png); background-repeat:no-repeat}
+.moca_tab .moca_tab_control .moca_tab_merge {left:7px; position:relative; top:5px; width:16px; text-indent:-9999px; background-image:url(../images/ico_tab_merge.png); background-repeat:no-repeat}
 
 /***---mdi모카탭리스트 ui---***/
 .mdi_menulist{outline: none; width:120px; max-height: 119px; overflow-y: auto; border: 1px solid #9a9ea8; border-radius: 2px; margin-top: 1px; box-shadow: 0px 3px 2px rgba(0,0,0,0.2);color:#555; background-color: #fff;}

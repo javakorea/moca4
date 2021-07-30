@@ -1589,13 +1589,25 @@ Moca.prototype.leafMenuOver = function(_clickedMenuId,_mdiId,areaObj){
 	['leaf메뉴에마우스올렸을때'];
 	var arr = $('.mdi_choice');
 	for(var i=0; i < arr.length; i++){
-		var backgroundColorStr = $(arr[i]).css('background-color');
-		if(backgroundColorStr == "rgb(255, 255, 0)"){
-			$(arr[i]).css('background-color','');
+		var _target = $(arr[i]);
+		var _target_i = _target.find('i');
+		var backgroundColorStr = _target.css('background');
+		if(backgroundColorStr){
+			_target.css('background','');
+			_target_i.removeClass('left');
+			_target_i.removeClass('right');
 		}
 	}
-	$(areaObj).css('background-color','yellow');
+	if(_mdiId == 'mdi_1'){
+		$(areaObj).css('background','linear-gradient(to right, rgb(0 45 85), rgb(255, 255, 255,0))');
+		$(areaObj).find('i').addClass('left');
+	}else{
+		$(areaObj).css('background','linear-gradient(to left, rgb(0 45 85), rgb(255, 255, 255,0))');
+		$(areaObj).find('i').addClass('right');
+	}
+	
 };
+
 
 Moca.prototype.encode = function(_txt) {
 	['encode for hangul'];	
@@ -1888,8 +1900,7 @@ Moca.prototype.tree_mt_loop = function(_treeId,_data,menuObjs){
 
 		//treeHtml += '<li id="li'+row.cd+'" class="'+openClass+' '+leafClass+'" ondrop="moca.tree_drop(this);" ondragstart="moca.tree_dragstart(this);"  ondragover="moca.tree_dragover(this);" onmousedown="moca.tree_mousedown(this);" onclick="moca.tree_click(\'li'+row.cd+'\');" draggable="true" treeId="'+_treeId+'"  level="'+row.level+'">';
 		treeHtml += '<li id="li'+row.cd+'" class="'+openClass+' '+leafClass+'" onmousedown="moca.tree_mousedown(this);"  treeId="'+_treeId+'"  level="'+row.level+'">';
-		treeHtml += '<div class="mdi_choice" onclick="moca.tree_click(\'li'+row.cd+'\',\'mdi_1\');" onmouseover="moca.leafMenuOver(\'li'+row.cd+'\',\'mdi_1\',this);"></div>';
-		treeHtml += '<div class="mdi_choice" onclick="moca.tree_click(\'li'+row.cd+'\',\'mdi_2\');" onmouseover="moca.leafMenuOver(\'li'+row.cd+'\',\'mdi_2\',this);"></div>';
+		treeHtml += '<div class="mdi_choice" onclick="moca.tree_click(\'li'+row.cd+'\',\'mdi_1\');" onmouseover="moca.leafMenuOver(\'li'+row.cd+'\',\'mdi_1\',this);"><i></i></div>';
 		treeHtml += '<div class="moca_checkbox_tree"  >';
 		treeHtml += '<input type="checkbox" id="mnu'+row.cd+'"  class="moca_checkbox_input" onclick="moca.tree_check(this);"><label for="mnu'+row.cd+'"  class="moca_checkbox_label">'+row.nm+'</label>';
 		treeHtml += '</div>';
@@ -12818,7 +12829,31 @@ Moca.prototype.resizingbar_down = function(_resizingbarDiv){
 	this.resizingbarDivOffsetLeft = event.screenX;
 };
 
+Moca.prototype.changeMdi = function(_ButtonObj){
+	['changeMdi'];
+	
+	if($('.mdibox').find('#mdi_2').parent().is(':visible')){
+		//multi상태
+		$(_ButtonObj).removeClass('moca_tab_merge');
+		$(_ButtonObj).addClass('moca_tab_division');
+		
+		$('.mdibox').find('.resizingbar').hide();
+		$('.mdibox').find('#mdi_2').parent().hide();
+	}else{
+		//single상태
+		$(_ButtonObj).removeClass('moca_tab_division');
+		$(_ButtonObj).addClass('moca_tab_merge');
+		
+		$('.mdibox').find('.resizingbar').show();
+		$('.mdibox').find('#mdi_2').parent().show();
+	}
+};
 
+Moca.prototype.toSingleMdi = function(_liCloseButtonObj){
+	['toSingleMdi']; 
+	$('.mdibox').find('.resizingbar').css('display','none');
+	$('.mdibox').find('#mdi_2').parent().css('display','none');
+};
 
 $(document).ready(function() {
 	var arr = $('[type=wframe]');

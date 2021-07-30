@@ -208,7 +208,6 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_tab .moca_tab_control {position:absolute; top:0; right:0; bottom:0; width:120px; z-index:1}
 .moca_tab .moca_tab_control .moca_tab_menulist {right:34px; background-color:#eef0f2; background-image:url(../images/ico_tab_list.png); background-repeat:no-repeat}
 /* .moca_tab .moca_tab_control button {position:absolute; top:0; width:18px; height:44px; border-bottom: 1px solid #e4e9ef; background:no-repeat 50% 18px; text-indent:-9999px} */
-.moca_tab .moca_tab_control .moca_tab_allclose {position:relative; top:5px; width:16px; text-indent:-9999px; background-image:url(../images/ico_tab_close.png); background-repeat:no-repeat}
 
 /***-----그리드 left,right 버튼 별도적용 -----***/
 .moca_tab .moca_tab_head > button {position:absolute; top:0; width:23px; height:44px; text-indent:-9999px; z-index:3}
@@ -275,9 +274,11 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 
 .moca_tree ul li ul {display:none}
 .moca_tree ul li ul li {display:none}
-.moca_tree ul li ul li .mdi_choice{width: 50%; height: 25px; position: absolute;  opacity:0.5; z-index:1}
+.moca_tree ul li ul li .mdi_choice{width:100%; height: 25px; position: absolute;  opacity:0.5; z-index:1}
+.moca_tree ul li ul li .mdi_choice.w50{width:50% !important;}
 .moca_tree ul li ul li .mdi_choice:nth-child(2){right:0}
-    
+.moca_tree ul li ul li .mdi_choice > i.right{width: 20px; height: 25px; display: inline-block; background:url(../images/ico_arrow_right.png) no-repeat 50% 50%; float:right}
+.moca_tree ul li ul li .mdi_choice > i.left{width: 20px; height: 25px; display: inline-block; background:url(../images/ico_arrow_left.png) no-repeat 50% 50%}
 .moca_tree ul li.moca_tree_open > ul {display:block}
 .moca_tree ul li.moca_tree_open > ul li {display:block}
 .moca_tree ul li.moca_tree_last {/* background:url(../images/line_tree_last_hr.gif) no-repeat 0 5px !important */}
@@ -303,18 +304,11 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_tree.workmenu li .moca_checkbox_tree,
 .moca_tree.workmenu li button.tvw_btn_close {display:none !important}
 .moca_tree.workmenu ul li ul {margin:0; background: #354b5d;border-bottom:1px solid #49657c}
-.moca_tree.workmenu ul li ul li >span.moca_tree_tbx{overflow: hidden; text-overflow: ellipsis; padding-left:26px; border-bottom:1px solid #fff; background:linear-gradient(to right, #4963df, #95a5a6); color:#fff; font-weight:bold}
+.moca_tree.workmenu ul li ul li >span.moca_tree_tbx{overflow: hidden; text-overflow: ellipsis; padding-left:26px; border-bottom:1px solid #fff; background:#a9bacc; color:#fff; font-weight:bold}
 /*
 .moca_tree.workmenu ul li ul li.active > span.moca_tree_tbx{text-decoration:underline; color:#02e4b3; background:#354b5d}
 .moca_tree.workmenu ul li ul li > span.moca_tree_tbx:hover {text-decoration:underline; color:#02e4b3}
 */
-.moca_tree.workmenu li .moca_tree_btn {position:absolute; right:0; top:0; left:0; height:40px; width:100%; background-position:right 10px center !important}
-.moca_tree.workmenu ul li ul > li > .moca_tree_tbx {display:block; height:24px; padding:7px 10px 7px 20px; font-family: 'Spoqa Han Sans Bold'; font-size:12px; font-weight: 700; letter-spacing:-0.5px; line-height:22px; color:#eee}
-.moca_tree.workmenu ul li ul > li > ul > li .moca_tree_tbx {display:block; height:20px; padding:7px 10px 7px 30px; font-size:11px; line-height:22px; color:#eee}
-.moca_tree.workmenu li span.moca_tree_tbx {position:relative}
-.moca_tree.workmenu ul li ul > li:last-child .moca_tree_tbx{border-bottom:0}
-.moca_tree.workmenu ul li ul > li > .moca_tree_tbx:before{content:''; display:inline-block; width:4px; height:4px; background:#aaa; border-radius:3px; position:relative; top:-2px; left:-5px }
-.moca_tree.workmenu ul li ul li> span.moca_tree_tbx:hover:before, .moca_tree.workmenu ul li ul li.active > span.moca_tree_tbx:before{background:#c96f57}
 
 .moca_grid {position:relative; -webkit-transition:top .1s, left .1s, bottom .3s, right .3s; transition:top .1s, left .1s, bottom .3s, right .3s}
 .moca_grid_toolbar {position:relative; width:100%; min-height:24px; padding:0; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
@@ -1011,6 +1005,7 @@ button.moca_calendar_dynamic:hover {background-color:#f3a95e; color:#fff}
 .mdibox{min-height:40px; top:23px; position:absolute; top:0; left:0; right:0; bottom:0}/* Content 박스 */
 .mdibox:after{display:block;visibility:hidden;clear:both;height:0;font-size:0;line-height:0;content: '.'}
 .mdibox.flex > * {flex:auto}
+.mdibox .resizingbar {flex:unset}
 .mdibox .resizingbar > span{display:block; width:2px; height:100%; top:23px; border-left:1px solid #aaa; border-right:1px solid #aaa; cursor:col-resize; z-index:1}
 
 /* 화면분할 : 두번째 Container - 분할되는 Box */
