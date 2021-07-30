@@ -306,7 +306,7 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_tree.workmenu ul li ul {margin:0; background: #354b5d;border-bottom:1px solid #49657c}
 .moca_tree.workmenu ul li ul li >span.moca_tree_tbx{overflow: hidden; text-overflow: ellipsis; padding-left:26px; border-bottom:1px solid #fff; background:#a9bacc; color:#fff; font-weight:bold}
 .moca_tree.workmenu ul li ul li.active > span.moca_tree_tbx{text-decoration:underline; background:#94a2b1}
-*.moca_tree.workmenu ul li ul li.hover > span.moca_tree_tbx{text-decoration:underline; background:#94a2b1}
+.moca_tree.workmenu ul li ul li.hover > span.moca_tree_tbx{text-decoration:underline; background:#94a2b1}
 
 
 .moca_grid {position:relative; -webkit-transition:top .1s, left .1s, bottom .3s, right .3s; transition:top .1s, left .1s, bottom .3s, right .3s}
