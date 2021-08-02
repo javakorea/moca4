@@ -1216,7 +1216,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 						_isdis = eval(_disabledFunction)(cell,_grd,_row["_system"]["realIndex"]);
 						if(_isdis){
 							isDisabled = "disabled"
-						}	
+						}
 					}
 					_reLabel = cell;		
 				}catch(e){
@@ -5296,6 +5296,44 @@ Moca.prototype.genTbody = function(_grd,_list,_idx,isEnd) {
 		}
 	}
 	$(_grd).find('tbody:first').html(tbody);
+	for(var i=idx,j=viewRowsMaxNow;i < j; i++){
+		var row = _list[i];
+		var row_next;
+		if(i+1 < j){
+			row_next = _list[i+1];
+		}else{
+			row_next;
+		}
+		var row_pre;
+		if(i-1 > 0){
+			row_pre = _list[i-1];
+		}else{
+			row_pre;
+		}		
+		
+		var isExp = "true";
+		var showHide = "show";
+		if(usetree == "true"){
+			isExp = row["_system"]["expand"];
+			showHide = row["_system"]["display"];
+			if(showHide == null){
+				showHide = "show";
+			}
+		}
+		var _aTr = this.genRows(row,row_pre,row_next,_grd,null,idx,i);
+		if(showHide == "hide"){
+			j++;
+			if(j > dataLeng){
+				j = dataLeng;
+			}
+			continue;
+		}else{
+			tbody += _aTr;
+		}
+	}
+	
+	
+	
 	moca._col_showhideExe(_grd);
 	moca._setRowSelection(_grd);
 	
