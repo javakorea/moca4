@@ -859,7 +859,7 @@ Moca.prototype.wFunction = function(yscroll) {
 	}
 };
 
-Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex,_nowIndex) {
+Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex,_nowIndex,_beforeAfter) {
 	if(_row["_system"] == null){
 		_row["_system"] = {status: "", expand: "true", realIndex: _nowIndex+""};
 	}else{
@@ -1068,10 +1068,11 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 				var _reLabel = '';
 				try{
 					if(_displayFunction != null && eval(_displayFunction) != null){
-						_reLabel = eval(_displayFunction)(cell,_grd,_row["_system"]["realIndex"]);		
+						_reLabel = eval(_displayFunction)(cell,_grd,_row["_system"]["realIndex"]);	
 					}else{
-						_reLabel = cell;		
+						_reLabel = cell;	
 					}
+					
 				}catch(e){
 					console.log("1009:"+e);
 				}
@@ -4907,6 +4908,13 @@ Moca.prototype._uptData = function(_thisObj){
 			var v = _thisTd[0].getAttribute("falseValue");
 			moca.setCellData(grd,realRowIndex,colid,v);
 		}
+	}else if(_thisObj.tagName == 'TD'){
+		if($(_thisObj).find('input').length > 0){
+			_value = $(_thisObj).find('input').attr('value');
+		}else{
+			_value = $(_thisObj).text();
+		}
+		moca.setCellData(grd,realRowIndex,colid,_value);
 	}else{
 		//일단데이터(input)
 		moca.setCellData(grd,realRowIndex,colid,_thisObj.value);
@@ -5284,7 +5292,7 @@ Moca.prototype.genTbody = function(_grd,_list,_idx,isEnd) {
 				showHide = "show";
 			}
 		}
-		var _aTr = this.genRows(row,row_pre,row_next,_grd,null,idx,i);
+		var _aTr = this.genRows(row,row_pre,row_next,_grd,null,idx,i,"before");
 		if(showHide == "hide"){
 			j++;
 			if(j > dataLeng){
@@ -5295,41 +5303,10 @@ Moca.prototype.genTbody = function(_grd,_list,_idx,isEnd) {
 			tbody += _aTr;
 		}
 	}
+	
 	$(_grd).find('tbody:first').html(tbody);
 	for(var i=idx,j=viewRowsMaxNow;i < j; i++){
-		var row = _list[i];
-		var row_next;
-		if(i+1 < j){
-			row_next = _list[i+1];
-		}else{
-			row_next;
-		}
-		var row_pre;
-		if(i-1 > 0){
-			row_pre = _list[i-1];
-		}else{
-			row_pre;
-		}		
-		
-		var isExp = "true";
-		var showHide = "show";
-		if(usetree == "true"){
-			isExp = row["_system"]["expand"];
-			showHide = row["_system"]["display"];
-			if(showHide == null){
-				showHide = "show";
-			}
-		}
-		var _aTr = this.genRows(row,row_pre,row_next,_grd,null,idx,i);
-		if(showHide == "hide"){
-			j++;
-			if(j > dataLeng){
-				j = dataLeng;
-			}
-			continue;
-		}else{
-			tbody += _aTr;
-		}
+		this.genRows(row,row_pre,row_next,_grd,null,idx,i,"after");
 	}
 	
 	
