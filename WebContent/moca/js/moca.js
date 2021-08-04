@@ -1088,7 +1088,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 					}
 					
 				}
-				row	+= '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'">'+_inTag+'</td>';
+				row	+= '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" onclick="moca.defaultCellClick(this);">'+_inTag+'</td>';
 			}else if(_celltype == 'inputButton'){
 				var _reLabel = '';
 				if(_displayFunction != null && eval(_displayFunction) != null){
@@ -1116,10 +1116,20 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 			}else if(_celltype == 'button'){
 				var btnLabel = cellTd.getAttribute("btnLabel");
 				var _reLabel = '';
-				if(_displayFunction != null && eval(_displayFunction) != null){
-					_reLabel = eval(_displayFunction)(cell);		
-				}else{
+				
+				var isDisabled = "";
+				var _isdis = false;
+				
+				try{
+					if(_disabledFunction != null && eval(_disabledFunction) != null){
+						_isdis = eval(_disabledFunction)(cell,_grd,_row["_system"]["realIndex"]);
+						if(_isdis){
+							isDisabled = "disabled"
+						}
+					}
 					_reLabel = cell;		
+				}catch(e){
+					console.log("1132:"+e);
 				}
 				var _inTag = '';
 				if(readOnly == "true"){
@@ -1127,11 +1137,11 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 				}else{
 					if(moca.trim(_callFunction) != ''){
 						_inTag = '<div class="grid_btn">';
-						_inTag += '<button type="button" onclick="'+_callFunction+'(this,\''+_nowIndex+'\',\''+_id+'\')" onfocus="moca._evt_selectFocus(this)">'+btnLabel+'</button>';
+						_inTag += '<button type="button" onclick="'+_callFunction+'(this,\''+_nowIndex+'\',\''+_id+'\')" onfocus="moca._evt_selectFocus(this)" '+isDisabled+'>'+btnLabel+'</button>';
 						_inTag += '</div>';
 					}
 				}
-				row	+= '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'">'+_inTag+'</td>';				
+				row	+= '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'"  disabledFunction="'+_disabledFunction+'">'+_inTag+'</td>';				
 			}else if(_celltype == 'tree'){
 				var _inTag = '';
 				if($.trim(_label) != ''){
@@ -4876,7 +4886,6 @@ Moca.prototype._uptData = function(_thisObj){
 			}
 		}
 	}
-	
 	
 	if(_thisObj.type == 'checkbox'){
 		//grd.ori_list[parseInt(rowIndex)][colid];
@@ -12805,6 +12814,9 @@ Moca.prototype.setLabelValue = function(_thisObj,_value){
 
 Moca.prototype.defaultCellClick = function(_thisObj){
 	event.preventDefault();
+	if($(_thisObj).attr('celltype') == 'input' && $(_thisObj).attr('readonly') != 'readonly'){
+		return	;
+	}
 	var grd = $(_thisObj).closest('div[type=grid]')[0];
 	var _thisTd = $(_thisObj).closest('td');
 	var colId = $(_thisObj).closest('td')[0].id;
@@ -12815,7 +12827,6 @@ Moca.prototype.defaultCellClick = function(_thisObj){
 	var selectedRealRowIndex = grd.getAttribute("selectedRealRowIndex");
 	var onBeforeClickStr = grd.getAttribute("onBeforeClick");
 	var onAfterClickStr = grd.getAttribute("onAfterClick");
-	
 	var pro = Promise.resolve();
 	if(onBeforeClickStr != "" && onBeforeClickStr != null){
 		pro = pro.then(function(re){
@@ -12831,6 +12842,7 @@ Moca.prototype.defaultCellClick = function(_thisObj){
 		});
 	}	
 	return pro;
+	
 };
 
 Moca.prototype.setCellReadOnly = function(_grd,_realRowIndex,_colId,_trueFalse){
