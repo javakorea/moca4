@@ -277,6 +277,7 @@
 					<table style="width: 100%">
 						<colgroup>
 								<col style="width:30px">
+								<col style="width:100px">
 								<!-- <col style="width:60px"> -->
 								<col style="width:60px">
 								<col style="width:60px">
@@ -292,6 +293,7 @@
 							<tr>
 								<th scope="col" celltype="checkbox" id="H_chk" targetId="chk">선택</th>
 								<!--<th scope="col" id="H_BOAD_TYPE">게시판유형</th> -->
+								<th scope="col" id="H_BOAD_PHONE">연락처테스트</th>
 								<th scope="col" id="H_BOAD_PIDX">부모ID</th>
 								<th scope="col" id="H_BOAD_IDX">ID</th>
 								<th scope="col" id="H_BOAD_TITLE">제목</th>
@@ -306,7 +308,8 @@
 							<tr>
 								<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" disabledFunction="moca.EFC_BOAD.disabled" ></td>
 								<!--<td id="BOAD_TYPE" celltype="input" style="text-align:center" name="ID" readOnly="true"></td> -->
-								<td id="BOAD_PIDX" celltype="input" btnLabel="삭제" style="text-align:center" name="ID" readOnly="true"></td>
+								<td id="BOAD_PHONE" celltype="input" keyMask="onlyPhone" style="text-align:left" name="연락처테스트" readOnly="false"></td>
+								<td id="BOAD_PIDX" celltype="input" style="text-align:center" name="부모ID" readOnly="true"></td>
 								<td id="BOAD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
 								<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true" displayFunction="moca.EFC_BOAD.dispReply"></td>
 								<td id="CNT" celltype="input" style="" name="첨부" readOnly="true" displayFunction="moca.EFC_BOAD.dispCnt"></td>
