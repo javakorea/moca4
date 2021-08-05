@@ -5,7 +5,7 @@
 
 CKEDITOR.editorConfig = function( config ) {
 	/*
-	 * toolbar default
+	// * toolbar default
 	// Toolbar configuration generated automatically by the editor based on config.toolbarGroups.
 	config.toolbar = [
 		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', '-', 'Save', 'NewPage', 'ExportPdf', 'Preview', 'Print', '-', 'Templates' ] },
@@ -27,26 +27,30 @@ CKEDITOR.editorConfig = function( config ) {
 	*/
 	config.toolbar = [{
         name: 'document',
-        items: ['Source', '-', 'Undo', 'Redo']
+        items: ['Source']
       },
       {
-        name: 'basicstyles',
-        items: ['Bold', 'Italic', 'Strike', '-', 'RemoveFormat']
+          name: 'basicstyles',
+          items: ['Bold', 'Underline',  'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight']
       },
-      {
-        name: 'links',
-        items: ['Link', 'Unlink', 'Anchor']
+      { 
+      	name: 'styles', 
+      	items: [ 'Font', 'FontSize'] 
+      },
+      { 
+    	name: 'colors',
+    	items: [ 'TextColor', 'BGColor' ] 
       },
       {
         name: 'insert',
-        items: ['Image', 'Format']
+        items: ['Image','Link']
       },
-      {
-        name: 'tools',
-        items: ['Maximize', 'ShowBlocks', 'About']
+      { 
+    	name: 'paragraph', 
+    	items: [ 'NumberedList', 'BulletedList',] 
       }
     ];
-
+    
 	// Toolbar groups configuration.
 	config.toolbarGroups = [
 		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
