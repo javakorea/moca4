@@ -4921,7 +4921,7 @@ Moca.prototype._uptData = function(_thisObj){
 		if($(_thisObj).find('input').length > 0){
 			_value = $(_thisObj).find('input').attr('value');
 		}else{
-			_value = $(_thisObj).text();
+			_value = $(_thisObj).html();
 		}
 		moca.setCellData(grd,realRowIndex,colid,_value);
 	}else{
@@ -12050,6 +12050,7 @@ Moca.prototype.keydown = function(_comp,_value,_keyMask){
 				return false;
 			}
 		}else if(keyMask.indexOf('onlyPhone') > -1){
+			//moca.phoneWithDash(_comp);
 			if(moca.isBasisKey(event.keyCode)){
 				//편집을 위한 기본적인 허용키
 				return true;

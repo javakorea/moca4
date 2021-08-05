@@ -31,7 +31,7 @@ CKEDITOR.editorConfig = function( config ) {
       },
       {
           name: 'basicstyles',
-          items: ['Bold', 'Underline',  'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight']
+          items: ['Bold', 'Underline',  'Indent']
       },
       { 
       	name: 'styles', 
@@ -43,14 +43,13 @@ CKEDITOR.editorConfig = function( config ) {
       },
       {
         name: 'insert',
-        items: ['Image','Link']
+        items: ['Table','Image','Link']
       },
       { 
     	name: 'paragraph', 
     	items: [ 'NumberedList', 'BulletedList',] 
       }
     ];
-    
 	// Toolbar groups configuration.
 	config.toolbarGroups = [
 		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
