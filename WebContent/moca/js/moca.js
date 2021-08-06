@@ -1851,7 +1851,7 @@ Moca.prototype.tree_addTab = function(_label,_tabId,_url,_mdiId){
 	['tree_addTab'];
 	var tabHtml = '<li draggable="true" ondragstart="moca.dragStart_mdi(this)" class="moca_tab_list active" tab_url="'+_url+'" tab_label="'+_label+'" tab_id="'+_tabId+'" id="'+_tabId+'_li" onclick="moca.moca_mdi_click(this);"><span class="moca_tab_mark"></span><button type="button" role="tab" aria-controls="moca_tab_bridge1" class="moca_tab_label">'+_label+'</button>';
 	tabHtml += '<button type="button" class="moca_tab_close" onclick="moca.tabClose(this)">닫기</button></li>';
-	var _html = $('.moca_tab_ul').html();
+	var _html = $('#'+_mdiId+' .moca_tab_ul').html();
 	var _full_html = _html.replace(/active/g,'')+tabHtml;
 	$('#'+_mdiId+' .moca_tab_ul').html(_full_html); 
 
@@ -12050,7 +12050,8 @@ Moca.prototype.keydown = function(_comp,_value,_keyMask){
 				return false;
 			}
 		}else if(keyMask.indexOf('onlyPhone') > -1){
-			//moca.phoneWithDash(_comp);
+			$(_comp).attr('maxlength','13');
+			moca.phoneWithDash(_comp);
 			if(moca.isBasisKey(event.keyCode)){
 				//편집을 위한 기본적인 허용키
 				return true;
@@ -12815,7 +12816,7 @@ Moca.prototype.setLabelValue = function(_thisObj,_value){
 
 Moca.prototype.defaultCellClick = function(_thisObj){
 	event.preventDefault();
-	if($(_thisObj).attr('celltype') == 'input' && $(_thisObj).attr('readonly') != 'readonly'){
+	if($(_thisObj).attr('celltype') == 'input' && $(_thisObj).find('input').length > 0){
 		return	;
 	}
 	var grd = $(_thisObj).closest('div[type=grid]')[0];
