@@ -11645,6 +11645,9 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
 			var reValue='';
 			try{
 				reValue = eval(df)(_value);
+				if(reValue.length < _value.length){
+					reValue = _value;
+				}
 			}catch(e){
 				reValue = _value;
 			}
@@ -12050,8 +12053,6 @@ Moca.prototype.keydown = function(_comp,_value,_keyMask){
 				return false;
 			}
 		}else if(keyMask.indexOf('onlyPhone') > -1){
-			$(_comp).attr('maxlength','13');
-			moca.phoneWithDash(_comp);
 			if(moca.isBasisKey(event.keyCode)){
 				//편집을 위한 기본적인 허용키
 				return true;
@@ -12635,14 +12636,19 @@ Moca.prototype.phoneWithDash = function(_this){
 
 
 Moca.prototype.phoneWithDashFormatter = function(x){
-	  x = x.replace(/[^0-9]/g,'');   // 입력값이 숫자가 아니면 공백
-	  x = x.replace(/-/g,'');          // -값 공백처리
-	  if(x.length > 10){
-		  var a = x.substring(0,3);
-		  var b =x.substring(3,7);
-		  var c =x.substring(7,11);
-		  return a+"-"+b+"-"+c;
-	  }
+	if(x == null){
+		return "";
+	}
+	x = x.replace(/[^0-9]/g,'');   // 입력값이 숫자가 아니면 공백
+	x = x.replace(/-/g,'');          // -값 공백처리
+	if(x.length > 10){
+		var a = x.substring(0,3);
+	  	var b =x.substring(3,7);
+	  	var c =x.substring(7,11);
+	  	return a+"-"+b+"-"+c;
+	}else{
+		return x;
+	}
 };  
 
 
