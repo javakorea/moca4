@@ -83,7 +83,11 @@ function Moca(){
 			var rightMdi 	= ___m.resizingbarDiv.nextElementSibling;
 			var offsetStart = ___m.resizingbarDivOffsetLeft;
 			var reWidthPercent = (e.screenX/offsetStart)*50;
-			$(leftMdi).css('width',reWidthPercent+"%");
+            
+            var mdiLeftGep = offsetStart -reWidthPercent;
+            var currentMdiLeft = Number($(leftMdi).css('width').replace('px',''));
+            var reCurrentMdiLeft = currentMdiLeft - mdiLeftGep;
+			$(leftMdi).css('width',reCurrentMdiLeft+"px");
 			
 			//console.log(offsetStart,e.screenX);
 			*/
@@ -120,12 +124,17 @@ function Moca(){
 			var leftMdi 	= ___m.resizingbarDiv.previousElementSibling;
 			var rightMdi 	= ___m.resizingbarDiv.nextElementSibling;
 			var offsetStart = ___m.resizingbarDivOffsetLeft;
-			var reWidthPercent = (e.screenX/offsetStart)*50;
-			$(leftMdi).css('width',reWidthPercent+"%");
+            var reWidthPercent = e.screenX;
+            var mdiLeftGep = offsetStart -reWidthPercent;
+            var currentMdiLeft = Number($(leftMdi).css('width').replace('px',''));
+            var currentMdiRight = Number($(rightMdi).css('width').replace('px',''));
+            var reCurrentMdiLeft = currentMdiLeft - mdiLeftGep;
+            var reCurrentMdiRight = currentMdiRight + mdiLeftGep;
+            $(leftMdi).css('width',(reCurrentMdiLeft)+"px");
+            $(rightMdi).css('width',(reCurrentMdiRight)+"px");
 			___m.resizingbarDiv = null;
 			document.body.style.cursor = '';
 			e.preventDefault();
-			//console.log(offsetStart,e.screenX);
 		}
 		
 		//달력닫기처리
@@ -1773,13 +1782,9 @@ Moca.prototype.goMain = function(){
 
 Moca.prototype.dragStart_mdi = function(thisMdiLi){
 	['드레그시작'];
-	
-	var parentNode = event.target.parentElement;
+	var parentNode = event.target;
 	event.dataTransfer.setDragImage(parentNode,0,0);  
-	console.log('dragStart',thisMdiLi);
 	event.dataTransfer.setData("mdi_tab_id",thisMdiLi.id);
-
-	//thisMdiLi
 };
 
 Moca.prototype.dragOver_mdi = function(thisMdiLi){
