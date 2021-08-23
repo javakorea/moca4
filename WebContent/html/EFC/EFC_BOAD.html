@@ -133,9 +133,6 @@
     
     moca.EFC_BOAD.dispReply= function(_thisVal, _grd, _realrow){
     	var _showVal = '';
-    	if(_grd.list[_realrow].BOAD_IDX != _grd.list[_realrow].BOAD_PIDX){
-    			_showVal = "<i class='reply'></i>"+_thisVal;
-    	}else{
     		if(_grd.list[_realrow].BOAD_SUPPORT == "Y"){
     			_showVal = "<i class='msg bg_green mr5'>완료</i>"+_thisVal;
     		}else if(_grd.list[_realrow].BOAD_SUPPORT == "R"){
@@ -145,7 +142,6 @@
     		}else{
     			_showVal = _thisVal;
     		}
-    	}
     	return _showVal;
     }
     
@@ -281,7 +277,7 @@
 								<col style="width:100px">
 								<!-- <col style="width:60px"> -->
 								<col style="width:60px">
-								<col style="width:60px">
+								<!-- <col style="width:60px"> -->
 								
 								<col style="min-width:347px">
 								<col style="width:40px">
@@ -296,7 +292,7 @@
 								<!--<th scope="col" id="H_BOAD_TYPE">게시판유형</th> -->
 								<th scope="col" id="H_BOAD_PHONE">연락처테스트</th>
 								<th scope="col" id="H_BOAD_PIDX">부모ID</th>
-								<th scope="col" id="H_BOAD_IDX">ID</th>
+								<!-- <th scope="col" id="H_BOAD_IDX">ID</th> -->
 								<th scope="col" id="H_BOAD_TITLE">제목</th>
 								<th scope="col" id="H_BOAD_FILECNT">첨부</th>
 								<th scope="col" id="H_BOAD_WRITER"  filterable="true" filterableId="BOAD_WRITER">작성자</th>
@@ -316,7 +312,7 @@
 								displayFunctionApply="realtime"
 								></td>
 								<td id="BOAD_PIDX" celltype="input" style="text-align:center" name="부모ID" readOnly="true"></td>
-								<td id="BOAD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
+								<!-- <td id="BOAD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td> -->
 								<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true" displayFunction="moca.EFC_BOAD.dispReply"></td>
 								<td id="CNT" celltype="input" style="" name="첨부" readOnly="true" displayFunction="moca.EFC_BOAD.dispCnt"></td>
 								<td id="BOAD_WRITER" celltype="input" style="text-align:center" name="작성자" readOnly="true"></td>

@@ -5255,6 +5255,23 @@ public class TOController{
 		}
         return jsonview;
 	}
+	//게시판 답변 조회  
+	@RequestMapping(value = "/EFC_BOAD/selectBoardReply.do")
+	public View selectBoardReplyList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			model.addAttribute("selectBoardReply", TOMapper.selectBoardReply(paramMap));
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
 	
 	//게시판 상세조회  
 	@RequestMapping(value = "/EFC_BOAD/selectBoardInfo.do")

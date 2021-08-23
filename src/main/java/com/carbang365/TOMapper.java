@@ -417,6 +417,8 @@ public interface TOMapper {
  
     // 게시판조회
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map);
+	// 게시판답변조회
+	public List<Map<String, Object>> selectBoardReply(Map<String, Object> map);
 	// 게시글등록
 	public int insertBoard(Map<String, Object> map);
 	// 게시글수정
