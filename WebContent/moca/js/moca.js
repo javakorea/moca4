@@ -3338,7 +3338,7 @@ Moca.prototype.renderGrid = function(_divObj) {
     var toolbar_nextbtn = _divObj.getAttribute("toolbar_nextbtn");
     var toolbar_full = _divObj.getAttribute("toolbar_full");
     var toolbar_fold = _divObj.getAttribute("toolbar_fold");
-    var gridType = _divObj.getAttribute("gridType");
+    var pagingType = _divObj.getAttribute("pagingType");
 
     var _html = '';
     if(_toolbar){
@@ -3486,7 +3486,7 @@ Moca.prototype.renderGrid = function(_divObj) {
     _html += '</div>';
     
     
-    if(gridType == 'numberList'){
+    if(pagingType == 'numberList'){
         _html += '<div class="moca_grid_paging">';
         _html += '<button type="button" class="first"><span>첫 페이지로 이동</span></button>';
         _html += '<button type="button" class="prev"><span>이전페이지로 이동</span></button>';
