@@ -1833,6 +1833,11 @@ public class EfmsEFLController {
         	
             String fileName = System.currentTimeMillis()+upload.getOriginalFilename();
             byte[] bytes = upload.getBytes();
+            String dirPath = rootPath + subDir;
+            File dirFile = new File(dirPath);
+            if(!dirFile.exists()) {
+            	dirFile.mkdirs();
+            }
             String uploadPath = rootPath + subDir+fileName;//저장경로
      
             out = new FileOutputStream(new File(uploadPath));
