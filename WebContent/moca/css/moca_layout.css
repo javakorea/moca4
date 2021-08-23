@@ -240,7 +240,7 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 .txt_list table tr th{background:#ddd; border:1px solid #fff; padding:2px}
 .txt_list table tr td{background:#eee; border:1px solid #fff; padding:2px}
 
-.itemTable{outline: none; max-height: 119px; border: 1px solid #9a9ea8; border-top:0; border-radius: 2px; margin-top: 1px; box-shadow: 0px 3px 2px rgba(0,0,0,0.2);color:#333}
+.itemTable{outline: none; max-height: 119px; border: 1px solid #9a9ea8; border-top:0; border-radius: 2px; margin-top: 1px; box-shadow: 0px 3px 2px rgba(0,0,0,0.2); background:#fff; color:#333; min-width:130px}
 .itemTable > ul {position:relative; overflow-y: auto; max-height:89px; margin-top:52px; border-bottom:1px solid #bbb}
 .itemTable ul li{height:30px; line-height:30px; border-bottom:1px solid #bbb; background:#efefef}
 .itemTable ul li.on{background:#3f424a; color:#fff;}
@@ -254,7 +254,7 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 .itemTable input[type='checkbox'].allcheck:indeterminate:before{background-position:0 -108px}
 .itemTable input[type='checkbox'].allcheck:checked:before{background-position:0 -96px}
 .itemTable .moca_ibn_btn{right: 3px; border: 1px solid #fff; top: 4px; font-size: 11px; padding: 1px 5px; border-radius: 2px; color: #fff}
-.itemTable div.filterheader{height: 25px; padding-top: 4px; position: fixed; z-index: 1; background: #3f424a; width: inherit; border-bottom: 1px solid #fff}
+.itemTable div.filterheader{height: 25px; padding-top: 4px; position: fixed; z-index: 1; background: #3f424a; width: inherit; border-bottom: 1px solid #fff; min-width:130px}
 .itemTable input[type='text']{ height: 21px; left: 2px; position: relative; top: 5px; right: 0; width: calc(100% - 4px); display:block}
 
 .searchCmbTable{text-indent:5px; outline: none; max-height: 119px; margin-top: -1px; color:#333}
