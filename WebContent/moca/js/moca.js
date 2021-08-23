@@ -927,6 +927,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 			
 			var _keyMask = undefined;
 			var _displayFunction = undefined;
+            var _displayFunctionApply;
 			var _disabledFunction = undefined;
 			
 			var _align = undefined;
@@ -951,6 +952,9 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 				_keyMask = cellTd.getAttribute("keyMask");
 				_displayFunction = cellTd.getAttribute("displayFunction");
 				_disabledFunction = cellTd.getAttribute("disabledFunction");
+                _displayFunctionApply = cellTd.getAttribute("displayFunctionApply");
+                
+                
 				_addRowEditable = cellTd.getAttribute("addRowEditable");
 				_align = cellTd.getAttribute("align");
 				_style = cellTd.getAttribute("style");
@@ -1091,9 +1095,9 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 					_inTag = _reLabel;
 				}else{
 					if(_required == 'true'){
-						_inTag = '<input type="text" onblur="moca.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="moca.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  class="moca_input req" style="'+_style+'" value="'+_reLabel+'" onkeyup="moca._uptData(this)" onfocus="moca._evt_selectFocus(this)">';
+						_inTag = '<input type="text" onblur="moca.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="moca.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  displayFunctionApply=\''+_displayFunctionApply+'\' class="moca_input req" style="'+_style+'" value="'+_reLabel+'" onkeyup="moca._uptData(this)" onfocus="moca._evt_selectFocus(this)">';
 					}else{
-						_inTag = '<input type="text" onblur="moca.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="moca.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  class="moca_input" style="'+_style+'" value="'+_reLabel+'" onkeyup="moca._uptData(this)" onfocus="moca._evt_selectFocus(this)">';
+						_inTag = '<input type="text" onblur="moca.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="moca.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  displayFunctionApply=\''+_displayFunctionApply+'\' class="moca_input" style="'+_style+'" value="'+_reLabel+'" onkeyup="moca._uptData(this)" onfocus="moca._evt_selectFocus(this)">';
 					}
 					
 				}
@@ -4868,7 +4872,6 @@ Moca.prototype.removeRow = function(_grd,_rowIndex){
 
 Moca.prototype._uptData = function(_thisObj){
 	['에디팅데이터 실시간 dataList에 반영'];
-	
 	event.preventDefault();
 	moca._selectFocus(_thisObj);
 	var grd = $(_thisObj).closest('div[type=grid]')[0];
@@ -4930,8 +4933,16 @@ Moca.prototype._uptData = function(_thisObj){
 		}
 		moca.setCellData(grd,realRowIndex,colid,_value);
 	}else{
-		//일단데이터(input)
-		moca.setCellData(grd,realRowIndex,colid,_thisObj.value);
+        var displayfunctionValue = $(_thisObj).attr('displayfunction');
+        var displayFunctionApplyValue = $(_thisObj).attr('displayFunctionApply');
+        if(moca.trim(displayfunctionValue) != '' && moca.trim(displayFunctionApplyValue) == 'realtime'){
+            var reValue = eval(displayfunctionValue)(_thisObj.value);
+            //일단데이터(input)
+            moca.setCellData(grd,realRowIndex,colid,reValue);
+        }else{
+            //일단데이터(input)
+            moca.setCellData(grd,realRowIndex,colid,_thisObj.value);
+        }
 	}
 };
 Moca.prototype._evt_selectFocus = function(_thisObj){
@@ -11543,6 +11554,20 @@ Moca.prototype.telFormat = function(_str) {
 		a = a.replace(/(\d{3})(\d+)(\d{4}$)/g,'$1-$2-$3');
 	};
 	return a;
+};
+
+Moca.prototype.cellPhone = function(x) {
+    ['휴대전화11자리숫자,-2개포함총13자리'];
+  x = x.replace(/[^0-9]/g,'');   // 입력값이 숫자가 아니면 공백
+  x = x.replace(/-/g,'');          // -값 공백처리
+  if(x.length > 10){
+    var a = x.substring(0,3);
+    var b = x.substring(3,7);
+    var c = x.substring(7,11);
+    return a+"-"+b+"-"+c;
+  }else{
+    return x;
+  }
 };
 
 Moca.prototype.submit = function(_url,_param,_target) {
