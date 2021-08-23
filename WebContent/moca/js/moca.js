@@ -122,6 +122,7 @@ function Moca(){
             $(rightMdi).css('width',(reCurrentMdiRight)+"px");
             ___m.resizingbarDiv = null;
             document.body.style.cursor = '';
+            moca.hideDashed();
             e.preventDefault();
         }
         
