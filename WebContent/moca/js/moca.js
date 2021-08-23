@@ -3326,7 +3326,7 @@ Moca.prototype.renderGrid = function(_divObj) {
 	var _default_cell_height = _divObj.getAttribute("default_cell_height");
 	var _title = _divObj.getAttribute("label");
 	var _toolbar = $(_divObj).hasClass("toolbar");
-	var _paging = $(_divObj).hasClass("paging");
+//	var _paging = $(_divObj).hasClass("paging");
 	var _header_body = _divObj.innerHTML;
 	var _rowSelectedColor = _divObj.getAttribute("rowSelectedColor");
 	var _onRowSelectedFunc = _divObj.getAttribute("onRowSelected");
@@ -3345,6 +3345,7 @@ Moca.prototype.renderGrid = function(_divObj) {
 	var toolbar_nextbtn = _divObj.getAttribute("toolbar_nextbtn");
 	var toolbar_full = _divObj.getAttribute("toolbar_full");
 	var toolbar_fold = _divObj.getAttribute("toolbar_fold");
+	var gridType = _divObj.getAttribute("gridType");
 
 	var _html = '';
 	if(_toolbar){
@@ -3481,7 +3482,7 @@ Moca.prototype.renderGrid = function(_divObj) {
 	
 	
 	
-	_html += '<div class="moca_grid_list" default_cell_height="'+_default_cell_height+'" grdkey="'+_id+'">';
+	_html += '<div class="moca_grid_list fauto" default_cell_height="'+_default_cell_height+'" grdkey="'+_id+'">';
 		_html += '<div class="moca_grid_body" style="right:18px;">';
 		_html += _header_body;
 		_html += '</div>';
@@ -3491,7 +3492,8 @@ Moca.prototype.renderGrid = function(_divObj) {
 		_html += '<div id="lin_dashed" style="position:absolute; top:0px; bottom:0px; border-left:1px dashed #000; z-index:100; height:100%; left:340px;display:none"></div>';
 	_html += '</div>';
 	
-	if(_paging){
+	
+	if(gridType == 'numberList'){
 		_html += '<div class="moca_grid_paging">';
 		_html += '<button type="button" class="first"><span>첫 페이지로 이동</span></button>';
 		_html += '<button type="button" class="prev"><span>이전페이지로 이동</span></button>';
@@ -3505,7 +3507,7 @@ Moca.prototype.renderGrid = function(_divObj) {
 		_html += '<button type="button">7</button>';
 		_html += '<button type="button">8</button>';
 		_html += '<button type="button">9</button>';
-		_html += '<button type="button">10</button>';
+		_html += '<button type="button" >10</button>';
 		_html += '</span>';
 		_html += '<button type="button" class="next"><span>다음페이지로 이동</span></button>';
 		_html += '<button type="button" class="last"><span>마지막 페이지로 이동</span></button>';
@@ -9365,7 +9367,7 @@ Moca.prototype.renderTable = function(_divObj) {
 	var toolbar_exdn = _divObj.getAttribute("toolbar_exdn");
 	var toolbar_nextbtn = _divObj.getAttribute("toolbar_nextbtn");
 	var toolbar_full = _divObj.getAttribute("toolbar_full");
-	
+
 	var _html = '';
 	if(_toolbar){
 		_html += '<div class="moca_table_toolbar" grdkey="'+_id+'" default_cell_height="'+_default_cell_height+'" >';

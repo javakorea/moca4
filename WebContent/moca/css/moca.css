@@ -309,7 +309,8 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_tree.workmenu ul li ul li.hover > span.moca_tree_tbx{text-decoration:underline; background:#94a2b1}
 
 
-.moca_grid {position:relative; -webkit-transition:top .1s, left .1s, bottom .3s, right .3s; transition:top .1s, left .1s, bottom .3s, right .3s}
+/*.moca_grid {position:relative; -webkit-transition:top .1s, left .1s, bottom .3s, right .3s; transition:top .1s, left .1s, bottom .3s, right .3s}*/
+.moca_grid {display:flex; flex-direction:column; position:relative; -webkit-transition:top .1s, left .1s, bottom .3s, right .3s; transition:top .1s, left .1s, bottom .3s, right .3s}
 .moca_grid_toolbar {position:relative; width:100%; min-height:24px; padding:0; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
 .moca_grid_toolbar:after {display:block; visibility:hidden; clear:both; height:0; font-size:0; line-height:0; content: '.'}
 .moca_grid_toolbar .lta {float:left; margin-right:-5px; text-align:left}
@@ -349,7 +350,7 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .grid_btn button:active{opacity:1}
 button:disabled{background:#aaa; opacity:1; cursor:default}
 
-.moca_grid_list {position:absolute; top:0; right:0; bottom:0; left:0; border-top:1px solid #9a9ea8; border-bottom:1px solid #9a9ea8; background-color:#f6f6f6; overflow:hidden}
+.moca_grid_list {position:relative; margin-top:5px; right:0; bottom:0; left:0; border-top:1px solid #9a9ea8; border-bottom:1px solid #9a9ea8; background-color:#f6f6f6; overflow:hidden}
 .moca_grid_list .moca_grid_body {position:absolute; overflow-x:auto; overflow-y:hidden; background:url(../images/moca_gray.png) no-repeat 50% 50%; background-size: 190px; left:0; right:0; top:0; bottom:0}
 .moca_grid_list .moca_grid_body > table {table-layout:fixed; border-collapse:collapse; border-spacing:0}
 .moca_grid_list .moca_grid_body > table > tbody > tr.summery > td{background:#f8fae1}
@@ -395,26 +396,26 @@ i.msg {text-align: center; padding:0 3px; display: inline-block; color: #fff; bo
 .moca_grid_filter_btn.on{background-position:0 -24px}
 .moca_grid_filter_btn.multi {top:10px;}
 .moca_grid_filter_btn+i{position: absolute; top: -6px; right: 11px; width: 15px; font-size: 8px; font-style: normal; color: #ffffff; background: #f00; border-radius: 14px; line-height: 14px;}
-.moca_grid_paging {position:absolute; left:0; right:0; bottom:0; height:24px; vertical-align:middle; text-align:center; font-size:0; margin-bottom:5px}
-.moca_grid_paging button {position:relative; padding:0; border-radius:2px}
-.moca_grid_paging .num {font-size:0;}
-.moca_grid_paging .num button {padding:0 8px; margin:0 1px; height:24px;/*  line-height:24px; */ display:inline-block; border:1px solid #fff; color:#666; background:#fff}
-.moca_grid_paging .num button:hover,
-.moca_grid_paging .num button.on {border:1px solid #ce7d67; background:#ce7d67; color:#fff; font-weight:600}
+.moca_grid_paging {position:relative; left:0; right:0; bottom:0; height:24px; vertical-align:middle; text-align:center; font-size:0; background: #f0f5fb; border-bottom: 1px solid #9a9ea8}
+.moca_grid_paging button {position:relative; padding:0}
+.moca_grid_paging .num {font-size:0; }
+.moca_grid_paging .num button {padding: 0 4px;min-width:18px; height:18px; display:inline-block; color:#666; border-radius:10px; top:3px; margin:0 3px}
+/*.moca_grid_paging .num button:hover,*/
+.moca_grid_paging .num button.on {background:#2d84cd; color:#fff}
 .moca_grid_paging button span {text-indent:-9999px; overflow:hidden; height:0; font-size:0}
 .moca_grid_paging button.first, 
 .moca_grid_paging button.prev, 
 .moca_grid_paging button.next, 
-.moca_grid_paging button.last {vertical-align:top; display:inline-block; width:24px; height:24px; border:1px solid #d5d5d5} 
-.moca_grid_paging button.first {background:#fff url(../images/grid/ico_paging_first.png) no-repeat 50% 50%;}
-.moca_grid_paging button.prev  {background:#fff url(../images/grid/ico_paging_prev.png) no-repeat 50% 50%; margin:0 2px 0 4px}
-.moca_grid_paging button.next  {background:#fff url(../images/grid/ico_paging_next.png) no-repeat 50% 50%; margin:0 4px 0 2px}
-.moca_grid_paging button.last  {background:#fff url(../images/grid/ico_paging_end.png) no-repeat 50% 50%;}
+.moca_grid_paging button.last {vertical-align:top; display:inline-block; width:22px; height:24px;} 
+.moca_grid_paging button.first {background: url(../images/grid/ico_paging_first.png) no-repeat 50% 50%;}
+.moca_grid_paging button.prev  {background: url(../images/grid/ico_paging_prev.png) no-repeat 50% 50%}
+.moca_grid_paging button.next  {background: url(../images/grid/ico_paging_next.png) no-repeat 50% 50%}
+.moca_grid_paging button.last  {background: url(../images/grid/ico_paging_end.png) no-repeat 50% 50%;}
 .moca_grid_paging button.first:hover, 
 .moca_grid_paging button.prev:hover, 
 .moca_grid_paging button.next:hover, 
 .moca_grid_paging button.last:hover {background-color:#e6f4ea}
-.moca_grid.toolbar .moca_grid_list {top:29px}
+/*.moca_grid.toolbar .moca_grid_list {top:29px}*/
 .moca_grid.paging .moca_grid_list {bottom:34px}
 .moca_grid.overlayer {position:fixed !important; top:0 !important; right:0 !important; bottom:0 !important; left:0 !important; margin:0 !important; z-index:999 !important; background:#fff}
 .moca_grid.overlayer .moca_grid_toolbar {padding:5px 5px 0}
