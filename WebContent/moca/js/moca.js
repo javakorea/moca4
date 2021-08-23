@@ -1860,26 +1860,23 @@ Moca.prototype.tree_addTab = function(_label,_tabId,_url,_mdiId){
 };
 
 Moca.prototype.tabClose = function(_liCloseButtonObj){
-    ['탭닫기']; 
+    ['탭닫기'];
     moca.confirm('현재 화면을 닫으시겠습니까?',function(result){
         if(result == 'Y'){
             var _tab_id = $(_liCloseButtonObj).closest("[tab_id]").attr("tab_id");
+            var _mdiId = $(_liCloseButtonObj).closest('.moca_mdi').attr('id');
             var t = $('*[tab_id='+_tab_id+']');
             $('*[tab_id='+_tab_id+']').remove();
             $(_liCloseButtonObj).parent().remove();
-            
-            var _mdi = $(_liCloseButtonObj).closest('.moca_mdi');
             if(t.hasClass("active")){
                 //액티브상태에서 닫혔을때만 아래 적용
-                $('.moca_tab_ul>li:last-child').addClass('active');//탭액티브
-                $('.moca_tab_body').last().css('display','block');//컨텐츠액티브      
+                $('#'+_mdiId+' .moca_tab_ul>li:last-child').addClass('active');//탭액티브
+                $('#'+_mdiId+' .moca_tab_body').last().css('display','block');//컨텐츠액티브      
             }
             $('.moca_tab_ul').removeClass('tabWidth'); //탭메뉴리사이징
-            
-            if($('.moca_tab_close:last').length != 0){
-                ($('#'+_mdi+' .moca_tab_allclose').offset().left - $('#'+_mdi+' .moca_tab_close:last').offset().left <= 150)? $('#'+_mdi+' .moca_tab_ul').addClass('tabWidth') : $('#'+_mdi+' .moca_tab_ul').removeClass('tabWidth');
+            if($('#'+_mdiId+' .moca_tab_close:last').length != 0){
+                ($('#'+_mdiId+' .moca_tab_allclose').offset().left - $('#'+_mdiId+' .moca_tab_close:last').offset().left <= 150)? $('#'+_mdiId+' .moca_tab_ul').addClass('tabWidth') : $('#'+_mdiId+' .moca_tab_ul').removeClass('tabWidth');
             }
-
             event.preventDefault();
             event.stopPropagation();
             event.stopImmediatePropagation();
