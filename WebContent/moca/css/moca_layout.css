@@ -672,11 +672,11 @@ input[type=text].kor {-webkit-ime-mode:active; -moz-ime-mode:active; -ms-ime-mod
 .txt_14 {font-size:14px !important}
 .txt_16 {font-size:16px !important}
 
-.bg_blue{background-color:#2d84c1 !important}
+.bg_blue{background-color:#00a1ff !important}
 .bg_green{background-color:#36c12d !important}
 .bg_lightgray{background-color:#aaa !important}
 .bg_red{background-color:#ff3333 !important}
-
+.bg_orange {background-color:#ff8c29 !important}
 .blind {visibility:visible;	position:absolute; overflow:hidden; clip:rect(0 0 0 0); margin:-1px; width:1px; height:1px; top:auto; left:auto; font-size:medium; line-height:normal}
 .hidden {overflow:hidden !important; position:absolute !important; top:0 !important; left:-2000em !important; line-height:0 !important;}
 

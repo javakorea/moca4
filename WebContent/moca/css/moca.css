@@ -389,7 +389,7 @@ button:disabled{background:#aaa; opacity:1; cursor:default}
 .sort_asc {background-image:url(../images/grid/ico_asc.png)}
 .sort_desc {background-image:url(../images/grid/ico_desc.png)}
 i.reply {background: url(../images/ico_reply.png) no-repeat right center; float:left; width: 16px; height: 16px; display: inline-block; margin-right: 5px;}
-i.msg {text-align: center; padding:0 3px; display: inline-block; color: #fff; border-radius: 2px; font-style: normal;}
+i.msg {text-align: center; padding:0 6px; display: inline-block; color: #fff; border-radius: 10px; font-style: normal;}
 
 .moca_grid_filter_btn{position: relative; display:inline-block; width:12px; height:12px; background:url(../images/grid/ico_grid_filter.png)no-repeat 0 0; text-indent:-9999px; float: right; right: 3px; top: 3px}
 .moca_grid_filter_btn.close{background-position:0 -12px}
