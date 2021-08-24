@@ -4182,6 +4182,45 @@ Moca.prototype.popClose = function(_popupId,_json){
     }
 };
 
+Moca.prototype.popChange = function(_popupId,_json){
+    ['모카팝업타입전환'];
+    debugger;
+    /*
+    $('#'+_popupId).remove();
+    if($('.moca_tab_list.active').length > 0){
+        var activeObj = $('.moca_tab_list.active')[0];
+        var _tab_id = activeObj.getAttribute("tab_id");//MDI_201901091611497970040306010502
+        var _tab_url = activeObj.getAttribute("tab_url");//MDI_201901091611497970040306010502
+        var _src_id = moca.url_to_srcId(_tab_url);
+        moca.pageId = _tab_id;
+        moca.srcId = _src_id;
+    }else{
+        moca.pageId = $("div[type=grid]").attr("pageid");
+        moca.srcId = $("div[type=grid]").attr("srcid");
+    }
+    if(this.callbacks[_popupId]){
+        eval(this.callbacks[_popupId])(_json);
+        delete this.callbacks[_popupId];
+        delete this.data[_popupId];
+    }*/
+    
+    var _id = moca.openWindowPopup({
+        id: _popupId,
+        title:  '비용확정재시도결과',
+        width:"1024px",
+        height:"400px",
+        url : "/to/uat/uia/actionMain_link.do?mcsrc=/to"+$('#'+_popupId).attr('src'),
+        fullscreen : 'no',
+        param : {
+        }
+    });
+    setTimeout(function(){
+        moca.submit(config.url_ts_cost(),{xml:a},_popupId);
+    },1000);
+        
+        
+};
+
 Moca.prototype.mpopClose = function(_thisObj,_messageboxId){
     ['모카팝업 닫기'];
     $('._modal').remove();
@@ -9924,7 +9963,7 @@ Moca.prototype.rendering = function(o,_aTag) {
         cont += '<div id="'+_pid+'" pageid="'+_tabId+'" srcid="'+moca.srcId+'" class="moca_popup" style="left:'+o.left+'px;top:'+o.top+'px;width:'+o.width+'px;height:'+o.height+'px">';
         cont += '   <div class="moca_popup_header">';
         cont += '       <h2 class="moca_popup_title">'+o.title+'('+moca.srcId+')'+'</h2>';
-        cont += '       <div class="moca_popup_control"><button type="button" id="btn_popClose" class="moca_popup_btn_close" onclick="moca.popClose(\''+_tabId+'\');">닫기</button></div>';
+        cont += '       <div class="moca_popup_control"><button type="button" id="btn_popChange" class="moca_popup_btn_change" onclick="moca.popChange(\''+_tabId+'\');">변경</button><button type="button" id="btn_popClose" class="moca_popup_btn_close" onclick="moca.popClose(\''+_tabId+'\');">닫기</button></div>';
         cont += '   </div>';
         cont += '   <div class="moca_popup_body">';
         cont += '       <div class="moca_popup_content">';
