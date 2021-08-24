@@ -37,9 +37,28 @@
 	            }
 	        },          
 	        callback : function(response){
-	        	var money = '200,000'
 	        	moca.EFC_BOAD.grdList = moca.getResList(response,"selectBoardList");
 	            moca.EFC_BOAD.drawGrid('grd_1',moca.EFC_BOAD.grdList);
+	            _supportArr = moca.getResList(response,"selectBoardStatusCnt");
+	            var _supportB = 0;
+	            var _supportN = 0;
+	            var _supportR = 0;
+	            var _supportY = 0;
+	            for(var i=0; i<_supportArr.length ; i++){
+	            	if(_supportArr[i].BOAD_SUPPORT == 'B'){
+	            		_supportB = _supportArr[i].CNT
+	            	}else if(_supportArr[i].BOAD_SUPPORT == 'N'){
+	            		_supportN = _supportArr[i].CNT
+	            	}else if(_supportArr[i].BOAD_SUPPORT == 'R'){
+	            		_supportR = _supportArr[i].CNT
+	            	}else if(_supportArr[i].BOAD_SUPPORT == 'Y'){
+	            		_supportY = _supportArr[i].CNT
+	            	}
+	            }
+	            moca.setLabelValue(moca.EFC_BOAD.getObj('supportB'),moca.comma(_supportB));//반려
+	            moca.setLabelValue(moca.EFC_BOAD.getObj('supportN'),moca.comma(_supportN));//요청
+	            moca.setLabelValue(moca.EFC_BOAD.getObj('supportR'),moca.comma(_supportR));//접수
+	            moca.setLabelValue(moca.EFC_BOAD.getObj('supportY'),moca.comma(_supportY));//완료
 	        }
 	    });
 	};
@@ -138,16 +157,18 @@
     
     moca.EFC_BOAD.dispReply= function(_thisVal, _grd, _realrow){
     	var _showVal = '';
-    		if(_grd.list[_realrow].BOAD_SUPPORT == "Y"){
-    			_showVal = "<i class='msg bg_green mr5'>완료</i>"+_thisVal;
-    		}else if(_grd.list[_realrow].BOAD_SUPPORT == "R"){
-    			_showVal = "<i class='msg bg_blue mr5'>접수</i>"+_thisVal;
-    		}else if(_grd.list[_realrow].BOAD_SUPPORT == "B"){
-    			_showVal = "<i class='msg bg_orange mr5'>반려</i>"+_thisVal;
-    		}else{
-    			_showVal = _thisVal;
-    		}
-    	return _showVal;
+    	var _replyCnt = (_grd.list[_realrow].BOAD_REPLY > 0)?_grd.list[_realrow].BOAD_REPLY:'';
+    	var _thisValStr = (_grd.list[_realrow].BOAD_REPLY > 0)?_thisVal+ '<span class="txt_red">[' +_replyCnt+ ']</span>':_thisVal;
+			if(_grd.list[_realrow].BOAD_SUPPORT == "N"){
+				_showVal = "<i class='msg txt_sky mr5'>요청</i>"+ _thisValStr;
+			}else if(_grd.list[_realrow].BOAD_SUPPORT == "R"){
+				_showVal = "<i class='msg txt_green mr5'>접수</i>"+ _thisValStr;
+			}else if(_grd.list[_realrow].BOAD_SUPPORT == "B"){
+				_showVal = "<i class='msg txt_orange mr5'>반려</i>"+ _thisValStr;
+			}else{
+				_showVal = _thisValStr;
+			}
+		return _showVal;
     }
     
     moca.EFC_BOAD.disabled= function(_thisVal, _grd, _realrow){
@@ -268,7 +289,10 @@
 								toolbar_grid_button1='{"position":"right","id":"btn_add","label":"글쓰기","onclick":"moca.EFC_BOAD.fn_pop","addClass":"","innerDisabled":"false"}'
 								toolbar_grid_button2='{"position":"right","id":"btn_del","label":"선택삭제","onclick":"moca.EFC_BOAD.fn_delList","addClass":"","innerDisabled":"false"}'
 								toolbar_grid_button3='{"position":"right","id":"btn_del_admin","label":"선택물리삭제","onclick":"moca.EFC_BOAD.fn_adminDelList","innerStyle":"background:#ff3333","innerDisabled":"false"}'
-								toolbar_grid_label_span='{"position":"left","id":"todayCnt","label":"총금액","value":"200,000","valueClass":"txt_blue","unit":"원"}'
+                                toolbar_grid_label_span1='{"position":"left","id":"supportN","label":"요청","value":"","valueClass":"txt_blue","unit":"건"}'
+								toolbar_grid_label_span2='{"position":"left","id":"supportR","label":"접수","value":"","valueClass":"txt_blue","unit":"건"}'
+								toolbar_grid_label_span3='{"position":"left","id":"supportY","label":"완료","value":"","valueClass":"txt_blue","unit":"건"}'
+								toolbar_grid_label_span4='{"position":"left","id":"supportB","label":"반려","value":"","valueClass":"txt_blue","unit":"건"}'
                                 onBeforeClick="moca.EFC_BOAD.fn_check_before"
                                 onAfterClick="moca.EFC_BOAD.fn_check_after"
                                 onDblClick = "moca.EFC_BOAD.grd_1__onDblClick"

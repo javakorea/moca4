@@ -5221,7 +5221,7 @@ public class TOController{
 				paramMap = mocaMap;
 			}
 			model.addAttribute("selectBoardList", TOMapper.selectBoardList(paramMap));
-			
+			model.addAttribute("selectBoardStatusCnt", TOMapper.selectBoardStatusCnt(paramMap));
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());

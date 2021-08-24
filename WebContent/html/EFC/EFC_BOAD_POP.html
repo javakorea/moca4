@@ -73,9 +73,12 @@ moca.EFC_BOAD_POP.fn_searchReply = function(_grd,_idx,tdObj,_thisObj){
 moca.EFC_BOAD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
     ['게시글상세']
   //showhide처리
+  
     moca.hide($(moca.EFC_BOAD_POP.getObj("cke_editor")).find("[id$='_top']"));
     moca.hide($(moca.EFC_BOAD_POP.getObj("cke_reply_editor")).find("[id$='_top']"));
     moca.show(moca.EFC_BOAD_POP.getObj("reply_area"));
+    
+    moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
     moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply"));
     moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
     moca.hide(moca.EFC_BOAD_POP.getObj("btn_del_admin"));
@@ -91,6 +94,7 @@ moca.EFC_BOAD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
     moca.hide(moca.EFC_BOAD_POP.getObj("tdEmail"));
     moca.hide(moca.EFC_BOAD_POP.getObj("thPhone"));
     moca.hide(moca.EFC_BOAD_POP.getObj("tdPhone"));
+	
     $(moca.EFC_BOAD_POP.getObj('colPhone')).attr('style','display:none');
     $(moca.EFC_BOAD_POP.getObj('colEmail')).attr('style','display:none');	
     moca.EFC_BOAD_POP._boardIdx = moca.getCellData(_grd,rowIndex,'BOAD_IDX');
@@ -643,11 +647,11 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
 			                label="게시물작성"
 			                showRowSelection="false"
 			                addition='[
-			                {"type":"button","position":"right","id":"btn_reply","label":"답변작성","onclick":"moca.EFC_BOAD_POP.fn_reply","addClass":""},
-			                {"type":"button","position":"right","id":"btn_update","label":"수정","onclick":"moca.EFC_BOAD_POP.fn_update","addClass":""},
-			                {"type":"button","position":"right","id":"btn_del","label":"삭제","onclick":"moca.EFC_BOAD_POP.fn_del","addClass":""},
-			                {"type":"button","position":"right","id":"btn_save","label":"저장","onclick":"moca.EFC_BOAD_POP.fn_save","addClass":""},
-			                {"type":"button","position":"right","id":"btn_del_admin","label":"물리삭제","onclick":"moca.EFC_BOAD_POP.fn_adminDel","innerStyle":"background:#ff3333", "addClass":""}
+			                {"type":"button","position":"right","id":"btn_reply","label":"답변작성","onclick":"moca.EFC_BOAD_POP.fn_reply","innerStyle":"background:#97a2ba"},
+			                {"type":"button","position":"right","id":"btn_update","label":"수정","onclick":"moca.EFC_BOAD_POP.fn_update","innerStyle":"background:#97a2ba"},
+			                {"type":"button","position":"right","id":"btn_del","label":"삭제","onclick":"moca.EFC_BOAD_POP.fn_del","innerStyle":"background:#97a2ba"},
+			                {"type":"button","position":"right","id":"btn_save","label":"저장","onclick":"moca.EFC_BOAD_POP.fn_save","innerStyle":"background:#97a2ba"},
+			                {"type":"button","position":"right","id":"btn_del_admin","label":"물리삭제","onclick":"moca.EFC_BOAD_POP.fn_adminDel","innerStyle":"background:#6d7993", "addClass":""}
 			                    ]'
 			                >
 			                    <table class="moca_table_cont" style="">
@@ -840,13 +844,13 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
                             label="게시물답변"
                             showRowSelection="false"
                             addition='[
-                            {"type":"button","position":"right","id":"btn_receipt","label":"접수","onclick":"moca.EFC_BOAD_POP.fn_status","addClass":""},
-                             {"type":"button","position":"right","id":"btn_success","label":"완료","onclick":"moca.EFC_BOAD_POP.fn_status","addClass":""},
-                              {"type":"button","position":"right","id":"btn_reject","label":"반려","onclick":"moca.EFC_BOAD_POP.fn_status","addClass":""},
-                            {"type":"button","position":"right","id":"btn_reply_update","label":"답변수정","onclick":"moca.EFC_BOAD_POP.fn_update","addClass":""},
-			                {"type":"button","position":"right","id":"btn_reply_del","label":"답변삭제","onclick":"moca.EFC_BOAD_POP.fn_del","addClass":""},
-                            {"type":"button","position":"right","id":"btn_reply_save","label":"답변저장","onclick":"moca.EFC_BOAD_POP.fn_save","addClass":""},
-                            {"type":"button","position":"right","id":"btn_reply_del_admin","label":"물리삭제","onclick":"moca.EFC_BOAD_POP.fn_adminDel","innerStyle":"background:#ff3333", "addClass":""}
+                            {"type":"button","position":"right","id":"btn_receipt","label":"접수","onclick":"moca.EFC_BOAD_POP.fn_status","innerStyle":"background:#81bcb3"},
+                             {"type":"button","position":"right","id":"btn_success","label":"완료","onclick":"moca.EFC_BOAD_POP.fn_status","innerStyle":"background:#81bcb3"},
+                              {"type":"button","position":"right","id":"btn_reject","label":"반려","onclick":"moca.EFC_BOAD_POP.fn_status","innerStyle":"background:#81bcb3"},
+                            {"type":"button","position":"right","id":"btn_reply_update","label":"답변수정","onclick":"moca.EFC_BOAD_POP.fn_update","innerStyle":"background:#81bcb3"},
+			                {"type":"button","position":"right","id":"btn_reply_del","label":"답변삭제","onclick":"moca.EFC_BOAD_POP.fn_del","innerStyle":"background:#81bcb3"},
+                            {"type":"button","position":"right","id":"btn_reply_save","label":"답변저장","onclick":"moca.EFC_BOAD_POP.fn_save","innerStyle":"background:#81bcb3"},
+                            {"type":"button","position":"right","id":"btn_reply_del_admin","label":"물리삭제","onclick":"moca.EFC_BOAD_POP.fn_adminDel","innerStyle":"background:#638f88", "addClass":""}
                                 ]'
                             >
                                 <table class="moca_table_cont" style="">

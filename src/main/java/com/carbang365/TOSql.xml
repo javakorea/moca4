@@ -4630,6 +4630,42 @@
         ORDER BY A.BOAD_PIDX DESC, A.BOAD_IDX ASC
     </select>
  	
+ 	<!-- 게시판 상태 건수-->
+    <select id="selectBoardStatusCnt" parameterType="map" resultType="map">
+     /*selectBoardStatusCnt 게시물 답변조회*/
+     SELECT 
+     	A.BOAD_SUPPORT, COUNT(A.BOAD_SUPPORT) AS CNT
+     FROM EFCBOAD A
+	 WHERE 1=1 
+		AND A.BOAD_DELYN = 'N'
+		AND A.BOAD_PIDX = A.BOAD_IDX
+		AND A.BOAD_TYPE like CONCAT('%', #{BOAD_TYPE}, '%')
+		<if test="BOAD_WRITER != null and BOAD_WRITER != ''">
+            AND A.BOAD_WRITER like CONCAT('%', #{BOAD_WRITER}, '%')
+        </if>
+        <if test="BOAD_TITLE != null and BOAD_TITLE != ''">
+            AND A.BOAD_TITLE like CONCAT('%', #{BOAD_TITLE}, '%')
+        </if>
+        <if test="BOAD_RECEIPTIONER != null and BOAD_RECEIPTIONER != ''">
+            AND A.BOAD_RECEIPTIONER like CONCAT('%', #{BOAD_RECEIPTIONER}, '%')
+        </if>
+        <choose>
+		    <when test="BOAD_SUPPORT.size > 0">
+		        AND BOAD_SUPPORT in 
+		        <foreach collection="BOAD_SUPPORT" item="item" index="index" separator="," open="(" close=")">
+		          #{item}
+		        </foreach>
+		    </when>
+		</choose>
+        <!-- AND A.BOAD_DATE BETWEEN #{FROM} AND #{TO} -->
+        <![CDATA[
+        AND A.BOAD_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOAD_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')
+        ]]>
+	 GROUP BY A.BOAD_SUPPORT
+    </select>
+ 	
+
+
  	<!-- 게시판 답변조회 -->
     <select id="selectBoardReply" parameterType="map" resultType="map">
      /*selectBoardReply 게시물 답변조회*/
@@ -4653,7 +4689,7 @@
             AND A.BOAD_PIDX = #{BOAD_PIDX}
         </if> 
         GROUP BY A.BOAD_IDX
-        ORDER BY A.BOAD_PIDX DESC, A.BOAD_IDX ASC
+        ORDER BY A.BOAD_DATE DESC
     </select>
     
     

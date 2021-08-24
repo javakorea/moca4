@@ -644,23 +644,15 @@ input[type=text].kor {-webkit-ime-mode:active; -moz-ime-mode:active; -ms-ime-mod
 .pb20 {padding-bottom:20px !important}
 .pb24 {padding-bottom:24px !important}
 
-/*TEXT COLOR-orange*/
-.txt_orange {color:#F45324 !important}
-/*TEXT COLOR-mint*/
+.txt_orange {color:#ff8c29 !important}
 .txt_blue {color:#2d84c1 !important}
-/*TEXT COLOR-gray*/
+.txt_sky {color:#00a1ff !important}
 .txt_gray {color:#666 !important}
-/*TEXT COLOR-black*/
 .txt_black {color:#111 !important}
-/*TEXT COLOR-red*/
 .txt_red {color:#ff3333 !important}
-/*TEXT COLOR-green*/
 .txt_green {color:#36c12d !important}
-/*TEXT COLOR-purple*/
 .txt_purple {color:#b852ff !important}
-/*TEXT COLOR-disabled*/
 .txt_disabled {color:#CCCCCC !important}
-/*TEXT COLOR-white*/
 .txt_white {color:#ffffff !important}
 /*TEXT bold*/
 .txt_b {font-weight:700 !important}
