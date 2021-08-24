@@ -4785,6 +4785,7 @@
             A.BOAD_PHONE,
             A.BOAD_EMAIL,
             A.BOAD_RECEIPTIONER,
+            A.BOAD_COMPLETER,
             DATE_FORMAT(A.BOAD_DATE, '%Y-%m-%d  %H:%i:%s') AS BOAD_DATE
             
         FROM EFCBOAD A
@@ -4809,7 +4810,8 @@
                        A.BOAD_SUPPORT,
                        A.BOAD_PHONE, 
                        A.BOAD_EMAIL, 
-                       A.BOAD_RECEIPTIONER
+                       A.BOAD_RECEIPTIONER,
+                       A.BOAD_COMPLETER
                 FROM EFCBOAD A 
                 WHERE 1=1
                 AND BOAD_IDX = #{BOAD_IDX}
@@ -4911,7 +4913,8 @@
          /* 게시물접수 receiptBoard*/
          UPDATE EFCBOAD SET 
          	 BOAD_SUPPORT = #{BOAD_SUPPORT},
-         	 BOAD_RECEIPTIONER = #{BOAD_RECEIPTIONER}
+         	 BOAD_RECEIPTIONER = #{BOAD_RECEIPTIONER},
+         	 BOAD_COMPLETER = #{BOAD_COMPLETER}
          WHERE 1=1
          AND BOAD_IDX=#{BOAD_IDX}
     </update>

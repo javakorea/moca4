@@ -160,6 +160,7 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 					    moca.setValue(moca.EFC_BOAD_POP.getObj("wemail"),data.BOAD_EMAIL);
 					    moca.setValue(moca.EFC_BOAD_POP.getObj("wphone"),data.BOAD_PHONE);
 					    moca.setValue(moca.EFC_BOAD_POP.getObj("wreceiptid"),data.BOAD_RECEIPTIONER);
+					    moca.setValue(moca.EFC_BOAD_POP.getObj("wcompleteid"),data.BOAD_COMPLETER);
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_save"));
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_add"));
 					    moca.hide(moca.EFC_BOAD_POP.getObj('grd_file_btn_fold'));
@@ -232,9 +233,7 @@ moca.EFC_BOAD_POP.fn_update = function(_thisObj){
 		moca.show(moca.EFC_BOAD_POP.getObj("btn_reply_save"));
 		moca.show(moca.EFC_BOAD_POP.getObj('grd_reply_file_btn_fold'));
 		//답변 작성자가 관리자본인이면서 담당자 배정이 되어있지 않을때
-		if(	moca.getValue(moca.EFC_BOAD_POP.getObj("wreplyid")) == moca.getSs("USER_ID") && 
-			moca.getSs("authorCode") == "ROLE_SUPER_ADMIN" && 
-			(moca.getValue(moca.EFC_BOAD_POP.getObj("wreceiptid")) == "" || moca.getValue(moca.EFC_BOAD_POP.getObj("wreceiptid")) == moca.getSs("USER_ID"))    
+		if(	moca.getSs("authorCode") == "ROLE_SUPER_ADMIN" && (moca.getValue(moca.EFC_BOAD_POP.getObj("wreceiptid")) == "" || moca.getValue(moca.EFC_BOAD_POP.getObj("wreceiptid")) == moca.getSs("USER_ID"))    
 		){
 			if(moca.getSearchCombo('cmb_board').value == "N" && moca.getSs("authorCode") == "ROLE_SUPER_ADMIN"){
 		    	moca.show(moca.EFC_BOAD_POP.getObj("btn_receipt"));
@@ -583,7 +582,6 @@ moca.EFC_BOAD_POP.fn_reply = function(_thisObj){
     if(
     		//접수자 null 아니면서 접수자가 세션아이디랑 다를때 
     		//접수자가 null이 아니면서 관리자가 아닐때
-    	(moca.getValue(moca.EFC_BOAD_POP.getObj("wreceiptid")) != "" && moca.getValue(moca.EFC_BOAD_POP.getObj("wreceiptid")) != moca.getSs("USER_ID") ) ||
     	(moca.getSs("authorCode") != "ROLE_SUPER_ADMIN")	
     ){
     		moca.hide(moca.EFC_BOAD_POP.getObj("btn_receipt"));
@@ -594,10 +592,13 @@ moca.EFC_BOAD_POP.fn_reply = function(_thisObj){
 
 moca.EFC_BOAD_POP._boardSupport ;
 moca.EFC_BOAD_POP.fn_status = function(_thisObj){
+	var _completeid;
+	var _receiptid = moca.getValue(moca.EFC_BOAD_POP.getObj('wreceiptid')) != ""?moca.getValue(moca.EFC_BOAD_POP.getObj('wreceiptid')):moca.getSs("USER_ID")
 	if(_thisObj.innerText == "접수"){
 		moca.EFC_BOAD_POP._boardSupport = "R";
 	}else if(_thisObj.innerText == "완료"){
 		moca.EFC_BOAD_POP._boardSupport = "Y";
+		_completeid = moca.getSs("USER_ID");
 	}else if(_thisObj.innerText == "반려"){
 		moca.EFC_BOAD_POP._boardSupport = "B";
 	}
@@ -611,7 +612,8 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
         			"body" : {
         				"BOAD_SUPPORT":moca.EFC_BOAD_POP._boardSupport,
         				"BOAD_IDX":moca.EFC_BOAD_POP._boardPIdx,
-        				"BOAD_RECEIPTIONER":moca.getSs("USER_ID")
+        				"BOAD_RECEIPTIONER":_receiptid,
+        				"BOAD_COMPLETER": _completeid
         				}
         		},			
         		callback : function(response){
@@ -656,14 +658,15 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
 			                >
 			                    <table class="moca_table_cont" style="">
 			                        <colgroup>
-			                                <col style="width:80px">
+			                                <col style="width:60px">
 			                                <col style="">
-			                                <col style="width:70px">
-			                                <col style="width:150px">
-			                                <col style="width:80px">
+			                                <col style="width:55px">
+			                                <col style="width:131px">
 			                                <col style="width:80px">
 			                                <col id="colPhone" style="width:110px">
 			                                <col id="colEmail" style="width:150px">
+			                                <col style="width:80px">
+			                                <col style="width:80px">
 			                        </colgroup>
 			                        <thead>
 			                            <tr>
@@ -672,9 +675,10 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
 			                                <th>상태</th>
 			                                <th>작성일시</th>
 			                                <th>작성자</th>
-			                                <th>접수자</th>
 			                                <th id="thPhone">휴대폰번호</th>
 			                                <th id="thEmail">이메일</th>
+			                                <th>접수자</th>
+			                                <th>완료자</th>
 			                            </tr>
 			                        </thead>
 			                        <tbody>
@@ -718,13 +722,6 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
 			                                        showRadioOption="false"
 			                                    ></div>
 			                                </td>
-			                                <td>
-			                                    <div type="input" class="mocaInput" style="width:100%;text-align:center;" innerStyle="text-align:center;" id="wreceiptid" displayFunction="moca.dateFormat"  readonly="true"
-			                                        defaultValue="" 
-			                                        selecterItem=""
-			                                        showRadioOption="false"
-			                                    ></div>
-			                                </td>
 			                                <td id="tdPhone">
 			                                    <div type="input" class="mocaInput" style="width:100%; " innerStyle="text-align:center;" id="wphone" displayFormat=""  readonly="true"
 			                                        defaultValue="" 
@@ -734,6 +731,20 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
 			                                </td>
 			                                <td id="tdEmail">
 			                                    <div type="input" class="mocaInput" style="width:100%;text-align:center;" innerStyle="" id="wemail" displayFormat=""  readonly="true"
+			                                        defaultValue="" 
+			                                        selecterItem=""
+			                                        showRadioOption="false"
+			                                    ></div>
+			                                </td>
+			                                <td>
+			                                    <div type="input" class="mocaInput" style="width:100%;text-align:center;" innerStyle="text-align:center;" id="wreceiptid" displayFunction=""  readonly="true"
+			                                        defaultValue="" 
+			                                        selecterItem=""
+			                                        showRadioOption="false"
+			                                    ></div>
+			                                </td>
+			                                <td>
+			                                    <div type="input" class="mocaInput" style="width:100%;text-align:center;" innerStyle="text-align:center;" id="wcompleteid" displayFunction=""  readonly="true"
 			                                        defaultValue="" 
 			                                        selecterItem=""
 			                                        showRadioOption="false"
@@ -855,7 +866,7 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
                             >
                                 <table class="moca_table_cont" style="">
                                     <colgroup>
-                                            <col style="width:80px">
+                                            <col style="width:60px">
                                             <col style="">
                                             <col style="width:200px">
                                             <col style="width:120px">
