@@ -930,6 +930,8 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
             var _popupData = undefined;
             var _levelId = undefined;
             var _labelId = undefined;
+            var _maxLength;
+            
             if(cellTd == null){
                 cell = "";
             }else if(cellTd != null){
@@ -945,7 +947,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                 _displayFunction = cellTd.getAttribute("displayFunction");
                 _disabledFunction = cellTd.getAttribute("disabledFunction");
                 _displayFunctionApply = cellTd.getAttribute("displayFunctionApply");
-                
+                _maxLength = cellTd.getAttribute("maxLength");
                 
                 _addRowEditable = cellTd.getAttribute("addRowEditable");
                 _align = cellTd.getAttribute("align");
@@ -1087,9 +1089,9 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                     _inTag = _reLabel;
                 }else{
                     if(_required == 'true'){
-                        _inTag = '<input type="text" onblur="moca.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="moca.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  displayFunctionApply=\''+_displayFunctionApply+'\' class="moca_input req" style="'+_style+'" value="'+_reLabel+'" onkeyup="moca._uptData(this)" onfocus="moca._evt_selectFocus(this)">';
+                        _inTag = '<input type="text" maxLength="'+moca.trim(_maxLength)+'" onblur="moca.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="moca.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  displayFunctionApply=\''+_displayFunctionApply+'\' class="moca_input req" style="'+_style+'" value="'+_reLabel+'" onkeyup="moca._uptData(this)" onfocus="moca._evt_selectFocus(this)">';
                     }else{
-                        _inTag = '<input type="text" onblur="moca.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="moca.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  displayFunctionApply=\''+_displayFunctionApply+'\' class="moca_input" style="'+_style+'" value="'+_reLabel+'" onkeyup="moca._uptData(this)" onfocus="moca._evt_selectFocus(this)">';
+                        _inTag = '<input type="text" maxLength="'+moca.trim(_maxLength)+'" onblur="moca.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="moca.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  displayFunctionApply=\''+_displayFunctionApply+'\' class="moca_input" style="'+_style+'" value="'+_reLabel+'" onkeyup="moca._uptData(this)" onfocus="moca._evt_selectFocus(this)">';
                     }
                     
                 }
@@ -4783,7 +4785,6 @@ Moca.prototype.getSelectedRowJson = function(_gridId,_pageId,_srcId){
 };
 Moca.prototype.setCellData = function(_grd,_realRowIndex,_colId,_data){
     ['grid setCellData']
-    debugger;
     if(_colId == 'status'){
         _grd.list[_realRowIndex]["_system"][_colId] = _data;    
     }else{

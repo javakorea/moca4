@@ -62,7 +62,6 @@ moca.EFC_BOAD_POP.fn_searchReply = function(_grd,_idx,tdObj,_thisObj){
 	            }
 	        },          
 	        callback : function(response){
-	        	debugger;
 	        	moca.EFC_BOAD_POP.grdList = moca.getResList(response,"selectBoardReply");
 	            moca.EFC_BOAD_POP.drawGrid('grd_reply_list',moca.EFC_BOAD_POP.grdList);
 	        }
