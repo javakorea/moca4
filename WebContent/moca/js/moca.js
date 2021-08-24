@@ -10131,10 +10131,15 @@ Moca.prototype.rendering = function(o,_aTag) {
         return o;
     };
     moca[_srcId].getComboLabel = function(_id){
-        var o = $(moca.getObj(_id,null,this.pageId,this.srcId)).find('select');
-        var v = o.val();
-        var l = o.find('option[value='+v+']').text();
-        return l;
+        if(moca.getObj(_id,null,this.pageId,this.srcId) != null){
+            var o = $(moca.getObj(_id,null,this.pageId,this.srcId)).find('select');
+            var v = o.val();
+            var l = o.find('option[value='+v+']').text();
+            return l;
+        }else{
+            console.error("ID:"+_id+"를 "+this.srcId+"에서"+"찾을수 없습니다.");
+            return "";
+        }
     };
     
     moca[_srcId].getCheckbox = function(_id){
