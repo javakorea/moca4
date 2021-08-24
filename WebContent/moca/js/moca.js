@@ -778,6 +778,9 @@ Moca.prototype.multicalendarClose = function(_o){
 
 
 Moca.prototype.sFunction = function(yscroll) { 
+    if(yscroll==null){
+        return;
+    }
       //if (!moca.ticking) {
           //moca.ticking = true;
           //window.requestAnimationFrame(function() {
@@ -4565,6 +4568,9 @@ Moca.prototype.subOrderFnc = function(returnArray, orderArray, type){
 }
 
 Moca.prototype._fullScreenGrid = function(_thisObj){
+    var _pageid = $(_thisObj).attr("pageid");
+    var _srcid = $(_thisObj).attr("srcid");
+
     var g = _thisObj.parentElement.parentElement.parentElement;
     var g_jq = $(g);
     var b_jq = $(_thisObj);
@@ -4605,8 +4611,9 @@ Moca.prototype._fullScreenGrid = function(_thisObj){
     
     
     var grdkey = _thisObj.getAttribute("grdkey");
-    var yscrollObj = $('.moca_scrollY_type1[id='+grdkey+'_moca_scroll_y][pageid='+moca.pageId+'][srcid='+moca.srcId+']');
+    var yscrollObj = $('.moca_scrollY_type1[id='+grdkey+'_moca_scroll_y][pageid='+_pageid+'][srcid='+_srcid+']');
     //setTimeout(function(){
+        console.log(yscrollObj[0]);
         moca.sFunction(yscrollObj[0]);
     //},100);
     
