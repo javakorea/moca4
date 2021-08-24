@@ -4776,6 +4776,7 @@ Moca.prototype.getSelectedRowJson = function(_gridId,_pageId,_srcId){
 };
 Moca.prototype.setCellData = function(_grd,_realRowIndex,_colId,_data){
     ['grid setCellData']
+    debugger;
     if(_colId == 'status'){
         _grd.list[_realRowIndex]["_system"][_colId] = _data;    
     }else{
@@ -4886,7 +4887,6 @@ Moca.prototype._uptData = function(_thisObj){
             }
         }
     }
-    
     if(_thisObj.type == 'checkbox'){
         //grd.ori_list[parseInt(rowIndex)][colid];
         var allCheckbox = $(grd).find('input[name=cbxAll]');
@@ -4920,10 +4920,10 @@ Moca.prototype._uptData = function(_thisObj){
     }else if(_thisObj.tagName == 'TD'){
         if($(_thisObj).find('input').length > 0){
             _value = $(_thisObj).find('input').attr('value');
+            moca.setCellData(grd,realRowIndex,colid,_value);
         }else{
             _value = $(_thisObj).html();
         }
-        moca.setCellData(grd,realRowIndex,colid,_value);
     }else{
         var displayfunctionValue = $(_thisObj).attr('displayfunction');
         var displayFunctionApplyValue = $(_thisObj).attr('displayFunctionApply');
@@ -10876,7 +10876,6 @@ Moca.prototype.popup = function(_option,thisObj) {
     if($('#'+_option.id+'[pageid='+this.pageId+']').length > 0){
         return;
     }
-    //moca._selectFocus(event.srcElement.parentElement);
     $.ajax({
            type:"GET",
            url:moca._contextRoot+_option.url,
