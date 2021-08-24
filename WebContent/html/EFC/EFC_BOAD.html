@@ -11,7 +11,12 @@
     	    	moca.hide(moca.EFC_BOAD.getObj("btn_del_admin"));
     	    }
         	var list = result['chkg_1'];
-        	moca.setCheckboxGroupList(moca.EFC_BOAD.getObj('chkg_1'),list,{label:"codeNm",value:"code",checked:true});
+        	moca.setCheckboxGroupList(
+        			moca.EFC_BOAD.getObj('chkg_1'),
+        			list,
+        			{label:"codeNm",value:"code",checked:true},
+        			{"Y":"unchecked"}
+        	);
         	moca.EFC_BOAD.fn_search();
         });
 	};
