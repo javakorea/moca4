@@ -284,7 +284,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                });
 	            }else{
             		//게시글수정
-            		
+            		debugger;
             		 moca.EFC_BOAD_POP.exe({
                          url : moca._domain+moca._contextRoot+"/EFC_BOAD/updateBoard.do",
                          loadingbar:true,
@@ -293,8 +293,8 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
                              "body" : {
                             	 "BOAD_TYPE":moca.EFC_BOAD_POP._boardType,
                             	 "BOAD_SUPPORT":moca.EFC_BOAD_POP.getSearchCombo('cmb_board').value,
-                                 "BOAD_IDX":moca.EFC_BOAD_POP._boardIdx,
-                                 "BOAD_PIDX":moca.EFC_BOAD_POP._boardIdx,
+                                 "BOAD_IDX":moca.getValue(moca.EFC_BOAD.getObj('widx')),
+                                 "BOAD_PIDX":moca.EFC_BOAD_POP._boardPIdx,
                                  "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
                                  "BOAD_CONT":CKEDITOR.instances.editor.getData(),
                                  "BOAD_WRITER":moca.getSs("USER_ID"),
