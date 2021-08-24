@@ -89,7 +89,7 @@ CKEDITOR.editorConfig = function( config ) {
 	config.extraPlugins = 'pastefromexcel,pastefromword,resize,colordialog,tableresize,imageresizerowandcolumn';
 	config.resize_dir = 'vertical';// both || vertical || horizontal
 	config.toolbarStartupExpanded = false; // 툴바 접기
-	 
+	config.removePlugins = 'elementspath,resize';
 	
 	/*이미지업로드추가*/
 	config.filebrowserUploadUrl      = '/to/moca/ckEditor/imageUpload.do?type=Files',
