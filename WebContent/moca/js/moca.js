@@ -1380,7 +1380,7 @@ Moca.prototype.drawGrid_inside = function(_grdId,_list,_orilist,_pageId,_srcId){
 Moca.prototype.setVirtualScroll = function(_grd){
     var headerCellCnt = 1+$(_grd).find('thead>tr').length;
     var _default_cell_height =  this.getCellHeight(_grd);
-    var fullHeight = _default_cell_height *_grd.list.length + ($(_grd).find('thead').height())+1; 
+    var fullHeight = _default_cell_height *_grd.list.length + ($(_grd).find('thead').height()); 
     $(_grd).find('#'+_grd.id+'_grid_height').css('height',fullHeight);
 };
 
@@ -5299,7 +5299,6 @@ Moca.prototype.genTbody = function(_grd,_list,_idx,isEnd) {
     var _default_cell_height =  this.getCellHeight(_grd);
     var headerCellCnt = $(_grd).find('thead').children().length;
     var viewRowsMaxCnt = ($(_grd).find('.moca_grid_body').height()-$(_grd).find('thead').height()) /_default_cell_height;
-    console.log('viewRowsMaxCnt',viewRowsMaxCnt);
     viewRowsMaxCnt = Math.round(viewRowsMaxCnt);
     
     if(viewRowsMaxCnt < 1){
@@ -5359,6 +5358,7 @@ Moca.prototype.genTbody = function(_grd,_list,_idx,isEnd) {
     }
     
     $(_grd).find('tbody:first').html(tbody);
+
     for(var i=idx,j=viewRowsMaxNow;i < j; i++){
         this.genRows(row,row_pre,row_next,_grd,null,idx,i,"after");
     }
