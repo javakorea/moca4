@@ -805,8 +805,7 @@ Moca.prototype.sFunction = function(yscroll) {
                 var yscrollIdx = _grd.getAttribute("yscrollIdx");
                 if(yscrollIdx == null) yscrollIdx = 0;
                 //if(yscrollIdx != startIdx){//확장시에 index가 같아도 다시 그리도록!
-                
-                    var headerCellCnt = 2;
+                    var headerCellCnt = 1+$(_grd).find('thead>tr').length;
                     var fullHeight = _default_cell_height *_grd.list.length + (headerCellCnt*_default_cell_height);
                     $(_grd).find('#'+_grdId+'_grid_height').css('height',fullHeight);
                 
