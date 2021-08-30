@@ -806,13 +806,16 @@ Moca.prototype.sFunction = function(yscroll) {
                 if(yscrollIdx == null) yscrollIdx = 0;
                 //if(yscrollIdx != startIdx){//확장시에 index가 같아도 다시 그리도록!
                     moca.setVirtualScroll(_grd);
-                    moca.genTbody(_grd,_grd.list,startIdx,false);
+                    
                 //}
                 //moca.ticking = false;
                     
                 var isEnd = false;
                 if (yscroll.offsetHeight + yscroll.scrollTop >= yscroll.scrollHeight-_default_cell_height) {
                     isEnd = true;
+                    moca.genTbody(_grd,_grd.list,startIdx+1,false);//0번째라인이 일부를 보여줄수없으므로 마지막한라인더 보여줘야 다 보여줄수있음
+                }else{
+                	moca.genTbody(_grd,_grd.list,startIdx,false);//마지막스크롤이 아니면 정상적인 인덱스로 보여줘야함
                 }
                     
                 if(isEnd){
@@ -825,7 +828,7 @@ Moca.prototype.sFunction = function(yscroll) {
                             if(yscrollIdx == null) yscrollIdx = 0;
                             
                             moca.setVirtualScroll(_grd);
-                            moca.genTbody(_grd,_grd.list,startIdx,true);
+                            moca.genTbody(_grd,_grd.list,startIdx+1,true);////0번째라인이 일부를 보여줄수없으므로 마지막한라인더 보여줘야 다 보여줄수있음
                         });
                     }
                 }
@@ -5321,6 +5324,7 @@ Moca.prototype.genTbody = function(_grd,_list,_idx,isEnd) {
         viewRowsMaxNow = (viewRowsMaxCnt + idx);
     }
     var tbody  = "";
+    
     for(var i=idx,j=viewRowsMaxNow;i < j; i++){
         var row = _list[i];
         var row_next;
