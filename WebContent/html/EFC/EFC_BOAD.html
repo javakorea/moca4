@@ -297,13 +297,13 @@
                                 onAfterClick="moca.EFC_BOAD.fn_check_after"
                                 onDblClick = "moca.EFC_BOAD.grd_1__onDblClick"
 								label="게시물"
-								pagingType = "numberList"
+								pagingType = ""
 			
 			>
 					<table style="width: 100%">
 						<colgroup>
 								<col style="width:30px">
-								<col style="width:100px">
+								<!--<col style="width:100px"> -->
 								<!-- <col style="width:60px"> -->
 								<col style="width:60px">
 								<!-- <col style="width:60px"> -->
@@ -319,8 +319,8 @@
 							<tr>
 								<th scope="col" celltype="checkbox" id="H_chk" targetId="chk">선택</th>
 								<!--<th scope="col" id="H_BOAD_TYPE">게시판유형</th> -->
-								<th scope="col" id="H_BOAD_PHONE">연락처테스트</th>
-								<th scope="col" id="H_BOAD_PIDX">부모ID</th>
+								<!--<th scope="col" id="H_BOAD_PHONE">연락처테스트</th> -->
+								<th scope="col" id="H_BOAD_PIDX">ID</th>
 								<!-- <th scope="col" id="H_BOAD_IDX">ID</th> -->
 								<th scope="col" id="H_BOAD_TITLE">제목</th>
 								<th scope="col" id="H_BOAD_FILECNT">첨부</th>
@@ -329,18 +329,32 @@
 								<th scope="col" id="H_BOAD_RECEIPTIONER"  filterable="true" filterableId="BOAD_RECEIPTIONER">접수자</th>
 								<!--<th scope="col" id="H_BOAD_BTN">버튼</th>-->
 							</tr>
+							<tr>
+								<th scope="col" celltype="checkbox" id="H_chk1" targetId="chk">선택</th>
+								<!--<th scope="col" id="H_BOAD_TYPE">게시판유형</th> -->
+								<!--<th scope="col" id="H_BOAD_PHONE">연락처테스트</th> -->
+								<th scope="col" id="H_BOAD_PIDX1">ID</th>
+								<!-- <th scope="col" id="H_BOAD_IDX">ID</th> -->
+								<th scope="col" id="H_BOAD_TITLE1">제목</th>
+								<th scope="col" id="H_BOAD_FILECNT1">첨부</th>
+								<th scope="col" id="H_BOAD_WRITER1"  filterable="true" filterableId="BOAD_WRITER">작성자</th>
+								<th scope="col" id="H_BOAD_DATE1">작성일시</th>
+								<th scope="col" id="H_BOAD_RECEIPTIONER1"  filterable="true" filterableId="BOAD_RECEIPTIONER">접수자</th>
+								<!--<th scope="col" id="H_BOAD_BTN">버튼</th>-->
+							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" disabledFunction="moca.EFC_BOAD.disabled" ></td>
 								<!--<td id="BOAD_TYPE" celltype="input" style="text-align:center" name="ID" readOnly="true"></td> -->
+								<!--
 								<td id="BOAD_PHONE" 
 								celltype="input" 
 								keyMask="onlyPhone" style="text-align:left" name="연락처테스트" readOnly="false"
 								displayFunction="moca.cellPhone" 
 								displayFunctionApply="realtime"
 								maxLength="13"
-								></td>
+								></td>-->
 								<td id="BOAD_PIDX" celltype="input" style="text-align:center" name="부모ID" readOnly="true"></td>
 								<!-- <td id="BOAD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td> -->
 								<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true" displayFunction="moca.EFC_BOAD.dispReply"></td>

@@ -165,7 +165,7 @@
 								<!-- <col style="width:150px"> --><!-- group id -->
 								<!-- <col style="width:170px"> --><!-- 회원상태 -->
 								<col style="width:170px"><!-- 등록일 -->
-								<col style="width:100px">
+								<col style="width:130px">
 							<!-- 	<col style="width:150px"> -->
 								<col style="width:250px">
 								<!-- <col style="width:100px">	 -->	
@@ -243,7 +243,14 @@
 <!-- 								<td id="groupId" celltype="select" style="" required="true" name="그룹아이디"></td>
 								<td id="sttus" celltype="select" style=""  displayFormat="[value] [label]" required="true" name="회원상태"></td> -->
 								<td id="sbscrbDe" celltype="input" style="" readOnly="true"	displayFunction="moca.longToDate" addRowEditable="false" name="등록일"></td>
-								<td id="moblphonNo" celltype="input" style="" name="핸드폰번호"></td>
+								
+								<td id="moblphonNo" 
+								celltype="input" 
+								keyMask="onlyPhone" style="text-align:left" name="핸드폰번호" readOnly="false"
+								displayFunction="moca.cellPhone" 
+								displayFunctionApply="realtime"
+								maxLength="13"
+								></td>
 							<!-- 	<td id="uniqId" celltype="input" style="" readOnly="true" toolTip="true" addRowEditable="false" name="유니크아이디"></td>	 -->							
 								<td id="emailAdres" celltype="input" style=""  toolTip="true" name="E-MAIL"></td>
 								<!-- <td id="userType" celltype="select" style="" readOnly="false" name="사용자구분"></td> -->
