@@ -781,6 +781,7 @@ Moca.prototype.sFunction = function(yscroll) {
     if(yscroll==null){
         return;
     }
+    
       //if (!moca.ticking) {
           //moca.ticking = true;
           //window.requestAnimationFrame(function() {
@@ -811,7 +812,7 @@ Moca.prototype.sFunction = function(yscroll) {
                 //moca.ticking = false;
                     
                 var isEnd = false;
-                if (yscroll.offsetHeight + yscroll.scrollTop >= yscroll.scrollHeight-_default_cell_height) {
+                if (yscroll.offsetHeight + yscroll.scrollTop >= yscroll.scrollHeight) {
                     isEnd = true;
                     moca.genTbody(_grd,_grd.list,startIdx+1,false);//0번째라인이 일부를 보여줄수없으므로 마지막한라인더 보여줘야 다 보여줄수있음
                 }else{
