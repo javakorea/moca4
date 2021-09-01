@@ -344,8 +344,8 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .grid_label_input .label:before{content:''; display:inline-block; width:2px; height:2px; background:red;}
 
 .grid_label_span{height: 24px; padding: 0 3px; font-size: 12px; box-sizing: border-box;}
-.grid_label_span .label{font-weight:bold; margin-right:5px; line-height:24px;}
-.grid_label_span .label:before{content: ''; display: inline-block; width: 3px; height: 3px; background: #00abde;margin-right: 4px; border-radius: 3px; position: relative; top: -3px;}
+.grid_label_span .label{margin-right:3px; line-height:24px;}
+.grid_label_span .label:before{content: ''; display: inline-block; width: 3px; height: 3px; background: #f3a95e;margin-right: 4px; border-radius: 3px; position: relative; top: -3px;}
 .grid_label_span .moca_combo{height:23px; top:-1px}
 .grid_label_span em{font-weight:normal; font-style:normal}
 .grid_btn button{padding: 0 7px; background: #476d8e; color: #fff; border-radius: 2px; height: 24px; box-sizing: border-box; opacity: 0.9;	}

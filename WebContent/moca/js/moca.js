@@ -3348,7 +3348,7 @@ Moca.prototype.renderGrid = function(_divObj) {
         
         
     
-        _html += '<div class="grid_total" grdkey="'+_id+'">';
+        _html += '<div class="mr15 grid_total" grdkey="'+_id+'">';
         if(_title != null){
             _html += '<span><em class="txt_blue"></em>건</span>';
         }else{
@@ -9194,7 +9194,7 @@ Moca.prototype.renderGridToolbarLabelSpan = function(x1Obj) {
     }else{
         x1Obj.unitStr = x1Obj.unit;
     }
-    _html += '<div class="grid_label_span '+x1Obj.addClassStr+'">';
+    _html += '<div class="grid_label_span'+x1Obj.addClassStr+'">';
     _html += '<span class="label">'+x1Obj.label+'</span>';
     _html += '<span id="'+x1Obj.id+'" class="'+x1Obj.valueClassStr+'" name="'+x1Obj.id+'" >'+x1Obj.value+'</span>';
     _html += '<span>'+x1Obj.unitStr+'</span>';
