@@ -11,7 +11,12 @@
     	    	moca.hide(moca.EFC_BOAD_WS.getObj("btn_del_admin"));
     	    }
         	var list = result['chkg_1'];
-        	moca.setCheckboxGroupList(moca.EFC_BOAD_WS.getObj('chkg_1'),list,{label:"codeNm",value:"code",checked:true});
+        	moca.setCheckboxGroupList(
+        			moca.EFC_BOAD_WS.getObj('chkg_1'),
+        			list,
+        			{label:"codeNm",value:"code",checked:true},
+        			{"Y":"unchecked"}
+        	);
         	moca.EFC_BOAD_WS.fn_search();
         });
 	};
@@ -32,9 +37,28 @@
 	            }
 	        },          
 	        callback : function(response){
-	        	var money = '200,000'
 	        	moca.EFC_BOAD_WS.grdList = moca.getResList(response,"selectBoardList");
 	            moca.EFC_BOAD_WS.drawGrid('grd_1',moca.EFC_BOAD_WS.grdList);
+	            _supportArr = moca.getResList(response,"selectBoardStatusCnt");
+	            var _supportB = 0;
+	            var _supportN = 0;
+	            var _supportR = 0;
+	            var _supportY = 0;
+	            for(var i=0; i<_supportArr.length ; i++){
+	            	if(_supportArr[i].BOAD_SUPPORT == 'B'){
+	            		_supportB = _supportArr[i].CNT
+	            	}else if(_supportArr[i].BOAD_SUPPORT == 'N'){
+	            		_supportN = _supportArr[i].CNT
+	            	}else if(_supportArr[i].BOAD_SUPPORT == 'R'){
+	            		_supportR = _supportArr[i].CNT
+	            	}else if(_supportArr[i].BOAD_SUPPORT == 'Y'){
+	            		_supportY = _supportArr[i].CNT
+	            	}
+	            }
+	            moca.setLabelValue(moca.EFC_BOAD_WS.getObj('supportB'),moca.comma(_supportB));//반려
+	            moca.setLabelValue(moca.EFC_BOAD_WS.getObj('supportN'),moca.comma(_supportN));//요청
+	            moca.setLabelValue(moca.EFC_BOAD_WS.getObj('supportR'),moca.comma(_supportR));//접수
+	            moca.setLabelValue(moca.EFC_BOAD_WS.getObj('supportY'),moca.comma(_supportY));//완료
 	        }
 	    });
 	};
@@ -133,20 +157,18 @@
     
     moca.EFC_BOAD_WS.dispReply= function(_thisVal, _grd, _realrow){
     	var _showVal = '';
-    	if(_grd.list[_realrow].BOAD_IDX != _grd.list[_realrow].BOAD_PIDX){
-    			_showVal = "<i class='reply'></i>"+_thisVal;
-    	}else{
-    		if(_grd.list[_realrow].BOAD_SUPPORT == "Y"){
-    			_showVal = "<i class='msg bg_green mr5'>완료</i>"+_thisVal;
-    		}else if(_grd.list[_realrow].BOAD_SUPPORT == "R"){
-    			_showVal = "<i class='msg bg_blue mr5'>접수</i>"+_thisVal;
-    		}else if(_grd.list[_realrow].BOAD_SUPPORT == "B"){
-    			_showVal = "<i class='msg bg_red mr5'>반려</i>"+_thisVal;
-    		}else{
-    			_showVal = _thisVal;
-    		}
-    	}
-    	return _showVal;
+    	var _replyCnt = (_grd.list[_realrow].BOAD_REPLYCNT > 0)?_grd.list[_realrow].BOAD_REPLYCNT:'';
+    	var _thisValStr = (_grd.list[_realrow].BOAD_REPLYCNT > 0)?_thisVal+ '<span class="txt_red">[' +_replyCnt+ ']</span>':_thisVal;
+			if(_grd.list[_realrow].BOAD_SUPPORT == "N"){
+				_showVal = "<i class='msg txt_sky mr5'>요청</i>"+ _thisValStr;
+			}else if(_grd.list[_realrow].BOAD_SUPPORT == "R"){
+				_showVal = "<i class='msg txt_green mr5'>접수</i>"+ _thisValStr;
+			}else if(_grd.list[_realrow].BOAD_SUPPORT == "B"){
+				_showVal = "<i class='msg txt_orange mr5'>반려</i>"+ _thisValStr;
+			}else{
+				_showVal = _thisValStr;
+			}
+		return _showVal;
     }
     
     moca.EFC_BOAD_WS.disabled= function(_thisVal, _grd, _realrow){
@@ -211,7 +233,7 @@
 		<div class="moca_cont_wrap flex fcol">
 			<div type="wframe" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
 				src="/html/titlebox.html"
-				data = '{"sreenCd":"EFC_BOAD_WS","sreenNm":"웹스퀘어 게시판","sreenPath":"시스템설정,웹스퀘어 게시판"}'
+				data = '{"sreenCd":"EFC_BOAD_WS","sreenNm":"웹스퀘어게시판","sreenPath":"시스템설정,웹스퀘어게시판"}'
 			></div>
 			<div class="moca_shbox">
 				<div class="shbox_inner">
@@ -267,19 +289,24 @@
 								toolbar_grid_button1='{"position":"right","id":"btn_add","label":"글쓰기","onclick":"moca.EFC_BOAD_WS.fn_pop","addClass":"","innerDisabled":"false"}'
 								toolbar_grid_button2='{"position":"right","id":"btn_del","label":"선택삭제","onclick":"moca.EFC_BOAD_WS.fn_delList","addClass":"","innerDisabled":"false"}'
 								toolbar_grid_button3='{"position":"right","id":"btn_del_admin","label":"선택물리삭제","onclick":"moca.EFC_BOAD_WS.fn_adminDelList","innerStyle":"background:#ff3333","innerDisabled":"false"}'
-								toolbar_grid_label_span='{"position":"left","id":"todayCnt","label":"총금액","value":"200,000","valueClass":"txt_blue","unit":"원"}'
+                                toolbar_grid_label_span1='{"position":"left","id":"supportN","label":"요청","value":"","valueClass":"txt_blue","unit":"건"}'
+								toolbar_grid_label_span2='{"position":"left","id":"supportR","label":"접수","value":"","valueClass":"txt_blue","unit":"건"}'
+								toolbar_grid_label_span3='{"position":"left","id":"supportY","label":"완료","value":"","valueClass":"txt_blue","unit":"건"}'
+								toolbar_grid_label_span4='{"position":"left","id":"supportB","label":"반려","value":"","valueClass":"txt_blue","unit":"건"}'
                                 onBeforeClick="moca.EFC_BOAD_WS.fn_check_before"
                                 onAfterClick="moca.EFC_BOAD_WS.fn_check_after"
                                 onDblClick = "moca.EFC_BOAD_WS.grd_1__onDblClick"
 								label="게시물"
+								pagingType = ""
 			
 			>
 					<table style="width: 100%">
 						<colgroup>
 								<col style="width:30px">
+								<!--<col style="width:100px"> -->
 								<!-- <col style="width:60px"> -->
 								<col style="width:60px">
-								<col style="width:60px">
+								<!-- <col style="width:60px"> -->
 								
 								<col style="min-width:347px">
 								<col style="width:40px">
@@ -292,8 +319,9 @@
 							<tr>
 								<th scope="col" celltype="checkbox" id="H_chk" targetId="chk">선택</th>
 								<!--<th scope="col" id="H_BOAD_TYPE">게시판유형</th> -->
-								<th scope="col" id="H_BOAD_PIDX">부모ID</th>
-								<th scope="col" id="H_BOAD_IDX">ID</th>
+								<!--<th scope="col" id="H_BOAD_PHONE">연락처테스트</th> -->
+								<th scope="col" id="H_BOAD_PIDX">ID</th>
+								<!-- <th scope="col" id="H_BOAD_IDX">ID</th> -->
 								<th scope="col" id="H_BOAD_TITLE">제목</th>
 								<th scope="col" id="H_BOAD_FILECNT">첨부</th>
 								<th scope="col" id="H_BOAD_WRITER"  filterable="true" filterableId="BOAD_WRITER">작성자</th>
@@ -306,8 +334,16 @@
 							<tr>
 								<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" disabledFunction="moca.EFC_BOAD_WS.disabled" ></td>
 								<!--<td id="BOAD_TYPE" celltype="input" style="text-align:center" name="ID" readOnly="true"></td> -->
-								<td id="BOAD_PIDX" celltype="input" btnLabel="삭제" style="text-align:center" name="ID" readOnly="true"></td>
-								<td id="BOAD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
+								<!--
+								<td id="BOAD_PHONE" 
+								celltype="input" 
+								keyMask="onlyPhone" style="text-align:left" name="연락처테스트" readOnly="false"
+								displayFunction="moca.cellPhone" 
+								displayFunctionApply="realtime"
+								maxLength="13"
+								></td>-->
+								<td id="BOAD_PIDX" celltype="input" style="text-align:center" name="부모ID" readOnly="true"></td>
+								<!-- <td id="BOAD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td> -->
 								<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true" displayFunction="moca.EFC_BOAD_WS.dispReply"></td>
 								<td id="CNT" celltype="input" style="" name="첨부" readOnly="true" displayFunction="moca.EFC_BOAD_WS.dispCnt"></td>
 								<td id="BOAD_WRITER" celltype="input" style="text-align:center" name="작성자" readOnly="true"></td>

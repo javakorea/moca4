@@ -5255,6 +5255,23 @@ public class TOController{
 		}
         return jsonview;
 	}
+	
+	//게시판 답변카운트
+		@RequestMapping(value = "/EFC_BOAD/updateReplyCnt.do")
+		public View updateReplyCnt(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+			
+			try {
+				Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+				int cnt = TOMapper.updateReplyCnt(paramMap);
+				model.addAttribute("cnt", cnt);		
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+				model.addAttribute("error", e.getMessage());
+			}
+	        return jsonview;
+		}
+	
 	//게시판 답변 조회  
 	@RequestMapping(value = "/EFC_BOAD/selectBoardReply.do")
 	public View selectBoardReplyList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {

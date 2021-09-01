@@ -7,6 +7,7 @@ moca.EFC_BOAD_POP._boardIdx;
 moca.EFC_BOAD_POP._boardPIdx;
 moca.EFC_BOAD_POP._boardType;
 moca.EFC_BOAD_POP._boardTitle;
+moca.EFC_BOAD_POP._replyStatus;
 moca.EFC_BOAD_POP.___ready = function(args){
 	moca.EFC_BOAD_POP.code({
         "cmb_board":{code:'boardStatus'}
@@ -243,6 +244,30 @@ moca.EFC_BOAD_POP.fn_update = function(_thisObj){
 		}
 	}
 }
+moca.EFC_BOAD_POP.fn_replyCnt = function(_thisObj){
+	 moca.EFC_BOAD_POP.exe({
+         url : moca._domain+moca._contextRoot+"/EFC_BOAD/updateReplyCnt.do",
+         loadingbar:true,
+         data : {
+             "header" : moca.header,
+             "body" : {
+             	"BOAD_IDX":moca.EFC_BOAD_POP._boardPIdx,
+             	"BOAD_REPLYSTATUS":moca.EFC_BOAD_POP._replyStatus
+                 }
+         },          
+         callback : function(response){
+             if(response.cnt > 0){
+                 moca.popClose(moca.EFC_BOAD_POP.pageId);
+                 if(moca.EFC_BOAD_POP._boardType == 'ERP'){
+                 	moca.EFC_BOAD.fn_search();
+                 }else{
+                 	moca.EFC_BOAD_WS.fn_search();
+                 }
+             }
+         }
+     });
+	
+}
 moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	if(_thisObj.id == 'btn_save'){
 		moca.confirm('저장하시겠습니까?',function(result){
@@ -286,7 +311,6 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                });
 	            }else{
             		//게시글수정
-            		debugger;
             		 moca.EFC_BOAD_POP.exe({
                          url : moca._domain+moca._contextRoot+"/EFC_BOAD/updateBoard.do",
                          loadingbar:true,
@@ -306,15 +330,15 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
                                  }
                          },          
                          callback : function(response){
-                             if(response.cnt > 0){
-                                 moca.alert('성공적으로 저장하였습니다.');
-                                 moca.popClose(moca.EFC_BOAD_POP.pageId);
-                                 if(moca.EFC_BOAD_POP._boardType == 'ERP'){
+                        	 if(response.cnt > 0){
+ 	                            moca.alert('성공적으로 저장하였습니다.');
+ 	                            moca.popClose(moca.EFC_BOAD_POP.pageId);
+ 	                            if(moca.EFC_BOAD_POP._boardType == 'ERP'){
  	                            	moca.EFC_BOAD.fn_search();
- 	                             }else{
+ 	                            }else{
  	                            	moca.EFC_BOAD_WS.fn_search();
- 	                             }
-                             }
+ 	                            }
+ 	                        }
                          }
                      });
 	            }
@@ -350,20 +374,15 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                            }
 	                    },          
 	                    callback : function(response){
-	                        if(response.cnt > 0){
-	                            moca.alert('성공적으로 저장하였습니다.');
-	                            moca.popClose(moca.EFC_BOAD_POP.pageId);
-	                            if(moca.EFC_BOAD_POP._boardType == 'ERP'){
-	                            	moca.EFC_BOAD.fn_search();
-	                            }else{
-	                            	moca.EFC_BOAD_WS.fn_search();
-	                            }
-	                        }
+	                    	if(response.cnt > 0){
+	                    		moca.EFC_BOAD_POP._replyStatus = 'add';
+	                    		moca.alert('성공적으로 저장하였습니다.');
+                                moca.EFC_BOAD_POP.fn_replyCnt();
+                            }
 	                    }
 	                });
 	        	}else{
 	        		//답변수정
-	        		debugger;
 	        		 moca.EFC_BOAD_POP.exe({
 	                     url : moca._domain+moca._contextRoot+"/EFC_BOAD/updateBoard.do",
 	                     loadingbar:true,
@@ -430,11 +449,16 @@ moca.EFC_BOAD_POP.fn_adminDel = function(_thisObj){
                 callback : function(response){
                     if(response.cnt > 0){
                         moca.alert('삭제가 완료되었습니다.');
-                        moca.popClose(moca.EFC_BOAD_POP.pageId);
-                        if(moca.EFC_BOAD_POP._boardType == 'ERP'){
-                        	moca.EFC_BOAD.fn_search();
-                        }else{
-                        	moca.EFC_BOAD_WS.fn_search();
+                        if(moca.EFC_BOAD_POP._boardIdx != moca.EFC_BOAD_POP._boardPIdx){ //답글삭제
+                        	moca.EFC_BOAD_POP._replyStatus = 'del';
+                            moca.EFC_BOAD_POP.fn_replyCnt();
+                        }else{//원글삭제
+                        	moca.popClose(moca.EFC_BOAD_POP.pageId);
+                            if(moca.EFC_BOAD_POP._boardType == 'ERP'){
+                            	moca.EFC_BOAD.fn_search();
+                             }else{
+                            	moca.EFC_BOAD_WS.fn_search();
+                             }
                         }
                     }
                 }
@@ -473,13 +497,19 @@ moca.EFC_BOAD_POP.fn_del = function(_thisObj){
                  },          
                  callback : function(response){
                      if(response.cnt > 0){
+                    	 
                      	moca.alert('삭제가 완료되었습니다.');
-                         moca.popClose(moca.EFC_BOAD_POP.pageId);
-                         if(moca.EFC_BOAD_POP._boardType == 'ERP'){
-                         	moca.EFC_BOAD.fn_search();
-                          }else{
-                         	moca.EFC_BOAD_WS.fn_search();
-                          }
+                     	if(moca.EFC_BOAD_POP._boardIdx != moca.EFC_BOAD_POP._boardPIdx){ //답글삭제
+                        	moca.EFC_BOAD_POP._replyStatus = 'del';
+                            moca.EFC_BOAD_POP.fn_replyCnt();
+                        }else{//원글삭제
+                        	moca.popClose(moca.EFC_BOAD_POP.pageId);
+                            if(moca.EFC_BOAD_POP._boardType == 'ERP'){
+                            	moca.EFC_BOAD.fn_search();
+                             }else{
+                            	moca.EFC_BOAD_WS.fn_search();
+                             }
+                        }
                      }
                  }
              });

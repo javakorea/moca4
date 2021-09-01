@@ -157,8 +157,8 @@
     
     moca.EFC_BOAD.dispReply= function(_thisVal, _grd, _realrow){
     	var _showVal = '';
-    	var _replyCnt = (_grd.list[_realrow].BOAD_REPLY > 0)?_grd.list[_realrow].BOAD_REPLY:'';
-    	var _thisValStr = (_grd.list[_realrow].BOAD_REPLY > 0)?_thisVal+ '<span class="txt_red">[' +_replyCnt+ ']</span>':_thisVal;
+    	var _replyCnt = (_grd.list[_realrow].BOAD_REPLYCNT > 0)?_grd.list[_realrow].BOAD_REPLYCNT:'';
+    	var _thisValStr = (_grd.list[_realrow].BOAD_REPLYCNT > 0)?_thisVal+ '<span class="txt_red">[' +_replyCnt+ ']</span>':_thisVal;
 			if(_grd.list[_realrow].BOAD_SUPPORT == "N"){
 				_showVal = "<i class='msg txt_sky mr5'>요청</i>"+ _thisValStr;
 			}else if(_grd.list[_realrow].BOAD_SUPPORT == "R"){

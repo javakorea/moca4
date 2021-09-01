@@ -4594,7 +4594,8 @@
         	A.BOAD_DATE, 
         	A.BOAD_TYPE,
         	A.BOAD_RECEIPTIONER,
-        	COUNT(F.BOAD_IDX) AS CNT
+        	COUNT(F.BOAD_IDX) AS CNT,
+        	A.BOAD_REPLYCNT
 		FROM EFCBOAD A 
 		LEFT OUTER JOIN EFCBOADFILE F ON A.BOAD_IDX = F.BOAD_IDX
 		
@@ -4664,8 +4665,22 @@
 	 GROUP BY A.BOAD_SUPPORT
     </select>
  	
-
-
+	<!-- 게시물 답변 cnt -->
+    <update id="updateReplyCnt" parameterType="map">
+         /*updateReplyCnt 게시물답변카운트*/
+         UPDATE EFCBOAD SET 
+            <choose>
+				<when test='BOAD_REPLYSTATUS.equals("add")'>
+					 BOAD_REPLYCNT = BOAD_REPLYCNT+1
+				</when>
+				<when test='BOAD_REPLYSTATUS.equals("del")'>
+					BOAD_REPLYCNT = BOAD_REPLYCNT-1
+				</when>
+			</choose>
+         WHERE 1=1
+         AND BOAD_IDX=#{BOAD_IDX}
+    </update>
+    
  	<!-- 게시판 답변조회 -->
     <select id="selectBoardReply" parameterType="map" resultType="map">
      /*selectBoardReply 게시물 답변조회*/

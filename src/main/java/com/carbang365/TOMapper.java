@@ -419,6 +419,8 @@ public interface TOMapper {
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map);
 	// 게시판상태 Count
 	public List<Map<String, Object>> selectBoardStatusCnt(Map<String, Object> map);
+	// 게시판답변 Count+1
+	public int updateReplyCnt(Map<String, Object> map);
 	// 게시판답변조회
 	public List<Map<String, Object>> selectBoardReply(Map<String, Object> map);
 	// 게시글등록
