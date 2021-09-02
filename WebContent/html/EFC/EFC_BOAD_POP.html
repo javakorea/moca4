@@ -186,7 +186,6 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 		moca.setValue(moca.EFC_BOAD_POP.getObj("cmb_board"),"N");
 		moca.setValue(moca.EFC_BOAD_POP.getObj("wid"),moca.getSs("USER_ID"));
 		moca.setValue(moca.EFC_BOAD_POP.getObj("wdate"),dateLib.getToday());
-		moca.setValue(moca.EFC_BOAD_POP.getObj("widx"),"등록후채번");
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_update"));
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
 		moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply"));
@@ -838,7 +837,7 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
 								toolbar_delrow="false"
 								toolbar_nextbtn="false"
 								toolbar_full="true"
-                                onDblClick = "moca.EFC_BOAD_POP.grd_1__onDblClick"
+                                onRowSelected="moca.EFC_BOAD_POP.grd_1__onDblClick"
 								label="게시물답변"
 								pagingType = "scrollbar"
 					>
