@@ -1022,10 +1022,16 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                     var selectTag = "";
                     var isAllOpt = false;
                     if(_allOpt != null){
-                        selectTag   = '<input type="text" class="moca_select" style="background-color:pink" readonly value="'+(_allOpt.value+' '+_allOpt.label)+'" onfocus="moca.openSelect(this)" >';
+                    	var _reLabel = '';
+                    	if(_allOpt.displayFormat != null && _allOpt.displayFormat != 'null'){
+                            _reLabel = _allOpt.displayFormat.replace('[value]',_allOpt.value).replace('[label]',_allOpt.label);
+                        }else{
+                            _reLabel = _allOpt.label;
+                        }
+                        selectTag   = '<input type="text" class="moca_select" style="background-color:pink" readonly value="'+_reLabel+'" onfocus="moca.openSelect(this)" >';
                         cd = _allOpt.value;
                         nm = _allOpt.label;
-                        label = (_allOpt.value+' '+_allOpt.label);
+                        label = _reLabel;
                         isAllOpt = true;
                     }
                     var selectFlag = false;
@@ -12933,6 +12939,7 @@ Moca.prototype.defaultCellClick = function(_thisObj){
 Moca.prototype.setCellReadOnly = function(_grd,_realRowIndex,_colId,_trueFalse){
     ['grid setCellReadOnly']
     var key = _colId;
+   
     var cellTd = _grd.cellInfo[key];//코딩소스의 정보
     var _celltype = cellTd.getAttribute("celltype");
     var _displayFunction = cellTd.getAttribute("displayFunction");
@@ -12940,36 +12947,68 @@ Moca.prototype.setCellReadOnly = function(_grd,_realRowIndex,_colId,_trueFalse){
     var _keyMaskStr = cellTd.getAttribute("keyMask");
     var _style = cellTd.getAttribute("style");
     var targetRow = $(_grd).find('tbody:first>tr[realrowindex='+_realRowIndex+']');
-    
     //cellTd.setAttribute("readOnly",_trueFalse);//컬럼단위로 변경해버림
     if(_grd.list[_realRowIndex]["_system"][_colId] == null){
         _grd.list[_realRowIndex]["_system"][_colId] = {};
     }
     _grd.list[_realRowIndex]["_system"][_colId]['readonly'] = _trueFalse;
-    
     var _reLabel = '';
-    var _cellData = moca.getCellData(_grd,_realRowIndex,_colId);
-    try{
-        if(_displayFunction != null && eval(_displayFunction) != null){
-            _reLabel = eval(_displayFunction)(_cellData,_grd,_realRowIndex);        
-        }else{
-            _reLabel = _cellData;       
+    if(_celltype == 'input'){
+    	var _cellData = moca.getCellData(_grd,_realRowIndex,_colId);
+        try{
+            if(_displayFunction != null && eval(_displayFunction) != null){
+                _reLabel = eval(_displayFunction)(_cellData,_grd,_realRowIndex);        
+            }else{
+                _reLabel = _cellData;       
+            }
+        }catch(e){
+            console.log("12829:"+e);
         }
-    }catch(e){
-        console.log("12829:"+e);
+        var _inTag = '';
+        if(_trueFalse){
+            _inTag = _reLabel;
+        }else{
+            
+            if(_required == 'true'){
+                _inTag = '<input type="text" onblur="moca.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="moca.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  class="moca_input req" style="'+_style+'" value="'+_reLabel+'" onkeyup="moca._uptData(this)" onfocus="moca._evt_selectFocus(this)">';
+            }else{
+                _inTag = '<input type="text" onblur="moca.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="moca.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  class="moca_input" style="'+_style+'" value="'+_reLabel+'" onkeyup="moca._uptData(this)" onfocus="moca._evt_selectFocus(this)">';
+            }
+        }
+    }else if(_celltype == 'select'){
+        var _displayFormat  = cellTd.getAttribute("displayFormat");
+    	var arr = $(_grd)[0][_colId].list;
+        if(arr == null){
+            arr = [];
+        }
+        if(_displayFormat != null && _displayFormat != 'null'){
+	        _cd = _grd.list[_realRowIndex][_colId];
+	        _nm = _grd[_colId].map[_grd.list[_realRowIndex][_colId]];
+	        _reLabel = _displayFormat.replace('[value]',_cd).replace('[label]',_nm);
+        }else{
+        	 _reLabel = _nm;
+        }
+        var _inTag = '';
+        if(_trueFalse){
+            _inTag = _reLabel;
+        }else{
+            var cellHeight = _grd.getAttribute('default_cell_height');
+            if(cellHeight == null){
+                console.log('grid('+_grd.id+')에 default_cell_height가 지정되지않았습니다. 26px로 지정합니다.');
+                cellHeight = "26px";
+            }
+            var ch = parseFloat(cellHeight.replace(/px/g,''))-2;
+            
+            cd = _grd.list[_realRowIndex][_colId];
+            nm = _grd[_colId].map[_grd.list[_realRowIndex][_colId]];
+            label = _displayFormat.replace('[value]',_cd).replace('[label]',_nm);
+            _inTag = moca.getSelectDivTagForCombo(label,_required,cd,nm,ch);
+            _inTag += moca.getInputSelectTag(label,_required);
+            _inTag += "</div>";
+            
+        }
     }
     
-    var _inTag = '';
-    if(_trueFalse){
-        _inTag = _reLabel;
-    }else{
-        
-        if(_required == 'true'){
-            _inTag = '<input type="text" onblur="moca.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="moca.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  class="moca_input req" style="'+_style+'" value="'+_reLabel+'" onkeyup="moca._uptData(this)" onfocus="moca._evt_selectFocus(this)">';
-        }else{
-            _inTag = '<input type="text" onblur="moca.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="moca.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  class="moca_input" style="'+_style+'" value="'+_reLabel+'" onkeyup="moca._uptData(this)" onfocus="moca._evt_selectFocus(this)">';
-        }
-    }
     $(targetRow).find('td[id='+_colId+']').attr('readonly',_trueFalse);
     $(targetRow).find('td[id='+_colId+']').html(_inTag);
 };
