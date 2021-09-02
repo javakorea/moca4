@@ -7,6 +7,11 @@
 	    moca.EFC_BOAD.code({
             "chkg_1":{code:'boardStatus'}
         },function(result){
+        	
+        	//test
+        	//moca.setDisabled(moca.EFC_BOAD.getObj("rePurchaseBtn"), true);
+        	
+        	
         	if(moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
     	    	moca.hide(moca.EFC_BOAD.getObj("btn_del_admin"));
     	    }
@@ -223,6 +228,11 @@
     		moca.EFC_BOAD.redrawGrid(moca.EFC_BOAD.getObj("grd_1"));
     	}
     };
+    
+    moca.EFC_BOAD.fn_rePurchase = function(_grd,_rowIndex,_colId){
+    	debugger;
+    	alert('발생')
+    }
 </script>
 
 </head>
@@ -270,6 +280,13 @@
 								<input type="text" class="moca_input sh" style="width:250px" id="ipt_TITLE"  autocomplete="off" onkeyup="moca.default_keyup(this)">
 							</span>
 						</div>
+						<!-- 
+						<div class="tb">
+							<div class="buttonGroup">				
+								<div type="button" id="rePurchaseBtn" class="mocaButton imgBtn fl mr5 btn_ts" onclick="moca.EFC_BOAD.fn_rePurchase(this)" style="" innerStyle="padding-left:32px" value="실행할 기능 없음" label="실행할 기능 없음" ></div>
+							</div>
+						</div>
+						 -->​
 					</div>
 				</div>
 				<div class="btn_shbox">
@@ -288,7 +305,7 @@
 								toolbar_full="true"
 								toolbar_grid_button1='{"position":"right","id":"btn_add","label":"글쓰기","onclick":"moca.EFC_BOAD.fn_pop","addClass":"","innerDisabled":"false"}'
 								toolbar_grid_button2='{"position":"right","id":"btn_del","label":"선택삭제","onclick":"moca.EFC_BOAD.fn_delList","addClass":"","innerDisabled":"false"}'
-								toolbar_grid_button3='{"position":"right","id":"btn_del_admin","label":"선택물리삭제","onclick":"moca.EFC_BOAD.fn_adminDelList","innerStyle":"background:#ff3333","innerDisabled":"false"}'
+								toolbar_grid_button3='{"position":"right","id":"btn_del_admin","label":"선택물리삭제","onclick":"moca.EFC_BOAD.fn_adminDelList","innerStyle":"background:#5c83a6","innerDisabled":"false"}'
                                 toolbar_grid_label_span1='{"position":"left","id":"supportN","label":"요청","value":"","valueClass":"txt_green","unit":"건"}'
 								toolbar_grid_label_span2='{"position":"left","id":"supportR","label":"접수","value":"","valueClass":"txt_green","unit":"건"}'
 								toolbar_grid_label_span3='{"position":"left","id":"supportY","label":"완료","value":"","valueClass":"txt_green","unit":"건"}'

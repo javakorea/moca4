@@ -348,7 +348,7 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .grid_label_span .label:before{content: ''; display: inline-block; width: 3px; height: 3px; background: #f3a95e;margin-right: 4px; border-radius: 3px; position: relative; top: -3px;}
 .grid_label_span .moca_combo{height:23px; top:-1px}
 .grid_label_span em{font-weight:normal; font-style:normal}
-.grid_btn button{padding: 0 7px; background: #476d8e; color: #fff; border-radius: 2px; height: 24px; box-sizing: border-box; opacity: 0.9;	}
+.grid_btn button{padding: 0 7px; background: #87a9bc; color: #fff; border-radius: 2px; height: 24px; box-sizing: border-box; opacity: 0.9;	}
 .grid_btn button:active{opacity:1}
 button:disabled{background:#aaa; opacity:1; cursor:default}
 
@@ -1212,6 +1212,8 @@ td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:2
 .mocaButton {position:relative}
 .mocaButton button{padding: 0 7px; background: #476d8e; color: #fff; border-radius: 2px; height: 24px; box-sizing: border-box; opacity: 0.9}
 .mocaButton button:not([disabled]):hover{opacity:1}
+.mocaButton::before{cursor:pointer}
+.mocaButton.disabled::before{pointer-events: none;}
 .mocaInput input[type="text"]{height: 24px;width: 100%; padding:0 4px; border: 1px solid #d7d7de; border-radius: 2px; box-sizing: border-box; appearance: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
 .mocaInput.req input[type="text"]{border:1px solid #e79f78; background:#fffbe8;}
 .mocaInput.req input[type="text"]:hover{border:1px solid #e45c2d;background:#fffbe8}

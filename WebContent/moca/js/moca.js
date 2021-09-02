@@ -11281,19 +11281,23 @@ Moca.prototype.renderMocaButton = function(o) {
 
 Moca.prototype.setDisabled = function(o,_value) {
     ['컴포넌트 비활성화설정'];
+    var _btn;
     if(o != null){
         if(o.tagName == 'DIV'){
             var tmp  = $(o).find('button');
             if(tmp != null && tmp.length > 0){
-                o = tmp[0];
+                _btn = tmp[0];
             }
         }
         if(moca.isTrue(_value)){
-            o.setAttribute("disabled",true);
-            $(o).css('background','#aaa');
+        	_btn.setAttribute("disabled",true);
+            $(_btn).css('background','#aaa');
+            $(o).removeClass('disabled');
+            $(o).addClass('disabled');
         }else{
             o.removeAttribute("disabled");
-            $(o).css('background','');
+            $(_btn).css('background','');
+            $(o).removeClass('disabled');
         }
     }
 };
