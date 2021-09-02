@@ -811,6 +811,9 @@ Moca.prototype.sFunction = function(yscroll) {
                 //}
                 //moca.ticking = false;
                 var isEnd = false;
+                
+
+                //세로스크롤처리
                 if ((yscroll.offsetHeight != yscroll.scrollHeight) && yscroll.offsetHeight + yscroll.scrollTop >= yscroll.scrollHeight) {
                     isEnd = true;
                     moca.genTbody(_grd,_grd.list,startIdx+1,false);//0번째라인이 일부를 보여줄수없으므로 마지막한라인더 보여줘야 다 보여줄수있음
@@ -1390,6 +1393,13 @@ Moca.prototype.setVirtualScroll = function(_grd){
     var headerCellCnt = 1+$(_grd).find('thead>tr').length;
     var _default_cell_height =  this.getCellHeight(_grd);
     var fullHeight = _default_cell_height *_grd.list.length + ($(_grd).find('thead').height()); 
+    /////////////////////////////////////////////////////////////////////
+    var div = $(_grd).find('.moca_grid_body')[0];
+    if(div.scrollWidth > div.clientWidth){
+    	//세로스크롤이 +1개 추가되도록해줌.
+    	fullHeight = fullHeight+_default_cell_height;
+    }
+/////////////////////////////////////////////////////////////////////
     $(_grd).find('#'+_grd.id+'_grid_height').css('height',fullHeight);
 };
 
