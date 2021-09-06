@@ -28,7 +28,7 @@
 	moca.EFC_BOAD_WS.grdList ;
 	moca.EFC_BOAD_WS.fn_search = function(_pageNum){
 		if(_pageNum == null) _pageNum = 1;
-		var _lcpp = moca.getPagingObj(moca.EFC_BOAD_WS.getObj('grd_1'),'paging').listCntPerPage;
+		var _lcpp = moca.getAttrObj(moca.EFC_BOAD_WS.getObj('grd_1'),'paging').listCntPerPage;
 	    moca.EFC_BOAD_WS.exe({
 	        url : moca._domain+moca._contextRoot+"/EFC_BOAD/selectBoardNumList.do",
 	        loadingbar:true,
@@ -49,7 +49,6 @@
 	        	moca.EFC_BOAD_WS.grdList = moca.getResList(response,"selectBoardList");
 	            moca.EFC_BOAD_WS.drawGrid('grd_1',moca.EFC_BOAD_WS.grdList,response);
 	            _supportArr = moca.getResList(response,"selectBoardStatusCnt");
-	            //moca.EFC_BOAD_WS.setTotalCnt("grd_1",moca.getResList(response,"selectBoardTotCnt")[0].TOTCNT);
 	            var _supportB = 0;
 	            var _supportN = 0;
 	            var _supportR = 0;
@@ -238,9 +237,6 @@
     	alert('발생')
     }
     
-    moca.EFC_BOAD_WS.fn_paging =  function(_pageNum){
-    	moca.EFC_BOAD_WS.fn_search(_pageNum);
-    };
 </script>
 
 </head>
@@ -322,7 +318,7 @@
                                 onAfterClick="moca.EFC_BOAD_WS.fn_check_after"
                                 onDblClick = "moca.EFC_BOAD_WS.grd_1__onDblClick"
 								label="게시물"
-								paging='{"type":"numberList","listCntPerPage":"5","totalCntKey":"selectBoardTotCnt","onPageClick":"moca.EFC_BOAD_WS.fn_paging"}'
+								paging='{"type":"numberList","listCntPerPage":"5","totalCntKey":"selectBoardTotCnt","onPageClick":"moca.EFC_BOAD_WS.fn_search"}'
 			
 			>
 					<table style="width: 100%">

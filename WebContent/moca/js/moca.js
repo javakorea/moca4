@@ -1293,10 +1293,10 @@ Moca.prototype.drawGrid_inside = function(_grdId,_list,_orilist,_pageId,_srcId,_
     moca[_srcId].filterRemoveAll(_grd);
     _grd.list = _list;
     if(_grd.list != null){
-    	if(moca.getPagingObj(_grd,'paging').type != 'numberList'){
+    	if(moca.getAttrObj(_grd,'paging').type != 'numberList'){
     		moca[_srcId].setTotalCnt(_grd,this.comma(_grd.list.length));
     	}else{
-    		var _totalCnt = _response[moca.getPagingObj(_grd,'paging').totalCntKey][0].TOTCNT;
+    		var _totalCnt = _response[moca.getAttrObj(_grd,'paging').totalCntKey][0].TOTCNT;
     		moca[_srcId].setTotalCnt(_grd,_totalCnt);
     	}
         if(_orilist != null){
@@ -10327,13 +10327,13 @@ Moca.prototype.rendering = function(o,_aTag) {
             grd = _grd;
         }
         grd.totalCnt = cnt;
-        if(moca.getPagingObj(grd,'paging').type == 'numberList'){
+        if(moca.getAttrObj(grd,'paging').type == 'numberList'){
         	moca[_srcId].setNumberListCnt(grd,cnt);
         }
         return $(grd).find('.grid_total .txt_blue').html(moca.comma(cnt));
         
     }
-    moca.getPagingObj = function(_grdObj,_attr){
+    moca.getAttrObj = function(_grdObj,_attr){
     	var paging = (_grdObj.getAttribute(_attr) != null)? JSON.parse(_grdObj.getAttribute(_attr)):{};
     	return paging;
     };
@@ -10356,7 +10356,7 @@ Moca.prototype.rendering = function(o,_aTag) {
 		if(_currentP == 1){
 			return;
 		}else{
-			var _onPageClick = moca.getPagingObj(grd,'paging').onPageClick;
+			var _onPageClick = moca.getAttrObj(grd,'paging').onPageClick;
 			moca.onPageClick($(_pageButtonObj).parent().find('button:contains(1)')[0],1,_onPageClick);
 		}
     }
@@ -10367,7 +10367,7 @@ Moca.prototype.rendering = function(o,_aTag) {
 		if(_currentP == 1){
 			return;
 		}else{
-			var _onPageClick = moca.getPagingObj(grd,'paging').onPageClick;
+			var _onPageClick = moca.getAttrObj(grd,'paging').onPageClick;
 			moca.onPageClick($(_pageButtonObj).parent().find('.on').prev()[0],_currentP - 1 ,_onPageClick);
 		}
     }
@@ -10379,7 +10379,7 @@ Moca.prototype.rendering = function(o,_aTag) {
 		if(_currentP == numLinCnt){
 			return;
 		}else{
-			var _onPageClick = moca.getPagingObj(grd,'paging').onPageClick;
+			var _onPageClick = moca.getAttrObj(grd,'paging').onPageClick;
 			moca.onPageClick($(_pageButtonObj).parent().find('.on').next()[0],_currentP + 1,_onPageClick);
 		}
     }
@@ -10390,7 +10390,7 @@ Moca.prototype.rendering = function(o,_aTag) {
 		if(_currentP == numLinCnt){
 			return;
 		}else{
-			var _onPageClick = moca.getPagingObj(grd,'paging').onPageClick;
+			var _onPageClick = moca.getAttrObj(grd,'paging').onPageClick;
 			moca.onPageClick($(_pageButtonObj).parent().find('button:contains('+numLinCnt+')')[0],numLinCnt,_onPageClick);
 		}
     } 
@@ -10403,7 +10403,7 @@ Moca.prototype.rendering = function(o,_aTag) {
             grd = _grd;
         }
         var numListCnt = moca.getNumListCnt(grd); //3 
-        var _onPageClick = moca.getPagingObj(grd,'paging').onPageClick;
+        var _onPageClick = moca.getAttrObj(grd,'paging').onPageClick;
         var a = $(_grd).find('.moca_grid_paging > .num');
         var aTag = '';
         var currentPage  = moca.currentPage(_grd);
@@ -10421,7 +10421,7 @@ Moca.prototype.rendering = function(o,_aTag) {
     }
     
     moca.getNumListCnt = function(grd){
-    	var numListCnt = Math.ceil(grd.totalCnt/moca.getPagingObj(grd,'paging').listCntPerPage);
+    	var numListCnt = Math.ceil(grd.totalCnt/moca.getAttrObj(grd,'paging').listCntPerPage);
     	return numListCnt;
     };    
     
