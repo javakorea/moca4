@@ -5220,8 +5220,28 @@ public class TOController{
 			if(MapUtils.isEmpty(paramMap)) {
 				paramMap = mocaMap;
 			}
-			model.addAttribute("selectBoardList", TOMapper.selectBoardList(paramMap));
-			model.addAttribute("selectBoardStatusCnt", TOMapper.selectBoardStatusCnt(paramMap));
+			model.addAttribute("selectBoardList", TOMapper.selectBoardList(paramMap)); //조회
+			model.addAttribute("selectBoardStatusCnt", TOMapper.selectBoardStatusCnt(paramMap)); //접수상태
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
+	
+	//게시판 조회  numList
+	@RequestMapping(value = "/EFC_BOAD/selectBoardNumList.do")
+	public View selectBoardNumList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			model.addAttribute("selectBoardList", TOMapper.selectBoardNumList(paramMap));//페이징 조회
+			model.addAttribute("selectBoardStatusCnt", TOMapper.selectBoardStatusCnt(paramMap));//접수상태
+			model.addAttribute("selectBoardTotCnt", TOMapper.selectBoardTotCnt(paramMap)); //총건수
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());

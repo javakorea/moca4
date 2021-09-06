@@ -398,12 +398,12 @@ i.msg {text-align: center; padding:0 6px; display: inline-block; color: #fff; bo
 .moca_grid_filter_btn.on{background-position:0 -24px}
 .moca_grid_filter_btn.multi {top:10px;}
 .moca_grid_filter_btn+i{position: absolute; top: -6px; right: 11px; width: 15px; font-size: 8px; font-style: normal; color: #ffffff; background: #f00; border-radius: 14px; line-height: 14px;}
-.moca_grid_paging {position:relative; left:0; right:0; bottom:0; height:24px; vertical-align:middle; text-align:center; font-size:0; background: #f0f5fb; border-bottom: 1px solid #9a9ea8}
+.moca_grid_paging {position:relative; left:0; right:0; bottom:0; height:24px; vertical-align:middle; text-align:center; font-size:0; background: #ced7dc; border-bottom: 1px solid #9a9ea8}
 .moca_grid_paging button {position:relative; padding:0}
 .moca_grid_paging .num {font-size:0; }
-.moca_grid_paging .num button {padding: 0 4px;min-width:18px; height:18px; display:inline-block; color:#666; border-radius:10px; top:3px; margin:0 3px}
+.moca_grid_paging .num button {width:22px; min-width:18px; height:24px; display:inline-block; color:#666; }
 /*.moca_grid_paging .num button:hover,*/
-.moca_grid_paging .num button.on {background:#2d84cd; color:#fff}
+.moca_grid_paging .num button.on {background:#fff; color:#333; font-weight:bold}
 .moca_grid_paging button span {text-indent:-9999px; overflow:hidden; height:0; font-size:0}
 .moca_grid_paging button.first, 
 .moca_grid_paging button.prev, 

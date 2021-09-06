@@ -1281,7 +1281,7 @@ Moca.prototype.drawGrid = function(_grdId,_list,_pageId,_srcId){
     moca.drawGrid_inside(_grdId,_list,_list,_pageId,_srcId);
 };
 
-Moca.prototype.drawGrid_inside = function(_grdId,_list,_orilist,_pageId,_srcId){
+Moca.prototype.drawGrid_inside = function(_grdId,_list,_orilist,_pageId,_srcId,_response){
     var _grd;
     if(typeof _grdId == 'string'){
         _grd = moca.getObj(_grdId,null,_pageId,_srcId);
@@ -1293,15 +1293,16 @@ Moca.prototype.drawGrid_inside = function(_grdId,_list,_orilist,_pageId,_srcId){
     moca[_srcId].filterRemoveAll(_grd);
     _grd.list = _list;
     if(_grd.list != null){
-        moca[_srcId].setTotalCnt(_grd,this.comma(_grd.list.length));
+    	if(moca.getPagingObj(_grd,'paging').type != 'numberList'){
+    		moca[_srcId].setTotalCnt(_grd,this.comma(_grd.list.length));
+    	}else{
+    		var _totalCnt = _response[moca.getPagingObj(_grd,'paging').totalCntKey][0].TOTCNT;
+    		moca[_srcId].setTotalCnt(_grd,_totalCnt);
+    	}
         if(_orilist != null){
             _grd.ori_list =  _orilist.clone();
             //_grd.ori_list =  _orilist;
         }
-
-        
-        
-        
         ////////////////////////////////////////////////////////////////// filter 구성 start
         var list = _list;
         var jq_grd_2 = _grd;
@@ -3350,8 +3351,7 @@ Moca.prototype.renderGrid = function(_divObj) {
     var toolbar_nextbtn = _divObj.getAttribute("toolbar_nextbtn");
     var toolbar_full = _divObj.getAttribute("toolbar_full");
     var toolbar_fold = _divObj.getAttribute("toolbar_fold");
-    var pagingType = _divObj.getAttribute("pagingType");
-
+    var paging = (_divObj.getAttribute('paging') != null)? JSON.parse(_divObj.getAttribute('paging')):{};
     var _html = '';
     if(_toolbar){
         _html += '<div class="moca_grid_toolbar" grdkey="'+_id+'" default_cell_height="'+_default_cell_height+'" >';
@@ -3498,24 +3498,14 @@ Moca.prototype.renderGrid = function(_divObj) {
     _html += '</div>';
     
     
-    if(pagingType == 'numberList'){
-        _html += '<div class="moca_grid_paging">';
-        _html += '<button type="button" class="first"><span>첫 페이지로 이동</span></button>';
-        _html += '<button type="button" class="prev"><span>이전페이지로 이동</span></button>';
+    if(paging.type == 'numberList'){
+        _html += '<div class="moca_grid_paging" id="grid_paging">';
+        _html += '<button type="button" class="first" onclick="moca.pagingFirst(this)"><span>첫 페이지로 이동</span></button>';
+        _html += '<button type="button" class="prev" onclick="moca.pagingPrev(this)"><span>이전페이지로 이동</span></button>';
         _html += '<span class="num">';
-        _html += '<button type="button" class="on" title="현재위치">1</button>';
-        _html += '<button type="button">2</button>';
-        _html += '<button type="button">3</button>';
-        _html += '<button type="button">4</button>';
-        _html += '<button type="button">5</button>';
-        _html += '<button type="button">6</button>';
-        _html += '<button type="button">7</button>';
-        _html += '<button type="button">8</button>';
-        _html += '<button type="button">9</button>';
-        _html += '<button type="button" >10</button>';
         _html += '</span>';
-        _html += '<button type="button" class="next"><span>다음페이지로 이동</span></button>';
-        _html += '<button type="button" class="last"><span>마지막 페이지로 이동</span></button>';
+        _html += '<button type="button" class="next" onclick="moca.pagingNext(this)"><span>다음페이지로 이동</span></button>';
+        _html += '<button type="button" class="last" onclick="moca.pagingLast(this)"><span>마지막 페이지로 이동</span></button>';
         _html += '</div>';
     }
     
@@ -4194,7 +4184,6 @@ Moca.prototype.popClose = function(_popupId,_json){
 
 Moca.prototype.popChange = function(_popupId,_json){
     ['모카팝업타입전환'];
-    debugger;
     /*
     $('#'+_popupId).remove();
     if($('.moca_tab_list.active').length > 0){
@@ -10220,8 +10209,8 @@ Moca.prototype.rendering = function(o,_aTag) {
         }
         return obj;
     };
-    moca[_srcId].drawGrid = function(_grdId,_list){
-        moca.drawGrid_inside(_grdId,_list,_list,this.pageId,this.srcId);
+    moca[_srcId].drawGrid = function(_grdId,_list,_response){
+        moca.drawGrid_inside(_grdId,_list,_list,this.pageId,this.srcId,_response);
         if(typeof _grdId == 'object'){
             moca.getObj(_grdId.id+"_moca_scroll_y",null,this.pageId,this.srcId).scrollTop = 0; 
         }else{
@@ -10337,9 +10326,112 @@ Moca.prototype.rendering = function(o,_aTag) {
         }else{
             grd = _grd;
         }
+        grd.totalCnt = cnt;
+        if(moca.getPagingObj(grd,'paging').type == 'numberList'){
+        	moca[_srcId].setNumberListCnt(grd,cnt);
+        }
         return $(grd).find('.grid_total .txt_blue').html(moca.comma(cnt));
+        
     }
+    moca.getPagingObj = function(_grdObj,_attr){
+    	var paging = (_grdObj.getAttribute(_attr) != null)? JSON.parse(_grdObj.getAttribute(_attr)):{};
+    	return paging;
+    };
+    
+    moca.currentPage = function(_pageButtonOrGridObj){
+    	if($(_pageButtonOrGridObj).attr('type') == 'grid'){
+    		if($(_pageButtonOrGridObj).find('.moca_grid_paging .on').length == 0){
+    			return null;
+    		}else{
+    			return Number($(_pageButtonOrGridObj).find('.moca_grid_paging .on').text());
+    		}
+    	}else{
+            return Number($(_pageButtonOrGridObj).parent().find('.on').text());
+    	}
+    };
 
+    moca.pagingFirst =  function(_pageButtonObj){
+    	var grd = $(_pageButtonObj).closest('[type=grid]')[0];
+		var _currentP = moca.currentPage(_pageButtonObj);
+		if(_currentP == 1){
+			return;
+		}else{
+			var _onPageClick = moca.getPagingObj(grd,'paging').onPageClick;
+			moca.onPageClick($(_pageButtonObj).parent().find('button:contains(1)')[0],1,_onPageClick);
+		}
+    }
+    
+    moca.pagingPrev =  function(_pageButtonObj){
+    	var grd = $(_pageButtonObj).closest('[type=grid]')[0];
+		var _currentP = moca.currentPage(_pageButtonObj);
+		if(_currentP == 1){
+			return;
+		}else{
+			var _onPageClick = moca.getPagingObj(grd,'paging').onPageClick;
+			moca.onPageClick($(_pageButtonObj).parent().find('.on').prev()[0],_currentP - 1 ,_onPageClick);
+		}
+    }
+    
+    moca.pagingNext =  function(_pageButtonObj){
+    	var grd = $(_pageButtonObj).closest('[type=grid]')[0];
+    	var numLinCnt = moca.getNumListCnt(grd);
+		var _currentP = moca.currentPage(_pageButtonObj);
+		if(_currentP == numLinCnt){
+			return;
+		}else{
+			var _onPageClick = moca.getPagingObj(grd,'paging').onPageClick;
+			moca.onPageClick($(_pageButtonObj).parent().find('.on').next()[0],_currentP + 1,_onPageClick);
+		}
+    }
+    moca.pagingLast =  function(_pageButtonObj){
+    	var grd = $(_pageButtonObj).closest('[type=grid]')[0];
+    	var numLinCnt = moca.getNumListCnt(grd);
+		var _currentP = moca.currentPage(_pageButtonObj);
+		if(_currentP == numLinCnt){
+			return;
+		}else{
+			var _onPageClick = moca.getPagingObj(grd,'paging').onPageClick;
+			moca.onPageClick($(_pageButtonObj).parent().find('button:contains('+numLinCnt+')')[0],numLinCnt,_onPageClick);
+		}
+    } 
+    
+    moca[_srcId].setNumberListCnt = function(_grd,cnt){
+        var grd;
+        if(typeof _grd == 'string'){
+            grd = moca.getObj(_grd,null,this.pageId,this.srcId);
+        }else{
+            grd = _grd;
+        }
+        var numListCnt = moca.getNumListCnt(grd); //3 
+        var _onPageClick = moca.getPagingObj(grd,'paging').onPageClick;
+        var a = $(_grd).find('.moca_grid_paging > .num');
+        var aTag = '';
+        var currentPage  = moca.currentPage(_grd);
+    	if(currentPage == null){
+    		currentPage = 1;
+    	}
+        for(var i=1; i < numListCnt+1; i++){
+        	var classon = '';
+        	if(currentPage == i){
+        		classon = 'class="on" title="현재위치"';
+        	}
+        	aTag += '<button type=\"button\" '+classon+' onclick=\"moca.onPageClick(this,'+i+','+_onPageClick+')\" >'+i+'</button>';
+        };
+        return a.html(aTag);
+    }
+    
+    moca.getNumListCnt = function(grd){
+    	var numListCnt = Math.ceil(grd.totalCnt/moca.getPagingObj(grd,'paging').listCntPerPage);
+    	return numListCnt;
+    };    
+    
+    moca.onPageClick = function(_thisPageBtnObj,pageNum,onPageClickFunctionStr){
+    	eval(onPageClickFunctionStr)(pageNum);
+    	$(_thisPageBtnObj).parent().find('.on');
+    	$(_thisPageBtnObj).parent().find('.on').removeClass('on');
+    	$(_thisPageBtnObj).addClass('on');
+    };
+    
     moca[_srcId].getTotalCnt = function(_grd){
         var grd;
         if(typeof _grd == 'string'){
