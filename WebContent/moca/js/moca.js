@@ -3502,7 +3502,7 @@ Moca.prototype.renderGrid = function(_divObj) {
         _html += '<div class="moca_grid_paging" id="grid_paging">';
         _html += '<button type="button" class="first" onclick="moca.pagingFirst(this)"><span>첫 페이지로 이동</span></button>';
         _html += '<button type="button" class="prev" onclick="moca.pagingPrev(this)"><span>이전페이지로 이동</span></button>';
-        _html += '<span class="num">';
+        _html += '<span class="num" id="numGrp">';
         _html += '</span>';
         _html += '<button type="button" class="next" onclick="moca.pagingNext(this)"><span>다음페이지로 이동</span></button>';
         _html += '<button type="button" class="last" onclick="moca.pagingLast(this)"><span>마지막 페이지로 이동</span></button>';
@@ -10339,59 +10339,59 @@ Moca.prototype.rendering = function(o,_aTag) {
     };
     
     moca.currentPage = function(_pageButtonOrGridObj){
-    	if($(_pageButtonOrGridObj).attr('type') == 'grid'){
-    		if($(_pageButtonOrGridObj).find('.moca_grid_paging .on').length == 0){
-    			return null;
-    		}else{
-    			return Number($(_pageButtonOrGridObj).find('.moca_grid_paging .on').text());
-    		}
-    	}else{
-            return Number($(_pageButtonOrGridObj).parent().find('.on').text());
-    	}
+    	return _pageButtonOrGridObj.currentPage;
     };
 
     moca.pagingFirst =  function(_pageButtonObj){
     	var grd = $(_pageButtonObj).closest('[type=grid]')[0];
-		var _currentP = moca.currentPage(_pageButtonObj);
-		if(_currentP == 1){
+    	var lastPage = moca.getNumListCnt(grd);
+    	var _prevP = Number($(grd).find('.moca_grid_paging > .num > button.on').text());
+		if(_prevP == 1){
 			return;
 		}else{
 			var _onPageClick = moca.getAttrObj(grd,'paging').onPageClick;
-			moca.onPageClick($(_pageButtonObj).parent().find('button:contains(1)')[0],1,_onPageClick);
+			moca.onPageClick(_pageButtonObj,1,_onPageClick);
 		}
     }
     
     moca.pagingPrev =  function(_pageButtonObj){
     	var grd = $(_pageButtonObj).closest('[type=grid]')[0];
-		var _currentP = moca.currentPage(_pageButtonObj);
-		if(_currentP == 1){
+		var _prevP = Number($(grd).find('.moca_grid_paging > .num > button.on').text());
+		
+		if(_prevP == 1){
 			return;
 		}else{
+			var _currentP = _prevP-1;
+			grd.currentPage = _currentP;
 			var _onPageClick = moca.getAttrObj(grd,'paging').onPageClick;
-			moca.onPageClick($(_pageButtonObj).parent().find('.on').prev()[0],_currentP - 1 ,_onPageClick);
+			moca.onPageClick(_pageButtonObj,grd.currentPage,_onPageClick);
 		}
     }
     
     moca.pagingNext =  function(_pageButtonObj){
     	var grd = $(_pageButtonObj).closest('[type=grid]')[0];
-    	var numLinCnt = moca.getNumListCnt(grd);
-		var _currentP = moca.currentPage(_pageButtonObj);
-		if(_currentP == numLinCnt){
+    	var lastPage = moca.getNumListCnt(grd);
+		var _prevP = Number($(grd).find('.moca_grid_paging > .num > button.on').text());
+		
+		if(_prevP == lastPage){
 			return;
 		}else{
+			var _currentP = _prevP+1;
+			grd.currentPage = _currentP;
 			var _onPageClick = moca.getAttrObj(grd,'paging').onPageClick;
-			moca.onPageClick($(_pageButtonObj).parent().find('.on').next()[0],_currentP + 1,_onPageClick);
+			moca.onPageClick(_pageButtonObj,grd.currentPage,_onPageClick);
 		}
     }
     moca.pagingLast =  function(_pageButtonObj){
+    	debugger;
     	var grd = $(_pageButtonObj).closest('[type=grid]')[0];
-    	var numLinCnt = moca.getNumListCnt(grd);
-		var _currentP = moca.currentPage(_pageButtonObj);
-		if(_currentP == numLinCnt){
+    	var lastPage = moca.getNumListCnt(grd);
+    	var _prevP = Number($(grd).find('.moca_grid_paging > .num > button.on').text());
+		if(_prevP == lastPage){
 			return;
 		}else{
 			var _onPageClick = moca.getAttrObj(grd,'paging').onPageClick;
-			moca.onPageClick($(_pageButtonObj).parent().find('button:contains('+numLinCnt+')')[0],numLinCnt,_onPageClick);
+			moca.onPageClick(_pageButtonObj,lastPage,_onPageClick);
 		}
     } 
     
@@ -10404,19 +10404,43 @@ Moca.prototype.rendering = function(o,_aTag) {
         }
         var numListCnt = moca.getNumListCnt(grd); //3 
         var _onPageClick = moca.getAttrObj(grd,'paging').onPageClick;
+        var _pageGroupItemMax = Number(moca.getAttrObj(grd,'paging').pageGroupItemMax);
+        var _showItemCnt;
+        if(_pageGroupItemMax < numListCnt){
+        	//총리스트목록 - 보여질목록아이템갯수 0보다 크면 보여질아이템갯수로 보여주고 아닐경우 총리스트목록을보여준다.
+        	// var _showItemCnt = Math.ceil(numListCnt/_pagingItemCnt)+1;//3/2
+        	 _showItemCnt = _pageGroupItemMax;//3/2  
+        }else{
+        	 _showItemCnt = numListCnt;
+        }
         var a = $(_grd).find('.moca_grid_paging > .num');
         var aTag = '';
         var currentPage  = moca.currentPage(_grd);
-    	if(currentPage == null){
+        
+        debugger;
+        if(currentPage == null){
     		currentPage = 1;
     	}
-        for(var i=1; i < numListCnt+1; i++){
+
+        var startPage = 0;
+        if(currentPage == _showItemCnt){
+        	startPage = parseInt(currentPage/3-1)*3+1;
+        }else{
+        	startPage = parseInt(currentPage/3)*3+1;
+        }
+        
+        var lastPage = moca.getNumListCnt(grd);
+		for(var i=startPage; i < startPage+_showItemCnt; i++){ 
         	var classon = '';
         	if(currentPage == i){
         		classon = 'class="on" title="현재위치"';
         	}
         	aTag += '<button type=\"button\" '+classon+' onclick=\"moca.onPageClick(this,'+i+','+_onPageClick+')\" >'+i+'</button>';
+        	if(i == lastPage){
+         		break;
+         	}
         };
+    	
         return a.html(aTag);
     }
     
@@ -10426,10 +10450,23 @@ Moca.prototype.rendering = function(o,_aTag) {
     };    
     
     moca.onPageClick = function(_thisPageBtnObj,pageNum,onPageClickFunctionStr){
+    	/*
+		moca.eTarget = event.target;
+		moca.pageBefore = moca.currentPage(_thisPageBtnObj);
+        */	
+    	var beforePage = moca.currentPage(_thisPageBtnObj);
+    	var currentPage = pageNum;
+    	var grd = $(_thisPageBtnObj).closest("[type=grid]")[0];
+    	grd.currentPage = currentPage;
     	eval(onPageClickFunctionStr)(pageNum);
-    	$(_thisPageBtnObj).parent().find('.on');
-    	$(_thisPageBtnObj).parent().find('.on').removeClass('on');
-    	$(_thisPageBtnObj).addClass('on');
+    	
+    	if(beforePage < currentPage){
+    		//페이지그룹이 넘어가는경우 우측
+    	}else{
+        	$(_thisPageBtnObj).parent().find('.on');
+        	$(_thisPageBtnObj).parent().find('.on').removeClass('on');
+        	$(_thisPageBtnObj).addClass('on');
+    	}
     };
     
     moca[_srcId].getTotalCnt = function(_grd){
