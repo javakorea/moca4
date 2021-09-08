@@ -269,10 +269,15 @@ public class MocaEFLServiceImpl extends EgovAbstractServiceImpl implements MocaE
 	public List selectList_MAIN_CNT(Map map) throws Exception {
 		return mocaEFLDAO.selectList_MAIN_CNT(map);
 	}	
-		
 	public List selectList_EFGULOG(Map map) throws Exception {
 		return mocaEFLDAO.selectList_EFGULOG(map);
 	}	
+	public Map selectTotalCnt_EFGULOG(Map map) throws Exception {
+		return mocaEFLDAO.selectTotalCnt_EFGULOG(map); 
+	}
+	public List selectNumList_EFGULOG(Map map) throws Exception {
+		return mocaEFLDAO.selectNumList_EFGULOG(map);
+	}
 	public Map selectOne_EFGCA(Map map) throws Exception {
 		return mocaEFLDAO.selectOne_EFGCA(map); 
 	}

@@ -85,6 +85,8 @@ public interface MocaEFLService  {
 	public List selectList_MAIN_SYST(Map map) throws Exception;
 	public List selectList_MAIN_CNT(Map map) throws Exception;
 	public List selectList_EFGULOG(Map map) throws Exception;
+	public Map selectTotalCnt_EFGULOG(Map map) throws Exception;
+	public List selectNumList_EFGULOG(Map map) throws Exception;
 	
 	public void mailSend(Map map) throws Exception;
 	public Map selectOne_EFGSYST(Map map) throws Exception;

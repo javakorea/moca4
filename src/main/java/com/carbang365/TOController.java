@@ -5221,7 +5221,16 @@ public class TOController{
 				paramMap = mocaMap;
 			}
 			model.addAttribute("selectBoardList", TOMapper.selectBoardList(paramMap)); //조회
-			model.addAttribute("selectBoardStatusCnt", TOMapper.selectBoardStatusCnt(paramMap)); //접수상태
+			Map map = new HashMap(); 
+			List list = TOMapper.selectBoardStatusCnt(paramMap);
+			for(int i=0; i < list.size(); i++) {
+				Map row = (Map)list.get(i);
+				String type = String.valueOf(row.get("BOAD_SUPPORT"));
+				String cnt = String.valueOf(row.get("CNT"));
+				map.put(type, cnt);
+			}
+			
+			model.addAttribute("selectBoardStatusCnt", map); //접수상태
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());
@@ -5239,8 +5248,17 @@ public class TOController{
 				paramMap = mocaMap;
 			}
 			model.addAttribute("selectBoardList", TOMapper.selectBoardNumList(paramMap));//페이징 조회
-			model.addAttribute("selectBoardStatusCnt", TOMapper.selectBoardStatusCnt(paramMap));//접수상태
-			model.addAttribute("selectBoardTotCnt", TOMapper.selectBoardTotCnt(paramMap)); //총건수
+			Map map = new HashMap(); 
+			List list = TOMapper.selectBoardStatusCnt(paramMap);
+			for(int i=0; i < list.size(); i++) {
+				Map row = (Map)list.get(i);
+				String type = String.valueOf(row.get("BOAD_SUPPORT"));
+				String cnt = String.valueOf(row.get("CNT"));
+				map.put(type, cnt);
+			}
+			
+			model.addAttribute("selectBoardStatusCnt", map); //접수상태
+			model.addAttribute("selectBoardTotCnt", TOMapper.selectBoardTotCnt(paramMap).get("TOTCNT")); //총건수
 			
 		}catch(Exception e) {
 			e.printStackTrace();

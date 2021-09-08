@@ -231,10 +231,17 @@ public class MocaEFLDAO extends EgovAbstractDAO{
     }		
 	public List<?> selectList_MAIN_CNT(Map map){
         return list("mocaEFLDAO.select_MAIN_CNT", map);
-    }	
+    }
 	public List<?> selectList_EFGULOG(Map map){
         return list("mocaEFLDAO.selectList_EFGULOG", map);
-    }		
+    }
+	public Map selectTotalCnt_EFGULOG(Map map){
+        return (Map)select("mocaEFLDAO.selectTotalCnt_EFGULOG", map);
+    }
+	
+	public List<?> selectNumList_EFGULOG(Map map){
+        return list("mocaEFLDAO.selectNumList_EFGULOG", map);
+    }
 	public Map selectOne_EFGSYST(Map map){
         return (Map)select("mocaEFLDAO.selectOne_EFGSYST", map);
     }	

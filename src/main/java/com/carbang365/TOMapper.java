@@ -418,7 +418,7 @@ public interface TOMapper {
     // 게시판조회
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map);
 	// 게시판 총건수조회
-	public List<Map<String, Object>> selectBoardTotCnt(Map<String, Object> map);
+	public Map<String, Object> selectBoardTotCnt(Map<String, Object> map);
 	// 게시판조회 numList
 	public List<Map<String, Object>> selectBoardNumList(Map<String, Object> map);
 		

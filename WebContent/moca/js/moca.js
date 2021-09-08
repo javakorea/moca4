@@ -1296,7 +1296,8 @@ Moca.prototype.drawGrid_inside = function(_grdId,_list,_orilist,_pageId,_srcId,_
     	if(moca.getAttrObj(_grd,'paging').type != 'numberList'){
     		moca[_srcId].setTotalCnt(_grd,this.comma(_grd.list.length));
     	}else{
-    		var _totalCnt = _response[moca.getAttrObj(_grd,'paging').totalCntKey][0].TOTCNT;
+    		var _totalCnt =_response[moca.getAttrObj(_grd,'paging').totalCntKey];
+    		
     		moca[_srcId].setTotalCnt(_grd,_totalCnt);
     	}
         if(_orilist != null){
@@ -10333,9 +10334,20 @@ Moca.prototype.rendering = function(o,_aTag) {
         return $(grd).find('.grid_total .txt_blue').html(moca.comma(cnt));
         
     }
+    
+    moca[_srcId].getTotalCnt = function(_grd){
+        var grd;
+        if(typeof _grd == 'string'){
+            grd = moca.getObj(_grd,null,this.pageId,this.srcId);
+        }else{
+            grd = _grd;
+        }
+        return $(grd).find('.grid_total .txt_blue').text().replace(/,/g,'');
+    };
+    
     moca.getAttrObj = function(_grdObj,_attr){
-    	var paging = (_grdObj.getAttribute(_attr) != null)? JSON.parse(_grdObj.getAttribute(_attr)):{};
-    	return paging;
+    	var attrObj = (_grdObj.getAttribute(_attr) != null)? JSON.parse(_grdObj.getAttribute(_attr)):{};
+    	return attrObj;
     };
     
     moca.currentPage = function(_pageButtonOrGridObj){
@@ -10383,7 +10395,6 @@ Moca.prototype.rendering = function(o,_aTag) {
 		}
     }
     moca.pagingLast =  function(_pageButtonObj){
-    	debugger;
     	var grd = $(_pageButtonObj).closest('[type=grid]')[0];
     	var lastPage = moca.getNumListCnt(grd);
     	var _prevP = Number($(grd).find('.moca_grid_paging > .num > button.on').text());
@@ -10417,16 +10428,15 @@ Moca.prototype.rendering = function(o,_aTag) {
         var aTag = '';
         var currentPage  = moca.currentPage(_grd);
         
-        debugger;
         if(currentPage == null){
     		currentPage = 1;
     	}
 
         var startPage = 0;
         if(currentPage == _showItemCnt){
-        	startPage = parseInt(currentPage/3-1)*3+1;
+        	startPage = parseInt(currentPage/_showItemCnt-1)*_showItemCnt+1;
         }else{
-        	startPage = parseInt(currentPage/3)*3+1;
+        	startPage = parseInt(currentPage/_showItemCnt)*_showItemCnt+1;
         }
         
         var lastPage = moca.getNumListCnt(grd);
@@ -10469,15 +10479,6 @@ Moca.prototype.rendering = function(o,_aTag) {
     	}
     };
     
-    moca[_srcId].getTotalCnt = function(_grd){
-        var grd;
-        if(typeof _grd == 'string'){
-            grd = moca.getObj(_grd,null,this.pageId,this.srcId);
-        }else{
-            grd = _grd;
-        }
-        return $(grd).find('.grid_total .txt_blue').text().replace(/,/g,'');
-    }
     moca[_srcId].getRadio = function(_id){
         var c = $(moca.getObj(_id,null,this.pageId,this.srcId)).find('input[type=radio]:checked');
         var obj = {};

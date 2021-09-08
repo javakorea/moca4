@@ -1096,7 +1096,15 @@
 	 	<select id="mocaEFLDAO.select_MAIN_SYST" parameterClass="hashMap" resultClass="hashMap">
 			SELECT CORP_CD,SYS_CD,SYS_NM FROM EFGSYST
 			GROUP BY CORP_CD,SYS_CD,SYS_NM
-	    </select>  
+	    </select>
+	    <select id="mocaEFLDAO.selectTotalCnt_EFGULOG" parameterClass="hashMap" resultClass="hashMap">
+			SELECT COUNT(*) AS TOTCNT FROM EFGULOG
+			WHERE 1=1
+			AND DATE(LAST_UPDT_PNTTM) BETWEEN #FROM# AND #TO#
+			<isNotEmpty property="USER_ID">
+			AND USER_ID LIKE CONCAT ('%', #USER_ID#,'%')
+			</isNotEmpty>
+	    </select> 
 	 	<select id="mocaEFLDAO.selectList_EFGULOG" parameterClass="hashMap" resultClass="hashMap">
 			SELECT * FROM EFGULOG
 			WHERE 1=1
@@ -1106,7 +1114,16 @@
 			</isNotEmpty>
 			ORDER BY LAST_UPDT_PNTTM DESC
 	    </select>  
-
+		<select id="mocaEFLDAO.selectNumList_EFGULOG" parameterClass="hashMap" resultClass="hashMap">
+			SELECT * FROM EFGULOG
+			WHERE 1=1
+			AND DATE(LAST_UPDT_PNTTM) BETWEEN #FROM# AND #TO#
+			<isNotEmpty property="USER_ID">
+			AND USER_ID LIKE CONCAT ('%', #USER_ID#,'%')
+			</isNotEmpty>
+			ORDER BY LAST_UPDT_PNTTM DESC
+			LIMIT $limitFrom$, $limitPerPage$
+	    </select> 
 	 	<select id="mocaEFLDAO.selectOne_EFGSYST" parameterClass="hashMap" resultClass="hashMap">
 			SELECT EMAIL
 			FROM EFGSYST

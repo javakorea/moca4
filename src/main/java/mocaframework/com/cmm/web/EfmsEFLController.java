@@ -1590,7 +1590,7 @@ public class EfmsEFLController {
 		try {
 			Map map = U.getBody(mocaMap);
 			model.addAttribute("list", mocaEFLService.selectList_EFGULOG(map));
-
+			model.addAttribute("selectTotalCnt_EFGULOG", mocaEFLService.selectTotalCnt_EFGULOG(map).get("TOTCNT")); //총건수
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

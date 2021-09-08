@@ -44,22 +44,12 @@
 	        callback : function(response){
 	        	moca.EFC_BOAD.grdList = moca.getResList(response,"selectBoardList");
 	            moca.EFC_BOAD.drawGrid('grd_1',moca.EFC_BOAD.grdList);
-	            _supportArr = moca.getResList(response,"selectBoardStatusCnt");
-	            var _supportB = 0;
-	            var _supportN = 0;
-	            var _supportR = 0;
-	            var _supportY = 0;
-	            for(var i=0; i<_supportArr.length ; i++){
-	            	if(_supportArr[i].BOAD_SUPPORT == 'B'){
-	            		_supportB = _supportArr[i].CNT
-	            	}else if(_supportArr[i].BOAD_SUPPORT == 'N'){
-	            		_supportN = _supportArr[i].CNT
-	            	}else if(_supportArr[i].BOAD_SUPPORT == 'R'){
-	            		_supportR = _supportArr[i].CNT
-	            	}else if(_supportArr[i].BOAD_SUPPORT == 'Y'){
-	            		_supportY = _supportArr[i].CNT
-	            	}
-	            }
+	            var _supportB = (response.selectBoardStatusCnt.B != null)? response.selectBoardStatusCnt.B : 0;
+	            var _supportN = (response.selectBoardStatusCnt.N != null)? response.selectBoardStatusCnt.N : 0;
+	            var _supportR = (response.selectBoardStatusCnt.R != null)? response.selectBoardStatusCnt.R : 0;
+	            var _supportY = (response.selectBoardStatusCnt.Y != null)? response.selectBoardStatusCnt.Y : 0;
+
+	         
 	            moca.setLabelValue(moca.EFC_BOAD.getObj('supportB'),moca.comma(_supportB));//반려
 	            moca.setLabelValue(moca.EFC_BOAD.getObj('supportN'),moca.comma(_supportN));//요청
 	            moca.setLabelValue(moca.EFC_BOAD.getObj('supportR'),moca.comma(_supportR));//접수
