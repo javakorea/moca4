@@ -1823,7 +1823,8 @@ public class EfmsEFLController {
         response.setContentType("text/html;charset=utf-8");
      
         try{
-        	String subDir = "/ckeditor/uploadImage/";
+        	String subDir = EgovProperties.getPathProperty("Globals.ckeditorImgUpload");
+        	
         	String rootPath = request.getServletContext().getRealPath("/");
         	String cPath = request.getContextPath();
         	String rurl = request.getRequestURL().toString();

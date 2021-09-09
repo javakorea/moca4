@@ -105,6 +105,7 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_input.req{border:1px solid #e79f78; background:#fffbe8;}
 .moca_input.req:hover{border:1px solid #e45c2d;background:#fffbe8}
 .moca_input:read-only{border:0; background:unset !important}
+.moca_input:disabled{background:#e8e8e8 !important}
 /* MOCA inputGroup */
 .moca_input_group > * {width:auto; float:left; margin-right:4px}
 .moca_input_group > *:last-child{margin-right:0}

@@ -76,6 +76,7 @@
 .moca_table_cont td div[type="button"].mocaButton.temp button, .mocaButton.temp button{border: 1px solid #274560; color: #102539; background: #dde1ed; box-sizing: border-box; border-radius: 2px; font-weight: normal}
 .moca_table_cont td div[type="button"].mocaButton.temp button, .mocaButton.temp button:hover{background: #d6dbeb}
 /*tab design_카방별도*/
+/*
 .moca_layer_tab_ul{overflow: hidden; background: #51627f; border-radius:3px}
 .moca_layer_tab_head{margin-bottom:10px;}
 .moca_layer_tab_list{border:0; background:none; border-radius: 0; margin-right:0}
@@ -89,12 +90,13 @@
     
 .moca_layer_tab_list > button{color: #fff; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;}
 .moca_layer_tab_body{height: calc(100% - 60px); border:0}
-.moca_layer_tab_panel{padding:0; height:100%}
+.moca_layer_tab_panel{padding:0; height:100%}*/
 /*tab_화면별 width별도*/
+/*
 .moca_layer_tab.TO_001 .moca_layer_tab_list{width:calc(100% / 12)}
 .moca_layer_tab.TO_007 .moca_layer_tab_list{width:calc(100% / 5)}
 .moca_layer_tab.TO_009 .moca_layer_tab_list{width:calc(100% / 6)}
-.moca_layer_tab.TO_004 .moca_layer_tab_list{width:calc(100% / 3)}
+.moca_layer_tab.TO_004 .moca_layer_tab_list{width:calc(100% / 3)}*/
 .moca_layer_tab .tab_badge{background: #f2d9b8; color:#333; line-height: 16px; height: 16px; border: 2px solid #353535;}
 
 

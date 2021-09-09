@@ -25,15 +25,13 @@
 	};
 	
 	moca.EFC_ULOG.fn_search = function(_pageNum){
-		if(_pageNum == null) _pageNum = 1;
-		var _lcpp = parseInt(moca.getAttrObj(moca.EFC_ULOG.getObj('grd_1'),'paging').listCntPerPage);
 		moca.EFC_ULOG.exe({
 			url : moca._domain+moca._contextRoot+"/efms/EFC_ULOG/list_json.do",
             data : {
             	"header" : moca.header,
             	"body" : {
-            		"limitFrom" : String((_pageNum-1)*_lcpp),
-	        		"limitPerPage" : String(_lcpp),
+            		"limitFrom" : moca.getLimitFrom(moca.EFC_ULOG.getObj('grd_1')),
+	        		"limitPerPage" : moca.getLimitPerPage(moca.EFC_ULOG.getObj('grd_1')),
             		USER_ID:moca.EFC_ULOG.getInput("USER_ID"),
             		FROM:moca.EFC_ULOG.getFrom("ipc_3"),
             		TO:moca.EFC_ULOG.getTo("ipc_3"),
@@ -101,7 +99,7 @@
 					</div>
 				</div>
 				<div class="btn_shbox">
-					<button type="button" class="button btn_sc" onclick="moca.EFC_ULOG.fn_search()"><i class="fas fa-search"></i><span>조회</span></button>
+					<button type="button" class="button btn_sc" onclick="moca.EFC_ULOG.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
 				</div>
 			</div>
 			
@@ -118,7 +116,7 @@
 								toolbar_full="true"
 								
 								label="사용로그목록"
-								paging='{"type":"numberList","listCntPerPage":"20","totalCntKey":"selectTotalCnt_EFGULOG","onPageClick":"moca.EFC_ULOG.fn_search", "pageGroupItemMax":"10"}'
+								paging='{"type":"numberList","listCntPerPage":"27","totalCntKey":"selectTotalCnt_EFGULOG","onPageClick":"moca.EFC_ULOG.fn_search", "pageGroupItemMax":"10"}'
 								
 			>
 					<table style="width: 100%">

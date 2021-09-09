@@ -137,6 +137,8 @@ public class Globals {
 	public static final String KSNET_ARS_COMPANY_CD = EgovProperties.getProperty("Globals.ksnetArsCompanyCd");
 	// ARS 인증키
 	public static final String KSNET_ARS_AUTH_KEY = EgovProperties.getProperty("Globals.ksnetArsAuthKey");
+	// ckeditor 이미지업로드 경로
+	public static final String CKEDITOR_IMG_UPLOAD = EgovProperties.getProperty("Globals.ckeditorImgUpload");
 	
 	// 카카오 Vision(OCR)
 	public static final String KAKAO_VISION_URL = EgovProperties.getProperty("Globals.kakao_vision_url");

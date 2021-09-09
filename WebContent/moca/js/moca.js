@@ -10351,7 +10351,11 @@ Moca.prototype.rendering = function(o,_aTag) {
     };
     
     moca.currentPage = function(_pageButtonOrGridObj){
-    	return _pageButtonOrGridObj.currentPage;
+    	if(_pageButtonOrGridObj == null || _pageButtonOrGridObj.currentPage == null){
+    		return 1;
+    	}else{
+    		return _pageButtonOrGridObj.currentPage;
+    	}
     };
 
     moca.pagingFirst =  function(_pageButtonObj){
@@ -10395,7 +10399,6 @@ Moca.prototype.rendering = function(o,_aTag) {
 		}
     }
     moca.pagingLast =  function(_pageButtonObj){
-    	debugger;
     	var grd = $(_pageButtonObj).closest('[type=grid]')[0];
     	var lastPage = moca.getNumListCnt(grd);
     	var _prevP = Number($(grd).find('.moca_grid_paging > .num > button.on').text());
@@ -10405,7 +10408,14 @@ Moca.prototype.rendering = function(o,_aTag) {
 			var _onPageClick = moca.getAttrObj(grd,'paging').onPageClick;
 			moca.onPageClick(_pageButtonObj,lastPage,_onPageClick);
 		}
-    } 
+    }
+    moca.getLimitFrom = function(_grd){
+    	return String((moca.currentPage(_grd)-1)*parseInt(moca.getAttrObj(_grd,'paging').listCntPerPage));
+    }
+    
+    moca.getLimitPerPage = function(_grd){
+    	return moca.getAttrObj(_grd,'paging').listCntPerPage;
+    }
     
     moca[_srcId].setNumberListCnt = function(_grd,cnt){
         var grd;
@@ -10434,9 +10444,7 @@ Moca.prototype.rendering = function(o,_aTag) {
     	}
 
         var startPage = 0;
-        var btnIndex = parseInt(currentPage/(currentPage/_showItemCnt).toFixed(1));// 20/(20/10) 30
-        
-        if(btnIndex == _showItemCnt){
+        if(currentPage%_showItemCnt == 0){
         	startPage = parseInt(currentPage/_showItemCnt-1)*_showItemCnt+1;
         }else{
         	startPage = parseInt(currentPage/_showItemCnt)*_showItemCnt+1;
@@ -11424,23 +11432,28 @@ Moca.prototype.renderMocaButton = function(o) {
 
 Moca.prototype.setDisabled = function(o,_value) {
     ['컴포넌트 비활성화설정'];
-    var _btn;
     if(o != null){
         if(o.tagName == 'DIV'){
             var tmp  = $(o).find('button');
             if(tmp != null && tmp.length > 0){
-                _btn = tmp[0];
+                o = tmp[0];
             }
         }
         if(moca.isTrue(_value)){
-        	_btn.setAttribute("disabled",true);
-            $(_btn).css('background','#aaa');
-            $(o).removeClass('disabled');
-            $(o).addClass('disabled');
+        	o.setAttribute("disabled",true);
+            $(o).css('background','#aaa');
+            if($(o).parent().attr('type') == 'button'){
+            	$(o).parent().removeClass('disabled');
+                $(o).parent().addClass('disabled');
+            }
+            
         }else{
             o.removeAttribute("disabled");
-            $(_btn).css('background','');
-            $(o).removeClass('disabled');
+            $(o).css('background','');
+            if($(o).parent().attr('type') == 'button'){
+                 $(o).parent().removeClass('disabled');
+            }
+           
         }
     }
 };
