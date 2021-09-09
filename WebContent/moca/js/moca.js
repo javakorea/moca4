@@ -10395,6 +10395,7 @@ Moca.prototype.rendering = function(o,_aTag) {
 		}
     }
     moca.pagingLast =  function(_pageButtonObj){
+    	debugger;
     	var grd = $(_pageButtonObj).closest('[type=grid]')[0];
     	var lastPage = moca.getNumListCnt(grd);
     	var _prevP = Number($(grd).find('.moca_grid_paging > .num > button.on').text());
@@ -10433,7 +10434,9 @@ Moca.prototype.rendering = function(o,_aTag) {
     	}
 
         var startPage = 0;
-        if(currentPage == _showItemCnt){
+        var btnIndex = parseInt(currentPage/(currentPage/_showItemCnt).toFixed(1));// 20/(20/10) 30
+        
+        if(btnIndex == _showItemCnt){
         	startPage = parseInt(currentPage/_showItemCnt-1)*_showItemCnt+1;
         }else{
         	startPage = parseInt(currentPage/_showItemCnt)*_showItemCnt+1;
