@@ -4674,6 +4674,7 @@ Moca.prototype._foldGrid = function(_thisObj){
         b_jq.addClass('grid_unfold');
         g_jq.removeClass('fold');
         g_jq.find('.moca_grid_list').show();
+        moca.redrawGrid(g);
     }
     
 };
@@ -7024,7 +7025,7 @@ var multiCalendar ={
             
             
         },calendarDateBtnEventSetting : function(calendarVariable,dateStr, objIndex){
-
+        	if(dateStr == '' || dateStr == null) return;
             //document.getElementById(calendarVariable.putId).value = moca.getDisplayFormat_value(document.getElementById(calendarVariable.putObj).parentElement,calendarVariable.dateArray.year+calendarVariable.dateArray.month+ comLib.gfn_toTwoChar(dateStr));
             let returnDateVal = "";
             if(calendarVariable.returnDateType == 0){
@@ -10150,7 +10151,7 @@ Moca.prototype.rendering = function(o,_aTag) {
     
         
     moca[_srcId].getInput = function(_id){
-        return moca.getObj(_id,"input",this.pageId,this.srcId).value;
+    	return moca.getObj(_id,"input",this.pageId,this.srcId).value;
     };
     
     moca[_srcId].getFromTo = function(selecterItem,_to_date){
@@ -11525,7 +11526,6 @@ Moca.prototype.renderMocaInput = function(o) {
         }else{
             _readonly = "";
         }
-        
         if(_innerDisabled == "true"){
             _disabled = "disabled";
         }else{

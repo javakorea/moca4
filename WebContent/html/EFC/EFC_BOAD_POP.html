@@ -164,7 +164,7 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 					    moca.setValue(moca.EFC_BOAD_POP.getObj("wcompleteid"),data.BOAD_COMPLETER);
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_save"));
 					    moca.hide(moca.EFC_BOAD_POP.getObj("btn_add"));
-					    moca.hide(moca.EFC_BOAD_POP.getObj('grd_file_btn_fold'));
+					    moca.show(moca.EFC_BOAD_POP.getObj('grd_file_btn_fold'));
 					    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wid")) != moca.getSs("USER_ID") && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
 					    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_del"));
 					    }
@@ -176,6 +176,7 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 					    }
 					    
 					    //moca.EFC_BOAD_POP.fn_searchfile();
+					    debugger;
 					    moca.EFC_BOAD_POP.drawGrid('grd_file',moca.getResList(response,"selectBoardFileList"));
 					}else{
 						moca.error(response.error);

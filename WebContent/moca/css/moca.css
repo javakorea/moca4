@@ -104,8 +104,8 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_input {height:24px; width:100%; padding:0 4px; border:1px solid #d7d7de; border-radius:2px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -webkit-appearance:none; -moz-appearance:none; appearance:none; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
 .moca_input.req{border:1px solid #e79f78; background:#fffbe8;}
 .moca_input.req:hover{border:1px solid #e45c2d;background:#fffbe8}
-.moca_input:read-only{border:0; background:unset !important}
-.moca_input:disabled{background:#e8e8e8 !important}
+.moca_input[readonly]{border:0; background:unset !important}
+.moca_input[disabled="true"]{background:#e8e8e8 !important}
 /* MOCA inputGroup */
 .moca_input_group > * {width:auto; float:left; margin-right:4px}
 .moca_input_group > *:last-child{margin-right:0}

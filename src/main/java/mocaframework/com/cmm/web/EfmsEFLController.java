@@ -1839,16 +1839,15 @@ public class EfmsEFLController {
             if(!dirFile.exists()) {
             	dirFile.mkdirs();
             }
-            String uploadPath = rootPath + subDir+fileName;//저장경로
-     
+           
+            String uploadPath = subDir+fileName;//저장경로
             out = new FileOutputStream(new File(uploadPath));
             out.write(bytes);
             String callback = request.getParameter("CKEditorFuncNum");
      
             printWriter = response.getWriter();
             //System.out.println("url"+urlHead+cPath+subDir+fileName);
-            String fileUrl = urlHead+cPath+subDir+fileName;//url경로
-     
+            String fileUrl = urlHead+cPath+"/moca/imageDownload.do?fileName="+fileName;//url경로
             printWriter.println("<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction("
                     + callback
                     + ",'"
@@ -1875,6 +1874,60 @@ public class EfmsEFLController {
         return;
     }
 
+    @RequestMapping(value = "/moca/imageDownload.do")
+	public void moca_imageDownload(@RequestParam Map mocaMap, 
+			HttpServletRequest request,HttpServletResponse response,
+			ModelMap model) throws Exception{
+		OutputStream out = null;
+		BufferedInputStream fin = null;
+		BufferedOutputStream outs = null;
+        try {
+        	Map paramMap = U.getBodyNoSess(mocaMap); 
+        	//String originalFilename = (String)paramMap.get("originalFilename");
+        	String physicalFilename = (String)request.getParameter("fileName");
+        		
+        	String subDir = (String)paramMap.get("subDir");
+        	String fileUploadDir = EgovProperties.getPathProperty("Globals.ckeditorImgUpload");
+    		if(!fileUploadDir.endsWith("/")) {
+    			fileUploadDir += "/";
+    		}
+
+    		fileUploadDir += physicalFilename;
+    		String fullPath = fileUploadDir;
+    		//System.out.println(">>>>>>>>>>>>>file download path>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+fullPath);
+			File targetFile = new File(fullPath);
+			if(targetFile != null) {
+				response.setContentType("application/octet-stream; charset=utf-8");
+				response.setContentLength((int) targetFile.length());
+				String browser = Util.getBrowser(request);
+				String disposition = Util.getDisposition(physicalFilename, browser);
+				response.setHeader("Content-Disposition", disposition);
+				response.setHeader("Content-Transfer-Encoding", "binary");
+				byte[] b = new byte[2048]; //buffer size 2K.
+				fin = new BufferedInputStream(new FileInputStream(targetFile.getCanonicalPath()));
+			    outs = new BufferedOutputStream(response.getOutputStream());
+			    int read = 0;
+				while ((read = fin.read(b)) != -1) {
+				    outs.write(b, 0, read);
+				}
+				outs.flush();
+				outs.close();
+			}
+        } catch (Exception ex) {
+        	ex.printStackTrace();
+        } finally {
+            try {
+                if(outs != null) {
+                	outs.close();
+                }
+                if(fin != null) {
+                	fin.close();
+                }
+            } catch (IOException ex2) {
+            	ex2.printStackTrace();
+            }
+        }
+	};
     
     
 }
