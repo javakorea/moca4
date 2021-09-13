@@ -9205,8 +9205,13 @@ Moca.prototype.renderGridToolbarButton = function(x1Obj,_id) {
     if(x1Obj.id != null){
        _btnid = x1Obj.id;
     }
+    if(x1Obj.mobileHide == "true"){
+    	_html += '<div class="grid_btn '+x1Obj.addClassStr+'" grdkey="'+_id+'" style="display:none">';
+    }else{
+    	_html += '<div class="grid_btn '+x1Obj.addClassStr+'" grdkey="'+_id+'">';
+    }
     
-    _html += '<div class="grid_btn '+x1Obj.addClassStr+'" grdkey="'+_id+'">';
+    
     _html += '<button type="button" id="'+_btnid+'" style="'+_innerStyle+'" onclick="'+x1Obj.onclick+'(this)" '+_disabled+' >'+x1Obj.label+'</button>';
     _html += '</div>';
     return _html;
