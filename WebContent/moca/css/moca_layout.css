@@ -737,9 +737,22 @@ opacity: 1;
   width:16px;height:16px; background:#f1f1f1 url(../images/ico_scroll_arrow.png) no-repeat 0 -32px;}
   
  
- 
-@media screen and (min-width:480px) and (max-width:768px) {
-	.moca_wrap{min-width:none;} 
-
+@media all and (max-width:1279px) {
+	.moca_titbox .title_box_nav{display:none}
+    .moca_wrap{min-width:unset;} 
+    .moca_grid_toolbar .lta > .grid_label_span {display:none}
+    .moca_grid_toolbar .button.excel_dn {display:none}
+    .moca_shbox .tb#tb_CREATE_DTTM, .moca_shbox .tb#tb_ipt_WRITER, .moca_shbox .tb#tb_ipt_TITLE{display:none}
+    .moca_shbox .btn_shbox .button{padding:5px 7px}
+    /*.moca_scrollY_type1{display:none}*/
+    .moca_aside{background:none}
+    .moca_container{left:0}
+    .moca_container:not(.on) > div[tag="moca:mdi"]{display:none}
+    .moca_container:not(.on) > div[tag="moca:lnb"] .moca_lnb{width:100%}
+    .moca_lnb_toggle{left:3px; top:8px}
+    .moca_header nav{display:none}
+	.moca_header h1{ position: relative;top: 6px; text-align: center;margin: 0 auto; left: 0;}
+	.grid_total{margin-right:0 !important}
+	.moca_aside ul:last-child{display:none}
 }
   
