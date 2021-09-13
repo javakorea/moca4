@@ -6717,17 +6717,9 @@ var multiCalendar ={
             var _t = $(_thisObj).prev().offset().top;
             var _l = $(_thisObj).prev().prev().offset().left;
             var _h = $(_thisObj).prev().height();
-            if(moca.getDevice() != "pc"){
-            	var _width = $(tmp).width();
-            	var _height = $(tmp).height();
-                var top = (document.body.offsetHeight/2) - (parseInt(_height)/2) + $(document).scrollTop();
-                var left = (document.body.offsetWidth/2) - (parseInt(_width)/2) + $(document).scrollLeft();
-                _t = top;
-                _l = left;
-                $(tmp).addClass('vertical');
+            if(moca.getDevice() == "pc"){
+            	$('#'+messageboxId).css('top',(_t+_h)).css('left',_l);
             }
-            
-            $('#'+messageboxId).css('top',(_t+_h)).css('left',_l);
             
             //console.log("dt1 : ["+ _dt1 +"] dt2 : ["+ _dt2+"]");
             let tempId = $('#'+messageboxId).find(".moca_calendar_btn_prev").attr("calendarId");
@@ -6796,6 +6788,16 @@ var multiCalendar ={
 
             
             multiCalendar.initEvent(multiCalendar.calendarVariable.calArray[0].id);
+            if(moca.getDevice() != "pc"){
+            	$(tmp).addClass('vertical');
+            	var _width = $(tmp).width();
+            	var _height = $(tmp).height();
+                var top = (document.body.offsetHeight/2) - (parseInt(_height)/2) + $(document).scrollTop();
+                var left = (document.body.offsetWidth/2) - (parseInt(_width)/2) + $(document).scrollLeft();
+                _t = top;
+                _l = left;
+                $('#'+messageboxId).css('top',(_t)).css('left',_l);
+            }
 
         },
         calendarVariable : {
