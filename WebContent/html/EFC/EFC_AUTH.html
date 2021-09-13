@@ -15,7 +15,7 @@
 			url : moca._domain+moca._contextRoot+"/sec/ram/EgovAuthorList_json.do",
             data : {
             	"header" : moca.header,
-            	"body" : {authorNm:moca.EFC_AUTH.getInput("authorNm")}
+            	"body" : {authorNm:moca.getValue(moca.EFC_AUTH.getObj("authorNm"))}
             },			
 			callback : function(response){
 				moca.EFC_AUTH.drawGrid('grd_3',[]);
@@ -157,7 +157,7 @@
 						<div class="tb">
 							<span class="tb_th">시스템명권한명</span>
 							<span class="tb_td">
-								<input type="text" class="moca_input sh" style="width:150px" id="authorNm" autocomplete="off" onkeyup="moca.default_keyup(this)">
+								<div type="input" id="authorNm" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
 							</span>
 						</div>
 					</div>

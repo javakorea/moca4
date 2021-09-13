@@ -34,8 +34,8 @@
 	            "header" : moca.header,
 	            "body" : {
 	            	"BOAD_TYPE":moca.EFC_BOAD.boardType,
-	            	"BOAD_WRITER":moca.EFC_BOAD.getInput("ipt_WRITER"),
-	            	"BOAD_TITLE":moca.EFC_BOAD.getInput("ipt_TITLE"),
+	            	"BOAD_WRITER":moca.getValue(moca.EFC_BOAD.getObj( "ipt_WRITER")),
+	            	"BOAD_TITLE":moca.getValue(moca.EFC_BOAD.getObj( "ipt_TITLE")),
 	            	"FROM":moca.EFC_BOAD.getFrom("CREATE_DTTM").replace(/-/g,''),
                     "TO":moca.EFC_BOAD.getTo("CREATE_DTTM").replace(/-/g,''),
                     "BOAD_SUPPORT":moca.getCheckboxGroupCheckedList(moca.EFC_BOAD.getObj('chkg_1'))
@@ -54,6 +54,10 @@
 	            moca.setLabelValue(moca.EFC_BOAD.getObj('supportN'),moca.comma(_supportN));//요청
 	            moca.setLabelValue(moca.EFC_BOAD.getObj('supportR'),moca.comma(_supportR));//접수
 	            moca.setLabelValue(moca.EFC_BOAD.getObj('supportY'),moca.comma(_supportY));//완료
+	            
+	            
+	            //모바일테스트
+				
 	        }
 	    });
 	};
@@ -245,6 +249,7 @@
 		                               defaultValue="12개월전" 
 		                               selecterItem="오늘,3일전,6일전"
 		                               showRadioOption="false"
+		                               maxTermByDay="365"
 		                         ></div>
 							</span>
 						</div>
@@ -261,13 +266,13 @@
 						<div class="tb">
 							<span class="tb_th">작성자</span>
 							<span class="tb_td">
-								<input type="text" class="moca_input sh" style="width:100px" id="ipt_WRITER" disabled="true" autocomplete="off" onkeyup="moca.default_keyup(this)">
+								<div type="input" id="ipt_WRITER" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
 							</span>
 						</div>
 						<div class="tb">
 							<span class="tb_th">제목</span>
 							<span class="tb_td">
-								<input type="text" class="moca_input sh" style="width:250px" id="ipt_TITLE"  autocomplete="off" onkeyup="moca.default_keyup(this)">
+								<div type="input" id="ipt_TITLE" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
 							</span>
 						</div>
 						<!-- 
@@ -308,17 +313,17 @@
 			>
 					<table style="width: 100%">
 						<colgroup>
-								<col style="width:30px">
+								<col style="width:0px">
 								<!--<col style="width:100px"> -->
 								<!-- <col style="width:60px"> -->
-								<col style="width:60px">
+								<col style="width:0px">
 								<!-- <col style="width:60px"> -->
 								
 								<col style="min-width:347px">
-								<col style="width:40px">
-								<col style="width:100px">
-								<col style="width:150px">
-								<col style="width:100px">	
+								<col style="width:0px">
+								<col style="width:0px">
+								<col style="width:0px">
+								<col style="width:0px">	
 								<!--<col style="width:100px">-->	
 						</colgroup>
 						<thead>

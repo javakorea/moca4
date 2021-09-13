@@ -31,7 +31,7 @@
 			loadingbar:true,
             data : {
             	"header" : moca.header,
-            	"body" : {SYS_NM:moca.EFC_SYST.getInput("SYS_NM")}
+            	"body" : {SYS_NM:moca.getValue(moca.EFC_SYST.getObj( "SYS_NM"))}
             },			
 			callback : function(response){
 				var list = moca.EFC_SYST.getResList(response,"list");
@@ -80,7 +80,7 @@
 						<div class="tb">
 							<span class="tb_th">시스템명</span>
 							<span class="tb_td">
-								<input type="text" class="moca_input sh" style="width:150px" id="SYS_NM" autocomplete="off" onkeyup="moca.default_keyup(this)">
+								<div type="input" id="SYS_NM" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
 							</span>
 						</div>
 					</div>

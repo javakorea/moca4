@@ -16,7 +16,7 @@
 			url : moca._domain+moca._contextRoot+"/sym/ccm/cca/EgovCcmCmmnCodeList_json.do",
             data : {
             	"header" : moca.header,
-            	"body" : {searchKeyword:moca.EFC_CODE.getInput("searchKeyword")}
+            	"body" : {searchKeyword:moca.getValue(moca.EFC_CODE.getObj( "searchKeyword"))}
             },			
 			callback : function(response){
 				moca.EFC_CODE.drawGrid('grd_1', moca.EFC_CODE.getResList(response,"list"));
@@ -134,7 +134,7 @@
 						<div class="tb">
 							<span class="tb_th">코드그룹명</span>
 							<span class="tb_td">
-								<input type="text" class="moca_input sh" style="width:150px" id="searchKeyword" autocomplete="off" onkeyup="moca.default_keyup(this)">
+								<div type="input" id="searchKeyword" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
 							</span>
 						</div>
 					</div>

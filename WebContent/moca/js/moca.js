@@ -7548,6 +7548,10 @@ Moca.prototype._excel_down = function(_thisObj) {
     }
 
     var list = grd[0].list;
+    if(list.length == 0){
+    	 moca.alert("다운로드할 데이터가 없습니다.");
+    	 return;
+    }
     var _parammap = {};
     _parammap['cellInfo'] = cellInfo;
     _parammap['list'] = list;
@@ -9078,6 +9082,7 @@ Moca.prototype.columnHide = function(_compId,targetCol,aColId) {
     $(targetCol).css('width','0px');
 };
 
+/*
 Moca.prototype.columnShow = function(_compId,targetCol,aColId) {
     var o = $('#'+_compId)[0];
     if(o.map == null){
@@ -9098,7 +9103,11 @@ Moca.prototype.columnShow = function(_compId,targetCol,aColId) {
     }
 
 };
-
+*/
+Moca.prototype.columnShow = function(_grd,aColId) {
+debugger;
+$(_grd).find('td[id=BOAD_TITLE]').hide();
+};
 
 Moca.prototype.renderGridToolbarCheckbox = function(x1Obj) {
     ['grid toolbar내 checkbox만들기'];

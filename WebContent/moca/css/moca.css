@@ -362,7 +362,7 @@ button:disabled{background:#aaa; opacity:1; cursor:default}
 .moca_grid_list .moca_grid_body > table > thead > tr > th.req{}
 .moca_grid_list .moca_grid_body > table > thead > tr > th.req .moca_grid_sort_box > span:before{content: "*"; color: #ff5858; position: relative; left: -3px; font-size: 12px;}
 .moca_grid_list .moca_grid_body > table > thead > tr:first-child > th {border-top:0}
-.moca_grid_list .moca_grid_body > table > tbody > tr > td {height:26px; padding:0 2px; background-color:#fff; border-right:1px solid #bbc3ce; border-bottom:1px solid #bbc3ce; text-align:center; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; vertical-align:middle}
+.moca_grid_list .moca_grid_body > table > tbody > tr > td {height:26px; padding:0 2px; background-color:#fff; border-right:1px solid #bbc3ce; border-bottom:1px solid #bbc3ce; text-align:center; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; vertical-align:middle; touch-action: manipulation;}
 .moca_grid_list .moca_grid_body > table > tbody > tr > td > span {padding:0 4px; -moz-box-sizing:border-box; box-sizing:border-box}
 .moca_grid_list .moca_grid_body > table > tbody > tr > td .item_table{width:100%; height:auto;}
 .moca_grid_list .moca_grid_body > table > tbody > tr > td .item_table ul li{border:1px solid #000; height:20px;}

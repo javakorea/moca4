@@ -17,7 +17,7 @@
 			loadingbar:true,
             data : {
             	"header" : moca.header,
-            	"body" : {CORP_NM:moca.EFC_CORP.getInput("CORP_NM")}
+            	"body" : {CORP_NM:moca.getValue(moca.EFC_CORP.getObj( "CORP_NM"))}
             },			
 			callback : function(response){
 				var list = moca.EFC_CORP.getResList(response,"list");
@@ -65,7 +65,7 @@
 						<div class="tb">
 							<span class="tb_th">법인명</span>
 							<span class="tb_td">
-								<input type="text" class="moca_input sh" style="width:150px" id="CORP_NM" autocomplete="off" onkeyup="moca.default_keyup(this)">									
+								<div type="input" id="CORP_NM" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
 							</span>
 						</div>
 					</div>

@@ -32,7 +32,7 @@
 			url : moca._domain+moca._contextRoot+"/efms/EFGPROP/list_json.do",
             data : {
             	"header" : moca.header,
-            	"body" : {PROP_KEY:moca.EFC_PROP.getInput("PROP_KEY")}
+            	"body" : {PROP_KEY:moca.getValue(moca.EFC_PROP.getObj( "PROP_KEY"))}
             },			
 			callback : function(response){
 				moca.EFC_PROP.drawGrid('grd_1', moca.EFC_PROP.getResList(response,"list"));
@@ -118,7 +118,7 @@
 						<div class="tb">
 							<span class="tb_th">key</span>
 							<span class="tb_td">
-								<input type="text" class="moca_input sh" style="width:150px" id="PROP_KEY"  autocomplete="off" onkeyup="moca.default_keyup(this)">
+								<div type="input" id="PROP_KEY" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
 							</span>
 						</div>
 						<div class="tb">

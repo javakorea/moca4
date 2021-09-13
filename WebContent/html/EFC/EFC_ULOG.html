@@ -32,7 +32,7 @@
             	"body" : {
             		"limitFrom" : moca.getLimitFrom(moca.EFC_ULOG.getObj('grd_1')),
 	        		"limitPerPage" : moca.getLimitPerPage(moca.EFC_ULOG.getObj('grd_1')),
-            		USER_ID:moca.EFC_ULOG.getInput("USER_ID"),
+            		USER_ID:moca.getValue(moca.EFC_ULOG.getObj( "USER_ID")),
             		FROM:moca.EFC_ULOG.getFrom("ipc_3"),
             		TO:moca.EFC_ULOG.getTo("ipc_3"),
             	}
@@ -93,7 +93,7 @@
 						<div class="tb">
 							<span class="tb_th">사용자아이디</span>
 							<span class="tb_td">
-								<input type="text" class="moca_input sh" style="width:150px" id="USER_ID" autocomplete="off" onkeyup="moca.default_keyup(this)">
+								<div type="input" id="USER_ID" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
 							</span>
 						</div>
 					</div>
