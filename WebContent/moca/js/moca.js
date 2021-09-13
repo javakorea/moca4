@@ -2834,6 +2834,8 @@ Moca.prototype.getContents = function(data,_url,_type,_popupid,_title,_wframeObj
            }
            data = data.replace(/moca\.init\s*\(/gi,"moca.init('"+moca.pageId+"','"+moca.srcId+"','"+_url+"','"+_json_data+"', ");
        }
+       
+       
        return data;
 };
 
@@ -3644,8 +3646,40 @@ Moca.prototype.renderGrid = function(_divObj) {
         _thMap[thObj.id] = thObj;
     }
     
+    var moblePcHide = function(aCol,_mobleOrPc){
+        if($(aCol).attr(_mobleOrPc) == "true"){
+        	var ori_width = $(aCol).width();
+        	if(ori_width == null){
+        		$(aCol).attr("oriWidth",ori_width);
+        	}
+        	$(aCol).css("width","0");
+        	
+        	var mWidth = $(aCol).css("min-width");
+        	if(mWidth != null && mWidth != "0"){
+        		$(aCol).css("min-width","0");
+        		$(aCol).attr("oriMinWidth",mWidth);
+        	}
+        }else{
+        	var ori_width = $(aCol).width();
+        	if(ori_width != null){
+        		$(aCol).css("width",ori_width);
+        	}
+        	
+        	var mWidth = $(aCol).css("min-width");
+        	if(mWidth != null && mWidth == "0"){
+        		var oriMinWidth = $(aCol).attr("oriMinWidth");
+        		$(aCol).css("min-width",oriMinWidth);
+        	}
+        }
+    };
     for(var i=0; i < colArray.length; i++){
         var aCol = colArray[i];
+        if(moca.getDevice() == "pc"){
+        	moblePcHide(aCol,"hide");
+        }else{
+        	moblePcHide(aCol,"mobileHide");
+        }
+        
         var aTh = _thMap[aCol.getAttribute("thid")];
         if(aTh == null){
             aTh = thArray[i];
@@ -9082,7 +9116,7 @@ Moca.prototype.columnHide = function(_compId,targetCol,aColId) {
     $(targetCol).css('width','0px');
 };
 
-/*
+
 Moca.prototype.columnShow = function(_compId,targetCol,aColId) {
     var o = $('#'+_compId)[0];
     if(o.map == null){
@@ -9103,11 +9137,8 @@ Moca.prototype.columnShow = function(_compId,targetCol,aColId) {
     }
 
 };
-*/
-Moca.prototype.columnShow = function(_grd,aColId) {
-debugger;
-$(_grd).find('td[id=BOAD_TITLE]').hide();
-};
+
+
 
 Moca.prototype.renderGridToolbarCheckbox = function(x1Obj) {
     ['grid toolbar내 checkbox만들기'];
@@ -13213,6 +13244,33 @@ Moca.prototype.toSingleMdi = function(_liCloseButtonObj){
     $('.mdibox').find('.resizingbar').css('display','none');
     $('.mdibox').find('#mdi_2').parent().css('display','none');
 };
+
+Moca.prototype.getDevice = function(){
+    ['toSingleMdi']; 
+    var sw = screen.width;
+    if(sw < 1280){
+    	
+    	/*
+    	if($('head').find('meta[name=viewport]').length == 0){
+    		var h = $('head').html();
+    		var viewpt = '<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">';
+    		$('head').html(viewpt+"/n"+h);
+    	}
+    	*/
+    	
+    	
+    	
+    	return "mobile";
+    }else{
+    	return "pc";
+    }
+};
+
+
+
+
+
+
 
 $(document).ready(function() {
     var arr = $('[type=wframe]');

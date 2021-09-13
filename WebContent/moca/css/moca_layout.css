@@ -736,6 +736,10 @@ opacity: 1;
   /* 가로 스크롤의 오른쪽 화살표부분 */
   width:16px;height:16px; background:#f1f1f1 url(../images/ico_scroll_arrow.png) no-repeat 0 -32px;}
   
-  
-  
+ 
+ 
+@media screen and (min-width:480px) and (max-width:768px) {
+	.moca_wrap{min-width:none;} 
+
+}
   
