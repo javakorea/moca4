@@ -123,27 +123,56 @@
     };
     moca.EFC_BOAD.fn_delList = function(){
 		['게시글 삭제']
-        if(moca.EFC_BOAD.validate("grd_1","status","C,U,D")){
-       		moca.confirm('원글을 삭제하실경우 답글까지도 삭제됩니다.<br/>선택된 목록들을 삭제하시겠습니까?',function(result){
-                   if(result == 'Y'){
-                       moca.EFC_BOAD.exe({
-                           url : moca._domain+moca._contextRoot+"/EFC_BOAD/deleteStatusBoardList.do",
-                           data : {
-                               "header" : moca.header,
-                               "body" : {
-                                   paramList:moca.getCheckedData(moca.EFC_BOAD.getObj("grd_1"),"chk")
-                               }
-                           },      
-                           callback : function(){
-                              moca.alert('성공적으로 삭제되었습니다!',function(){
-                                  moca.EFC_BOAD.fn_search();
-                                  return;
-                              });  
-                           }
-                       });
-                   }
-               });
-        }
+		if(moca.getDevice() == "pc"){
+	        if(moca.EFC_BOAD.validate("grd_1","status","C,U,D")){
+	       		moca.confirm('원글을 삭제하실경우 답글까지도 삭제됩니다.<br/>선택된 목록들을 삭제하시겠습니까?',function(result){
+	                   if(result == 'Y'){
+	                       moca.EFC_BOAD.exe({
+	                           url : moca._domain+moca._contextRoot+"/EFC_BOAD/deleteStatusBoardList.do",
+	                           data : {
+	                               "header" : moca.header,
+	                               "body" : {
+	                                   paramList:moca.getCheckedData(moca.EFC_BOAD.getObj("grd_1"),"chk")
+	                               }
+	                           },      
+	                           callback : function(){
+	                              moca.alert('성공적으로 삭제되었습니다!',function(){
+	                                  moca.EFC_BOAD.fn_search();
+	                                  return;
+	                              });  
+	                           }
+	                       });
+	                   }
+	               });
+	        }
+		}else{
+			var rIndex = moca.EFC_BOAD.getObj("grd_1").getAttribute("selectedRealRowIndex");
+			if(rIndex != null && rIndex > -1){
+				moca.EFC_BOAD.getObj("grd_1").list[rIndex]["_system"]["status"] = "D";
+		        if(moca.EFC_BOAD.validate("grd_1","status","C,U,D")){
+		       		moca.confirm('원글을 삭제하실경우 답글까지도 삭제됩니다.<br/>선택된 목록들을 삭제하시겠습니까?',function(result){
+		                   if(result == 'Y'){
+		                       moca.EFC_BOAD.exe({
+		                           url : moca._domain+moca._contextRoot+"/EFC_BOAD/deleteStatusBoardList.do",
+		                           data : {
+		                               "header" : moca.header,
+		                               "body" : {
+		                                   paramList:[moca.EFC_BOAD.getObj("grd_1").list[rIndex]]
+		                               }
+		                           },      
+		                           callback : function(){
+		                              moca.alert('성공적으로 삭제되었습니다!',function(){
+		                                  moca.EFC_BOAD.fn_search();
+		                                  return;
+		                              });  
+		                           }
+		                       });
+		                   }
+		               });
+		        }				
+			}
+		}
+
     };
     moca.EFC_BOAD.dispCnt= function(_thisVal){
     	if(_thisVal !=null && _thisVal != 0){
@@ -263,10 +292,10 @@
 	                            </div>
 							</span>
 						</div>
-						<div class="tb" id="tb_ipt_WRITER">
+						<div class="tb" id="tb_ipt_WRITER" mobileHide="true">
 							<span class="tb_th">작성자</span>
 							<span class="tb_td">
-								<div type="input" id="ipt_WRITER" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
+								<div type="input" id="ipt_WRITER" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false" mobileHide="true"></div>
 							</span>
 						</div>
 						<div class="tb" id="tb_ipt_TITLE">

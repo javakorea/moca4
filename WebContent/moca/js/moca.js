@@ -3957,7 +3957,11 @@ Moca.prototype.init = function(_tabId,_srcId,_url,_json_data,_callback) {
             moca.renderMocaButton(aTag);
         };  
                 
-        
+        var arr = _tabObj.find('div[mobileHide=true][pageid='+_tabObj.attr('tab_id')+']');
+        for(var i=0; i < arr.length; i++){
+            var aTag = arr[i];
+            moca.renderMocaDiv(aTag);
+        };    
         
     }
 
@@ -11476,6 +11480,17 @@ Moca.prototype.renderMocaButton = function(o) {
     }
 };
 
+
+
+Moca.prototype.renderMocaDiv = function(o) {
+    ['Div숨기기'];
+    var _mobileHide = '';
+    if(o.tagName == 'DIV'){
+        _mobileHide = moca.nul(o.getAttribute("mobileHide"));
+        o.style.display = 'none';
+    }
+};
+
 Moca.prototype.setDisabled = function(o,_value) {
     ['컴포넌트 비활성화설정'];
     if(o != null){
@@ -11545,6 +11560,7 @@ Moca.prototype.renderMocaInput = function(o) {
     var _displayFunction = '';
     var _keyMask = '';
     var _maxLength = '';
+    var _mobileHide = '';
     
     if(o.tagName == 'DIV'){
         _value = moca.nul(o.getAttribute("value"));
@@ -11557,6 +11573,8 @@ Moca.prototype.renderMocaInput = function(o) {
         _displayFunction = moca.nul(o.getAttribute("displayFunction"));
         _keyMask = moca.nul(o.getAttribute("keyMask"));
         _maxLength = moca.nul(o.getAttribute("maxLength"));
+        _mobileHide = moca.nul(o.getAttribute("mobileHide"));
+        
         var _keyMaskStr = '';
         if(moca.trim(_keyMask) != ''){
             _keyMaskStr = _keyMask;
