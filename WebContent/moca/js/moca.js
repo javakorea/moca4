@@ -6717,10 +6717,12 @@ var multiCalendar ={
             var _t = $(_thisObj).prev().offset().top;
             var _l = $(_thisObj).prev().prev().offset().left;
             var _h = $(_thisObj).prev().height();
-            
             if(moca.getDevice() != "pc"){
-                var top = (document.body.offsetHeight/2) - (parseInt(height)/2) + $(document).scrollTop();
-                var left = (document.body.offsetWidth/2) - (parseInt(width)/2) + $(document).scrollLeft();
+            	
+            	var _width = $(tmp).width();
+            	var _height = $(tmp).height();
+                var top = (document.body.offsetHeight/2) - (parseInt(_height)/2) + $(document).scrollTop();
+                var left = (document.body.offsetWidth/2) - (parseInt(_width)/2) + $(document).scrollLeft();
                 _t = top;
                 _l = left;
             }
