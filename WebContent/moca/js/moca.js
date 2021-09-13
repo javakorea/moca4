@@ -6718,13 +6718,13 @@ var multiCalendar ={
             var _l = $(_thisObj).prev().prev().offset().left;
             var _h = $(_thisObj).prev().height();
             if(moca.getDevice() != "pc"){
-            	
             	var _width = $(tmp).width();
             	var _height = $(tmp).height();
                 var top = (document.body.offsetHeight/2) - (parseInt(_height)/2) + $(document).scrollTop();
                 var left = (document.body.offsetWidth/2) - (parseInt(_width)/2) + $(document).scrollLeft();
                 _t = top;
                 _l = left;
+                $(tmp).addClass('vertical');
             }
             
             $('#'+messageboxId).css('top',(_t+_h)).css('left',_l);
