@@ -742,7 +742,7 @@ opacity: 1;
     .moca_wrap{min-width:unset;} 
     .moca_grid_toolbar .lta > .grid_label_span {display:none}
     .moca_grid_toolbar .button.excel_dn {display:none}
-    .moca_shbox .tb#tb_CREATE_DTTM, .moca_shbox .tb#tb_ipt_WRITER, .moca_shbox .tb#tb_ipt_TITLE{display:none}
+    /*.moca_shbox .tb#tb_CREATE_DTTM, .moca_shbox .tb#tb_ipt_WRITER, .moca_shbox .tb#tb_ipt_TITLE{display:none}*/
     .moca_shbox .btn_shbox .button{padding:5px 7px}
     /*.moca_scrollY_type1{display:none}*/
     .moca_aside{background:none}
