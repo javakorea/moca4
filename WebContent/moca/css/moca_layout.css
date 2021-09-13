@@ -738,7 +738,7 @@ opacity: 1;
   
  
 @media all and (max-width:1279px) {
-	.moca_titbox .title_box_nav{display:none}
+	.moca_titbox{display:none}
     .moca_wrap{min-width:unset;} 
     .moca_grid_toolbar .lta > .grid_label_span {display:none}
     .moca_grid_toolbar .button.excel_dn {display:none}
@@ -754,5 +754,13 @@ opacity: 1;
 	.moca_header h1{ position: relative;top: 6px; text-align: center;margin: 0 auto; left: 0;}
 	.grid_total{margin-right:0 !important}
 	.moca_aside ul:last-child{display:none}
+	
+	.moca_mdi .moca_tab_body{bottom:0}
+	.toast_msg{display:none}
+	/*multiMdi*/
+	.moca_mdi .moca_tab_control{width:30px}
+	.moca_tab .moca_tab_control .moca_tab_division{display:none}
+	.moca_mdi .moca_tab_control .moca_tab_allclose{left:0}
+	
 }
   
