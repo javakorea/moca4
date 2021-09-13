@@ -6718,6 +6718,13 @@ var multiCalendar ={
             var _l = $(_thisObj).prev().prev().offset().left;
             var _h = $(_thisObj).prev().height();
             
+            if(moca.getDevice() != "pc"){
+                var top = (document.body.offsetHeight/2) - (parseInt(height)/2) + $(document).scrollTop();
+                var left = (document.body.offsetWidth/2) - (parseInt(width)/2) + $(document).scrollLeft();
+                _t = top;
+                _l = left;
+            }
+            
             $('#'+messageboxId).css('top',(_t+_h)).css('left',_l);
             
             //console.log("dt1 : ["+ _dt1 +"] dt2 : ["+ _dt2+"]");
