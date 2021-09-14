@@ -22,6 +22,7 @@
 	};
 	
 	moca.EFC_PROG_POP.fn_rowSelect = function(){
+		debugger;
 		var _grd = moca.EFC_PROG_POP.getObj("pop_grd_1");
 		var _popupId = _grd.getAttribute("pageid");
 		var srri = _grd.getAttribute("selectedRealRowIndex");
@@ -69,7 +70,7 @@
 			</div>
 			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="pop_grd_1"
 				style=""
-	 			ondblclick="moca.EFC_PROG_POP.fn_rowSelect(this)"
+	 			onDblclick="moca.EFC_PROG_POP.fn_rowSelect"
 				toolbar_grid_button2='{"position":"right","id":"button2","label":"적용","onclick":"moca.EFC_PROG_POP.fn_rowSelect","addClass":""}'	
 				label="프로그램목록">
 				<table style="width: 100%">

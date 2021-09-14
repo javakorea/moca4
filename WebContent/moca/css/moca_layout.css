@@ -739,7 +739,7 @@ opacity: 1;
  
 @media all and (max-width:1279px) {
 	.moca_titbox{display:none}
-    .moca_wrap{min-width:unset;} 
+    .moca_wrap{min-width:unset;overscroll-behavior: contain;} 
     .moca_grid_toolbar .lta > .grid_label_span {display:none}
     .moca_grid_toolbar .button.excel_dn {display:none}
     .moca_shbox .btn_shbox .button{padding:5px 7px}
