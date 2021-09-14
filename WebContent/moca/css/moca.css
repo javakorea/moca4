@@ -223,10 +223,9 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_tab .moca_tab_list button {display:block; width:100%; height:29px; padding:0 25px; margin:0; background-color:transparent; font-weight:700; color:#181818; text-align:center; text-decoration:none;  text-shadow:0 0 2px rgba(0,0,0,0.25); box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
 /* .moca_tab .moca_tab_list:hover {background:#e8fafc}
 .moca_tab .moca_tab_list:hover button.moca_tab_label {background-color:#d0fafa; color:#178691} */
-.moca_tab .moca_tab_list.active {/* border:1px solid #c3c9d8; border-bottom-color:#fff; background-color:#fff; */ z-index:2}
 .moca_tab .moca_tab_list.active button {background-color:#fff; color:#000; text-shadow:none}
 /* .moca_tab .moca_tab_list.active:hover button.moca_tab_label {background-color:#fff; color:#000} */
-.moca_tab .moca_tab_mark {display:inline-block; position:absolute; left:8px; top:50%; width:12px; height:12px; margin-top:-7px; background:url(../images/tvw_chk_off.png) no-repeat 50% 50%; cursor:pointer}
+.moca_tab .moca_tab_mark {display:inline-block; z-index:1;position:absolute; left:8px; top:50%; width:12px; height:12px; margin-top:-7px; background:url(../images/tvw_chk_off.png) no-repeat 50% 50%; cursor:pointer}
 .moca_tab .moca_tab_mark.on {background:url(../images/tvw_chk_on.png) no-repeat 50% 50%}
 .moca_tab button.moca_tab_close {position:absolute; top:4px; right:4px; width:12px; height:12px; padding:0; background:url(../images/ico_ica_close.png) no-repeat 50% 50%; cursor:pointer; text-indent:-9999px}
 .moca_tab .moca_tab_home {position:absolute; background:url(../images/btn_home.png)no-repeat; width:20px; height:20px; top:18px; left:8px}
@@ -250,15 +249,16 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 @media all and (min-width:1280px) {
     .moca_tab_ul li{max-width: 150px}
 }
-.moca_tab_ul .moca_tab_list {display: table-cell; max-width:150px;position:relative; vertical-align: top; white-space: nowrap; z-index:1}
-.moca_tab_ul .moca_tab_list:after{content: ''; display: block; z-index: -1; background: #d18b77; height: 35px; position: absolute; top: 0; left: 0; right:0; border-radius: 5px 5px 0 0; box-shadow: inset 0 0 4px rgba(0,0,0,0.1); -webkit-transform: perspective(2px) rotateX(0.93deg) translateZ(0px);}
-.moca_tab_ul .moca_tab_list:hover:after{background:#ce7d67}
-.moca_tab_ul .moca_tab_list.active:after{background:#fff !important; box-shadow:2px -2px 7px rgba(0,0,0,0.2);}
-.moca_tab_ul li button.moca_tab_label {width:100%; margin:0 auto; display: block; color: #fff; padding: 7px 25px; text-decoration: none; text-overflow: ellipsis; overflow: hidden; z-index:2}
-.moca_tab_ul .moca_tab_list.active { z-index:2; max-width:150px;}
+.moca_tab_ul .moca_tab_list {display: table-cell; max-width:150px;position:relative; vertical-align: top; white-space: nowrap}
+.moca_tab_ul .moca_tab_list > .tab_bg{min-width:104px; background: #d18b77; height: 35px; position: absolute; top: 0; left: 0; right:0; border-radius: 5px 5px 0 0; box-shadow: inset 0 0 4px rgba(0,0,0,0.1); -webkit-transform: perspective(2px) rotateX(0.93deg) translateZ(0px);}
+.moca_tab_ul.tabWidth .moca_tab_list > .tab_bg{min-width:unset}
+.moca_tab_ul .moca_tab_list:hover > .tab_bg{background:#ce7d67}
+.moca_tab_ul .moca_tab_list.active > .tab_bg{background:#fff !important; box-shadow:2px -2px 7px rgba(0,0,0,0.2);}
+.moca_tab_ul li button.moca_tab_label {width:100%; height:39px; margin:0 auto; display: block; color: #fff; padding: 0 25px; text-decoration: none; text-overflow: ellipsis; overflow: hidden; z-index:1; position:relative}
+.moca_tab_ul .moca_tab_list.active {max-width:150px;}
 .moca_tab_ul li.active button.moca_tab_label{color: #000;}
 .moca_tab_ul .moca_tab_list:not(.active):hover {width: auto}
-.moca_tab_ul .moca_tab_list .moca_tab_close{position:absolute; top: 8px; right: 6px; width: 20px; height: 20px; background: url(../../images/ico_dp_close.png) no-repeat 50% -26px; text-indent: -9999px; border-radius: 100%;}
+.moca_tab_ul .moca_tab_list .moca_tab_close{position:absolute; z-index:1; top: 8px; right: 6px; width: 20px; height: 20px; background: url(../../images/ico_dp_close.png) no-repeat 50% -26px; text-indent: -9999px; border-radius: 100%;}
 .moca_tab_ul .moca_tab_list.active .moca_tab_close{background-position:50% 0px}
 
 
@@ -1253,6 +1253,7 @@ td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:2
 /*.edit > div[role=application] .cke_inner > .cke_top{height: calc(100% - 200px) !important;}*/
 .edit > div[role=application] .cke_inner > .cke_contents{flex:auto; height:100% !important;}
 .edit > div[contenteditable=true] {height:100%; overflow-y:auto}
+.edit span[role="presentation"]{overflow:unset}
 /*
 .edit > div[role=application].editmode .cke_inner{height: calc(100% - 27px)}
 .edit > div[role=application].editmode .cke_contents.cke_reset{height:100% !important; min-height:200px;}

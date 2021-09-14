@@ -31,11 +31,11 @@ CKEDITOR.editorConfig = function( config ) {
       },
       {
           name: 'basicstyles',
-          items: ['Bold', 'Underline',  'Indent']
+          items: ['Bold']
       },
       { 
       	name: 'styles', 
-      	items: [ 'Font', 'FontSize'] 
+      	items: ['FontSize'] 
       },
       { 
     	name: 'colors',
@@ -43,11 +43,7 @@ CKEDITOR.editorConfig = function( config ) {
       },
       {
         name: 'insert',
-        items: ['Table','Image','Link']
-      },
-      { 
-    	name: 'paragraph', 
-    	items: [ 'NumberedList', 'BulletedList',] 
+        items: ['Table','Image']
       }
     ];
 	// Toolbar groups configuration.

@@ -163,13 +163,13 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 .moca_mdi .moca_tab_body {border:0; top:45px; bottom:30px}
 .moca_mdi .moca_tab_head,
 .moca_mdi .moca_tab_scroll {height:45px}
-.moca_mdi .moca_tab_ul {margin-top:8px}
+.moca_mdi .moca_tab_ul {height: 39px; top: 8px; position: relative;}
 
 .moca_mdi .moca_tab_list:hover {/* border-top:2px solid #188038 */}
 .moca_mdi .moca_tab_list:hover button.moca_tab_label {}
 /* .moca_mdi .moca_tab_list.active {border-top:1px solid #188038; box-shadow:inset 0px 1px 0 0px #188038} */
 /*.moca_mdi .moca_tab_list:first-child {margin-left:15px}*/
-.moca_mdi .moca_tab_list button.moca_tab_close {top:6px; right:6px; width:20px; height:20px; background:url(../images/ico_dp_close.png) no-repeat 50% -26px; border-radius:100%}
+.moca_mdi .moca_tab_list button.moca_tab_close {top:10px; right:6px; width:20px; height:20px; background:url(../images/ico_dp_close.png) no-repeat 50% -26px; border-radius:100%}
 .moca_tab .moca_tab_list.active button.moca_tab_close { background:url(../images/ico_dp_close.png) no-repeat 50% -2px;}
 .moca_mdi .moca_tab_listarea {right:60px; left:30px}
 .moca_mdi .moca_tab_control {width:60px; padding-top:8px}
@@ -755,10 +755,12 @@ opacity: 1;
     .moca_container.on .moca_mdi{top:0}
     .moca_header nav{display:none}
 	.moca_header h1{ position: relative;top: 6px; text-align: center;margin: 0 auto; left: 0;}
-	.grid_total{margin-right:0 !important}
+	.grid_total{margin-right:5px !important}
 	.moca_aside ul:last-child{display:none}
 	.moca_mdi .moca_tab_body{bottom:0}
 	.toast_msg{display:none}
+	
+	
 	
 	/*multiMdi*/
 	.moca_mdi .moca_tab_control{width:30px}
@@ -780,11 +782,13 @@ opacity: 1;
 	.moca_calendar_fromto.vertical .moca_calendar_list li.active button{width:100%; padding:0 5px; text-indent:-3px}
 	.moca_calendar_fromto.vertical .moca_calendar_lta .moca_calendar_list li {width:50px}
 	.moca_calendar_fromto.vertical .moca_calendar_rta{position:relative;left:0; padding:0}
-	
 	/*layerPop*/
 	.moca_pop_cont_wrap{min-width:unset}
 	.moca_pop_cont_wrap.flex .lybox.flex{flex-direction:column}
 	.moca_pop_cont_wrap.flex .lybox.flex .ly_column{width:100% !important}
 	.moca_pop_cont_wrap.flex .lybox.flex .ly_column:nth-child(2){margin-top:15px}
 	.moca_pop_cont_wrap.flex .lybox.flex .ly_column:nth-child(2) > .ly_col_cont{padding-left:0 !important}
+	.moca_pop_cont_wrap.flex .lybox .ly_column .moca_table{height:86px}
+	.moca_pop_cont_wrap.flex .lybox .ly_column .scrollX_area{width: 100%; position: absolute; bottom:0; overflow-x:auto; margin-top: 5px;}
+	
 }

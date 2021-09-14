@@ -950,7 +950,30 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                 
                 _addRowEditable = cellTd.getAttribute("addRowEditable");
                 _align = cellTd.getAttribute("align");
+                
+                
                 _style = cellTd.getAttribute("style");
+                
+                var aCol = $(_grd).find('.moca_grid_body colgroup').find('col[columnkey='+_id+']');
+    	        if(moca.getDevice() == "pc"){
+    	        	moca.moblePcHide(aCol[0],"hide");
+    	        	if(aCol.attr("hide") == "true"){
+    	        		_style = _style.replace("display: table-cell","display: none");
+    	        	}else{
+    	        		_style = _style.replace("display: none","display: table-cell");
+    	        	}
+    	        }else{
+    	        	moca.moblePcHide(aCol[0],"mobileHide");
+    	        	if(aCol.attr("mobileHide") == "true"){
+    	        		_style = _style.replace("display: table-cell","display: none");
+    	        	}else{
+    	        		_style = _style.replace("display: none","display: table-cell");
+    	        	}
+    	        }
+    			
+    	        
+    	        
+    	        
                 _required = cellTd.getAttribute("required");
                 
 
@@ -1864,8 +1887,13 @@ Moca.prototype.drop_mdi = function(thisMdiLi){
 };
 Moca.prototype.tree_addTab = function(_label,_tabId,_url,_mdiId){
     ['tree_addTab'];
-    var tabHtml = '<li draggable="true" ondragstart="moca.dragStart_mdi(this)" class="moca_tab_list active" tab_url="'+_url+'" tab_label="'+_label+'" tab_id="'+_tabId+'" id="'+_tabId+'_li" onclick="moca.moca_mdi_click(this);"><span class="moca_tab_mark"></span><button type="button" role="tab" aria-controls="moca_tab_bridge1" class="moca_tab_label">'+_label+'</button>';
-    tabHtml += '<button type="button" class="moca_tab_close" onclick="moca.tabClose(this)">닫기</button></li>';
+    var tabHtml = '<li draggable="true" ondragstart="moca.dragStart_mdi(this)" class="moca_tab_list active" tab_url="'+_url+'" tab_label="'+_label+'" tab_id="'+_tabId+'" id="'+_tabId+'_li" onclick="moca.moca_mdi_click(this);">';
+   
+    tabHtml += '<span class="moca_tab_mark"></span>';
+    tabHtml += '<button type="button" role="tab" aria-controls="moca_tab_bridge1" class="moca_tab_label">'+_label+'</button>';
+    tabHtml += '<button type="button" class="moca_tab_close" onclick="moca.tabClose(this)">닫기</button>';
+    tabHtml += '<span class="tab_bg"></span>';
+    tabHtml += '</li>';
     var _html = $('#'+_mdiId+' .moca_tab_ul').html();
     var _full_html = _html.replace(/active/g,'')+tabHtml;
     $('#'+_mdiId+' .moca_tab_ul').html(_full_html); 
@@ -3646,38 +3674,13 @@ Moca.prototype.renderGrid = function(_divObj) {
         _thMap[thObj.id] = thObj;
     }
     
-    var moblePcHide = function(aCol,_mobleOrPc){
-        if($(aCol).attr(_mobleOrPc) == "true"){
-        	var ori_width = $(aCol).width();
-        	if(ori_width == null){
-        		$(aCol).attr("oriWidth",ori_width);
-        	}
-        	$(aCol).css("width","0");
-        	
-        	var mWidth = $(aCol).css("min-width");
-        	if(mWidth != null && mWidth != "0"){
-        		$(aCol).css("min-width","0");
-        		$(aCol).attr("oriMinWidth",mWidth);
-        	}
-        }else{
-        	var ori_width = $(aCol).width();
-        	if(ori_width != null){
-        		$(aCol).css("width",ori_width);
-        	}
-        	
-        	var mWidth = $(aCol).css("min-width");
-        	if(mWidth != null && mWidth == "0"){
-        		var oriMinWidth = $(aCol).attr("oriMinWidth");
-        		$(aCol).css("min-width",oriMinWidth);
-        	}
-        }
-    };
+
     for(var i=0; i < colArray.length; i++){
         var aCol = colArray[i];
         if(moca.getDevice() == "pc"){
-        	moblePcHide(aCol,"hide");
+        	moca.moblePcHide(aCol,"hide");
         }else{
-        	moblePcHide(aCol,"mobileHide");
+        	moca.moblePcHide(aCol,"mobileHide");
         }
         
         var aTh = _thMap[aCol.getAttribute("thid")];
@@ -3729,7 +3732,6 @@ Moca.prototype.renderGrid = function(_divObj) {
         
         
     }
-    
     _divObj.cellInfo = _cellMap;
     _divObj.cellArr = _cellArr;
     _divObj.cellIndex = _cellIndex;
@@ -3754,6 +3756,58 @@ Moca.prototype.renderGrid = function(_divObj) {
     var viewRowsMaxCnt = ($(_divObj).find('.moca_grid_body').height()-$(_divObj).find('thead').height()) /_default_cell_height;
     _divObj.viewRowsMaxCnt = Math.round(viewRowsMaxCnt);
 };
+
+
+Moca.prototype.moblePcHide = function(aCol,_mobleOrPc){
+    if($(aCol).attr(_mobleOrPc) == "true"){
+    	var ori_width = $(aCol).width();
+    	if(ori_width == null){
+    		$(aCol).attr("oriWidth",ori_width);
+    	}
+    	//$(aCol).css("width","0");
+    	//$(aCol).attr("width","0");
+    	
+    	var mWidth = $(aCol).css("min-width");
+    	if(mWidth != null && mWidth != "0"){
+    		//$(aCol).css("min-width","0");
+    		//$(aCol).attr("oriMinWidth",mWidth);
+    	}
+
+    	var columnKey = $(aCol).attr("columnKey");
+    	var thKey = $(aCol).attr("thKey");
+    	var ths = $(aCol).closest("table").find("th[id="+thKey+"]");
+    	ths.css('display','none');
+    	var tds = $(aCol).closest("table").find("td[id="+columnKey+"]");
+    	tds.css('display','none');
+    	$(aCol).css('display','none');
+        
+    }else{
+    	var ori_width = $(aCol).width();
+    	if(ori_width != null){
+    		//$(aCol).css("width",ori_width);
+    	}
+    	
+    	var mWidth = $(aCol).css("min-width");
+    	if(mWidth != null && mWidth == "0"){
+    		//var oriMinWidth = $(aCol).attr("oriMinWidth");
+    		//$(aCol).css("min-width",oriMinWidth);
+    	}
+    	var columnKey = $(aCol).attr("columnKey");
+    	var thKey = $(aCol).attr("thKey");
+    	var ths = $(aCol).closest("table").find("th[id="+thKey+"]");
+    	ths.css('display','table-column');
+    	ths.css('display','table-cell');
+    	var tds = $(aCol).closest("table").find("td[id="+columnKey+"]");
+    	tds.css('display','table-column');
+        tds.css('display','table-cell');
+        $(aCol).css('display','table-column');
+        $(aCol).css('display','table-cell');        
+        
+        
+    	tds.show('');
+    }
+};
+
 
 Moca.prototype.doSort = function(thisObj) {
     var p;
@@ -5412,7 +5466,7 @@ Moca.prototype.genTbody = function(_grd,_list,_idx,isEnd) {
         this.genRows(row,row_pre,row_next,_grd,null,idx,i,"after");
     }
     
-    
+    debugger;
     
     moca._col_showhideExe(_grd);
     moca._setRowSelection(_grd);
@@ -9015,6 +9069,7 @@ Moca.prototype._col_showhideApply = function(_thisObj) {
 }
 
 Moca.prototype._col_showhideExe = function(_grid) {
+	/*
     var _type = _grid.getAttribute("type");
     var _grid_j = $(_grid);
     var _srcId =_grid_j.attr('srcId');
@@ -9088,6 +9143,7 @@ Moca.prototype._col_showhideExe = function(_grid) {
         }
 
     }
+    */
 };
 
 Moca.prototype.columnHide = function(_compId,targetCol,aColId) {
@@ -11181,11 +11237,15 @@ Moca.prototype.popup = function(_option,thisObj) {
                 
                 if(document.body.clientHeight <  height){
                     height = document.body.clientHeight;
-                    
                 }
                 if(document.body.clientWidth <  width){
                     width = document.body.clientWidth;
                 }           
+                if(moca.getDevice() != 'pc'){
+                	height = document.body.clientHeight;
+                }
+                
+                
                 var top = (document.body.offsetHeight/2) - (parseInt(height)/2) + $(document).scrollTop()+gep_top;
                 var defaultTop = 0;
                 if(_option.scopeId != null){

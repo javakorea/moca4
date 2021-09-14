@@ -22,6 +22,8 @@ moca.EFC_BOAD_POP.___ready = function(args){
     	
     	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_file_btn_fold')).siblings());
     	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_reply_file_btn_fold')).siblings());
+    	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_reply_list_btn_fold')).siblings());
+    	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_reply_list')).find('.moca_grid_list'));
     	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_file')).find('.moca_grid_list'));
     	moca.hide($(moca.EFC_BOAD_POP.getObj('grd_reply_file')).find('.moca_grid_list'));
     	if(args != null){
@@ -671,7 +673,7 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
 </style>
 </head>
 <body>
-	<div class="moca_pop_cont_wrap flex" style="display:none;" id="contents">
+	<div class="moca_pop_cont_wrap flex mobile" style="display:none;" id="contents">
         <div class="lybox flex fauto">
             <div class="ly_column col_5 fauto">
                 <div class="ly_col_cont flex fcol">
@@ -686,10 +688,12 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
 			                {"type":"button","position":"right","id":"btn_del_admin","label":"물리삭제","onclick":"moca.EFC_BOAD_POP.fn_adminDel","innerStyle":"background:#6d7993", "addClass":""}
 			                    ]'
 			                >
+			                <div class="scrollX_area">
 			                    <table class="moca_table_cont" style="">
+			                    	<caption style="display:none"></caption>
 			                        <colgroup>
 			                                <col style="width:60px">
-			                                <col style="">
+			                                <col style="min-width:140px">
 			                                <col style="width:55px">
 			                                <col style="width:131px">
 			                                <col style="width:80px">
@@ -783,7 +787,7 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
 			                            </tr>  
 			                        </tbody>
 			                    </table>
-			                    
+			              </div>      
 			        </div>
 			        <div type="grid" class="moca_grid toolbar sc_row1 mt10 fold" default_cell_height="26px" id="grd_file" style="top:0; height:141px" rowSelectedColor="#434e5f"
 			        
@@ -829,7 +833,7 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
 			        <div class="mt5 edit fit"  style="top:0">
 			            <div contenteditable="true" placeholder="" id="editor"></div>
 			        </div>
-					<div type="grid" class="moca_grid toolbar sc_row1 mt10 " default_cell_height="26px" style="height:140px" id="grd_reply_list" rowSelectedColor="#434e5f"
+					<div type="grid" class="moca_grid toolbar sc_row1 mt10 fold" default_cell_height="26px" style="height:140px" id="grd_reply_list" rowSelectedColor="#434e5f"
 								toolbar_search_size="false"
 								toolbar_detail="true"
 								toolbar_exup="false"
@@ -838,6 +842,7 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
 								toolbar_delrow="false"
 								toolbar_nextbtn="false"
 								toolbar_full="true"
+								toolbar_fold="true"
                                 onRowSelected="moca.EFC_BOAD_POP.grd_1__onDblClick"
 								label="게시물답변"
 								pagingType = "scrollbar"
@@ -894,10 +899,11 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
                             {"type":"button","position":"right","id":"btn_reply_del_admin","label":"물리삭제","onclick":"moca.EFC_BOAD_POP.fn_adminDel","innerStyle":"background:#638f88", "addClass":""}
                                 ]'
                             >
+                            <div class="scrollX_area">
                                 <table class="moca_table_cont" style="">
                                     <colgroup>
                                             <col style="width:60px">
-                                            <col style="">
+                                            <col style="min-width:140px">
                                             <col style="width:200px">
                                             <col style="width:120px">
                                     </colgroup>
@@ -938,7 +944,7 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
                                         </tr>  
                                     </tbody>
                                 </table>
-                                
+                            </div>
                     </div>
                     <div type="grid" class="moca_grid toolbar mt10 fold" default_cell_height="26px" id="grd_reply_file" style="top:0; height:141px" rowSelectedColor="#434e5f"
                     
