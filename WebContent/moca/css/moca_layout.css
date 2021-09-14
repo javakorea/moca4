@@ -781,6 +781,10 @@ opacity: 1;
 	.moca_calendar_fromto.vertical .moca_calendar_lta .moca_calendar_list li {width:50px}
 	.moca_calendar_fromto.vertical .moca_calendar_rta{position:relative;left:0; padding:0}
 	
-	
+	/*layerPop*/
+	.moca_pop_cont_wrap{min-width:unset}
+	.moca_pop_cont_wrap.flex .lybox.flex{flex-direction:column}
+	.moca_pop_cont_wrap.flex .lybox.flex .ly_column{width:100% !important}
+	.moca_pop_cont_wrap.flex .lybox.flex .ly_column:nth-child(2){margin-top:15px}
+	.moca_pop_cont_wrap.flex .lybox.flex .ly_column:nth-child(2) > .ly_col_cont{padding-left:0 !important}
 }
-  
