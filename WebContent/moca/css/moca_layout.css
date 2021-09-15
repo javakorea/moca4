@@ -760,9 +760,8 @@ opacity: 1;
 	.grid_total{margin-right:5px !important}
 	.moca_aside ul:last-child{display:none}
 	.moca_mdi .moca_tab_body{bottom:0}
-	.moca_mdi .moca_tab_listarea{overflow-x:auto;::-webkit-scrollbar:background:none}
+	.moca_mdi .moca_tab_listarea{overflow-x:auto;}
 	.toast_msg{display:none}
-	
 	
 	
 	/*multiMdi*/
