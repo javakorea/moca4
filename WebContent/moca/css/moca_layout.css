@@ -738,15 +738,17 @@ opacity: 1;
   
  
 @media all and (max-width:1279px) {
+	html{overscroll-behavior: contain;}
 	.moca_titbox{display:none}
-    .moca_wrap{min-width:unset;overscroll-behavior: contain;} 
+    .moca_wrap{min-width:unset} 
+    
     .moca_grid_toolbar .lta > .grid_label_span {display:none}
     .moca_grid_toolbar .button.excel_dn {display:none}
     .moca_shbox .btn_shbox .button{padding:5px 7px}
     /*.moca_scrollY_type1{display:none}*/
     .moca_aside{background:none}
     .moca_aside.on{top:0}
-    
+    .moca_mdi .moca_tab_listarea{right:43px}
     .moca_container{left:0}
    	.moca_header.on{display:none}
     .moca_container:not(.on) > div[tag="moca:mdi"]{display:none}
@@ -758,6 +760,7 @@ opacity: 1;
 	.grid_total{margin-right:5px !important}
 	.moca_aside ul:last-child{display:none}
 	.moca_mdi .moca_tab_body{bottom:0}
+	.moca_mdi .moca_tab_listarea{overflow-x:auto;::-webkit-scrollbar:background:none}
 	.toast_msg{display:none}
 	
 	
@@ -786,7 +789,8 @@ opacity: 1;
 	.moca_pop_cont_wrap{min-width:unset}
 	.moca_pop_cont_wrap.flex .lybox.flex{flex-direction:column}
 	.moca_pop_cont_wrap.flex .lybox.flex .ly_column{width:100% !important}
-	.moca_pop_cont_wrap.flex .lybox.flex .ly_column:nth-child(2){margin-top:15px}
+	.moca_pop_cont_wrap.flex .lybox.flex .ly_column:nth-child(1){padding-bottom:7.5px;}
+	.moca_pop_cont_wrap.flex .lybox.flex .ly_column:nth-child(2){padding-top:7.5px; border-top:2px dashed}
 	.moca_pop_cont_wrap.flex .lybox.flex .ly_column:nth-child(2) > .ly_col_cont{padding-left:0 !important}
 	.moca_pop_cont_wrap.flex .lybox .ly_column .moca_table{height:86px}
 	.moca_pop_cont_wrap.flex .lybox .ly_column .scrollX_area{width: 100%; position: absolute; bottom:0; overflow-x:auto; margin-top: 5px;}
