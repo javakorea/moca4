@@ -1,0 +1,102 @@
+@charset "UTF-8";
+
+
+/**미디어쿼리**/
+/* @media (max-width: 510px){
+	.container .item_text{font-size: 1.4rem !important;}
+	.container .item > p{font-size:30px}
+	.footer .f_content p > span:first-child{display:block;}
+	.footer .f_content div.f_tel > div {width:175px !important;; top:10px !important;}
+	.footer .f_content div.f_tel > div > a:first-child:after{display:none !important;}
+	
+}
+
+ @media (max-width: 991px){	pad
+ 	.header {top: 13px; height:60px; background-size: 70%; background-position: center center}
+ 	.header h1 a{top: 6px; background-size: 70%; background-position: center;}
+	.container .item {height:300px}
+	.container .item > p {width:85%; padding: 7% 0; top:13%; border-width: 5px;}
+	.container .item_text{font-size:1.7rem; margin:0}
+	.container .item_text:before, .container .item_text:after{background-size:35px; width:35px; height:35px}
+	.container .main_box{margin-bottom:0}
+	.container .main_box td{padding:20px 2%; font-size:16px}
+	.container .main_box td p{height: 170px}
+	.container .main_box td p:before{margin:0 auto; width:100%}
+	.container .main_box tr td p.img2{line-height:20px}
+	.container .mocaGrid img, .container .mocaGridSub img{width:80%}
+	.container .mocaGrid .left, .container .mocaGrid .right{float:none; width:100%; text-align:center}
+	.container .mocaGrid .left a.btn_more{display:none;}
+	.footer{padding-bottom:90px}
+	.footer .f_content div.f_tel {width:91%; max-width:430px; margin-top:15px; top:20px; right:0}
+	.footer .f_content div.f_tel .title{}
+	.footer .f_content div.f_tel > div {width:300px; top:24px; left:150px; font-size:19px}
+ 	.footer .f_content div.f_tel > div > a:first-child:after{content:'|'; margin:0 10px}
+	
+}
+
+@media (max-width: 1199px){	pad pro
+	.container .main_box.web{display:none}
+	.footer .f_content{padding:0 5%}
+	.footer .f_content h2{float:none}
+	.subpage table.grid .subject, .subpage table.grid td ul li{}
+	.subpage table.grid > colgroup > col:nth-child(1), .subpage table.grid > colgroup > col:nth-child(3){width:5% !important;}
+	.subpage table.grid > colgroup > col:nth-child(2){width:90% !important;}
+} 
+
+@media (min-width: 1200px){ pc
+	.container .main_box.mobile{display:none}
+} */
+
+
+  @media (max-width: 1070px){
+  	.footer .f_content div.f_tel{width:auto; padding-left:0; margin-left:0; padding-top:0; top: 20px; left: 5px}
+	.container .main_box > button.arrow_left, .container .main_box > button.arrow_right{display:none;}
+	.container .mocaBox{height:inherit}
+	.container .mocaBox .left, .container .mocaBox .right{width:100%; text-align:center}
+	.container .mocaBox .left h3{margin-top:0; font-size:22px}
+	.container .mocaBox .left h3:after{content:''; display:block; width:100%; height:20px; background:url(../images/line.png)no-repeat 50% 50%;}
+	.container .mocaBox .left .hashtag, .container .mocaBox .right > a{display:none}
+	.container .mocaBox .right .mocaComponent{display: block; width: 100%; float: left; margin-top: 10px; margin-left:10px;}
+	.container .mocaBox .right .mocaComponent > li{text-align:left; margin-bottom:10px; display:inline-block; float:left; width:33%}
+	.container .mocaBox .right .mocaComponent > li > i.ico{display:inline-block; float:left;width:72px; height:72px; background:url(../images/mocaIcon.png)no-repeat 0 0}
+	.container .mocaBox .right .mocaComponent > li > i.ico.grid{background-position:0 0;}
+	.container .mocaBox .right .mocaComponent > li > i.ico.table{background-position:-72px 0;}
+	.container .mocaBox .right .mocaComponent > li > i.ico.form{background-position:0 -72px;}
+	.container .mocaBox .right .mocaComponent > li > i.ico.tab{background-position:-72px -72px;}
+	.container .mocaBox .right .mocaComponent > li > i.ico.popup{background-position:0 -144px;}
+	.container .mocaBox .right .mocaComponent > li > i.ico.mdi{background-position:-72px -144px;}
+	.container .mocaBox .right .mocaComponent > li > i.ico.tree{background-position:0 -216px;}
+	.container .mocaBox .right .mocaComponent > li > i.ico.status{background-position:-72px -216px ;}
+	.container .mocaBox .right .mocaComponent > li > i.ico.message{background-position:0 -288px;}
+	.container .mocaBox .right .mocaComponent > li > i.ico.calendar{background-position: -72px -288px;}
+	.container .mocaBox .right .mocaComponent > li > i.ico.fileup{background-position:0 -360px ;}
+	.container .mocaBox .right .mocaComponent > li > i.ico.chart{background-position:-72px -360px ;}
+	.container .mocaBox .right .mocaComponent > li > span{display:inline-block; position:relative; left:15px; top:15px; height:24px; line-height:24px; color:#fff; font-size:20px}
+	.container .mocaBox .right .mocaComponent > li > span:nth-child(2){display:block}
+	
+  }
+  @media (max-width: 1199px){
+  .subpage table.grid > colgroup > col:nth-child(1), .subpage table.grid > colgroup > col:nth-child(3){width:5% !important;}
+	.subpage table.grid > colgroup > col:nth-child(2){width:90% !important;}
+	.subpage .mocaComp .tit, .subpage .mocaComp .compExplan ul li{margin: 0px 5% 10px;}
+  }
+  @media (max-width: 1035px){
+  .container .mocaBox .main_img h3{font-size:26px}
+  .footer .f_content div.f_tel{padding-left:0; margin-left:0; padding-top:0; top: 25px; left: 20px; font-size: 85%;  float: left;}
+  .footer .f_content{padding:0 5%}
+  .subpage .mocaComp .tit, .subpage .mocaComp .compExplan ul li{margin: 0px 5% 10px;}
+  }
+  
+  @media (max-width: 800px){	
+  .footer .f_content h2{padding-bottom:0; padding-top:27px}
+  .footer .f_content p{top:10px;}
+  .footer .f_content div.f_tel{top:12px;left:0}
+  
+  
+/*  
+  .container.mocaBox > div{height:auto}
+  .fl.col5.main_img{width:100%}
+  .fl.col5.main_img + .fr.col5{width:100%} */
+  }
+  
+  

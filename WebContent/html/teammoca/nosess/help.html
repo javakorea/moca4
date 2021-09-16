@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<style>
+.moca_wrap{overflow-y:auto}
+.toast_msg, .button.btn_esc{display:none}
+</style>
+<script>
+	moca.help.___ready = function(args){
+			moca.help.exe({
+				url : moca._domain+"/teammoca/MOCAHELP/list_json.do",
+				loadingbar:false,
+	            data : {
+	            	"header" : moca.header,
+	            	"body" : {}
+	            },			
+				callback : function(response){
+					var _list = response.list;
+					var _html = '';
+					for(var i=0; i < _list.length; i++){
+						var aData = _list[i];
+						var api = aData.API_NAME;
+						var lindex = api.lastIndexOf('.');
+						var front = api.substring(0,lindex);
+						var end = '<b style="color:blue">'+api.substring(lindex+1)+'</b>';
+						_html += '<div class="subCont">';
+						_html += '<div class="titBox">'
+						_html += '<span id="item1">'+(i+1)+'. '+front+'.'+end+'</span>';
+						_html += '<span class="explan pl10"id="item2"> :: '+aData.EXPLAN_CONT+'</span>';
+						_html += '</div>';
+						_html += '<div class="usingBox">';
+						_html += '<span class="title">사용법</span>';
+						_html += '<xmp class="code" id="item3">'+aData.USING_CODE;
+						_html += '</xmp>';
+						_html += '</div>';
+						_html += '<div class="sourceBox">';
+						_html += '<span class="title">예시</span>';
+						_html += '<xmp class="code" id="item3">'+aData.EXAM_CODE;
+						_html += '</xmp>';
+						_html += '</div>';
+						_html += '</div>';
+					}
+					$('#functions').html(_html);
+				}
+			});
+	};
+</script>
+</head>
+<body>
+	<div class="helpTitle">MOCA개발가이드</div>
+	<div class="contBox p15">
+		<h3 class="title">1. 퍼블리싱</h3>
+	</div>
+	<div class="contBox p15">
+		<h3 class="title">2. 템플릿구성</h3>
+		<div class="subCont">
+			<div class="titBox">
+				<span>1. head구성에는 별도의 js임포트 없이 구성한다. (해당화면에서만 필요한 js가 있을시 추가가능)</span>
+			</div>
+			<div class="sourceBox">
+				<span class="title">예시</span>
+				<pre class="code">
+&lt;!DOCTYPE html&gt;
+&lt;tml lang="ko"&gt;
+&lt;head&gt;
+&lt;script&gt;</pre>
+			</div>
+		</div>
+		<div class="subCont">
+			<div class="titBox">
+				<span>2. moca["소스아이디"].<b style="color:blue">~</b></span>
+				<span class="explan pl10"> :: script작성시 전역 선언되는 함수,변수들은 모두 moca["소스아이디"] ~로 시작한다.</span>
+			</div>
+			<div class="sourceBox">
+				<span class="title">예시</span>
+				<xmp class="code">moca.EFC_AUTH.___ready = function(args){};
+moca.EFC_AUTH.popId = 'aaa';</xmp>
+			</div>
+		</div>	
+		<div class="subCont">
+			<div class="titBox">
+				<span>3. mdi로 열릴 일반화면은 <b style="color:blue">role="mdipanel"</b>태그로 body가 시작된다.</span>
+			</div>
+			<div class="sourceBox">
+				<span class="title">예시</span>
+				<xmp class="code"><div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;"></div></xmp>
+			</div>
+		</div>		
+	</div>
+	<div class="contBox p15">
+		<h3 class="title">3. ready함수구현</h3>
+		<div class="subCont">
+			<div class="titBox">
+				<span>1. moca["소스아이디"].<b style="color:blue">___ready</b></span>
+				<span class="explan pl10"> :: 화면에 dom이 모두 로딩되면 최초로 자동수행되는 함수이며, 아래와 같은 형태를 가진다.</span>
+			</div>
+			<div class="usingBox">
+				<span class="title">사용법</span>
+				<xmp class="code">moca["소스아이디"].___ready  = function(args){};</xmp>
+			</div>
+			<div class="sourceBox">
+				<span class="title">예시</span>
+				<xmp class="code">moca.EFC_AUTH.___ready = function(args){
+	moca.EFC_AUTH.code({
+		"grd_3.depth":{code:'EFC003'}
+	},function(){
+		moca.EFC_AUTH.fn_search();
+	});
+};</xmp>
+			</div>
+		</div>
+	</div>
+	<div class="contBox p15">
+		<h3 class="title">4. 주요함수</h3>
+		<div id="functions">
+		</div>
+	</div>
+</body>
+</html>

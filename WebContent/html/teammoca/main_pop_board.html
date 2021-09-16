@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>main_pop_board</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css" href="/moca/css/moca.css">
+<link rel="stylesheet" type="text/css" href="/moca/css/moca_layout.css">
+<script>
+moca.main_pop_board = {};
+moca.main_pop_board.setValue = function(_data){
+	$('#popDate').html(_data._popDate);
+	$('#popTitle').html(_data._popTitle);
+	$('#popAuthor').html(_data._popAuthor);
+	$('#popSummery').html(_data._popSummery.replace(/\n/g,'<br>'));
+};
+
+</script>
+<style>
+</style>
+</head>
+<body>
+	<div class="PopSumm_body p5" id="PopSumm_body">
+		<table class="PopSumm" id="PopSumm">
+			<tr>
+				<th>일자</th>
+				<td id="popDate"></td>
+			</tr>
+			<tr>
+				<th>제목</th>
+				<td id="popTitle"></td>
+			</tr>	
+			<tr>
+				<th>작성자</th>
+				<td id="popAuthor"></td>
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td id="popSummery"></td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>
