@@ -244,18 +244,17 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_tab_pop_list li button {background:#fff; height:24px; min-width:100px; padding:0 5px 0 16px; border:0; text-align:left}
 .moca_tab_pop_list li:hover button {background:#d0fafa}
 
-.moca_tab_ul {display: table; table-layout: fixed; margin: 0; margin-left:10px; padding: 0; background: #eef0f2; z-index:1}
+.moca_tab_ul {display: table; table-layout: fixed; margin: 0; margin-left:10px; padding: 0; background: #eef0f2}
 .tabWidth{width:98%}
 @media all and (min-width:1280px) {
     .moca_tab_ul li{max-width: 150px}
 }
-.moca_tab_ul .moca_tab_list {display: table-cell; max-width:150px;position:relative; vertical-align: top; white-space: nowrap}
+.moca_tab_ul .moca_tab_list {display: table-cell; height:39px; max-width:150px;position:relative; vertical-align: top; white-space: nowrap}
 .moca_tab_ul .moca_tab_list > .tab_bg{min-width:104px; background: #d18b77; height: 35px; position: absolute; top: 0; left: 0; right:0; border-radius: 5px 5px 0 0; box-shadow: inset 0 0 4px rgba(0,0,0,0.1); -webkit-transform: perspective(2px) rotateX(0.93deg) translateZ(0px);}
 .moca_tab_ul.tabWidth .moca_tab_list > .tab_bg{min-width:unset}
 .moca_tab_ul .moca_tab_list:hover > .tab_bg{background:#ce7d67}
 .moca_tab_ul .moca_tab_list.active > .tab_bg{background:#fff !important; box-shadow:2px -2px 7px rgba(0,0,0,0.2); z-index:1}
 .moca_tab_ul li button.moca_tab_label {width:100%; height:39px; margin:0 auto; display: block; color: #fff; padding: 0 25px; text-decoration: none; text-overflow: ellipsis; overflow: hidden; z-index:2; position:relative}
-.moca_tab_ul .moca_tab_list.active {max-width:150px;}
 .moca_tab_ul li.active button.moca_tab_label{color: #000;}
 .moca_tab_ul .moca_tab_list:not(.active):hover {width: auto}
 .moca_tab_ul .moca_tab_list .moca_tab_close{position:absolute; z-index:2; top: 8px; right: 6px; width: 20px; height: 20px; background: url(../../images/ico_dp_close.png) no-repeat 50% -26px; text-indent: -9999px; border-radius: 100%;}
@@ -362,7 +361,7 @@ button:disabled{background:#aaa; opacity:1; cursor:default}
 .moca_grid_list .moca_grid_body > table > thead > tr > th.req{}
 .moca_grid_list .moca_grid_body > table > thead > tr > th.req .moca_grid_sort_box > span:before{content: "*"; color: #ff5858; position: relative; left: -3px; font-size: 12px;}
 .moca_grid_list .moca_grid_body > table > thead > tr:first-child > th {border-top:0}
-.moca_grid_list .moca_grid_body > table > tbody > tr > td {height:26px; padding:0 2px; background-color:#fff; border-right:1px solid #bbc3ce; border-bottom:1px solid #bbc3ce; text-align:center; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; vertical-align:middle; touch-action: manipulation;}
+.moca_grid_list .moca_grid_body > table > tbody > tr > td {height:26px; padding:0 2px; background-color:#fff; border-right:1px solid #bbc3ce; border-bottom:1px solid #bbc3ce; text-align:center; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; vertical-align:middle;/* touch-action: manipulation;*/}
 .moca_grid_list .moca_grid_body > table > tbody > tr > td > span {padding:0 4px; -moz-box-sizing:border-box; box-sizing:border-box}
 .moca_grid_list .moca_grid_body > table > tbody > tr > td .item_table{width:100%; height:auto;}
 .moca_grid_list .moca_grid_body > table > tbody > tr > td .item_table ul li{border:1px solid #000; height:20px;}
@@ -997,6 +996,10 @@ button.moca_calendar_dynamic:hover {background-color:#f3a95e; color:#fff}
 	/*그리드 접기*/
 	button.grid_unfold {background-image:url(../images/btn_arrowup.png); background-position:2px 0}
 	button.grid_unfold:active {background-position:2px 1px}
+	
+	/*그리드 더블클릭*/
+	button.grid_dblclick {background-image:url(../images/btn_dblclick.png);background-position: 5px 2px; background-size: 16px;}
+	button.grid_dblclick:active {background-position:5px 3px;}
 	/* a.btn.del_row.w2anchor_disabled {background-position: 3px bottom } */
 	
 /* 김세창추가 끝 *****************************************************************************************************************************************************/

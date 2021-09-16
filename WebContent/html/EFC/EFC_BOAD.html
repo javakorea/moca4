@@ -49,15 +49,12 @@
 	            var _supportR = (response.selectBoardStatusCnt.R != null)? response.selectBoardStatusCnt.R : 0;
 	            var _supportY = (response.selectBoardStatusCnt.Y != null)? response.selectBoardStatusCnt.Y : 0;
 
-	         
-	            moca.setLabelValue(moca.EFC_BOAD.getObj('supportB'),moca.comma(_supportB));//반려
-	            moca.setLabelValue(moca.EFC_BOAD.getObj('supportN'),moca.comma(_supportN));//요청
-	            moca.setLabelValue(moca.EFC_BOAD.getObj('supportR'),moca.comma(_supportR));//접수
-	            moca.setLabelValue(moca.EFC_BOAD.getObj('supportY'),moca.comma(_supportY));//완료
-	            
-	            
-	            //모바일테스트
-				
+	         	if(moca.getDevice() == 'pc'){
+	         		moca.setLabelValue(moca.EFC_BOAD.getObj('supportB'),moca.comma(_supportB));//반려
+		            moca.setLabelValue(moca.EFC_BOAD.getObj('supportN'),moca.comma(_supportN));//요청
+		            moca.setLabelValue(moca.EFC_BOAD.getObj('supportR'),moca.comma(_supportR));//접수
+		            moca.setLabelValue(moca.EFC_BOAD.getObj('supportY'),moca.comma(_supportY));//완료
+	         	}
 	        }
 	    });
 	};
@@ -78,10 +75,13 @@
 	};
 	moca.EFC_BOAD.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 	    ['게시글상세']
-	    
 	    if($(_grd).attr('type') != 'grid'){
 	    	_grd = $(_grd).closest('div[type=grid]')[0];
 	    	rowIndex = $(_grd).attr('selectedrealrowindex');
+	    	if(rowIndex == null){
+	    		moca.alert(config.message.doSelectRow);
+	    		return;
+	    	}
 	    }
 	    var _BoardTitle = _grd.list[rowIndex].BOAD_TITLE;
 	    var _BoardIdx = moca.getCellData(_grd,rowIndex,'BOAD_IDX');
@@ -323,24 +323,15 @@
 				</div>
 			</div>
 			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
-			
-								toolbar_search_size="false"
-								toolbar_detail="true"
-								toolbar_exup="false"
-								toolbar_exdn="true"
-								toolbar_addrow="false"
-								toolbar_delrow="false"
-								toolbar_nextbtn="false"
-								toolbar_full="true"
+								toolbar_common_btns_pc='{"detail":"true","exup":"false","exdn":"true","addrow":"false","delrow":"false","full":"true","dblclick":"true"}'
+								toolbar_common_btns_mobile='{"detail":"true","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true","dblclick":"true"}'
 								toolbar_grid_button1='{"position":"right","id":"btn_add","label":"글쓰기","onclick":"moca.EFC_BOAD.fn_pop","addClass":"","innerDisabled":"false"}'
 								toolbar_grid_button2='{"position":"right","id":"btn_del","label":"선택삭제","onclick":"moca.EFC_BOAD.fn_delList","addClass":"","innerDisabled":"false"}'
 								toolbar_grid_button3='{"mobileHide":"true","position":"right","id":"btn_del_admin","label":"선택물리삭제","onclick":"moca.EFC_BOAD.fn_adminDelList","innerStyle":"background:#5c83a6","innerDisabled":"false"}'
-                                toolbar_grid_button4='{"position":"left","id":"btn_view","label":"모바일상세","onclick":"moca.EFC_BOAD.grd_1__onDblClick","addClass":"","innerDisabled":"false"}'
-                                
-                                toolbar_grid_label_span1='{"position":"left","id":"supportN","label":"요청","value":"","valueClass":"txt_green","unit":"건"}'
-								toolbar_grid_label_span2='{"position":"left","id":"supportR","label":"접수","value":"","valueClass":"txt_green","unit":"건"}'
-								toolbar_grid_label_span3='{"position":"left","id":"supportY","label":"완료","value":"","valueClass":"txt_green","unit":"건"}'
-								toolbar_grid_label_span4='{"position":"left","id":"supportB","label":"반려","value":"","valueClass":"txt_green","unit":"건"}'
+                                toolbar_grid_label_span1='{"position":"left","id":"supportN","label":"요청","value":"","valueClass":"txt_green","unit":"건", "mobileHide":"true"}'
+								toolbar_grid_label_span2='{"position":"left","id":"supportR","label":"접수","value":"","valueClass":"txt_green","unit":"건", "mobileHide":"true"}'
+								toolbar_grid_label_span3='{"position":"left","id":"supportY","label":"완료","value":"","valueClass":"txt_green","unit":"건", "mobileHide":"true"}'
+								toolbar_grid_label_span4='{"position":"left","id":"supportB","label":"반려","value":"","valueClass":"txt_green","unit":"건", "mobileHide":"true"}'
                                 onBeforeClick="moca.EFC_BOAD.fn_check_before"
                                 onAfterClick="moca.EFC_BOAD.fn_check_after"
                                 onDblClick = "moca.EFC_BOAD.grd_1__onDblClick"

@@ -125,13 +125,13 @@
 						<div class="tb">
 							<span class="tb_th">아이디</span>
 							<span class="tb_td">
-								<div type="input" id="userId" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
+								<div type="input" id="userId" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:207px"  disabled="false" readonly="false"></div>
 							</span>
 						</div>
 						<div class="tb">
-							<span class="tb_th">이름</span>
+							<span class="tb_th">사용자</span>
 							<span class="tb_td">
-								<div type="input" id="userNm" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
+								<div type="input" id="userNm" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:207px"  disabled="false" readonly="false"></div>
 							</span>
 						</div>
 					</div>
@@ -157,127 +157,49 @@
 			>
 					<table style="width: 100%">
 						<colgroup>
-								<col style="width:60px">
-								<col style="width:80px">
-								<col style="width:70px">
-								<col style="width:100px">
-							<!-- 	<col style="width:100px"> -->
-								<col style="width:240px">
-<!-- 								<col style="width:120px">
-								<col style="width:220px"> -->						
-								<!-- <col style="width:150px"> --><!-- group id -->
-								<!-- <col style="width:170px"> --><!-- 회원상태 -->
-								<col style="width:170px"><!-- 등록일 -->
-								<col style="width:130px">
-							<!-- 	<col style="width:150px"> -->
-								<col style="width:250px">
-								<!-- <col style="width:100px">	 -->	
-								<col style="width:170px">					
-								<col style="width:170px">
-<!-- 								<col style="width:200px">
-								<col style="width:100px">
-								<col style="width:100px">
-								<col style="width:100px">
-								<col style="width:100px">
-								<col style="width:100px">
-								<col style="width:100px">
-								<col style="width:100px">
-								<col style="width:100px">
-								<col style="width:100px">
-								<col style="width:100px">
-								<col style="width:100px">
-								<col style="width:100px">
-								<col style="width:200px">
-								<col style="width:100px">
-								<col style="width:100px">
-								<col style="width:100px">
-								<col style="">	 -->									
+								<col style="width:60px" mobileHide="true" hide="false" columnKey="status" thKey="H_status" ><!-- 상태 -->
+								<col style="width:80px" mobileHide="false" hide="false" columnKey="userId" thKey="H_userId" ><!-- 아이디 -->
+								<col style="width:70px" mobileHide="false" hide="false" columnKey="userNm" thKey="H_userNm" ><!-- 이름 -->
+								<col style="width:100px" mobileHide="false" hide="false" columnKey="authorCode" thKey="H_authorCode" ><!-- 권한 -->
+								<col style="width:240px" mobileHide="true" hide="false" columnKey="password" thKey="H_password" ><!-- 비밀번호 -->
+								<col style="width:170px" mobileHide="true" hide="false" columnKey="sbscrbDe" thKey="H_sbscrbDe" ><!-- 등록일 -->
+								<col style="width:130px" mobileHide="true" hide="false" columnKey="moblphonNo" thKey="H_moblphonNo" ><!-- 핸드폰번호 -->
+								<col style="width:250px" mobileHide="true" hide="false" columnKey="emailAdres" thKey="H_emailAdres" ><!-- 이메일 -->
+								<col style="width:170px" mobileHide="true" hide="false" columnKey="endDate" thKey="H_endDate" ><!-- 만료일 -->		
+								<col style="width:170px" mobileHide="true" hide="false" columnKey="etc" thKey="H_etc" ><!-- 비고 -->
 						</colgroup>
 						<thead>
 							<tr>
-								<th scope="col" id="lv0" sortable="true">상태</th>
-								<th scope="col" id="lv1" sortable="true">아이디</th>
-								<th scope="col" id="lv2" sortable="true">이름</th>
-								<th scope="col" id="lv2" sortable="true">권한</th>
-								<!-- <th scope="col" id="lv23" sortable="true">조직코드</th> -->
-								<th scope="col" id="lv24">비밀번호(저장 시 암호화됨)</th>
-<!-- 								<th scope="col" id="lv25">비밀번호정답</th>
-								<th scope="col" id="lv26" filterable="true" filterableId="passwordHint">비밀번호힌트</th> -->
-<!-- 								<th scope="col" id="lv3" sortable="true">그룹아이디</th>
-								<th scope="col" id="lv6" sortable="true" filterable="true" filterableId="sttus">회원상태</th> -->
-								<th scope="col" id="lv8" sortable="true">등록일</th>
-								<th scope="col" id="lv4">핸드폰번호</th>
-							<!-- 	<th scope="col" id="lv5">유니크아이디</th>	 -->							
-								<th scope="col" id="lv7">E-MAIL</th>
-								<!-- <th scope="col" id="lv31">사용자구분</th> -->
-								<th scope="col" id="lv32">만료일</th>
-								<th scope="col" id="lv33">비고</th>
-								
-<!-- 								<th scope="col" id="lv9">집전화지역번호</th>
-								<th scope="col" id="lv10">생년월일</th>
-								<th scope="col" id="lv11">crtfcDnValue</th>
-								<th scope="col" id="lv12">detailAdres</th>
-								<th scope="col" id="lv13">emplNo</th>
-								<th scope="col" id="lv14">endTelno</th>
-								<th scope="col" id="lv15">fxnum</th>
-								<th scope="col" id="lv16">houseAdres</th>
-								<th scope="col" id="lv17">houseEndTelno</th>
-								<th scope="col" id="lv18">ihidnum</th>
-								<th scope="col" id="lv19">mbtlnum</th>
-								<th scope="col" id="lv20">middleTelno</th>
-								<th scope="col" id="lv21">직위명</th>
-								<th scope="col" id="lv22">사무실전화번호</th>
-								<th scope="col" id="lv27">pstinstCode</th>
-								<th scope="col" id="lv28">sexdstnCode</th>
-								<th scope="col" id="lv29">userTy</th>
-								<th scope="col" id="lv30">zip</th> -->
+								<th scope="col" id="H_status" sortable="true">상태</th>
+								<th scope="col" id="H_userId" sortable="true">아이디</th>
+								<th scope="col" id="H_userNm" sortable="true">이름</th>
+								<th scope="col" id="H_authorCode" sortable="true">권한</th>
+								<th scope="col" id="H_password">비밀번호(저장 시 암호화됨)</th>
+								<th scope="col" id="H_sbscrbDe" sortable="true">등록일</th>
+								<th scope="col" id="H_moblphonNo">핸드폰번호</th>
+								<th scope="col" id="H_emailAdres">E-MAIL</th>
+								<th scope="col" id="H_endDate">만료일</th>
+								<th scope="col" id="H_etc">비고</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
-								<td id="userId" celltype="input" style="" readOnly="true"  required="true" name="아이디"></td>
+								<td id="userId" celltype="input" style="text-align:left" readOnly="true"  required="true" name="아이디"></td>
 								<td id="userNm" celltype="input" style="" readOnly="true"  required="true" name="이름"></td>
 								<td id="authorCode" celltype="select" style="" name="권한" required="true" ></td>
-							<!-- 	<td id="orgnztId" celltype="select" style=""  required="true" name="조직코드"></td> -->
 								<td id="password" celltype="input" style="" required="true" name="비밀번호" ></td>
-<!-- 								<td id="passwordCnsr" celltype="input" style="text-align:left" readOnly="true"  required="true" name="비밀번호정답"></td>
-								<td id="passwordHint" celltype="select" style="text-align:left" readOnly="true" required="true" name="비밀번호힌트" ></td> -->
-<!-- 								<td id="groupId" celltype="select" style="" required="true" name="그룹아이디"></td>
-								<td id="sttus" celltype="select" style=""  displayFormat="[value] [label]" required="true" name="회원상태"></td> -->
 								<td id="sbscrbDe" celltype="input" style="" readOnly="true"	displayFunction="moca.longToDate" addRowEditable="false" name="등록일"></td>
-								
 								<td id="moblphonNo" 
-								celltype="input" 
-								keyMask="onlyPhone" style="text-align:left" name="핸드폰번호" readOnly="false"
-								displayFunction="moca.cellPhone" 
-								displayFunctionApply="realtime"
-								maxLength="13"
+									celltype="input" 
+									keyMask="onlyPhone" style="text-align:left" name="핸드폰번호" readOnly="false"
+									displayFunction="moca.cellPhone" 
+									displayFunctionApply="realtime"
+									maxLength="13"
 								></td>
-							<!-- 	<td id="uniqId" celltype="input" style="" readOnly="true" toolTip="true" addRowEditable="false" name="유니크아이디"></td>	 -->							
 								<td id="emailAdres" celltype="input" style=""  toolTip="true" name="E-MAIL"></td>
-								<!-- <td id="userType" celltype="select" style="" readOnly="false" name="사용자구분"></td> -->
 								<td id="endDate" celltype="input" style="text-align:center" readOnly="false" name="만료일" ></td>
 								<td id="etc" celltype="input" style="text-align:center" readOnly="false" name="비고" ></td>
-								
-<!-- 								<td id="areaNo" celltype="input" style="" readOnly="true"  ></td>
-								<td id="brthdy" celltype="input" style="" readOnly="true"  ></td>
-								<td id="crtfcDnValue" celltype="input" style="" readOnly="true"  ></td>
-								<td id="detailAdres" celltype="input" style="" readOnly="true"  ></td>
-								<td id="emplNo" celltype="input" style="" readOnly="true"  ></td>
-								<td id="endTelno" celltype="input" style="" readOnly="true"  ></td>
-								<td id="fxnum" celltype="input" style="" readOnly="true"  ></td>
-								<td id="houseAdres" celltype="input" style="" readOnly="true"  ></td>
-								<td id="houseEndTelno" celltype="input" style="" readOnly="true"  ></td>
-								<td id="ihidnum" celltype="input" style="" readOnly="true"  ></td>
-								<td id="mbtlnum" celltype="input" style="" readOnly="true"  ></td>
-								<td id="middleTelno" celltype="input" style="" readOnly="true"  ></td>
-								<td id="ofcpsNm" celltype="input" style="" readOnly="true"  ></td>
-								<td id="offmTelno" celltype="input" style="" readOnly="true"  ></td>
-								<td id="pstinstCode" celltype="input" style="" readOnly="true"  ></td>
-								<td id="sexdstnCode" celltype="input" style="" readOnly="true"  ></td>
-								<td id="userTy" celltype="input" style="" readOnly="true"  ></td>
-								<td id="zip" celltype="input" style="" readOnly="true"  ></td> -->
 							</tr>
 						</tbody>
 					</table>				

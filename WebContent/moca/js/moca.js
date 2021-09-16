@@ -3394,7 +3394,66 @@ Moca.prototype.renderGrid = function(_divObj) {
     var toolbar_delrow = _divObj.getAttribute("toolbar_delrow");
     var toolbar_nextbtn = _divObj.getAttribute("toolbar_nextbtn");
     var toolbar_full = _divObj.getAttribute("toolbar_full");
+    var toolbar_dblclick = _divObj.getAttribute("toolbar_dblclick");
     var toolbar_fold = _divObj.getAttribute("toolbar_fold");
+    
+    if(moca.getDevice() == 'pc'){
+    	if(_divObj.getAttribute('toolbar_common_btns_pc')){
+        	var _commBtnsStr = _divObj.getAttribute('toolbar_common_btns_pc');
+        	var _commBtnsObj = JSON.parse(_commBtnsStr);
+        	
+        	if(_commBtnsObj.detail == 'true'){toolbar_detail = _commBtnsObj.detail;}
+        	if(_commBtnsObj.exup == 'true'){toolbar_exup = _commBtnsObj.exup;}
+        	if(_commBtnsObj.exdn == 'true'){toolbar_exdn = _commBtnsObj.exdn;}
+        	if(_commBtnsObj.addrow == 'true'){toolbar_addrow = _commBtnsObj.addrow;}
+        	if(_commBtnsObj.delrow == 'true'){toolbar_delrow = _commBtnsObj.delrow;}
+        	if(_commBtnsObj.full == 'true'){toolbar_full = _commBtnsObj.full;}
+        	if(_commBtnsObj.dblclick == 'true'){toolbar_dblclick = _commBtnsObj.dblclick;}
+    	}
+    	
+    	if(config.grid.toolbar_common_btns_pc){
+        	if(config.grid.toolbar_common_btns_pc.priority == 'config'){
+        		var _commBtnsStr = config.grid.toolbar_common_btns_pc.attr;
+            	var _commBtnsObj = JSON.parse(_commBtnsStr);      		
+            	if(_commBtnsObj.detail) toolbar_detail = _commBtnsObj.detail;
+            	if(_commBtnsObj.exup) toolbar_exup = _commBtnsObj.exup;
+            	if(_commBtnsObj.exdn) toolbar_exdn = _commBtnsObj.exdn;
+            	if(_commBtnsObj.addrow) toolbar_addrow = _commBtnsObj.addrow;
+            	if(_commBtnsObj.delrow) toolbar_delrow = _commBtnsObj.delrow;
+            	if(_commBtnsObj.full) toolbar_full = _commBtnsObj.full;
+            	if(_commBtnsObj.dblclick) toolbar_dblclick = _commBtnsObj.dblclick;
+        	}
+    	}
+    }else{
+    	if(_divObj.getAttribute('toolbar_common_btns_mobile')){
+        	var _commBtnsStr = _divObj.getAttribute('toolbar_common_btns_mobile');
+        	var _commBtnsObj = JSON.parse(_commBtnsStr);
+        	
+        	if(_commBtnsObj.detail == 'true'){toolbar_detail = _commBtnsObj.detail;}
+        	if(_commBtnsObj.exup == 'true'){toolbar_exup = _commBtnsObj.exup;}
+        	if(_commBtnsObj.exdn == 'true'){toolbar_exdn = _commBtnsObj.exdn;}
+        	if(_commBtnsObj.addrow == 'true'){toolbar_addrow = _commBtnsObj.addrow;}
+        	if(_commBtnsObj.delrow == 'true'){toolbar_delrow = _commBtnsObj.delrow;}
+        	if(_commBtnsObj.full == 'true'){toolbar_full = _commBtnsObj.full;}
+        	if(_commBtnsObj.dblclick == 'true'){toolbar_dblclick = _commBtnsObj.dblclick;}
+        	
+    	}
+    	
+    	if(config.grid.toolbar_common_btns_mobile){
+        	if(config.grid.toolbar_common_btns_mobile.priority == 'config'){
+            	var _commBtnsStr = config.grid.toolbar_common_btns_mobile.attr;
+            	var _commBtnsObj = JSON.parse(_commBtnsStr);      		
+            	if(_commBtnsObj.detail) toolbar_detail = _commBtnsObj.detail;
+            	if(_commBtnsObj.exup) toolbar_exup = _commBtnsObj.exup;
+            	if(_commBtnsObj.exdn) toolbar_exdn = _commBtnsObj.exdn;
+            	if(_commBtnsObj.addrow) toolbar_addrow = _commBtnsObj.addrow;
+            	if(_commBtnsObj.delrow) toolbar_delrow = _commBtnsObj.delrow;
+            	if(_commBtnsObj.full) toolbar_full = _commBtnsObj.full;
+            	if(_commBtnsObj.dblclick) toolbar_dblclick = _commBtnsObj.dblclick;
+        	}
+    	}
+    }
+
     var paging = (_divObj.getAttribute('paging') != null)? JSON.parse(_divObj.getAttribute('paging')):{};
     var _html = '';
     if(_toolbar){
@@ -3406,8 +3465,6 @@ Moca.prototype.renderGrid = function(_divObj) {
             _html += '</div>';
         } 
         
-        
-    
         _html += '<div class="mr15 grid_total" grdkey="'+_id+'">';
         if(_title != null){
             _html += '<span><em class="txt_blue"></em>건</span>';
@@ -3466,13 +3523,6 @@ Moca.prototype.renderGrid = function(_divObj) {
 
 
         _html += '</div>';
-        
-        
-        
-
-    
-    
-    
         _html += '<div class="rta" grdkey="'+_id+'">';
 
         if(toolbar_col_showhide == "true") _html += '<button type="button" id="'+_id+'_col_showhide" class="button col_showhide" title="컬럼숨기기" grdkey="'+_id+'" onclick="moca._col_showhide(this)"></button>';
@@ -3483,8 +3533,8 @@ Moca.prototype.renderGrid = function(_divObj) {
         if(toolbar_delrow == "true") _html += '<button type="button" id="'+_id+'_btn_delrow" class="button del_row" title="행삭제" grdkey="'+_id+'" onclick="moca._row_del(this)"></button>';
         if(toolbar_nextbtn == "true") _html += '<button type="button" id="'+_id+'_btn_nextbtn" class="button read_next" title="다음" grdkey="'+_id+'" onclick="moca._next(this)"></button>';
         if(toolbar_full == "true") _html += '<button type="button" id="'+_id+'_btn_full" class="button grid_full" title="그리드 전체화면"  grdkey="'+_id+'" onclick="moca._fullScreenGrid(this)"></button>';
+        if(toolbar_dblclick == "true") _html += '<button type="button" id="'+_id+'_btn_dblclick" class="button grid_dblclick" title="그리드 더블클릭"  grdkey="'+_id+'" onclick="'+_onDblClickFunc+'(this)"></button>';
         if(toolbar_fold == "true") _html += '<button type="button" id="'+_id+'_btn_fold" class="button grid_fold" title="그리드 접기"  grdkey="'+_id+'" onclick="moca._foldGrid(this)"></button>';
-        
         
         for(var k=0; k <attArray.length; k++){
             var attrName = attArray[k];
@@ -3772,7 +3822,6 @@ Moca.prototype.renderGrid = function(_divObj) {
 
 
 Moca.prototype.moblePcHide = function(aCol,_mobleOrPc){
-	console.log(aCol);
     if($(aCol).attr(_mobleOrPc) == "true"){
     	var ori_width = $(aCol).width();
     	if(ori_width == null){
@@ -3798,7 +3847,6 @@ Moca.prototype.moblePcHide = function(aCol,_mobleOrPc){
     }else{
     	var ori_width = $(aCol).width();
     	if(ori_width != null){
-    		console.log(ori_width);
     		$(aCol).css("width",ori_width);
     	}
     	
@@ -5490,6 +5538,7 @@ Moca.prototype.genTbody = function(_grd,_list,_idx,isEnd) {
     if(moca.trim(_onDblClickFunc) != ''){
         $(_grd).off('dblclick','tr');
         $(_grd).on('dblclick','tr', function(e) {
+        	
             var nowGrd = e.delegateTarget;
             var rowIndex = e.currentTarget.getAttribute('realrowindex');
             if(event.srcElement.tagName == 'DIV'){
@@ -9224,8 +9273,6 @@ Moca.prototype.columnShow = function(_compId,targetCol,aColId) {
 
 };
 
-
-
 Moca.prototype.renderGridToolbarCheckbox = function(x1Obj) {
     ['grid toolbar내 checkbox만들기'];
     var _html = '';
@@ -9332,7 +9379,12 @@ Moca.prototype.renderGridToolbarLabelSpan = function(x1Obj) {
     }else{
         x1Obj.unitStr = x1Obj.unit;
     }
-    _html += '<div class="grid_label_span'+x1Obj.addClassStr+'">';
+   
+    if(x1Obj.mobileHide == "true"){
+    	_html += '<div class="grid_label_span'+x1Obj.addClassStr+'" style="display:none">';
+    }else{
+    	_html += '<div class="grid_btn '+x1Obj.addClassStr+'" grdkey="'+_id+'">';
+    }
     _html += '<span class="label">'+x1Obj.label+'</span>';
     _html += '<span id="'+x1Obj.id+'" class="'+x1Obj.valueClassStr+'" name="'+x1Obj.id+'" >'+x1Obj.value+'</span>';
     _html += '<span>'+x1Obj.unitStr+'</span>';

@@ -3,7 +3,33 @@ var config = {
 	userLogUrl : "/to/efms/EFC_ULOG/insert_json.do",
 	grid:{
 		multifilter : false,
-		default_cell_height : "26px" 
+		default_cell_height : "26px",
+		/*
+		 * priority : 'source' or 'config'
+		 */
+		/*
+		toolbar_common_btns_pc : {
+			priority : 'source',
+			attr :'{"detail":"true","exup":"false","exdn":"true","addrow":"false","delrow":"false","full":"true"}',
+			source : {
+				"EFC_BOARD":{
+					'grd_1':'{"detail":"true","exup":"false","exdn":"true","addrow":"false","delrow":"false","full":"true"}',
+					'grd_2':'{"detail":"true","exup":"false","exdn":"true","addrow":"false","delrow":"false","full":"true"}'
+				},
+				"EFC_*":'{"detail":"true","exup":"false","exdn":"true","addrow":"false","delrow":"false","full":"true"}',
+				"TO_*":'{"detail":"true","exup":"false","exdn":"true","addrow":"false","delrow":"false","full":"true"}'
+			}
+		},
+		*/
+		toolbar_common_btns_pc : {
+			priority : 'common',
+			attr :'{"detail":"true","exup":"false","exdn":"true","addrow":"false","delrow":"false","full":"true","dblclick":"false"}'
+		},
+		toolbar_common_btns_mobile : {
+			priority : 'config',
+			attr :'{"exup":"false","exdn":"false","addrow":"false","delrow":"false"}'
+		}
+		/*attr :'{"detail":"true","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'*/
 	},
 	defaultMenuId : "li6030000",
 	userLogInsert : false,
@@ -76,6 +102,9 @@ var config = {
 			return "https://pcc.siren24.com/pcc_V3/jsp/pcc_V3_j10_v2.jsp" ;
 		}
 	},	
+	message:{
+		doSelectRow : "선택된 행이 없습니다."
+	},
 	_contextRoot:"/to",
 	_domain:location.origin
 }

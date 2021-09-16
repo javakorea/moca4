@@ -243,7 +243,7 @@
 				<div class="shbox_inner">
 					<div class="flex fwrap">
 						<div class="tb">
-							<span class="tb_th">조회일자</span>
+							<span class="tb_th">기간</span>
 							<span class="tb_td">
 								<div type="inputMultiCalendar" class="moca_ica fl" style="width:auto" id="CREATE_DTTM" displayFormat="####-##-##" 
 		                               defaultValue="12개월전" 
@@ -255,7 +255,7 @@
 						<div class="tb">
 							<span class="tb_th">상태</span>
 							<span class="tb_td">
-								<div type="checkboxGroup" class="fl bd" direction="vertical" id="chkg_1"
+								<div type="checkboxGroup" class="fl bd" style="width:207px" direction="vertical" id="chkg_1"
 	                                itemset='[
 	                                    {"id":"chk1","label":"완료","value":"Y","checked":"true"}
 	                                ]'>
@@ -263,15 +263,15 @@
 							</span>
 						</div>
 						<div class="tb">
-							<span class="tb_th">작성자</span>
+							<span class="tb_th">이름</span>
 							<span class="tb_td">
-								<div type="input" id="ipt_WRITER" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
+								<div type="input" id="ipt_WRITER" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:207px"  disabled="false" readonly="false"></div>
 							</span>
 						</div>
 						<div class="tb">
 							<span class="tb_th">제목</span>
 							<span class="tb_td">
-								<div type="input" id="ipt_TITLE" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
+								<div type="input" id="ipt_TITLE" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:207px"  disabled="false" readonly="false"></div>
 							</span>
 						</div>
 						<!-- 
@@ -299,7 +299,7 @@
 								toolbar_full="true"
 								toolbar_grid_button1='{"position":"right","id":"btn_add","label":"글쓰기","onclick":"moca.EFC_BOAD_WS.fn_pop","addClass":"","innerDisabled":"false"}'
 								toolbar_grid_button2='{"position":"right","id":"btn_del","label":"선택삭제","onclick":"moca.EFC_BOAD_WS.fn_delList","addClass":"","innerDisabled":"false"}'
-								toolbar_grid_button3='{"position":"right","id":"btn_del_admin","label":"선택물리삭제","onclick":"moca.EFC_BOAD_WS.fn_adminDelList","innerStyle":"background:#5c83a6","innerDisabled":"false"}'
+								toolbar_grid_button3='{"position":"right","id":"btn_del_admin","label":"선택물리삭제","onclick":"moca.EFC_BOAD_WS.fn_adminDelList","innerStyle":"background:#5c83a6","innerDisabled":"false", mobileHide="true"}'
                                 toolbar_grid_label_span1='{"position":"left","id":"supportN","label":"요청","value":"","valueClass":"txt_green","unit":"건"}'
 								toolbar_grid_label_span2='{"position":"left","id":"supportR","label":"접수","value":"","valueClass":"txt_green","unit":"건"}'
 								toolbar_grid_label_span3='{"position":"left","id":"supportY","label":"완료","value":"","valueClass":"txt_green","unit":"건"}'
@@ -312,26 +312,18 @@
 			>
 					<table style="width: 100%">
 						<colgroup>
-								<col style="width:30px">
-								<!--<col style="width:100px"> -->
-								<!-- <col style="width:60px"> -->
-								<col style="width:60px">
-								<!-- <col style="width:60px"> -->
-								
-								<col style="min-width:347px">
-								<col style="width:40px">
-								<col style="width:100px">
-								<col style="width:150px">
-								<col style="width:100px">	
-								<!--<col style="width:100px">-->	
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="chk" thKey="H_chk" >
+								<col style="width:60px" mobileHide="true" hide="false" columnKey="BOAD_PIDX" thKey="H_BOAD_PIDX">
+								<col style="min-width:300px" mobileHide="false"  hide="false" columnKey="BOAD_TITLE" thKey="H_BOAD_TITLE">
+								<col style="width:40px" mobileHide="true"  hide="false" columnKey="CNT" thKey="H_BOAD_FILECNT">
+								<col style="width:100px" mobileHide="true"  hide="false" columnKey="BOAD_WRITER" thKey="H_BOAD_WRITER">
+								<col style="width:150px" mobileHide="true"  hide="false" columnKey="BOAD_DATE" thKey="H_BOAD_DATE">
+								<col style="width:100px" mobileHide="true"  hide="false" columnKey="BOAD_RECEIPTIONER" thKey="H_BOAD_RECEIPTIONER">	
 						</colgroup>
 						<thead>
 							<tr>
 								<th scope="col" celltype="checkbox" id="H_chk" targetId="chk">선택</th>
-								<!--<th scope="col" id="H_BOAD_TYPE">게시판유형</th> -->
-								<!--<th scope="col" id="H_BOAD_PHONE">연락처테스트</th> -->
 								<th scope="col" id="H_BOAD_PIDX">ID</th>
-								<!-- <th scope="col" id="H_BOAD_IDX">ID</th> -->
 								<th scope="col" id="H_BOAD_TITLE">제목</th>
 								<th scope="col" id="H_BOAD_FILECNT">첨부</th>
 								<th scope="col" id="H_BOAD_WRITER"  filterable="true" filterableId="BOAD_WRITER">작성자</th>
@@ -353,7 +345,6 @@
 								maxLength="13"
 								></td>-->
 								<td id="BOAD_PIDX" celltype="input" style="text-align:center" name="부모ID" readOnly="true"></td>
-								<!-- <td id="BOAD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td> -->
 								<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true" displayFunction="moca.EFC_BOAD_WS.dispReply"></td>
 								<td id="CNT" celltype="input" style="" name="첨부" readOnly="true" displayFunction="moca.EFC_BOAD_WS.dispCnt"></td>
 								<td id="BOAD_WRITER" celltype="input" style="text-align:center" name="작성자" readOnly="true"></td>
