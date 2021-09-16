@@ -13,4 +13,4 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<script type="text/javaScript">document.location.href="/to/m/TOM_00.html"</script>
+<script type="text/javaScript">document.location.href="/m/TOM_00.html"</script>

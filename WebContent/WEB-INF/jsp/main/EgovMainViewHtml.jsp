@@ -42,23 +42,23 @@ if(userAgent.indexOf("MOBI") > -1 || userAgent.indexOf("IPHONE") > -1   || userA
 
 
 
-<link rel="shortcut icon" href="/to/moca/images/favis.png">
+<link rel="shortcut icon" href="/moca/images/favis.png">
 
 <META http-equiv="Expires" content="-1">
 <META http-equiv="Pragma" content="no-cache">
 <META http-equiv="Cache-Control" content="No-Cache">
 
-<link rel="stylesheet" type="text/css" href="/to/moca/css/moca.css">
-<link rel="stylesheet" type="text/css" href="/to/moca/css/fontawesome.css">
-<link rel="stylesheet" type="text/css" href="/to/moca/css/moca_layout.css">
-<link rel="stylesheet" type="text/css" href="/to/css/carbang.css">
+<link rel="stylesheet" type="text/css" href="/moca/css/moca.css">
+<link rel="stylesheet" type="text/css" href="/moca/css/fontawesome.css">
+<link rel="stylesheet" type="text/css" href="/moca/css/moca_layout.css">
+<link rel="stylesheet" type="text/css" href="/css/carbang.css">
 
-<script language="JavaScript" src="/to/moca/js/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="/to/moca/js/sha512.min.js"></script>
-<script language="JavaScript" src="/to/moca/js/config.js"></script>
-<script language="JavaScript" src="/to/moca/js/moca.js"></script>
-<script type="text/javascript" src="/to/moca/js/moca_ui.js"></script>
-<script type="text/javascript" src="/to/ckeditor/ckeditor.js"></script>
+<script language="JavaScript" src="/moca/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/moca/js/sha512.min.js"></script>
+<script language="JavaScript" src="/moca/js/config.js"></script>
+<script language="JavaScript" src="/moca/js/moca.js"></script>
+<script type="text/javascript" src="/moca/js/moca_ui.js"></script>
+<script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
 <%
 	String authorCodeString= (String)request.getAttribute("authorCode");
 	java.util.List menuList= (java.util.List)request.getAttribute("menuList");
@@ -188,13 +188,13 @@ $(document).ready(function() {
 </head>
    <body>
 	<div class="moca_wrap">
-		<div type="wframe"  id="header" tag="moca:header" src="/to/moca/comm/header.html"></div>
-		<div type="wframe"  id="aside"tag="moca:aside" src="/to/moca/comm/aside.html"></div>
+		<div type="wframe"  id="header" tag="moca:header" src="/moca/comm/header.html"></div>
+		<div type="wframe"  id="aside"tag="moca:aside" src="/moca/comm/aside.html"></div>
 		<div class="moca_container on flex">		
-			<div type="wframe" style="width:210px" id="lnb" tag="moca:lnb" src="/to/moca/comm/lnb.html"></div>
-			<div type="wframe" style="position:relative" class="fauto" id="mdi" tag="moca:mdi" src="/to/moca/comm/mdi.html"></div>
+			<div type="wframe" style="width:210px" id="lnb" tag="moca:lnb" src="/moca/comm/lnb.html"></div>
+			<div type="wframe" style="position:relative" class="fauto" id="mdi" tag="moca:mdi" src="/moca/comm/mdi.html"></div>
 		</div>
-		<div type="wframe"  id="footer" tag="moca:footer" src="/to/moca/comm/footer.html"></div>
+		<div type="wframe"  id="footer" tag="moca:footer" src="/moca/comm/footer.html"></div>
 	</div>
 </body>
 </html>

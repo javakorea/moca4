@@ -11,12 +11,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" ksc="MOZILLA/5.0 (IPHONE; CPU IPHONE OS 13_2_3 LIKE MAC OS X) APPLEWEBKIT/605.1.15 (KHTML, LIKE GECKO) VERSION/13.0.3 MOBILE/15E148 SAFARI/604.1">
-<link rel="stylesheet" type="text/css" href="/to/css/login.css">
-<script language="JavaScript" src="/to/moca/js/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="/to/moca/js/sha512.min.js"></script>
-<script language="JavaScript" src="/to/moca/js/config.js"></script>
-<script language="JavaScript" src="/to/moca/js/moca.js"></script>
-<script type="text/javascript" src="/to/moca/js/moca_ui.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/login.css">
+<script language="JavaScript" src="/moca/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/moca/js/sha512.min.js"></script>
+<script language="JavaScript" src="/moca/js/config.js"></script>
+<script language="JavaScript" src="/moca/js/moca.js"></script>
+<script type="text/javascript" src="/moca/js/moca_ui.js"></script>
 <script type="text/javascript">
 var moca = new Moca();
 moca.EFC_CORP = {};

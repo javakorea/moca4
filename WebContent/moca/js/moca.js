@@ -1,6 +1,6 @@
 /* Moca library */
 function Moca(){
-/*  if(location.host.indexOf('localhost') == -1 && config.license.split("961baa70d758b7d5fb731cd55929c746f94818f52f9c040f80aaeab817f3ec9c3bb80ce19879542f17e6683237485c419e80bd73f262c5f927da0f4cd580f841")[0] != hex_sha512(location.host).toString()){
+/*  if(location.host.indexOf('localhost') == -1 && mocaConfig.license.split("961baa70d758b7d5fb731cd55929c746f94818f52f9c040f80aaeab817f3ec9c3bb80ce19879542f17e6683237485c419e80bd73f262c5f927da0f4cd580f841")[0] != hex_sha512(location.host).toString()){
         alert('license is not valid!');
         return;
     }*/
@@ -22,7 +22,7 @@ function Moca(){
         }
     }
     this._domain = location.origin;
-    this._contextRoot = "/to";
+    this._contextRoot = mocaConfig._contextRoot;
     this.testMode = false;
     this.pageId = '';
     this.srcId = '';
@@ -1294,7 +1294,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
 Moca.prototype.getCellHeight = function(_grd) {
     var _default_cell_height = _grd.getAttribute("default_cell_height");
     if(_default_cell_height == null){
-        _default_cell_height = config.grid.default_cell_height;
+        _default_cell_height = mocaConfig.grid.default_cell_height;
     }
     _default_cell_height = parseFloat(_default_cell_height.replace(/px/g,''))+1;
     return _default_cell_height;
@@ -3411,9 +3411,9 @@ Moca.prototype.renderGrid = function(_divObj) {
         	if(_commBtnsObj.dblclick == 'true'){toolbar_dblclick = _commBtnsObj.dblclick;}
     	}
     	
-    	if(config.grid.toolbar_common_btns_pc){
-        	if(config.grid.toolbar_common_btns_pc.priority == 'config'){
-        		var _commBtnsStr = config.grid.toolbar_common_btns_pc.attr;
+    	if(mocaConfig.grid.toolbar_common_btns_pc){
+        	if(mocaConfig.grid.toolbar_common_btns_pc.priority == 'config'){
+        		var _commBtnsStr = mocaConfig.grid.toolbar_common_btns_pc.attr;
             	var _commBtnsObj = JSON.parse(_commBtnsStr);      		
             	if(_commBtnsObj.detail) toolbar_detail = _commBtnsObj.detail;
             	if(_commBtnsObj.exup) toolbar_exup = _commBtnsObj.exup;
@@ -3439,9 +3439,9 @@ Moca.prototype.renderGrid = function(_divObj) {
         	
     	}
     	
-    	if(config.grid.toolbar_common_btns_mobile){
-        	if(config.grid.toolbar_common_btns_mobile.priority == 'config'){
-            	var _commBtnsStr = config.grid.toolbar_common_btns_mobile.attr;
+    	if(mocaConfig.grid.toolbar_common_btns_mobile){
+        	if(mocaConfig.grid.toolbar_common_btns_mobile.priority == 'config'){
+            	var _commBtnsStr = mocaConfig.grid.toolbar_common_btns_mobile.attr;
             	var _commBtnsObj = JSON.parse(_commBtnsStr);      		
             	if(_commBtnsObj.detail) toolbar_detail = _commBtnsObj.detail;
             	if(_commBtnsObj.exup) toolbar_exup = _commBtnsObj.exup;
@@ -4151,7 +4151,7 @@ Moca.prototype.exe = function(_sObj,thisObj) {
            data:_data,
            success : function(result) {
                if(result.allow != null && result.allow != 'true'){
-                   config.callback_alowLeaveMember();
+                   mocaConfig.callback_alowLeaveMember();
                    return;
                }
                if(_sObj.showStatus != false){
@@ -4372,7 +4372,7 @@ Moca.prototype.popChange = function(_popupId,_json){
         }
     });
     setTimeout(function(){
-        moca.submit(config.url_ts_cost(),{xml:a},_popupId);
+        moca.submit(mocaConfig.url_ts_cost(),{xml:a},_popupId);
     },1000);
         
         
@@ -8811,7 +8811,7 @@ Moca.prototype.realtimeSearch = function(_thisObj) {
 Moca.prototype.writeMessage = function(_obj) {
     ['메세지보이기'];
     if(_obj != null){
-        if(_obj.url.indexOf(config.userLogUrl) == -1){
+        if(_obj.url.indexOf(mocaConfig.userLogUrl) == -1){
             if(moca.messages.length > 20){
                 moca.messages.splice(0, 10);
             }
@@ -10845,12 +10845,12 @@ Moca.prototype.getIncludeScope = function(wframeObj,thisObj) {
     moca.userLogInsert({URL:_url,SRCID:_srcId,LABEL:_label,MENU_NM:_label});
  */
 Moca.prototype.userLogInsert = function(_info) { 
-    if(config.userLogInsert != false){
+    if(mocaConfig.userLogInsert != false){
         if(moca.trim(_info.LABEL) == ''){
             _info.LABEL = _info.URL;
         }
         moca.exe({
-            url : moca._domain+config.userLogUrl,
+            url : moca._domain+mocaConfig.userLogUrl,
             loadingbar:false,
             data : {
                 "header" : moca.header,

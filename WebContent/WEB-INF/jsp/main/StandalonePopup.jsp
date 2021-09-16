@@ -15,17 +15,17 @@
 <title>teammoca ERP</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<link rel="shortcut icon" href="/to/moca/images/favis.png">
+<link rel="shortcut icon" href="/moca/images/favis.png">
 
 <META http-equiv="Expires" content="-1">
 <META http-equiv="Pragma" content="no-cache">
 <META http-equiv="Cache-Control" content="No-Cache">
-<script language="JavaScript" src="/to/moca/js/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="/to/moca/js/sha512.min.js"></script>
-<script language="JavaScript" src="/to/moca/js/config.js"></script>
-<script language="JavaScript" src="/to/moca/js/moca.js"></script>
-<script type="text/javascript" src="/to/moca/js/moca_ui.js"></script>
-<script type="text/javascript" src="/to/ckeditor/ckeditor.js"></script>
+<script language="JavaScript" src="/moca/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/moca/js/sha512.min.js"></script>
+<script language="JavaScript" src="/moca/js/config.js"></script>
+<script language="JavaScript" src="/moca/js/moca.js"></script>
+<script type="text/javascript" src="/moca/js/moca_ui.js"></script>
+<script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
 <script>
 var moca = new Moca();
 var param = {};
