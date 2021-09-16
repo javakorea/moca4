@@ -1,6 +1,6 @@
 var mocaConfig = {
 	license: "5f27e7c91ac230c4590c61aef3d6516637ab17b126dc20a00db09ebc1212ae73ea33c1d9d258e1b2359aaae9a3b542ad3bab5609b6aaae30857d5b39bf405c78961baa70d758b7d5fb731cd55929c746f94818f52f9c040f80aaeab817f3ec9c3bb80ce19879542f17e6683237485c419e80bd73f262c5f927da0f4cd580f8417d6f2cf39188e5a302788a7d9be164449af58b6b05162fd9f8813c5c33e2ddd5a36a999cdf28465da370662b9ee8bcddef815e04de7a157c5c0985db2fdf9b3e",
-	userLogUrl : "/to/efms/EFC_ULOG/insert_json.do",
+	userLogUrl : "/efms/EFC_ULOG/insert_json.do",
 	grid:{
 		multifilter : false,
 		default_cell_height : "26px",

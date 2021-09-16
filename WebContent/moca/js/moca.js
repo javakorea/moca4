@@ -4133,7 +4133,7 @@ Moca.prototype.exe = function(_sObj,thisObj) {
          _sObj.pageId =  this.pageId;
      }
      if(_sObj.showStatus != false){
-         moca.writeMessage({srcId:_sObj.srcId,pageId:_sObj.pageId,message:"진행중",url:_sObj.url.replace(/http\:\/\/([^/])*\:?[0-9]*/g,'') });
+         moca.writeMessage({srcId:_sObj.srcId,pageId:_sObj.pageId,message:"진행중",url:_sObj.url });
      }
      
      
@@ -4155,7 +4155,7 @@ Moca.prototype.exe = function(_sObj,thisObj) {
                    return;
                }
                if(_sObj.showStatus != false){
-                   moca.writeMessage({srcId:_sObj.srcId,pageId:_sObj.pageId,message:"완료",url:_sObj.url.replace(/http\:\/\/([^/])*\:?[0-9]*/g,'')});
+                   moca.writeMessage({srcId:_sObj.srcId,pageId:_sObj.pageId,message:"완료",url:_sObj.url});
                }
                
                if(typeof result == 'object'){
@@ -8211,12 +8211,12 @@ Moca.prototype.fileDownloadAjax = function(_opt) {
     }
     var xhttp = new XMLHttpRequest();
     //var loadingId = moca.loading2(null,null,_messageTag);
-    moca.writeMessage({srcId:_srcId,pageId:_pageId,message:"진행중",url:downloadUrl.replace(/http\:\/\/([^/])*\:?[0-9]*/g,'') });
+    moca.writeMessage({srcId:_srcId,pageId:_pageId,message:"진행중",url:downloadUrl });
     xhttp.onreadystatechange = function(){
         if(xhttp.readyState == 4 && xhttp.status == 200){
             //moca.loading(loadingId,0);
             moca.userLogInsert({URL:_opt.url,SRCID:_opt.id,LABEL:_opt.param.FILE_REAL_NM,MENU_NM:_opt.title});
-            moca.writeMessage({srcId:_srcId,pageId:_pageId,message:"완료",url:downloadUrl.replace(/http\:\/\/([^/])*\:?[0-9]*/g,'')});
+            moca.writeMessage({srcId:_srcId,pageId:_pageId,message:"완료",url:downloadUrl});
             
             var cd = xhttp.getResponseHeader('content-disposition');
             if(cd == null){
@@ -8256,7 +8256,7 @@ Moca.prototype.fileDownloadAjax = function(_opt) {
     };
     xhttp.onerror = function(){
         //moca.loading(loadingId,0);
-        moca.writeMessage({srcId:_srcId,pageId:_pageId,message:"오류",url:downloadUrl.replace(/http\:\/\/([^/])*\:?[0-9]*/g,'')});
+        moca.writeMessage({srcId:_srcId,pageId:_pageId,message:"오류",url:downloadUrl});
         if(this.response != null){
             var blob = new Blob([this.response],{type:'application/json'});
             var fileReader = new window.FileReader();
@@ -8811,6 +8811,7 @@ Moca.prototype.realtimeSearch = function(_thisObj) {
 Moca.prototype.writeMessage = function(_obj) {
     ['메세지보이기'];
     if(_obj != null){
+    	_obj.url = _obj.url.replace(/http[s]*\:\/\/([^/])*\:?[0-9]*/g,'');
         if(_obj.url.indexOf(mocaConfig.userLogUrl) == -1){
             if(moca.messages.length > 20){
                 moca.messages.splice(0, 10);
