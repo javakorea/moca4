@@ -20,6 +20,9 @@
 <META http-equiv="Expires" content="-1">
 <META http-equiv="Pragma" content="no-cache">
 <META http-equiv="Cache-Control" content="No-Cache">
+<link rel="stylesheet" type="text/css" href="/moca/css/moca.css">
+<link rel="stylesheet" type="text/css" href="/moca/css/fontawesome.css">
+<link rel="stylesheet" type="text/css" href="/moca/css/moca_layout.css">
 <script language="JavaScript" src="/moca/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="/moca/js/sha512.min.js"></script>
 <script language="JavaScript" src="/moca/js/config.js"></script>
@@ -51,7 +54,8 @@ param['<%=key%>'] = '<%=val%>';
 		<div class="toast_msg" style="padding:9px 15px; height:35px">
 			<!-- <p>조회가 완료되었습니다.</p> -->
 		</div>
-		<button class="button btn_esc" type="button" onclick="self.close()" >닫기</button>
+		
+		<!-- <button class="button btn_esc" type="button" onclick="self.close()" >닫기</button> -->
 	</div>
 </body>
 </html>

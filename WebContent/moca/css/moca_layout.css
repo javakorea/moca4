@@ -759,13 +759,8 @@ opacity: 1;
 	.moca_aside ul:last-child{display:none}
 	.moca_mdi .moca_tab_body{bottom:0}
 	.moca_mdi .moca_tab_listarea{overflow-x:auto;}
-	/*
-	.moca_scrollY_type1::-webkit-scrollbar{width: 8px;}
-	.moca_scrollY_type1::webkit-scrollbar-thumb{border-radius: 4px;
-    background-color: #c1c1c1;
-    box-shadow: 0 0 1px rgba(255,255,255,.5);}	*/
+
 	.toast_msg{display:none}
-	
 	
 	/*multiMdi*/
 	.moca_mdi .moca_tab_control{width:30px}

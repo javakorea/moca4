@@ -4360,13 +4360,13 @@ Moca.prototype.popChange = function(_popupId,_json){
         delete this.callbacks[_popupId];
         delete this.data[_popupId];
     }*/
-    
+    debugger;
     var _id = moca.openWindowPopup({
         id: _popupId,
         title:  '비용확정재시도결과',
         width:"1024px",
         height:"400px",
-        url : "/to/uat/uia/actionMain_link.do?mcsrc=/to"+$('#'+_popupId).attr('src'),
+        url : "/uat/uia/actionMain_link.do?mcsrc="+$('#'+_popupId).attr('src'),
         fullscreen : 'no',
         param : {
         }
