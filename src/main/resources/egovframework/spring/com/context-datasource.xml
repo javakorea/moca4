@@ -23,12 +23,6 @@
         <property name="url" value="${Globals.Url}" />
         <property name="username" value="${Globals.UserName}"/>
         <property name="password" value="${Globals.Password}"/>
-
-		<property name="defaultAutoCommit" value="true" />
-		<property name="validationQuery" value="select 1"/>
-		<property name="testWhileIdle" value="true"/>
-		<property name="timeBetweenEvictionRunsMillis" value="7200000"/>
-
     </bean>
     
     <!-- carbangDevapi mysql -->
