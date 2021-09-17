@@ -166,14 +166,13 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_popup {position:absolute; z-index:6010; background:#3a669a; border:5px solid #3a669a;box-sizing:border-box; box-shadow:0 0 8px 0 rgba(0,0,0,0.5); -moz-box-shadow:0 0 8px 0 rgba(0,0,0,0.5); -webkit-box-shadow:0 0 8px 0 rgba(0,0,0,0.5); overflow-y:hidden}
 .moca_popup .moca_popup_header {position:relative; width:100%; height:40px; background:#3a669a}
 .moca_popup .moca_popup_header:after {display:block; visibility:hidden; clear:both; height:0; font-size:0; line-height:0; content: '.'}
-.moca_popup .moca_popup_header .moca_popup_title {float:left; margin:0 0 0 10px; padding:0; color:#fff; font-size:13px; line-height:40px}
+.moca_popup .moca_popup_header .moca_popup_title {float:left; margin:0 0 0 10px; padding:0; color:#fff; font-size:13px; line-height:38px}
 .moca_popup .moca_popup_header .moca_popup_control {float:right; height:40px}
 .moca_popup .moca_popup_header .moca_popup_control .moca_popup_btn_close {float:left; border:0; width:35px; height:40px; padding:0; margin:0; background:url(../images/pop_btn_close.png) no-repeat 50% 10px; cursor:pointer; text-indent:-9999px}
 .moca_popup .moca_popup_header .moca_popup_control .moca_popup_btn_change {float:left; border:0; width:35px; height:40px; padding:0; margin:0; background:url(../images/pop_btn_change.png) no-repeat 50% 10px; cursor:pointer; text-indent:-9999px}
 
 .moca_popup .moca_popup_body {position:absolute; top:40px; left:0; right:0; bottom:0;}
 .moca_popup .moca_popup_body .moca_popup_content {background:#fff; width:100%; height:100%; overflow:auto}
-.moca_popup .moca_popup_header h2:before{content:''; display:inline-block; float:left; width:15px; height:40px; margin:0 5px; background:url(../images/ico_bar_w.png) no-repeat center}
 .moca_popup .resize_left{position: absolute; top:0; left:-5px; width: 5px; height: 100%;}
 .moca_popup .resize_right{position: absolute; top:0; right:-5px; width: 5px;  height: calc(100% - 15px);}
 .moca_popup .resize_bottom{position: absolute; left:0; bottom:-5px; width: calc(100% - 15px);  height: 5px;}
@@ -330,7 +329,7 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .btn_grid_fullscreen {width:26px; background:url(../images/grid/ico_grid_fullscrreen.png) no-repeat 50% 50%; text-indent:-9999px}
 .btn_grid_restore {width:26px; background:url(../images/grid/ico_grid_restore.png) no-repeat 50% 50%; text-indent:-9999px}
 .grid_title{height:24px; line-height:24px; font-size:12px; font-weight:bold; box-sizing:border-box}
-.grid_title i{color:#ce7d67; margin-right:3px}
+.grid_title i{color:#f26e6e; margin-right:3px}
 .grid_total {display:inline-block; text-align:right; font-size:12px; height:24px; line-height:24px; padding-left:0;border-radius:2px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
 .grid_total span {display:inline-block; position:relative}
 .grid_total em {font-style:normal}

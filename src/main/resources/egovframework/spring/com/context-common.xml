@@ -253,7 +253,7 @@ ex) 3#2 : 수요일#2째주 에 참
             </list>
         </property>
     </bean>  
-    <mvc:interceptors>
+<!--     <mvc:interceptors>
    	 	<bean class="com.carbang365.TOInterCeptor"></bean>  
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
@@ -273,6 +273,6 @@ ex) 3#2 : 수요일#2째주 에 참
 				</property>
 			</bean>
 		</mvc:interceptor>
-	</mvc:interceptors>
+	</mvc:interceptors> -->
 
 </beans>

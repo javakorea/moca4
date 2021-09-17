@@ -9575,7 +9575,8 @@ Moca.prototype.renderTable = function(_divObj) {
     moca.getObj(_id,null,pageid,srcid);//id중복체크
     
     var _default_cell_height = _divObj.getAttribute("default_cell_height");
-    var _title = _divObj.getAttribute("label");
+    var _title = _divObj.getAttribute("title");
+    var _label = _divObj.getAttribute("label");
     var _toolbar = $(_divObj).hasClass("toolbar");
     var _paging = $(_divObj).hasClass("paging");
     var _header_body = _divObj.innerHTML;
@@ -9600,7 +9601,11 @@ Moca.prototype.renderTable = function(_divObj) {
             _html += '</div>';
         } 
         
-        
+        if(_label != null){
+            _html += '<div class="moca_table_title" grdkey="'+_id+'">';             
+            _html += '<i class="fas fa-angle-double-right"></i>'+'<span>'+_title+'</span>';                         
+            _html += '</div>';
+        } 
 
         
         var attArray = _divObj.getAttributeNames();

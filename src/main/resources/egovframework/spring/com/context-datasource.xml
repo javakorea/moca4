@@ -23,7 +23,12 @@
         <property name="url" value="${Globals.Url}" />
         <property name="username" value="${Globals.UserName}"/>
         <property name="password" value="${Globals.Password}"/>
-		<!-- <property name="validationQuery" value="select 1"/> -->
+
+		<property name="defaultAutoCommit" value="true" />
+		<property name="validationQuery" value="select 1"/>
+		<property name="testWhileIdle" value="true"/>
+		<property name="timeBetweenEvictionRunsMillis" value="7200000"/>
+
     </bean>
     
     <!-- carbangDevapi mysql -->
@@ -32,7 +37,8 @@
         <property name="url" value="${Globals.carbangDevapi.Url}" />
         <property name="username" value="${Globals.carbangDevapi.UserName}"/>
         <property name="password" value="${Globals.carbangDevapi.Password}"/>
-		<!-- <property name="validationQuery" value="select 1"/> -->
+		<!-- <property name="validationQuery" value="select 1"/>
+		<property name="testWhileIdle" value="true"/> -->
     </bean>
     
     <!-- mocajsp db접속관련 bean. 임시로 주석해제 -->

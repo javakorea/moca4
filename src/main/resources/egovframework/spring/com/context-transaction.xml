@@ -14,7 +14,7 @@
 
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
-            <tx:method name="*" rollback-for="Exception"/>
+            <tx:method name="tr_*" rollback-for="Exception"/>
         </tx:attributes>
     </tx:advice>
 
