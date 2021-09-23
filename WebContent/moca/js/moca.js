@@ -9349,12 +9349,12 @@ Moca.prototype.renderGridToolbarButton = function(x1Obj,_id) {
     if(x1Obj.id != null){
        _btnid = x1Obj.id;
     }
-    if(x1Obj.mobileHide == "true"){
+    if(moca.getDevice() != 'pc' && x1Obj.mobileHide == "true"){
     	_html += '<div class="grid_btn '+x1Obj.addClassStr+'" grdkey="'+_id+'" style="display:none">';
-    }else{
+    } 
+    if(moca.getDevice() == 'pc'){
     	_html += '<div class="grid_btn '+x1Obj.addClassStr+'" grdkey="'+_id+'">';
     }
-    
     
     _html += '<button type="button" id="'+_btnid+'" style="'+_innerStyle+'" onclick="'+x1Obj.onclick+'(this)" '+_disabled+' >'+x1Obj.label+'</button>';
     _html += '</div>';
@@ -9390,11 +9390,11 @@ Moca.prototype.renderGridToolbarLabelSpan = function(x1Obj) {
     }else{
         x1Obj.unitStr = x1Obj.unit;
     }
-   
-    if(x1Obj.mobileHide == "true"){
+    if(moca.getDevice() != 'pc' && x1Obj.mobileHide == "true"){
     	_html += '<div class="grid_label_span'+x1Obj.addClassStr+'" style="display:none">';
-    }else{
-    	_html += '<div class="grid_btn '+x1Obj.addClassStr+'" grdkey="'+_id+'">';
+    } 
+    if(moca.getDevice() == 'pc'){
+    	_html += '<div class="grid_btn '+x1Obj.addClassStr+'" grdkey="'+x1Obj.id+'">';
     }
     _html += '<span class="label">'+x1Obj.label+'</span>';
     _html += '<span id="'+x1Obj.id+'" class="'+x1Obj.valueClassStr+'" name="'+x1Obj.id+'" >'+x1Obj.value+'</span>';
