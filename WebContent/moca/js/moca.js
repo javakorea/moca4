@@ -13444,7 +13444,25 @@ Moca.prototype.getDevice = function(){
 };
 
 
-
+Moca.prototype.resizeContsImg = function(_contents){
+    ['resizeContsImg']; 
+    var recont = _contents;
+    var arr = _contents.match(/(width\:\s*)([0-9]*)(px)/g);
+	if(arr != null && arr.length > 0){
+		for(var i=0; i < arr.length; i++){
+			var aWidth = arr[i];
+			var arr2 = aWidth.split(':');
+			var v = arr2[1];
+			v = moca.trim(v);
+			v = v.replace(/px/g,'');
+			if(Number(v) > 1600){
+				//강제사이즈조정 width:100%,height제거
+				recont = recont.replace(/(.*imageDownload\.do.*?)(width\:\s*)([0-9]*)(px)/g,'$1$2'+'100%').replace(/height\:\s*[0-9]+px;{0,1}/g,'');
+			}
+		}
+	}
+	return recont;
+};
 
 
 
