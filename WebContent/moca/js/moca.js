@@ -3846,14 +3846,16 @@ Moca.prototype.moblePcHide = function(aCol,_mobleOrPc){
         
     }else{
     	var ori_width = $(aCol).width();
-    	if(ori_width != null){
-    		$(aCol).css("width",ori_width);
-    	}
-    	
     	var mWidth = $(aCol).css("min-width");
+    	mWidth = (mWidth != null) ?mWidth.replace('px',''):mWidth;
+    	
     	if(mWidth != null && mWidth == "0"){
     		var oriMinWidth = $(aCol).attr("oriMinWidth");
     		$(aCol).css("min-width",oriMinWidth);
+    	};
+    	
+		if(mWidth == null && ori_width != null){
+    		$(aCol).css("width",ori_width);
     	}
     	var columnKey = $(aCol).attr("columnKey");
     	var thKey = $(aCol).attr("thKey");
