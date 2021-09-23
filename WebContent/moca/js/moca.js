@@ -9351,10 +9351,9 @@ Moca.prototype.renderGridToolbarButton = function(x1Obj,_id) {
     }
     if(moca.getDevice() != 'pc' && x1Obj.mobileHide == "true"){
     	_html += '<div class="grid_btn '+x1Obj.addClassStr+'" grdkey="'+_id+'" style="display:none">';
-    } 
-    if(moca.getDevice() == 'pc'){
+    }else{
     	_html += '<div class="grid_btn '+x1Obj.addClassStr+'" grdkey="'+_id+'">';
-    }
+    } 
     
     _html += '<button type="button" id="'+_btnid+'" style="'+_innerStyle+'" onclick="'+x1Obj.onclick+'(this)" '+_disabled+' >'+x1Obj.label+'</button>';
     _html += '</div>';
@@ -9392,8 +9391,7 @@ Moca.prototype.renderGridToolbarLabelSpan = function(x1Obj) {
     }
     if(moca.getDevice() != 'pc' && x1Obj.mobileHide == "true"){
     	_html += '<div class="grid_label_span'+x1Obj.addClassStr+'" style="display:none">';
-    } 
-    if(moca.getDevice() == 'pc'){
+    }else{
     	_html += '<div class="grid_label_span '+x1Obj.addClassStr+'" grdkey="'+x1Obj.id+'">';
     }
     _html += '<span class="label">'+x1Obj.label+'</span>';
