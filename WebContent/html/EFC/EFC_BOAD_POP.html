@@ -155,17 +155,20 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 						var data = response.selectBoardInfo;
 						var recont = data.BOAD_CONT;
 						var arr = data.BOAD_CONT.match(/(width\:\s*)([0-9]*)(px)/g);
-						for(var i=0; i < arr.length; i++){
-							var aWidth = arr[i];
-							var arr2 = aWidth.split(':');
-							var v = arr2[1];
-							v = moca.trim(v);
-							v = v.replace(/px/g,'');
-							if(Number(v) > 1600){
-								//강제사이즈조정 width:100%,height제거
-								recont = recont.replace(/(.*imageDownload\.do.*?)(width\:\s*)([0-9]*)(px)/g,'$1$2'+'100%').replace(/height\:\s*[0-9]+px;{0,1}/g,'');
+						if(arr != null && arr.length > 0){
+							for(var i=0; i < arr.length; i++){
+								var aWidth = arr[i];
+								var arr2 = aWidth.split(':');
+								var v = arr2[1];
+								v = moca.trim(v);
+								v = v.replace(/px/g,'');
+								if(Number(v) > 1600){
+									//강제사이즈조정 width:100%,height제거
+									recont = recont.replace(/(.*imageDownload\.do.*?)(width\:\s*)([0-9]*)(px)/g,'$1$2'+'100%').replace(/height\:\s*[0-9]+px;{0,1}/g,'');
+								}
 							}
 						}
+
 						
 						
 						CKEDITOR.instances.editor.setData(recont);
@@ -295,6 +298,12 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	            };
 	            
 	            if(moca.EFC_BOAD_POP._boardIdx == null){
+	            	
+	            	var wtitle = moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle"));
+	            	if(wtitle == ''){
+	            		wtitle = $('#'+CKEDITOR.instances.editor.id+'_contents iframe').contents().find('body').text().substring(0,20);
+	            	}
+	            	
 	                //게시물등록
 	                moca.EFC_BOAD_POP.exe({
 	                    url : moca._domain+moca._contextRoot+"/EFC_BOAD/insertBoard.do",
@@ -305,7 +314,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                        	"BOAD_DELYN":'N',
 	                        	"BOAD_SUPPORT":moca.EFC_BOAD_POP.getSearchCombo('cmb_board').value,
 	                        	"BOAD_TYPE":moca.EFC_BOAD_POP._boardType,
-	                            "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
+	                            "BOAD_TITLE":wtitle,
 	                            "BOAD_CONT":CKEDITOR.instances.editor.getData(),
 	                            "BOAD_WRITER":moca.getValue(moca.EFC_BOAD_POP.getObj("wid")),
 	                            "BOAD_PHONE":moca.getValue(moca.EFC_BOAD_POP.getObj("wphone")),
@@ -735,7 +744,7 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
 			                                    <div type="input" id="widx" class="mocaInput" innerClass="tac" onclick="" style="" value="" readonly="true"></div>
 			                                </td>
 			                                <td>
-			                                    <div type="input" class="mocaInput req" style="width:100%;" innerStyle="" id="wtitle" displayFormat=""  readonly="true"
+			                                    <div type="input" class="mocaInput" style="width:100%;" innerStyle="" id="wtitle" displayFormat=""  readonly="true"
 			                                        defaultValue="" 
 			                                        selecterItem=""
 			                                        showRadioOption="false"

@@ -3401,8 +3401,9 @@ Moca.prototype.renderGrid = function(_divObj) {
     	if(_divObj.getAttribute('toolbar_common_btns_pc')){
         	var _commBtnsStr = _divObj.getAttribute('toolbar_common_btns_pc');
         	var _commBtnsObj = JSON.parse(_commBtnsStr);
-        	
-        	if(_commBtnsObj.detail == 'true'){toolbar_detail = _commBtnsObj.detail;}
+        	if(_commBtnsObj.detail == 'true' || _commBtnsObj.detail == 'dblclick'){
+        		toolbar_detail = _commBtnsObj.detail;
+        	}
         	if(_commBtnsObj.exup == 'true'){toolbar_exup = _commBtnsObj.exup;}
         	if(_commBtnsObj.exdn == 'true'){toolbar_exdn = _commBtnsObj.exdn;}
         	if(_commBtnsObj.addrow == 'true'){toolbar_addrow = _commBtnsObj.addrow;}
@@ -3429,7 +3430,11 @@ Moca.prototype.renderGrid = function(_divObj) {
         	var _commBtnsStr = _divObj.getAttribute('toolbar_common_btns_mobile');
         	var _commBtnsObj = JSON.parse(_commBtnsStr);
         	
-        	if(_commBtnsObj.detail == 'true'){toolbar_detail = _commBtnsObj.detail;}
+        	if(_commBtnsObj.detail == 'true' || _commBtnsObj.detail == 'dblclick'){
+        		toolbar_detail = _commBtnsObj.detail;
+        	}else if(_commBtnsObj.detail == 'dblclick'){
+        		toolbar_dblclick = _commBtnsObj.dblclick;
+        	}
         	if(_commBtnsObj.exup == 'true'){toolbar_exup = _commBtnsObj.exup;}
         	if(_commBtnsObj.exdn == 'true'){toolbar_exdn = _commBtnsObj.exdn;}
         	if(_commBtnsObj.addrow == 'true'){toolbar_addrow = _commBtnsObj.addrow;}
@@ -3526,7 +3531,10 @@ Moca.prototype.renderGrid = function(_divObj) {
         _html += '<div class="rta" grdkey="'+_id+'">';
 
         if(toolbar_col_showhide == "true") _html += '<button type="button" id="'+_id+'_col_showhide" class="button col_showhide" title="컬럼숨기기" grdkey="'+_id+'" onclick="moca._col_showhide(this)"></button>';
+        
         if(toolbar_detail == "true") _html += '<button type="button" id="'+_id+'_btn_detail" class="button grid_detail" title="디테일뷰" grdkey="'+_id+'" onclick="moca._detailview(this)"></button>';
+        else if(toolbar_detail == "dblclick") _html += '<button type="button" id="'+_id+'_btn_detail" class="button grid_detail" title="디테일뷰" grdkey="'+_id+'" onclick="'+_onDblClickFunc+'(this)"></button>';
+        
         if(toolbar_exup == "true") _html += '<button type="button" id="'+_id+'_btn_exup" class="button excel_up" title="엑셀업로드" grdkey="'+_id+'" onclick="moca._excel_up(this)"></button>';
         if(toolbar_exdn == "true") _html += '<button type="button" id="'+_id+'_btn_exdn" class="button excel_dn" title="엑셀다운로드" grdkey="'+_id+'" onclick="moca._excel_down(this)"></button>';
         if(toolbar_addrow == "true") _html += '<button type="button" id="'+_id+'_btn_addrow" class="button add_row" title="행추가" grdkey="'+_id+'" onclick="moca._row_add(this)"></button>';
