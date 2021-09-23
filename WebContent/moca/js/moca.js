@@ -9394,7 +9394,7 @@ Moca.prototype.renderGridToolbarLabelSpan = function(x1Obj) {
     	_html += '<div class="grid_label_span'+x1Obj.addClassStr+'" style="display:none">';
     } 
     if(moca.getDevice() == 'pc'){
-    	_html += '<div class="grid_btn '+x1Obj.addClassStr+'" grdkey="'+x1Obj.id+'">';
+    	_html += '<div class="grid_label_span '+x1Obj.addClassStr+'" grdkey="'+x1Obj.id+'">';
     }
     _html += '<span class="label">'+x1Obj.label+'</span>';
     _html += '<span id="'+x1Obj.id+'" class="'+x1Obj.valueClassStr+'" name="'+x1Obj.id+'" >'+x1Obj.value+'</span>';
