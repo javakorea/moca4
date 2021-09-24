@@ -42,6 +42,7 @@ param['<%=key%>'] = '<%=val%>';
 <%
 	}
 %>
+
 </script>
 <style>
 	
@@ -54,8 +55,11 @@ param['<%=key%>'] = '<%=val%>';
 		<div class="toast_msg" style="padding:9px 15px; height:35px">
 			<!-- <p>조회가 완료되었습니다.</p> -->
 		</div>
-		
 		<!-- <button class="button btn_esc" type="button" onclick="self.close()" >닫기</button> -->
 	</div>
 </body>
+<script>
+$('.moca_wrap').html('');
+$('.moca_wrap').append($('#'+param['__popid'],opener.document));
+</script>
 </html>

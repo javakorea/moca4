@@ -4375,7 +4375,7 @@ Moca.prototype.popChange = function(_popupId,_json){
         delete this.callbacks[_popupId];
         delete this.data[_popupId];
     }*/
-    debugger;
+    //
     var _id = moca.openWindowPopup({
         id: _popupId,
         title:  '비용확정재시도결과',
@@ -11540,7 +11540,14 @@ Moca.prototype.openWindowPopup = function(_opt){
             re_params = re_params +"&user_id="+moca.getSession("USER_ID");
         }
     }
-    var _url = _opt.url+"?__popid="+_opt.id+"&__title="+moca.encode(_opt.title)+"&"+re_params;
+    var addFlag = '';
+    if(_opt.url.indexOf('?') > -1){
+    	addFlag = '&';
+    }else{
+    	addFlag = '?';
+    }
+    var _url = _opt.url+addFlag+"__popid="+_opt.id+"&__title="+moca.encode(_opt.title)+"&"+re_params;
+    
     return window.open(_url,_opt.id,"width="+w+",height="+h+",toolbar=no,status=yes,"+"left="+left+",top="+top);
 };
 
