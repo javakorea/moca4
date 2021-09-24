@@ -3223,7 +3223,6 @@ Moca.prototype.searchComboFilter = function(thisObj) {
 
 Moca.prototype.searchComboFullShow = function(thisObj) {
     ['콤보전체보이기'];
-    debugger;
     var scmb = $(thisObj).closest('[type=searchCombo]');
     var filterDiv = $(thisObj).closest('div.filterheader').next();
     var lis = filterDiv.find('li');
