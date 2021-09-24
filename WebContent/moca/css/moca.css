@@ -127,7 +127,7 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_searchCombo .btn_cmb{position: absolute; right: 0; background:url(../images/ico_cmb_arrow.png) no-repeat 100% 50%; display: inline-block; width: 24px; height: 24px; cursor: pointer;}
 .moca_searchCombo .moca_input{padding:0 22px 0 4px}
 .moca_searchCombo .moca_input:read-only{padding:0 4px}
-.moca_searchCombo .searchCmbTable{position:absolute; width:100%; }
+.moca_searchCombo .searchCmbTable{position:fixed}
 
 /* MOCA inputCalendar */
 .moca_ica {width:110px;display:block; position:relative; height:24px; border:1px solid #d7d7de; background:#fff; border-radius:2px; -moz-box-sizing:border-box; box-sizing:border-box}
@@ -163,7 +163,7 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_popup {position:absolute; z-index:6010; background:#3a669a; border:5px solid #3a669a;box-sizing:border-box; box-shadow:0 0 8px 0 rgba(0,0,0,0.5); -moz-box-shadow:0 0 8px 0 rgba(0,0,0,0.5); -webkit-box-shadow:0 0 8px 0 rgba(0,0,0,0.5); overflow-y:hidden}
 .moca_popup .moca_popup_header {position:relative; width:100%; height:40px; background:#3a669a}
 .moca_popup .moca_popup_header:after {display:block; visibility:hidden; clear:both; height:0; font-size:0; line-height:0; content: '.'}
-.moca_popup .moca_popup_header .moca_popup_title {float:left; margin:0 0 0 10px; padding:0; color:#fff; font-size:13px; line-height:38px}
+.moca_popup .moca_popup_header .moca_popup_title {float:left; margin:0; padding:0; color:#fff; font-size:13px; line-height:38px}
 .moca_popup .moca_popup_header .moca_popup_control {float:right; height:40px}
 .moca_popup .moca_popup_header .moca_popup_control .moca_popup_btn_close {float:left; border:0; width:35px; height:40px; padding:0; margin:0; background:url(../images/pop_btn_close.png) no-repeat 50% 10px; cursor:pointer; text-indent:-9999px}
 .moca_popup .moca_popup_header .moca_popup_control .moca_popup_btn_change {float:left; border:0; width:35px; height:40px; padding:0; margin:0; background:url(../images/pop_btn_change.png) no-repeat 50% 10px; cursor:pointer; text-indent:-9999px}
@@ -174,7 +174,9 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_popup .resize_right{position: absolute; top:0; right:-5px; width: 5px;  height: calc(100% - 15px);}
 .moca_popup .resize_bottom{position: absolute; left:0; bottom:-5px; width: calc(100% - 15px);  height: 5px;}
 .moca_popup .resize_triangle{ position: absolute; right: -5px; bottom: -5px; width: 0; height: 0; border-bottom: 20px solid #3a669a; border-left: 20px solid transparent; z-index:1}
-/* .moca_popup .moca_popup_body .moca_popup_content .moca_titbox h3:before{content:''; display:inline-block; float:left; width:15px; height:27px; margin-right:5px; background:url(../images/ico_bar.png) no-repeat center} */
+/*.moca_popup .moca_popup_header h2:before{content:''; display:inline-block; float:left; width:15px; height:40px; margin:0 5px; background:url(../images/ico_bar_w.png) no-repeat center}*/
+.moca_popup .moca_popup_header i{float: left; height: 40px; color: #fff; font-size: 13px; line-height: 40px; margin: 0 5px;}    
+/*.moca_popup .moca_popup_body .moca_popup_content .moca_titbox h3:before{content:''; display:inline-block; float:left; width:15px; height:27px; margin-right:5px; background:url(../images/ico_bar.png) no-repeat center} */
 
 /*moca_pop_cont_area :: moca_popup div팝업*/
 .moca_pop_cont_wrap{position: absolute; top: 0; right: 0; bottom: 0; left: 0; padding: 15px; min-width: 640px; box-sizing: border-box; -webkit-box-sizing: border-box; overflow-y:auto}
@@ -325,9 +327,9 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .btn_excel_upload {width:26px; background:url(../images/grid/ico_excel_upload.png) no-repeat 50% 50%; text-indent:-9999px}
 .btn_grid_fullscreen {width:26px; background:url(../images/grid/ico_grid_fullscrreen.png) no-repeat 50% 50%; text-indent:-9999px}
 .btn_grid_restore {width:26px; background:url(../images/grid/ico_grid_restore.png) no-repeat 50% 50%; text-indent:-9999px}
-.grid_title{height:24px; line-height:24px; font-size:12px; font-weight:bold; box-sizing:border-box}
+.grid_title{height:24px; line-height:30px; font-size:12px; font-weight:bold; box-sizing:border-box}
 .grid_title i{color:#f26e6e; margin-right:3px}
-.grid_total {display:inline-block; text-align:right; font-size:12px; height:24px; line-height:24px; padding-left:0;border-radius:2px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
+.grid_total {display:inline-block; text-align:right; font-size:12px; height:24px; line-height:30px; padding-left:0;border-radius:2px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
 .grid_total span {display:inline-block; position:relative}
 .grid_total em {font-style:normal}
 .grid_total .txt_total {color:#f21f46}
@@ -339,7 +341,7 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .grid_label_input .label{font-weight:bold; margin-right:5px;}
 .grid_label_input .label:before{content:''; display:inline-block; width:2px; height:2px; background:red;}
 
-.grid_label_span{height: 24px; padding: 0 3px; font-size: 12px; box-sizing: border-box;}
+.grid_label_span{height: 24px; line-height:31px; padding: 0 3px; font-size: 12px; box-sizing: border-box;}
 .grid_label_span .label{margin-right:3px; line-height:24px;}
 .grid_label_span .label:before{content: ''; display: inline-block; width: 3px; height: 3px; background: #f3a95e;margin-right: 4px; border-radius: 3px; position: relative; top: -3px;}
 .grid_label_span .moca_combo{height:23px; top:-1px}
@@ -479,7 +481,7 @@ div[contenteditable=true] {
 .moca_table_body{position:relative; top:0; left:0;right:0; overflow-x:auto; clear:both}
 .moca_table{}
 .moca_table.fix_height .moca_table_body, .moca_table.fix_height .moca_table_list{bottom:0}/*table높이 일정높이로 지정할 경우*/
-.moca_table_cont{table-layout:fixed; width:100%; position: relative; background:#fff; border-radius:2px; border-top:1px solid #9a9ea8; border-collapse: separate;}
+.moca_table_cont{table-layout:fixed; width:100%; position: relative; margin-top:5px; background:#fff; border-radius:2px; border-top:1px solid #9a9ea8; border-collapse: separate;}
 /*.moca_table_cont tr:hover > td > .mocaInput:read-only{background:#e5ebef}*/
 
 .moca_table_cont td{padding:1px 2px; border-bottom:1px solid #c1c8d4; border-right:1px solid #c1c8d4; min-width:30px; background:#fff}
@@ -519,7 +521,7 @@ div[contenteditable=true] {
 .moca_table_toolbar .rta {float:right; margin-left:-5px; text-align:right}
 .moca_table_toolbar .rta > * {float:left; margin-left:5px}
 .moca_table_toolbar .rta > .button {padding:0}
-.moca_table_title{height:24px; padding:3px 5px 3px 3px; margin-bottom:5px; font-size:12px; font-weight:bold; box-sizing:border-box}
+.moca_table_title{height:24px; line-height:30px; font-size:12px; font-weight:bold; box-sizing:border-box}
 .moca_table_title i{color:#f26e6e; margin-right:3px}
 
 .moca_table_toolbar .button {display:inline-block; width:24px; height:23px; padding:0; margin-left:5px; border:1px solid #979aa0; border-radius:2px; background-color:#fff; vertical-align:top; background-repeat:no-repeat}

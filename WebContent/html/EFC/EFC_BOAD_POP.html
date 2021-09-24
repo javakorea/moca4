@@ -807,7 +807,7 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
 			                            toolbar_fold="true"
 			                            toolbar_grid_button2='{"position":"left","id":"btn_add","label":"파일찾기","onclick":"moca.EFC_BOAD_POP._openFileUpload","addClass":"","innerDisabled":"false"}'
 			                            onDblClick = "moca.EFC_BOAD_POP.grd_fileDownload"
-			                            label="첨부파일"
+			                            subLabel="첨부파일"
 			        
 			        >
 			                <table style="width: 100%">
@@ -849,7 +849,7 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
 								toolbar_full="true"
 								toolbar_fold="true"
                                 onRowSelected="moca.EFC_BOAD_POP.grd_1__onDblClick"
-								label="게시물답변"
+								subLabel="게시물답변"
 								pagingType = "scrollbar"
 					>
 							<table style="width: 100%">
@@ -892,7 +892,7 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
             <div class="ly_column col_5 fauto" id="reply_area" style="display:none;">
                 <div class="ly_col_cont pl15 flex fcol">
                      <div type="form" id="form_reply" class="moca_table toolbar" style=""
-                            label="답변작성"
+                            subLabel="답변작성"
                             showRowSelection="false"
                             addition='[
                             {"type":"button","position":"right","id":"btn_receipt","label":"접수","onclick":"moca.EFC_BOAD_POP.fn_status","innerStyle":"background:#81bcb3"},
@@ -904,7 +904,7 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
                             {"type":"button","position":"right","id":"btn_reply_del_admin","label":"물리삭제","onclick":"moca.EFC_BOAD_POP.fn_adminDel","innerStyle":"background:#638f88", "addClass":""}
                                 ]'
                             >
-                            <div class="scrollX_area">
+                            <div class="scrollX_area mt5">
                                 <table class="moca_table_cont" style="">
                                     <colgroup>
                                             <col style="width:60px">
@@ -964,7 +964,7 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
                                         toolbar_fold="true"
                                         toolbar_grid_button2='{"position":"left","id":"btn_reply_add","label":"파일찾기","onclick":"moca.EFC_BOAD_POP._openFileUpload","addClass":"","innerDisabled":"false"}'
                                         onDblClick = "moca.EFC_BOAD_POP.grd_fileDownload"
-                                        label="답변 첨부파일"
+                                        subLabel="답변 첨부파일"
                     
                     >
                             <table style="width: 100%">

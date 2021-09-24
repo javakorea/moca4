@@ -3223,12 +3223,13 @@ Moca.prototype.searchComboFilter = function(thisObj) {
 
 Moca.prototype.searchComboFullShow = function(thisObj) {
     ['콤보전체보이기'];
+    debugger;
     var scmb = $(thisObj).closest('[type=searchCombo]');
     var filterDiv = $(thisObj).closest('div.filterheader').next();
     var lis = filterDiv.find('li');
     lis.css('display','');
-    
     var div = scmb.find('.searchCmbTable');
+    div.width(scmb.width());
     if(div.is(':visible')){
         div.hide();
     }else{
@@ -3374,7 +3375,8 @@ Moca.prototype.renderGrid = function(_divObj) {
     moca.getObj(_id,null,pageid,srcid);//id중복체크
     
     var _default_cell_height = _divObj.getAttribute("default_cell_height");
-    var _title = _divObj.getAttribute("label");
+    var _label = _divObj.getAttribute("label");
+    var _subLabel = _divObj.getAttribute("subLabel");
     var _toolbar = $(_divObj).hasClass("toolbar");
 //  var _paging = $(_divObj).hasClass("paging");
     var _header_body = _divObj.innerHTML;
@@ -3464,14 +3466,18 @@ Moca.prototype.renderGrid = function(_divObj) {
     if(_toolbar){
         _html += '<div class="moca_grid_toolbar" grdkey="'+_id+'" default_cell_height="'+_default_cell_height+'" >';
         _html += '<div class="lta" grdkey="'+_id+'">';
-        if(_title != null){
+        if(_label != null){
             _html += '<div class="grid_title" grdkey="'+_id+'">';               
-            _html += '<i class="fas fa-angle-double-right"></i>'+_title;                            
+            _html += '<i class="fas fa-angle-double-right"></i>'+_label;                            
             _html += '</div>';
         } 
-        
+        if(_subLabel != null){
+            _html += '<div class="moca_table_title" grdkey="'+_id+'">';             
+            _html += '<i class="fas fa-caret-square-right"></i>'+'<span>'+_subLabel+'</span>';                         
+            _html += '</div>';
+        } 
         _html += '<div class="mr15 grid_total" grdkey="'+_id+'">';
-        if(_title != null){
+        if(_label != null || _subLabel != null){
             _html += '<span><em class="txt_blue"></em>건</span>';
         }else{
             _html += '<span>Fetch : <em class="txt_blue"></em>건</span>';            
@@ -9583,8 +9589,8 @@ Moca.prototype.renderTable = function(_divObj) {
     moca.getObj(_id,null,pageid,srcid);//id중복체크
     
     var _default_cell_height = _divObj.getAttribute("default_cell_height");
-    var _title = _divObj.getAttribute("title");
     var _label = _divObj.getAttribute("label");
+    var _subLabel = _divObj.getAttribute("subLabel");
     var _toolbar = $(_divObj).hasClass("toolbar");
     var _paging = $(_divObj).hasClass("paging");
     var _header_body = _divObj.innerHTML;
@@ -9603,15 +9609,15 @@ Moca.prototype.renderTable = function(_divObj) {
     if(_toolbar){
         _html += '<div class="moca_table_toolbar" grdkey="'+_id+'" default_cell_height="'+_default_cell_height+'" >';
         _html += '<div class="lta" grdkey="'+_id+'">';
-        if(_title != null){
+        if(_label != null){
             _html += '<div class="moca_table_title" grdkey="'+_id+'">';             
-            _html += '<i class="fas fa-angle-double-right"></i>'+'<span>'+_title+'</span>';                         
+            _html += '<i class="fas fa-angle-double-right"></i>'+'<span>'+_label+'</span>';                         
             _html += '</div>';
         } 
         
-        if(_label != null){
+        if(_subLabel != null){
             _html += '<div class="moca_table_title" grdkey="'+_id+'">';             
-            _html += '<i class="fas fa-angle-double-right"></i>'+'<span>'+_title+'</span>';                         
+            _html += '<i class="fas fa-caret-square-right"></i>'+'<span>'+_subLabel+'</span>';                         
             _html += '</div>';
         } 
 
@@ -9956,10 +9962,20 @@ Moca.prototype.renderForm = function(_divObj) {
     var _header_body = _divObj.innerHTML;
     var _html = '';
     
-    var _title = _divObj.getAttribute("label");
-    _html += '<div class="moca_table_title fl" pageId="'+_pageId+'" srcId="'+_srcId+'">';
-    _html += '  <i class="fas fa-angle-double-right"></i>'+'<span>'+_title+'</span>';
-    _html += '</div>';
+    var _label = _divObj.getAttribute("label");
+    var _subLabel = _divObj.getAttribute("subLabel");
+    
+    if(_label != null){
+        _html += '<div class="moca_table_title fl" pageId="'+_pageId+'" srcId="'+_srcId+'">';
+        _html += '  <i class="fas fa-angle-double-right"></i>'+'<span>'+_label+'</span>';
+        _html += '</div>';
+    } 
+    
+    if(_subLabel != null){
+    	_html += '<div class="moca_table_title fl" pageId="'+_pageId+'" srcId="'+_srcId+'">';
+        _html += '  <i class="fas fa-caret-square-right"></i>'+'<span>'+_subLabel+'</span>';
+        _html += '</div>';
+    } 
     
     var _toolbar = $(_divObj).hasClass("toolbar");
     if(_toolbar){
@@ -10160,6 +10176,7 @@ Moca.prototype.rendering = function(o,_aTag) {
         }
         cont += '<div id="'+_pid+'" pageid="'+_tabId+'" srcid="'+moca.srcId+'" class="moca_popup" style="left:'+o.left+'px;top:'+o.top+'px;width:'+o.width+'px;height:'+o.height+'px">';
         cont += '   <div class="moca_popup_header">';
+        cont += '   	<i class="fab fa-telegram-plane"></i>';
         cont += '       <h2 class="moca_popup_title">'+o.title+'('+moca.srcId+')'+'</h2>';
         cont += '       <div class="moca_popup_control"><button type="button" id="btn_popChange" class="moca_popup_btn_change" onclick="moca.popChange(\''+_tabId+'\');">변경</button><button type="button" id="btn_popClose" class="moca_popup_btn_close" onclick="moca.popClose(\''+_tabId+'\');">닫기</button></div>';
         cont += '   </div>';
