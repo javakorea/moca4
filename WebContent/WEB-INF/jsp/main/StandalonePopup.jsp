@@ -79,10 +79,9 @@ setTimeout(function(){
 		'left':0
 	});
 	opener.CKEDITOR.instances.editor.destroy();
+	var srcid = $('#'+param['__popid'],opener.document).find('[srcid]').attr('srcid');
+	moca[srcid].args = opener.moca[srcid].args;
 	$('.moca_wrap').append($('#'+param['__popid'],opener.document));
-	
-	
-	
 	CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
         'instanceReady':function(ev){
             moca.EFC_BOAD_POP.editor = ev.editor;

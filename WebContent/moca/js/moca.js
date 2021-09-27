@@ -10853,6 +10853,7 @@ Moca.prototype.renderWframe = function(aTag) {
 };
 
 Moca.prototype.callReady = function(aTag) {
+		debugger;
        if(aTag == null){
            return;
        }
@@ -11413,7 +11414,7 @@ Moca.prototype.popup = function(_option,thisObj) {
                 o.width = width;
                 o.height = height;
                 o.scopeId = _option.scopeId;
-                
+                debugger;
                 var popObj = moca.rendering(o);
                 
                 moca.callReady(popObj);
