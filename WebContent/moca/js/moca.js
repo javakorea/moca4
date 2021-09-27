@@ -4385,7 +4385,6 @@ Moca.prototype.popChange = function(_popupId,_json){
         delete this.data[_popupId];
     }*/
     //
-    
     var _w = $('#'+_popupId+'>div').css('width').replace(/px/g,'');
     var _h = $('#'+_popupId+'>div').css('height').replace(/px/g,''); 
 
@@ -4403,8 +4402,6 @@ Moca.prototype.popChange = function(_popupId,_json){
         param : {
         }
     });
-        
-        
         
 };
 
@@ -10137,7 +10134,9 @@ Moca.prototype.rendering = function(o,_aTag) {
     htmlContents = htmlContents.replace(/<html(.*?)>|<\/html>|<body(.*?)>|<\/body>|<head(.*?)>|<\/head>/gi,'');
     htmlContents = htmlContents.replace(/<script(.*?)><\/script>/g,'');
     htmlContents = htmlContents.replace(/<title(.*?)>(.*?)<\/title>/gi,'');
-
+	if(moca.trim(o.popupId) != ''){
+		_tabId = o.popupId;
+	}
     moca.pageId = _tabId;
     moca.srcId = _srcId;
     if(moca.trim(_clickedMenuId) != ''){

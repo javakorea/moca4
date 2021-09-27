@@ -54,7 +54,6 @@ var param = {};
 	}
 	System.out.println("--------------------->paramMap-->"+paramMap);
 %> 
-
 </script>
 <style>
 	
@@ -64,8 +63,8 @@ var param = {};
    <body>
 	<div class="moca_wrap winPop">
 		<div type="wframe"  id="__popup" tag="moca:body" src="<%=mcsrc2%>" 
-		popupId="<%=paramMap.get("key__popid")%>"  
-		popupTitle="<%=paramMap.get("key__title")%>"></div>   
+		popupId="<%=paramMap.get("__popid")%>"  
+		popupTitle="<%=paramMap.get("__title")%>"></div>   
 		<div class="toast_msg" style="padding:9px 15px; height:35px">
 			<!-- <p>조회가 완료되었습니다.</p> -->
 		</div>
