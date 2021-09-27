@@ -78,8 +78,21 @@ setTimeout(function(){
 		'top':0,
 		'left':0
 	});
+	opener.CKEDITOR.instances.editor.destroy();
 	$('.moca_wrap').append($('#'+param['__popid'],opener.document));
+	
+	
+	
+	CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
+        'instanceReady':function(ev){
+            moca.EFC_BOAD_POP.editor = ev.editor;
+            moca.EFC_BOAD_POP._boardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
+            if(moca.EFC_BOAD_POP._boardIdx != null){
+                moca.EFC_BOAD_POP.editor.setReadOnly(true);
+            }
+            $('#contents').show();
+            moca.hide($(moca.EFC_BOAD_POP.getObj("cke_editor")).find('.cke_top'));            
+    }}} );
 },500)
-
 </script>
 </html>
