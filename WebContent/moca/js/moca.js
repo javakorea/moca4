@@ -13212,8 +13212,9 @@ Moca.prototype.setReadOnly = function(_mocaInputObj,_trueFalse){
             _mocaInputObj.setAttribute("readonly",true);
             _mocaObj.setAttribute("readonly",true);
         }else{
+        	
             _mocaInputObj.removeAttribute("readonly");
-            _mocaObj.removeAttribute("readonly");
+            if(_mocaObj != null) _mocaObj.removeAttribute("readonly");
         }
     }
 };
