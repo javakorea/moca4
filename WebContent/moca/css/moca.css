@@ -174,8 +174,8 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_popup .resize_right{position: absolute; top:0; right:-5px; width: 5px;  height: calc(100% - 15px);}
 .moca_popup .resize_bottom{position: absolute; left:0; bottom:-5px; width: calc(100% - 15px);  height: 5px;}
 .moca_popup .resize_triangle{ position: absolute; right: -5px; bottom: -5px; width: 0; height: 0; border-bottom: 20px solid #3a669a; border-left: 20px solid transparent; z-index:1}
-/*.moca_popup .moca_popup_header h2:before{content:''; display:inline-block; float:left; width:15px; height:40px; margin:0 5px; background:url(../images/ico_bar_w.png) no-repeat center}*/
-.moca_popup .moca_popup_header i{float: left; height: 40px; color: #fff; font-size: 13px; line-height: 40px; margin: 0 5px;}    
+.moca_popup .moca_popup_header h2:before{content:''; display:inline-block; float:left; width:17px; height:38px; margin:0 5px; background:url(../images/pop_title.png) no-repeat center}
+.moca_popup .moca_popup_header i{float: left; height: 40px; color: #fff; font-size: 16px; line-height: 36px; margin: 0 5px 0 8px;}    
 /*.moca_popup .moca_popup_body .moca_popup_content .moca_titbox h3:before{content:''; display:inline-block; float:left; width:15px; height:27px; margin-right:5px; background:url(../images/ico_bar.png) no-repeat center} */
 
 /*moca_pop_cont_area :: moca_popup div팝업*/
@@ -328,7 +328,7 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .btn_grid_fullscreen {width:26px; background:url(../images/grid/ico_grid_fullscrreen.png) no-repeat 50% 50%; text-indent:-9999px}
 .btn_grid_restore {width:26px; background:url(../images/grid/ico_grid_restore.png) no-repeat 50% 50%; text-indent:-9999px}
 .grid_title{height:24px; line-height:30px; font-size:12px; font-weight:bold; box-sizing:border-box}
-.grid_title i{color:#f26e6e; margin-right:3px}
+.grid_title i{color:#637fa0; margin-right:3px}
 .grid_total {display:inline-block; text-align:right; font-size:12px; height:24px; line-height:30px; padding-left:0;border-radius:2px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
 .grid_total span {display:inline-block; position:relative}
 .grid_total em {font-style:normal}
@@ -522,7 +522,8 @@ div[contenteditable=true] {
 .moca_table_toolbar .rta > * {float:left; margin-left:5px}
 .moca_table_toolbar .rta > .button {padding:0}
 .moca_table_title{height:24px; line-height:30px; font-size:12px; font-weight:bold; box-sizing:border-box}
-.moca_table_title i{color:#f26e6e; margin-right:3px}
+.moca_table_title i{color:#637fa0; margin-right:3px}
+.moca_table_title i.subLabel{background-image:url(../images/ico_subLabel.png); color:#637fa0; margin-right:3px;display: inline-block; width: 15px; height: 13px}
 
 .moca_table_toolbar .button {display:inline-block; width:24px; height:23px; padding:0; margin-left:5px; border:1px solid #979aa0; border-radius:2px; background-color:#fff; vertical-align:top; background-repeat:no-repeat}
 .moca_table_toolbar .button.on{background-color:#333; border-color:#333;}

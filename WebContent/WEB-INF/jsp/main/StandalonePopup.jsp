@@ -32,16 +32,27 @@
 <script>
 var moca = new Moca();
 var param = {};
+
 <%
+	java.util.Map paramMap = new java.util.HashMap();   
 	java.util.Enumeration en = request.getParameterNames();
 	while(en.hasMoreElements()){
-		String key = (String)en.nextElement();
-		String val = java.net.URLDecoder.decode(request.getParameter(key),"UTF-8");
+		try{
+			String key = (String)en.nextElement();
+			System.out.println("--------------------->33key"+key+","+request.getParameter(key)); 
+			if(request.getParameter(key) != null && !"".equals(request.getParameter(key))){
+				String val = java.net.URLDecoder.decode(request.getParameter(key),"UTF-8");
+				paramMap.put(key,val);
 %>
-param['<%=key%>'] = '<%=val%>';
+				param['<%=key%>'] = '<%=val%>';
 <%
+			}	
+		}catch(Exception e){
+			System.out.println("==============="+e);
+		}
 	}
-%>
+	System.out.println("--------------------->paramMap-->"+paramMap);
+%> 
 
 </script>
 <style>
@@ -51,7 +62,9 @@ param['<%=key%>'] = '<%=val%>';
 </head>
    <body>
 	<div class="moca_wrap">
-		<div type="wframe"  id="__popup" tag="moca:body" src="<%=mcsrc2%>" popupId="<%=request.getParameter("__popid")%>" popupTitle="<%=java.net.URLDecoder.decode(request.getParameter("__title"),"UTF-8")%>"></div>
+		<div type="wframe"  id="__popup" tag="moca:body" src="<%=mcsrc2%>" 
+		popupId="<%=paramMap.get("key__popid")%>"  
+		popupTitle="<%=paramMap.get("key__title")%>"></div>   
 		<div class="toast_msg" style="padding:9px 15px; height:35px">
 			<!-- <p>조회가 완료되었습니다.</p> -->
 		</div>
@@ -59,7 +72,14 @@ param['<%=key%>'] = '<%=val%>';
 	</div>
 </body>
 <script>
-$('.moca_wrap').html('');
-$('.moca_wrap').append($('#'+param['__popid'],opener.document));
+setTimeout(function(){
+	$('.moca_wrap').html('');
+	$('#'+param['__popid'],opener.document).find('.moca_popup').css({
+		'top':0,
+		'left':0
+	});
+	$('.moca_wrap').append($('#'+param['__popid'],opener.document));
+},500)
+
 </script>
 </html>

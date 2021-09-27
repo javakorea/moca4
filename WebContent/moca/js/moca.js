@@ -3472,7 +3472,7 @@ Moca.prototype.renderGrid = function(_divObj) {
         } 
         if(_subLabel != null){
             _html += '<div class="moca_table_title" grdkey="'+_id+'">';             
-            _html += '<i class="fas fa-caret-square-right"></i>'+'<span>'+_subLabel+'</span>';                         
+            _html += '<i class="subLabel"></i>'+'<span>'+_subLabel+'</span>';                         
             _html += '</div>';
         } 
         _html += '<div class="mr15 grid_total" grdkey="'+_id+'">';
@@ -4376,19 +4376,25 @@ Moca.prototype.popChange = function(_popupId,_json){
         delete this.data[_popupId];
     }*/
     //
+    
+    var _w = $('#'+_popupId+'>div').css('width').replace(/px/g,'');
+    var _h = $('#'+_popupId+'>div').css('height').replace(/px/g,''); 
+
+    var __srcid = $('#'+_popupId+'>div').attr('srcid');
+    var __param = moca[__srcid].args.parent.data;
+    var __url = "/uat/uia/actionMain_link.do?mcsrc="+$('#'+_popupId).attr('src');
     var _id = moca.openWindowPopup({
         id: _popupId,
+        method:"post",
         title:  '비용확정재시도결과',
-        width:"1024px",
-        height:"400px",
-        url : "/uat/uia/actionMain_link.do?mcsrc="+$('#'+_popupId).attr('src'),
+        width:Number(_w)+16, 
+        height:Number(_h)+80,
+        url : __url,
         fullscreen : 'no',
         param : {
         }
     });
-    setTimeout(function(){
-        moca.submit(mocaConfig.url_ts_cost(),{xml:a},_popupId);
-    },1000);
+        
         
         
 };
@@ -10175,7 +10181,6 @@ Moca.prototype.rendering = function(o,_aTag) {
         }
         cont += '<div id="'+_pid+'" pageid="'+_tabId+'" srcid="'+moca.srcId+'" class="moca_popup" style="left:'+o.left+'px;top:'+o.top+'px;width:'+o.width+'px;height:'+o.height+'px">';
         cont += '   <div class="moca_popup_header">';
-        cont += '   	<i class="fab fa-telegram-plane"></i>';
         cont += '       <h2 class="moca_popup_title">'+o.title+'('+moca.srcId+')'+'</h2>';
         cont += '       <div class="moca_popup_control"><button type="button" id="btn_popChange" class="moca_popup_btn_change" onclick="moca.popChange(\''+_tabId+'\');">변경</button><button type="button" id="btn_popClose" class="moca_popup_btn_close" onclick="moca.popClose(\''+_tabId+'\');">닫기</button></div>';
         cont += '   </div>';
@@ -11525,9 +11530,13 @@ Moca.prototype.openWindowPopup = function(_opt){
     var top     = (screen.availHeight/2)-(h/2); 
     top = top -34;//타이블바 만큼 보정
     
-
-    
     var params = _opt.param;
+    if(_opt.method == 'post'){
+    	params["__title"] = _opt.title;
+    	params["__popid"] = _opt.id;
+    	params["user_id"] = moca.getSession("USER_ID");
+    }
+    
     var paramArray = Object.keys(params);
     var re_params = '';
     for(var i=0; i < paramArray.length; i++){
@@ -11547,8 +11556,18 @@ Moca.prototype.openWindowPopup = function(_opt){
     	addFlag = '?';
     }
     var _url = _opt.url+addFlag+"__popid="+_opt.id+"&__title="+moca.encode(_opt.title)+"&"+re_params;
-    
-    return window.open(_url,_opt.id,"width="+w+",height="+h+",toolbar=no,status=yes,"+"left="+left+",top="+top);
+    var reid = '';
+    try{
+	    if(_opt.method == 'post'){
+	    	reid = window.open('',_opt.id,"width="+w+",height="+h+",toolbar=no,status=yes,"+"left="+left+",top="+top);
+	    	moca.submit(_url,params,_opt.id);
+	    }else{
+	    	reid = window.open(_url,_opt.id,"width="+w+",height="+h+",toolbar=no,status=yes,"+"left="+left+",top="+top);
+	    }
+    }catch(e){
+    	alert(e);
+    }
+    return reid;
 };
 
 
