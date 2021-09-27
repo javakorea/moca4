@@ -62,7 +62,7 @@ var param = {};
 </style>
 </head>
    <body>
-	<div class="moca_wrap">
+	<div class="moca_wrap winPop">
 		<div type="wframe"  id="__popup" tag="moca:body" src="<%=mcsrc2%>" 
 		popupId="<%=paramMap.get("key__popid")%>"  
 		popupTitle="<%=paramMap.get("key__title")%>"></div>   

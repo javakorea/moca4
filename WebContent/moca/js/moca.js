@@ -3475,7 +3475,7 @@ Moca.prototype.renderGrid = function(_divObj) {
             _html += '<i class="fas fa-angle-right"></i>'+'<span>'+_subLabel+'</span>';                         
             _html += '</div>';
         } 
-        _html += '<div class="mr15 grid_total" grdkey="'+_id+'">';
+        _html += '<div class="mr5 grid_total" grdkey="'+_id+'">';
         if(_label != null || _subLabel != null){
             _html += '<span><em class="txt_blue"></em>건</span>';
         }else{
@@ -4336,23 +4336,32 @@ Moca.prototype.openPdfViewer = function(_opt){
 
 Moca.prototype.popClose = function(_popupId,_json){
     ['모카팝업 닫기'];
-    $('#'+_popupId).remove();
-    if($('.moca_tab_list.active').length > 0){
-        var activeObj = $('.moca_tab_list.active')[0];
-        var _tab_id = activeObj.getAttribute("tab_id");//MDI_201901091611497970040306010502
-        var _tab_url = activeObj.getAttribute("tab_url");//MDI_201901091611497970040306010502
-        var _src_id = moca.url_to_srcId(_tab_url);
-        moca.pageId = _tab_id;
-        moca.srcId = _src_id;
+    if(top.name.startsWith("POPUP")){
+    	if(opener.this.callbacks[_popupId]){
+	        eval(opener.this.callbacks[_popupId])(_json);
+	        delete opener.this.callbacks[_popupId];
+	        delete opener.this.data[_popupId];
+	    }
+    	self.close();
     }else{
-        moca.pageId = $("div[type=grid]").attr("pageid");
-        moca.srcId = $("div[type=grid]").attr("srcid");
-    }
-    if(this.callbacks[_popupId]){
-        eval(this.callbacks[_popupId])(_json);
-        delete this.callbacks[_popupId];
-        delete this.data[_popupId];
-    }
+    	$('#'+_popupId).remove();
+    	if($('.moca_tab_list.active').length > 0){
+	        var activeObj = $('.moca_tab_list.active')[0];
+	        var _tab_id = activeObj.getAttribute("tab_id");//MDI_201901091611497970040306010502
+	        var _tab_url = activeObj.getAttribute("tab_url");//MDI_201901091611497970040306010502
+	        var _src_id = moca.url_to_srcId(_tab_url);
+	        moca.pageId = _tab_id;
+	        moca.srcId = _src_id;
+	    }else{
+	        moca.pageId = $("div[type=grid]").attr("pageid");
+	        moca.srcId = $("div[type=grid]").attr("srcid");
+	    }
+	    if(this.callbacks[_popupId]){
+	        eval(this.callbacks[_popupId])(_json);
+	        delete this.callbacks[_popupId];
+	        delete this.data[_popupId];
+	    }
+    };
 };
 
 Moca.prototype.popChange = function(_popupId,_json){

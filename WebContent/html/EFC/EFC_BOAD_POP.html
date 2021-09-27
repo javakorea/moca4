@@ -113,6 +113,7 @@ moca.EFC_BOAD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 		callback : function(response){
 				if(response.selectBoardInfo != null ){
 				var data = response.selectBoardInfo;
+				debugger; 
 				CKEDITOR.instances.reply_editor.setData(data.BOAD_CONT);
 				moca.setValue(moca.EFC_BOAD_POP.getObj("wreplytitle"),data.BOAD_TITLE);
 				moca.setValue(moca.EFC_BOAD_POP.getObj("wreplydate"),data.BOAD_DATE);
@@ -258,12 +259,7 @@ moca.EFC_BOAD_POP.fn_replyCnt = function(_thisObj){
          },          
          callback : function(response){
              if(response.cnt > 0){
-                 moca.popClose(moca.EFC_BOAD_POP.pageId);
-                 if(moca.EFC_BOAD_POP._boardType == 'ERP'){
-                 	moca.EFC_BOAD.fn_search();
-                 }else{
-                 	moca.EFC_BOAD_WS.fn_search();
-                 }
+            	 moca.popClose(moca.EFC_BOAD_POP.pageId,{callback:"true"});
              }
          }
      });
@@ -307,12 +303,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                    callback : function(response){
 	                        if(response.cnt > 0){
 	                            moca.alert('성공적으로 저장하였습니다.');
-	                            moca.popClose(moca.EFC_BOAD_POP.pageId);
-	                            if(moca.EFC_BOAD_POP._boardType == 'ERP'){
-	                            	moca.EFC_BOAD.fn_search();
-	                            }else{
-	                            	moca.EFC_BOAD_WS.fn_search();
-	                            }
+	                            moca.popClose(moca.EFC_BOAD_POP.pageId,{callback:"true"});
 	                        }
 	                    }
 	                });
@@ -339,12 +330,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
                          callback : function(response){
                         	 if(response.cnt > 0){
  	                            moca.alert('성공적으로 저장하였습니다.');
- 	                            moca.popClose(moca.EFC_BOAD_POP.pageId);
- 	                            if(moca.EFC_BOAD_POP._boardType == 'ERP'){
- 	                            	moca.EFC_BOAD.fn_search();
- 	                            }else{
- 	                            	moca.EFC_BOAD_WS.fn_search();
- 	                            }
+ 	                            moca.popClose(moca.EFC_BOAD_POP.pageId,{callback:"true"});
  	                        }
                          }
                      });
@@ -409,12 +395,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                     callback : function(response){
 	                         if(response.cnt > 0){
 	                             moca.alert('성공적으로 저장하였습니다.');
-	                             moca.popClose(moca.EFC_BOAD_POP.pageId);
-	                             if(moca.EFC_BOAD_POP._boardType == 'ERP'){
-                            		moca.EFC_BOAD.fn_search();
-	                             }else{
-	                             	moca.EFC_BOAD_WS.fn_search();
-	                             }
+	                             moca.popClose(moca.EFC_BOAD_POP.pageId,{callback:"true"});
 	                         }
 	                     }
 	                 });
@@ -460,12 +441,7 @@ moca.EFC_BOAD_POP.fn_adminDel = function(_thisObj){
                         	moca.EFC_BOAD_POP._replyStatus = 'del';
                             moca.EFC_BOAD_POP.fn_replyCnt();
                         }else{//원글삭제
-                        	moca.popClose(moca.EFC_BOAD_POP.pageId);
-                            if(moca.EFC_BOAD_POP._boardType == 'ERP'){
-                            	moca.EFC_BOAD.fn_search();
-                             }else{
-                            	moca.EFC_BOAD_WS.fn_search();
-                             }
+                        	moca.popClose(moca.EFC_BOAD_POP.pageId,{callback:"true"});
                         }
                     }
                 }
@@ -510,12 +486,8 @@ moca.EFC_BOAD_POP.fn_del = function(_thisObj){
                         	moca.EFC_BOAD_POP._replyStatus = 'del';
                             moca.EFC_BOAD_POP.fn_replyCnt();
                         }else{//원글삭제
-                        	moca.popClose(moca.EFC_BOAD_POP.pageId);
-                            if(moca.EFC_BOAD_POP._boardType == 'ERP'){
-                            	moca.EFC_BOAD.fn_search();
-                             }else{
-                            	moca.EFC_BOAD_WS.fn_search();
-                             }
+                        	moca.popClose(moca.EFC_BOAD_POP.pageId,{callback:"true"});
+                            
                         }
                      }
                  }
@@ -657,8 +629,6 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
         			if(response.cnt > 0){
                         moca.alert(_thisObj.innerText+'되었습니다.');
                         moca.EFC_BOAD_POP.fn_search();
-                        //moca.popClose(moca.EFC_BOAD_POP.pageId);
-                       
                         if(moca.EFC_BOAD_POP._boardType == 'ERP'){
                         	moca.EFC_BOAD.fn_search();
                         }else{

@@ -182,9 +182,13 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_pop_cont_wrap{position: absolute; top: 0; right: 0; bottom: 0; left: 0; padding: 15px; min-width: 640px; box-sizing: border-box; -webkit-box-sizing: border-box; overflow-y:auto}
 .moca_pop_cont_wrap.scroll{ position:relative; /*height:calc(100% - 10px);*/}
 .moca_pop_cont_wrap.scroll > div{position:relative; left:0px; right:0px; top:0}
-
 .moca_pop_cont_wrap > .lybox.sc_row {top:15px;}
-/* .moca_pop_cont_wrap .moca_titbox{min-height:30px; border-bottom:1px solid #9a9ea8} */
+
+/*winPop*/
+.winPop .moca_popup{background:#3a9a7f; border:5px solid #3a9a7f}
+.winPop .moca_popup .moca_popup_header{background:#3a9a7f}
+.winPop .moca_popup .moca_popup_header .moca_popup_control .moca_popup_btn_change {background:url(../images/pop_btn_change2.png) no-repeat 50% 10px}
+
 /*---------[as-is] PopSumm -> moca_pop_cont로 바꿔야함-------*/
 .PopSumm_body{height:calc(100% - 10px); position:relative;}
 .PopSumm_body > div{position:relative; left:0px; right:0px; top:0}

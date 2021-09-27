@@ -102,6 +102,13 @@
 	    o.data = {"BOAD_IDX":_BoardIdx+'',"BOAD_PIDX":__BoardParentIdx+'',"BOAD_TITLE":_BoardTitle,"BOAD_TYPE":moca.EFC_BOAD.boardType};
 	    moca.popup(o,_grd);
 	};
+	
+	moca.EFC_BOAD.fn_pop_callback = function(_json){
+		if(_json != null && _json.callback == 'true'){
+			moca.EFC_BOAD.fn_search();
+		}
+	}
+	
 	moca.EFC_BOAD.fn_adminDelList = function(){
 		['게시글 물리삭제 관리자삭제']
         if(moca.EFC_BOAD.validate("grd_1","status","C,U,D")){
