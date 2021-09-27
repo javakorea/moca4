@@ -10853,7 +10853,6 @@ Moca.prototype.renderWframe = function(aTag) {
 };
 
 Moca.prototype.callReady = function(aTag) {
-		debugger;
        if(aTag == null){
            return;
        }
@@ -10862,9 +10861,17 @@ Moca.prototype.callReady = function(aTag) {
        var _srcId = _fileName.substring(0,_fileName.indexOf('.'));
        var _argsObj = {};
        _argsObj.parent = aTag;
+       
+       
        if($(aTag).attr('tab_id') != null && !$(aTag).attr('tab_id').startsWith('POPUP') && aTag.id != "moca_main"){//single page case
            moca[_srcId].___ready(_argsObj);
        }else if($(aTag).attr('tab_id') != null && $(aTag).attr('tab_id').startsWith('POPUP')){//popup case
+    	   if(opener){
+    		    var srcid = $('#'+$(aTag).attr('tab_id'),opener.document).find('[srcid]').attr('srcid');
+           		moca[srcid].args = JSON.parse(JSON.stringify(opener.moca[srcid].args));
+           		_argsObj = moca[srcid].args;
+    	   }
+      		
            moca[_srcId].___ready(_argsObj);
        }else if($(aTag).attr('tab_id') == null && aTag.id != "moca_main"){//popup case
            moca[_srcId].___ready(_argsObj);

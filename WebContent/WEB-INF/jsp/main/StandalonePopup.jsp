@@ -54,6 +54,23 @@ var param = {};
 	}
 	System.out.println("--------------------->paramMap-->"+paramMap);
 %> 
+
+$(document).ready(function() {
+	$('.moca_wrap').html('');
+	$('#'+param['__popid'],opener.document).find('.moca_popup').css({
+		'top':0,
+		'left':0
+	});
+	var arr = Object.keys(opener.CKEDITOR.instances);
+	for(var i=0; i < arr.length; i++){
+		opener.CKEDITOR.instances[arr[i]].destroy();
+	}
+	
+	var srcid = $('#'+param['__popid'],opener.document).find('[srcid]').attr('srcid');
+	moca[srcid].args = opener.moca[srcid].args;
+	$('.moca_wrap').append($('#'+param['__popid'],opener.document));
+});
+
 </script>
 <style>
 	
@@ -71,27 +88,4 @@ var param = {};
 		<!-- <button class="button btn_esc" type="button" onclick="self.close()" >닫기</button> -->
 	</div>
 </body>
-<script>
-setTimeout(function(){
-	$('.moca_wrap').html('');
-	$('#'+param['__popid'],opener.document).find('.moca_popup').css({
-		'top':0,
-		'left':0
-	});
-	opener.CKEDITOR.instances.editor.destroy();
-	var srcid = $('#'+param['__popid'],opener.document).find('[srcid]').attr('srcid');
-	moca[srcid].args = opener.moca[srcid].args;
-	$('.moca_wrap').append($('#'+param['__popid'],opener.document));
-	CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
-        'instanceReady':function(ev){
-            moca.EFC_BOAD_POP.editor = ev.editor;
-            moca.EFC_BOAD_POP._boardIdx = moca.EFC_BOAD_POP.args.parent.data.BOAD_IDX;
-            if(moca.EFC_BOAD_POP._boardIdx != null){
-                moca.EFC_BOAD_POP.editor.setReadOnly(true);
-            }
-            $('#contents').show();
-            moca.hide($(moca.EFC_BOAD_POP.getObj("cke_editor")).find('.cke_top'));            
-    }}} );
-},500)
-</script>
 </html>
