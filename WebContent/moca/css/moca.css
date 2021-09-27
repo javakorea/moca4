@@ -1206,7 +1206,7 @@ td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:2
 .txt_box > p:before{content: ''; display: inline-block; width: 4px; height: 4px; background: #aaa; border-radius: 3px;}
 .txt_box > p > span{display:inline-block; width:83px; text-align:right}
 /*moca_addtion_area*/
-.moca_addtion_area{overflow: hidden}
+.moca_addtion_area{overflow: hidden; height:24px;}
 .moca_addtion_area .lta{float:left}
 .moca_addtion_area .rta{float:right}
 .moca_addtion_area .lta > div, .moca_addtion_area .rta > div{float:left; height:24px; line-height:24px}

@@ -672,7 +672,17 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
         	
         }
 	});
+};
+
+moca.EFC_BOAD_POP.dispCnt= function(_thisVal){
+	if(_thisVal !=null && _thisVal != 0){
+		return _thisVal;
+	}else{
+		_thisVal = '';
+		return _thisVal;
+	}
 }
+
 </script>
 <style>
 </style>
@@ -794,6 +804,9 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
 			                    </table>
 			              </div>      
 			        </div>
+			        <div class="mt5 edit fit"  style="top:0">
+			            <div contenteditable="true" placeholder="" id="editor"></div>
+			        </div>
 			        <div type="grid" class="moca_grid toolbar sc_row1 mt10 fold" default_cell_height="26px" id="grd_file" style="top:0; height:112px" rowSelectedColor="#434e5f"
 			        
 			                            toolbar_search_size="false"
@@ -835,9 +848,6 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
 			                    </tbody>
 			                </table>                
 			        </div>
-			        <div class="mt5 edit fit"  style="top:0">
-			            <div contenteditable="true" placeholder="" id="editor"></div>
-			        </div>
 					<div type="grid" class="moca_grid toolbar sc_row1 mt10 fold" default_cell_height="26px" style="height:112px" id="grd_reply_list" rowSelectedColor="#434e5f"
 								toolbar_search_size="false"
 								toolbar_detail="true"
@@ -876,10 +886,10 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
 								</thead>
 								<tbody>
 									<tr>
-										<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" disabledFunction="moca.EFC_BOAD.disabled" ></td>
+										<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" ></td>
 										<td id="BOAD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td>
-										<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true" displayFunction="moca.EFC_BOAD.dispReply"></td>
-										<td id="CNT" celltype="input" style="" name="첨부" readOnly="true" displayFunction="moca.EFC_BOAD.dispCnt"></td>
+										<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true"></td>
+										<td id="CNT" celltype="input" style="" name="첨부" readOnly="true" displayFunction="moca.EFC_BOAD_POP.dispCnt"></td>
 										<td id="BOAD_WRITER" celltype="input" style="text-align:center" name="작성자" readOnly="true"></td>
 										<td id="BOAD_DATE" celltype="input" style="" name="작성일" readOnly="true" displayFunction="moca.longToDate"></td>
 										<!--<td id="delBtn" name="삭제"  celltype="button" readonly="false" required="false" addRowEditable="false" callFunction="moca.TO_000P01.fn_onBtnClick" btnLabel="삭제"></td>-->
@@ -892,7 +902,7 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
             <div class="ly_column col_5 fauto" id="reply_area" style="display:none;">
                 <div class="ly_col_cont pl15 flex fcol">
                      <div type="form" id="form_reply" class="moca_table toolbar" style=""
-                            subLabel="답변작성"
+                            label="답변작성"
                             showRowSelection="false"
                             addition='[
                             {"type":"button","position":"right","id":"btn_receipt","label":"접수","onclick":"moca.EFC_BOAD_POP.fn_status","innerStyle":"background:#81bcb3"},
@@ -951,6 +961,9 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
                                 </table>
                             </div>
                     </div>
+                    <div class="mt5 edit fit"  style="top:0">
+                        <div contenteditable="true" placeholder="" id="reply_editor"></div>
+                    </div>
                     <div type="grid" class="moca_grid toolbar mt10 fold" default_cell_height="26px" id="grd_reply_file" style="top:0; height:112px" rowSelectedColor="#434e5f"
                     
                                         toolbar_search_size="false"
@@ -991,9 +1004,6 @@ moca.EFC_BOAD_POP.fn_status = function(_thisObj){
                                     </tr>
                                 </tbody>
                             </table>                
-                    </div>
-                    <div class="mt5 edit fit"  style="top:0">
-                        <div contenteditable="true" placeholder="" id="reply_editor"></div>
                     </div>
                 </div>
             </div>

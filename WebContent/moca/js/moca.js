@@ -3467,12 +3467,12 @@ Moca.prototype.renderGrid = function(_divObj) {
         _html += '<div class="lta" grdkey="'+_id+'">';
         if(_label != null){
             _html += '<div class="grid_title" grdkey="'+_id+'">';               
-            _html += '<i class="fas fa-angle-double-right"></i>'+_label;                            
+            _html += _label;                            
             _html += '</div>';
         } 
         if(_subLabel != null){
             _html += '<div class="moca_table_title" grdkey="'+_id+'">';             
-            _html += '<i class="subLabel"></i>'+'<span>'+_subLabel+'</span>';                         
+            _html += '<i class="fas fa-angle-right"></i>'+'<span>'+_subLabel+'</span>';                         
             _html += '</div>';
         } 
         _html += '<div class="mr15 grid_total" grdkey="'+_id+'">';
@@ -9616,13 +9616,13 @@ Moca.prototype.renderTable = function(_divObj) {
         _html += '<div class="lta" grdkey="'+_id+'">';
         if(_label != null){
             _html += '<div class="moca_table_title" grdkey="'+_id+'">';             
-            _html += '<i class="fas fa-angle-double-right"></i>'+'<span>'+_label+'</span>';                         
+            _html += '<span>'+_label+'</span>';                         
             _html += '</div>';
         } 
         
         if(_subLabel != null){
             _html += '<div class="moca_table_title" grdkey="'+_id+'">';             
-            _html += '<i class="fas fa-caret-square-right"></i>'+'<span>'+_subLabel+'</span>';                         
+            _html += '<i class="fas fa-angle-right"></i>'+'<span>'+_subLabel+'</span>';                         
             _html += '</div>';
         } 
 
@@ -9972,13 +9972,13 @@ Moca.prototype.renderForm = function(_divObj) {
     
     if(_label != null){
         _html += '<div class="moca_table_title fl" pageId="'+_pageId+'" srcId="'+_srcId+'">';
-        _html += '  <i class="fas fa-angle-double-right"></i>'+'<span>'+_label+'</span>';
+        _html += '	<span>'+_label+'</span>';
         _html += '</div>';
     } 
     
     if(_subLabel != null){
     	_html += '<div class="moca_table_title fl" pageId="'+_pageId+'" srcId="'+_srcId+'">';
-        _html += '  <i class="fas fa-caret-square-right"></i>'+'<span>'+_subLabel+'</span>';
+        _html += '  <i class="fas fa-angle-right"></i>'+'<span>'+_subLabel+'</span>';
         _html += '</div>';
     } 
     
