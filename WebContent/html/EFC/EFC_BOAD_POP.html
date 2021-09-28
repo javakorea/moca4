@@ -112,7 +112,6 @@ moca.EFC_BOAD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 		callback : function(response){
 				if(response.selectBoardInfo != null ){
 				var data = response.selectBoardInfo;
-				debugger; 
 				CKEDITOR.instances.reply_editor.setData(data.BOAD_CONT);
 				moca.setValue(moca.EFC_BOAD_POP.getObj("wreplytitle"),data.BOAD_TITLE);
 				moca.setValue(moca.EFC_BOAD_POP.getObj("wreplydate"),data.BOAD_DATE);
@@ -126,6 +125,8 @@ moca.EFC_BOAD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 			    }
 			    if(moca.getValue(moca.EFC_BOAD_POP.getObj("wreplyid")) == moca.getSs("USER_ID")){
 			    	moca.show(moca.EFC_BOAD_POP.getObj("btn_reply_update"));
+			    }else{
+			    	moca.hide(moca.EFC_BOAD_POP.getObj("btn_reply_update"));
 			    }
 			    
 			    moca.EFC_BOAD_POP.drawGrid('grd_reply_file',moca.getResList(response,"selectBoardFileList"));
@@ -246,7 +247,7 @@ moca.EFC_BOAD_POP.fn_update = function(_thisObj){
 		}
 	}
 }
-moca.EFC_BOAD_POP.fn_replyCnt = function(_thisObj){
+moca.EFC_BOAD_POP.fn_replyCnt = function(_thisObj,_message){
 	 moca.EFC_BOAD_POP.exe({
          url : moca._domain+moca._contextRoot+"/EFC_BOAD/updateReplyCnt.do",
          loadingbar:true,
@@ -259,7 +260,8 @@ moca.EFC_BOAD_POP.fn_replyCnt = function(_thisObj){
          },          
          callback : function(response){
              if(response.cnt > 0){
-            	 moca.popClose(moca.EFC_BOAD_POP.pageId,{callback:"true"});
+            	 debugger;
+            	 moca.popClose(moca.EFC_BOAD_POP.pageId,{callback:"true",message:_message});
              }
          }
      });
@@ -367,9 +369,8 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                    callback : function(response){
 	                    	if(response.cnt > 0){
 	                    		moca.EFC_BOAD_POP._replyStatus = 'add';
-	                    		moca.alert('성공적으로 저장하였습니다.');
-                                moca.EFC_BOAD_POP.fn_replyCnt();
-                            }
+	                    		moca.EFC_BOAD_POP.fn_replyCnt(null,"성공적으로 저장하였습니다.");
+	                         }
 	                    }
 	                });
 	        	}else{

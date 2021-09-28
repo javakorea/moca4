@@ -141,6 +141,27 @@ $(document).ready(function() {
     })
 	$(document).keydown(function(e) {
 		if(event.srcElement.tagName != 'INPUT'){
+			var selectedRealRowIndex = moca.nowGrd.getAttribute("selectedRealRowIndex");
+			var reIndex = 0;
+			//그리드 위아래 키 이벤트
+			if(event.which == '40' || event.which == '38' ){
+				if(event.which == '40'){
+					reIndex = Number(selectedRealRowIndex)+1;
+					if(reIndex > moca.nowGrd.list.length-1){
+						reIndex = moca.nowGrd.list.length-1;
+					}
+				}else if(event.which == '38'){
+					reIndex = Number(selectedRealRowIndex)-1;
+					if(reIndex < 0){
+						reIndex = 0;
+					}
+				}
+				moca.nowGrd.setAttribute("selectedRealRowIndex",reIndex);
+				moca._setRowSelection(moca.nowGrd);
+			}
+
+			
+			
 			event.stopImmediatePropagation();
 			if(111 < event.which && event.which < 124 && event.which != 116){//Function Key일경우
 				e.preventDefault();

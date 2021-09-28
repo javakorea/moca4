@@ -1123,7 +1123,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                     }
                     
                 }
-                row += '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" onclick="moca.defaultCellClick(this);">'+_inTag+'</td>';
+                row += '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" onclick="moca.defaultCellClick(this)" onkeyup="moca.gridKeyUp(this)" onkeydown="moca.gridKeyDown(this)" >'+_inTag+'</td>';
             }else if(_celltype == 'inputButton'){
                 var _reLabel = '';
                 if(_displayFunction != null && eval(_displayFunction) != null){
@@ -3712,8 +3712,6 @@ Moca.prototype.renderGrid = function(_divObj) {
     _divObj.innerHTML = _html;
     _divObj.onRowSelectedFunction = function(){
     //alert('미국');
-    debugger;
-    	/*
         var tdObj;
         if(event.srcElement.tagName == 'TD'){
             tdObj = event.srcElement;
@@ -3734,7 +3732,7 @@ Moca.prototype.renderGrid = function(_divObj) {
                 moca.srcId =  this.getAttribute("srcId");
                 eval(onRowSelectedFunc)(_divObj,_realIndex,tdObj,this);
             }
-        }*/
+        }
         
     };
     
@@ -13339,12 +13337,27 @@ Moca.prototype.setLabelValue = function(_thisObj,_value){
     }
 };
 
+
+Moca.prototype.gridKeyUp = function(_thisObj){
+	//event.preventDefault();
+debugger;
+	alert('keyup');
+};
+
+Moca.prototype.gridKeyDown = function(_thisObj){
+	//event.preventDefault();
+debugger;
+	alert('keydwon');
+};
 Moca.prototype.defaultCellClick = function(_thisObj){
     event.preventDefault();
     if($(_thisObj).attr('celltype') == 'input' && $(_thisObj).find('input').length > 0){
         return  ;
     }
     var grd = $(_thisObj).closest('div[type=grid]')[0];
+    moca.nowGrd = grd;
+    var selectedRealRowIndex = moca.nowGrd.getAttribute("selectedRealRowIndex");
+    
     var _thisTd = $(_thisObj).closest('td');
     var colId = $(_thisObj).closest('td')[0].id;
     var _tbody = $(_thisObj).closest('tbody');

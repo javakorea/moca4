@@ -104,7 +104,7 @@
 	};
 	
 	moca.EFC_BOAD.fn_pop_callback = function(_json){
-		if(_json.message){
+		if(_json != null && _json.message){
 			moca.alert(_json.message);
 		}
 		if(_json != null && _json.callback == 'true'){
