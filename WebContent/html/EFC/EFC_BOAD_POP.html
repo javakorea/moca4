@@ -76,7 +76,6 @@ moca.EFC_BOAD_POP.fn_searchReply = function(_grd,_idx,tdObj,_thisObj){
 moca.EFC_BOAD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
     ['게시글상세']
   //showhide처리
-  
     moca.hide($(moca.EFC_BOAD_POP.getObj("cke_editor")).find("[id$='_top']"));
     moca.hide($(moca.EFC_BOAD_POP.getObj("cke_reply_editor")).find("[id$='_top']"));
     moca.show(moca.EFC_BOAD_POP.getObj("reply_area"));
@@ -303,8 +302,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                    },          
 	                    callback : function(response){
 	                        if(response.cnt > 0){
-	                            moca.alert('성공적으로 저장하였습니다.');
-	                            moca.popClose(moca.EFC_BOAD_POP.pageId,{callback:"true"});
+	                            moca.popClose(moca.EFC_BOAD_POP.pageId,{callback:"true",message:"성공적으로 저장하였습니다."});
 	                        }
 	                    }
 	                });
@@ -318,7 +316,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
                              "body" : {
                             	 "BOAD_TYPE":moca.EFC_BOAD_POP._boardType,
                             	 "BOAD_SUPPORT":moca.EFC_BOAD_POP.getSearchCombo('cmb_board').value,
-                                 "BOAD_IDX":moca.getValue(moca.EFC_BOAD.getObj('widx')),
+                                 "BOAD_IDX":moca.getValue(moca.EFC_BOAD_POP.getObj('widx')),
                                  "BOAD_PIDX":moca.EFC_BOAD_POP._boardPIdx,
                                  "BOAD_TITLE":moca.getValue(moca.EFC_BOAD_POP.getObj("wtitle")),
                                  "BOAD_CONT":CKEDITOR.instances.editor.getData(),
@@ -330,8 +328,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
                          },          
                          callback : function(response){
                         	 if(response.cnt > 0){
- 	                            moca.alert('성공적으로 저장하였습니다.');
- 	                            moca.popClose(moca.EFC_BOAD_POP.pageId,{callback:"true"});
+ 	                            moca.popClose(moca.EFC_BOAD_POP.pageId,{callback:"true",message:"성공적으로 저장하였습니다."});
  	                        }
                          }
                      });
@@ -395,8 +392,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                     },          
 	                     callback : function(response){
 	                         if(response.cnt > 0){
-	                             moca.alert('성공적으로 저장하였습니다.');
-	                             moca.popClose(moca.EFC_BOAD_POP.pageId,{callback:"true"});
+	                             moca.popClose(moca.EFC_BOAD_POP.pageId,{callback:"true",message:"성공적으로 저장하였습니다."});
 	                         }
 	                     }
 	                 });
@@ -437,12 +433,11 @@ moca.EFC_BOAD_POP.fn_adminDel = function(_thisObj){
                 },          
                 callback : function(response){
                     if(response.cnt > 0){
-                        moca.alert('삭제가 완료되었습니다.');
                         if(moca.EFC_BOAD_POP._boardIdx != moca.EFC_BOAD_POP._boardPIdx){ //답글삭제
                         	moca.EFC_BOAD_POP._replyStatus = 'del';
                             moca.EFC_BOAD_POP.fn_replyCnt();
                         }else{//원글삭제
-                        	moca.popClose(moca.EFC_BOAD_POP.pageId,{callback:"true"});
+                        	moca.popClose(moca.EFC_BOAD_POP.pageId,{callback:"true",message:"삭제가 완료되었습니다."});
                         }
                     }
                 }
@@ -482,12 +477,11 @@ moca.EFC_BOAD_POP.fn_del = function(_thisObj){
                  callback : function(response){
                      if(response.cnt > 0){
                     	 
-                     	moca.alert('삭제가 완료되었습니다.');
                      	if(moca.EFC_BOAD_POP._boardIdx != moca.EFC_BOAD_POP._boardPIdx){ //답글삭제
                         	moca.EFC_BOAD_POP._replyStatus = 'del';
                             moca.EFC_BOAD_POP.fn_replyCnt();
                         }else{//원글삭제
-                        	moca.popClose(moca.EFC_BOAD_POP.pageId,{callback:"true"});
+                        	moca.popClose(moca.EFC_BOAD_POP.pageId,{callback:"true",message:"삭제가 완료되었습니다."});
                             
                         }
                      }
@@ -664,7 +658,7 @@ moca.EFC_BOAD_POP.dispCnt= function(_thisVal){
             <div class="ly_column col_5 fauto">
                 <div class="ly_col_cont flex fcol">
 			         <div type="form" id="form_board" class="moca_table toolbar" style=""
-			                label="게시물작성"
+			                label=""
 			                showRowSelection="false"
 			                addition='[
 			                {"type":"button","position":"right","id":"btn_reply","label":"답변작성","onclick":"moca.EFC_BOAD_POP.fn_reply","innerStyle":"background:#97a2ba"},

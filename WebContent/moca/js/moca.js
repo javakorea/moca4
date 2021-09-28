@@ -3367,7 +3367,6 @@ Moca.prototype.renderCheckbox = function(_divObj,_val,_gubun) {
 
 Moca.prototype.renderGrid = function(_divObj) {
     ['renderGrid'];
-    
     var _id = _divObj.id;
     var pageid = _divObj.getAttribute("pageid");
     var srcid = _divObj.getAttribute("srcid");
@@ -3711,8 +3710,10 @@ Moca.prototype.renderGrid = function(_divObj) {
 
     _html = moca.addPageId(_html,pageid,srcid);
     _divObj.innerHTML = _html;
-    
-    $(_divObj).bind('click',function(){
+    _divObj.onRowSelectedFunction = function(){
+    //alert('미국');
+    debugger;
+    	/*
         var tdObj;
         if(event.srcElement.tagName == 'TD'){
             tdObj = event.srcElement;
@@ -3721,8 +3722,6 @@ Moca.prototype.renderGrid = function(_divObj) {
         }else if(event.srcElement.parentElement != null && event.srcElement.parentElement.tagName == 'TD'){
             tdObj = event.srcElement.parentElement; 
         }
-        
-        
         //event.srcElement.parentElement.parentElement 트리일 경우.
         if(tdObj != null && tdObj.tagName == 'TD'){
             moca._setSelectRowIndex(tdObj);
@@ -3735,8 +3734,11 @@ Moca.prototype.renderGrid = function(_divObj) {
                 moca.srcId =  this.getAttribute("srcId");
                 eval(onRowSelectedFunc)(_divObj,_realIndex,tdObj,this);
             }
-        }
-    });
+        }*/
+        
+    };
+    
+    $(_divObj).bind('click',_divObj.onRowSelectedFunction);
     
     
     var _cellMap = {};
@@ -4337,10 +4339,10 @@ Moca.prototype.openPdfViewer = function(_opt){
 Moca.prototype.popClose = function(_popupId,_json){
     ['모카팝업 닫기'];
     if(top.name.startsWith("POPUP")){
-    	if(opener.this.callbacks[_popupId]){
-	        eval(opener.this.callbacks[_popupId])(_json);
-	        delete opener.this.callbacks[_popupId];
-	        delete opener.this.data[_popupId];
+    	if(opener.moca.callbacks[_popupId]){
+	        eval(opener.moca.callbacks[_popupId])(_json);
+	        delete opener.moca.callbacks[_popupId];
+	        delete opener.moca.data[_popupId];
 	    }
     	self.close();
     }else{
