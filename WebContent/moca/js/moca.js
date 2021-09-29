@@ -1123,7 +1123,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                     }
                     
                 }
-                row += '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" onclick="moca.defaultCellClick(this)" onkeyup="moca.gridKeyUp(this)" onkeydown="moca.gridKeyDown(this)" >'+_inTag+'</td>';
+                row += '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" onclick="moca.defaultCellClick(this)">'+_inTag+'</td>';
             }else if(_celltype == 'inputButton'){
                 var _reLabel = '';
                 if(_displayFunction != null && eval(_displayFunction) != null){
@@ -2839,6 +2839,17 @@ Moca.prototype.getContents = function(data,_url,_type,_popupid,_title,_wframeObj
             //o.clickedMenuId = _clickedMenuId;
             o.data = data;
             
+            
+        
+        	o.title = _title;
+            o.top = '0';
+            o.left = '0';
+            o.width = '100%';
+            o.height = '100%';
+
+                
+                
+                
             var mdiObj = moca.rendering(o);
             moca.callReady(mdiObj);
        }else if(_type == 'HTML'){
@@ -3711,7 +3722,6 @@ Moca.prototype.renderGrid = function(_divObj) {
     _html = moca.addPageId(_html,pageid,srcid);
     _divObj.innerHTML = _html;
     _divObj.onRowSelectedFunction = function(){
-    //alert('미국');
         var tdObj;
         if(event.srcElement.tagName == 'TD'){
             tdObj = event.srcElement;
@@ -4341,6 +4351,7 @@ Moca.prototype.popClose = function(_popupId,_json){
 	        eval(opener.moca.callbacks[_popupId])(_json);
 	        delete opener.moca.callbacks[_popupId];
 	        delete opener.moca.data[_popupId];
+	        opener.moca.popClose(_popupId);
 	    }
     	self.close();
     }else{
@@ -4385,24 +4396,42 @@ Moca.prototype.popChange = function(_popupId,_json){
         delete this.data[_popupId];
     }*/
     //
-    var _w = $('#'+_popupId+'>div').css('width').replace(/px/g,'');
-    var _h = $('#'+_popupId+'>div').css('height').replace(/px/g,''); 
-
-    var __srcid = $('#'+_popupId+'>div').attr('srcid');
-    var __param = moca[__srcid].args.parent.data;
-    var __url = "/uat/uia/actionMain_link.do?mcsrc="+$('#'+_popupId).attr('src');
-    var _id = moca.openWindowPopup({
-        id: _popupId,
-        method:"post",
-        title:  '비용확정재시도결과',
-        width:Number(_w)+16, 
-        height:Number(_h)+80,
-        url : __url,
-        fullscreen : 'no',
-        param : {
-        }
-    });
+    
+    if($('#'+_popupId+' > .moca_popup.POP').length > 0){
+		$('#'+_popupId,opener.document).show();    
+	    moca.closeGubun = 'change';
+	    self.close();
+	    
+    }else{
+	    var _w = $('#'+_popupId+'>div').css('width').replace(/px/g,'');
+	    var _h = $('#'+_popupId+'>div').css('height').replace(/px/g,''); 
+	
+	    var __srcid = $('#'+_popupId+'>div').attr('srcid');
+	    var __param = moca[__srcid].args.parent.data;
+	    var __url = "/uat/uia/actionMain_link.do?mcsrc="+$('#'+_popupId).attr('src');
+	    var _id = moca.openWindowPopup({
+	        id: _popupId,
+	        method:"post",
+	        title:  '비용확정재시도결과',
+	        width:Number(_w)+16, 
+	        height:Number(_h)+80,
+	        url : __url,
+	        fullscreen : 'no',
+	        param : {
+	        }
+	    });
+    }
+    
         
+};
+
+Moca.prototype.popUnload = function(){
+    ['popUnload'];
+	if(moca.closeGubun != 'change'){
+		moca.popClose(param['__popid'],null);
+	}else{
+		moca.closeGubun = '';
+	}
 };
 
 Moca.prototype.mpopClose = function(_thisObj,_messageboxId){
@@ -10161,10 +10190,12 @@ Moca.prototype.rendering = function(o,_aTag) {
         $(contDiv).addClass('moca_tab_body');
         $(contDiv).html(htmlContents);
         $('#'+_mdiId+'.moca_tab').append(contDiv);
+    /*
     }else if(o.type == 'POP'){
         $(contDiv).addClass('moca_tab_body');
         $(contDiv).html(htmlContents);
         $('#__popup').append(contDiv);
+    */
     }else if(o.type == 'HTML'){
         $(contDiv).addClass('moca_tab_body');
         $(contDiv).html(htmlContents);
@@ -10175,7 +10206,7 @@ Moca.prototype.rendering = function(o,_aTag) {
         $(contDiv).html(htmlContents);
         
         $(_aTag).append(contDiv);
-    }else if(o.type == 'POPUP'){
+    }else if(o.type == 'POPUP' || o.type == 'POP'){
         moca.callbacks[_tabId] = o.callback;
         var cont = '';
         if(o.modal != false && o.modal != 'false'){
@@ -10187,7 +10218,9 @@ Moca.prototype.rendering = function(o,_aTag) {
         }else{
             _pid = _tabId;
         }
-        cont += '<div id="'+_pid+'" pageid="'+_tabId+'" srcid="'+moca.srcId+'" class="moca_popup" style="left:'+o.left+'px;top:'+o.top+'px;width:'+o.width+'px;height:'+o.height+'px">';
+        var ow = o.width;if(ow.indexOf('%') == -1){ow += 'px';};
+        var oh = o.height;if(oh.indexOf('%') == -1){oh += 'px';};
+        cont += '<div id="'+_pid+'" pageid="'+_tabId+'" srcid="'+moca.srcId+'" class="moca_popup '+o.type+'" style="left:'+o.left+'px;top:'+o.top+'px;width:'+ow+';height:'+oh+'">';
         cont += '   <div class="moca_popup_header">';
         cont += '       <h2 class="moca_popup_title">'+o.title+'('+moca.srcId+')'+'</h2>';
         cont += '       <div class="moca_popup_control"><button type="button" id="btn_popChange" class="moca_popup_btn_change" onclick="moca.popChange(\''+_tabId+'\');">변경</button><button type="button" id="btn_popClose" class="moca_popup_btn_close" onclick="moca.popClose(\''+_tabId+'\');">닫기</button></div>';
@@ -11421,7 +11454,6 @@ Moca.prototype.popup = function(_option,thisObj) {
                 o.width = width;
                 o.height = height;
                 o.scopeId = _option.scopeId;
-                debugger;
                 var popObj = moca.rendering(o);
                 
                 moca.callReady(popObj);
@@ -12057,7 +12089,11 @@ Moca.prototype.cellPhone = function(x) {
 };
 
 Moca.prototype.submit = function(_url,_param,_target) {
+	$('.postToWin').remove();
+
     var form = document.createElement("form");
+    form.setAttribute("class", "postToWin");
+    form.setAttribute("style", "display:none");
     form.setAttribute("charset", "UTF-8");
     form.setAttribute("method", "Post");  //Post 방식
     form.setAttribute("action", _url); //요청 보낼 주소
@@ -12068,6 +12104,7 @@ Moca.prototype.submit = function(_url,_param,_target) {
     }
     var hiddenIframe = document.createElement("iframe");
     hiddenIframe.setAttribute("id","_hiddenIframe");
+    hiddenIframe.setAttribute("class", "postToWin");
     document.body.appendChild(hiddenIframe);
     var paramKeysArr = Object.keys(_param);
     for(var i=0; i < paramKeysArr.length; i++){
@@ -12079,6 +12116,9 @@ Moca.prototype.submit = function(_url,_param,_target) {
         hiddenField.setAttribute("value", val);
         form.appendChild(hiddenField);
     }
+    
+    
+    
     document.body.appendChild(form);
     form.submit(); 
 };
@@ -13337,18 +13377,6 @@ Moca.prototype.setLabelValue = function(_thisObj,_value){
     }
 };
 
-
-Moca.prototype.gridKeyUp = function(_thisObj){
-	//event.preventDefault();
-debugger;
-	alert('keyup');
-};
-
-Moca.prototype.gridKeyDown = function(_thisObj){
-	//event.preventDefault();
-debugger;
-	alert('keydwon');
-};
 Moca.prototype.defaultCellClick = function(_thisObj){
     event.preventDefault();
     if($(_thisObj).attr('celltype') == 'input' && $(_thisObj).find('input').length > 0){
@@ -13356,10 +13384,12 @@ Moca.prototype.defaultCellClick = function(_thisObj){
     }
     var grd = $(_thisObj).closest('div[type=grid]')[0];
     moca.nowGrd = grd;
+    
     var selectedRealRowIndex = moca.nowGrd.getAttribute("selectedRealRowIndex");
     
     var _thisTd = $(_thisObj).closest('td');
     var colId = $(_thisObj).closest('td')[0].id;
+	moca.nowColId = colId;
     var _tbody = $(_thisObj).closest('tbody');
     var _thisTr = $(_thisObj).closest('tr');
     var realRowIndex = Number(_thisTr.attr("realrowindex"));

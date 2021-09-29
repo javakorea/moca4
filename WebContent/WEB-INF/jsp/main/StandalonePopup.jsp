@@ -56,6 +56,9 @@ var param = {};
 %> 
 
 $(document).ready(function() {
+	//moca.popClose($('#'+param['__popid'],opener.document));
+	$('#'+param['__popid'],opener.document).hide();
+	/*
 	$('.moca_wrap').html('');
 	$('#'+param['__popid'],opener.document).find('.moca_popup').css({
 		'top':0,
@@ -68,24 +71,27 @@ $(document).ready(function() {
 	
 	var srcid = $('#'+param['__popid'],opener.document).find('[srcid]').attr('srcid');
 	moca[srcid].args = opener.moca[srcid].args;
-	$('.moca_wrap').append($('#'+param['__popid'],opener.document));
+	alert();debugger;
+	var targetObj = $('#'+param['__popid'],opener.document).clone();
+	var scriptContents = targetObj.find('script').html();
+	$('.moca_wrap').append(targetObj);
+	$('.moca_wrap').find('script').html(scriptContents);
+	*/
 });
-
 </script>
 <style>
-	
 	.button.esc:hover{opacity:1}
 </style>
 </head>
-   <body>
-	<div class="moca_wrap winPop">
-		<div type="wframe"  id="__popup" tag="moca:body" src="<%=mcsrc2%>" 
-		popupId="<%=paramMap.get("__popid")%>"  
-		popupTitle="<%=paramMap.get("__title")%>"></div>   
-		<div class="toast_msg" style="padding:9px 15px; height:35px">
-			<!-- <p>조회가 완료되었습니다.</p> -->
+	<body onunload="moca.popUnload();">
+		<div>
+			<div type="wframe"  id="__popup" tag="moca:body" src="<%=mcsrc2%>" 
+			popupId="<%=paramMap.get("__popid")%>"  
+			popupTitle="<%=paramMap.get("__title")%>"></div>   
+			<div class="toast_msg" style="padding:9px 15px; height:35px">
+				<!-- <p>조회가 완료되었습니다.</p> -->
+			</div>
+			<!-- <button class="button btn_esc" type="button" onclick="self.close()" >닫기</button> -->
 		</div>
-		<!-- <button class="button btn_esc" type="button" onclick="self.close()" >닫기</button> -->
-	</div>
-</body>
+	</body>
 </html>

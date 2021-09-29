@@ -141,24 +141,38 @@ $(document).ready(function() {
     })
 	$(document).keydown(function(e) {
 		if(event.srcElement.tagName != 'INPUT'){
-			var selectedRealRowIndex = moca.nowGrd.getAttribute("selectedRealRowIndex");
-			var reIndex = 0;
-			//그리드 위아래 키 이벤트
-			if(event.which == '40' || event.which == '38' ){
-				if(event.which == '40'){
-					reIndex = Number(selectedRealRowIndex)+1;
-					if(reIndex > moca.nowGrd.list.length-1){
-						reIndex = moca.nowGrd.list.length-1;
+			if(moca.nowGrd != null){
+				//그리드 위아래 키 이벤트
+				var selectedRealRowIndex = moca.nowGrd.getAttribute("selectedRealRowIndex");
+				var reIndex = 0;
+				if(event.which == '40' || event.which == '38' ){
+					if(event.which == '40'){ //up키
+						reIndex = Number(selectedRealRowIndex)+1;
+						if(reIndex > moca.nowGrd.list.length-1){
+							reIndex = moca.nowGrd.list.length-1;
+						}
+					}else if(event.which == '38'){ //down키
+						reIndex = Number(selectedRealRowIndex)-1;
+						if(reIndex < 0){
+							reIndex = 0;
+						}
 					}
-				}else if(event.which == '38'){
-					reIndex = Number(selectedRealRowIndex)-1;
-					if(reIndex < 0){
-						reIndex = 0;
+					moca.nowGrd.setAttribute("selectedRealRowIndex",reIndex);
+					moca._setRowSelection(moca.nowGrd);
+					if($(moca.nowGrd).attr('onrowselected')){
+						var nowColTd = $(moca.nowGrd).find('td[id='+moca.nowColId+']')[selectedRealRowIndex];
+						eval($(moca.nowGrd).attr('onrowselected'))(moca.nowGrd,selectedRealRowIndex,nowColTd,moca.nowGrd);
+					}
+					
+				}
+				if(event.which == '13'){ //enter
+					if($(moca.nowGrd).attr('ondblclick')){
+						var nowColTd = $(moca.nowGrd).find('td[id='+moca.nowColId+']')[selectedRealRowIndex];
+						eval($(moca.nowGrd).attr('ondblclick'))(moca.nowGrd,selectedRealRowIndex,nowColTd,moca.nowGrd);
 					}
 				}
-				moca.nowGrd.setAttribute("selectedRealRowIndex",reIndex);
-				moca._setRowSelection(moca.nowGrd);
 			}
+			
 
 			
 			

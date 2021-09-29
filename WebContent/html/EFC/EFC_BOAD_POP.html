@@ -154,7 +154,6 @@ moca.EFC_BOAD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 				callback : function(response){
 						if(response.selectBoardInfo != null ){
 						var data = response.selectBoardInfo;
-						debugger;
 						CKEDITOR.instances.editor.setData(moca.resizeContsImg(data.BOAD_CONT));
 						moca.hide($(moca.EFC_BOAD_POP.getObj("cke_editor")).find("[id$='_top']"));
 						moca.setValue(moca.EFC_BOAD_POP.getObj("cmb_board"),data.BOAD_SUPPORT);
@@ -260,7 +259,6 @@ moca.EFC_BOAD_POP.fn_replyCnt = function(_thisObj,_message){
          },          
          callback : function(response){
              if(response.cnt > 0){
-            	 debugger;
             	 moca.popClose(moca.EFC_BOAD_POP.pageId,{callback:"true",message:_message});
              }
          }
