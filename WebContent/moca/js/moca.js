@@ -10218,8 +10218,9 @@ Moca.prototype.rendering = function(o,_aTag) {
         }else{
             _pid = _tabId;
         }
-        var ow = o.width;if(ow.indexOf('%') == -1){ow += 'px';};
-        var oh = o.height;if(oh.indexOf('%') == -1){oh += 'px';};
+        
+        var ow = o.width;if(String(ow).indexOf('%') == -1){ow += 'px';};
+        var oh = o.height;if(String(oh).indexOf('%') == -1){oh += 'px';};
         cont += '<div id="'+_pid+'" pageid="'+_tabId+'" srcid="'+moca.srcId+'" class="moca_popup '+o.type+'" style="left:'+o.left+'px;top:'+o.top+'px;width:'+ow+';height:'+oh+'">';
         cont += '   <div class="moca_popup_header">';
         cont += '       <h2 class="moca_popup_title">'+o.title+'('+moca.srcId+')'+'</h2>';
