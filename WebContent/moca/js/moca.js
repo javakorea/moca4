@@ -3015,6 +3015,8 @@ Moca.prototype.renderCombo = function(_divObj,_val,_gubun,_pageId,_srcId) {
         var _displayFormat = _divObj.getAttribute('displayFormat');
         var _onchange = _divObj.getAttribute('onchange');
         var _inneronchange = _divObj.getAttribute('inneronchange');
+        var _readonly = _divObj.getAttribute('readonly');
+        if(_readonly){_divObj.setAttribute('readonly',_readonly)};
         if(moca.trim(_inneronchange) != ''){
             _onchange = _inneronchange;
         }
@@ -3024,7 +3026,6 @@ Moca.prototype.renderCombo = function(_divObj,_val,_gubun,_pageId,_srcId) {
         }else{
             _html += moca.getSelectTagForCombo(_grdId,_pageId,_srcId);
         }
-        
         var cdKey = _divObj.getAttribute('cdField');
         var nmKey = _divObj.getAttribute('nmField');
         if(cdKey == null){
@@ -3072,7 +3073,6 @@ Moca.prototype.renderCombo = function(_divObj,_val,_gubun,_pageId,_srcId) {
                 _reLabel = nm;
             }
             
-            
             if(cd == _val){
                 selectedStr = 'selected';
             }
@@ -3083,7 +3083,12 @@ Moca.prototype.renderCombo = function(_divObj,_val,_gubun,_pageId,_srcId) {
         _divObj['codeToLabelMap'] = codeToLabelMap;
         _divObj['codeToDispLabelMap'] = codeToDispLabelMap;
         _html += '</select>';
-        _divObj.innerHTML = _html;
+        if(_readonly){
+    		_divObj.innerHTML = _divObj['codeToDispLabelMap'][moca.getValue(_divObj)];
+        }else{
+        	_divObj.innerHTML = _html;
+        }
+        
     }
 };
 Moca.prototype.searchComboClick = function(thisObj) {
@@ -11920,7 +11925,7 @@ Moca.prototype.renderMocaInputButton = function(o) {
 };
 
 Moca.prototype.renderMocaCombo = function(o,pageid,srcid) {
-    ['renderCombo'];
+    ['renderMocaCombo'];
     var _id = '';
     var _value = '';
     var _readonly = '';
@@ -13249,6 +13254,10 @@ Moca.prototype.setReadOnly = function(_mocaInputObj,_trueFalse){
     if($(_mocaInputObj).attr('type') == 'searchCombo'){
         $(_mocaInputObj).attr('readOnly',_trueFalse);
         moca.renderSearchCombo(_mocaInputObj,null,'normal',_mocaInputObj.getAttribute("pageid"),_mocaInputObj.getAttribute("srcId"));
+        moca.setValue(_mocaInputObj,$(_mocaInputObj).attr("value"));
+    }else if($(_mocaInputObj).attr('type') == 'combo'){
+        $(_mocaInputObj).attr('readOnly',_trueFalse);
+        moca.renderCombo(_mocaInputObj,null,'normal',_mocaInputObj.getAttribute("pageid"),_mocaInputObj.getAttribute("srcId"));
         moca.setValue(_mocaInputObj,$(_mocaInputObj).attr("value"));
     }else{
         var _mocaObj ;
