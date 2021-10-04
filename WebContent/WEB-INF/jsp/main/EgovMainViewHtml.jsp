@@ -33,6 +33,7 @@ if (request.getProtocol().equals("HTTP/1.1"))
 
 <%
 String userAgent = request.getHeader("User-Agent").toUpperCase();
+System.out.println("userAgent:"+userAgent+":");
 if(userAgent.indexOf("MOBI") > -1 || userAgent.indexOf("IPHONE") > -1   || userAgent.indexOf("ANDROID") > -1) {
 %>
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" ksc="<%=userAgent%>">
