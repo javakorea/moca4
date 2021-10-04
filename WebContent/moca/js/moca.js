@@ -6887,16 +6887,13 @@ var multiCalendar ={
                     
             
             multiCalendar.calendarVariable.calViewObj = $(_thisObj).parent();
-            //document.body.innerHTML += calHtml;
-    /*      var _t = $('#'+$(_thisObj).parent().attr('id')).offset().top;
-            var _l = $('#'+$(_thisObj).parent().attr('id')).offset().left;
-            var _h = $('#'+$(_thisObj).parent().attr('id')).height();
-            */
-            
+
             var _t = $(_thisObj).prev().offset().top;
             var _l = $(_thisObj).prev().prev().offset().left;
             var _h = $(_thisObj).prev().height();
+            
             if(moca.getDevice() == "pc"){
+                $('#'+messageboxId).css('position','absolute');
             	$('#'+messageboxId).css('top',(_t+_h)).css('left',_l);
             }
             
@@ -6975,6 +6972,7 @@ var multiCalendar ={
                 var left = (document.body.offsetWidth/2) - (parseInt(_width)/2) + $(document).scrollLeft();
                 _t = top;
                 _l = left;
+                $('#'+messageboxId).css('position','absolute');
                 $('#'+messageboxId).css('top',(_t)).css('left',_l);
             }
 
