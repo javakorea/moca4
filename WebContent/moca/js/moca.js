@@ -2771,6 +2771,7 @@ Moca.prototype.fn_inputMultiCal = function(_thisObj) {
         opt['maxTermByMonth'] = Number(maxTermByMonth);
         opt['maxTermByDay'] = Number(maxTermByDay);
         opt['maxTermByYear'] = Number(maxTermByYear);
+        opt['target'] = $(_thisObj).closest('div[type="inputMultiCalendar"]');
         multiCalendar.init(opt);
     }else{
         $('.moca_calendar_fromto').remove();
@@ -6877,7 +6878,9 @@ var multiCalendar ={
             calHtml +=' </div>';
                                                                                                                                                                                           
             tmp.innerHTML = calHtml;
-            document.body.appendChild(tmp);
+            
+            _opt.target.append(tmp);
+            //document.body.appendChild(tmp);
             
             multiCalendar.calendarVariable.calArray[0].obj = $("#"+multiCalendar.calendarVariable.calArray[0].id).find(".moca_calendar_fl").eq(0);
             multiCalendar.calendarVariable.calArray[1].obj = $("#"+multiCalendar.calendarVariable.calArray[1].id).find(".moca_calendar_fl").eq(1);
@@ -6891,12 +6894,11 @@ var multiCalendar ={
             var _t = $(_thisObj).prev().offset().top;
             var _l = $(_thisObj).prev().prev().offset().left;
             var _h = $(_thisObj).prev().height();
-            
+            /*
             if(moca.getDevice() == "pc"){
-                $('#'+messageboxId).css('position','absolute');
-            	$('#'+messageboxId).css('top',(_t+_h)).css('left',_l);
+            	$('#'+messageboxId).css('top',0).css('left',_l);
             }
-            
+            */
             //console.log("dt1 : ["+ _dt1 +"] dt2 : ["+ _dt2+"]");
             let tempId = $('#'+messageboxId).find(".moca_calendar_btn_prev").attr("calendarId");
             $($(".moca_calendar_lta").find(".active").children()[0]).click();//디폴터날짜입력 2020-05-24
@@ -6972,7 +6974,7 @@ var multiCalendar ={
                 var left = (document.body.offsetWidth/2) - (parseInt(_width)/2) + $(document).scrollLeft();
                 _t = top;
                 _l = left;
-                $('#'+messageboxId).css('position','absolute');
+                $('#'+messageboxId).css('position','fixed');
                 $('#'+messageboxId).css('top',(_t)).css('left',_l);
             }
 
@@ -12109,6 +12111,7 @@ Moca.prototype.submit = function(_url,_param,_target) {
     var hiddenIframe = document.createElement("iframe");
     hiddenIframe.setAttribute("id","_hiddenIframe");
     hiddenIframe.setAttribute("class", "postToWin");
+    hiddenIframe.setAttribute("style", "display:none");
     document.body.appendChild(hiddenIframe);
     var paramKeysArr = Object.keys(_param);
     for(var i=0; i < paramKeysArr.length; i++){
