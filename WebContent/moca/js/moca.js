@@ -13258,7 +13258,8 @@ Moca.prototype.setReadOnly = function(_mocaInputObj,_trueFalse){
         moca.setValue(_mocaInputObj,$(_mocaInputObj).attr("value"));
     }else if($(_mocaInputObj).attr('type') == 'combo'){
         $(_mocaInputObj).attr('readOnly',_trueFalse);
-        moca.renderCombo(_mocaInputObj,null,'normal',_mocaInputObj.getAttribute("pageid"),_mocaInputObj.getAttribute("srcId"));
+        $(_mocaInputObj).find('select').attr('disabled',_trueFalse);
+        //moca.renderCombo(_mocaInputObj,null,'normal',_mocaInputObj.getAttribute("pageid"),_mocaInputObj.getAttribute("srcId"));
         moca.setValue(_mocaInputObj,$(_mocaInputObj).attr("value"));
     }else{
         var _mocaObj ;
