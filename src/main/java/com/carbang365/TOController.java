@@ -5294,7 +5294,16 @@ public class TOController{
         	
 	    	
 	    	Map map = new HashMap();
-	    	map.put("PROP_KEY","업무게시판수신자");
+	    	String _writer = paramMap.get("BOAD_WRITER").toString();
+	    	if(_writer.equals("superadmin")){
+	    		map.put("PROP_KEY","superadmin이쓴거를받을수신자");
+	    	}else if(_writer.equals("hjsung")) {
+	    		map.put("PROP_KEY","hjsung이쓴거를받을수신자");
+	    	}else {
+	    		map.put("PROP_KEY","업무게시판수신자");
+	    	}
+	    	
+	    	
 	    	List EFGPRPOP_list = mocaEFLService.selectList_EFGPROP(map);
 	    	if(EFGPRPOP_list != null && EFGPRPOP_list.size() > 0){
 	    		Map phonenumber = (Map)EFGPRPOP_list.get(0);
