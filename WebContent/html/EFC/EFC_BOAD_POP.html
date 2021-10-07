@@ -294,6 +294,7 @@ moca.EFC_BOAD_POP.fn_save = function(_thisObj){
 	                        	"BOAD_TYPE":moca.EFC_BOAD_POP._boardType,
 	                            "BOAD_TITLE":wtitle,
 	                            "BOAD_CONT":CKEDITOR.instances.editor.getData(),
+	                            "GET_CONT_TXT":CKEDITOR.instances.editor.document.getBody().getText(),
 	                            "BOAD_WRITER":moca.getValue(moca.EFC_BOAD_POP.getObj("wid")),
 	                            "BOAD_PHONE":moca.getValue(moca.EFC_BOAD_POP.getObj("wphone")),
 	                            "BOAD_EMAIL":moca.getValue(moca.EFC_BOAD_POP.getObj("wemail")),

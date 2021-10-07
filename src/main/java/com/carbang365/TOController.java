@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -55,6 +56,8 @@ import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.service.Globals;
 import mocaframework.com.cmm.U;
 import mocaframework.com.cmm.Util;
+import mocaframework.com.cmm.service.MocaEFLService;
+import mocaframework.com.cmm.API;
 
 @Controller
 public class TOController{
@@ -69,7 +72,9 @@ public class TOController{
 	@Autowired
 	TOServiceImpl toService;
 	
-
+	/** cmmUseService */
+	@Resource(name = "mocaEFLService")
+	private MocaEFLService mocaEFLService;
 
 //	공통사항
 //		1. 화면 링크는 기존 구성과 동일하게 *.html로 링크(이미 각 html 링크는 적용되어 있음. 빠진/추가된 부분만 추후 추가하면 될듯)
@@ -5287,6 +5292,18 @@ public class TOController{
             	}
         	}
         	
+	    	
+	    	Map map = new HashMap();
+	    	map.put("PROP_KEY","업무게시판수신자");
+	    	List EFGPRPOP_list = mocaEFLService.selectList_EFGPROP(map);
+	    	if(EFGPRPOP_list != null && EFGPRPOP_list.size() > 0){
+	    		Map phonenumber = (Map)EFGPRPOP_list.get(0);
+		    	API.sendSms(
+		    			(String)paramMap.get("GET_CONT_TXT"),
+		    			phonenumber.get("PROP_VALUE").toString(),
+		    			paramMap.get("BOAD_WRITER").toString()
+		    	);
+	    	}
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());
