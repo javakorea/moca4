@@ -3057,6 +3057,8 @@ Moca.prototype.renderCombo = function(_divObj,_val,_gubun,_pageId,_srcId) {
         
         var codeToLabelMap = {};
         var codeToDispLabelMap = {};
+        var _inputLeng = $(_divObj).find('input').length;
+        
         for(var i=0; i < _list.length; i++){
             var row = _list[i];
             var cd = row[cdKey];
@@ -3065,6 +3067,9 @@ Moca.prototype.renderCombo = function(_divObj,_val,_gubun,_pageId,_srcId) {
             var selectedStr = '';
             if(_checked == 'true'){
                 selectedStr = 'selected';
+            }
+            if(_inputLeng > 0 && $(_divObj).find('input').attr('code') == cd){
+            	selectedStr = 'selected';
             }
             var _reLabel = '';
             var _value = '';
@@ -3084,8 +3089,11 @@ Moca.prototype.renderCombo = function(_divObj,_val,_gubun,_pageId,_srcId) {
         _divObj['codeToLabelMap'] = codeToLabelMap;
         _divObj['codeToDispLabelMap'] = codeToDispLabelMap;
         _html += '</select>';
+        $(_divObj).attr('code',moca.getValue(_divObj));
+   	 	$(_divObj).attr('label',moca[_srcId].getComboLabel(_grdId));
         if(_readonly){
-    		_divObj.innerHTML = _divObj['codeToDispLabelMap'][moca.getValue(_divObj)];
+        	_divObj.innerHTML = '<input class="moca_input" type="text" readonly value="'+_divObj['codeToDispLabelMap'][moca.getValue(_divObj)]+'">';
+        	//_divObj.innerHTML = _divObj['codeToDispLabelMap'][moca.getValue(_divObj)];
         }else{
         	_divObj.innerHTML = _html;
         }
@@ -10439,8 +10447,13 @@ Moca.prototype.rendering = function(o,_aTag) {
     };
     
     moca[_srcId].getCombo = function(_id){
-        var o = $(moca.getObj(_id,null,this.pageId,this.srcId)).find('select');
-        return o.val();
+    	var o = $(moca.getObj(_id,null,this.pageId,this.srcId));
+		if(o.attr('readonly')){
+			return o.attr('code');
+		}else{
+			o = o.find('select');
+			return o.val();
+		}
     };
     moca[_srcId].getSearchCombo = function(_id){
         var jobj = $(moca.getObj(_id,null,this.pageId,this.srcId));
@@ -10454,6 +10467,16 @@ Moca.prototype.rendering = function(o,_aTag) {
         return o;
     };
     moca[_srcId].getComboLabel = function(_id){
+    	var o = $(moca.getObj(_id,null,this.pageId,this.srcId));
+		if(o.attr('readonly') && o.find('input').length > 0){
+			var l = o.attr('label');
+		}else{
+			o = o.find('select');
+			var v = o.val();
+			var l = o.find('option[value='+v+']').text();
+		}
+		return l;
+		/*
         if(moca.getObj(_id,null,this.pageId,this.srcId) != null){
             var o = $(moca.getObj(_id,null,this.pageId,this.srcId)).find('select');
             var v = o.val();
@@ -10463,6 +10486,7 @@ Moca.prototype.rendering = function(o,_aTag) {
             console.error("ID:"+_id+"를 "+this.srcId+"에서"+"찾을수 없습니다.");
             return "";
         }
+        */
     };
     
     moca[_srcId].getCheckbox = function(_id){
@@ -12207,7 +12231,7 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
         if(df){
             var reValue='';
             try{
-                reValue = eval(df)(_value);
+                reValue = eval(df)(String(_value));
                 if(reValue.length < _value.length){
                     reValue = _value;
                 }
@@ -12217,7 +12241,21 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
         }else{
             reValue = _value;
         }
+        debugger;
+        if($(_comp).attr('type') == 'input'){
+        	$(_comp).attr('originalValue',_value);
+        	$(_comp).find('input').attr('onblur',"moca.setValue(this,"+_value+",'enterSearchEvt')");
+        	
+        }else if($(_comp).parent().attr('type') == 'input'){
+        	$(_comp).parent().attr('originalValue',_value);
+        	$(_comp).attr('onblur',"moca.setValue(this,"+_value+",'enterSearchEvt')");
+        }
         if(_comp != null && _comp.tagName == 'INPUT'){
+        	if($(_comp).attr('type') == 'input'){
+            	$(_comp).attr('displayValue',reValue);
+            }else if($(_comp).parent().attr('type') == 'input'){
+            	$(_comp).parent().attr('displayValue',reValue);
+            }
             $(_comp).val(moca.displayKeyMask(reValue,_keyMask));
         }else{
             $(_comp).find('input[type=text]').val(reValue);
@@ -12257,18 +12295,24 @@ Moca.prototype.getValue =  function(__comp,_id,_index,_data,_isFocus){
         //}catch(e){
         //  console.log(e);
         //}
-        if(_isFocus){
-            return $(_comp).find('select').focus();
-        }else{
-            return $(_comp).find('select').val();
-        }
+    	if(_isFocus){
+			return $(_comp).find('select').focus();
+		}else{
+			var _readonly = $(_comp).attr('readonly');
+			if(_readonly &&  $(_comp).find('input').length > 0){
+				return $(_comp).attr('code');
+			}else{
+				return $(_comp).find('select').val();
+			}
+			
+		}
 
     }else{
         if(_isFocus){
             return $(_comp).find('input[type=text]').focus();
         }else{
             if($(_comp).find('input[type=text]').val() != null){
-                return $(_comp).find('input[type=text]').val().replace(/%|,/g,'');
+                return $(_comp).attr('originalvalue');
             }else{
                 return $(_comp).find('input[type=text]').val();
             }
@@ -13258,8 +13302,7 @@ Moca.prototype.setReadOnly = function(_mocaInputObj,_trueFalse){
         moca.setValue(_mocaInputObj,$(_mocaInputObj).attr("value"));
     }else if($(_mocaInputObj).attr('type') == 'combo'){
         $(_mocaInputObj).attr('readOnly',_trueFalse);
-        $(_mocaInputObj).find('select').attr('disabled',_trueFalse);
-        //moca.renderCombo(_mocaInputObj,null,'normal',_mocaInputObj.getAttribute("pageid"),_mocaInputObj.getAttribute("srcId"));
+        moca.renderCombo(_mocaInputObj,null,'normal',_mocaInputObj.getAttribute("pageid"),_mocaInputObj.getAttribute("srcId"));
         moca.setValue(_mocaInputObj,$(_mocaInputObj).attr("value"));
     }else{
         var _mocaObj ;

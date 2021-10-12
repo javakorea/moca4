@@ -5,7 +5,8 @@
 	
 	moca.EFC_PROP.___ready = function(){
 		moca.EFC_PROP.code({
-			"grd_1.useAt":{code:'EFC001'}
+			"grd_1.useAt":{code:'EFC001'},
+			"cmb_1":{code:'boardStatus'}
 		},function(){
 			moca.EFC_PROP.exe({
 				url : moca._domain+moca._contextRoot+"/efms/EFC_CORP/list_json.do",
@@ -130,10 +131,11 @@
 									onchange="moca.EFC_PROP.selectSetter(this)" 
 									style="width:200px" 
 									displayFormat="[label]" 
-									cdField="cd" 
-									nmField="nm"   
-									itemset='[{"cd":"0","nm":"해당없음 "},{"cd":"1","nm":"(%) 비율"},{"cd":"2","nm":"(원) 금액"}]'>
+									cdField="code" 
+									nmField="codeNm"
+								>
 								</div>
+								
 							</span>
 						</div>
 						<div class="tb">
@@ -146,8 +148,8 @@
 									style="width:200px" 
 									readOnly="false"
 									displayFormat="[label]" 
-									cdField="cd" 
-									nmField="nm"   
+									cdField="code" 
+									nmField="name"   
 									itemset='[{"cd":"0","nm":"해당없음 "},{"cd":"1","nm":"(%)비율"},{"cd":"2","nm":"(원)금액"},{"cd":"3","nm":"(원)금액3"},{"cd":"4","nm":"(원)금액4"},{"cd":"5","nm":"(원)금액5"},{"cd":"6","nm":"(원)금액6"},{"cd":"7","nm":"(원)금액7"},{"cd":"8","nm":"(원)금액8"},{"cd":"9","nm":"(원)금액9"},{"cd":"10","nm":"(원)금액10"},{"cd":"11","nm":"(원)금액11"},{"cd":"12","nm":"(원)금액12"}]'>
 								</div>
 							</span>
