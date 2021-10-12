@@ -12231,7 +12231,12 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
         if(df){
             var reValue='';
             try{
-                reValue = eval(df)(String(_value));
+            	if($(_comp).parent()[0].displayChar != null){
+            		_value = String(_value).replaceAll($(_comp).parent()[0].displayChar,'');
+            	}else{
+            		_value = String(_value);
+            	}
+                reValue = eval(df)(_value);
                 if(reValue.length < _value.length){
                     reValue = _value;
                 }
@@ -12241,21 +12246,23 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
         }else{
             reValue = _value;
         }
-        debugger;
-        if($(_comp).attr('type') == 'input'){
-        	$(_comp).attr('originalValue',_value);
-        	$(_comp).find('input').attr('onblur',"moca.setValue(this,"+_value+",'enterSearchEvt')");
-        	
-        }else if($(_comp).parent().attr('type') == 'input'){
-        	$(_comp).parent().attr('originalValue',_value);
-        	$(_comp).attr('onblur',"moca.setValue(this,"+_value+",'enterSearchEvt')");
+        
+        if(reValue.length != _value.length ){
+        	for(var k=0; k < reValue.length; k++){
+        		var aChar = reValue.charAt(k);
+        		var reValue2 = reValue.replaceAll(aChar,'');
+        		if(reValue2 == _value){
+        			if($(_comp).parent() != null && $(_comp).parent().length > 0){
+            			$(_comp).parent()[0].displayChar = aChar;
+            			break;
+        			}
+        		}
+        	}
         }
         if(_comp != null && _comp.tagName == 'INPUT'){
-        	if($(_comp).attr('type') == 'input'){
-            	$(_comp).attr('displayValue',reValue);
-            }else if($(_comp).parent().attr('type') == 'input'){
-            	$(_comp).parent().attr('displayValue',reValue);
-            }
+        	if($(_comp).parent() != null && $(_comp).parent().length > 0){
+        		$(_comp).parent()[0].originalValue = _value;
+        	}
             $(_comp).val(moca.displayKeyMask(reValue,_keyMask));
         }else{
             $(_comp).find('input[type=text]').val(reValue);
@@ -12312,7 +12319,7 @@ Moca.prototype.getValue =  function(__comp,_id,_index,_data,_isFocus){
             return $(_comp).find('input[type=text]').focus();
         }else{
             if($(_comp).find('input[type=text]').val() != null){
-                return $(_comp).attr('originalvalue');
+                return _comp.originalValue;
             }else{
                 return $(_comp).find('input[type=text]').val();
             }
