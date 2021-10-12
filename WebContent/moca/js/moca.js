@@ -3068,7 +3068,7 @@ Moca.prototype.renderCombo = function(_divObj,_val,_gubun,_pageId,_srcId) {
             if(_checked == 'true'){
                 selectedStr = 'selected';
             }
-            if(_inputLeng > 0 && $(_divObj).find('input').attr('code') == cd){
+            if(_inputLeng > 0 && $(_divObj).attr('code') == cd){
             	selectedStr = 'selected';
             }
             var _reLabel = '';
@@ -12236,7 +12236,11 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
         __value = moca.trim(__value);
         $(_comp).find('input[value='+__value+']').prop('checked', true); 
     }else{
-        var df = $(_comp).attr('displayFunction');
+    	var df =  $(_comp).attr('displayFunction');
+    	if($(_comp).attr('type') == 'input'){
+    		_comp = $(_comp).find('input[type=text]')[0];
+    	}
+        
         if(df){
             var reValue='';
             try{
@@ -12255,7 +12259,8 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
         }else{
             reValue = _value;
         }
-        
+        reValue = String(reValue);
+        _value = String(_value);
         if(reValue.length != _value.length ){
         	for(var k=0; k < reValue.length; k++){
         		var aChar = reValue.charAt(k);
