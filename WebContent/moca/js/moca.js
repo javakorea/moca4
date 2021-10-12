@@ -5724,13 +5724,22 @@ Moca.prototype.getSelectTagForNormal = function(_id,_onchange){
     var _onchange_str = "";
     if(_onchange != null){
         _onchange = _onchange.replace(/\(this\)/g,'');
-        _onchange_str = 'onchange="'+_onchange+'(this)"';
+        _onchange_str = 'onchange="moca.defaultOnChange(this,\''+_onchange+'\')"';
     }
     var selectTag = '<select name="sel_tree1" id="'+('sub_'+_id)+'" class="moca_select" '+_onchange_str+' >';
     return selectTag;
 };
 
-
+Moca.prototype.defaultOnChange = function(_thisSelectObj,_onchangeFunction){
+    ['현재선택된값을 div에 저장함'];
+    var cd = moca[$(_thisSelectObj.parentElement).attr('srcid')].getCombo(_thisSelectObj.parentElement.id);
+    var nm = moca[$(_thisSelectObj.parentElement).attr('srcid')].getComboLabel(_thisSelectObj.parentElement.id);
+    $(_thisSelectObj.parentElement).attr('code',cd);
+    $(_thisSelectObj.parentElement).attr('label',nm);
+    if(moca.trim(_onchangeFunction) != ''){
+    	eval(_onchangeFunction)(_thisSelectObj);
+    }
+};
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 var sampleCalendar ={
         init : function(_dt,_thisObj,typeIdx){
