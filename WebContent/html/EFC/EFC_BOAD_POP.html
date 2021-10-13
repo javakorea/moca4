@@ -113,6 +113,7 @@ moca.EFC_BOAD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 				if(response.selectBoardInfo != null ){
 				var data = response.selectBoardInfo;
 				CKEDITOR.instances.reply_editor.setData(data.BOAD_CONT);
+
 				moca.setValue(moca.EFC_BOAD_POP.getObj("wreplytitle"),data.BOAD_TITLE);
 				moca.setValue(moca.EFC_BOAD_POP.getObj("wreplydate"),data.BOAD_DATE);
 				moca.setValue(moca.EFC_BOAD_POP.getObj("wreplyid"),data.BOAD_WRITER);

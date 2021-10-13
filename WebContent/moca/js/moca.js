@@ -12218,7 +12218,18 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
     }else if('combo' == $(_comp).attr('type') || 'combo' == $(_comp).attr('compType')){
         var v = moca.getDisplayFormat_value(_comp,_value);
         try{
-            $(_comp).find('select>option[value="'+_value+'"]').prop("selected",true);
+	        if($(_comp).attr('readonly')){
+	        	if(moca.trim(v) != '' && _comp.codeToDispLabelMap[v] != null &&_comp.codeToDispLabelMap[v].length > 0){
+	        		
+	        		//$(_thisSelectObj.parentElement).attr('code',cd);
+	        	    //$(_thisSelectObj.parentElement).attr('label',nm);
+	        		$(_comp).attr('code',v);
+	        		$(_comp).attr('label',_comp.codeToLabelMap[v]);
+	        		$(_comp).find('input[type=text]').val(_comp.codeToDispLabelMap[v]);
+	        	}
+	        }else{
+	        	$(_comp).find('select>option[value="'+_value+'"]').prop("selected",true);
+	        }
         }catch(e){
             console.log(e);
         }
