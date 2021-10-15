@@ -5724,8 +5724,8 @@ Moca.prototype.getSelectTagForNormal = function(_id,_onchange){
     var _onchange_str = "";
     if(_onchange != null){
         _onchange = _onchange.replace(/\(this\)/g,'');
-        _onchange_str = 'onchange="moca.defaultOnChange(this,\''+_onchange+'\')"';
     }
+    _onchange_str = 'onchange="moca.defaultOnChange(this,\''+_onchange+'\')"';
     var selectTag = '<select name="sel_tree1" id="'+('sub_'+_id)+'" class="moca_select" '+_onchange_str+' >';
     return selectTag;
 };
@@ -12220,9 +12220,6 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
         try{
 	        if($(_comp).attr('readonly')){
 	        	if(moca.trim(v) != '' && _comp.codeToDispLabelMap[v] != null &&_comp.codeToDispLabelMap[v].length > 0){
-	        		
-	        		//$(_thisSelectObj.parentElement).attr('code',cd);
-	        	    //$(_thisSelectObj.parentElement).attr('label',nm);
 	        		$(_comp).attr('code',v);
 	        		$(_comp).attr('label',_comp.codeToLabelMap[v]);
 	        		$(_comp).find('input[type=text]').val(_comp.codeToDispLabelMap[v]);
