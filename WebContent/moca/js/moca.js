@@ -3263,6 +3263,32 @@ Moca.prototype.searchComboFullShow = function(thisObj) {
     }
 };
 
+
+Moca.prototype.swaipClickScroll = function(thisObj) {
+    ['swaipScroll'];
+    var evt = document.createEvent("MouseEvents");
+    evt.initMouseEvent("click",true,true,window,0,0,0,0,0,false,false,false,false,0,null);
+    event.target.style.display = 'none';
+    var cb = document.elementFromPoint(event.x,event.y);
+    cb.dispatchEvent(evt);
+    event.target.style.display = 'block';
+    
+};
+
+Moca.prototype.swaipDblScroll = function(thisObj) {
+    ['swaipDblScroll'];
+    var evt = document.createEvent("MouseEvents");
+    evt.initMouseEvent("dblclick",true,true,window,0,0,0,0,0,false,false,false,false,0,null);
+    event.target.style.display = 'none';
+    var cb = document.elementFromPoint(event.x,event.y);
+    cb.dispatchEvent(evt);
+    event.target.style.display = 'block';
+};
+
+
+
+
+
 Moca.prototype.renderSearchCombo = function(_divObj,_val,_gubun,_pageId,_srcId) {
     ['renderSearchCombo'];
     var _list= _divObj['list'];
@@ -3624,7 +3650,7 @@ Moca.prototype.renderGrid = function(_divObj) {
         _html += '<div class="moca_grid_body" style="right:18px;">';
         _html += _header_body;
         _html += '</div>';
-        _html += '<div id="'+_id+'_moca_scroll_y" componentid="'+_id+'" class="moca_scrollY_type1" onscroll="moca.sFunction(this);" style="width: 100%; left: 0px;">';
+        _html += '<div id="'+_id+'_moca_scroll_y" componentid="'+_id+'" class="moca_scrollY_type1" onclick="moca.swaipClickScroll(this)" ondblclick="moca.swaipDblScroll(this)"  onscroll="moca.sFunction(this);" style="width: 100%; left: 0px">';
         _html += '<div id="'+_id+'_grid_height" style="height: 0px; position: absolute; top: 0px; left: 0px; width: 18px;"></div>';
         _html += '</div>';
         _html += '<div id="lin_dashed" style="position:absolute; top:0px; bottom:0px; border-left:1px dashed #000; z-index:100; height:100%; left:340px;display:none"></div>';
@@ -3763,7 +3789,6 @@ Moca.prototype.renderGrid = function(_divObj) {
     };
     
     $(_divObj).bind('click',_divObj.onRowSelectedFunction);
-    
     
     var _cellMap = {};
     var _cellIndex = {};
