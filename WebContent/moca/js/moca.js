@@ -11521,6 +11521,7 @@ Moca.prototype.popup = function(_option,thisObj) {
                 var popObj = moca.rendering(o);
                 
                 $('.moca_input').focus();
+                $('.moca_input').blur();
                 moca.callReady(popObj);
            },
            complete : function(data) {
