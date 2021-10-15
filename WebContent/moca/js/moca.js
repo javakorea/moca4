@@ -11510,8 +11510,6 @@ Moca.prototype.popup = function(_option,thisObj) {
                 
                 //top = top.replace(/\"|\'|(px)|\s/gi,'');
                 //left = left.replace(/\"|\'|(px)|\s/gi,'');
-
-                
                 var o = _option;
                 o.srcId = moca.url_to_srcId(_option.url);
                 o.htmlContents = _htmlContents;
@@ -11522,6 +11520,7 @@ Moca.prototype.popup = function(_option,thisObj) {
                 o.scopeId = _option.scopeId;
                 var popObj = moca.rendering(o);
                 
+                $('.moca_input').focus();
                 moca.callReady(popObj);
            },
            complete : function(data) {
