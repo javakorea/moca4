@@ -794,15 +794,10 @@ Moca.prototype.sFunction = function(yscroll) {
                 var _default_cell_height = moca.getCellHeight(_grd);
 
 
-                //console.log(yscroll.offsetHeight,yscroll.scrollTop,yscroll.scrollHeight);
-                /*
-                var reSearch = false;       
-                if (yscroll.offsetHeight + yscroll.scrollTop >= (yscroll.scrollHeight*(2/3))) {
-                    reSearch = true;
-                }
-                */
+      
                 var topPosition = yscroll.scrollTop;
                 var startIdx = parseInt(topPosition/_default_cell_height); 
+                var remainder= parseInt(topPosition%_default_cell_height); 
                 var yscrollIdx = _grd.getAttribute("yscrollIdx");
                 if(yscrollIdx == null) yscrollIdx = 0;
                 //if(yscrollIdx != startIdx){//확장시에 index가 같아도 다시 그리도록!
@@ -814,7 +809,14 @@ Moca.prototype.sFunction = function(yscroll) {
                 
 
                 //세로스크롤처리
-                if ((yscroll.offsetHeight != yscroll.scrollHeight) && yscroll.offsetHeight + yscroll.scrollTop >= yscroll.scrollHeight) {
+				var _offsetHeight = yscroll.offsetHeight;
+				var _scrollHeight = yscroll.scrollHeight;
+				var _scrollTop = yscroll.scrollTop;
+				if(_offsetHeight > _scrollHeight){
+					_scrollHeight = _offsetHeight;
+				}
+				//console.log('remainder'+remainder);
+                if ((yscroll.offsetHeight != _scrollHeight) && yscroll.offsetHeight + yscroll.scrollTop >= _scrollHeight && remainder > 0) {
                     isEnd = true;
                     moca.genTbody(_grd,_grd.list,startIdx+1,false);//0번째라인이 일부를 보여줄수없으므로 마지막한라인더 보여줘야 다 보여줄수있음
                 }else{
@@ -1415,12 +1417,12 @@ Moca.prototype.drawGrid_inside = function(_grdId,_list,_orilist,_pageId,_srcId,_
 };
 
 Moca.prototype.setVirtualScroll = function(_grd){
-    var headerCellCnt = 1+$(_grd).find('thead>tr').length;
+    //var headerCellCnt = 1+$(_grd).find('thead>tr').length;
     var _default_cell_height =  this.getCellHeight(_grd);
     var fullHeight = _default_cell_height *_grd.list.length + ($(_grd).find('thead').height()); 
     /////////////////////////////////////////////////////////////////////
     var div = $(_grd).find('.moca_grid_body')[0];
-    if(div.scrollWidth > div.clientWidth){
+    if(div.scrollWidth > div.clientWidth && moca.getDevice() != 'mobile'){
     	//세로스크롤이 +1개 추가되도록해줌.
     	fullHeight = fullHeight+_default_cell_height;
     }
@@ -3622,7 +3624,7 @@ Moca.prototype.renderGrid = function(_divObj) {
         _html += '<div class="moca_grid_body" style="right:18px;">';
         _html += _header_body;
         _html += '</div>';
-        _html += '<div id="'+_id+'_moca_scroll_y" componentid="'+_id+'" class="moca_scrollY_type1" onscroll="moca.sFunction(this);">';
+        _html += '<div id="'+_id+'_moca_scroll_y" componentid="'+_id+'" class="moca_scrollY_type1" onscroll="moca.sFunction(this);" style="width: 100%; left: 0px;">';
         _html += '<div id="'+_id+'_grid_height" style="height: 0px; position: absolute; top: 0px; left: 0px; width: 18px;"></div>';
         _html += '</div>';
         _html += '<div id="lin_dashed" style="position:absolute; top:0px; bottom:0px; border-left:1px dashed #000; z-index:100; height:100%; left:340px;display:none"></div>';

@@ -759,7 +759,13 @@ opacity: 1;
 	.moca_aside ul:last-child{display:none}
 	.moca_mdi .moca_tab_body{bottom:0}
 	.moca_mdi .moca_tab_listarea{overflow-x:auto;}
-	
+	.moca_grid_list .moca_grid_body {
+	  -ms-overflow-style: none; /* IE, Edge */
+	  scrollbar-x-width: none; /* Firefox */
+	}
+	.moca_grid_list .moca_grid_body::-webkit-scrollbar {
+	  display: none; /* Chrome, Safari, Opera */
+	}
 	.toast_msg{display:none}
 		
 	/*multiMdi*/
