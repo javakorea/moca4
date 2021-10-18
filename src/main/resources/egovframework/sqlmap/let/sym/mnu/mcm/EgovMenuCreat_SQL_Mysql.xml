@@ -56,6 +56,7 @@
 		AND A.AUTHOR_CODE =  #authorCode#
 		AND A.MENU_NO = B.MENU_NO
 		AND C.PROGRM_FILE_NM = B.PROGRM_FILE_NM
+		ORDER BY DEPTH, MENU_ORDR
 	</select> 
 	
 	
