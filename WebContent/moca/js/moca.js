@@ -11527,8 +11527,8 @@ Moca.prototype.popup = function(_option,thisObj) {
                 o.scopeId = _option.scopeId;
                 var popObj = moca.rendering(o);
                 
-                $('.moca_input').focus();
-                $('.moca_input').blur();
+                $('.moca_input:first').focus();
+                $('.moca_input:first').blur();
                 moca.callReady(popObj);
            },
            complete : function(data) {
