@@ -31,7 +31,7 @@ var mocaConfig = {
 		}
 		/*attr :'{"detail":"true","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'*/
 	},
-	defaultMenuId : "li6030000",
+	defaultMenuId : "li4020000",
 	userLogInsert : false,
 	isDevMode : function(){
 		var h = location.host;

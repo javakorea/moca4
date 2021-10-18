@@ -13,8 +13,8 @@
 			     ,  A.CODE_ID
 			     ,  A.CODE_ID_NM
 			     ,  A.USE_AT
-			  FROM  LETTCCMMNCODE   A
-			     ,  LETTCCMMNCLCODE B
+			  FROM  MT_LETTCCMMNCODE   A
+			     ,  MT_LETTCCMMNCLCODE B
 			 WHERE  A.CL_CODE = B.CL_CODE
 		]]>
 			<isEqual prepend="AND" property="searchCondition" compareValue="1">
@@ -34,8 +34,8 @@
 	<select id="CmmnCodeManageDAO.selectCmmnCodeListTotCnt" parameterClass="CmmnCodeVO" resultClass="int">
 		<![CDATA[
 			SELECT  COUNT(*) totcnt 
-			  FROM  LETTCCMMNCODE   A
-			     ,  LETTCCMMNCLCODE B
+			  FROM  MT_LETTCCMMNCODE   A
+			     ,  MT_LETTCCMMNCLCODE B
 			 WHERE  A.CL_CODE = B.CL_CODE
 		]]>
 			<isEqual prepend="AND" property="searchCondition" compareValue="1">
@@ -54,8 +54,8 @@
 			     ,  A.CODE_ID_NM codeIdNm
                  ,  A.CODE_ID_DC codeIdDc
                  ,  A.USE_AT     useAt
-			  FROM  LETTCCMMNCODE   A
-			     ,  LETTCCMMNCLCODE B
+			  FROM  MT_LETTCCMMNCODE   A
+			     ,  MT_LETTCCMMNCLCODE B
 			 WHERE  A.CL_CODE = B.CL_CODE
                AND  A.CODE_ID = #codeId#
 		]]>
@@ -64,7 +64,7 @@
 	<insert id="CmmnCodeManageDAO.insertCmmnCode">
 		<![CDATA[
 		    INSERT 
-		      INTO  LETTCCMMNCODE
+		      INTO  MT_LETTCCMMNCODE
 		         (  CODE_ID
 		         ,  CODE_ID_NM
 		         ,  CODE_ID_DC
@@ -91,7 +91,7 @@
 
 	<update id="CmmnCodeManageDAO.updateCmmnCode">
 		<![CDATA[
-            UPDATE  LETTCCMMNCODE 
+            UPDATE  MT_LETTCCMMNCODE 
                SET  CODE_ID_NM        = #codeIdNm#
                  ,  CODE_ID_DC        = #codeIdDc#
                  ,  USE_AT            = #useAt#
@@ -103,7 +103,7 @@
 
 	<delete id="CmmnCodeManageDAO.deleteCmmnCode">
 		<![CDATA[
-            UPDATE  LETTCCMMNCODE 
+            UPDATE  MT_LETTCCMMNCODE 
                SET  USE_AT  = 'N'
              WHERE  CODE_ID = #codeId# 
 		]]>
@@ -111,7 +111,7 @@
 
 	<delete id="CmmnCodeManageDAO.deleteCmmnCodePhysical">
 		<![CDATA[
-            DELETE FROM LETTCCMMNCODE 
+            DELETE FROM MT_LETTCCMMNCODE 
              WHERE  CODE_ID = #codeId# 
 		]]>
 	</delete>

@@ -27,7 +27,7 @@
                    ROLE_TY, 
                    ROLE_SORT, 
                    ROLE_CREAT_DE
-              FROM LETTNROLEINFO
+              FROM MT_LETTNROLEINFO
              WHERE ROLE_CODE = #roleCode#		         
         ]]>
     </select>
@@ -38,12 +38,12 @@
                    ROLE_PTTRN, 
                    ROLE_DC, 
                    (SELECT CODE_NM 
-                      FROM LETTCCMMNDETAILCODE 
+                      FROM MT_LETTCCMMNDETAILCODE 
                      WHERE CODE_ID = 'COM029' 
                        AND CODE = ROLE_TY) AS ROLE_TY, 
                    ROLE_SORT, 
                    ROLE_CREAT_DE
-              FROM LETTNROLEINFO
+              FROM MT_LETTNROLEINFO
              WHERE 1=1
             <isEqual prepend="AND" property="searchCondition" compareValue="1">
                 ROLE_NM LIKE CONCAT('%' , #searchKeyword#, '%')
@@ -54,7 +54,7 @@
 
 	<insert id="roleManageDAO.insertRole" parameterClass="roleManage">
 		<![CDATA[
-			INSERT INTO LETTNROLEINFO 
+			INSERT INTO MT_LETTNROLEINFO 
 				  ( ROLE_CODE
 				  , ROLE_NM
                   , ROLE_PTTRN
@@ -74,7 +74,7 @@
 
 	<update id="roleManageDAO.updateRole" parameterClass="roleManage">
 		<![CDATA[
-			UPDATE LETTNROLEINFO 
+			UPDATE MT_LETTNROLEINFO 
 			   SET ROLE_NM=#roleNm#
                  , ROLE_PTTRN=#rolePtn#
                  , ROLE_DC=#roleDc#
@@ -87,7 +87,7 @@
 
 	<delete id="roleManageDAO.deleteRole">
 		<![CDATA[
-			DELETE FROM LETTNROLEINFO 
+			DELETE FROM MT_LETTNROLEINFO 
 			 WHERE ROLE_CODE=#roleCode#
 		]]>
 	</delete>
@@ -95,7 +95,7 @@
 	<select id="roleManageDAO.selectAuthorListTotCnt" parameterClass="roleManageVO" resultClass="int">
 
 			SELECT COUNT(*) totcnt
-			FROM LETTNROLEINFO
+			FROM MT_LETTNROLEINFO
 			WHERE 1=1
 			<isEqual prepend="AND" property="searchCondition" compareValue="1">
 				ROLE_NM LIKE CONCAT('%' , #searchKeyword#, '%')
@@ -104,7 +104,7 @@
 
     <select id="roleManageDAO.selectRoleAllList" parameterClass="roleManageVO" resultMap="role">
             SELECT ROLE_CODE, ROLE_NM, ROLE_PTTRN, ROLE_DC, ROLE_TY, ROLE_SORT, ROLE_CREAT_DE
-              FROM LETTNROLEINFO
+              FROM MT_LETTNROLEINFO
     </select>
 
 </sqlMap>

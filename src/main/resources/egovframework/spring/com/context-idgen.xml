@@ -9,7 +9,7 @@
         <property name="dataSource" ref="dataSource-${Globals.DbType}" />
         <property name="strategy" ref="fileStrategy" />
         <property name="blockSize"  value="10"/>
-        <property name="table"      value="IDS"/>
+        <property name="table"      value="MT_IDS"/>
         <property name="tableName"  value="FILE_ID"/>
     </bean>
     <!-- 첨부파일 ID Generation  Strategy Config -->
@@ -27,7 +27,7 @@
         <property name="dataSource" ref="dataSource" />
         <property name="strategy" ref="bbsMstrStrategy" />
         <property name="blockSize"  value="10"/>
-        <property name="table"      value="IDS"/>
+        <property name="table"      value="MT_IDS"/>
         <property name="tableName"  value="BBS_ID"/>
     </bean>
     <!-- 게시판마스터 ID Generation  Strategy Config -->
@@ -45,7 +45,7 @@
         <property name="dataSource" ref="dataSource" />
         <property name="strategy" ref="tmplatStrategy" />
         <property name="blockSize"  value="10"/>
-        <property name="table"      value="IDS"/>
+        <property name="table"      value="MT_IDS"/>
         <property name="tableName"  value="TMPLAT_ID"/>
     </bean>
     <!-- 게시판템플릿 ID Generation  Strategy Config -->
@@ -63,7 +63,7 @@
         <property name="dataSource" ref="dataSource" />
         <property name="strategy"   ref="groupIdStrategy" />
         <property name="blockSize"  value="10"/>
-        <property name="table"      value="IDS"/>
+        <property name="table"      value="MT_IDS"/>
         <property name="tableName"  value="GROUP_ID"/>
     </bean>
     <!-- 그룹 ID Generation  Strategy Config -->
@@ -81,7 +81,7 @@
         <property name="dataSource" ref="dataSource" />
         <property name="strategy"   ref="roleIdStrategy" />
         <property name="blockSize"  value="10"/>
-        <property name="table"      value="IDS"/>
+        <property name="table"      value="MT_IDS"/>
         <property name="tableName"  value="ROLE_ID"/>
     </bean>
     <!-- 롤 ID Generation  Strategy Config -->
@@ -99,7 +99,7 @@
         <property name="dataSource" ref="dataSource" />
         <property name="strategy"   ref="loginLogStrategy" />
         <property name="blockSize"  value="10"/>
-        <property name="table"      value="IDS"/>
+        <property name="table"      value="MT_IDS"/>
         <property name="tableName"  value="LOGINLOG_ID"/>
     </bean>
     <!-- 접속로그 ID Generation  Strategy Config -->
@@ -117,7 +117,7 @@
         <property name="dataSource" ref="dataSource" />
         <property name="strategy" ref="usrCnfrmStrategy" />
         <property name="blockSize"  value="10"/>
-        <property name="table"      value="IDS"/>
+        <property name="table"      value="MT_IDS"/>
         <property name="tableName"  value="USRCNFRM_ID"/>
     </bean>
     <!-- 사용자 ID Generation  Strategy Config -->
@@ -547,7 +547,7 @@
         <property name="dataSource" ref="egov.dataSource" />
         <property name="strategy" ref="mixPrefixSample" />
         <property name="blockSize"  value="10"/>
-        <property name="table"      value="ids"/>
+        <property name="table"      value="MT_IDS"/>
         <property name="tableName"  value="COMTNWORDDICARYINFO"/>
     </bean>
 

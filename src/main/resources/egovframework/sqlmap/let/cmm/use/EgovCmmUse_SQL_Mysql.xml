@@ -18,7 +18,7 @@
 			SELECT 
 			CODE_ID, CODE, CODE_NM, CODE_DC
 			FROM 
-			LETTCCMMNDETAILCODE
+			MT_LETTCCMMNDETAILCODE
 			WHERE
 			USE_AT = 'Y'
 			AND CODE_ID = #codeId#
@@ -29,7 +29,7 @@
 			SELECT 
 			CODE_ID, CODE, CODE_NM, CODE_DC
 			FROM 
-			LETTCCMMNDETAILCODE
+			MT_LETTCCMMNDETAILCODE
 			WHERE CODE_ID = #codeId#
 			ORDER BY INQ_SEQ
 		]]>
@@ -42,7 +42,7 @@
                 ORGNZT_NM     CODE_NM, 
                 ORGNZT_DC     CODE_DC
             FROM 
-                LETTNORGNZTINFO
+                MT_LETTNORGNZTINFO
             WHERE 1=1
             ]]>
             <isEqual prepend="AND" property="haveDetailCondition" compareValue="Y">
@@ -58,7 +58,7 @@
                 GROUP_NM     CODE_NM, 
                 GROUP_DC     CODE_DC
             FROM 
-                LETTNAUTHORGROUPINFO
+                MT_LETTNAUTHORGROUPINFO
             WHERE 1=1
             ]]>
             <isEqual prepend="AND" property="haveDetailCondition" compareValue="Y">

@@ -22,7 +22,7 @@
 				, FROMDATE AS fromDate
 				, TODATE AS toDate
 				, SHORTCUT AS shortCut
-			FROM LETTNMENUINFO 
+			FROM MT_LETTNMENUINFO 
 			WHERE binary(MENU_NM) like CONCAT('%', #searchKeyword#, '%') AND MENU_NO > 0
 			LIMIT  #recordCountPerPage# OFFSET #firstIndex#
 		 ]]>
@@ -32,7 +32,7 @@
 	<select id="menuManageDAO.selectMenuManageListTotCnt_S" parameterClass="comDefaultVO" resultClass="int">
 		<![CDATA[
 		SELECT COUNT(MENU_NO) AS totcnt
-		  FROM LETTNMENUINFO
+		  FROM MT_LETTNMENUINFO
 		 WHERE binary(MENU_NM) like CONCAT('%', #searchKeyword#, '%') AND MENU_NO > 0
 		]]>
 	</select>
@@ -49,14 +49,14 @@
 				, RELATE_IMAGE_PATH AS relateImagePath
 				, RELATE_IMAGE_NM AS relateImageNm
 				, PROGRM_FILE_NM AS progrmFileNm
-			FROM LETTNMENUINFO
+			FROM MT_LETTNMENUINFO
 			WHERE MENU_NO = #searchKeyword#
 		]]>
 	</select>
 	
 	<insert id="menuManageDAO.insertMenuManage_S">
 		<![CDATA[
-			INSERT INTO LETTNMENUINFO 
+			INSERT INTO MT_LETTNMENUINFO 
 				( MENU_NO
             , MENU_ORDR
             , MENU_NM
@@ -80,7 +80,7 @@
 
 	<update id="menuManageDAO.updateMenuManage_S">
 		<![CDATA[
-			UPDATE LETTNMENUINFO 
+			UPDATE MT_LETTNMENUINFO 
 			SET  MENU_ORDR         = #menuOrdr#       
             , MENU_NM           = #menuNm#         
             , UPPER_MENU_NO     = #upperMenuId#    
@@ -98,7 +98,7 @@
 
 	<delete id="menuManageDAO.deleteMenuManage_S">
 		<![CDATA[                          
-			DELETE FROM LETTNMENUINFO              
+			DELETE FROM MT_LETTNMENUINFO              
 			WHERE MENU_NO=#menuNo#                 
 		]]>                                
 	</delete> 
@@ -107,7 +107,7 @@
 	<select id="menuManageDAO.selectMenuNoByPk" parameterClass="menuManageVO" resultClass="int">
 		<![CDATA[
 		SELECT COUNT(MENU_NO) AS totcnt
-		  FROM LETTNMENUINFO
+		  FROM MT_LETTNMENUINFO
 		 WHERE MENU_NO = #menuNo#
 		]]>
 	</select>
@@ -116,7 +116,7 @@
 	<select id="menuManageDAO.selectUpperMenuNoByPk" parameterClass="menuManageVO" resultClass="int">
 		<![CDATA[
 		SELECT COUNT(MENU_NO) AS totcnt
-		  FROM LETTNMENUINFO
+		  FROM MT_LETTNMENUINFO
 		 WHERE UPPER_MENU_NO = #menuNo#
 		]]>
 	</select>
@@ -132,7 +132,7 @@
 				, RELATE_IMAGE_PATH AS relateImagePath
 				, RELATE_IMAGE_NM AS relateImageNm
 				, PROGRM_FILE_NM AS progrmFileNm
-			FROM LETTNMENUINFO 
+			FROM MT_LETTNMENUINFO 
 			WHERE Menu_NO > 0 
 			ORDER BY MENU_ORDR
 		]]> 
@@ -140,7 +140,7 @@
 
 	<delete id="menuManageDAO.deleteAllMenuList" >
 		<![CDATA[                          
-			DELETE FROM LETTNMENUINFO WHERE MENU_NO <> UPPER_MENU_NO
+			DELETE FROM MT_LETTNMENUINFO WHERE MENU_NO <> UPPER_MENU_NO
 		]]>                                
 	</delete> 
 
@@ -148,7 +148,7 @@
 	<select id="menuManageDAO.selectMenuListTotCnt" parameterClass="menuManageVO" resultClass="int">
 		<![CDATA[
 		SELECT COUNT(MENU_NO) AS totcnt
-		  FROM LETTNMENUINFO
+		  FROM MT_LETTNMENUINFO
 		]]>
 	</select>
 

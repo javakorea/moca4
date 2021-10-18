@@ -2,78 +2,78 @@
 <html lang="ko">
 <head>
 <script>
-	moca.EFC_BOAD.boardType ='ERP';
-	moca.EFC_BOAD.___ready = function(args){
-	    moca.EFC_BOAD.code({
+	moca.EFC_BOARD.boardType ='ERP';
+	moca.EFC_BOARD.___ready = function(args){
+	    moca.EFC_BOARD.code({
             "chkg_1":{code:'boardStatus'}
         },function(result){
         	
         	//test
-        	//moca.setDisabled(moca.EFC_BOAD.getObj("rePurchaseBtn"), true);
+        	//moca.setDisabled(moca.EFC_BOARD.getObj("rePurchaseBtn"), true);
         	
         	
         	if(moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
-    	    	moca.hide(moca.EFC_BOAD.getObj("btn_del_admin"));
+    	    	moca.hide(moca.EFC_BOARD.getObj("btn_del_admin"));
     	    }
         	var list = result['chkg_1'];
         	moca.setCheckboxGroupList(
-        			moca.EFC_BOAD.getObj('chkg_1'),
+        			moca.EFC_BOARD.getObj('chkg_1'),
         			list,
         			{label:"codeNm",value:"code",checked:true},
         			{"Y":"unchecked"}
         	);
-        	moca.EFC_BOAD.fn_search();
+        	moca.EFC_BOARD.fn_search();
         });
 	};
-	moca.EFC_BOAD.grdList ;
-	moca.EFC_BOAD.fn_search = function(){
-	    moca.EFC_BOAD.exe({
-	        url : moca._domain+moca._contextRoot+"/EFC_BOAD/selectBoardList.do",
+	moca.EFC_BOARD.grdList ;
+	moca.EFC_BOARD.fn_search = function(){
+	    moca.EFC_BOARD.exe({
+	        url : moca._domain+moca._contextRoot+"/EFC_BOARD/selectBoardList.do",
 	        loadingbar:true,
 	        data : {
 	            "header" : moca.header,
 	            "body" : {
-	            	"BOAD_TYPE":moca.EFC_BOAD.boardType,
-	            	"BOAD_WRITER":moca.getValue(moca.EFC_BOAD.getObj( "ipt_WRITER")),
-	            	"BOAD_TITLE":moca.getValue(moca.EFC_BOAD.getObj( "ipt_TITLE")),
-	            	"FROM":moca.EFC_BOAD.getFrom("CREATE_DTTM").replace(/-/g,''),
-                    "TO":moca.EFC_BOAD.getTo("CREATE_DTTM").replace(/-/g,''),
-                    "BOAD_SUPPORT":moca.getCheckboxGroupCheckedList(moca.EFC_BOAD.getObj('chkg_1'))
+	            	"BOARD_TYPE":moca.EFC_BOARD.boardType,
+	            	"BOARD_WRITER":moca.getValue(moca.EFC_BOARD.getObj( "ipt_WRITER")),
+	            	"BOARD_TITLE":moca.getValue(moca.EFC_BOARD.getObj( "ipt_TITLE")),
+	            	"FROM":moca.EFC_BOARD.getFrom("CREATE_DTTM").replace(/-/g,''),
+                    "TO":moca.EFC_BOARD.getTo("CREATE_DTTM").replace(/-/g,''),
+                    "BOARD_SUPPORT":moca.getCheckboxGroupCheckedList(moca.EFC_BOARD.getObj('chkg_1'))
 	            }
 	        },          
 	        callback : function(response){
-	        	moca.EFC_BOAD.grdList = moca.getResList(response,"selectBoardList");
-	            moca.EFC_BOAD.drawGrid('grd_1',moca.EFC_BOAD.grdList);
+	        	moca.EFC_BOARD.grdList = moca.getResList(response,"selectBoardList");
+	            moca.EFC_BOARD.drawGrid('grd_1',moca.EFC_BOARD.grdList);
 	            var _supportB = (response.selectBoardStatusCnt.B != null)? response.selectBoardStatusCnt.B : 0;
 	            var _supportN = (response.selectBoardStatusCnt.N != null)? response.selectBoardStatusCnt.N : 0;
 	            var _supportR = (response.selectBoardStatusCnt.R != null)? response.selectBoardStatusCnt.R : 0;
 	            var _supportY = (response.selectBoardStatusCnt.Y != null)? response.selectBoardStatusCnt.Y : 0;
 
 	         	if(moca.getDevice() == 'pc'){
-	         		moca.setLabelValue(moca.EFC_BOAD.getObj('supportB'),moca.comma(_supportB));//반려
-		            moca.setLabelValue(moca.EFC_BOAD.getObj('supportN'),moca.comma(_supportN));//요청
-		            moca.setLabelValue(moca.EFC_BOAD.getObj('supportR'),moca.comma(_supportR));//접수
-		            moca.setLabelValue(moca.EFC_BOAD.getObj('supportY'),moca.comma(_supportY));//완료
+	         		moca.setLabelValue(moca.EFC_BOARD.getObj('supportB'),moca.comma(_supportB));//반려
+		            moca.setLabelValue(moca.EFC_BOARD.getObj('supportN'),moca.comma(_supportN));//요청
+		            moca.setLabelValue(moca.EFC_BOARD.getObj('supportR'),moca.comma(_supportR));//접수
+		            moca.setLabelValue(moca.EFC_BOARD.getObj('supportY'),moca.comma(_supportY));//완료
 	         	}
 	        }
 	    });
 	};
 	
-	moca.EFC_BOAD.popId = "EFC_BOAD_POP";
-	moca.EFC_BOAD.fn_pop = function(_thisObj){
+	moca.EFC_BOARD.popId = "EFC_BOARD_POP";
+	moca.EFC_BOARD.fn_pop = function(_thisObj){
 	    ['글쓰기 팝업']
 	    var o = {};
-	    o.id = moca.EFC_BOAD.popId2;
-	    o.url = '/html/EFC/EFC_BOAD_POP.html';
+	    o.id = moca.EFC_BOARD.popId2;
+	    o.url = '/html/EFC/EFC_BOARD_POP.html';
 	    o.type = "POPUP";
 	    o.modal = "false";
 	    o.title = '게시물작성';
-	    o.callback = moca.EFC_BOAD.fn_pop_callback;
-	    o.scopeId = moca.EFC_BOAD.pageId;
-	    o.data = {popTitle:"게시물작성","BOAD_TYPE":moca.EFC_BOAD.boardType};
+	    o.callback = moca.EFC_BOARD.fn_pop_callback;
+	    o.scopeId = moca.EFC_BOARD.pageId;
+	    o.data = {popTitle:"게시물작성","BOARD_TYPE":moca.EFC_BOARD.boardType};
 	    moca.popup(o,_thisObj);
 	};
-	moca.EFC_BOAD.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
+	moca.EFC_BOARD.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 	    ['게시글상세']
 	    if($(_grd).attr('type') != 'grid'){
 	    	_grd = $(_grd).closest('div[type=grid]')[0];
@@ -83,51 +83,51 @@
 	    		return;
 	    	}
 	    }
-	    var _BoardTitle = _grd.list[rowIndex].BOAD_TITLE;
-	    var _BoardIdx = moca.getCellData(_grd,rowIndex,'BOAD_IDX');
+	    var _BoardTitle = _grd.list[rowIndex].BOARD_TITLE;
+	    var _BoardIdx = moca.getCellData(_grd,rowIndex,'BOARD_IDX');
 	    var __BoardParentIdx;
-	    if( moca.getCellData(_grd,rowIndex,'BOAD_PIDX') != null){
-	    	 __BoardParentIdx = moca.getCellData(_grd,rowIndex,'BOAD_PIDX');
+	    if( moca.getCellData(_grd,rowIndex,'BOARD_PIDX') != null){
+	    	 __BoardParentIdx = moca.getCellData(_grd,rowIndex,'BOARD_PIDX');
 	    }else{
 	    	__BoardParentIdx = '';
 	    }
 	    var o = {};
-	    o.id = moca.EFC_BOAD.popId;
-	    o.url = '/html/EFC/EFC_BOAD_POP.html';
+	    o.id = moca.EFC_BOARD.popId;
+	    o.url = '/html/EFC/EFC_BOARD_POP.html';
 	    o.type = "POPUP";
 	    o.modal = "false";
 	    o.title = '게시글상세';
-	    o.callback = moca.EFC_BOAD.fn_pop_callback;
-	    o.scopeId = moca.EFC_BOAD.pageId;
-	    o.data = {"BOAD_IDX":_BoardIdx+'',"BOAD_PIDX":__BoardParentIdx+'',"BOAD_TITLE":_BoardTitle,"BOAD_TYPE":moca.EFC_BOAD.boardType};
+	    o.callback = moca.EFC_BOARD.fn_pop_callback;
+	    o.scopeId = moca.EFC_BOARD.pageId;
+	    o.data = {"BOARD_IDX":_BoardIdx+'',"BOARD_PIDX":__BoardParentIdx+'',"BOARD_TITLE":_BoardTitle,"BOARD_TYPE":moca.EFC_BOARD.boardType};
 	    moca.popup(o,_grd);
 	};
 	
-	moca.EFC_BOAD.fn_pop_callback = function(_json){
+	moca.EFC_BOARD.fn_pop_callback = function(_json){
 		if(_json != null && _json.message){
 			moca.alert(_json.message);
 		}
 		if(_json != null && _json.callback == 'true'){
-			moca.EFC_BOAD.fn_search();
+			moca.EFC_BOARD.fn_search();
 		}
 	}
 	
-	moca.EFC_BOAD.fn_adminDelList = function(){
+	moca.EFC_BOARD.fn_adminDelList = function(){
 		['게시글 물리삭제 관리자삭제']
-        if(moca.EFC_BOAD.validate("grd_1","status","C,U,D")){
+        if(moca.EFC_BOARD.validate("grd_1","status","C,U,D")){
        		moca.confirm('삭제하시면 데이터를 더이상 복구하실 수 없습니다.<br/>또한 원글을 삭제하실경우 답글까지도 삭제됩니다.<br/>그래도 삭제하시겠습니까?',function(result){
                    if(result == 'Y'){
-                       moca.EFC_BOAD.exe({
-                           url : moca._domain+moca._contextRoot+"/EFC_BOAD/deleteBoardList.do",
+                       moca.EFC_BOARD.exe({
+                           url : moca._domain+moca._contextRoot+"/EFC_BOARD/deleteBoardList.do",
                            data : {
                                "header" : moca.header,
                                "body" : {
-                                   paramList:moca.getCheckedData(moca.EFC_BOAD.getObj("grd_1"),"chk")
+                                   paramList:moca.getCheckedData(moca.EFC_BOARD.getObj("grd_1"),"chk")
                                }
                            },      
                            callback : function(){
                               moca.alert('성공적으로 삭제되었습니다!',function(){
-                                  moca.EFC_BOAD.fn_search();
+                                  moca.EFC_BOARD.fn_search();
                                   return;
                               });  
                            }
@@ -136,23 +136,23 @@
                });
         }
     };
-    moca.EFC_BOAD.fn_delList = function(){
+    moca.EFC_BOARD.fn_delList = function(){
 		['게시글 삭제']
 		if(moca.getDevice() == "pc"){
-	        if(moca.EFC_BOAD.validate("grd_1","status","C,U,D")){
+	        if(moca.EFC_BOARD.validate("grd_1","status","C,U,D")){
 	       		moca.confirm('원글을 삭제하실경우 답글까지도 삭제됩니다.<br/>선택된 목록들을 삭제하시겠습니까?',function(result){
 	                   if(result == 'Y'){
-	                       moca.EFC_BOAD.exe({
-	                           url : moca._domain+moca._contextRoot+"/EFC_BOAD/deleteStatusBoardList.do",
+	                       moca.EFC_BOARD.exe({
+	                           url : moca._domain+moca._contextRoot+"/EFC_BOARD/deleteStatusBoardList.do",
 	                           data : {
 	                               "header" : moca.header,
 	                               "body" : {
-	                                   paramList:moca.getCheckedData(moca.EFC_BOAD.getObj("grd_1"),"chk")
+	                                   paramList:moca.getCheckedData(moca.EFC_BOARD.getObj("grd_1"),"chk")
 	                               }
 	                           },      
 	                           callback : function(){
 	                              moca.alert('성공적으로 삭제되었습니다!',function(){
-	                                  moca.EFC_BOAD.fn_search();
+	                                  moca.EFC_BOARD.fn_search();
 	                                  return;
 	                              });  
 	                           }
@@ -161,23 +161,23 @@
 	               });
 	        }
 		}else{
-			var rIndex = moca.EFC_BOAD.getObj("grd_1").getAttribute("selectedRealRowIndex");
+			var rIndex = moca.EFC_BOARD.getObj("grd_1").getAttribute("selectedRealRowIndex");
 			if(rIndex != null && rIndex > -1){
-				moca.EFC_BOAD.getObj("grd_1").list[rIndex]["_system"]["status"] = "D";
-		        if(moca.EFC_BOAD.validate("grd_1","status","C,U,D")){
+				moca.EFC_BOARD.getObj("grd_1").list[rIndex]["_system"]["status"] = "D";
+		        if(moca.EFC_BOARD.validate("grd_1","status","C,U,D")){
 		       		moca.confirm('원글을 삭제하실경우 답글까지도 삭제됩니다.<br/>선택된 목록들을 삭제하시겠습니까?',function(result){
 		                   if(result == 'Y'){
-		                       moca.EFC_BOAD.exe({
-		                           url : moca._domain+moca._contextRoot+"/EFC_BOAD/deleteStatusBoardList.do",
+		                       moca.EFC_BOARD.exe({
+		                           url : moca._domain+moca._contextRoot+"/EFC_BOARD/deleteStatusBoardList.do",
 		                           data : {
 		                               "header" : moca.header,
 		                               "body" : {
-		                                   paramList:[moca.EFC_BOAD.getObj("grd_1").list[rIndex]]
+		                                   paramList:[moca.EFC_BOARD.getObj("grd_1").list[rIndex]]
 		                               }
 		                           },      
 		                           callback : function(){
 		                              moca.alert('성공적으로 삭제되었습니다!',function(){
-		                                  moca.EFC_BOAD.fn_search();
+		                                  moca.EFC_BOARD.fn_search();
 		                                  return;
 		                              });  
 		                           }
@@ -189,7 +189,7 @@
 		}
 
     };
-    moca.EFC_BOAD.dispCnt= function(_thisVal){
+    moca.EFC_BOARD.dispCnt= function(_thisVal){
     	if(_thisVal !=null && _thisVal != 0){
     		return _thisVal;
     	}else{
@@ -198,15 +198,15 @@
     	}
     }
     
-    moca.EFC_BOAD.dispReply= function(_thisVal, _grd, _realrow){
+    moca.EFC_BOARD.dispReply= function(_thisVal, _grd, _realrow){
     	var _showVal = '';
-    	var _replyCnt = (_grd.list[_realrow].BOAD_REPLYCNT > 0)?_grd.list[_realrow].BOAD_REPLYCNT:'';
-    	var _thisValStr = (_grd.list[_realrow].BOAD_REPLYCNT > 0)?_thisVal+ '<span class="txt_red">[' +_replyCnt+ ']</span>':_thisVal;
-			if(_grd.list[_realrow].BOAD_SUPPORT == "N"){
+    	var _replyCnt = (_grd.list[_realrow].BOARD_REPLYCNT > 0)?_grd.list[_realrow].BOARD_REPLYCNT:'';
+    	var _thisValStr = (_grd.list[_realrow].BOARD_REPLYCNT > 0)?_thisVal+ '<span class="txt_red">[' +_replyCnt+ ']</span>':_thisVal;
+			if(_grd.list[_realrow].BOARD_SUPPORT == "N"){
 				_showVal = "<i class='msg txt_sky mr5'>요청</i>"+ _thisValStr;
-			}else if(_grd.list[_realrow].BOAD_SUPPORT == "R"){
+			}else if(_grd.list[_realrow].BOARD_SUPPORT == "R"){
 				_showVal = "<i class='msg txt_green mr5'>접수</i>"+ _thisValStr;
-			}else if(_grd.list[_realrow].BOAD_SUPPORT == "B"){
+			}else if(_grd.list[_realrow].BOARD_SUPPORT == "B"){
 				_showVal = "<i class='msg txt_orange mr5'>반려</i>"+ _thisValStr;
 			}else{
 				_showVal = _thisValStr;
@@ -214,31 +214,31 @@
 		return _showVal;
     }
     
-    moca.EFC_BOAD.disabled= function(_thisVal, _grd, _realrow){
-    	if(_grd.list[_realrow].BOAD_WRITER != moca.getSs("USER_ID") && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
+    moca.EFC_BOARD.disabled= function(_thisVal, _grd, _realrow){
+    	if(_grd.list[_realrow].BOARD_WRITER != moca.getSs("USER_ID") && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
     		return true;
     	}else{
     		return false;
     	}
     }
-    moca.EFC_BOAD.fn_check_before = function(_grd,_rowIndex,_colId){
+    moca.EFC_BOARD.fn_check_before = function(_grd,_rowIndex,_colId){
     	/*
     	var pro = Promise.resolve();
     	if(_colId == 'chk'){
         	pro = pro.then(function(re){
         		return new Promise(function(resolve,reject){
-            	    moca.EFC_BOAD.exe({
-            	        url : moca._domain+moca._contextRoot+"/EFC_BOAD/selectBoardList.do",
+            	    moca.EFC_BOARD.exe({
+            	        url : moca._domain+moca._contextRoot+"/EFC_BOARD/selectBoardList.do",
             	        loadingbar:true,
             	        data : {
             	            "header" : moca.header,
             	            "body" : {
-            	            	"BOAD_TYPE":moca.EFC_BOAD.boardType,
-            	            	"BOAD_WRITER":moca.EFC_BOAD.getInput("ipt_WRITER"),
-            	            	"BOAD_TITLE":moca.EFC_BOAD.getInput("ipt_TITLE"),
-            	            	"FROM":moca.EFC_BOAD.getFrom("CREATE_DTTM").replace(/-/g,''),
-                                "TO":moca.EFC_BOAD.getTo("CREATE_DTTM").replace(/-/g,''),
-                                "BOAD_SUPPORT":moca.getCheckboxGroupCheckedList(moca.EFC_BOAD.getObj('chkg_1'))
+            	            	"BOARD_TYPE":moca.EFC_BOARD.boardType,
+            	            	"BOARD_WRITER":moca.EFC_BOARD.getInput("ipt_WRITER"),
+            	            	"BOARD_TITLE":moca.EFC_BOARD.getInput("ipt_TITLE"),
+            	            	"FROM":moca.EFC_BOARD.getFrom("CREATE_DTTM").replace(/-/g,''),
+                                "TO":moca.EFC_BOARD.getTo("CREATE_DTTM").replace(/-/g,''),
+                                "BOARD_SUPPORT":moca.getCheckboxGroupCheckedList(moca.EFC_BOARD.getObj('chkg_1'))
             	            }
             	        },          
             	        callback : function(response){resolve(response);}
@@ -252,22 +252,22 @@
     	return pro;
     	*/
     };
-    moca.EFC_BOAD.fn_check_after = function(_grd,_rowIndex,_colId){
+    moca.EFC_BOARD.fn_check_after = function(_grd,_rowIndex,_colId){
     	if(_colId == 'chk'){
-    		var checkedId = moca.getCellData(_grd,_rowIndex,'BOAD_IDX');
+    		var checkedId = moca.getCellData(_grd,_rowIndex,'BOARD_IDX');
     		var checkedValue = moca.getCellData(_grd,_rowIndex,'chk');
-    		for(var i=_rowIndex+1; i < moca.EFC_BOAD.grdList.length ;i++){
-    		    if(moca.EFC_BOAD.grdList[i].BOAD_PIDX == checkedId){
-    		    	moca.EFC_BOAD.setCellData(moca.EFC_BOAD.getObj("grd_1"),i,'chk',checkedValue);
+    		for(var i=_rowIndex+1; i < moca.EFC_BOARD.grdList.length ;i++){
+    		    if(moca.EFC_BOARD.grdList[i].BOARD_PIDX == checkedId){
+    		    	moca.EFC_BOARD.setCellData(moca.EFC_BOARD.getObj("grd_1"),i,'chk',checkedValue);
     		    }else{
     		    	break;
     		    }
     		}
-    		moca.EFC_BOAD.redrawGrid(moca.EFC_BOAD.getObj("grd_1"));
+    		moca.EFC_BOARD.redrawGrid(moca.EFC_BOARD.getObj("grd_1"));
     	}
     };
     
-    moca.EFC_BOAD.fn_rePurchase = function(_grd,_rowIndex,_colId){
+    moca.EFC_BOARD.fn_rePurchase = function(_grd,_rowIndex,_colId){
     	debugger;
     	alert('발생')
     }
@@ -281,7 +281,7 @@
 		<div class="moca_cont_wrap flex fcol">
 			<div type="wframe" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
 				src="/html/titlebox.html"
-				data = '{"sreenCd":"EFC_BOAD","sreenNm":"업무게시판","sreenPath":"시스템설정,업무게시판"}'
+				data = '{"sreenCd":"EFC_BOARD","sreenNm":"업무게시판","sreenPath":"시스템설정,업무게시판"}'
 			></div>
 			<div class="moca_shbox">
 				<div class="shbox_inner">
@@ -325,29 +325,29 @@
 						<!-- 
 						<div class="tb">
 							<div class="buttonGroup">				
-								<div type="button" id="rePurchaseBtn" class="mocaButton imgBtn fl mr5 btn_ts" onclick="moca.EFC_BOAD.fn_rePurchase(this)" style="" innerStyle="padding-left:32px" value="실행할 기능 없음" label="실행할 기능 없음" ></div>
+								<div type="button" id="rePurchaseBtn" class="mocaButton imgBtn fl mr5 btn_ts" onclick="moca.EFC_BOARD.fn_rePurchase(this)" style="" innerStyle="padding-left:32px" value="실행할 기능 없음" label="실행할 기능 없음" ></div>
 							</div>
 						</div>
 						 -->
 					</div>
 				</div>
 				<div class="btn_shbox">
-					<button type="button" class="button btn_sc" onclick="moca.EFC_BOAD.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+					<button type="button" class="button btn_sc" onclick="moca.EFC_BOARD.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
 				</div>
 			</div>
 			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
 								toolbar_common_btns_pc='{"detail":"dblclick","exup":"false","exdn":"true","addrow":"false","delrow":"false","full":"true"}'
 								toolbar_common_btns_mobile='{"detail":"dblclick","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'
-								toolbar_grid_button1='{"position":"right","id":"btn_add","label":"글쓰기","onclick":"moca.EFC_BOAD.fn_pop","addClass":"","innerDisabled":"false"}'
-								toolbar_grid_button2='{"position":"right","id":"btn_del","label":"선택삭제","onclick":"moca.EFC_BOAD.fn_delList","addClass":"","innerDisabled":"false"}'
-								toolbar_grid_button3='{"mobileHide":"true","position":"right","id":"btn_del_admin","label":"선택물리삭제","onclick":"moca.EFC_BOAD.fn_adminDelList","innerStyle":"background:#5c83a6","innerDisabled":"false"}'
+								toolbar_grid_button1='{"position":"right","id":"btn_add","label":"글쓰기","onclick":"moca.EFC_BOARD.fn_pop","addClass":"","innerDisabled":"false"}'
+								toolbar_grid_button2='{"position":"right","id":"btn_del","label":"선택삭제","onclick":"moca.EFC_BOARD.fn_delList","addClass":"","innerDisabled":"false"}'
+								toolbar_grid_button3='{"mobileHide":"true","position":"right","id":"btn_del_admin","label":"선택물리삭제","onclick":"moca.EFC_BOARD.fn_adminDelList","innerStyle":"background:#5c83a6","innerDisabled":"false"}'
                                 toolbar_grid_label_span1='{"position":"left","id":"supportN","label":"요청","value":"","valueClass":"txt_green","unit":"건", "mobileHide":"true"}'
 								toolbar_grid_label_span2='{"position":"left","id":"supportR","label":"접수","value":"","valueClass":"txt_green","unit":"건", "mobileHide":"true"}'
 								toolbar_grid_label_span3='{"position":"left","id":"supportY","label":"완료","value":"","valueClass":"txt_green","unit":"건", "mobileHide":"true"}'
 								toolbar_grid_label_span4='{"position":"left","id":"supportB","label":"반려","value":"","valueClass":"txt_green","unit":"건", "mobileHide":"true"}'
-                                onBeforeClick="moca.EFC_BOAD.fn_check_before"
-                                onAfterClick="moca.EFC_BOAD.fn_check_after"
-                                onDblClick = "moca.EFC_BOAD.grd_1__onDblClick"
+                                onBeforeClick="moca.EFC_BOARD.fn_check_before"
+                                onAfterClick="moca.EFC_BOARD.fn_check_after"
+                                onDblClick = "moca.EFC_BOARD.grd_1__onDblClick"
 								label="게시물"
 			
 			>
@@ -355,47 +355,47 @@
 						<caption style="position:relative; visibility:hidden; overflow:hidden; width:0;height:0;font-size:0;line-height:0"></caption>
 						<colgroup>
 								<col style="width:30px" mobileHide="true" hide="false" columnKey="chk" thKey="H_chk" >
-								<col style="width:60px" mobileHide="true" hide="false" columnKey="BOAD_PIDX" thKey="H_BOAD_PIDX">
-								<col style="min-width:300px" mobileHide="false"  hide="false" columnKey="BOAD_TITLE" thKey="H_BOAD_TITLE">
-								<col style="width:40px" mobileHide="true"  hide="false" columnKey="CNT" thKey="H_BOAD_FILECNT">
-								<col style="width:100px" mobileHide="true"  hide="false" columnKey="BOAD_WRITER" thKey="H_BOAD_WRITER">
-								<col style="width:150px" mobileHide="true"  hide="false" columnKey="BOAD_DATE" thKey="H_BOAD_DATE">
-								<col style="width:100px" mobileHide="true"  hide="false" columnKey="BOAD_RECEIPTIONER" thKey="H_BOAD_RECEIPTIONER">	
+								<col style="width:60px" mobileHide="true" hide="false" columnKey="BOARD_PIDX" thKey="H_BOARD_PIDX">
+								<col style="min-width:300px" mobileHide="false"  hide="false" columnKey="BOARD_TITLE" thKey="H_BOARD_TITLE">
+								<col style="width:40px" mobileHide="true"  hide="false" columnKey="CNT" thKey="H_BOARD_FILECNT">
+								<col style="width:100px" mobileHide="true"  hide="false" columnKey="BOARD_WRITER" thKey="H_BOARD_WRITER">
+								<col style="width:150px" mobileHide="true"  hide="false" columnKey="BOARD_DATE" thKey="H_BOARD_DATE">
+								<col style="width:100px" mobileHide="true"  hide="false" columnKey="BOARD_RECEIPTIONER" thKey="H_BOARD_RECEIPTIONER">	
 						</colgroup>
 						<thead>
 							<tr>
 								<th scope="col" celltype="checkbox" id="H_chk" targetId="chk">선택</th>
-								<!--<th scope="col" id="H_BOAD_TYPE">게시판유형</th> -->
-								<!--<th scope="col" id="H_BOAD_PHONE">연락처테스트</th> -->
-								<th scope="col" id="H_BOAD_PIDX">ID</th>
-								<!-- <th scope="col" id="H_BOAD_IDX">ID</th> -->
-								<th scope="col" id="H_BOAD_TITLE">제목</th>
-								<th scope="col" id="H_BOAD_FILECNT">첨부</th>
-								<th scope="col" id="H_BOAD_WRITER"  filterable="true" filterableId="BOAD_WRITER">작성자</th>
-								<th scope="col" id="H_BOAD_DATE">작성일시</th>
-								<th scope="col" id="H_BOAD_RECEIPTIONER"  filterable="true" filterableId="BOAD_RECEIPTIONER">접수자</th>
-								<!--<th scope="col" id="H_BOAD_BTN">버튼</th>-->
+								<!--<th scope="col" id="H_BOARD_TYPE">게시판유형</th> -->
+								<!--<th scope="col" id="H_BOARD_PHONE">연락처테스트</th> -->
+								<th scope="col" id="H_BOARD_PIDX">ID</th>
+								<!-- <th scope="col" id="H_BOARD_IDX">ID</th> -->
+								<th scope="col" id="H_BOARD_TITLE">제목</th>
+								<th scope="col" id="H_BOARD_FILECNT">첨부</th>
+								<th scope="col" id="H_BOARD_WRITER"  filterable="true" filterableId="BOARD_WRITER">작성자</th>
+								<th scope="col" id="H_BOARD_DATE">작성일시</th>
+								<th scope="col" id="H_BOARD_RECEIPTIONER"  filterable="true" filterableId="BOARD_RECEIPTIONER">접수자</th>
+								<!--<th scope="col" id="H_BOARD_BTN">버튼</th>-->
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" disabledFunction="moca.EFC_BOAD.disabled" ></td>
-								<!--<td id="BOAD_TYPE" celltype="input" style="text-align:center" name="ID" readOnly="true"></td> -->
+								<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" disabledFunction="moca.EFC_BOARD.disabled" ></td>
+								<!--<td id="BOARD_TYPE" celltype="input" style="text-align:center" name="ID" readOnly="true"></td> -->
 								<!--
-								<td id="BOAD_PHONE" 
+								<td id="BOARD_PHONE" 
 								celltype="input" 
 								keyMask="onlyPhone" style="text-align:left" name="연락처테스트" readOnly="false"
 								displayFunction="moca.cellPhone" 
 								displayFunctionApply="realtime"
 								maxLength="13"
 								></td>-->
-								<td id="BOAD_PIDX" celltype="input" style="text-align:center" name="부모ID" readOnly="true"></td>
-								<!-- <td id="BOAD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td> -->
-								<td id="BOAD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true" displayFunction="moca.EFC_BOAD.dispReply"></td>
-								<td id="CNT" celltype="input" style="" name="첨부" readOnly="true" displayFunction="moca.EFC_BOAD.dispCnt"></td>
-								<td id="BOAD_WRITER" celltype="input" style="text-align:center" name="작성자" readOnly="true"></td>
-								<td id="BOAD_DATE" celltype="input" style="" name="작성일" readOnly="true" displayFunction="moca.longToDate"></td>
-								<td id="BOAD_RECEIPTIONER" celltype="input" style="text-align:center" name="접수자" readOnly="true"></td>
+								<td id="BOARD_PIDX" celltype="input" style="text-align:center" name="부모ID" readOnly="true"></td>
+								<!-- <td id="BOARD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td> -->
+								<td id="BOARD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true" displayFunction="moca.EFC_BOARD.dispReply"></td>
+								<td id="CNT" celltype="input" style="" name="첨부" readOnly="true" displayFunction="moca.EFC_BOARD.dispCnt"></td>
+								<td id="BOARD_WRITER" celltype="input" style="text-align:center" name="작성자" readOnly="true"></td>
+								<td id="BOARD_DATE" celltype="input" style="" name="작성일" readOnly="true" displayFunction="moca.longToDate"></td>
+								<td id="BOARD_RECEIPTIONER" celltype="input" style="text-align:center" name="접수자" readOnly="true"></td>
 								<!--<td id="delBtn" name="삭제"  celltype="button" readonly="false" required="false" addRowEditable="false" callFunction="moca.TO_000P01.fn_onBtnClick" btnLabel="삭제"></td>-->
 							</tr>
 						</tbody>

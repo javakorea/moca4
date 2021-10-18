@@ -61,7 +61,7 @@
 	<select id="BDAO.selectList_MOCABOARD" parameterClass="hashMap" resultClass="hashMap">
 		SELECT B.BD_CODE,B.BD_CATEGORY, B.BD_TITLE, B.BD_CONTENT, B.BD_DATE, M.USER_NM AS WRITER, COUNT(F.BD_CODE) AS FILE_COUNT
 		FROM MOCABOARD B 
-			LEFT JOIN LETTNEMPLYRINFO M ON  B.BD_USERID = M.EMPLYR_ID
+			LEFT JOIN MT_LETTNEMPLYRINFO M ON  B.BD_USERID = M.EMPLYR_ID
 			LEFT JOIN MOCAFILE F ON B.BD_CODE = F.BD_CODE
 		WHERE 1=1
 		<isNotEmpty property="BD_TITLE">
@@ -312,7 +312,7 @@
 	
 	<select id="mocaEFLDAO.selectList_EFC_CORP" parameterClass="hashMap" resultClass="hashMap">
 		SELECT *
-		FROM EFGCORP
+		FROM MT_CORP
 		WHERE 1=1
 		<isNotEmpty property="CORP_NM">
 		AND CORP_NM LIKE CONCAT ('%', #CORP_NM#,'%')
@@ -938,7 +938,7 @@
 	    
 	    
 		<delete id="mocaEFLDAO.deleteList_EFC_CORP" parameterClass="LinkedTreeMap"> 
-			DELETE FROM EFGCORP
+			DELETE FROM MT_CORP
 			WHERE 1=1
 			AND CORP_CD = #CORP_CD#			
 	    </delete>
@@ -962,7 +962,7 @@
 				)
 		</insert>
 		<insert id="mocaEFLDAO.insertOne_EFGCORP" parameterClass="LinkedTreeMap">    
-		        INSERT INTO EFGCORP (
+		        INSERT INTO MT_CORP (
 					CORP_CD,
 					CORP_NM,
 					BIZ_NO,
@@ -1003,7 +1003,7 @@
 					and SYS_CD = #SYS_CD#
 	    </update> 
 		<update id="mocaEFLDAO.updateList_EFGCORP" parameterClass="LinkedTreeMap" >  
-	            UPDATE EFGCORP 
+	            UPDATE MT_CORP 
 	            SET 
 					CORP_NM = #CORP_NM#,
 					BIZ_NO = #BIZ_NO#,
@@ -1020,7 +1020,7 @@
 	    
 	    	    
 		<insert id="mocaEFLDAO.insertOne_EFGULOG" parameterClass="hashMap"> 
-		        INSERT INTO EFGULOG (
+		        INSERT INTO MT_ULOG (
 					CORP_CD,
 					USER_ID,
 					MENU_NM,
@@ -1043,14 +1043,14 @@
 		</insert>
 
 		<delete id="mocaEFLDAO.deleteList_EFGPROP" parameterClass="LinkedTreeMap"> 
-			DELETE FROM EFGPROP
+			DELETE FROM MT_PROP
 			WHERE 1=1
 			AND CORP_CD = #CORP_CD#
 			AND PROP_KEY = #PROP_KEY#
 	    </delete>
 	    
 		<insert id="mocaEFLDAO.insertOne_EFGPROP" parameterClass="LinkedTreeMap">    
-		        INSERT INTO EFGPROP (
+		        INSERT INTO MT_PROP (
 					CORP_CD,
 					PROP_KEY,
 					PROP_VALUE,
@@ -1064,7 +1064,7 @@
 				)
 		</insert>
 		<update id="mocaEFLDAO.updateList_EFGPROP" parameterClass="LinkedTreeMap" >  
-	            UPDATE EFGPROP 
+	            UPDATE MT_PROP 
 	            SET 
 					PROP_VALUE = #PROP_VALUE#,
 					ETC = #ETC#
@@ -1076,7 +1076,7 @@
 	    
 	   	<select id="mocaEFLDAO.selectList_EFGPROP" parameterClass="hashMap" resultClass="hashMap">
 			SELECT *
-			FROM EFGPROP
+			FROM MT_PROP
 			WHERE 1=1
 			<isNotEmpty property="PROP_KEY">
 			AND PROP_KEY LIKE CONCAT ('%', #PROP_KEY#,'%')
@@ -1098,7 +1098,7 @@
 			GROUP BY CORP_CD,SYS_CD,SYS_NM
 	    </select>
 	    <select id="mocaEFLDAO.selectTotalCnt_EFGULOG" parameterClass="hashMap" resultClass="hashMap">
-			SELECT COUNT(*) AS TOTCNT FROM EFGULOG
+			SELECT COUNT(*) AS TOTCNT FROM MT_ULOG
 			WHERE 1=1
 			AND DATE(LAST_UPDT_PNTTM) BETWEEN #FROM# AND #TO#
 			<isNotEmpty property="USER_ID">
@@ -1106,7 +1106,7 @@
 			</isNotEmpty>
 	    </select> 
 	 	<select id="mocaEFLDAO.selectList_EFGULOG" parameterClass="hashMap" resultClass="hashMap">
-			SELECT * FROM EFGULOG
+			SELECT * FROM MT_ULOG
 			WHERE 1=1
 			AND DATE(LAST_UPDT_PNTTM) BETWEEN #FROM# AND #TO#
 			<isNotEmpty property="USER_ID">
@@ -1115,7 +1115,7 @@
 			ORDER BY LAST_UPDT_PNTTM DESC
 	    </select>  
 		<select id="mocaEFLDAO.selectNumList_EFGULOG" parameterClass="hashMap" resultClass="hashMap">
-			SELECT * FROM EFGULOG
+			SELECT * FROM MT_ULOG
 			WHERE 1=1
 			AND DATE(LAST_UPDT_PNTTM) BETWEEN #FROM# AND #TO#
 			<isNotEmpty property="USER_ID">

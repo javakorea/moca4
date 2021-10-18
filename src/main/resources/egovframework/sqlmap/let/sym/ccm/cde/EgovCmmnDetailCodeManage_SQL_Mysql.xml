@@ -13,8 +13,8 @@
 			     ,  A.CODE
 			     ,  A.CODE_NM 
 			     ,  A.USE_AT
-			  FROM  LETTCCMMNDETAILCODE A
-			     ,  LETTCCMMNCODE       B
+			  FROM  MT_LETTCCMMNDETAILCODE A
+			     ,  MT_LETTCCMMNCODE       B
 			 WHERE 	B.USE_AT  = 'Y'
 			   AND  A.CODE_ID = B.CODE_ID
 		]]>
@@ -37,8 +37,8 @@
 			     ,  A.CODE
 			     ,  A.CODE_NM 
 			     ,  A.USE_AT
-			  FROM  LETTCCMMNDETAILCODE A
-			     ,  LETTCCMMNCODE       B
+			  FROM  MT_LETTCCMMNDETAILCODE A
+			     ,  MT_LETTCCMMNCODE       B
 			 WHERE 	A.CODE_ID = B.CODE_ID
 		]]>
 			<isEqual prepend="AND" property="searchCondition" compareValue="1">
@@ -57,8 +57,8 @@
 	<select id="CmmnDetailCodeManageDAO.selectCmmnDetailCodeListTotCnt" parameterClass="CmmnDetailCodeVO" resultClass="int">
 		<![CDATA[
 			SELECT  COUNT(*) totcnt 
-			  FROM  LETTCCMMNDETAILCODE A
-			     ,  LETTCCMMNCODE       B
+			  FROM  MT_LETTCCMMNDETAILCODE A
+			     ,  MT_LETTCCMMNCODE       B
 			 WHERE 	 A.CODE_ID = B.CODE_ID
 		]]>
 			<isEqual prepend="AND" property="searchCondition" compareValue="1">
@@ -75,8 +75,8 @@
 	<select id="CmmnDetailCodeManageDAO.selectCmmnDetailCodeListAdminTotCnt" parameterClass="CmmnDetailCodeVO" resultClass="int">
 		<![CDATA[
 			SELECT  COUNT(*) totcnt 
-			  FROM  LETTCCMMNDETAILCODE A
-			     ,  LETTCCMMNCODE       B
+			  FROM  MT_LETTCCMMNDETAILCODE A
+			     ,  MT_LETTCCMMNCODE       B
 			 WHERE 	A.CODE_ID = B.CODE_ID
 		]]>
 			<isEqual prepend="AND" property="searchCondition" compareValue="1">
@@ -98,8 +98,8 @@
                  ,  A.CODE_NM    codeNm
                  ,  A.CODE_DC    codeDc
                  ,  A.USE_AT     useAt
-              FROM  LETTCCMMNDETAILCODE A
-                 ,  LETTCCMMNCODE       B
+              FROM  MT_LETTCCMMNDETAILCODE A
+                 ,  MT_LETTCCMMNCODE       B
              WHERE  B.USE_AT  = 'Y'
                AND  A.CODE_ID = B.CODE_ID
 			   AND  A.CODE_ID = #codeId#
@@ -110,7 +110,7 @@
 	<insert id="CmmnDetailCodeManageDAO.insertCmmnDetailCode">
 		<![CDATA[
 		    INSERT 
-		      INTO  LETTCCMMNDETAILCODE
+		      INTO  MT_LETTCCMMNDETAILCODE
 		         (  CODE_ID
 		         ,  CODE
 		         ,  CODE_NM
@@ -137,7 +137,7 @@
 
 	<update id="CmmnDetailCodeManageDAO.updateCmmnDetailCode">
 		<![CDATA[
-            UPDATE  LETTCCMMNDETAILCODE 
+            UPDATE  MT_LETTCCMMNDETAILCODE 
                SET  CODE_NM           = #codeNm#
                  ,  CODE_DC           = #codeDc#
                  ,  USE_AT            = #useAt#
@@ -150,7 +150,7 @@
 
 	<delete id="CmmnDetailCodeManageDAO.deleteCmmnDetailCode">
 		<![CDATA[
-            UPDATE  LETTCCMMNDETAILCODE 
+            UPDATE  MT_LETTCCMMNDETAILCODE 
                SET  USE_AT    = 'N'
              WHERE  CODE_ID   = #codeId# 
                AND  CODE      = #code#
@@ -158,7 +158,7 @@
 	</delete>
 	<delete id="CmmnDetailCodeManageDAO.deleteCmmnDetailCodePhysic">
 		<![CDATA[
-            DELETE  FROM LETTCCMMNDETAILCODE 
+            DELETE  FROM MT_LETTCCMMNDETAILCODE 
              WHERE  CODE_ID   = #codeId# 
                AND  CODE      = #code#
 		]]>

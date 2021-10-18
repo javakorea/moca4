@@ -3644,13 +3644,20 @@ Moca.prototype.renderGrid = function(_divObj) {
 
     }
     
-    
+    var __onclick = '';
+    var __ondblclick = '';
+    var __swipeStyle = '';
+    if(moca.getDevice() != 'pc'){
+    	__onclick = 'onclick="moca.swaipClickScroll(this)"';
+    	__ondblclick = 'ondblclick="moca.swaipDblScroll(this)"';
+    	__swipeStyle = 'width: 100%; left: 0px;';
+    }    
     
     _html += '<div class="moca_grid_list fauto" default_cell_height="'+_default_cell_height+'" grdkey="'+_id+'">';
         _html += '<div class="moca_grid_body" style="right:18px;">';
         _html += _header_body;
         _html += '</div>';
-        _html += '<div id="'+_id+'_moca_scroll_y" componentid="'+_id+'" class="moca_scrollY_type1" onclick="moca.swaipClickScroll(this)" ondblclick="moca.swaipDblScroll(this)"  onscroll="moca.sFunction(this);" style="width: 100%; left: 0px">';
+        _html += '<div id="'+_id+'_moca_scroll_y" componentid="'+_id+'" class="moca_scrollY_type1" '+__onclick+' '+__ondblclick+' onscroll="moca.sFunction(this);" style="'+__swipeStyle+'">';
         _html += '<div id="'+_id+'_grid_height" style="height: 0px; position: absolute; top: 0px; left: 0px; width: 18px;"></div>';
         _html += '</div>';
         _html += '<div id="lin_dashed" style="position:absolute; top:0px; bottom:0px; border-left:1px dashed #000; z-index:100; height:100%; left:340px;display:none"></div>';
@@ -12215,7 +12222,7 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
         _comp = __comp;
     }
     if(__comp != null && __value == null){ 
-        _value = __comp.value;
+        _value = moca.trim(__comp.value);
     }else{
         _value = __value;   
     }
@@ -12308,9 +12315,10 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
         		}
         	}
         }
+        debugger;
         if(_comp != null && _comp.tagName == 'INPUT'){
         	if($(_comp).parent() != null && $(_comp).parent().length > 0){
-        		$(_comp).parent()[0].originalValue = _value;
+        		$(_comp).parent()[0].originalValue = moca.trim(_value);
         	}
             $(_comp).val(moca.displayKeyMask(reValue,_keyMask));
         }else{
@@ -12366,16 +12374,13 @@ Moca.prototype.getValue =  function(__comp,_id,_index,_data,_isFocus){
     }else{
         if(_isFocus){
             return $(_comp).find('input[type=text]').focus();
-        }else{
-            if($(_comp).find('input[type=text]').val() != null){
+      	}else{
+            if(moca.trim($(_comp).find('input[type=text]').val()) != ''){
                 return _comp.originalValue;
             }else{
-                return $(_comp).find('input[type=text]').val();
+                return '';
             }
-            
         }
-        //$(_comp).find('input[type=text]').val(_value);
-
     }
 };
 

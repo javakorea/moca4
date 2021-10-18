@@ -42,7 +42,7 @@
                  , ORGNZT_ID AS orgnztId
                  , ESNTL_ID AS uniqId
                  , END_DATE AS endDate
-              FROM LETTNEMPLYRINFO
+              FROM MT_LETTNEMPLYRINFO
              WHERE EMPLYR_ID = #id#
                AND PASSWORD = #password#
                AND EMPLYR_STTUS_CODE = 'P'
@@ -61,7 +61,7 @@
 		     , 'USR' AS userSe
 		     , orgnzt_id AS orgnztId
 		     , ESNTL_ID AS uniqId
-		  FROM LETTNEMPLYRINFO
+		  FROM MT_LETTNEMPLYRINFO
 		 WHERE sub_dn = #dn#
 		]]>
 	</select>
@@ -89,7 +89,7 @@
 		<isEqual property="userSe" compareValue="USR">
 			<![CDATA[
 			SELECT emplyr_id AS id
-			  FROM LETTNEMPLYRINFO
+			  FROM MT_LETTNEMPLYRINFO
 			 WHERE USER_NM = #name#
 			   AND email_adres = #email#
 			   AND emplyr_sttus_code = 'P'
@@ -126,7 +126,7 @@
 		<isEqual property="userSe" compareValue="USR">
 			<![CDATA[
 			SELECT password AS password
-			  FROM LETTNEMPLYRINFO
+			  FROM MT_LETTNEMPLYRINFO
 			 WHERE emplyr_id = #id#
 			   AND USER_NM = #name#
 			   AND email_adres = #email#
@@ -155,7 +155,7 @@
 		</isEqual>
 		<isEqual property="userSe" compareValue="USR">
 			<![CDATA[
-			UPDATE LETTNEMPLYRINFO
+			UPDATE MT_LETTNEMPLYRINFO
 			   SET password = #password#
 			 WHERE emplyr_id = #id#
 			]]>

@@ -166,11 +166,11 @@ public class EgovUserManageController {
 		model.addAttribute("insttCode_result", cmmUseService.selectCmmCodeDetail(vo));
 
 		//조직정보를 조회 - ORGNZT_ID정보
-		vo.setTableNm("LETTNORGNZTINFO");
+		vo.setTableNm("MT_LETTNORGNZTINFO");
 		model.addAttribute("orgnztId_result", cmmUseService.selectOgrnztIdDetail(vo));
 
 		//그룹정보를 조회 - GROUP_ID정보
-		vo.setTableNm("LETTNORGNZTINFO");
+		vo.setTableNm("MT_LETTNORGNZTINFO");
 		model.addAttribute("groupId_result", cmmUseService.selectGroupIdDetail(vo));
 
 		return "cmm/uss/umt/EgovUserInsert";
@@ -215,11 +215,11 @@ public class EgovUserManageController {
 			model.addAttribute("insttCode_result", cmmUseService.selectCmmCodeDetail(vo));
 
 			//조직정보를 조회 - ORGNZT_ID정보
-			vo.setTableNm("LETTNORGNZTINFO");
+			vo.setTableNm("MT_LETTNORGNZTINFO");
 			model.addAttribute("orgnztId_result", cmmUseService.selectOgrnztIdDetail(vo));
 
 			//그룹정보를 조회 - GROUP_ID정보
-			vo.setTableNm("LETTNORGNZTINFO");
+			vo.setTableNm("MT_LETTNORGNZTINFO");
 			model.addAttribute("groupId_result", cmmUseService.selectGroupIdDetail(vo));
 			//return "forward:/uss/umt/user/EgovUserInsertView.do";
 			return "cmm/uss/umt/EgovUserInsert";
@@ -268,11 +268,11 @@ public class EgovUserManageController {
 		model.addAttribute("insttCode_result", cmmUseService.selectCmmCodeDetail(vo));
 
 		//조직정보를 조회 - ORGNZT_ID정보
-		vo.setTableNm("LETTNORGNZTINFO");
+		vo.setTableNm("MT_LETTNORGNZTINFO");
 		model.addAttribute("orgnztId_result", cmmUseService.selectOgrnztIdDetail(vo));
 
 		//그룹정보를 조회 - GROUP_ID정보
-		vo.setTableNm("LETTNORGNZTINFO");
+		vo.setTableNm("MT_LETTNORGNZTINFO");
 		model.addAttribute("groupId_result", cmmUseService.selectGroupIdDetail(vo));
 
 		UserManageVO userManageVO = new UserManageVO();
@@ -322,11 +322,11 @@ public class EgovUserManageController {
 			model.addAttribute("insttCode_result", cmmUseService.selectCmmCodeDetail(vo));
 
 			//조직정보를 조회 - ORGNZT_ID정보
-			vo.setTableNm("LETTNORGNZTINFO");
+			vo.setTableNm("MT_LETTNORGNZTINFO");
 			model.addAttribute("orgnztId_result", cmmUseService.selectOgrnztIdDetail(vo));
 
 			//그룹정보를 조회 - GROUP_ID정보
-			vo.setTableNm("LETTNORGNZTINFO");
+			vo.setTableNm("MT_LETTNORGNZTINFO");
 			model.addAttribute("groupId_result", cmmUseService.selectGroupIdDetail(vo));
 			return "cmm/uss/umt/EgovUserSelectUpdt";
 		} else {

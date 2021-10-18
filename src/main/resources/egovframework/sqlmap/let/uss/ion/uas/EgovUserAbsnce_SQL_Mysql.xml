@@ -33,7 +33,7 @@
                              END) AS REG_YN,  
                             LAST_UPDUSR_ID,
                             LAST_UPDT_PNTTM
-                      FROM  LETTNEMPLYRINFO A LEFT OUTER JOIN LETTNUSERABSNCE B
+                      FROM  MT_LETTNEMPLYRINFO A LEFT OUTER JOIN LETTNUSERABSNCE B
                         ON  A.EMPLYR_ID = B.EMPLYR_ID
                    ) X
              WHERE 1 = 1
@@ -60,7 +60,7 @@
                              END) AS REG_YN,  
                             LAST_UPDUSR_ID,
                             LAST_UPDT_PNTTM
-                      FROM  LETTNEMPLYRINFO A LEFT OUTER JOIN LETTNUSERABSNCE B
+                      FROM  MT_LETTNEMPLYRINFO A LEFT OUTER JOIN LETTNUSERABSNCE B
                         ON  A.EMPLYR_ID = B.EMPLYR_ID
                    ) X
              WHERE 1 = 1
@@ -83,7 +83,7 @@
                      END) AS REG_YN,                     
                    LAST_UPDUSR_ID,
                    LAST_UPDT_PNTTM
-              FROM LETTNEMPLYRINFO A LEFT OUTER JOIN LETTNUSERABSNCE B
+              FROM MT_LETTNEMPLYRINFO A LEFT OUTER JOIN LETTNUSERABSNCE B
                 ON A.EMPLYR_ID = B.EMPLYR_ID
               WHERE 1 = 1
                 AND A.EMPLYR_ID = #userId#

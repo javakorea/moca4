@@ -27,7 +27,7 @@
                    B.LAST_UPDUSR_ID,
                    B.LAST_UPDT_PNTTM,
                    IF(B.EMPLYR_ID IS NULL, 'N', 'Y') AS REG_YN 
-              FROM COMVNUSERMASTER A LEFT OUTER JOIN LETTNLOGINPOLICY B
+              FROM COMVNUSERMASTER A LEFT OUTER JOIN MT_LETTNLOGINPOLICY B
                 ON A.USER_ID = B.EMPLYR_ID   
              WHERE 1 = 1
             <isNotEmpty property="searchKeyword">
@@ -40,7 +40,7 @@
 
     <select id="loginPolicyDAO.selectLoginPolicyListTotCnt" parameterClass="LoginPolicyVO" resultClass="int">
             SELECT COUNT(*) AS totcnt                  
-              FROM COMVNUSERMASTER A LEFT OUTER JOIN LETTNLOGINPOLICY B
+              FROM COMVNUSERMASTER A LEFT OUTER JOIN MT_LETTNLOGINPOLICY B
                 ON A.USER_ID = B.EMPLYR_ID   
              WHERE 1 = 1
             <isNotEmpty property="searchKeyword">
@@ -60,7 +60,7 @@
                    B.LAST_UPDUSR_ID,
                    B.LAST_UPDT_PNTTM,
                    IF(B.EMPLYR_ID IS NULL, 'N', 'Y') AS REG_YN                   
-              FROM LETTNEMPLYRINFO A LEFT OUTER JOIN LETTNLOGINPOLICY B
+              FROM MT_LETTNEMPLYRINFO A LEFT OUTER JOIN MT_LETTNLOGINPOLICY B
                 ON A.EMPLYR_ID = B.EMPLYR_ID   
              WHERE 1 = 1
                AND A.EMPLYR_ID = #emplyrId#              
@@ -68,7 +68,7 @@
     
     <insert id="loginPolicyDAO.insertLoginPolicy" parameterClass="LoginPolicy">
         <![CDATA[
-            INSERT INTO LETTNLOGINPOLICY 
+            INSERT INTO MT_LETTNLOGINPOLICY 
                    (EMPLYR_ID
                    ,IP_INFO
                    ,DPLCT_PERM_AT
@@ -90,7 +90,7 @@
 
     <update id="loginPolicyDAO.updateLoginPolicy" parameterClass="LoginPolicy">
         <![CDATA[
-            UPDATE LETTNLOGINPOLICY 
+            UPDATE MT_LETTNLOGINPOLICY 
                SET IP_INFO = #ipInfo#
                   ,DPLCT_PERM_AT = #dplctPermAt#
                   ,LMTT_AT = #lmttAt#
@@ -102,7 +102,7 @@
 
     <delete id="loginPolicyDAO.deleteLoginPolicy">
         <![CDATA[
-            DELETE FROM LETTNLOGINPOLICY 
+            DELETE FROM MT_LETTNLOGINPOLICY 
              WHERE EMPLYR_ID = #emplyrId#
         ]]>
     </delete>

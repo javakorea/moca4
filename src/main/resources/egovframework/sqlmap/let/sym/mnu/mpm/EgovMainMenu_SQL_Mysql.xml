@@ -18,12 +18,12 @@
 				, B.RELATE_IMAGE_PATH AS relateImagePath
 				, B.RELATE_IMAGE_NM AS relateImageNm
 				, B.PROGRM_FILE_NM AS progrmFileNm
-				, (SELECT C.URL FROM LETTNPROGRMLIST C WHERE B.PROGRM_FILE_NM = C.PROGRM_FILE_NM) AS chkURL
-			FROM LETTNMENUCREATDTLS A, LETTNMENUINFO B 
+				, (SELECT C.URL FROM MT_LETTNPROGRMLIST C WHERE B.PROGRM_FILE_NM = C.PROGRM_FILE_NM) AS chkURL
+			FROM MT_LETTNMENUCREATDTLS A, MT_MT_LETTNMENUINFO B 
 			WHERE  B.Menu_NO > 0 
 			AND    B.UPPER_MENU_NO = 0  
 			AND    A.MENU_NO  = B.MENU_NO 
-			AND    A.AUTHOR_CODE = (SELECT C.AUTHOR_CODE from LETTNEMPLYRSCRTYESTBS C
+			AND    A.AUTHOR_CODE = (SELECT C.AUTHOR_CODE from MT_LETTNEMPLYRSCRTYESTBS C
 	                                WHERE  C.SCRTY_DTRMN_TRGET_ID = #tmp_UniqId#)
 			ORDER BY MENU_ORDR
 		]]> 
@@ -38,10 +38,10 @@
 				 , B.UPPER_MENU_NO AS upperMenuId
 				 , B.RELATE_IMAGE_PATH AS relateImagePath
 				 , B.RELATE_IMAGE_NM AS relateImageNm
-				 , (SELECT C.URL FROM LETTNPROGRMLIST C WHERE B.PROGRM_FILE_NM = C.PROGRM_FILE_NM) AS chkURL	
-			FROM   LETTNMENUCREATDTLS A, LETTNMENUINFO B
+				 , (SELECT C.URL FROM MT_LETTNPROGRMLIST C WHERE B.PROGRM_FILE_NM = C.PROGRM_FILE_NM) AS chkURL	
+			FROM   MT_LETTNMENUCREATDTLS A, MT_LETTNMENUINFO B
 			WHERE  A.MENU_NO  = B.MENU_NO 
-			AND    A.AUTHOR_CODE = (SELECT AUTHOR_CODE from LETTNEMPLYRSCRTYESTBS
+			AND    A.AUTHOR_CODE = (SELECT AUTHOR_CODE from MT_LETTNEMPLYRSCRTYESTBS
 	                                WHERE  SCRTY_DTRMN_TRGET_ID = #tmp_UniqId#)
 			ORDER BY B.MENU_ORDR
 		]]> 
@@ -50,9 +50,9 @@
 	<select id="menuManageDAO.selectLastMenuURL" parameterClass="MenuManageVO" resultClass="String">
 		<![CDATA[ 
 			SELECT URL 
-			FROM   LETTNPROGRMLIST
+			FROM   MT_LETTNPROGRMLIST
 			WHERE  PROGRM_FILE_NM =
-			       (SELECT PROGRM_FILE_NM FROM LETTNMENUINFO
+			       (SELECT PROGRM_FILE_NM FROM MT_LETTNMENUINFO
 				    WHERE MENU_NO = #menuNo#)
 		]]> 
 	</select>
@@ -60,13 +60,13 @@
 	<select id="menuManageDAO.selectLastMenuNo" parameterClass="MenuManageVO" resultClass="int">
 		<![CDATA[ 
 			select MIN(MENU_NO) 
-			from   LETTNMENUINFO
+			from   MT_LETTNMENUINFO
 			where  UPPER_MENU_NO = #menuNo#
 			and    MENU_ORDR =
 			      (select MIN(MENU_ORDR) 
-			       from LETTNMENUCREATDTLS A, LETTNMENUINFO B
+			       from MT_LETTNMENUCREATDTLS A, MT_LETTNMENUINFO B
 			       where A.MENU_NO = B.MENU_NO
-			       AND   A.AUTHOR_CODE = (SELECT AUTHOR_CODE from LETTNEMPLYRSCRTYESTBS
+			       AND   A.AUTHOR_CODE = (SELECT AUTHOR_CODE from MT_LETTNEMPLYRSCRTYESTBS
 	                                      WHERE  SCRTY_DTRMN_TRGET_ID = #tempValue#)
 			       AND   B.UPPER_MENU_NO = #menuNo#)
 		]]> 
@@ -75,13 +75,13 @@
 	<select id="menuManageDAO.selectLastMenuNoCnt" parameterClass="MenuManageVO" resultClass="int">
 		<![CDATA[ 
 			select count(MENU_NO) 
-			from   LETTNMENUINFO
+			from   MT_LETTNMENUINFO
 			where  UPPER_MENU_NO = #menuNo#
 			and    MENU_ORDR =
 			      (select MIN(MENU_ORDR) 
-			       from LETTNMENUCREATDTLS A, LETTNMENUINFO B
+			       from MT_LETTNMENUCREATDTLS A, MT_LETTNMENUINFO B
 			       where A.MENU_NO = B.MENU_NO
-			       AND   A.AUTHOR_CODE = (SELECT AUTHOR_CODE from LETTNEMPLYRSCRTYESTBS
+			       AND   A.AUTHOR_CODE = (SELECT AUTHOR_CODE from MT_LETTNEMPLYRSCRTYESTBS
 	                                      WHERE  SCRTY_DTRMN_TRGET_ID = #tempValue#)
 			       AND   B.UPPER_MENU_NO = #menuNo#)
 		]]> 

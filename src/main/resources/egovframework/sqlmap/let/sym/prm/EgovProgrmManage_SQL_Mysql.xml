@@ -23,7 +23,7 @@
 				, PROGRM_KOREAN_NM  AS "progrmKoreanNm" 
 				, PROGRM_DC        AS "progrmDc" 
 				, URL              AS "URL"
-			FROM LETTNPROGRMLIST
+			FROM MT_LETTNPROGRMLIST
 			WHERE 1=1
 			<isNotEmpty property="searchKeyword">
 			AND binary(PROGRM_KOREAN_NM) like  CONCAT('%', #searchKeyword#, '%') 
@@ -34,7 +34,7 @@
 	<select id="progrmManageDAO.selectProgrmListTotCnt_S" parameterClass="comDefaultVO" resultClass="int">
 		<![CDATA[
 		SELECT COUNT(*) AS totcnt
-		  FROM LETTNPROGRMLIST
+		  FROM MT_LETTNPROGRMLIST
 		WHERE 1=1
 		<isNotEmpty property="searchKeyword">
 		AND binary(PROGRM_KOREAN_NM) like  CONCAT('%', #searchKeyword#, '%') 
@@ -46,7 +46,7 @@
 	<select id="progrmManageDAO.selectProgrmNMTotCnt" parameterClass="comDefaultVO" resultClass="int">
 		<![CDATA[
 		SELECT COUNT(*) AS totcnt
-		  FROM LETTNPROGRMLIST
+		  FROM MT_LETTNPROGRMLIST
 		WHERE 1=1
 		<isNotEmpty property="searchKeyword">
 		AND PROGRM_FILE_NM = #searchKeyword#
@@ -62,7 +62,7 @@
 				, PROGRM_KOREAN_NM AS progrmKoreanNm 
 				, PROGRM_DC AS progrmDc 
 				, URL AS URL
-			FROM LETTNPROGRMLIST
+			FROM MT_LETTNPROGRMLIST
 			WHERE 1=1
 			<isNotEmpty property="searchKeyword">
 			AND PROGRM_FILE_NM = #searchKeyword#
@@ -72,7 +72,7 @@
 	
 	<insert id="progrmManageDAO.insertProgrm_S">
 		<![CDATA[
-			INSERT INTO LETTNPROGRMLIST 
+			INSERT INTO MT_LETTNPROGRMLIST 
 				( PROGRM_FILE_NM
 				  , PROGRM_STRE_PATH
 				  , PROGRM_KOREAN_NM
@@ -88,7 +88,7 @@
 
 	<update id="progrmManageDAO.updateProgrm_S">
 		<![CDATA[
-			UPDATE LETTNPROGRMLIST 
+			UPDATE MT_LETTNPROGRMLIST 
 			SET PROGRM_STRE_PATH=#progrmStrePath#
 				, PROGRM_KOREAN_NM=#progrmKoreanNm#
 				, PROGRM_DC      =#progrmDc#
@@ -99,21 +99,21 @@
 
 	<delete id="progrmManageDAO.deleteProgrm_S">
 		<![CDATA[                          
-			DELETE FROM LETTNPROGRMLIST              
+			DELETE FROM MT_LETTNPROGRMLIST              
 			WHERE PROGRM_FILE_NM=#progrmFileNm#                 
 		]]>                                
 	</delete> 
 
 	<delete id="progrmManageDAO.deleteAllProgrm">
 		<![CDATA[                          
-			DELETE FROM LETTNPROGRMLIST  WHERE PROGRM_FILE_NM <> 'dir'
+			DELETE FROM MT_LETTNPROGRMLIST  WHERE PROGRM_FILE_NM <> 'dir'
 		]]>                                
 	</delete> 
 
 	<!-- 메뉴정보 총건수 조회 -->
 	<select id="progrmManageDAO.selectProgrmListTotCnt" parameterClass="progrmManageVO" resultClass="int">
 		<![CDATA[
-		SELECT COUNT(*) AS totcnt FROM LETTNPROGRMLIST
+		SELECT COUNT(*) AS totcnt FROM MT_LETTNPROGRMLIST
 		]]>
 	</select>
 </sqlMap>                            

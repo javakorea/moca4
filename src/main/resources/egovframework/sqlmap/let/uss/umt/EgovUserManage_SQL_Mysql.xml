@@ -32,8 +32,8 @@ FROM(
         SBSCRB_DE             sbscrbDe,
 		ORGNZT_ID,`PASSWORD`,EMPL_NO,IHIDNUM,SEXDSTN_CODE,BRTHDY,FXNUM,HOUSE_ADRES,PASSWORD_HINT,PASSWORD_CNSR,
 		HOUSE_END_TELNO,DETAIL_ADRES,ZIP,OFFM_TELNO,MBTLNUM,OFCPS_NM,PSTINST_CODE,CRTFC_DN_VALUE,END_DATE,USER_TYPE     
-    FROM    LETTNEMPLYRINFO
-    ) A LEFT OUTER JOIN LETTNEMPLYRSCRTYESTBS B ON A.uniqId = B.SCRTY_DTRMN_TRGET_ID
+    FROM    MT_LETTNEMPLYRINFO
+    ) A LEFT OUTER JOIN MT_LETTNEMPLYRSCRTYESTBS B ON A.uniqId = B.SCRTY_DTRMN_TRGET_ID
         WHERE 1=1
         <isNotEqual prepend="AND" property="sbscrbSttus" compareValue="0">
             sttus LIKE  #sbscrbSttus#
@@ -69,7 +69,7 @@ FROM(
                 GROUP_ID              groupId,
                 EMPLYR_STTUS_CODE     sttus,
                 SBSCRB_DE             sbscrbDe
-            FROM    LETTNEMPLYRINFO
+            FROM    MT_LETTNEMPLYRINFO
             ) A
         WHERE 1=1
             <isNotEqual prepend="AND" property="sbscrbSttus" compareValue="0">
@@ -84,7 +84,7 @@ FROM(
     </select>
     
     <insert id="userManageDAO.insertUser_S">
-            INSERT INTO LETTNEMPLYRINFO 
+            INSERT INTO MT_LETTNEMPLYRINFO 
                 (   ESNTL_ID             ,
                     EMPLYR_ID           ,
                     USER_NM           ,
@@ -148,7 +148,7 @@ FROM(
     
     <delete id="userManageDAO.deleteUser_S">
         <![CDATA[
-            DELETE FROM LETTNEMPLYRINFO 
+            DELETE FROM MT_LETTNEMPLYRINFO 
             WHERE ESNTL_ID=#delId#
         ]]>
     </delete>
@@ -184,13 +184,13 @@ FROM(
             EMPLYR_STTUS_CODE emplyrSttusCode   , 
             SBSCRB_DE         sbscrbDe          ,
             CRTFC_DN_VALUE            subDn
-        FROM LETTNEMPLYRINFO
+        FROM MT_LETTNEMPLYRINFO
             WHERE ESNTL_ID=#uniqId#
         ]]>
     </select>
     
     <update id="userManageDAO.updateUser_S">
-            UPDATE LETTNEMPLYRINFO 
+            UPDATE MT_LETTNEMPLYRINFO 
             SET EMPLYR_ID           = #emplyrId#        , 
                 USER_NM           = #emplyrNm#        ,
                 PASSWORD       = #password#    ,
@@ -224,7 +224,7 @@ FROM(
     
     <insert id="userManageDAO.insertUserHistory_S">
         <![CDATA[
-            INSERT INTO LETTHEMPLYRINFOCHANGEDTLS 
+            INSERT INTO MT_LETTHEMPLYRINFOCHANGEDTLS 
                 (   EMPLYR_ID           ,
                     EMPL_NO             ,
                     SEXDSTN_CODE        ,
@@ -266,7 +266,7 @@ FROM(
                     EMPLYR_STTUS_CODE   ,
                     ESNTL_ID             ,
                     now()
-            FROM LETTNEMPLYRINFO
+            FROM MT_LETTNEMPLYRINFO
             WHERE ESNTL_ID = #uniqId#
         ]]>
     </insert>
@@ -277,7 +277,7 @@ FROM(
                 FROM(
                 SELECT
                     EMPLYR_ID             userId
-                FROM    LETTNEMPLYRINFO
+                FROM    MT_LETTNEMPLYRINFO
                 UNION ALL
                 SELECT
                     ENTRPRS_MBER_ID        userId
@@ -293,7 +293,7 @@ FROM(
     
     <update id="userManageDAO.updatePassword_S">
         <![CDATA[
-            UPDATE LETTNEMPLYRINFO 
+            UPDATE MT_LETTNEMPLYRINFO 
             SET 
                    PASSWORD   =  #password#
             WHERE  ESNTL_ID  = #uniqId#
@@ -304,7 +304,7 @@ FROM(
         <![CDATA[
             SELECT
                     PASSWORD          password 
-            FROM    LETTNEMPLYRINFO
+            FROM    MT_LETTNEMPLYRINFO
             WHERE   ESNTL_ID=#uniqId#
         ]]>
     </select>

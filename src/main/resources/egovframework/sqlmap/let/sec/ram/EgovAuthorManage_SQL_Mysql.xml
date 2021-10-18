@@ -17,7 +17,7 @@
     <select id="authorManageDAO.selectAuthorList" parameterClass="AuthorManageVO" resultMap="author">
             SELECT
                    AUTHOR_CODE, AUTHOR_NM, AUTHOR_DC, AUTHOR_CREAT_DE
-              FROM LETTNAUTHORINFO
+              FROM MT_LETTNAUTHORINFO
              WHERE 1=1
             <isEqual prepend="AND" property="searchCondition" compareValue="1">
                 AUTHOR_NM LIKE CONCAT('%' , #searchKeyword#, '%')
@@ -27,7 +27,7 @@
 
     <insert id="authorManageDAO.insertAuthor" parameterClass="AuthorManage">
         <![CDATA[
-            INSERT INTO LETTNAUTHORINFO 
+            INSERT INTO MT_LETTNAUTHORINFO 
                   ( AUTHOR_CODE
                   , AUTHOR_NM
                   , AUTHOR_DC
@@ -41,7 +41,7 @@
 
     <update id="authorManageDAO.updateAuthor" parameterClass="AuthorManage">
         <![CDATA[
-            UPDATE LETTNAUTHORINFO 
+            UPDATE MT_LETTNAUTHORINFO 
                SET AUTHOR_NM=#authorNm#
                  , AUTHOR_DC=#authorDc#
              WHERE AUTHOR_CODE=#authorCode#
@@ -50,7 +50,7 @@
     
     <delete id="authorManageDAO.deleteAuthor">
         <![CDATA[
-            DELETE FROM LETTNAUTHORINFO 
+            DELETE FROM MT_LETTNAUTHORINFO 
              WHERE AUTHOR_CODE=#authorCode#
         ]]>
     </delete>
@@ -58,14 +58,14 @@
     <select id="authorManageDAO.selectAuthor" resultMap="author">
         <![CDATA[
             SELECT AUTHOR_CODE, AUTHOR_NM, AUTHOR_DC, AUTHOR_CREAT_DE
-              FROM LETTNAUTHORINFO 
+              FROM MT_LETTNAUTHORINFO 
              WHERE AUTHOR_CODE=#authorCode#
         ]]>
     </select>
     
     <select id="authorManageDAO.selectAuthorListTotCnt" parameterClass="AuthorManageVO" resultClass="int">
             SELECT COUNT(*) totcnt
-            FROM LETTNAUTHORINFO
+            FROM MT_LETTNAUTHORINFO
             WHERE 1=1
             <isEqual prepend="AND" property="searchCondition" compareValue="1">
                 AUTHOR_NM LIKE CONCAT('%' , #searchKeyword#, '%')
@@ -75,6 +75,6 @@
     <select id="authorManageDAO.selectAuthorAllList" parameterClass="AuthorManageVO" resultMap="author">
             SELECT
                    AUTHOR_CODE, AUTHOR_NM, AUTHOR_DC, AUTHOR_CREAT_DE
-              FROM LETTNAUTHORINFO
+              FROM MT_LETTNAUTHORINFO
     </select>
 </sqlMap>

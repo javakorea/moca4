@@ -5217,7 +5217,7 @@ public class TOController{
 	}
 	
 	//게시판 조회  
-	@RequestMapping(value = "/EFC_BOAD/selectBoardList.do")
+	@RequestMapping(value = "/EFC_BOARD/selectBoardList.do")
 	public View selectBoardList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
@@ -5230,7 +5230,7 @@ public class TOController{
 			List list = TOMapper.selectBoardStatusCnt(paramMap);
 			for(int i=0; i < list.size(); i++) {
 				Map row = (Map)list.get(i);
-				String type = String.valueOf(row.get("BOAD_SUPPORT"));
+				String type = String.valueOf(row.get("BOARD_SUPPORT"));
 				String cnt = String.valueOf(row.get("CNT"));
 				map.put(type, cnt);
 			}
@@ -5244,7 +5244,7 @@ public class TOController{
 	}
 	
 	//게시판 조회  numList
-	@RequestMapping(value = "/EFC_BOAD/selectBoardNumList.do")
+	@RequestMapping(value = "/EFC_BOARD/selectBoardNumList.do")
 	public View selectBoardNumList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
@@ -5257,7 +5257,7 @@ public class TOController{
 			List list = TOMapper.selectBoardStatusCnt(paramMap);
 			for(int i=0; i < list.size(); i++) {
 				Map row = (Map)list.get(i);
-				String type = String.valueOf(row.get("BOAD_SUPPORT"));
+				String type = String.valueOf(row.get("BOARD_SUPPORT"));
 				String cnt = String.valueOf(row.get("CNT"));
 				map.put(type, cnt);
 			}
@@ -5273,20 +5273,20 @@ public class TOController{
 	}
 	
 	//게시글 작성
-	@RequestMapping(value = "/EFC_BOAD/insertBoard.do")
+	@RequestMapping(value = "/EFC_BOARD/insertBoard.do")
 	public View insertBoard(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
 			model.addAttribute("cnt", TOMapper.insertBoard(paramMap));
-			if(paramMap.get("BOAD_PIDX") == null) {
-				paramMap.put("BOAD_PIDX", paramMap.get("BOAD_IDX"));
+			if(paramMap.get("BOARD_PIDX") == null) {
+				paramMap.put("BOARD_PIDX", paramMap.get("BOARD_IDX"));
 				TOMapper.updateBoardInfo(paramMap);
 			}
 			paramMap.put("status", "C");TOMapper.insertBoardHis(paramMap);
 	    	List list = (List)paramMap.get("fileList"); //자바스크립트에서 받아온 값을 자바언어구조로 바꿈
 	    	for(int i=0;i < list.size() ;i++) {
         		Map row = (Map)list.get(i);
-        		row.put("BOAD_IDX", paramMap.get("BOAD_IDX"));
+        		row.put("BOARD_IDX", paramMap.get("BOARD_IDX"));
             	if("C".equalsIgnoreCase(U.getStatus(row)) ) {
         			TOMapper.insertBoardFile(row);
             	}
@@ -5294,7 +5294,7 @@ public class TOController{
         	
 	    	
 	    	Map map = new HashMap();
-	    	String _writer = paramMap.get("BOAD_WRITER").toString();
+	    	String _writer = paramMap.get("BOARD_WRITER").toString();
 	    	if(_writer.equals("superadmin")){
 	    		map.put("PROP_KEY","superadmin이쓴거를받을수신자");
 	    	}else if(_writer.equals("hjsung")) {
@@ -5310,7 +5310,7 @@ public class TOController{
 		    	API.sendSms(
 		    			(String)paramMap.get("GET_CONT_TXT"),
 		    			phonenumber.get("PROP_VALUE").toString(),
-		    			paramMap.get("BOAD_WRITER").toString()
+		    			paramMap.get("BOARD_WRITER").toString()
 		    	);
 	    	}
 		}catch(Exception e) {
@@ -5321,7 +5321,7 @@ public class TOController{
 	}
 	
 	//게시판 답변카운트
-		@RequestMapping(value = "/EFC_BOAD/updateReplyCnt.do")
+		@RequestMapping(value = "/EFC_BOARD/updateReplyCnt.do")
 		public View updateReplyCnt(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 			
 			try {
@@ -5329,6 +5329,24 @@ public class TOController{
 				int cnt = TOMapper.updateReplyCnt(paramMap);
 				model.addAttribute("cnt", cnt);		
 				
+				String _BOARD_SUPPORT = paramMap.get("BOARD_SUPPORT").toString();
+				String _BOARD_WRITERPHONE = paramMap.get("BOARD_WRITERPHONE").toString();
+				System.out.println("~~~~>>>>>>>>>>>>>>>>>>>>.."+_BOARD_WRITERPHONE);
+				if(_BOARD_SUPPORT.equals("Y") && _BOARD_WRITERPHONE != null){
+					//완료일경우만 
+					Map map = new HashMap();
+			    	map.put("PROP_KEY","업무게시판수신자");
+			    	List EFGPRPOP_list = mocaEFLService.selectList_EFGPROP(map);
+			    	if(EFGPRPOP_list != null && EFGPRPOP_list.size() > 0){
+			    		Map phonenumber = (Map)EFGPRPOP_list.get(0);
+			    		System.out.println("~~~~>>>>>>>>>>>>>>탔음");
+				    	API.sendSms(
+				    			"요청건이 완료되었습니다.",
+				    			_BOARD_WRITERPHONE,
+				    			paramMap.get("BOARD_WRITER").toString()
+				    	);
+			    	}
+				}
 			}catch(Exception e) {
 				e.printStackTrace();
 				model.addAttribute("error", e.getMessage());
@@ -5337,7 +5355,7 @@ public class TOController{
 		}
 	
 	//게시판 답변 조회  
-	@RequestMapping(value = "/EFC_BOAD/selectBoardReply.do")
+	@RequestMapping(value = "/EFC_BOARD/selectBoardReply.do")
 	public View selectBoardReplyList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
@@ -5355,7 +5373,7 @@ public class TOController{
 	}
 	
 	//게시판 상세조회  
-	@RequestMapping(value = "/EFC_BOAD/selectBoardInfo.do")
+	@RequestMapping(value = "/EFC_BOARD/selectBoardInfo.do")
 	public View selectBoardInfo(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
@@ -5372,14 +5390,14 @@ public class TOController{
         return jsonview;
 	}
 	//게시판 수정
-	@RequestMapping(value = "/EFC_BOAD/updateBoard.do")
+	@RequestMapping(value = "/EFC_BOARD/updateBoard.do")
 	public View UpdateBoardInfo(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 		
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
 			int cnt = TOMapper.updateBoardInfo(paramMap);
-			String BOAD_DELYN = (String) paramMap.get("BOAD_DELYN");
-			if("Y".equals(BOAD_DELYN)) {
+			String BOARD_DELYN = (String) paramMap.get("BOARD_DELYN");
+			if("Y".equals(BOARD_DELYN)) {
 				paramMap.put("status", "D");
 			}else {
 				paramMap.put("status", "U");
@@ -5388,7 +5406,7 @@ public class TOController{
 					model.addAttribute("cnt", TOMapper.deleteBoardFileList(paramMap));
 					for(int i=0;i < list.size() ;i++) {
 		        		Map row = (Map)list.get(i);
-		        		row.put("BOAD_IDX", paramMap.get("BOAD_IDX"));
+		        		row.put("BOARD_IDX", paramMap.get("BOARD_IDX"));
 		            	if("C".equalsIgnoreCase(U.getStatus(row)) ) {
 		        			TOMapper.insertBoardFile(row);
 		            	}
@@ -5406,7 +5424,7 @@ public class TOController{
 	}
 	
 	//게시판 단건물리삭제(관리자삭제)
-	@RequestMapping(value = "/EFC_BOAD/deleteBoard.do")
+	@RequestMapping(value = "/EFC_BOARD/deleteBoard.do")
 	public View deleteBoard(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
@@ -5424,7 +5442,7 @@ public class TOController{
 	}
 	
 	//게시판 리스트물리삭제(관리자삭제)
-	@RequestMapping(value = "/EFC_BOAD/deleteBoardList.do")
+	@RequestMapping(value = "/EFC_BOARD/deleteBoardList.do")
 	public View deleteBoardList(@RequestParam Map param, 
 			@RequestParam Map <String, Object> mocaMap,
 			ModelMap model) throws Exception {
@@ -5451,7 +5469,7 @@ public class TOController{
 	}
 	
 	//게시판 단건논리삭제(DELYN)
-	@RequestMapping(value = "/EFC_BOAD/deleteStatusBoard.do")
+	@RequestMapping(value = "/EFC_BOARD/deleteStatusBoard.do")
 	public View deleteStatusBoard(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
@@ -5469,7 +5487,7 @@ public class TOController{
 	}
 	
 	//게시판 리스트논리삭제(DELYN)
-	@RequestMapping(value = "/EFC_BOAD/deleteStatusBoardList.do")
+	@RequestMapping(value = "/EFC_BOARD/deleteStatusBoardList.do")
 	public View updateDeleteBoardList(@RequestParam Map param, 
 			@RequestParam Map <String, Object> mocaMap,
 			ModelMap model) throws Exception {
@@ -5496,7 +5514,7 @@ public class TOController{
 	}
 	
 	//게시글 이력작성
-	@RequestMapping(value = "/EFC_BOAD/insertBoardHis.do")
+	@RequestMapping(value = "/EFC_BOARD/insertBoardHis.do")
 	public View insertBoardHis(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
@@ -5509,7 +5527,7 @@ public class TOController{
 	}
 		
 	//게시판이력 조회  
-	@RequestMapping(value = "/EFC_BOAD_HIS/selectBoardHisList.do")
+	@RequestMapping(value = "/EFC_BOARD_HIS/selectBoardHisList.do")
 	public View selectBoardHisList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
@@ -5526,7 +5544,7 @@ public class TOController{
 	}
 	
 	//게시판이력 상세조회  
-	@RequestMapping(value = "/EFC_BOAD_HIS/selectBoardHisInfo.do")
+	@RequestMapping(value = "/EFC_BOARD_HIS/selectBoardHisInfo.do")
 	public View selectBoardHisInfo(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
@@ -5544,7 +5562,7 @@ public class TOController{
 	}
 	
 	//게시판파일업로드 조회  
-	@RequestMapping(value = "/EFC_BOAD/selectBoardFileList.do")
+	@RequestMapping(value = "/EFC_BOARD/selectBoardFileList.do")
 	public View selectBoardFileList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
@@ -5562,7 +5580,7 @@ public class TOController{
 	}
 	
 	//게시판 접수
-	@RequestMapping(value = "/EFC_BOAD/receiptBoard.do")
+	@RequestMapping(value = "/EFC_BOARD/receiptBoard.do")
 	public View receiptBoard(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);

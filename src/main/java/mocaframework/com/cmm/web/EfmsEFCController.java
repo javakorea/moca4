@@ -280,7 +280,7 @@ public class EfmsEFCController {
 	@RequestMapping(value = "/uss/umt/user/selectGroupIdDetail.do")
 	public View selectGroupIdDetail(@RequestParam Map param, ModelMap model) throws Exception {
 		ComDefaultCodeVO vo = new ComDefaultCodeVO();
-		vo.setTableNm("LETTNORGNZTINFO");
+		vo.setTableNm("MT_LETTNORGNZTINFO");
 		model.addAttribute("list", cmmUseService.selectGroupIdDetail(vo));
         return jsonview;
 	}	
@@ -289,7 +289,7 @@ public class EfmsEFCController {
 	public View selectOgrnztIdDetail(@RequestParam Map param, ModelMap model) throws Exception {
 		ComDefaultCodeVO vo = new ComDefaultCodeVO();
 		//조직정보를 조회 - ORGNZT_ID정보
-		vo.setTableNm("LETTNORGNZTINFO");
+		vo.setTableNm("MT_LETTNORGNZTINFO");
 		model.addAttribute("list", cmmUseService.selectOgrnztIdDetail(vo));
         return jsonview;
 	}	

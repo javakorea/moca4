@@ -12,7 +12,7 @@
 			SELECT  CL_CODE
 			     ,  CL_CODE_NM
 			     ,  USE_AT
-			  FROM  LETTCCMMNCLCODE
+			  FROM  MT_LETTCCMMNCLCODE
 			 WHERE  1 = 1
 		]]>
 			<isEqual prepend="AND" property="searchCondition" compareValue="1">
@@ -30,7 +30,7 @@
 	<select id="CmmnClCodeManageDAO.selectCmmnClCodeListTotCnt" parameterClass="CmmnClCodeVO" resultClass="int">
 		<![CDATA[
 			SELECT  COUNT(*) totcnt 
-			  FROM  LETTCCMMNCLCODE
+			  FROM  MT_LETTCCMMNCLCODE
 			 WHERE  1 = 1
 		]]>
 			<isEqual prepend="AND" property="searchCondition" compareValue="1">
@@ -47,7 +47,7 @@
 			     ,  CL_CODE_NM clCodeNm
                  ,  CL_CODE_DC clCodeDc
                  ,  USE_AT     useAt
-              FROM  LETTCCMMNCLCODE
+              FROM  MT_LETTCCMMNCLCODE
              WHERE  CL_CODE    = #clCode#
 		]]>
 	</select>
@@ -55,7 +55,7 @@
 	<insert id="CmmnClCodeManageDAO.insertCmmnClCode">
 		<![CDATA[
 		    INSERT 
-		      INTO  LETTCCMMNCLCODE
+		      INTO  MT_LETTCCMMNCLCODE
 		         (  CL_CODE
 		         ,  CL_CODE_NM
 		         ,  CL_CODE_DC
@@ -80,7 +80,7 @@
 
 	<update id="CmmnClCodeManageDAO.updateCmmnClCode">
 		<![CDATA[
-            UPDATE  LETTCCMMNCLCODE 
+            UPDATE  MT_LETTCCMMNCLCODE 
                SET  CL_CODE_NM        = #clCodeNm#
                  ,  CL_CODE_DC        = #clCodeDc#
                  ,  USE_AT            = #useAt#
@@ -92,7 +92,7 @@
 
 	<delete id="CmmnClCodeManageDAO.deleteCmmnClCode">
 		<![CDATA[
-            UPDATE  LETTCCMMNCLCODE 
+            UPDATE  MT_LETTCCMMNCLCODE 
                SET  USE_AT  = 'N'
              WHERE  CL_CODE = #clCode# 
 		]]>

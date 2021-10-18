@@ -14,9 +14,9 @@
 					AUTHOR_DC     AS authorDc,
 					AUTHOR_CREAT_DE AS authorCreatDe,
 				   (SELECT COUNT(B.AUTHOR_CODE)
-					FROM   LETTNMENUCREATDTLS B
+					FROM   MT_LETTNMENUCREATDTLS B
 					WHERE  B.AUTHOR_CODE = A.AUTHOR_CODE ) AS chkYeoBu
-			FROM    LETTNAUTHORINFO A
+			FROM    MT_LETTNAUTHORINFO A
 			WHERE   A.AUTHOR_CODE like CONCAT('%', #searchKeyword#, '%') 
 			LIMIT  #recordCountPerPage# OFFSET #firstIndex#
         ]]>
@@ -25,7 +25,7 @@
 	<select id="menuManageDAO.selectMenuCreatManageTotCnt_S" parameterClass="comDefaultVO" resultClass="int">
 		<![CDATA[
 			SELECT COUNT(AUTHOR_CODE) AS totcnt
-			  FROM LETTNAUTHORINFO
+			  FROM MT_LETTNAUTHORINFO
 			 WHERE AUTHOR_CODE like CONCAT('%', #searchKeyword#, '%')
 		]]>
 	</select>
@@ -43,15 +43,15 @@
 				, RELATE_IMAGE_PATH AS relateImagePath 
 				, PROGRM_FILE_NM AS progrmFileNm 
 			    , (SELECT count(B.MENU_NO) 
-			         FROM LETTNMENUCREATDTLS B   
+			         FROM MT_LETTNMENUCREATDTLS B   
 			        WHERE B.MENU_NO  = A.MENU_NO 
 			          AND B.AUTHOR_CODE = #authorCode#) AS chk
-			FROM LETTNMENUINFO A
+			FROM MT_LETTNMENUINFO A
 			WHERE A.MENU_NO > 0
 		 ]]>
 	</select> 
 	<select id="menuManageDAO.selectMenuByAuth" parameterClass="MenuCreatVO" resultClass="egovMap">
-		SELECT B.*,C.PROGRM_STRE_PATH FROM LETTNMENUCREATDTLS A, LETTNMENUINFO B, LETTNPROGRMLIST C
+		SELECT B.*,C.PROGRM_STRE_PATH FROM MT_LETTNMENUCREATDTLS A, MT_LETTNMENUINFO B, MT_LETTNPROGRMLIST C
 		WHERE 1=1
 		AND A.AUTHOR_CODE =  #authorCode#
 		AND A.MENU_NO = B.MENU_NO
@@ -61,7 +61,7 @@
 	
 	<insert id="menuManageDAO.insertMenuCreat_S">
 		<![CDATA[
-			INSERT INTO LETTNMENUCREATDTLS ( AUTHOR_CODE ,MENU_NO )
+			INSERT INTO MT_LETTNMENUCREATDTLS ( AUTHOR_CODE ,MENU_NO )
 			VALUES (  #authorCode#, #menuNo# )
 		]]>
 	</insert>
@@ -69,14 +69,14 @@
 	<select id="menuManageDAO.selectMenuCreatCnt_S" parameterClass="MenuCreatVO" resultClass="int">
 		<![CDATA[
 			SELECT COUNT(AUTHOR_CODE) AS totcnt
-			  FROM LETTNAUTHORINFO
+			  FROM MT_LETTNAUTHORINFO
 			 WHERE AUTHOR_CODE = #authorCode#
 		]]>
 	</select>
 
 	<delete id="menuManageDAO.updateMenuCreat_S">
 		<![CDATA[ 
-		    UPDATE LETTNMENUCREATDTLS  
+		    UPDATE MT_LETTNMENUCREATDTLS  
 		       SET MAPNG_CREAT_ID=#mapCreatId# 
 		     WHERE AUTHOR_CODE=#authorCode#
 		]]>                                
@@ -84,14 +84,14 @@
 
 	<delete id="menuManageDAO.deleteMenuCreat_S">
 		<![CDATA[                          
-			DELETE FROM LETTNMENUCREATDTLS              
+			DELETE FROM MT_LETTNMENUCREATDTLS              
 			 WHERE AUTHOR_CODE=#authorCode#                
 		]]>                                
 	</delete> 
 
 	<select id="menuManageDAO.selectAuthorByUsr" parameterClass="comDefaultVO" resultClass="MenuCreatVO">
 		<![CDATA[
-		select AUTHOR_CODE AS authorCode from LETTNEMPLYRSCRTYESTBS
+		select AUTHOR_CODE AS authorCode from MT_LETTNEMPLYRSCRTYESTBS
 		where SCRTY_DTRMN_TRGET_ID =
 			(select ESNTL_ID from COMVNUSERMASTER
 			where user_id = #searchKeyword# )
@@ -100,7 +100,7 @@
 
 	<select id="menuManageDAO.selectUsrByPk" parameterClass="comDefaultVO" resultClass="int">
 		<![CDATA[
-		select count(AUTHOR_CODE) from LETTNEMPLYRSCRTYESTBS
+		select count(AUTHOR_CODE) from MT_LETTNEMPLYRSCRTYESTBS
 		where SCRTY_DTRMN_TRGET_ID =
 			(select ESNTL_ID from COMVNUSERMASTER
 			where user_id = #searchKeyword# )

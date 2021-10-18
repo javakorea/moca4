@@ -216,7 +216,7 @@
 		]]>  
  	</sql> 
     <select id="selectCarSearchErrTypeCodeList" parameterType="map" resultType="map">
- 		SELECT * from LETTCCMMNDETAILCODE 
+ 		SELECT * from MT_LETTCCMMNDETAILCODE 
 		WHERE CODE_ID = 'carSearchErrType' 
 		ORDER BY INQ_SEQ ASC
 	</select>
@@ -814,8 +814,8 @@
 				, A.CODE  AS ErrCode				/*코드*/
 				, A.CODE_NM  AS ErrTxt				/*코드설명*/
 				, IF(C.TransferEnable = '1', '1', '2') AS TransferEnable	/*소유권이전가능유무(1:가능/2:불가능)*/
-			FROM LETTCCMMNDETAILCODE A
-				INNER JOIN LETTCCMMNCODE B
+			FROM MT_LETTCCMMNDETAILCODE A
+				INNER JOIN MT_LETTCCMMNCODE B
 					ON A.CODE_ID = B.CODE_ID
 				LEFT OUTER JOIN TO_TRANSFER_CODE_MNG C
 					ON A.CODE = C.ErrCode
@@ -4336,13 +4336,13 @@
 				A.CHNL_MGNT_NO 						AS chnlMgntNo			/* 채널관리번호 */
 				, A.VHCL_TYP_CD 					AS vhclTypCd			/* 차량유형코드 */
 				, (SELECT CODE_NM 
-					FROM LETTCCMMNDETAILCODE 
+					FROM MT_LETTCCMMNDETAILCODE 
 					WHERE CODE_ID = 'PSN001' 
 						AND CODE = A.VHCL_TYP_CD) 	AS vhclTypNm  			/* 차량유형명 */
 				, A.TFRN_CHNL_DV_FILT_CD 			AS tfrnChnlDvFiltCd		/* 이전채널 구분필터 코드 */
 				, A.TFRN_CHNL_CD 					AS tfrnChnlCd			/* 이전채널코드 */
 				, (SELECT CODE_NM 
-					FROM LETTCCMMNDETAILCODE 
+					FROM MT_LETTCCMMNDETAILCODE 
 					WHERE CODE_ID = 'PSN002' 
 						AND CODE = A.TFRN_CHNL_CD) 	AS tfrnChnlNm 			/* 차량유형명 */ 
 				, A.TFRN_CHNL_DESC 					AS tfrnChnlDesc			/* 이전채널설명 */
@@ -4561,14 +4561,14 @@
  	
  	<!-- 공통 코드 조회 -->
 	<select id="selectComCdByName" parameterType="map" resultType="string">
- 		SELECT CODE from LETTCCMMNDETAILCODE 
+ 		SELECT CODE from MT_LETTCCMMNDETAILCODE 
 		WHERE CODE_ID = #{codeId}
 			AND CODE_NM = #{codeNm}
 	</select>	
  	
  	<!-- 경로 결정을 위한  차종 조회 -->
 	<select id="carTypeSelect" parameterType="map" resultType="map">
- 		SELECT CODE from LETTCCMMNDETAILCODE 
+ 		SELECT CODE from MT_LETTCCMMNDETAILCODE 
 		WHERE 1=1
 		AND CODE_ID = 'PSN001'
 		AND CODE_NM = #{CODE_DC}
@@ -4576,7 +4576,7 @@
 				
 	<!-- 경로 결정을 위한  친환경 조회 -->
 	<select id="ecoTypeSelect" parameterType="map" resultType="map">
- 		SELECT CODE from LETTCCMMNDETAILCODE 
+ 		SELECT CODE from MT_LETTCCMMNDETAILCODE 
 		WHERE 1=1
 		AND CODE_ID = 'PSN003'
 		AND CODE_NM = #{CODE_NM}
@@ -4587,85 +4587,85 @@
     	/*selectBoardList 게시판 조회*/
     	<include refid="setRnSt"/>
 	        SELECT 
-	        	A.BOAD_PIDX, 
-	        	A.BOAD_IDX, 
-	        	A.BOAD_SUPPORT, 
-	        	A.BOAD_DELYN, 
-	        	A.BOAD_TITLE, 
-	        	A.BOAD_WRITER, 
-	        	A.BOAD_DATE, 
-	        	A.BOAD_TYPE,
-	        	A.BOAD_RECEIPTIONER,
-	        	COUNT(F.BOAD_IDX) AS CNT,
-	        	A.BOAD_REPLYCNT
-			FROM EFCBOAD A 
-			LEFT OUTER JOIN EFCBOADFILE F ON A.BOAD_IDX = F.BOAD_IDX
+	        	A.BOARD_PIDX, 
+	        	A.BOARD_IDX, 
+	        	A.BOARD_SUPPORT, 
+	        	A.BOARD_DELYN, 
+	        	A.BOARD_TITLE, 
+	        	A.BOARD_WRITER, 
+	        	A.BOARD_DATE, 
+	        	A.BOARD_TYPE,
+	        	A.BOARD_RECEIPTIONER,
+	        	COUNT(F.BOARD_IDX) AS CNT,
+	        	A.BOARD_REPLYCNT
+			FROM MT_BOARD A 
+			LEFT OUTER JOIN MT_BOARDFILE F ON A.BOARD_IDX = F.BOARD_IDX
 			
 			WHERE 1=1
-			AND A.BOAD_DELYN = 'N'
-			AND A.BOAD_PIDX = A.BOAD_IDX
-			AND A.BOAD_TYPE like CONCAT('%', #{BOAD_TYPE}, '%')
-			<if test="BOAD_WRITER != null and BOAD_WRITER != ''">
-	            AND A.BOAD_WRITER like CONCAT('%', #{BOAD_WRITER}, '%')
+			AND A.BOARD_DELYN = 'N'
+			AND A.BOARD_PIDX = A.BOARD_IDX
+			AND A.BOARD_TYPE like CONCAT('%', #{BOARD_TYPE}, '%')
+			<if test="BOARD_WRITER != null and BOARD_WRITER != ''">
+	            AND A.BOARD_WRITER like CONCAT('%', #{BOARD_WRITER}, '%')
 	        </if>
-	        <if test="BOAD_TITLE != null and BOAD_TITLE != ''">
-	            AND A.BOAD_TITLE like CONCAT('%', #{BOAD_TITLE}, '%')
+	        <if test="BOARD_TITLE != null and BOARD_TITLE != ''">
+	            AND A.BOARD_TITLE like CONCAT('%', #{BOARD_TITLE}, '%')
 	        </if>
-	        <if test="BOAD_RECEIPTIONER != null and BOAD_RECEIPTIONER != ''">
-	            AND A.BOAD_RECEIPTIONER like CONCAT('%', #{BOAD_RECEIPTIONER}, '%')
+	        <if test="BOARD_RECEIPTIONER != null and BOARD_RECEIPTIONER != ''">
+	            AND A.BOARD_RECEIPTIONER like CONCAT('%', #{BOARD_RECEIPTIONER}, '%')
 	        </if>
 	        <choose>
-			    <when test="BOAD_SUPPORT.size > 0">
-			        AND BOAD_SUPPORT in 
-			        <foreach collection="BOAD_SUPPORT" item="item" index="index" separator="," open="(" close=")">
+			    <when test="BOARD_SUPPORT.size > 0">
+			        AND BOARD_SUPPORT in 
+			        <foreach collection="BOARD_SUPPORT" item="item" index="index" separator="," open="(" close=")">
 			          #{item}
 			        </foreach>
 			    </when>
 			    <otherwise>
-			        AND A.BOAD_SUPPORT = ''
+			        AND A.BOARD_SUPPORT = ''
 			    </otherwise>
 			</choose>
-	        <!-- AND A.BOAD_DATE BETWEEN #{FROM} AND #{TO} -->
+	        <!-- AND A.BOARD_DATE BETWEEN #{FROM} AND #{TO} -->
 	        <![CDATA[
-	        AND A.BOAD_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOAD_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')
+	        AND A.BOARD_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOARD_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')
 	        ]]>
-	        GROUP BY A.BOAD_IDX
-	        ORDER BY A.BOAD_PIDX DESC, A.BOAD_IDX ASC
+	        GROUP BY A.BOARD_IDX
+	        ORDER BY A.BOARD_PIDX DESC, A.BOARD_IDX ASC
         <include refid="setRnEd"/>
     </select>
  	
  	<!-- 게시판 조회 총건수 -->
     <select id="selectBoardTotCnt" parameterType="map" resultType="map">
     	/*selectBoardTotCnt 게시판 조회 총건수*/
-	       SELECT COUNT(A.BOAD_IDX) AS TOTCNT
-			FROM EFCBOAD A
+	       SELECT COUNT(A.BOARD_IDX) AS TOTCNT
+			FROM MT_BOARD A
 			WHERE 1=1
-			AND A.BOAD_DELYN = 'N'
-			AND A.BOAD_PIDX = A.BOAD_IDX
-			AND A.BOAD_TYPE like CONCAT('%', #{BOAD_TYPE}, '%')
-			<if test="BOAD_WRITER != null and BOAD_WRITER != ''">
-	            AND A.BOAD_WRITER like CONCAT('%', #{BOAD_WRITER}, '%')
+			AND A.BOARD_DELYN = 'N'
+			AND A.BOARD_PIDX = A.BOARD_IDX
+			AND A.BOARD_TYPE like CONCAT('%', #{BOARD_TYPE}, '%')
+			<if test="BOARD_WRITER != null and BOARD_WRITER != ''">
+	            AND A.BOARD_WRITER like CONCAT('%', #{BOARD_WRITER}, '%')
 	        </if>
-	        <if test="BOAD_TITLE != null and BOAD_TITLE != ''">
-	            AND A.BOAD_TITLE like CONCAT('%', #{BOAD_TITLE}, '%')
+	        <if test="BOARD_TITLE != null and BOARD_TITLE != ''">
+	            AND A.BOARD_TITLE like CONCAT('%', #{BOARD_TITLE}, '%')
 	        </if>
-	        <if test="BOAD_RECEIPTIONER != null and BOAD_RECEIPTIONER != ''">
-	            AND A.BOAD_RECEIPTIONER like CONCAT('%', #{BOAD_RECEIPTIONER}, '%')
+	        <if test="BOARD_RECEIPTIONER != null and BOARD_RECEIPTIONER != ''">
+	            AND A.BOARD_RECEIPTIONER like CONCAT('%', #{BOARD_RECEIPTIONER}, '%')
 	        </if>
 	        <choose>
-			    <when test="BOAD_SUPPORT.size > 0">
-			        AND BOAD_SUPPORT in 
-			        <foreach collection="BOAD_SUPPORT" item="item" index="index" separator="," open="(" close=")">
+			    <when test="BOARD_SUPPORT.size > 0">
+			        AND BOARD_SUPPORT in 
+			        <foreach collection="BOARD_SUPPORT" item="item" index="index" separator="," open="(" close=")">
 			          #{item}
 			        </foreach>
 			    </when>
 			    <otherwise>
-			        AND A.BOAD_SUPPORT = ''
+			        AND A.BOARD_SUPPORT = ''
 			    </otherwise>
 			</choose>
-	        <!-- AND A.BOAD_DATE BETWEEN #{FROM} AND #{TO} -->
+	        <!-- AND A.BOARD_DATE BETWEEN #{FROM} AND #{TO} -->
 	        <![CDATA[
-	        AND A.BOAD_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOAD_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')
+	        AND A.BOARD_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOARD_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')
 	        ]]>
     </select>
     
@@ -4674,50 +4674,50 @@
     	 /*selectBoardNumList 게시판 조회 numList*/
     	<include refid="setRnSt"/>
 	        SELECT 
-	        	A.BOAD_PIDX, 
-	        	A.BOAD_IDX, 
-	        	A.BOAD_SUPPORT, 
-	        	A.BOAD_DELYN, 
-	        	A.BOAD_TITLE, 
-	        	A.BOAD_WRITER, 
-	        	A.BOAD_DATE, 
-	        	A.BOAD_TYPE,
-	        	A.BOAD_RECEIPTIONER,
-	        	COUNT(F.BOAD_IDX) AS CNT,
-	        	A.BOAD_REPLYCNT
-			FROM EFCBOAD A 
-			LEFT OUTER JOIN EFCBOADFILE F ON A.BOAD_IDX = F.BOAD_IDX
+	        	A.BOARD_PIDX, 
+	        	A.BOARD_IDX, 
+	        	A.BOARD_SUPPORT, 
+	        	A.BOARD_DELYN, 
+	        	A.BOARD_TITLE, 
+	        	A.BOARD_WRITER, 
+	        	A.BOARD_DATE, 
+	        	A.BOARD_TYPE,
+	        	A.BOARD_RECEIPTIONER,
+	        	COUNT(F.BOARD_IDX) AS CNT,
+	        	A.BOARD_REPLYCNT
+			FROM MT_BOARD A 
+			LEFT OUTER JOIN MT_BOARDFILE F ON A.BOARD_IDX = F.BOARD_IDX
 			
 			WHERE 1=1
-			AND A.BOAD_DELYN = 'N'
-			AND A.BOAD_PIDX = A.BOAD_IDX
-			AND A.BOAD_TYPE like CONCAT('%', #{BOAD_TYPE}, '%')
-			<if test="BOAD_WRITER != null and BOAD_WRITER != ''">
-	            AND A.BOAD_WRITER like CONCAT('%', #{BOAD_WRITER}, '%')
+			AND A.BOARD_DELYN = 'N'
+			AND A.BOARD_PIDX = A.BOARD_IDX
+			AND A.BOARD_TYPE like CONCAT('%', #{BOARD_TYPE}, '%')
+			<if test="BOARD_WRITER != null and BOARD_WRITER != ''">
+	            AND A.BOARD_WRITER like CONCAT('%', #{BOARD_WRITER}, '%')
 	        </if>
-	        <if test="BOAD_TITLE != null and BOAD_TITLE != ''">
-	            AND A.BOAD_TITLE like CONCAT('%', #{BOAD_TITLE}, '%')
+	        <if test="BOARD_TITLE != null and BOARD_TITLE != ''">
+	            AND A.BOARD_TITLE like CONCAT('%', #{BOARD_TITLE}, '%')
 	        </if>
-	        <if test="BOAD_RECEIPTIONER != null and BOAD_RECEIPTIONER != ''">
-	            AND A.BOAD_RECEIPTIONER like CONCAT('%', #{BOAD_RECEIPTIONER}, '%')
+	        <if test="BOARD_RECEIPTIONER != null and BOARD_RECEIPTIONER != ''">
+	            AND A.BOARD_RECEIPTIONER like CONCAT('%', #{BOARD_RECEIPTIONER}, '%')
 	        </if>
 	        <choose>
-			    <when test="BOAD_SUPPORT.size > 0">
-			        AND BOAD_SUPPORT in 
-			        <foreach collection="BOAD_SUPPORT" item="item" index="index" separator="," open="(" close=")">
+			    <when test="BOARD_SUPPORT.size > 0">
+			        AND BOARD_SUPPORT in 
+			        <foreach collection="BOARD_SUPPORT" item="item" index="index" separator="," open="(" close=")">
 			          #{item}
 			        </foreach>
 			    </when>
 			    <otherwise>
-			        AND A.BOAD_SUPPORT = ''
+			        AND A.BOARD_SUPPORT = ''
 			    </otherwise>
 			</choose>
-	        <!-- AND A.BOAD_DATE BETWEEN #{FROM} AND #{TO} -->
+	        <!-- AND A.BOARD_DATE BETWEEN #{FROM} AND #{TO} -->
 	        <![CDATA[
-	        AND A.BOAD_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOAD_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')
+	        AND A.BOARD_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOARD_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')
 	        ]]>
-	        GROUP BY A.BOAD_IDX
-	        ORDER BY A.BOAD_PIDX DESC, A.BOAD_IDX ASC
+	        GROUP BY A.BOARD_IDX
+	        ORDER BY A.BOARD_PIDX DESC, A.BOARD_IDX ASC
         <include refid="setRnEd"/>
         LIMIT ${limitFrom}, ${limitPerPage}
     </select>
@@ -4726,107 +4726,107 @@
     <select id="selectBoardStatusCnt" parameterType="map" resultType="map">
      /*selectBoardStatusCnt 게시물 답변조회*/
      SELECT 
-     	A.BOAD_SUPPORT, COUNT(A.BOAD_SUPPORT) AS CNT
-     FROM EFCBOAD A
+     	A.BOARD_SUPPORT, COUNT(A.BOARD_SUPPORT) AS CNT
+     FROM MT_BOARD A
 	 WHERE 1=1 
-		AND A.BOAD_DELYN = 'N'
-		AND A.BOAD_PIDX = A.BOAD_IDX
-		AND A.BOAD_TYPE like CONCAT('%', #{BOAD_TYPE}, '%')
-		<if test="BOAD_WRITER != null and BOAD_WRITER != ''">
-            AND A.BOAD_WRITER like CONCAT('%', #{BOAD_WRITER}, '%')
+		AND A.BOARD_DELYN = 'N'
+		AND A.BOARD_PIDX = A.BOARD_IDX
+		AND A.BOARD_TYPE like CONCAT('%', #{BOARD_TYPE}, '%')
+		<if test="BOARD_WRITER != null and BOARD_WRITER != ''">
+            AND A.BOARD_WRITER like CONCAT('%', #{BOARD_WRITER}, '%')
         </if>
-        <if test="BOAD_TITLE != null and BOAD_TITLE != ''">
-            AND A.BOAD_TITLE like CONCAT('%', #{BOAD_TITLE}, '%')
+        <if test="BOARD_TITLE != null and BOARD_TITLE != ''">
+            AND A.BOARD_TITLE like CONCAT('%', #{BOARD_TITLE}, '%')
         </if>
-        <if test="BOAD_RECEIPTIONER != null and BOAD_RECEIPTIONER != ''">
-            AND A.BOAD_RECEIPTIONER like CONCAT('%', #{BOAD_RECEIPTIONER}, '%')
+        <if test="BOARD_RECEIPTIONER != null and BOARD_RECEIPTIONER != ''">
+            AND A.BOARD_RECEIPTIONER like CONCAT('%', #{BOARD_RECEIPTIONER}, '%')
         </if>
         <choose>
-		    <when test="BOAD_SUPPORT.size > 0">
-		        AND BOAD_SUPPORT in 
-		        <foreach collection="BOAD_SUPPORT" item="item" index="index" separator="," open="(" close=")">
+		    <when test="BOARD_SUPPORT.size > 0">
+		        AND BOARD_SUPPORT in 
+		        <foreach collection="BOARD_SUPPORT" item="item" index="index" separator="," open="(" close=")">
 		          #{item}
 		        </foreach>
 		    </when>
 		</choose>
-        <!-- AND A.BOAD_DATE BETWEEN #{FROM} AND #{TO} -->
+        <!-- AND A.BOARD_DATE BETWEEN #{FROM} AND #{TO} -->
         <![CDATA[
-        AND A.BOAD_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOAD_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')
+        AND A.BOARD_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOARD_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')
         ]]>
-	 GROUP BY A.BOAD_SUPPORT
+	 GROUP BY A.BOARD_SUPPORT
     </select>
  	
 	<!-- 게시물 답변 cnt -->
     <update id="updateReplyCnt" parameterType="map">
          /*updateReplyCnt 게시물답변카운트*/
-         UPDATE EFCBOAD SET 
+         UPDATE MT_BOARD SET 
             <choose>
-				<when test='BOAD_REPLYSTATUS.equals("add")'>
-					 BOAD_REPLYCNT = BOAD_REPLYCNT+1
+				<when test='BOARD_REPLYSTATUS.equals("add")'>
+					 BOARD_REPLYCNT = BOARD_REPLYCNT+1
 				</when>
-				<when test='BOAD_REPLYSTATUS.equals("del")'>
-					BOAD_REPLYCNT = BOAD_REPLYCNT-1
+				<when test='BOARD_REPLYSTATUS.equals("del")'>
+					BOARD_REPLYCNT = BOARD_REPLYCNT-1
 				</when>
 			</choose>
          WHERE 1=1
-         AND BOAD_IDX=#{BOAD_IDX}
+         AND BOARD_IDX=#{BOARD_IDX}
     </update>
     
  	<!-- 게시판 답변조회 -->
     <select id="selectBoardReply" parameterType="map" resultType="map">
      /*selectBoardReply 게시물 답변조회*/
         SELECT 
-        	A.BOAD_PIDX, 
-        	A.BOAD_IDX, 
-        	A.BOAD_DELYN, 
-        	A.BOAD_TITLE, 
-        	A.BOAD_WRITER, 
-        	A.BOAD_DATE, 
-        	A.BOAD_TYPE,
-        	A.BOAD_RECEIPTIONER,
-        	COUNT(F.BOAD_IDX) AS CNT
-		FROM EFCBOAD A 
-		LEFT OUTER JOIN EFCBOADFILE F ON A.BOAD_IDX = F.BOAD_IDX
+        	A.BOARD_PIDX, 
+        	A.BOARD_IDX, 
+        	A.BOARD_DELYN, 
+        	A.BOARD_TITLE, 
+        	A.BOARD_WRITER, 
+        	A.BOARD_DATE, 
+        	A.BOARD_TYPE,
+        	A.BOARD_RECEIPTIONER,
+        	COUNT(F.BOARD_IDX) AS CNT
+		FROM MT_BOARD A 
+		LEFT OUTER JOIN MT_BOARDFILE F ON A.BOARD_IDX = F.BOARD_IDX
 		
 		WHERE 1=1
-		AND A.BOAD_DELYN = 'N'
-		AND A.BOAD_PIDX != A.BOAD_IDX
-       	<if test="BOAD_PIDX != null and BOAD_PIDX != ''">
-            AND A.BOAD_PIDX = #{BOAD_PIDX}
+		AND A.BOARD_DELYN = 'N'
+		AND A.BOARD_PIDX != A.BOARD_IDX
+       	<if test="BOARD_PIDX != null and BOARD_PIDX != ''">
+            AND A.BOARD_PIDX = #{BOARD_PIDX}
         </if> 
-        GROUP BY A.BOAD_IDX
-        ORDER BY A.BOAD_DATE DESC
+        GROUP BY A.BOARD_IDX
+        ORDER BY A.BOARD_DATE DESC
     </select>
     
     
  	<!-- 게시물 작성 -->
-    <insert id="insertBoard" parameterType="map" useGeneratedKeys="true" keyProperty="BOAD_IDX">
+    <insert id="insertBoard" parameterType="map" useGeneratedKeys="true" keyProperty="BOARD_IDX">
         /*insertBoard 게시물 작성*/
-            INSERT INTO EFCBOAD(
-            	BOAD_DELYN,
-            	BOAD_TYPE,
-           	 	<if test='BOAD_PIDX != null'>
-           	 		BOAD_PIDX,
+            INSERT INTO MT_BOARD(
+            	BOARD_DELYN,
+            	BOARD_TYPE,
+           	 	<if test='BOARD_PIDX != null'>
+           	 		BOARD_PIDX,
            		</if>
-           		BOAD_SUPPORT,
-	            BOAD_TITLE,
-	            BOAD_CONT,
-	            BOAD_WRITER,
-	            BOAD_PHONE,
-	            BOAD_EMAIL,
-	            BOAD_DATE
+           		BOARD_SUPPORT,
+	            BOARD_TITLE,
+	            BOARD_CONT,
+	            BOARD_WRITER,
+	            BOARD_PHONE,
+	            BOARD_EMAIL,
+	            BOARD_DATE
             )VALUES (
-           		#{BOAD_DELYN},
-           		#{BOAD_TYPE},
-            	<if test='BOAD_PIDX != null'>
-           	 		#{BOAD_PIDX},
+           		#{BOARD_DELYN},
+           		#{BOARD_TYPE},
+            	<if test='BOARD_PIDX != null'>
+           	 		#{BOARD_PIDX},
            		</if>
-           		#{BOAD_SUPPORT},
-				#{BOAD_TITLE},
-	            #{BOAD_CONT},
-	            #{BOAD_WRITER},
-	            #{BOAD_PHONE},
-	            #{BOAD_EMAIL},
+           		#{BOARD_SUPPORT},
+				#{BOARD_TITLE},
+	            #{BOARD_CONT},
+	            #{BOARD_WRITER},
+	            #{BOARD_PHONE},
+	            #{BOARD_EMAIL},
 	            CURRENT_TIMESTAMP
             )
     </insert>
@@ -4834,32 +4834,32 @@
     <!-- 게시물 수정 -->
     <update id="updateBoardInfo" parameterType="map">
          /*updateBoardInfo 게시물수정*/
-         UPDATE EFCBOAD SET 
-            BOAD_TYPE = #{BOAD_TYPE},
-            BOAD_PIDX = #{BOAD_PIDX},
-           	BOAD_SUPPORT = #{BOAD_SUPPORT},
-            BOAD_TITLE = #{BOAD_TITLE},
-            BOAD_CONT = #{BOAD_CONT},
-            BOAD_WRITER = #{BOAD_WRITER},
-            BOAD_PHONE = #{BOAD_PHONE},
-            BOAD_EMAIL = #{BOAD_EMAIL},
-            BOAD_DATE = CURRENT_TIMESTAMP
+         UPDATE MT_BOARD SET 
+            BOARD_TYPE = #{BOARD_TYPE},
+            BOARD_PIDX = #{BOARD_PIDX},
+           	BOARD_SUPPORT = #{BOARD_SUPPORT},
+            BOARD_TITLE = #{BOARD_TITLE},
+            BOARD_CONT = #{BOARD_CONT},
+            BOARD_WRITER = #{BOARD_WRITER},
+            BOARD_PHONE = #{BOARD_PHONE},
+            BOARD_EMAIL = #{BOARD_EMAIL},
+            BOARD_DATE = CURRENT_TIMESTAMP
          WHERE 1=1
-         AND BOAD_IDX=#{BOAD_IDX}
+         AND BOARD_IDX=#{BOARD_IDX}
     </update>
 
     <!-- 게시물 논리 삭제 -->
     <update id="deleteStatusBoard" parameterType="map">
          /* deleteStatusBoard 게시물논리삭제*/
-         UPDATE EFCBOAD SET 
-         	 BOAD_DELYN = 'Y'
+         UPDATE MT_BOARD SET 
+         	 BOARD_DELYN = 'Y'
          WHERE 1=1
          <choose>
-   			<when test="BOAD_PIDX != null and BOAD_PIDX != ''">
-   				AND BOAD_PIDX=#{BOAD_PIDX}
+   			<when test="BOARD_PIDX != null and BOARD_PIDX != ''">
+   				AND BOARD_PIDX=#{BOARD_PIDX}
    			</when>
    			<otherwise>
-   				AND BOAD_IDX=#{BOAD_IDX}
+   				AND BOARD_IDX=#{BOARD_IDX}
    			</otherwise>
    		</choose>
     </update>
@@ -4867,14 +4867,14 @@
 	<!-- 게시물 물리 삭제 (관리자삭제) -->
     <delete id="deleteBoard" parameterType="map">
         /*deleteBoard 게시물삭제*/
-        DELETE FROM EFCBOAD
+        DELETE FROM MT_BOARD
 		WHERE 1=1
 		<choose>
-   			<when test="BOAD_PIDX != null and BOAD_PIDX != ''">
-   				AND BOAD_PIDX=#{BOAD_PIDX}
+   			<when test="BOARD_PIDX != null and BOARD_PIDX != ''">
+   				AND BOARD_PIDX=#{BOARD_PIDX}
    			</when>
    			<otherwise>
-   				AND BOAD_IDX=#{BOAD_IDX}
+   				AND BOARD_IDX=#{BOARD_IDX}
    			</otherwise>
    		</choose>
     </delete>
@@ -4883,44 +4883,44 @@
     <select id="selectBoardInfo" parameterType="map" resultType="map">
   	  /*selectBoardInfo 게시물 단건조회*/
         SELECT
-            A.BOAD_IDX, 
-            A.BOAD_TITLE, 
-            A.BOAD_SUPPORT, 
-            A.BOAD_CONT, 
-            A.BOAD_WRITER,
-            A.BOAD_PHONE,
-            A.BOAD_EMAIL,
-            A.BOAD_RECEIPTIONER,
-            A.BOAD_COMPLETER,
-            DATE_FORMAT(A.BOAD_DATE, '%Y-%m-%d  %H:%i:%s') AS BOAD_DATE
+            A.BOARD_IDX, 
+            A.BOARD_TITLE, 
+            A.BOARD_SUPPORT, 
+            A.BOARD_CONT, 
+            A.BOARD_WRITER,
+            A.BOARD_PHONE,
+            A.BOARD_EMAIL,
+            A.BOARD_RECEIPTIONER,
+            A.BOARD_COMPLETER,
+            DATE_FORMAT(A.BOARD_DATE, '%Y-%m-%d  %H:%i:%s') AS BOARD_DATE
             
-        FROM EFCBOAD A
+        FROM MT_BOARD A
         WHERE 1=1
-        <if test="BOAD_IDX != null and BOAD_IDX != ''">
-            AND A.BOAD_IDX = #{BOAD_IDX}
+        <if test="BOARD_IDX != null and BOARD_IDX != ''">
+            AND A.BOARD_IDX = #{BOARD_IDX}
         </if>
     </select>
     
     <!-- 게시물이력 작성 -->
     <insert id="insertBoardHis" parameterType="map">
         /*insertBoardHis 게시물이력 작성*/
-            INSERT INTO EFCBOADHIS (
-                SELECT 0 AS BOADHIS_IDX,
-                       #{status} AS BOADHIS_STATUS,
+            INSERT INTO MT_BOARDHIS (
+                SELECT 0 AS BOARDHIS_IDX,
+                       #{status} AS BOARDHIS_STATUS,
                        CURRENT_TIMESTAMP,
-                       A.BOAD_IDX,
-                       A.BOAD_TYPE, 
-                       A.BOAD_TITLE,
-                       A.BOAD_CONT,
-                       A.BOAD_WRITER,
-                       A.BOAD_SUPPORT,
-                       A.BOAD_PHONE, 
-                       A.BOAD_EMAIL, 
-                       A.BOAD_RECEIPTIONER,
-                       A.BOAD_COMPLETER
-                FROM EFCBOAD A 
+                       A.BOARD_IDX,
+                       A.BOARD_TYPE, 
+                       A.BOARD_TITLE,
+                       A.BOARD_CONT,
+                       A.BOARD_WRITER,
+                       A.BOARD_SUPPORT,
+                       A.BOARD_PHONE, 
+                       A.BOARD_EMAIL, 
+                       A.BOARD_RECEIPTIONER,
+                       A.BOARD_COMPLETER
+                FROM MT_BOARD A 
                 WHERE 1=1
-                AND BOAD_IDX = #{BOAD_IDX}
+                AND BOARD_IDX = #{BOARD_IDX}
             )
     </insert>
     
@@ -4928,22 +4928,22 @@
     <select id="selectBoardHisInfo" parameterType="map" resultType="map">
     	/*selectBoardHisInfo 게시판이력 상세조회*/
         SELECT
-        	A.BOAD_TYPE,
-            A.BOADHIS_IDX, 
-            A.BOADHIS_STATUS,
-            DATE_FORMAT(A.BOADHIS_DATE, '%Y-%m-%d  %H:%i:%s') AS BOADHIS_DATE,
-            A.BOAD_IDX, 
-            A.BOAD_TITLE, 
-            A.BOAD_CONT, 
-            A.BOAD_WRITER,
-            A.BOAD_SUPPORT,
-	        A.BOAD_PHONE, 
-	        A.BOAD_EMAIL, 
-            A.BOAD_RECEIPTIONER
-        FROM EFCBOADHIS A
+        	A.BOARD_TYPE,
+            A.BOARDHIS_IDX, 
+            A.BOARDHIS_STATUS,
+            DATE_FORMAT(A.BOARDHIS_DATE, '%Y-%m-%d  %H:%i:%s') AS BOARDHIS_DATE,
+            A.BOARD_IDX, 
+            A.BOARD_TITLE, 
+            A.BOARD_CONT, 
+            A.BOARD_WRITER,
+            A.BOARD_SUPPORT,
+	        A.BOARD_PHONE, 
+	        A.BOARD_EMAIL, 
+            A.BOARD_RECEIPTIONER
+        FROM MT_BOARDHIS A
         WHERE 1=1
-        <if test="BOADHIS_IDX != null and BOADHIS_IDX != ''">
-            AND A.BOADHIS_IDX = #{BOADHIS_IDX}
+        <if test="BOARDHIS_IDX != null and BOARDHIS_IDX != ''">
+            AND A.BOARDHIS_IDX = #{BOARDHIS_IDX}
         </if>
     </select>
     
@@ -4951,47 +4951,47 @@
     <select id="selectBoardHisList" parameterType="map" resultType="map">
     	/*selectBoardHisList 게시판이력 조회*/
         SELECT *
-        FROM EFCBOADHIS A
+        FROM MT_BOARDHIS A
         WHERE 1=1
-        <if test="BOAD_IDX != null and BOAD_IDX != ''">
-            AND A.BOAD_IDX = #{BOAD_IDX}
+        <if test="BOARD_IDX != null and BOARD_IDX != ''">
+            AND A.BOARD_IDX = #{BOARD_IDX}
         </if>
-        <if test="BOAD_WRITER != null and BOAD_WRITER != ''">
-            AND A.BOAD_WRITER like CONCAT('%', #{BOAD_WRITER}, '%')
+        <if test="BOARD_WRITER != null and BOARD_WRITER != ''">
+            AND A.BOARD_WRITER like CONCAT('%', #{BOARD_WRITER}, '%')
         </if>
-        <if test="BOAD_TITLE != null and BOAD_TITLE != ''">
-            AND A.BOAD_TITLE like CONCAT('%', #{BOAD_TITLE}, '%')
+        <if test="BOARD_TITLE != null and BOARD_TITLE != ''">
+            AND A.BOARD_TITLE like CONCAT('%', #{BOARD_TITLE}, '%')
         </if>
         <choose>
 		    <when test="statusList.size > 0">
-		        AND BOADHIS_STATUS in 
+		        AND BOARDHIS_STATUS in 
 		        <foreach collection="statusList" item="item" index="index" separator="," open="(" close=")">
 		          #{item}
 		        </foreach>
 		    </when>
 		    <otherwise>
-		        AND A.BOADHIS_STATUS = ''
+		        AND A.BOARDHIS_STATUS = ''
 		    </otherwise>
 		</choose>
         <![CDATA[
-        AND A.BOADHIS_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOADHIS_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')
+        AND A.BOARDHIS_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOARDHIS_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')
         ]]>
-        ORDER BY A.BOADHIS_IDX DESC
+        ORDER BY A.BOARDHIS_IDX DESC
     </select>
     
     <!-- 게시물첨부파일 insert -->
     <insert id="insertBoardFile" parameterType="map">
         /*insertBoardFile 게시물첨부파일*/
-        INSERT INTO EFCBOADFILE (
-		    SELECT 0 AS BOADFILE_IDX,
-		       A.BOAD_IDX,
-		       #{BOADFILE_NAME} AS BOADFILE_NAME,
-		       #{BOADFILE_NAMESERVER} AS BOADFILE_NAMESERVER,
-		       #{BOADFILE_PATH} AS BOADFILE_PATH,
-		       #{BOADFILE_SIZE} AS BOADFILE_SIZE
-		    FROM EFCBOAD A
+        INSERT INTO MT_BOARDFILE (
+		    SELECT 0 AS BOARDFILE_IDX,
+		       A.BOARD_IDX,
+		       #{BOARDFILE_NAME} AS BOARDFILE_NAME,
+		       #{BOARDFILE_NAMESERVER} AS BOARDFILE_NAMESERVER,
+		       #{BOARDFILE_PATH} AS BOARDFILE_PATH,
+		       #{BOARDFILE_SIZE} AS BOARDFILE_SIZE
+		    FROM MT_BOARD A
 		    WHERE 1=1
-            AND BOAD_IDX = #{BOAD_IDX}
+            AND BOARD_IDX = #{BOARD_IDX}
 		)
     </insert>
     
@@ -4999,29 +4999,29 @@
     <select id="selectBoardFileList" parameterType="map" resultType="map">
     	/*selectBoardFileList 게시판첨부파일조회*/
         SELECT *
-        FROM EFCBOADFILE A
+        FROM MT_BOARDFILE A
         WHERE 1=1
-        <if test="BOAD_IDX != null and BOAD_IDX != ''">
-            AND A.BOAD_IDX = #{BOAD_IDX}
+        <if test="BOARD_IDX != null and BOARD_IDX != ''">
+            AND A.BOARD_IDX = #{BOARD_IDX}
         </if>
-        ORDER BY A.BOADFILE_IDX DESC
+        ORDER BY A.BOARDFILE_IDX DESC
     </select>
     <!-- 게시판첨부파일 삭제  -->
     <delete id="deleteBoardFileList" parameterType="map">
         /*deleteBoard 게시물삭제*/
-        DELETE FROM EFCBOADFILE
+        DELETE FROM MT_BOARDFILE
         WHERE 1=1
-        AND BOAD_IDX=#{BOAD_IDX}
+        AND BOARD_IDX=#{BOARD_IDX}
     </delete>
     
     <!-- 게시물 상태수정-->
     <update id="receiptBoard" parameterType="map">
          /* 게시물접수 receiptBoard*/
-         UPDATE EFCBOAD SET 
-         	 BOAD_SUPPORT = #{BOAD_SUPPORT},
-         	 BOAD_RECEIPTIONER = #{BOAD_RECEIPTIONER},
-         	 BOAD_COMPLETER = #{BOAD_COMPLETER}
+         UPDATE MT_BOARD SET 
+         	 BOARD_SUPPORT = #{BOARD_SUPPORT},
+         	 BOARD_RECEIPTIONER = #{BOARD_RECEIPTIONER},
+         	 BOARD_COMPLETER = #{BOARD_COMPLETER}
          WHERE 1=1
-         AND BOAD_IDX=#{BOAD_IDX}
+         AND BOARD_IDX=#{BOARD_IDX}
     </update>
  </mapper>

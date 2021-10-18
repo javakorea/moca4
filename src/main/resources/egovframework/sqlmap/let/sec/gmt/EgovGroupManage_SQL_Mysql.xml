@@ -17,7 +17,7 @@
     <select id="groupManageDAO.selectGroup" parameterClass="groupManageVO" resultMap="group">
         <![CDATA[
             SELECT GROUP_ID, GROUP_NM, GROUP_DC, GROUP_CREAT_DE
-              FROM LETTNAUTHORGROUPINFO 
+              FROM MT_LETTNAUTHORGROUPINFO 
              WHERE GROUP_ID=#groupId#
         ]]>
     </select>
@@ -25,7 +25,7 @@
     <select id="groupManageDAO.selectGroupList" parameterClass="groupManageVO" resultMap="group">
 
             SELECT GROUP_ID, GROUP_NM, GROUP_DC, GROUP_CREAT_DE
-              FROM LETTNAUTHORGROUPINFO
+              FROM MT_LETTNAUTHORGROUPINFO
              WHERE 1=1
             <isEqual prepend="AND" property="searchCondition" compareValue="1">
                 GROUP_NM LIKE CONCAT('%' , #searchKeyword#, '%')
@@ -36,7 +36,7 @@
 
 	<insert id="groupManageDAO.insertGroup">
 		<![CDATA[
-			INSERT INTO LETTNAUTHORGROUPINFO 
+			INSERT INTO MT_LETTNAUTHORGROUPINFO 
 				  ( GROUP_ID
 				  , GROUP_NM
 				  , GROUP_DC
@@ -50,7 +50,7 @@
 	
 	<update id="groupManageDAO.updateGroup" parameterClass="groupManage">
 		<![CDATA[
-			UPDATE LETTNAUTHORGROUPINFO 
+			UPDATE MT_LETTNAUTHORGROUPINFO 
 			   SET GROUP_NM=#groupNm#
 				 , GROUP_DC=#groupDc#
 				 , GROUP_CREAT_DE=now()
@@ -60,7 +60,7 @@
 	
 	<delete id="groupManageDAO.deleteGroup">
 		<![CDATA[
-			DELETE FROM LETTNAUTHORGROUPINFO 
+			DELETE FROM MT_LETTNAUTHORGROUPINFO 
 			 WHERE GROUP_ID=#groupId#
 		]]>
 	</delete>
@@ -68,7 +68,7 @@
 	<select id="groupManageDAO.selectGroupListTotCnt" parameterClass="groupManageVO" resultClass="int">
 
 			SELECT COUNT(*) totcnt
-			FROM LETTNAUTHORGROUPINFO
+			FROM MT_LETTNAUTHORGROUPINFO
 			WHERE 1=1
 			<isEqual prepend="AND" property="searchCondition" compareValue="1">
 				GROUP_NM LIKE CONCAT('%' , #searchKeyword#, '%')
