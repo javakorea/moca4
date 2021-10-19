@@ -608,7 +608,6 @@ moca.EFC_BOARD_POP.fn_status = function(_thisObj){
 		moca.EFC_BOARD_POP._boardSupport = "B";
 	}
 	moca.confirm(_thisObj.innerText+'하시겠습니까?',function(result){
-		debugger;
         if(result == 'Y'){
         	moca.EFC_BOARD_POP.exe({
         		url : moca._domain+moca._contextRoot+"/EFC_BOARD/receiptBoard.do",
@@ -620,7 +619,8 @@ moca.EFC_BOARD_POP.fn_status = function(_thisObj){
         				"BOARD_IDX":moca.EFC_BOARD_POP._boardPIdx,
         				"BOARD_RECEIPTIONER":_receiptid,
         				"BOARD_COMPLETER": _completeid,
-        				"BOARD_WRITERPHONE":moca.getValue(moca.EFC_BOARD_POP.getObj('wphone'))
+        				"BOARD_WRITERPHONE": moca.getValue(moca.EFC_BOARD_POP.getObj('wphone')),
+        				"BOARD_WRITER":moca.getValue(moca.EFC_BOARD_POP.getObj('wid'))
         				}
         		},			
         		callback : function(response){

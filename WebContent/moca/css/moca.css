@@ -487,15 +487,15 @@ div[contenteditable=true] {
 .moca_table_cont{table-layout:fixed; width:100%; position: relative; margin-top:5px; background:#fff; border-radius:2px; border-top:1px solid #9a9ea8; border-collapse: separate;}
 /*.moca_table_cont tr:hover > td > .mocaInput:read-only{background:#e5ebef}*/
 
-.moca_table_cont td{padding:1px 2px; border-bottom:1px solid #c1c8d4; border-right:1px solid #c1c8d4; min-width:30px; background:#fff}
-.moca_table_cont th{padding:0 6px; height:29px; font-size: 12px; box-sizing: border-box; color: #333; background:#e5e8ef; border-right:1px solid #bbc3ce; border-bottom:1px solid #bbc3ce; vertical-align:middle}
+.moca_table_cont > tbody > tr > td{padding:1px 2px; border-bottom:1px solid #c1c8d4; border-right:1px solid #c1c8d4; min-width:30px; background:#fff}
+.moca_table_cont > thead > tr > th, .moca_table_cont tbody > tr > th{padding:0 6px; height:29px; font-size: 12px; box-sizing: border-box; color: #333; background:#e5e8ef; border-right:1px solid #bbc3ce; border-bottom:1px solid #bbc3ce; vertical-align:middle}
 .moca_table_cont.vertical{float:left}
 .moca_table_cont.vertical tbody th{padding:6px 8px; background: #e5e8ef}
 .moca_table_cont th > label{position: sticky; top: 10px; display: inline-block; vertical-align: top;}
-.moca_table_cont tr th:first-child{border-left:0}
-.moca_table_cont thead tr th:last-child{border-right:0}
-.moca_table_cont thead tr th.bd{border-right: 1px solid #bbc3ce;}
-.moca_table_cont tbody th{height:27px}
+.moca_table_cont > thead > tr > th:first-child, .moca_table_cont > tbody > tr > th:first-child{border-left:0}
+.moca_table_cont > thead > tr > th:last-child{border-right:0}
+.moca_table_cont > thead > tr > th.bd{border-right: 1px solid #bbc3ce;}
+.moca_table_cont > tbody > tr > thth{height:27px}
 .moca_table_cont .moca_checkbox_input + .moca_checkbox_label {display:inline-block; position:relative; padding-left:10px; margin-right:4px}
 .moca_table_cont.th_tar th{text-align:right}
 /*moca_table th색상*/
@@ -791,7 +791,7 @@ button.moca_calendar_dynamic:hover {background-color:#f3a95e; color:#fff}
 .moca_calendar .moca_calendar_body {border:0; background:none; padding:5px 0}
 .moca_calendar .moca_calendar_body table {width:100%; color:#fff}
 .moca_calendar .moca_calendar_body table th,
-.moca_calendar .moca_calendar_body table td {text-align:center; height:27px}
+.moca_calendar .moca_calendar_body table td {text-align:center; height:27px; border-bottom:0}
 .moca_calendar .moca_calendar_body table td button {border-radius:100%; height:26px; width:26px; line-height:20px; color:#fff; background:transparent}
 .moca_calendar .moca_calendar_body table td.moca_calendar_holiday button {font-weight:normal; color:#fd5353}
 .moca_calendar .moca_calendar_body table td.moca_calendar_today button {background:#000; color:#fff}
@@ -814,7 +814,7 @@ button.moca_calendar_dynamic:hover {background-color:#f3a95e; color:#fff}
 .moca_calendar_footer button.moca_calendar_btn_cancel {float:left}
 .moca_calendar_footer button.moca_calendar_btn_ok {}
 /* calendar(FROM ~ TO) */
-.moca_calendar_fromto {position:absolute; width:720px; height:300px; background-color:#3f424a; border:1px solid #555; box-shadow:2px 2px 3px 0px rgba(0,0,0,0.2); -moz-box-shadow:0 0 8px 0 rgba(0,0,0,0.5); z-index:9999}
+.moca_calendar_fromto {position:fixed; width:720px; height:300px; background-color:#3f424a; border:1px solid #555; box-shadow:2px 2px 3px 0px rgba(0,0,0,0.2); -moz-box-shadow:0 0 8px 0 rgba(0,0,0,0.5); z-index:9999}
 .moca_calendar_lta {/*overflow:hidden auto;*/ position:absolute; top:0; left:0px; bottom:0; width:130px; background:#393c46; color:#fff; -moz-box-sizing:border-box; box-sizing:border-box}
 .moca_calendar_rta {position:absolute; top:0; left:130px; right:0; bottom:0; padding:8px; -moz-box-sizing:border-box; box-sizing:border-box}
 .moca_calendar_list{height:250px; padding:8px 8px 0;}
@@ -1270,3 +1270,9 @@ td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:2
 .moca_shbox .shbox_group{border: 1px solid #bbc3ce; background: #e8e8e8; border-radius: 3px; padding:0 3px}
 .moca_shbox .shbox_group .moca_ica[type="inputMultiCalendar"] > div{height: 20px; top: 1px;}
 
+.fullcalendar{height:100%;}
+.fullcalendar .fc-view-harness{height:100% !important}
+.fullcalendar table[role="presentation"].fc-col-header{width:100% !important;}
+.fullcalendar .fc-daygrid-body{width:100% !important; height:100% !important;}
+.fullcalendar table[role="presentation"].fc-scrollgrid-sync-table{width:100% !important; height:100% !important;}
+.fullcalendar.fc .fc-toolbar.fc-header-toolbar{margin-bottom:10px}

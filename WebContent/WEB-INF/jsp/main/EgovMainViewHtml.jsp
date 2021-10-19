@@ -53,6 +53,7 @@ if(userAgent.indexOf("MOBI") > -1 || userAgent.indexOf("IPHONE") > -1   || userA
 <link rel="stylesheet" type="text/css" href="/moca/css/fontawesome.css">
 <link rel="stylesheet" type="text/css" href="/moca/css/moca_layout.css">
 <link rel="stylesheet" type="text/css" href="/css/carbang.css">
+<link rel="stylesheet" type="text/css" href="/fullcalendar/lib/fullcalendar.css">
 
 <script language="JavaScript" src="/moca/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="/moca/js/sha512.min.js"></script>
@@ -60,6 +61,7 @@ if(userAgent.indexOf("MOBI") > -1 || userAgent.indexOf("IPHONE") > -1   || userA
 <script language="JavaScript" src="/moca/js/moca.js"></script>
 <script type="text/javascript" src="/moca/js/moca_ui.js"></script>
 <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="/fullcalendar/lib/fullcalendar.js"></script>
 <%
 	String authorCodeString= (String)request.getAttribute("authorCode");
 	java.util.List menuList= (java.util.List)request.getAttribute("menuList");

@@ -5328,25 +5328,6 @@ public class TOController{
 				Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
 				int cnt = TOMapper.updateReplyCnt(paramMap);
 				model.addAttribute("cnt", cnt);		
-				
-				String _BOARD_SUPPORT = paramMap.get("BOARD_SUPPORT").toString();
-				String _BOARD_WRITERPHONE = paramMap.get("BOARD_WRITERPHONE").toString();
-				System.out.println("~~~~>>>>>>>>>>>>>>>>>>>>.."+_BOARD_WRITERPHONE);
-				if(_BOARD_SUPPORT.equals("Y") && _BOARD_WRITERPHONE != null){
-					//완료일경우만 
-					Map map = new HashMap();
-			    	map.put("PROP_KEY","업무게시판수신자");
-			    	List EFGPRPOP_list = mocaEFLService.selectList_EFGPROP(map);
-			    	if(EFGPRPOP_list != null && EFGPRPOP_list.size() > 0){
-			    		Map phonenumber = (Map)EFGPRPOP_list.get(0);
-			    		System.out.println("~~~~>>>>>>>>>>>>>>탔음");
-				    	API.sendSms(
-				    			"요청건이 완료되었습니다.",
-				    			_BOARD_WRITERPHONE,
-				    			paramMap.get("BOARD_WRITER").toString()
-				    	);
-			    	}
-				}
 			}catch(Exception e) {
 				e.printStackTrace();
 				model.addAttribute("error", e.getMessage());
@@ -5591,10 +5572,58 @@ public class TOController{
 			model.addAttribute("cnt", TOMapper.receiptBoard(paramMap));
 			paramMap.put("status", "U");TOMapper.insertBoardHis(paramMap);
 			
+			String _BOARD_SUPPORT = paramMap.get("BOARD_SUPPORT").toString();
+			String _BOARD_WRITERPHONE = paramMap.get("BOARD_WRITERPHONE").toString();
+			
+			if(_BOARD_SUPPORT.equals("Y") && _BOARD_WRITERPHONE != null){
+				//완료일경우만 
+				Map map = new HashMap();
+		    	map.put("PROP_KEY","업무게시판수신자");
+		    	List EFGPRPOP_list = mocaEFLService.selectList_EFGPROP(map);
+		    	if(EFGPRPOP_list != null && EFGPRPOP_list.size() > 0){
+		    		Map phonenumber = (Map)EFGPRPOP_list.get(0);
+			    	API.sendSms(
+			    			"요청건이 완료되었습니다.",
+			    			_BOARD_WRITERPHONE,
+			    			paramMap.get("BOARD_WRITER").toString()
+			    	);
+		    	}
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());
 		}
         return jsonview;
 	}
+	
+	//스케줄러 조회  
+	@RequestMapping(value = "/EFC_SCHEDULER/selectScheduleList.do")
+	public View selectScheduleList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			model.addAttribute("selectScheduleList",TOMapper.selectScheduleList(paramMap));
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
+	
+	//게시글 작성
+		@RequestMapping(value = "/EFC_SCHEDULER/insertSchedule.do")
+		public View insertSchedule(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+			try {
+				Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+				model.addAttribute("cnt", TOMapper.insertSchedule(paramMap));
+
+			}catch(Exception e) {
+				e.printStackTrace();
+				model.addAttribute("error", e.getMessage());
+			}
+	        return jsonview;
+		}
 }

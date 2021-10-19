@@ -1,15 +1,111 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<link href='/fullcalendar/lib/main.css' rel='stylesheet' />
+<script src='/fullcalendar/lib/main.js'></script>
 <script>
-	moca.EFC_SCHEDULER.___ready = function(){
+moca.EFC_SCHEDULER.___ready = function(){
 
-	};
+	moca.EFC_SCHEDULER.fn_search();
+	
+
+};
+
+
+moca.EFC_SCHEDULER.fn_search = function(_valueObj){
+    moca.EFC_SCHEDULER.exe({
+        url : moca._domain+moca._contextRoot+"/EFC_SCHEDULER/selectScheduleList.do",
+        loadingbar:true,
+        data : {
+            "header" : moca.header,
+            "body" : {
+
+            }
+        },          
+        callback : function(response){
+        	moca.EFC_SCHEDULER.fn_setSchedule(response)
+        }
+    });
+	
+};
+
+moca.EFC_SCHEDULER.fn_setSchedule = function(response){
+	['캘린더세팅']
+	var _schOriArray = response.selectScheduleList;
+	var _schArray = [];
+	for(var i=0; i<_schOriArray.length; i++){
+		_schArray[i] = {
+				'title':_schOriArray[i].SCH_TITLE,
+				'start':_schOriArray[i].SCH_START,
+				'end':_schOriArray[i].SCH_END,
+				'display':_schOriArray[i].SCH_DISP,
+				'color':_schOriArray[i].SCH_COLOR,
+				
+		}
+	}
+	
+	var calendarEl = moca.EFC_SCHEDULER.getObj('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+    	headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+        },
+        titleFormat: { // will produce something like "Tuesday, September 18, 2018"
+        	year: 'numeric',
+      	    month: 'numeric'
+      	},
+        expandRows: true, // 화면에 맞게 높이 재설정
+      	initialView: 'dayGridMonth',
+      	selectable: true,
+      	editable: true,
+      	select: function(a){
+      		moca.EFC_SCHEDULER.fn_addSchedule(a)	
+      	},
+      	events: _schArray,
+      	eventClick:function(a,b,c) {
+      		debugger;
+           alert('evennn')
+        }
+    });
+    calendar.render();
+}
+
+
+moca.EFC_SCHEDULER.fn_addSchedule = function(_valueObj){
+	['일정등록 팝업']
+    var o = {};
+    o.id = moca.EFC_SCHEDULER.popId2;
+    o.url = '/html/EFC/EFC_SCHEDULER_POP.html';
+    o.type = "POPUP";
+    o.modal = "false";
+    o.title = '일정등록';
+    o.callback = moca.EFC_SCHEDULER.fn_pop_callback;
+    o.scopeId = moca.EFC_SCHEDULER.pageId;
+    o.data = {
+ 		'start' : _valueObj.startStr,
+ 		'end'   : _valueObj.endStr,
+ 		'allDay': _valueObj.allDay
+    }
+    var _thisObj = moca.EFC_SCHEDULER.getObj('calendar');
+    moca.popup(o,_thisObj);
+}
 </script>
 
 </head>
 <body>
-	스케줄러
-
+<div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
+	<div class="moca_tab_cont" style="height:100%">
+		<div class="moca_cont_wrap flex fcol">
+			<div type="wframe" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
+				src="/html/titlebox.html"
+				data = '{"sreenCd":"EFC_SCHEDULER","sreenNm":"스케줄러","sreenPath":"업무관리,스케줄러"}'
+			></div>
+			<div class="fullcalendar" id='calendar' style="display:flex; height:100%"></div>
+			
+		</div>
+	</div>
+</div>
+	
 </body>
 </html>

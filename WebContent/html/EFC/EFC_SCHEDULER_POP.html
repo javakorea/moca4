@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head meta_width="800px" meta_height="600px">
+<script>
+moca.EFC_SCHEDULER_POP.start;
+moca.EFC_SCHEDULER_POP.end;
+moca.EFC_SCHEDULER_POP.allDay
+moca.EFC_SCHEDULER_POP.___ready = function(args){
+    moca.EFC_SCHEDULER_POP.args = args;
+    moca.EFC_SCHEDULER_POP.start = args.parent.data.start;
+    moca.EFC_SCHEDULER_POP.end = args.parent.data.end;
+    moca.EFC_SCHEDULER_POP.allDay = args.parent.data.allDay;
+    
+    moca.EFC_SCHEDULER_POP.setFrom('CREATE_DTTM',args.parent.data.start);
+    moca.EFC_SCHEDULER_POP.setTo('CREATE_DTTM',args.parent.data.end);
+    
+    CKEDITOR.replace( 'editor',{uiColor:'#deecea',on:{
+        'instanceReady':function(ev){
+		
+    }}} );
+};
+
+moca.EFC_SCHEDULER_POP.fn_save = function(_thisObj){
+	if(_thisObj.id == 'btn_save'){
+		moca.confirm('저장하시겠습니까?',function(result){
+	        if(result == 'Y'){
+	        	var wtitle = moca.getValue(moca.EFC_SCHEDULER_POP.getObj("wtitle"));
+            	if(wtitle == ''){
+            		wtitle = $('#'+CKEDITOR.instances.editor.id+'_contents iframe').contents().find('body').text().substring(0,20);
+            	}
+	        	//스케줄등록
+	        	debugger;
+	        	moca.EFC_SCHEDULER_POP.exe({
+	        	    url : moca._domain+moca._contextRoot+"/EFC_SCHEDULER/insertSchedule.do",
+	        	    loadingbar:true,
+	        	    data : {
+	        	        "header" : moca.header,
+	        	        "body" : {
+	        	        	"SCH_CATEGORY":"PRIVATE",
+	        	        	"SCH_WRITER":moca.getSs("USER_ID"),
+	        	        	"SCH_TITLE":wtitle,
+	        	            "SCH_CONT":CKEDITOR.instances.editor.getData(),
+	        	        	"SCH_START":moca.EFC_SCHEDULER_POP.start,
+	        	        	"SCH_END":moca.EFC_SCHEDULER_POP.end
+	        	        }
+	        	    },          
+	        	    callback : function(response){
+	        	        if(response.cnt > 0){
+	        	            moca.popClose(moca.EFC_BOARD_POP.pageId,{callback:"true",message:"성공적으로 저장하였습니다."});
+	        	        }
+	        	    }
+	        	});
+	        	
+	        }
+		})
+	}
+}
+
+</script>
+<style>
+</style>
+</head>
+<body>
+	<div class="moca_pop_cont_wrap flex mobile" style="min-width:unset" id="contents">
+        <div class="lybox flex fauto">
+            <div class="ly_column col_5 fauto">
+                <div class="ly_col_cont flex fcol">
+			         <div type="form" id="form_board" class="moca_table toolbar" style=""
+			                label=""
+			                showRowSelection="false"
+			                addition='[
+			                {"type":"button","position":"right","id":"btn_save","label":"저장","onclick":"moca.EFC_SCHEDULER_POP.fn_save","innerStyle":"background:#97a2ba"}
+			                    ]'
+			                >
+			                <div class="scrollX_area">
+			                    <table class="moca_table_cont" style="">
+			                    	<caption style="display:none;visibility:hidden; overflow:hidden; width:0;height:0;font-size:0;line-height:0"></caption>
+			                        <colgroup>
+			                                <col style="width:50px">
+			                                <col style="min-width:140px">
+			                        </colgroup>
+			                        <tbody>
+			                            <tr>
+			                            	<th>기간</th>
+			                                <td>
+			                                	<div type="inputMultiCalendar" class="moca_ica fl" style="width:auto" id="CREATE_DTTM" displayFormat="####-##-##" 
+						                               defaultValue="12개월전" 
+						                               selecterItem="오늘,3일전,6일전"
+						                               showRadioOption="false"
+						                               maxTermByDay="365"
+						                         ></div>
+			                                </td>
+			                            </tr>
+			                            <tr>
+			                            	<th>제목</th>
+			                                <td>
+			                                    <div type="input" id="wtitle" class="mocaInput" innerClass="tac" onclick="" style="" value="" readonly="false"></div>
+			                                </td>
+			                            </tr> 
+			                        </tbody>
+			                    </table>
+			              </div>      
+			        </div>
+			        <div class="mt5 edit fit"  style="top:0">
+			            <div contenteditable="true" placeholder="" id="editor"></div>
+			        </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</body>
+</html>

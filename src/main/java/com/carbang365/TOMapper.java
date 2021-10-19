@@ -421,7 +421,6 @@ public interface TOMapper {
 	public Map<String, Object> selectBoardTotCnt(Map<String, Object> map);
 	// 게시판조회 numList
 	public List<Map<String, Object>> selectBoardNumList(Map<String, Object> map);
-		
 	// 게시판상태 Count
 	public List<Map<String, Object>> selectBoardStatusCnt(Map<String, Object> map);
 	// 게시판답변 Count
@@ -436,8 +435,6 @@ public interface TOMapper {
 	public int deleteBoard(Map<String, Object> map);
 	// 게시글논리삭제
 	public int deleteStatusBoard(Map<String, Object> map);
-	
-	
 	// 게시물단건조회
 	public Map <String, Object> selectBoardInfo(Map<String, Object> map); 
 	// 게시글이력등록
@@ -454,4 +451,9 @@ public interface TOMapper {
 	public int deleteBoardFileList(Map<String, Object> map);
 	// 게시글수정
 	public int receiptBoard(Map<String, Object> map);
+	
+	// 스케줄러 조회
+	public List<Map<String, Object>> selectScheduleList(Map<String, Object> map);
+	// 스케줄러 등록
+	public int insertSchedule(Map<String, Object> map);
 }

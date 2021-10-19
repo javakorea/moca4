@@ -5024,4 +5024,38 @@
          WHERE 1=1
          AND BOARD_IDX=#{BOARD_IDX}
     </update>
+    
+    <!-- 스케줄러 조회 -->
+    <select id="selectScheduleList" parameterType="map" resultType="map">
+    	/*selectScheduleList 스케줄러 조회*/
+		SELECT * 
+		FROM MT_SCHEDULE
+		WHERE 1=1
+    </select>
+    
+    <!-- 스케줄러 작성 -->
+    <insert id="insertSchedule" parameterType="map" useGeneratedKeys="true" keyProperty="SCH_IDX">
+        /*insertSchedule 스케줄러 작성*/
+            INSERT INTO MT_SCHEDULE(
+            	SCH_CATEGORY,
+            	SCH_TITLE,
+           		SCH_CONT,
+	            SCH_WRITER,
+	            SCH_CREATE_DTTM,
+	            SCH_START,
+	            SCH_END,
+	            SCH_DISP,
+	            SCH_COLOR
+            )VALUES (
+           		#{SCH_CATEGORY},
+           		#{SCH_TITLE},
+           		#{SCH_CONT},
+				#{SCH_WRITER},
+	            CURRENT_TIMESTAMP,
+	            #{SCH_START},
+	            #{SCH_END},
+	            #{SCH_DISP},
+	            #{SCH_COLOR}
+            )
+    </insert>
  </mapper>
