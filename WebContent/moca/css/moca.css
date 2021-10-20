@@ -1276,6 +1276,17 @@ td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:2
 .fullcalendar table[role="presentation"].fc-scrollgrid-sync-table{width:100% !important; height:100% !important;}
 .fullcalendar.fc .fc-toolbar.fc-header-toolbar{margin:5px 0}
 
+.fullcalendar.fc .fc-prev-button{background-color: #87a9bc;border: 0;border-right: 1px solid #9dbfd3; opacity:0.9}
+.fullcalendar.fc .fc-next-button{background-color: #5c83a6;border: 0;border-left: 1px solid #9dbfd3;opacity:0.9}
+.fullcalendar.fc .fc-prev-button.fc-button-primary:not(:disabled):hover, .fullcalendar.fc .fc-prev-button.fc-button-primary:not(:disabled):active, .fullcalendar.fc .fc-prev-button.fc-button-primary:not(:disabled).fc-button-active{opacity:1;background-color:#497399; border-right:1px solid #9dbfd3}
+.fullcalendar.fc .fc-next-button.fc-button-primary:not(:disabled):hover, .fullcalendar.fc .fc-next-button.fc-button-primary:not(:disabled):active, .fullcalendar.fc .fc-next-button.fc-button-primary:not(:disabled).fc-button-active{opacity:1;background-color:#497399; border-left:1px solid #9dbfd3}
+.fullcalendar.fc button[title="월"].fc-dayGridMonth-button{background-color: #87a9bc;border: 0;border-right: 1px solid #9dbfd3;}
+.fullcalendar.fc button[title="주"].fc-timeGridWeek-button{background-color: #87a9bc;border: 0;border-left: 1px solid #9dbfd3;border-right: 1px solid #9dbfd3;}
+.fullcalendar.fc button[title="일"].fc-timeGridDay-button{background-color: #87a9bc;border: 0;border-left: 1px solid #9dbfd3;}
+.fullcalendar.fc .fc-button-active{background-color:#5c83a6 !important}
+.fullcalendar.fc button[title="오늘"].fc-today-button{background-color: #c96f57; border:0; opacity:0.9}
+
+
 
 /*test*/
 .moca_ica[type="inputMultiCalendar"] > div:first-child{width:100%}
