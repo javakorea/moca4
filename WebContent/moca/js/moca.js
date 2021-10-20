@@ -13699,8 +13699,21 @@ Moca.prototype.resizeContsImg = function(_contents){
 	return recont;
 };
 
+Moca.prototype.fullToMocaDT = function(_dt){
+    ['fullToMocaDT "2021-10-06  00:00:00"']; 
+    var arr = _dt.split(' ');
+    var _time = arr[arr.length-1];
+    var _redt = comLib.gfn_addDate(arr[0].replace(/\-/g,''), -1,'-')+' '+_time;
+    return _redt;
+};
 
-
+Moca.prototype.mocaToFullDT = function(_dt){
+    ['mocaToFullDT']; 
+    var arr = _dt.split(' ');
+    var _time = arr[arr.length-1];
+    var _redt = comLib.gfn_addDate(arr[0].replace(/\-/g,''), 1,'-')+' '+_time;
+    return _redt;
+};
 
 $(document).ready(function() {
     var arr = $('[type=wframe]');
