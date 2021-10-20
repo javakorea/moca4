@@ -10,7 +10,7 @@ moca.EFC_SCHEDULER_POP.___ready = function(args){
 	moca.hide(moca.EFC_SCHEDULER_POP.getObj("form_schedule"));
 	moca.hide(moca.EFC_SCHEDULER_POP.getObj("btn_update"));
 	moca.hide(moca.EFC_SCHEDULER_POP.getObj("btn_save"));
-	$(moca.EFC_SCHEDULER_POP.getObj("form_schedule")).find("#createInfo").hide();
+	//$(moca.EFC_SCHEDULER_POP.getObj("form_schedule")).find("#createInfo").hide();
     if(args != null){
     	moca.EFC_SCHEDULER_POP.args = args;
         moca.EFC_SCHEDULER_POP.start = args.parent.data.start;
@@ -28,7 +28,7 @@ moca.EFC_SCHEDULER_POP.___ready = function(args){
         		moca.setReadOnly(moca.EFC_SCHEDULER_POP.getObj("wtitle"),true);
         		moca.setReadOnly(moca.EFC_SCHEDULER_POP.getObj("schDate"),true);
         		moca.show(moca.EFC_SCHEDULER_POP.getObj("btn_update"));
-        		$(moca.EFC_SCHEDULER_POP.getObj("form_schedule")).find("#createInfo").show();
+        		//$(moca.EFC_SCHEDULER_POP.getObj("form_schedule")).find("#createInfo").show();
         		moca.show(moca.EFC_SCHEDULER_POP.getObj("form_schedule"));
         		moca.EFC_SCHEDULER_POP.fn_search();
         	}else{
@@ -182,13 +182,24 @@ moca.EFC_SCHEDULER_POP.fn_del = function(_thisObj){
 			                    	<caption style="display:none;visibility:hidden; overflow:hidden; width:0;height:0;font-size:0;line-height:0"></caption>
 			                        <colgroup>
 			                                <col style="width:50px">
-			                                <col style="min-width:140px">
+			                                <col style="min-width:260px;width:260px">
 			                                <col style="width:50px">
-			                                <col style="min-width:140px">
+			                                <col style="">
+			                                <col style="width:50px">
+			                                <col style="">
 			                        </colgroup>
 			                        <tbody>
-			                        	<tr id="createInfo">
-			                            	<th>작성일</th>
+			                            <tr>
+			                            	<th>기간</th>
+			                                <td>
+			                                	<div type="inputMultiCalendar" class="moca_ica fl" style="width:auto" id="schDate" displayFormat="####-##-## ##:##" 
+						                               defaultValue="12개월전" 
+						                               selecterItem="오늘,3일전,6일전"
+						                               showRadioOption="false"
+						                               maxTermByDay="365"
+						                         ></div>
+			                                </td>
+			                                <th>작성일</th>
 			                                <td>
 			                                	<div type="input" id="createDate" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
 			                                </td>
@@ -198,19 +209,8 @@ moca.EFC_SCHEDULER_POP.fn_del = function(_thisObj){
 			                                </td>
 			                            </tr>
 			                            <tr>
-			                            	<th>기간</th>
-			                                <td colspan="3">
-			                                	<div type="inputMultiCalendar" class="moca_ica fl" style="width:auto" id="schDate" displayFormat="####-##-## ##:##" 
-						                               defaultValue="12개월전" 
-						                               selecterItem="오늘,3일전,6일전"
-						                               showRadioOption="false"
-						                               maxTermByDay="365"
-						                         ></div>
-			                                </td>
-			                            </tr>
-			                            <tr>
 			                            	<th>제목</th>
-			                                <td colspan="3">
+			                                <td colspan="5">
 			                                    <div type="input" id="wtitle" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
 			                                </td>
 			                            </tr> 
