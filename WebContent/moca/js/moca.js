@@ -4460,10 +4460,11 @@ Moca.prototype.popChange = function(_popupId,_json){
 	    self.close();
 	    
     }else{
-	    var _w = $('#'+_popupId+'>div').css('width').replace(/px/g,'');
-	    var _h = $('#'+_popupId+'>div').css('height').replace(/px/g,''); 
+    	var _pop = $('#'+_popupId+'>div.moca_popup');
+	    var _w = _pop.css('width').replace(/px/g,'');
+	    var _h = _pop.css('height').replace(/px/g,''); 
 	
-	    var __srcid = $('#'+_popupId+'>div').attr('srcid');
+	    var __srcid = _pop.attr('srcid');
 	    var __param = moca[__srcid].args.parent.data;
 	    var __url = "/uat/uia/actionMain_link.do?mcsrc="+$('#'+_popupId).attr('src');
 	    var _id = moca.openWindowPopup({
