@@ -181,35 +181,37 @@ moca.EFC_SCHEDULER_POP.fn_del = function(_thisObj){
 			                    <table class="moca_table_cont" style="">
 			                    	<caption style="display:none;visibility:hidden; overflow:hidden; width:0;height:0;font-size:0;line-height:0"></caption>
 			                        <colgroup>
-			                                <col style="width:50px">
-			                                <col style="min-width:260px;width:260px">
-			                                <col style="width:50px">
-			                                <col style="">
-			                                <col style="width:50px">
-			                                <col style="">
+			                                <col style="width:60px">
+			                                <col style="min-width:235px; width:235px">
+			                                <col style="width:60px">
+			                                <col style="width:115px">
+			                                <col style="width:60px">
+			                                <col style="width:140px">
 			                        </colgroup>
 			                        <tbody>
 			                            <tr>
-			                            	<th>기간</th>
+			                            	<th>일정기간</th>
 			                                <td>
-			                                	<div type="inputMultiCalendar" class="moca_ica fl" style="width:auto" id="schDate" displayFormat="####-##-## ##:##" 
+			                                	<div type="inputMultiCalendar" class="moca_ica fl" style="width:calc(100% - 2px)" id="schDate" displayFormat="####-##-## ##:##" 
 						                               defaultValue="12개월전" 
 						                               selecterItem="오늘,3일전,6일전"
 						                               showRadioOption="false"
 						                               maxTermByDay="365"
 						                         ></div>
 			                                </td>
-			                                <th>작성일</th>
+			                                <th>작성일시</th>
 			                                <td>
 			                                	<div type="input" id="createDate" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
 			                                </td>
-			                                <th>작성자</th>
+			                                <th>작성자명</th>
 			                                <td>
 			                                	<div type="input" id="wid" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
 			                                </td>
+			                               
+			                                
 			                            </tr>
 			                            <tr>
-			                            	<th>제목</th>
+			                            	<th>일정제목</th>
 			                                <td colspan="5">
 			                                    <div type="input" id="wtitle" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
 			                                </td>

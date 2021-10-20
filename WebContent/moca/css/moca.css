@@ -758,6 +758,8 @@ to {background-position:0 0}
 .moca_ica[type="inputMultiCalendar"] .moca_ica_radio{height:24px; line-height:24px}
 .moca_ica[type="inputMultiCalendar"] .moca_ica_radio > div:last-child > .moca_radio_label{margin-right:0 !important}
 .moca_ica[type="inputMultiCalendar"] .moca_ica_radio .moca_radio_input + .moca_radio_label{}
+.lybox .moca_ica[type="inputMultiCalendar"]{width:calc(100% - 2px)}
+
 .moca_calendar {display:inline-block; position:relative; width:250px; padding:8px; border:1px solid #555; background:#3f424a;box-shadow:2px 2px 3px 0px rgba(0,0,0,0.2); -moz-box-shadow:0 0 8px 0 rgba(0,0,0,0.5); z-index:7000}
 .moca_calendar button {border:0; padding:0}
 .moca_calendar_header {position:relative; height:34px}
