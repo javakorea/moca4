@@ -34,6 +34,10 @@ moca.EFC_SCHEDULER_POP.___ready = function(args){
         	}else{
         		moca.show(moca.EFC_SCHEDULER_POP.getObj("btn_save"));
         		moca.show(moca.EFC_SCHEDULER_POP.getObj("form_schedule"));
+        		var _today = dateLib.getDate();
+        		var _todayStr = _today.substr(0,4)+'-'+_today.substr(4,2)+'-'+_today.substr(6,2)+' '+_today.substr(8,2)+":"+_today.substr(10,2)+":"+_today.substr(12,2);
+        		moca.setValue(moca.EFC_SCHEDULER_POP.getObj("createDate"),_todayStr);
+				moca.setValue(moca.EFC_SCHEDULER_POP.getObj("wid"),moca.getSs("USER_ID"));
         	}
         	
     }}} );
@@ -96,7 +100,8 @@ moca.EFC_SCHEDULER_POP.fn_save = function(_thisObj){
     	        	        	"SCH_WRITER":moca.getSs("USER_ID"),
     	        	        	"SCH_TITLE":wtitle,
     	        	            "SCH_CONT":CKEDITOR.instances.editor.getData(),
-    	        	            "SCH_CURRENTMONTH":dateLib.getToday().substr(4,2),
+    	        	            "SCH_CREATE_DTTM":moca.getValue(moca.EFC_SCHEDULER_POP.getObj("createDate")),
+    	        	            "SCH_CURRENTMONTH":moca.EFC_SCHEDULER_POP.getFrom('schDate').substr(5,2),
     	        	        	"SCH_START":moca.EFC_SCHEDULER_POP.getFrom('schDate'),
     	        	        	"SCH_END":moca.EFC_SCHEDULER_POP.getTo('schDate'),
     	        	        }

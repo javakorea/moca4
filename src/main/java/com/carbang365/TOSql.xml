@@ -5071,7 +5071,7 @@
            		#{SCH_TITLE},
            		#{SCH_CONT},
 				#{SCH_WRITER},
-	            CURRENT_TIMESTAMP,
+	            #{SCH_CREATE_DTTM},
 	            #{SCH_CURRENTMONTH},
 	            #{SCH_START},
 	            #{SCH_END},
