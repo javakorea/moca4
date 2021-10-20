@@ -2930,11 +2930,20 @@ Moca.prototype.setCalByRadio = function(_thisObj) {
 Moca.prototype.renderInputMultiCalendar = function(_divObj,_srcId) {
     ['[권태균]renderInputMultiCalendar'];
     var _id = _divObj.id+"_"+_divObj.getAttribute("pageid");
+    var _maxLength = '';
+    debugger;
+    var _style = '';
+    var _displayformat = $(_divObj).attr('displayformat');
+    if(_displayformat == '####-##-##'){
+    	_style ="width:205px;"
+    	_maxLength = 'maxlength="10"';
+    }
+    
     var _html = '';
-    _html += '<div id="'+('sub_'+_id)+'">';
-    _html += '  <input type="text" class="moca_input"  style="width:42%;"  value="">';
+    _html += '<div id="'+('sub_'+_id)+'" style="'+_style+'">';
+    _html += '  <input type="text" class="moca_input"  style="width:42%;"  value="" '+_maxLength+'>';
     _html += '  <i style="position:relative; left:-1px">~</i>';
-    _html += '  <input type="text" class="moca_input"  style="width:42%;"  value="">';
+    _html += '  <input type="text" class="moca_input"  style="width:42%;"  value="" '+_maxLength+'>';
     _html += '  <button type="button" class="moca_ica_btn"onclick="moca.fn_inputMultiCal(this);">달력선택</button>';
     _html += '</div>';
     //_divObj.innerHTML = _html;
@@ -10483,9 +10492,17 @@ Moca.prototype.rendering = function(o,_aTag) {
         return $(moca.getObj(_id,null,this.pageId,this.srcId)).find('input')[1].value;
     };
     moca[_srcId].setFrom = function(_id,_val){
+    	var _maxlength = $(moca.getObj(_id,null,this.pageId,this.srcId)).find('input').attr('maxlength');
+    	if(moca.trim(_maxlength) != ''){
+    		_val = _val.substring(0,_maxlength);
+    	}
         $(moca.getObj(_id,null,this.pageId,this.srcId)).find('input')[0].value = _val;
     };
     moca[_srcId].setTo = function(_id,_val){
+    	var _maxlength = $(moca.getObj(_id,null,this.pageId,this.srcId)).find('input').attr('maxlength');
+    	if(moca.trim(_maxlength) != ''){
+    		_val = _val.substring(0,_maxlength);
+    	}
         $(moca.getObj(_id,null,this.pageId,this.srcId)).find('input')[1].value = _val;
     };
     

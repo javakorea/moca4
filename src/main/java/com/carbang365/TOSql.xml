@@ -5031,6 +5031,24 @@
 		SELECT * 
 		FROM MT_SCHEDULE
 		WHERE 1=1
+		AND SCH_DELYN = 'N'
+		AND SCH_CURRENTMONTH =#{SCH_CURRENTMONTH}
+    </select>
+    
+    <!-- 스케줄러 단건조회 -->
+    <select id="selectScheduleInfo" parameterType="map" resultType="map">
+    	/*selectScheduleInfo 스케줄러 단건조회*/
+        SELECT
+            SCH_IDX, 
+            SCH_TITLE, 
+            SCH_CONT, 
+            SCH_WRITER,
+            DATE_FORMAT(SCH_CREATE_DTTM, '%Y-%m-%d  %H:%i:%s') AS SCH_CREATE_DTTM,
+            DATE_FORMAT(SCH_START, '%Y-%m-%d  %H:%i:%s') AS SCH_START,
+            DATE_FORMAT(SCH_END, '%Y-%m-%d  %H:%i:%s') AS SCH_END
+        FROM MT_SCHEDULE
+        WHERE 1=1
+        AND SCH_IDX = #{SCH_IDX}
     </select>
     
     <!-- 스케줄러 작성 -->
@@ -5042,20 +5060,47 @@
            		SCH_CONT,
 	            SCH_WRITER,
 	            SCH_CREATE_DTTM,
+	            SCH_CURRENTMONTH,
 	            SCH_START,
 	            SCH_END,
 	            SCH_DISP,
-	            SCH_COLOR
+	            SCH_COLOR,
+	            SCH_DELYN
             )VALUES (
            		#{SCH_CATEGORY},
            		#{SCH_TITLE},
            		#{SCH_CONT},
 				#{SCH_WRITER},
 	            CURRENT_TIMESTAMP,
+	            #{SCH_CURRENTMONTH},
 	            #{SCH_START},
 	            #{SCH_END},
 	            #{SCH_DISP},
-	            #{SCH_COLOR}
+	            #{SCH_COLOR},
+	            'N'
             )
     </insert>
+    
+    <!-- 스케줄러 수정 -->
+    <update id="updateScheduleInfo" parameterType="map">
+         /*updateScheduleInfo 스케줄러 수정*/
+         UPDATE MT_SCHEDULE SET 
+            SCH_CONT = #{SCH_CONT},
+            SCH_TITLE = #{SCH_TITLE},
+            SCH_START = #{SCH_START},
+            SCH_END = #{SCH_END},
+            SCH_WRITER = #{SCH_WRITER},
+            SCH_DELYN = #{SCH_DELYN}
+         WHERE 1=1
+         AND SCH_IDX=#{SCH_IDX}
+    </update>
+    
+    <!-- 스케줄러 논리 삭제 -->
+    <update id="deleteScheduleInfo" parameterType="map">
+        /* deleteStatusBoard 게시물논리삭제*/
+        UPDATE MT_SCHEDULE SET 
+        	SCH_DELYN = 'Y'
+        WHERE 1=1
+		AND SCH_IDX=#{SCH_IDX}
+    </update>
  </mapper>

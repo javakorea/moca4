@@ -456,4 +456,10 @@ public interface TOMapper {
 	public List<Map<String, Object>> selectScheduleList(Map<String, Object> map);
 	// 스케줄러 등록
 	public int insertSchedule(Map<String, Object> map);
+	// 스케줄러단건조회
+	public Map <String, Object> selectScheduleInfo(Map<String, Object> map);
+	// 스케줄러 수정
+	public int updateScheduleInfo(Map<String, Object> map);
+	// 게시글논리삭제
+	public int deleteScheduleInfo(Map<String, Object> map);
 }

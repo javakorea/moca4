@@ -873,19 +873,16 @@ button.moca_calendar_dynamic:hover {background-color:#f3a95e; color:#fff}
 		height: 16px;
 	    line-height: 16px;
 		overflow:hidden;
-		background:url(../images/ico_close.png) no-repeat 50% 50%;
 		text-indent:-999px;
 		cursor:pointer;
-		background-color: #fff;
 	    float: left;
-	    border: 1px solid #949499;
 	    margin-left: 3px;
 	    vertical-align: middle;
 	    box-sizing: border-box;
 	    -moz-box-sizing: border-box;
-	    border-radius: 2px;
 	}
-	.grp_combtns .btn.close {background-position:-1px -1px}
+	.grp_combtns .btn.close {background:url(../images/ico_close.png) no-repeat 50% 50%}
+	.grp_combtns .btn.winpop {background:url(../images/ico_winPop.png) no-repeat 50% 50%}
 	   
 	
 /***********************************************************
@@ -1275,4 +1272,8 @@ td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:2
 .fullcalendar table[role="presentation"].fc-col-header{width:100% !important;}
 .fullcalendar .fc-daygrid-body{width:100% !important; height:100% !important;}
 .fullcalendar table[role="presentation"].fc-scrollgrid-sync-table{width:100% !important; height:100% !important;}
-.fullcalendar.fc .fc-toolbar.fc-header-toolbar{margin-bottom:10px}
+.fullcalendar.fc .fc-toolbar.fc-header-toolbar{margin:5px 0}
+
+
+/*test*/
+.moca_ica[type="inputMultiCalendar"] > div:first-child{width:100%}

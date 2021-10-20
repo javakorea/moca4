@@ -5613,17 +5613,67 @@ public class TOController{
         return jsonview;
 	}
 	
-	//게시글 작성
-		@RequestMapping(value = "/EFC_SCHEDULER/insertSchedule.do")
-		public View insertSchedule(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
-			try {
-				Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
-				model.addAttribute("cnt", TOMapper.insertSchedule(paramMap));
+	//스케줄러 작성
+	@RequestMapping(value = "/EFC_SCHEDULER/insertSchedule.do")
+	public View insertSchedule(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			model.addAttribute("cnt", TOMapper.insertSchedule(paramMap));
 
-			}catch(Exception e) {
-				e.printStackTrace();
-				model.addAttribute("error", e.getMessage());
-			}
-	        return jsonview;
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
 		}
+        return jsonview;
+	}
+	
+	//스케줄러 상세조회  
+	@RequestMapping(value = "/EFC_SCHEDULER/selectScheduleInfo.do")
+	public View selectScheduleInfo(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			model.addAttribute("selectScheduleInfo", TOMapper.selectScheduleInfo(paramMap));
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
+	
+	//스케줄러 수정
+	@RequestMapping(value = "/EFC_SCHEDULER/updateScheduleInfo.do")
+	public View updateScheduleInfo(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			int cnt = TOMapper.updateScheduleInfo(paramMap);
+			model.addAttribute("cnt", cnt);		
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
+	
+	//스케줄러 삭제(DELYN)
+	@RequestMapping(value = "/EFC_SCHEDULER/deleteScheduleInfo.do")
+	public View deleteScheduleInfo(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			model.addAttribute("cnt", TOMapper.deleteScheduleInfo(paramMap));
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
 }
