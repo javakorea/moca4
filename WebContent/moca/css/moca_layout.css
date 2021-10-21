@@ -745,7 +745,7 @@ opacity: 1;
     .moca_shbox .btn_shbox .button{padding:5px 7px}
     /*.moca_scrollY_type1{display:none}*/
     .moca_aside{background:none}
-    .moca_aside.on{top:0}
+    .moca_aside.on{top:0; bottom:auto}
     .moca_mdi .moca_tab_listarea{right:43px}
     .moca_container{left:0}
    	.moca_header.on{display:none}

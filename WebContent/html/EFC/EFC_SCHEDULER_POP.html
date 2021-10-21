@@ -10,6 +10,8 @@ moca.EFC_SCHEDULER_POP.___ready = function(args){
 	moca.hide(moca.EFC_SCHEDULER_POP.getObj("form_schedule"));
 	moca.hide(moca.EFC_SCHEDULER_POP.getObj("btn_update"));
 	moca.hide(moca.EFC_SCHEDULER_POP.getObj("btn_save"));
+	moca.hide(moca.EFC_SCHEDULER_POP.getObj("btn_del"));
+	moca.hide(moca.EFC_SCHEDULER_POP.getObj("wcolor"));
 	//$(moca.EFC_SCHEDULER_POP.getObj("form_schedule")).find("#createInfo").hide();
     if(args != null){
     	moca.EFC_SCHEDULER_POP.args = args;
@@ -18,6 +20,8 @@ moca.EFC_SCHEDULER_POP.___ready = function(args){
         moca.EFC_SCHEDULER_POP.setFrom('schDate',args.parent.data.start);
         moca.EFC_SCHEDULER_POP.setTo('schDate',args.parent.data.end);
         moca.EFC_SCHEDULER_POP.schIdx = args.parent.data.schIdx;
+        moca.EFC_SCHEDULER_POP.viewType = args.parent.data.viewType;
+        moca.EFC_SCHEDULER_POP.bgcolor =  args.parent.data.bgcolor;
 	}
     CKEDITOR.replace( 'editor',{uiColor:'#deecea',on:{
         'instanceReady':function(ev){
@@ -30,10 +34,13 @@ moca.EFC_SCHEDULER_POP.___ready = function(args){
         		moca.show(moca.EFC_SCHEDULER_POP.getObj("btn_update"));
         		//$(moca.EFC_SCHEDULER_POP.getObj("form_schedule")).find("#createInfo").show();
         		moca.show(moca.EFC_SCHEDULER_POP.getObj("form_schedule"));
+        		moca.show(moca.EFC_SCHEDULER_POP.getObj("btn_del"));
         		moca.EFC_SCHEDULER_POP.fn_search();
+        		moca.setValue(moca.EFC_SCHEDULER_POP.getObj('wcolor'),moca.EFC_SCHEDULER_POP.bgcolor);
         	}else{
         		moca.show(moca.EFC_SCHEDULER_POP.getObj("btn_save"));
         		moca.show(moca.EFC_SCHEDULER_POP.getObj("form_schedule"));
+        		moca.show(moca.EFC_SCHEDULER_POP.getObj("wcolor"));
         		var _today = dateLib.getDate();
         		var _todayStr = _today.substr(0,4)+'-'+_today.substr(4,2)+'-'+_today.substr(6,2)+' '+_today.substr(8,2)+":"+_today.substr(10,2)+":"+_today.substr(12,2);
         		moca.setValue(moca.EFC_SCHEDULER_POP.getObj("createDate"),_todayStr);
@@ -72,7 +79,7 @@ moca.EFC_SCHEDULER_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 moca.EFC_SCHEDULER_POP.fn_update = function(_thisObj){
 	moca.show(moca.EFC_SCHEDULER_POP.getObj("btn_save"));
 	moca.hide(moca.EFC_SCHEDULER_POP.getObj("btn_update"));
-	
+	moca.show(moca.EFC_SCHEDULER_POP.getObj("wcolor"));
 	moca.EFC_SCHEDULER_POP.editor.setReadOnly(false);
 	$(moca.EFC_SCHEDULER_POP.getObj("cke_editor")).find("[id$='_top']").show();
 	moca.setReadOnly(moca.EFC_SCHEDULER_POP.getObj("wtitle"),false);
@@ -104,11 +111,13 @@ moca.EFC_SCHEDULER_POP.fn_save = function(_thisObj){
     	        	            "SCH_CURRENTMONTH":moca.EFC_SCHEDULER_POP.getFrom('schDate').substr(5,2),
     	        	        	"SCH_START":moca.EFC_SCHEDULER_POP.getFrom('schDate'),
     	        	        	"SCH_END":moca.EFC_SCHEDULER_POP.getTo('schDate'),
+    	        	        	"SCH_COLOR":moca.getValue(moca.EFC_SCHEDULER_POP.getObj('wcolor'))
+    	        	        	
     	        	        }
     	        	    },          
     	        	    callback : function(response){
     	        	        if(response.cnt > 0){
-    	        	            moca.popClose(moca.EFC_SCHEDULER_POP.pageId,{callback:"true",message:"성공적으로 저장하였습니다."});
+    	        	            moca.popClose(moca.EFC_SCHEDULER_POP.pageId,{callback:"true",message:"성공적으로 저장하였습니다.",viewType:moca.EFC_SCHEDULER_POP.viewType,startDt:moca.EFC_SCHEDULER_POP.getFrom('schDate')});
     	        	        }
     	        	    }
     	        	});
@@ -127,12 +136,13 @@ moca.EFC_SCHEDULER_POP.fn_save = function(_thisObj){
     	        	            "SCH_CONT":CKEDITOR.instances.editor.getData(),
     	        	        	"SCH_START":moca.EFC_SCHEDULER_POP.getFrom('schDate'),
     	        	        	"SCH_END":moca.EFC_SCHEDULER_POP.getTo('schDate'),
-    	        	        	"SCH_DELYN":"N"
+    	        	        	"SCH_DELYN":"N",
+    	        	        	"SCH_COLOR":moca.getValue(moca.EFC_SCHEDULER_POP.getObj('wcolor'))
     	        	        }
     	        	    },          
     	        	    callback : function(response){
     	        	        if(response.cnt > 0){
-    	        	            moca.popClose(moca.EFC_SCHEDULER_POP.pageId,{callback:"true",message:"성공적으로 저장하였습니다."});
+    	        	            moca.popClose(moca.EFC_SCHEDULER_POP.pageId,{callback:"true",message:"성공적으로 저장하였습니다.",viewType:moca.EFC_SCHEDULER_POP.viewType,startDt:moca.EFC_SCHEDULER_POP.getFrom('schDate')});
     	        	        }
     	        	    }
     	        	});
@@ -189,7 +199,7 @@ moca.EFC_SCHEDULER_POP.fn_del = function(_thisObj){
 			                                <col style="width:60px">
 			                                <col style="min-width:235px; width:235px">
 			                                <col style="width:60px">
-			                                <col style="width:113px">
+			                                <col style="width:115px">
 			                                <col style="width:60px">
 			                                <col style="width:140px">
 			                        </colgroup>
@@ -212,13 +222,12 @@ moca.EFC_SCHEDULER_POP.fn_del = function(_thisObj){
 			                                <td>
 			                                	<div type="input" id="wid" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
 			                                </td>
-			                               
-			                                
 			                            </tr>
 			                            <tr>
 			                            	<th>일정제목</th>
 			                                <td colspan="5">
-			                                    <div type="input" id="wtitle" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+			                                    <div type="input" id="wtitle" class="mocaInput fl" innerClass="" onclick="" style="width:calc(100% - 38px);" value="" readonly="false"></div>
+			                                	<input type="color" id="wcolor" class="moca_input_color" value="#3788d8">
 			                                </td>
 			                            </tr> 
 			                        </tbody>

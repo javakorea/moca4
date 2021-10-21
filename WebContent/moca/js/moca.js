@@ -2931,7 +2931,6 @@ Moca.prototype.renderInputMultiCalendar = function(_divObj,_srcId) {
     ['[권태균]renderInputMultiCalendar'];
     var _id = _divObj.id+"_"+_divObj.getAttribute("pageid");
     var _maxLength = '';
-    debugger;
     var _style = '';
     var _displayformat = $(_divObj).attr('displayformat');
     if(_displayformat == '####-##-##'){
@@ -2941,9 +2940,9 @@ Moca.prototype.renderInputMultiCalendar = function(_divObj,_srcId) {
     
     var _html = '';
     _html += '<div id="'+('sub_'+_id)+'" style="'+_style+'">';
-    _html += '  <input type="text" class="moca_input"  style="width:42%;"  value="" '+_maxLength+'>';
+    _html += '  <input type="text" class="moca_input"  style="width:calc(50% - 15px);"  value="" '+_maxLength+'>';
     _html += '  <i style="position:relative; left:-1px">~</i>';
-    _html += '  <input type="text" class="moca_input"  style="width:42%;"  value="" '+_maxLength+'>';
+    _html += '  <input type="text" class="moca_input"  style="width:calc(50% - 15px);"  value="" '+_maxLength+'>';
     _html += '  <button type="button" class="moca_ica_btn"onclick="moca.fn_inputMultiCal(this);">달력선택</button>';
     _html += '</div>';
     //_divObj.innerHTML = _html;
@@ -4463,14 +4462,14 @@ Moca.prototype.popChange = function(_popupId,_json){
     	var _pop = $('#'+_popupId+'>div.moca_popup');
 	    var _w = _pop.css('width').replace(/px/g,'');
 	    var _h = _pop.css('height').replace(/px/g,''); 
-	
+	    var _title =_pop[0].option.title;
 	    var __srcid = _pop.attr('srcid');
 	    var __param = moca[__srcid].args.parent.data;
 	    var __url = "/uat/uia/actionMain_link.do?mcsrc="+$('#'+_popupId).attr('src');
 	    var _id = moca.openWindowPopup({
 	        id: _popupId,
 	        method:"post",
-	        title:  '비용확정재시도결과',
+	        title: _title,
 	        width:Number(_w)+16, 
 	        height:Number(_h)+80,
 	        url : __url,
@@ -10284,7 +10283,6 @@ Moca.prototype.rendering = function(o,_aTag) {
         }else{
             _pid = _tabId;
         }
-        
         var ow = o.width;if(String(ow).indexOf('%') == -1){ow += 'px';};
         var oh = o.height;if(String(oh).indexOf('%') == -1){oh += 'px';};
         cont += '<div id="'+_pid+'" pageid="'+_tabId+'" srcid="'+moca.srcId+'" class="moca_popup '+o.type+'" style="left:'+o.left+'px;top:'+o.top+'px;width:'+ow+';height:'+oh+'">';
@@ -12295,6 +12293,11 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
     }else if('radio' == $(_comp).attr('type') || 'radio' == $(_comp).attr('compType')){
         __value = moca.trim(__value);
         $(_comp).find('input[value='+__value+']').prop('checked', true); 
+    }else if('color' == $(_comp).attr('type') || 'color' == $(_comp).attr('compType')){
+    	_value = String(_value);
+    	//$(_comp).find('input[type=color]').val(_value);
+    	$(_comp).val(_value);
+    	
     }else{
     	var df =  $(_comp).attr('displayFunction');
     	if($(_comp).attr('type') == 'input'){
@@ -12387,7 +12390,8 @@ Moca.prototype.getValue =  function(__comp,_id,_index,_data,_isFocus){
 			}
 			
 		}
-
+    }else if('color' == $(_comp).attr('type')){
+    	return $(_comp).val();
     }else{
         if(_isFocus){
             return $(_comp).find('input[type=text]').focus();
@@ -13703,12 +13707,14 @@ Moca.prototype.fullToMocaDT = function(_dt){
     ['fullToMocaDT "2021-10-06  00:00:00"']; 
     var arr = _dt.split(' ');
     var _time = arr[arr.length-1];
-    var _redt = comLib.gfn_addDate(arr[0].replace(/\-/g,''), -1,'-')+' '+_time;
+    var _timeChange = "23:59";
+    var _redt = comLib.gfn_addDate(arr[0].replace(/\-/g,''), -1,'-')+' '+_timeChange;
     return _redt;
 };
 
 Moca.prototype.mocaToFullDT = function(_dt){
-    ['mocaToFullDT']; 
+    ['mocaToFullDT'];
+    
     var arr = _dt.split(' ');
     var _time = arr[arr.length-1];
     var _redt = comLib.gfn_addDate(arr[0].replace(/\-/g,''), 1,'-')+' '+_time;
