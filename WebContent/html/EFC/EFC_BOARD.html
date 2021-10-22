@@ -4,6 +4,12 @@
 <script>
 	moca.EFC_BOARD.boardType ='ERP';
 	moca.EFC_BOARD.___ready = function(args){
+		moca.EFC_BOARD.boardType = args.parent.data.BOARD_TYPE;
+		if(moca.EFC_BOARD.boardType == 'WS'){
+			$(moca.EFC_BOARD.getObj('sreenNm')).text('웹스퀘어게시판');
+		}else if(moca.EFC_BOARD.boardType == 'ERP'){
+			$(moca.EFC_BOARD.getObj('sreenNm')).text('업무게시판');
+		}
 	    moca.EFC_BOARD.code({
             "chkg_1":{code:'boardStatus'}
         },function(result){
@@ -27,6 +33,7 @@
 	};
 	moca.EFC_BOARD.grdList ;
 	moca.EFC_BOARD.fn_search = function(){
+		debugger;
 	    moca.EFC_BOARD.exe({
 	        url : moca._domain+moca._contextRoot+"/EFC_BOARD/selectBoardList.do",
 	        loadingbar:true,

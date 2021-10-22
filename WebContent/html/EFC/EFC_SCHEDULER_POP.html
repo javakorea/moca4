@@ -41,8 +41,8 @@ moca.EFC_SCHEDULER_POP.___ready = function(args){
         		moca.show(moca.EFC_SCHEDULER_POP.getObj("btn_save"));
         		moca.show(moca.EFC_SCHEDULER_POP.getObj("form_schedule"));
         		moca.show(moca.EFC_SCHEDULER_POP.getObj("wcolor"));
-        		var _today = dateLib.getDate();
-        		var _todayStr = _today.substr(0,4)+'-'+_today.substr(4,2)+'-'+_today.substr(6,2)+' '+_today.substr(8,2)+":"+_today.substr(10,2)+":"+_today.substr(12,2);
+        		var _today = new Date();
+        		var _todayStr = moca.dateToString(_today).fullFormat;
         		moca.setValue(moca.EFC_SCHEDULER_POP.getObj("createDate"),_todayStr);
 				moca.setValue(moca.EFC_SCHEDULER_POP.getObj("wid"),moca.getSs("USER_ID"));
         	}
@@ -197,9 +197,9 @@ moca.EFC_SCHEDULER_POP.fn_del = function(_thisObj){
 			                    	<caption style="display:none;visibility:hidden; overflow:hidden; width:0;height:0;font-size:0;line-height:0"></caption>
 			                        <colgroup>
 			                                <col style="width:60px">
-			                                <col style="min-width:235px; width:235px">
+			                                <col style="min-width:270px; width:270px">
 			                                <col style="width:60px">
-			                                <col style="width:115px">
+			                                <col style="width:123px">
 			                                <col style="width:60px">
 			                                <col style="width:140px">
 			                        </colgroup>

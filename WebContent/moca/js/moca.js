@@ -1754,6 +1754,13 @@ Moca.prototype.openMdi = function(_url,_srcId,_label,_clickedMenuId,_mdiId){
             if(_label != null && $.trim(_label) != '' && moca.getCORP_CD() != null){ 
                 moca.userLogInsert({URL:_url,SRCID:_srcId,LABEL:'',MENU_NM:_label});
             }
+            var arr0 = _url.split('?');
+            var arr;
+            if(arr0 != null && arr0.length > 1){
+            	arr = arr0[1].split('&');
+            	o.paramArr = arr;
+            }
+            
             
             $.ajax({
                type:"GET",
@@ -1767,8 +1774,16 @@ Moca.prototype.openMdi = function(_url,_srcId,_label,_clickedMenuId,_mdiId){
                },
                success : function(data) {
                    o.data = data;
-                   
                    var mdiObj = moca.rendering(o);
+                   mdiObj.parent = {data:{}};
+                   if(o.paramArr != null){
+	                   for(var i=0; i < o.paramArr.length; i++){
+						 	var paramone = o.paramArr[i];
+						 	var arrone = paramone.split('=');
+							mdiObj.parent.data[arrone[0]] = arrone[1];
+					   }
+                   }
+
                    moca.callReady(mdiObj);
                },
                complete : function(data) {
@@ -4462,7 +4477,6 @@ Moca.prototype.popChange = function(_popupId,_json){
     	var _pop = $('#'+_popupId+'>div.moca_popup');
 	    var _w = _pop.css('width').replace(/px/g,'');
 	    var _h = _pop.css('height').replace(/px/g,''); 
-	    debugger;
 	    var _title =_pop[0].option.title;
 	    var __srcid = _pop.attr('srcid');
 	    var __param = moca[__srcid].args.parent.data;
@@ -10342,7 +10356,6 @@ Moca.prototype.rendering = function(o,_aTag) {
         });
         moca_popup.addEventListener('dblclick', function (e) {
             document.nowPopup = this;
-            alert('2');
             document.nowPopup.option = o;
             if($(e.srcElement).hasClass('moca_popup_header')){
                 e.preventDefault(); //이게 들어가면 팝업에 글자가 블록이 안씌워짐
@@ -10986,8 +10999,11 @@ Moca.prototype.callReady = function(aTag) {
        var _fileName = _url.substring(_url.lastIndexOf('/')+1);
        var _srcId = _fileName.substring(0,_fileName.indexOf('.'));
        var _argsObj = {};
-       _argsObj.parent = aTag;
-       
+       if(aTag.parent == null){
+       		_argsObj.parent = aTag;
+       }else{
+       		_argsObj = aTag;
+       }
        
        if($(aTag).attr('tab_id') != null && !$(aTag).attr('tab_id').startsWith('POPUP') && aTag.id != "moca_main"){//single page case
            moca[_srcId].___ready(_argsObj);
@@ -13711,7 +13727,7 @@ Moca.prototype.fullToMocaDT = function(_dt){
     ['fullToMocaDT "2021-10-06  00:00:00"']; 
     var arr = _dt.split(' ');
     var _time = arr[arr.length-1];
-    var _timeChange = "23:59";
+    var _timeChange = "23:59:59";
     var _redt = comLib.gfn_addDate(arr[0].replace(/\-/g,''), -1,'-')+' '+_timeChange;
     return _redt;
 };
@@ -13725,6 +13741,50 @@ Moca.prototype.mocaToFullDT = function(_dt){
     return _redt;
 };
 
+Moca.prototype.dateToString  = function(date){
+	['yyyyMMddhhmmss, 월:MM,일:dd 시분:hh:mm'];
+    var year = date.getFullYear().toString();
+
+    var month = date.getMonth() + 1;
+    month = month < 10 ? '0' + month.toString() : month.toString();
+
+    var day = date.getDate();
+    day = day < 10 ? '0' + day.toString() : day.toString();
+
+    var hour = date.getHours();
+    hour = hour < 10 ? '0' + hour.toString() : hour.toString();
+
+    var minites = date.getMinutes();
+    minites = minites < 10 ? '0' + minites.toString() : minites.toString();
+
+    var seconds = date.getSeconds();
+    seconds = seconds < 10 ? '0' + seconds.toString() : seconds.toString();
+
+	var returnObj = {};
+	returnObj["year"] = year;
+	returnObj["month"] = month;
+	returnObj["day"] = day;
+	returnObj["hour"] = hour;
+	returnObj["minites"] = minites;
+	returnObj["seconds"] = seconds;
+	returnObj["seconds"] = seconds;
+	returnObj["full"] = year + month + day+ hour+ minites+ seconds;
+	returnObj["fullFormat"] = year +'-'+ month +'-'+ day+' ' + hour+':' + minites+':' + seconds;
+	
+	returnObj["년"] = year;
+	returnObj["월"] = month;
+	returnObj["일"] = day;
+	returnObj["시"] = hour;
+	returnObj["분"] = minites;
+	returnObj["초"] = seconds;
+	returnObj["시:분"] = hour+":"+minites;
+	
+	
+	
+    return returnObj;
+};
+    
+    
 $(document).ready(function() {
     var arr = $('[type=wframe]');
     if(arr.length > 0){
