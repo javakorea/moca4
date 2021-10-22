@@ -4462,6 +4462,7 @@ Moca.prototype.popChange = function(_popupId,_json){
     	var _pop = $('#'+_popupId+'>div.moca_popup');
 	    var _w = _pop.css('width').replace(/px/g,'');
 	    var _h = _pop.css('height').replace(/px/g,''); 
+	    debugger;
 	    var _title =_pop[0].option.title;
 	    var __srcid = _pop.attr('srcid');
 	    var __param = moca[__srcid].args.parent.data;
@@ -10288,7 +10289,9 @@ Moca.prototype.rendering = function(o,_aTag) {
         cont += '<div id="'+_pid+'" pageid="'+_tabId+'" srcid="'+moca.srcId+'" class="moca_popup '+o.type+'" style="left:'+o.left+'px;top:'+o.top+'px;width:'+ow+';height:'+oh+'">';
         cont += '   <div class="moca_popup_header">';
         cont += '       <h2 class="moca_popup_title">'+o.title+'('+moca.srcId+')'+'</h2>';
-        cont += '       <div class="moca_popup_control"><button type="button" id="btn_popChange" class="moca_popup_btn_change" onclick="moca.popChange(\''+_tabId+'\');">변경</button><button type="button" id="btn_popClose" class="moca_popup_btn_close" onclick="moca.popClose(\''+_tabId+'\');">닫기</button></div>';
+        cont += '       <div class="moca_popup_control"><button type="button" id="btn_popChange" class="moca_popup_btn_change" ';
+        cont += ' onclick="moca.popChange(\''+_tabId+'\');"';
+        cont += '>변경</button><button type="button" id="btn_popClose" class="moca_popup_btn_close" onclick="moca.popClose(\''+_tabId+'\');">닫기</button></div>';
         cont += '   </div>';
         cont += '   <div class="moca_popup_body">';
         cont += '       <div class="moca_popup_content">';
@@ -10318,10 +10321,10 @@ Moca.prototype.rendering = function(o,_aTag) {
         $(tmp).html(cont);
         $(tmp).attr("tab_id",_tabId);
         
-        var moca_popup = $(tmp).children()[0];
+        var moca_popup = $(tmp).find('#'+_pid)[0];
+        moca_popup.option = o;
         moca_popup.addEventListener('mousedown', function (e) {
             document.nowPopup = this;
-            document.nowPopup.option = o;
             if($(e.srcElement).hasClass('moca_popup_header')){
                 e.preventDefault(); //이게 들어가면 팝업에 글자가 블록이 안씌워짐
             }
@@ -10339,6 +10342,7 @@ Moca.prototype.rendering = function(o,_aTag) {
         });
         moca_popup.addEventListener('dblclick', function (e) {
             document.nowPopup = this;
+            alert('2');
             document.nowPopup.option = o;
             if($(e.srcElement).hasClass('moca_popup_header')){
                 e.preventDefault(); //이게 들어가면 팝업에 글자가 블록이 안씌워짐
