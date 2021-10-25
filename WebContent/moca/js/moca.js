@@ -2878,7 +2878,8 @@ Moca.prototype.getContents = function(data,_url,_type,_popupid,_title,_wframeObj
             o.data = data;
             debugger;
             var htmlObj = moca.rendering(o);
-            moca.callReady(htmlObj);
+            //moca.callReady(htmlObj);
+            return htmlObj;
        }else{
            if(_mode != '혼합모드'){
                data = data.replace(/<link(.*?)>|<meta(.*?)>/gi,'');
@@ -10222,6 +10223,7 @@ Moca.prototype.renderCheckboxGroup = function(_divObj,_val,_gubun,_metaObj,_chec
 };
 
 Moca.prototype.rendering = function(o,_aTag) {
+	debugger;
     var _url = o.url;
     var _srcId = o.srcId;
     var _label = o.label;
@@ -13739,7 +13741,7 @@ $(document).ready(function() {
                        //console.log("(__body)wframe2-1"+aTag.id);
                 	   debugger;
                        data = moca.getContents(data,_url,"HTML",aTag);
-                       $(aTag).html(data);
+                       //$(aTag).html(data);
                        //console.log("(__body)wframe2-2"+aTag.id);
                        moca.callReady(aTag);
                        //console.log("(__body)wframe2-3"+aTag.id);
