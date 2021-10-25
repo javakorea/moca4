@@ -52,6 +52,13 @@ if(userAgent.indexOf("MOBI") > -1 || userAgent.indexOf("IPHONE") > -1   || userA
 <link rel="stylesheet" type="text/css" href="/moca/css/moca.css">
 <link rel="stylesheet" type="text/css" href="/moca/css/fontawesome.css">
 <link rel="stylesheet" type="text/css" href="/moca/css/moca_layout.css">
+<%
+if(userAgent.indexOf("MOBI") > -1 || userAgent.indexOf("IPHONE") > -1   || userAgent.indexOf("ANDROID") > -1) {
+%>
+	<link rel="stylesheet" type="text/css" href="/moca/css/moca_mobile.css">
+<%	
+}
+%>
 <link rel="stylesheet" type="text/css" href="/fullcalendar/lib/fullcalendar.css">
 
 <script language="JavaScript" src="/moca/js/jquery-3.3.1.min.js"></script>
