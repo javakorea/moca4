@@ -76,7 +76,7 @@ moca.main.fn_pop_boardView = function(_gubun,_bd_code){
 	    o.title = '게시글상세';
 	    o.callback = moca.main.fn_pop_callback;
 	    o.scopeId = moca.main.pageId;
-	    o.data = {"BOARD_IDX":row+'',"BOARD_PIDX":row+'',"BOARD_TITLE":row.BOARD_TITLE,"BOARD_TYPE":"WS"};
+	    o.data = {"BOARD_IDX":row.BOARD_IDX+'',"BOARD_PIDX":row.BOARD_PIDX+'',"BOARD_TITLE":row.BOARD_TITLE,"BOARD_TYPE":"WS"};
 	    moca.popup(o,_this);
 	    
 	    
