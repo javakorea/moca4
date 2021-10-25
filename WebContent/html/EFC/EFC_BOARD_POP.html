@@ -348,6 +348,12 @@ moca.EFC_BOARD_POP.fn_save = function(_thisObj){
 	            		grd_reply_file.list[i]._system.status = "C";
 	            	}
 	            };
+	            
+	            var wtitle = moca.getValue(moca.EFC_BOARD_POP.getObj("wreplytitle"));
+            	if(wtitle == ''){
+            		wtitle = $('#'+CKEDITOR.instances.reply_editor.id+'_contents iframe').contents().find('body').text().substring(0,20);
+            	}
+            	
 	            if(_ReplyIdx == null || _ReplyIdx == ""){
 	    			//답변등록
 	        		moca.EFC_BOARD_POP.exe({
@@ -360,8 +366,9 @@ moca.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                        	"BOARD_SUPPORT":moca.EFC_BOARD_POP.getSearchCombo('cmb_board').value,
 	                        	"BOARD_TYPE":moca.EFC_BOARD_POP._boardType,
 	                        	"BOARD_PIDX":moca.EFC_BOARD_POP._boardIdx,
-	                            "BOARD_TITLE":moca.getValue(moca.EFC_BOARD_POP.getObj("wreplytitle")),
+	                            "BOARD_TITLE":wtitle,
 	                            "BOARD_CONT":CKEDITOR.instances.reply_editor.getData(),
+	                            "GET_CONT_TXT":CKEDITOR.instances.reply_editor.document.getBody().getText(),
 	                            "BOARD_WRITER":moca.getValue(moca.EFC_BOARD_POP.getObj("wreplyid")),
 	                            "fileList":moca.EFC_BOARD_POP.getFilteredList("grd_reply_file","status","C")
 	                            }
