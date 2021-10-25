@@ -9,27 +9,27 @@
 <link rel="stylesheet" type="text/css" href="./css/media.css">
 <script>
 
-moca.main.BD_CONTENT_FOR_BD_WS = {};
+moca.main_src.BD_CONTENT_FOR_BD_WS = {};
 
-moca.main.___ready = function(args){
+moca.main_src.___ready = function(args){
 	moca.getContent(moca._domain+moca._contextRoot+"/images/home/main_img.svg",function(data) {
 		$('#mainSvg').html(data);
 	});
-	moca.main.fn_search();
+	moca.main_src.fn_search();
 };
-moca.main.boardType ='WS';
-moca.main.fn_search = function(){
+moca.main_src.boardType ='WS';
+moca.main_src.fn_search = function(){
 	var _today = moca.dateToString(new Date());
 	var _todayStr = _today.year+_today.month+_today.day;
 	var _fromStr = String(_today.year-1)+_today.month+_today.day;
 	
-    moca.main.exe({
+    moca.main_src.exe({
         url : moca._domain+moca._contextRoot+"/EFC_BOARD/selectBoardList.do",
         loadingbar:true,
         data : {
             "header" : moca.header,
             "body" : {
-            	"BOARD_TYPE":moca.main.boardType,
+            	"BOARD_TYPE":moca.main_src.boardType,
             	"FROM":_fromStr,
                 "TO":_todayStr,
                 "BOARD_SUPPORT": ['N', 'R', 'B']
@@ -42,40 +42,40 @@ moca.main.fn_search = function(){
 			for(var i=0; i < 5; i++){
 				var row = list[i];
 				full_html += _html.replace(/#BD_TITLE#/g,row.BOARD_TITLE).replace(/#BD_USERID#/g,row.BOARD_WRITER).replace(/#BD_DATE#/g,moca.longToDate(row.BOARD_DATE).substr(0,10)).replace(/#BD_CODE#/g,row.BOARD_IDX);
-				moca.main.BD_CONTENT_FOR_BD_WS[row.BOARD_IDX] = row; 
+				moca.main_src.BD_CONTENT_FOR_BD_WS[row.BOARD_IDX] = row; 
 			}
 			$('#tbl_BD_WS').html(full_html);
         	
         }
     });
 };
-moca.main.popId = 'main_pop_board';
-moca.main.fn_pop_boardView = function(_gubun,_bd_code){
+moca.main_src.popId = 'main_pop_board';
+moca.main_src.fn_pop_boardView = function(_gubun,_bd_code){
 	debugger;
 	var row;
 	var _title;
 	if(_gubun == 'BD_WS'){
-		row = moca.main.BD_CONTENT_FOR_BD_WS[_bd_code];
+		row = moca.main_src.BD_CONTENT_FOR_BD_WS[_bd_code];
 		_title = '웹스퀘어게시판';
 	}else if(_gubun == 'BD_NOTICE'){
-		row = moca.main.BD_CONTENT_FOR_BD_NOTICE[_bd_code];
+		row = moca.main_src.BD_CONTENT_FOR_BD_NOTICE[_bd_code];
 		_title = '공지사항';
 	}else if(_gubun == 'BD_QNA'){
-		row = moca.main.BD_CONTENT_FOR_BD_QNA[_bd_code];
+		row = moca.main_src.BD_CONTENT_FOR_BD_QNA[_bd_code];
 		_title = 'Q&A';
 	}else if(_gubun == 'BD_DATA'){
-		row = moca.main.BD_CONTENT_FOR_BD_DATA[_bd_code];
+		row = moca.main_src.BD_CONTENT_FOR_BD_DATA[_bd_code];
 		_title = '자료실';
 	}
 		var _this = $('#ws_list')[0];
 	    var o = {};
-	    o.id = moca.main.popId;
+	    o.id = moca.main_src.popId;
 	    o.url = '/html/EFC/EFC_BOARD_POP.html';
 	    o.type = "POPUP";
 	    o.modal = "false";
 	    o.title = '게시글상세';
-	    o.callback = moca.main.fn_pop_callback;
-	    o.scopeId = moca.main.pageId;
+	    o.callback = moca.main_src.fn_pop_callback;
+	    o.scopeId = moca.main_src.pageId;
 	    o.data = {"BOARD_IDX":row+'',"BOARD_PIDX":row+'',"BOARD_TITLE":row.BOARD_TITLE,"BOARD_TYPE":"WS"};
 	    moca.popup(o,_this);
 	    
@@ -138,9 +138,9 @@ function goMoca(){
 								</td>
 								 -->
 								
-	 							<td class="">
-									<div class="label">자체개발 컴포넌트</div>
-									<p class="img4" onclick="goMoca()"><i class="fas fa-ellipsis-v"></i>성능저하의 대표적인 원인 IFRAME을 <br>사용하지않고 자체개발 고성능 컴포넌트를 제공합니다.</p>
+	 							<td class="bg">
+									<div class="label">NO IFRAME</div>
+									<p class="img5"><i class="fas fa-ellipsis-v"></i>성능저하의 대표적인 원인 IFRAME을 <br>사용하지않고 자체개발 고성능 컴포넌트를 제공합니다.</p>
 								</td>
 								 <!--
 								<td>
@@ -174,7 +174,7 @@ function goMoca(){
 											<col style="">
 										</colgroup>
 										<tbody id="tbl_BD_WS">
-											<tr onclick="moca.main.fn_pop_boardView('BD_WS','#BD_CODE#')">
+											<tr onclick="moca.main_src.fn_pop_boardView('BD_WS','#BD_CODE#')">
 												<td class="bdTitle">#BD_TITLE#</td>
 												<td class="bdName tfc">#BD_USERID#</td>
 												<td class="bdDate tfc">#BD_DATE#</td>
@@ -186,7 +186,7 @@ function goMoca(){
 							<div class="content develop" style="padding-top:0; padding-bottom:20px">
 								<div class="boardTable">
 									<span class="boardTitle"><i class="fas fa-user-friends"></i>구인/구직</span>
-									<button class="boardMore fr" onclick="moca.main.fn_pop_boardView('BD_INCRUIT','#BD_CODE#')" ><i class="fas fa-plus-circle"></i>더보기</button>
+									<button class="boardMore fr" onclick="moca.main_src.fn_pop_boardView('BD_INCRUIT','#BD_CODE#')" ><i class="fas fa-plus-circle"></i>더보기</button>
 									<table class="boardList">
 										<colgroup>
 											<col style="width:395px">
@@ -194,7 +194,7 @@ function goMoca(){
 											<col style="">
 										</colgroup>
 										<tbody id="tbl_BD_INCRUIT">
-											<tr onclick="moca.main.fn_pop_boardView('BD_INCRUIT','#BD_CODE#')" >
+											<tr onclick="moca.main_src.fn_pop_boardView('BD_INCRUIT','#BD_CODE#')" >
 												<td class="bdTitle">#BD_TITLE#</td>
 												<td class="bdName">#BD_USERID#</td>
 												<td class="bdDate tfc">#BD_DATE#</td>
@@ -216,7 +216,7 @@ function goMoca(){
 											<col style="">
 										</colgroup>
 										<tbody id="tbl_BD_QNA">
-											<tr onclick="moca.main.fn_pop_boardView('BD_QNA','#BD_CODE#')" >
+											<tr onclick="moca.main_src.fn_pop_boardView('BD_QNA','#BD_CODE#')" >
 												<td class="bdTitle">#BD_TITLE#</td>
 												<td class="bdName tfc">#BD_USERID#</td>
 												<td class="bdDate tfc">#BD_DATE#</td>
@@ -236,7 +236,7 @@ function goMoca(){
 											<col style="">
 										</colgroup>
 										<tbody id="tbl_BD_DATA">
-											<tr onclick="moca.main.fn_pop_boardView('BD_DATA','#BD_CODE#')" >
+											<tr onclick="moca.main_src.fn_pop_boardView('BD_DATA','#BD_CODE#')" >
 												<td class="bdTitle">#BD_TITLE#</td>
 												<td class="bdName tfc">#BD_USERID#</td>
 												<td class="bdDate tfc">#BD_DATE#</td>

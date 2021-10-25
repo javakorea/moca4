@@ -2876,7 +2876,7 @@ Moca.prototype.getContents = function(data,_url,_type,_popupid,_title,_wframeObj
             o.srcId = _url.replace(/(.*?)(\/)([^\/]*?)(\.[^\/]*?$)/g,'$3');;
             o.label = _title;
             o.data = data;
-            
+            debugger;
             var htmlObj = moca.rendering(o);
             moca.callReady(htmlObj);
        }else{
@@ -11463,6 +11463,7 @@ Moca.prototype.getTabContents = function(_aTag,_resolve){
 
 Moca.prototype.popup = function(_option,thisObj) {
     ['레이어 팝업오픈'];
+    debugger;
     if($('#'+_option.id+'[pageid='+this.pageId+']').length > 0){
         return;
     }
@@ -11477,6 +11478,7 @@ Moca.prototype.popup = function(_option,thisObj) {
                "message" : {}
            },
            success : function(_htmlContents) {
+        	   debugger;
                 //var popupId = "POPUP_"+moca.now()+moca.shuffleRandom(6);
                 //moca.callbacks[popupId] = _option.callback;
                 //moca.data[popupId] = _option.data;
@@ -11575,82 +11577,7 @@ Moca.prototype.popup = function(_option,thisObj) {
            }
         });
 };
-/*
-Moca.prototype.openPopup = function(_option){ 
-    ["윈도우팝업이 아니라,div팝업을 호출함!"]
-    var mdiObj;
-    if(_option.scopeId != null){
-        mdiObj = $('div[tab_id='+_option.scopeId+']')[0];
-        if(mdiObj != null){
-            _option.mdiObj = mdiObj;
-        }else{
-            mdiObj = $('body')[0];
-            _option.mdiObj = mdiObj;
-        }
 
-    }
-
-    $.ajax({
-           type:"GET",
-           url:_option.url,
-           async: false,               
-           dataType : "html",
-           data : {
-               "header" : moca.header,
-               "body" : {aaa:'111',bbb:'222'},
-               "message" : {}
-           },
-           success : function(_htmlContents) {
-               var pattern = /<head.*?meta_width=(.*).*?meta_height=(.*).*?\\?>/gi;
-                var width= 0;
-                var height = 0;
-                var gep = 0;//중복팝업시 계단형구현에 필요함
-                if (pattern.test(_htmlContents)) {
-                    var _width = RegExp.$1;
-                    var _height = RegExp.$2;
-                    width = _width.replace(/\"|\'|(px)|\s/gi,'');
-                    height = _height.replace(/\"|\'|(px)|\s/gi,'');
-                }else{
-                    width = _option.width;
-                    height = _option.height;
-                }
-                
-                if(document.body.clientHeight <  height){
-                    height = document.body.clientHeight;
-                    
-                }
-                if(document.body.clientWidth <  width){
-                    width = document.body.clientWidth;
-                }               
-                
-                var top = ((document.body.offsetHeight/2) - (parseInt(height)/2) + $(document).scrollTop()+gep) + "px" ;
-                var left = ((document.body.offsetWidth/2) - (parseInt(width)/2) + $(document).scrollLeft()+gep) + "px" ;
-                top = top.replace(/\"|\'|(px)|\s/gi,'');
-                left = left.replace(/\"|\'|(px)|\s/gi,'');
-                
-                
-                var o = _option;
-                o.srcId = moca.url_to_srcId(_option.url);
-                o.htmlContents = _htmlContents;
-                o.top = top;
-                o.left = left;
-                o.width = width;
-                o.height = height;
-                
-                var popObj = moca.rendering(o);
-                moca.callReady(popObj);
-           },
-           complete : function(data) {
-              // moca.loading(loadingId);
-               _option.callback(data);
-           },
-           error : function(xhr, status, error) {
-               console.log(xhr, status, error);
-           }
-        });
-    
-};
-*/
 
 
 Moca.prototype.openWindowPopup = function(_opt){
@@ -13810,6 +13737,7 @@ $(document).ready(function() {
                        moca.getContents(data,_url,"POP",aTag.getAttribute("popupid"),aTag.getAttribute("popuptitle"));
                    }else if(aTag.id == '__body'){
                        //console.log("(__body)wframe2-1"+aTag.id);
+                	   debugger;
                        data = moca.getContents(data,_url,"HTML",aTag);
                        $(aTag).html(data);
                        //console.log("(__body)wframe2-2"+aTag.id);
