@@ -78,8 +78,6 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_checkbox_label {font-size:11.5px; line-height:1em}
 .moca_radio_input,
 .moca_checkbox_input {position:absolute; width:12px; height:12px; filter:alpha(opacity=0); opacity:0; padding:0; margin:0; top:6px}
-/*.moca_radio_input:focus + .moca_radio_label:before,
-.moca_checkbox_input:focus + .moca_checkbox_label:before {outline:1px dotted}*/
 .shbox_inner.moca_radio.shbox,  .shbox_inner .moca_checkbox.shbox{display:inline-block; height:20px}
 .shbox_inner .moca_radio.shbox .moca_radio_label,  .shbox_inner .moca_checkbox.shbox .moca_checkbox_label {padding-left: 15px}
 .moca_radio_input + .moca_radio_label,
@@ -108,14 +106,12 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_input_group > *:last-child{margin-right:0}
 .moca_input_group > i {text-indent:0}
 /* MOCA combo */
-/* .moca_grid_list .moca_combo{border:1px solid #4880c1;}
-.moca_grid_list .moca_select{background: #f6f8fb url(../images/ico_cmb_arrow.png) no-repeat 100% 50%;} */
 .moca_combo {position:relative; height:24px; line-height:24px; margin:0; padding:0; border:1px solid #d7d7de; border-radius:2px; background-color:#fff; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
 .moca_combo.req{border:1px solid #e79f78; background:#fffbe8;}
 .moca_combo.req:hover{border:1px solid #e45c2d;background:#fffbe8}
 .moca_combo.req option{background: #fffbe8;}
 .moca_combo[readonly="readOnly"]{padding-left:5px; border:0; background:unset !important}
-/*[김세창].moca_combo .moca_select::-ms-expand {display:none}*/
+
 .moca_select::-ms-expand {display:none}
 .moca_select {position:relative; width:100%; height:100%; padding:0 22px 0 4px; border:0; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -webkit-appearance:none; -moz-appearance:none; appearance:none; background: url(../images/ico_cmb_arrow.png) no-repeat 100% 50%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
 .moca_select[disabled="disabled"]{opacity:1; background-image:none;}
@@ -167,7 +163,6 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_popup .moca_popup_header .moca_popup_control {float:right; height:40px}
 .moca_popup .moca_popup_header .moca_popup_control .moca_popup_btn_close {float:left; border:0; width:35px; height:40px; padding:0; margin:0; background:url(../images/pop_btn_close.png) no-repeat 50% 10px; cursor:pointer; text-indent:-9999px}
 .moca_popup .moca_popup_header .moca_popup_control .moca_popup_btn_change {float:left; border:0; width:35px; height:40px; padding:0; margin:0; background:url(../images/pop_btn_change.png) no-repeat 50% 10px; cursor:pointer; text-indent:-9999px}
-
 .moca_popup .moca_popup_body {position:absolute; top:40px; left:0; right:0; bottom:0;}
 .moca_popup .moca_popup_body .moca_popup_content {background:#fff; width:100%; height:100%; overflow:auto}
 .moca_popup .resize_left{position: absolute; top:0; left:-5px; width: 5px; height: 100%;}
@@ -176,7 +171,6 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_popup .resize_triangle{ position: absolute; right: -5px; bottom: -5px; width: 0; height: 0; border-bottom: 20px solid #3a669a; border-left: 20px solid transparent; z-index:1}
 .moca_popup .moca_popup_header h2:before{content:''; display:inline-block; float:left; width:17px; height:38px; margin:0 5px; background:url(../images/pop_title.png) no-repeat center}
 .moca_popup .moca_popup_header i{float: left; height: 40px; color: #fff; font-size: 16px; line-height: 36px; margin: 0 5px 0 8px;}    
-/*.moca_popup .moca_popup_body .moca_popup_content .moca_titbox h3:before{content:''; display:inline-block; float:left; width:15px; height:27px; margin-right:5px; background:url(../images/ico_bar.png) no-repeat center} */
 
 /*moca_pop_cont_area :: moca_popup div팝업*/
 .moca_pop_cont_wrap{position: absolute; top: 0; right: 0; bottom: 0; left: 0; padding: 15px; min-width: 640px; box-sizing: border-box; -webkit-box-sizing: border-box; overflow-y:auto}
@@ -212,7 +206,6 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_tab .moca_tab_scroll {position:absolute; height:30px;}
 .moca_tab .moca_tab_control {position:absolute; top:0; right:0; bottom:0; width:120px; z-index:1}
 .moca_tab .moca_tab_control .moca_tab_menulist {right:34px; background-color:#eef0f2; background-image:url(../images/ico_tab_list.png); background-repeat:no-repeat}
-/* .moca_tab .moca_tab_control button {position:absolute; top:0; width:18px; height:44px; border-bottom: 1px solid #e4e9ef; background:no-repeat 50% 18px; text-indent:-9999px} */
 
 /***-----그리드 left,right 버튼 별도적용 -----***/
 .moca_tab .moca_tab_head > button {position:absolute; top:0; width:23px; height:44px; text-indent:-9999px; z-index:3}
@@ -223,10 +216,7 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_tab .moca_tab_list {position:relative; margin-left:-1px; -moz-box-sizing:border-box; box-sizing:border-box}
 .moca_tab .moca_tab_list:first-child {margin-left:10px}
 .moca_tab .moca_tab_list button {display:block; width:100%; height:29px; padding:0 25px; margin:0; background-color:transparent; font-weight:700; color:#181818; text-align:center; text-decoration:none;  text-shadow:0 0 2px rgba(0,0,0,0.25); box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
-/* .moca_tab .moca_tab_list:hover {background:#e8fafc}
-.moca_tab .moca_tab_list:hover button.moca_tab_label {background-color:#d0fafa; color:#178691} */
 .moca_tab .moca_tab_list.active button {background-color:#fff; color:#000; text-shadow:none}
-/* .moca_tab .moca_tab_list.active:hover button.moca_tab_label {background-color:#fff; color:#000} */
 .moca_tab .moca_tab_mark {display:inline-block; z-index:2;position:absolute; left:8px; top:50%; width:12px; height:12px; margin-top:-7px; background:url(../images/tvw_chk_off.png) no-repeat 50% 50%; cursor:pointer}
 .moca_tab .moca_tab_mark.on {background:url(../images/tvw_chk_on.png) no-repeat 50% 50%}
 .moca_tab button.moca_tab_close {position:absolute; top:4px; right:4px; width:12px; height:12px; padding:0; background:url(../images/ico_ica_close.png) no-repeat 50% 50%; cursor:pointer; text-indent:-9999px}
@@ -262,7 +252,6 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_tab_ul .moca_tab_list .moca_tab_close{position:absolute; z-index:2; top: 8px; right: 6px; width: 20px; height: 20px; background: url(../../images/ico_dp_close.png) no-repeat 50% -26px; text-indent: -9999px; border-radius: 100%;}
 .moca_tab_ul .moca_tab_list.active .moca_tab_close{background-position:50% 0px}
 
-
 /* MOCA Tree */
 .moca_tree {position:relative; border:1px solid #dbdbdb; display:inline-block; overflow:auto}
 .moca_tree ul {display:block; position:relative; margin:0; padding:5px 0 5px 5px; /* background:url(../images/line_tree_vr.gif) repeat-y 11px -1px; zoom:1 */}
@@ -289,22 +278,16 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_tree ul li.active > span.moca_tree_tbx {background-color:#e5ebef}
 .moca_tree > ul > li.active > span.moca_tree_tbx{background-color:#7791af !important}
 .moca_tree .moca_checkbox_tree {display:inline-block; position:relative; width:15px; height:12px; vertical-align:middle; -moz-box-sizing:border-box; box-sizing:border-box}
-/*.moca_tree .moca_checkbox_tree input[type="checkbox"].moca_checkbox_input {position:absolute}
-.moca_tree .moca_checkbox_tree input[type="checkbox"].moca_checkbox_input + .moca_checkbox_label {position:absolute; left:2px; top:0; width:12px; padding:0; text-indent:-9999px; font-size:1px}
-.moca_tree .moca_checkbox_tree input[type="checkbox"].moca_checkbox_input + .moca_checkbox_label:before {top:0; left:0}*/
 .moca_tree .moca_checkbox_tree input[type=checkbox].moca_checkbox_input {position:absolute}
 .moca_tree .moca_checkbox_tree input[type=checkbox].moca_checkbox_input + .moca_checkbox_label {position:absolute; left:2px; top:0; width:12px; padding:0; text-indent:-9999px; font-size:1px}
 .moca_tree .moca_checkbox_tree input[type=checkbox].moca_checkbox_input + .moca_checkbox_label:before {top:0; left:0}
-
 .moca_tree.icon ul li > span.moca_tree_tbx {background-image:url(../images/tvw_folder_plus.png); background-repeat:no-repeat; background-position:4px 50%; padding-left:17px}
 .moca_tree.icon ul li.moca_tree_open > span.moca_tree_tbx {background-image:url(../images/tvw_folder_minus.png)}
 .moca_tree.icon ul li.leaf > span.moca_tree_tbx,
 .moca_tree.icon ul li.moca_tree_open.leaf > span.moca_tree_tbx {background-image:url(../images/tvw_leaf.png)}
-
 .moca_tree.workmenu ul,
 .moca_tree.workmenu li {padding:0}
-.moca_tree.workmenu > ul > li > span.moca_tree_tbx {display:block; height:20px; padding:10px; font-weight:bold; font-size:13px;text-shadow:0 0 2px rgba(0,0,0,0.5); line-height:22px; color:#fff; border-bottom:1px solid #y
-2d4357; background:#273948;}
+.moca_tree.workmenu > ul > li > span.moca_tree_tbx {display:block; height:20px; padding:10px; font-weight:bold; font-size:13px;text-shadow:0 0 2px rgba(0,0,0,0.5); line-height:22px; color:#fff; border-bottom:1px solid #2d4357; background:#273948;}
 .moca_tree.workmenu li .moca_checkbox_tree,
 .moca_tree.workmenu li button.tvw_btn_close {display:none !important}
 .moca_tree.workmenu ul li ul {margin:0; background: #354b5d;border-bottom:1px solid #49657c}
@@ -312,8 +295,6 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_tree.workmenu ul li ul li.active > span.moca_tree_tbx{text-decoration:underline; background:#94a2b1}
 .moca_tree.workmenu ul li ul li.hover > span.moca_tree_tbx{text-decoration:underline; background:#94a2b1}
 
-
-/*.moca_grid {position:relative; -webkit-transition:top .1s, left .1s, bottom .3s, right .3s; transition:top .1s, left .1s, bottom .3s, right .3s}*/
 .moca_grid {display:flex; flex-direction:column; position:relative; -webkit-transition:top .1s, left .1s, bottom .3s, right .3s; transition:top .1s, left .1s, bottom .3s, right .3s}
 .moca_grid_toolbar {position:relative; width:100%; min-height:24px; padding:0; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
 .moca_grid_toolbar:after {display:block; visibility:hidden; clear:both; height:0; font-size:0; line-height:0; content: '.'}
@@ -374,6 +355,8 @@ button:disabled{background:#aaa; opacity:1; cursor:default}
 .moca_grid_list .moca_grid_body > table > tbody > tr > td:last-child {border-right:1px solid #bbc3ce}
 .moca_grid_list .moca_grid_body > table > tbody tr:hover td {background-color:#e5ebef}
 .moca_grid_list .moca_grid_body > table > tbody tr.active td {background-color:#cdecf0; color:#000}
+.moca_grid.th_nowrap .moca_grid_body > table > thead > tr > th {overflow: auto; white-space: normal; text-overflow: inherit;}
+.moca_grid.th_nowrap .moca_grid_sort_box span {overflow: auto; white-space: normal; text-overflow: inherit;}
 .moca_grid_list .moca_radio_grid,
 .moca_grid_list .moca_checkbox_grid {position:relative; -moz-box-sizing:border-box; box-sizing:border-box}
 .moca_grid_list .moca_checkbox_input{top: 3px; left: calc(50% - 6px);}
@@ -404,7 +387,6 @@ i.msg {text-align: center; padding:0 6px; display: inline-block; color: #fff; bo
 .moca_grid_paging button {position:relative; padding:0}
 .moca_grid_paging .num {font-size:0; }
 .moca_grid_paging .num button {width:22px; min-width:18px; height:24px; display:inline-block; color:#666; }
-/*.moca_grid_paging .num button:hover,*/
 .moca_grid_paging .num button.on {background:#fff; color:#333; font-weight:bold}
 .moca_grid_paging button span {text-indent:-9999px; overflow:hidden; height:0; font-size:0}
 .moca_grid_paging button.first, 
@@ -419,7 +401,6 @@ i.msg {text-align: center; padding:0 6px; display: inline-block; color: #fff; bo
 .moca_grid_paging button.prev:hover, 
 .moca_grid_paging button.next:hover, 
 .moca_grid_paging button.last:hover {background-color:#e6f4ea}
-/*.moca_grid.toolbar .moca_grid_list {top:29px}*/
 .moca_grid.paging .moca_grid_list {bottom:34px}
 .moca_grid.overlayer {position:fixed !important; top:0 !important; right:0 !important; bottom:0 !important; left:0 !important; margin:0 !important; z-index:999 !important; background:#fff}
 .moca_grid.overlayer .moca_grid_toolbar {padding:5px 5px 0}
@@ -431,6 +412,11 @@ i.msg {text-align: center; padding:0 6px; display: inline-block; color: #fff; bo
 .moca_grid tr > .fixed{position:sticky !important; z-index:1}
 .moca_grid tr > th.fixed{background:#d2d9e8}
 .moca_grid.fixedColumn .moca_grid_body > table {background:#bbc3ce; border-collapse: separate;}
+
+.grid_btn button, .mocaButton button{min-width:58px}
+.moca_table_cont td div[type="button"].mocaButton.temp button, .mocaButton.temp button{border: 1px solid #274560; color: #102539; background: #dde1ed; box-sizing: border-box; border-radius: 2px; font-weight: normal}
+.moca_table_cont td div[type="button"].mocaButton.temp button, .mocaButton.temp button:hover{background: #d6dbeb}
+.moca_layer_tab .tab_badge{background: #f2d9b8; color:#333; line-height: 16px; height: 16px; border: 2px solid #353535;}
 
 /*moca_gridDetail*/
 [contenteditable=true]:empty:before{
@@ -480,16 +466,16 @@ div[contenteditable=true] {
 .moca_shbox .checkboxGroup label:last-child {margin-right:0 !important;}
 .moca_shbox .tb .tb_td > div[type="checkboxGroup"].bd {padding:0 5px; line-height:22px; box-sizing:border-box; border: 1px solid #bbc3ce; background: #fff; border-radius: 3px;}
 .moca_shbox .checkboxGroup > *{}
-/*.moca_table_body{position:absolute; bottom:42px; left:15px; right:15px}*/
 .moca_table_list{position:relative; top:0; bottom:0; left:0; right:0}
 .moca_table_body{position:relative; top:0; left:0;right:0; overflow-x:auto; clear:both}
 .moca_table{}
 .moca_table.fix_height .moca_table_body, .moca_table.fix_height .moca_table_list{bottom:0}/*table높이 일정높이로 지정할 경우*/
 .moca_table_cont{table-layout:fixed; width:100%; position: relative; margin-top:5px; background:#fff; border-radius:2px; border-top:1px solid #9a9ea8; border-collapse: separate;}
-/*.moca_table_cont tr:hover > td > .mocaInput:read-only{background:#e5ebef}*/
-
 .moca_table_cont > tbody > tr > td{padding:1px 2px; border-bottom:1px solid #c1c8d4; border-right:1px solid #c1c8d4; min-width:30px; background:#fff}
 .moca_table_cont > thead > tr > th, .moca_table_cont tbody > tr > th{padding:0 6px; height:29px; font-size: 12px; box-sizing: border-box; color: #333; background:#e5e8ef; border-right:1px solid #bbc3ce; border-bottom:1px solid #bbc3ce; vertical-align:middle}
+.moca_table.th_nowrap .moca_table_body > table > thead > tr > th {overflow: auto; white-space: normal; text-overflow: inherit;}
+.moca_table.th_nowrap .moca_grid_sort_box span {overflow: auto; white-space: normal; text-overflow: inherit;}
+
 .moca_table_cont.vertical{float:left}
 .moca_table_cont.vertical tbody th{padding:6px 8px; background: #e5e8ef}
 .moca_table_cont th > label{position: sticky; top: 10px; display: inline-block; vertical-align: top;}
@@ -499,10 +485,12 @@ div[contenteditable=true] {
 .moca_table_cont > tbody > tr > thth{height:27px}
 .moca_table_cont .moca_checkbox_input + .moca_checkbox_label {display:inline-block; position:relative; padding-left:10px; margin-right:4px}
 .moca_table_cont.th_tar th{text-align:right}
+
 /*moca_table th색상*/
 .moca_table.bg_green .moca_table_cont th{background:#deecea}
 .moca_table.bg_red .moca_table_cont th{background:#f4d5d5}
-
+.moca_table tr > th.fixed.green{background:#d2e8da}
+.moca_table tr > th.fixed.yellow{background:#e8eb28}
 .moca_grid_body th.bg_blue, .moca_table_cont th.bg_blue{background:#81a4c4 !important;}
 .moca_grid_body th.bg_green, .moca_table_cont th.bg_green{background:#deecea !important;}
 .moca_grid_body th.bg_red, .moca_table_cont th.bg_red{background:#f4d5d5 !important;}
@@ -514,8 +502,6 @@ div[contenteditable=true] {
 .moca_table_cont td > div[contenteditable]{overflow-y:auto; line-height:1; padding:5px 0}
 .moca_table_cont td > div[contenteditable] > * {min-height:unset;height:1;line-height:1}
 .moca_table_cont td div[type="button"].mocaButton button{height:22px; margin-top:1px; background: #e5e8ef; border: 1px solid rgba(0, 0, 0, 0.3); border-radius: 5px; color: #333; font-weight: bold; letter-spacing: -0.5px;}
-
-
 
 .moca_table_toolbar2 {width:100%; min-height:24px; padding:0; margin-bottom:6px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
 .moca_table_toolbar {width:100%; min-height:24px; padding:0; margin-bottom:6px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
@@ -536,15 +522,6 @@ div[contenteditable=true] {
 .moca_table_btn{float:right; margin-top:-1px}
 .moca_table_btn button{padding: 0 7px; background: #476d8e; color: #fff; border-radius: 3px; height: 25px; border: 1px solid #f1f1f1; box-sizing: border-box; box-shadow: inset -1px -1px 1px rgba(0,0,0,0.2); opacity: 0.9;	}
 .moca_table_btn button:active{opacity:1}
-
-/* .moca_table.sticky tr > *:first-child{background:#ddd} */
-/* .moca_table.sticky{}
-.moca_table.sticky tr > #sticky00, .moca_table.sticky tr > #sticky01{position:sticky; left:0}
-.moca_table.sticky tr > #sticky02,
-.moca_table.sticky tr > #sticky03,
-.moca_table.sticky tr > #sticky04,
-.moca_table.sticky tr > #sticky05,
-.moca_table.sticky tr > #sticky06{position:sticky; left:60px} */
 .moca_table tr > .fixed{position:sticky; z-index:1}
 .moca_table tr > th.fixed{background:#d2d9e8}
 .moca_table .fixedColumn .moca_table_cont{background:#bbc3ce}
@@ -573,7 +550,11 @@ div[contenteditable=true] {
 .moca_progress.type2 > .loader {position:absolute; left:0; right:0; top:0; bottom:0; width:66px; height:66px; margin:auto; border:10px solid #fff; border-radius:100%}
 .moca_progress.type2 > .loader:before {position:absolute; right:-12px; top:-12px; width:50px; height:100px; background-color:#000; content:''; transform-origin:0 50%; animation:circle 2s infinite}
 .moca_progress.type2 > .loader:after {position:absolute; right:-12px; top:-12px; width:50px; height:100px; background-color:#000; content:''; transform-origin:0 50%; animation:circle 2s 0.45s infinite}
-
+.progress_msg_pc {position:relative; left:50%; top:50%; width:calc(100% - 135px); padding:140px 0 0; transform:translate(-50%, -50%); text-align:center}
+.progress_msg_pc i.load_img {display:inline-block; position:absolute; left:50%; top:0; width:160px; height:160px; margin:0 0 0 -80px; background:url(../images/mobile/pogress.gif) 50% 50% no-repeat; background-size:160px}
+.progress_msg_pc .pop_cont {display:block; color:#fff}
+.progress_msg_pc .pop_cont strong {display:block; font-size:15px}
+.progress_msg_pc .pop_cont span {display:block; font-size:11.25px; margin-top:10px}
 @keyframes circle {
     0% {transform: rotate(0deg)}
     100% {transform: rotate(360deg)}
@@ -1011,6 +992,7 @@ button.moca_calendar_dynamic:hover {background-color:#f3a95e; color:#fff}
 /* 화면분할 : 최 상단 Container */
 .lybox{min-height:40px;}/* Content 박스 */
 .lybox:after{display:block;visibility:hidden;clear:both;height:0;font-size:0;line-height:0;content: '.'}
+.lybox.vertical{top:15px}
 
 .mdibox{min-height:40px; top:23px; position:absolute; top:0; left:0; right:0; bottom:0}/* Content 박스 */
 .mdibox:after{display:block;visibility:hidden;clear:both;height:0;font-size:0;line-height:0;content: '.'}
