@@ -70,13 +70,6 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .container .contBox .col5.left{border-right: 1px dashed #c5c5c5; box-sizing: border-box;}
 .container .contBox .col5.right{padding-left: 15px; box-sizing: border-box;}
 
-
-/*div팝업 홈페이지 예외적용*/
-.moca_popup{height:auto !important; top:0; /*position:fixed;*/ background:#3a669a}
-.moca_popup .moca_popup_body{position:static}
-.PopSumm tr{background:#fff}
-
-
 .footer{position:absolute; left:0; right:0; background:#434343; font-size:17px; color:#bbb}
 .footer .f_content{position: relative; padding:0 65px; max-width:1080px; margin:0 auto;overflow: hidden; box-sizing: border-box}
 .footer .f_content h2{float:left; margin-right:25px; padding:20px 0}
