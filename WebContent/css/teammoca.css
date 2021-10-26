@@ -208,7 +208,7 @@ background-size: 169% calc(2vw + 400px);
 	.wrapper{min-width:unset}
 	.mocastep{width:calc(100% - 5px); height:130px; margin-bottom:10px;}
 	.container .mocaBox .main_img p{font-size:15px}
-	.container .mocaBox .main_img2{background-size: 100%; height:562px}
+	.container .mocaBox .main_img2 img{width:100%; height:100%}
 }
  
  
