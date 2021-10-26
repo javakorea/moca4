@@ -2876,7 +2876,6 @@ Moca.prototype.getContents = function(data,_url,_type,_popupid,_title,_wframeObj
             o.srcId = _url.replace(/(.*?)(\/)([^\/]*?)(\.[^\/]*?$)/g,'$3');;
             o.label = _title;
             o.data = data;
-            debugger;
             var htmlObj = moca.rendering(o);
             //moca.callReady(htmlObj);
             return htmlObj;
@@ -8673,7 +8672,7 @@ Moca.prototype.closePopup = function(_thisObj){
 Moca.prototype.popupMove = function(e){ 
     ["팝업이동!"]
     var thisObj = document.nowPopup;
-    if(thisObj.option.scopeId != null){
+    if(thisObj.option.scopeId != null && thisObj.option.scopeId.startsWith('MDI')){
         var openerObj = $('#mdi_1')[0];
         var oTop = openerObj.offsetTop;
         var oLeft = openerObj.offsetLeft;
@@ -10223,7 +10222,6 @@ Moca.prototype.renderCheckboxGroup = function(_divObj,_val,_gubun,_metaObj,_chec
 };
 
 Moca.prototype.rendering = function(o,_aTag) {
-	debugger;
     var _url = o.url;
     var _srcId = o.srcId;
     var _label = o.label;
@@ -11465,7 +11463,6 @@ Moca.prototype.getTabContents = function(_aTag,_resolve){
 
 Moca.prototype.popup = function(_option,thisObj) {
     ['레이어 팝업오픈'];
-    debugger;
     if($('#'+_option.id+'[pageid='+this.pageId+']').length > 0){
         return;
     }
@@ -11480,7 +11477,6 @@ Moca.prototype.popup = function(_option,thisObj) {
                "message" : {}
            },
            success : function(_htmlContents) {
-        	   debugger;
                 //var popupId = "POPUP_"+moca.now()+moca.shuffleRandom(6);
                 //moca.callbacks[popupId] = _option.callback;
                 //moca.data[popupId] = _option.data;
@@ -13739,7 +13735,6 @@ $(document).ready(function() {
                        moca.getContents(data,_url,"POP",aTag.getAttribute("popupid"),aTag.getAttribute("popuptitle"));
                    }else if(aTag.id == '__body'){
                        //console.log("(__body)wframe2-1"+aTag.id);
-                	   debugger;
                        data = moca.getContents(data,_url,"HTML",aTag);
                        //$(aTag).html(data);
                        //console.log("(__body)wframe2-2"+aTag.id);

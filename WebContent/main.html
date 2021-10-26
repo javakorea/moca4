@@ -7,6 +7,7 @@
 <link rel="stylesheet" type="text/css" href="./css/teammoca.css">
 <link rel="stylesheet" type="text/css" href="./moca/css/fontawesome.css">
 <link rel="stylesheet" type="text/css" href="./css/media.css">
+<link rel="stylesheet" type="text/css" href="/moca/css/moca_mobile.css">
 <script>
 
 moca.main.BD_CONTENT_FOR_BD_WS = {};
@@ -15,7 +16,7 @@ moca.main.___ready = function(args){
 	moca.getContent(moca._domain+moca._contextRoot+"/images/home/main_img.svg",function(data) {
 		$('#mainSvg').html(data);
 	});
-	moca.main.fn_search();
+	//moca.main.fn_search();
 };
 moca.main.boardType ='WS';
 moca.main.fn_search = function(){
@@ -50,22 +51,11 @@ moca.main.fn_search = function(){
     });
 };
 moca.main.popId = 'main_pop_board';
-moca.main.fn_pop_boardView = function(_gubun,_bd_code){
-	debugger;
+moca.main.fn_pop_boardPop = function(_gubun,_bd_code){
 	var row;
 	var _title;
 	if(_gubun == 'BD_WS'){
 		row = moca.main.BD_CONTENT_FOR_BD_WS[_bd_code];
-		_title = '웹스퀘어게시판';
-	}else if(_gubun == 'BD_NOTICE'){
-		row = moca.main.BD_CONTENT_FOR_BD_NOTICE[_bd_code];
-		_title = '공지사항';
-	}else if(_gubun == 'BD_QNA'){
-		row = moca.main.BD_CONTENT_FOR_BD_QNA[_bd_code];
-		_title = 'Q&A';
-	}else if(_gubun == 'BD_DATA'){
-		row = moca.main.BD_CONTENT_FOR_BD_DATA[_bd_code];
-		_title = '자료실';
 	}
 		var _this = $('#ws_list')[0];
 	    var o = {};
@@ -76,16 +66,25 @@ moca.main.fn_pop_boardView = function(_gubun,_bd_code){
 	    o.title = '게시글상세';
 	    o.callback = moca.main.fn_pop_callback;
 	    o.scopeId = moca.main.pageId;
-	    o.data = {"BOARD_IDX":row.BOARD_IDX+'',"BOARD_PIDX":row.BOARD_PIDX+'',"BOARD_TITLE":row.BOARD_TITLE,"BOARD_TYPE":"WS"};
+	    o.data = {"PAGE_TYPE":'home',"BOARD_IDX":row.BOARD_IDX+'',"BOARD_PIDX":row.BOARD_PIDX+'',"BOARD_TITLE":row.BOARD_TITLE,"BOARD_TYPE":"WS"};
 	    moca.popup(o,_this);
-	    
-	    
-
 };
-
+moca.main.fn_pop_boardMain = function(_gubun){
+	var _this = $('#ws_list')[0];
+    var o = {};
+    o.id = moca.main.popId;
+    o.url = '/html/EFC/EFC_BOARD.html';
+    o.type = "POPUP";
+    o.modal = "false";
+    o.title = '게시글상세';
+    o.callback = moca.main.fn_pop_callback;
+    o.scopeId = moca.main.pageId;
+    o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"WS"};
+    moca.popup(o,_this);
+};
 function go(){
 	location.href="/m/TOM_02.html"
-}
+};
 function goMoca(){
 	location.href="/admin.do"
 }
@@ -103,71 +102,46 @@ function goMoca(){
 		<div class="wrapContent">
 			<div class="header">
 				<h1><a href="./index.html">MOCA</a></h1>
-				<!-- <span class="message">"최고의 기술력으로 귀사의 강력한 UI/UX를 지원합니다."</span> -->
 				 <button class="login" onclick="go()"><i class=" fa fa-user" aria-hidden="true"></i></button>
-				 <!-- <span class="login_mail">s90788@naver.com</span> -->
 			</div>
 			<div class="container" style="overflow: inherit">
 				<!-- WEB -->
 				<div class="main_box">
-					<!-- <button class="arrow_left"><i class="fas fa-chevron-left"></i></button> -->
-					<table>
-						<colgroup>
-							<col style="width:25%">
-							<col style="width:25%">
-							<col style="width:25%">
-							<col style="width:25%">
-						</colgroup>
-						<tbody>
-							<tr>
-								<td class="bg">
-									<div class="label">표준 웹 UI/UX</div>
-									<p class="img1"><i class="fas fa-ellipsis-v"></i>HTML5을 기반으로 한  <br>표준웹 UI/UX</p>
-								</td>
-								<td>
-									<div class="label">Multi Document Interface</div>
-									<p class="img2"><i class="fas fa-ellipsis-v"></i>동시에 여러 화면의 작업이 가능한<br>다중 문서 인터페이스 MDI</p>
-								</td>
-								<td class="bg">
-									<div class="label">적응형 UI</div>
-									<p class="img3"><i class="fas fa-ellipsis-v"></i>다양한 해상도를 지원하는 <br>적응형 템플릿기반UI</p>
-								</td>
-								<!-- 
-								<td>
-									<div class="label">웹스퀘어 기술지원</div>
-									<p class="img4" onclick="goMoca()"><i class="fas fa-ellipsis-v"></i>웹스퀘어 컴포넌트 관련 기술을 지원합니다.</p>
-								</td>
-								 -->
-								
-	 							<td class="">
-									<div class="label">자체개발 컴포넌트</div>
-									<p class="img4" onclick="goMoca()"><i class="fas fa-ellipsis-v"></i>성능저하의 대표적인 원인 IFRAME을 <br>사용하지않고 자체개발 고성능 컴포넌트를 제공합니다.</p>
-								</td>
-								 <!--
-								<td>
-									<div class="label">header-body형 통신스펙</div>
-									<p class="img6"><i class="fas fa-ellipsis-v"></i>header-body형 <br>전문기반 통신스펙으로 <br>금융권등에 최적화가능</p>
-								</td> 
-								-->
-							</tr>
-						</tbody>
-					</table>
+					<div class="td fl">
+						<div class="label">표준 웹 UI/UX</div>
+						<p class="img1"><i class="fas fa-ellipsis-v"></i>HTML5을 기반으로 한  <br>표준웹 UI/UX</p>
+					</div>
+					<div class="td fl">
+						<div class="label">Multi Document Interface</div>
+						<p class="img2"><i class="fas fa-ellipsis-v"></i>동시에 여러 화면의 작업이 가능한<br>다중 문서 인터페이스 MDI</p>
+					</div>
+					<div class="td fl">
+						<div class="label">적응형 UI</div>
+						<p class="img3"><i class="fas fa-ellipsis-v"></i>다양한 해상도를 지원하는 <br>적응형 템플릿기반UI</p>
+					</div>
+					<div class="td fl">
+						<div class="label">자체개발 컴포넌트</div>
+						<p class="img4" onclick="goMoca()"><i class="fas fa-ellipsis-v"></i>성능저하의 대표적인 원인 IFRAME을 <br>사용하지않고 자체개발 고성능 컴포넌트를 제공합니다.</p>
+					</div>
 					<!-- <button class="arrow_right"><i class="fas fa-chevron-right"></i></button> -->
 				</div>
 				<div class="mocaBox cfx">
 					<div class="componentImg">
 						<div class="fl col5 main_img">
 							<p><i class="fas fa-bolt" style="margin-right:5px"></i>귀사의 솔루션에 합리적인 비용으로 최고 성능의 제품을 제공하겠습니다.</p>
-							<h3>사용자 중심의  UI/UX을 기반으로 한 표준 웹 솔루션<a href="html/teammoca/grid.html" target="_blank"><img src="./images/home/MOCA_CI_W.png" alt="moca"></a>를 만나보세요!</h3>
+							<h3>사용자 중심의  UI/UX을 기반으로 한 표준 웹 솔루션<a href="html/teammoca/grid.html" target="_blank"><img src="./images/home/MOCA_CI_W.png" alt="moca"></a><i class="logo_next"></i>를 만나보세요!</h3>
 							<div id="mainSvg" class="mainSvg"></div>
 						</div>
+						<div class="fl col5 main_img2">
+						</div>
+						<!-- 
 						<div class="fr col5" style="background: #e8f0f9;">
 							<div class="content develop">
 								<h3 class="tfl"><i class="fas fa-angle-double-right"></i>MOCA기술지원<span class="eng">SupportCenter</span></h3>
 								<p>TEAMMOCA의 전문 개발진들이 고객님들을 지원합니다</p>
 								<div class="boardTable" id="ws_list">
 									<span class="boardTitle"><i class="fas fa-comment-dots"></i>웹스퀘어게시판</span>
-									<button class="boardMore fr"><i class="fas fa-plus-circle"></i>더보기</button>
+									<button class="boardMore fr"  onclick="moca.main.fn_pop_boardMain('BD_WS')"><i class="fas fa-plus-circle"></i>더보기</button>
 									<table class="boardList">
 										<colgroup>
 											<col style="width:395px">
@@ -175,7 +149,7 @@ function goMoca(){
 											<col style="">
 										</colgroup>
 										<tbody id="tbl_BD_WS">
-											<tr onclick="moca.main.fn_pop_boardView('BD_WS','#BD_CODE#')">
+											<tr onclick="moca.main.fn_pop_boardPop('BD_WS','#BD_CODE#')">
 												<td class="bdTitle">#BD_TITLE#</td>
 												<td class="bdName tfc">#BD_USERID#</td>
 												<td class="bdDate tfc">#BD_DATE#</td>
@@ -247,6 +221,7 @@ function goMoca(){
 								</div>
 							</div>
 						</div>
+						-->
 					</div>
 				</div>
 				
@@ -283,7 +258,7 @@ function goMoca(){
 							</div>
 							<p style="color:#fff; padding:10px; font-size:15px">개발을 하시기 전에 모카개발교육을 진행합니다.</p>
 							<button style="width:110px; padding:3px 10px; display:inline-block; position:relative; top:1px; left:10px; color:#333; border-radius:20px; background:#fff; opacity:0.5">
-								<a href="/uat/uia/actionMain.do?mcsrc=/html/teammoca/nosess/help.html&__title=MOCA%20DOCUMENT" target="_blank" style="color:#333">모카개발가이드<i class="fas fa-angle-double-right" style="margin-left:5px"></i></a>
+								<a href="https://teammoca.atlassian.net/wiki/spaces/TEAMMOCA/pages/327695/MOCA+API+DOCUMENT" target="_blank" style="color:#333">모카개발가이드<i class="fas fa-angle-double-right" style="margin-left:5px"></i></a>
 							</button>
 							<span class="mainicon2 img3"></span>
 						</div>

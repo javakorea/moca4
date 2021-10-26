@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
+<head meta_width="1400px" meta_height="700px">
 <script>
 	moca.EFC_BOARD.boardType ='ERP';
 	moca.EFC_BOARD.___ready = function(args){
@@ -33,7 +33,6 @@
 	};
 	moca.EFC_BOARD.grdList ;
 	moca.EFC_BOARD.fn_search = function(){
-		debugger;
 	    moca.EFC_BOARD.exe({
 	        url : moca._domain+moca._contextRoot+"/EFC_BOARD/selectBoardList.do",
 	        loadingbar:true,
@@ -77,7 +76,7 @@
 	    o.title = '게시물작성';
 	    o.callback = moca.EFC_BOARD.fn_pop_callback;
 	    o.scopeId = moca.EFC_BOARD.pageId;
-	    o.data = {popTitle:"게시물작성","BOARD_TYPE":moca.EFC_BOARD.boardType};
+	    o.data = {"PAGE_TYPE":'board',"popTitle":"게시물작성","BOARD_TYPE":moca.EFC_BOARD.boardType};
 	    moca.popup(o,_thisObj);
 	};
 	moca.EFC_BOARD.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
@@ -106,7 +105,7 @@
 	    o.title = '게시글상세';
 	    o.callback = moca.EFC_BOARD.fn_pop_callback;
 	    o.scopeId = moca.EFC_BOARD.pageId;
-	    o.data = {"BOARD_IDX":_BoardIdx+'',"BOARD_PIDX":__BoardParentIdx+'',"BOARD_TITLE":_BoardTitle,"BOARD_TYPE":moca.EFC_BOARD.boardType};
+	    o.data = {"PAGE_TYPE":'board',"BOARD_IDX":_BoardIdx+'',"BOARD_PIDX":__BoardParentIdx+'',"BOARD_TITLE":_BoardTitle,"BOARD_TYPE":moca.EFC_BOARD.boardType};
 	    moca.popup(o,_grd);
 	};
 	

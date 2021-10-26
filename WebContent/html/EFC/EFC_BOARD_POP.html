@@ -24,15 +24,20 @@ moca.EFC_BOARD_POP.___ready = function(args){
     	moca.hide($(moca.EFC_BOARD_POP.getObj('grd_reply_file_btn_fold')).siblings());
     	moca.hide($(moca.EFC_BOARD_POP.getObj('grd_reply_list_btn_fold')).siblings());
     	moca.hide($(moca.EFC_BOARD_POP.getObj('grd_reply_list')).find('.moca_grid_list'));
+    	moca.hide($(moca.EFC_BOARD_POP.getObj('form_board')).find('.rta'));
     	moca.hide($(moca.EFC_BOARD_POP.getObj('grd_file')).find('.moca_grid_list'));
     	moca.hide($(moca.EFC_BOARD_POP.getObj('grd_reply_file')).find('.moca_grid_list'));
+    	
     	if(args != null){
     		moca.EFC_BOARD_POP.args = args;
     		moca.EFC_BOARD_POP._boardIdx = moca.EFC_BOARD_POP.args.parent.data.BOARD_IDX;
     		moca.EFC_BOARD_POP._boardPIdx = moca.EFC_BOARD_POP.args.parent.data.BOARD_PIDX;
     		moca.EFC_BOARD_POP._boardType = moca.EFC_BOARD_POP.args.parent.data.BOARD_TYPE;
     		moca.EFC_BOARD_POP._boardTitle = moca.EFC_BOARD_POP.args.parent.data.BOARD_TITLE;
+    		moca.EFC_BOARD_POP._pageType = moca.EFC_BOARD_POP.args.parent.data.PAGE_TYPE;
     	}
+    	
+    	
     	CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
             'instanceReady':function(ev){
                 moca.EFC_BOARD_POP.editor = ev.editor;
@@ -43,6 +48,7 @@ moca.EFC_BOARD_POP.___ready = function(args){
                 $('#contents').show();
                 moca.EFC_BOARD_POP.fn_searchReply();
                 moca.EFC_BOARD_POP.fn_search();
+                moca.show($(moca.EFC_BOARD_POP.getObj('form_board')).find('.rta'));
                 
         }}} );
     	CKEDITOR.replace( 'reply_editor',{uiColor:'#deecea',on:{
@@ -129,9 +135,7 @@ moca.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 			    }else{
 			    	moca.hide(moca.EFC_BOARD_POP.getObj("btn_reply_update"));
 			    }
-			    
 			    moca.EFC_BOARD_POP.drawGrid('grd_reply_file',moca.getResList(response,"selectBoardFileList"));
-			    
 			}else{
 				moca.error(response.error);
 			}
@@ -156,6 +160,7 @@ moca.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 						if(response.selectBoardInfo != null ){
 						var data = response.selectBoardInfo;
 						CKEDITOR.instances.editor.setData(moca.resizeContsImg(data.BOARD_CONT));
+						moca.show($(moca.EFC_BOARD_POP.getObj('form_board')).find('.rta'));
 						moca.hide($(moca.EFC_BOARD_POP.getObj("cke_editor")).find("[id$='_top']"));
 						moca.setValue(moca.EFC_BOARD_POP.getObj("cmb_board"),data.BOARD_SUPPORT);
 						moca.setValue(moca.EFC_BOARD_POP.getObj("wtitle"),data.BOARD_TITLE);
@@ -178,8 +183,13 @@ moca.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 				    	if(moca.getSearchCombo('cmb_board').value == "N" && moca.getSs("authorCode") == "ROLE_SUPER_ADMIN"){
 					    	moca.show(moca.EFC_BOARD_POP.getObj("btn_receipt"));
 					    }
-					    
-					    //moca.EFC_BOARD_POP.fn_searchfile();
+					    if(moca.EFC_BOARD_POP._pageType == 'home'){
+				        	moca.hide(moca.EFC_BOARD_POP.getObj("btn_reply"));
+				        	moca.hide(moca.EFC_BOARD_POP.getObj("btn_update"));
+				        	moca.hide(moca.EFC_BOARD_POP.getObj("btn_del"));
+				        	moca.hide(moca.EFC_BOARD_POP.getObj("btn_save"));
+				        	moca.hide(moca.EFC_BOARD_POP.getObj("btn_del_admin"));
+				        }
 					    moca.EFC_BOARD_POP.drawGrid('grd_file',moca.getResList(response,"selectBoardFileList"));
 					}else{
 						moca.error(response.error);
