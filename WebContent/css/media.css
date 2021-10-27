@@ -84,7 +84,7 @@
   .container .mocaBox .main_img h3{font-size:26px}
   .footer .f_content div.f_tel{padding-left:0; margin-left:0; padding-top:0; top: 25px; left: 20px; font-size: 85%;  float: left;}
   .footer .f_content{padding:0 5%}
-  .subpage .mocaComp .tit, .subpage .mocaComp .compExplan ul li{margin: 0px 5% 10px;}
+  .subpage .mocaComp .tit, .subpage .mocaComp .compExplan ul li{margin: 0px 5%}
   }
   
   @media (max-width: 800px){	

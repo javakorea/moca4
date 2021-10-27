@@ -10336,6 +10336,7 @@ Moca.prototype.rendering = function(o,_aTag) {
         $(tmp).attr("tab_id",_tabId);
         
         var moca_popup = $(tmp).find('#'+_pid)[0];
+        var moca_popup = $(tmp)[0];
         moca_popup.option = o;
         moca_popup.addEventListener('mousedown', function (e) {
             document.nowPopup = this;

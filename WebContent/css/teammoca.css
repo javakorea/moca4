@@ -28,12 +28,10 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .container .main_box {max-width:1080px; height:290px; margin:0 auto; position:relative}
 .container .main_box > button.arrow_left{font-size: 65px; color: #a3cee2; position:absolute; top:90px; left:-50px}
 .container .main_box > button.arrow_right{font-size: 65px; color: #a3cee2; position:absolute; top:90px; right:-50px}
-.container .main_box > .td{position:relative; width:25%; padding:20px 30px; box-sizing:border-box; font-size:17px; font-weight:700; text-align:center; line-height:1.3; letter-spacing:-1px}
-.container .main_box > .td.bg {background:#e5ecf0}
+.container .main_box > .td{height:100%; position:relative; width:25%; padding:20px 30px; box-sizing:border-box; font-size:17px; font-weight:700; text-align:center; line-height:1.3; letter-spacing:-1px}
 .container .main_box > .td .label{width: 75%; height: 27px; border-radius: 30px; background: #95c0d5; text-align: center; font-size: 14px; font-weight: 100; letter-spacing: -1px; color: #fff; line-height: 27px; position: absolute;left: 12%; top: -15px}
-.container .main_box > .td p{height: 204px; word-break:break-word; font-weight:normal; font-size:15px}
+.container .main_box > .td p{height: 204px; word-break:keep-all; font-weight:normal; font-size:15px}
 .container .main_box > .td p:before{content:''; display:block; position:relative; width:140px; height:140px; margin:10px auto 15px; background:url(../images/home/main_box.png)no-repeat 0 0; background-color:#e5ecf0; border-radius:50%}
-.container .main_box > .td.bg p:before{background-color:#fff}
 .container .main_box > .td p > i {display:block; margin: 0 auto 15px; color: #5599c7; font-size: 13px;}
 .container .main_box > .td p.img1:before{background-position:center 15px;}
 .container .main_box > .td p.img2:before{background-position:center -105px}
@@ -41,19 +39,19 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .container .main_box > .td p.img4:before{background-position:center -345px}
 .container .main_box > .td p.img5:before{background-position:center -465px}
 .container .main_box > .td p.img6:before{background-position:center -585px}
+.container .main_box > .td:nth-child(2), .container .main_box > .td:nth-child(4){background:#e5ecf0}
+.container .main_box > .td:nth-child(2) p:before, .container .main_box > .td:nth-child(4) p:before{background-color:#fff}
+
 .container .mocaBox > div{max-width:1080px; margin:0 auto;}
 .container .mocaBox .left{float:left; width:50%; }
-
-
 .container .mocaBox .main_img{color:#fff; background:#78d0d9; padding:20px; box-sizing:border-box}
 .container .mocaBox .main_img h3{font-size:22px; font-weight:400}
- .container .mocaBox .logo_next{height: 44px;display: inline-block; width: 3px;}
+.container .mocaBox .logo_next{height: 44px;display: inline-block; width: 3px;}
 .container .mocaBox .main_img .mainSvg svg{width:100%;position:relative; height:100%; top:25px; left:-10px;}
 .container .mocaBox .main_img a.btn_more{font-size:18px; color:#fff; text-decoration:underline; font-weight:400}
 .container .mocaBox .main_img a.btn_more:after{content:''; display:inline-block; position:relative; top:2px; left:5px; width:20px; height:20px; background:url(../images/home/ico_plus.png)no-repeat; margin-left:5px}
 .container .mocaBox a.btn{display:block; width: 300px; height: 45px; margin: 0 auto; font-size: 20px; color: #eee; text-align:center; background: #3fbda7 no-repeat 27% 50%; background-image:url(../images/home/ico_play.png); line-height: 45px; border-radius: 5px; text-indent:20px; opacity:0.9; cursor:pointer}
 .container .mocaBox a.btn:hover, .container .mocaBox > a.btn:active{opacity:1}
-
 .container .mocaBox .main_img2{background:url(../images/home/main_img2.png)no-repeat;}
 
 .mocastep {width: calc(25% - 7.6px);  position: relative; box-sizing: border-box; margin-right:10px; border-radius: 0 10px 0px 10px; border-top: 0; height: 150px; border: 1px solid #eae7e7;}
@@ -105,7 +103,6 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .support .boardList {width:100%; margin-top:0px; border-top:2px solid #6c8594}
 .boardList tr {height:24px; line-height:24px; font-size:14px; border-bottom:1px dashed #bdbbbb}
 .boardList tr > td {text-overflow: ellipsis; overflow: hidden; white-space: nowrap; padding-left:10px; max-width:100px;}
-
 .boardList tr > td:last-child{padding-right:10px}
 .boardList tr > td.bdTitle{ position:relative}
 .noticeDetail:hover, .boardList tr > td.bdTitle:hover{text-decoration:underline; cursor:pointer}
@@ -124,16 +121,16 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .subpage .header h1{ top: 11px;}
  .subpage .header h1 a {background-size:70%}
    
-.subpage .mocaComp .mainComp{padding:20px; text-align:center;}
+.subpage .mocaComp .mainComp{padding:20px 20px 0; text-align:center;}
 .subpage .mocaComp .mainComp img:last-child{margin-bottom:20px}
-.subpage .mocaComp h3{font-size:30px}
+.subpage .mocaComp h3{font-size:30px; margin-bottom:16px}
 .subpage .mocaComp h3:before{content:''; display:block; width:55px; height:5px; background:#3175c8; border-radius:5px; margin:0 auto 10px}
 .subpage .mocaComp .compExplan{padding:20px}
 .subpage .mocaComp .compExplan > div {padding:10px 0; border-top:1px solid #ddd}
 .subpage .mocaComp .compExplan > div:first-child{border-top:0}
 .subpage .mocaComp .compExplan ul li{margin:0 20%; text-align:left}
-.subpage .mocaComp .imgbd{width: 100%; max-width: 1000px; box-shadow: 0px 0px 4px rgba(0,0,0,0.3);border-radius:3px; display:block; margin:0 auto 5px}
-.subpage .mocaComp .tit{margin: 0px 20% 10px; text-align:left}
+.subpage .mocaComp .imgbd{width: 100%; max-width: 750px; /*box-shadow: 0px 0px 4px rgba(0,0,0,0.3);*/border-radius:3px; display:block; margin:0 auto 5px}
+.subpage .mocaComp .tit{margin: 0px 20% 0px; text-align:left}
 .subpage .mocaComp a.btn{display:block; width: 300px; height: 45px; margin: 0 auto; font-size: 20px; color: #eee; background: #3fbda7 no-repeat 27% 50%; background-image:url(../images/home/ico_play.png); line-height: 45px; border-radius: 5px; text-indent:20px; opacity:0.9; cursor:pointer}
 .subpage .mocaComp a.btn:hover, .container .mocaGrid > a.btn:active{opacity:1}
 .subpage .mocaComp ul{margin-bottom:10px}
@@ -146,48 +143,54 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .subpage .mocaComp .subject{font-size:13px; color:#333; font-weight:bold}
 
 .shapedividers_com-4134{
-overflow:hidden;
-position:relative;
+	overflow:hidden;
+	position:relative;
 }
 .shapedividers_com-4134::before{
-
-content:'';
-font-family:'shape divider from ShapeDividers.com';
-position: absolute;
-bottom: -1px;
-left: -1px;
-right: -1px;
-top: -1px;
-z-index:-1;
-pointer-events: none;
-background-repeat: no-repeat; 
-background-size: 100% 90px;
-background-position: 50% 0%;    
-background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 381 76.2" preserveAspectRatio="none"><g fill="%23d2dee4"><path d="M381 76.2l-12.7-8.47c-12.7-8.46-38.1-25.4-63.5-28.23-25.4-2.72-50.8 8.39-76.2 5.66-25.4-2.83-50.8-19.76-76.2-18.36-25.4 1.51-50.8 21.09-76.2 28.23-25.4 7.15-50.8 1.33-63.5-1.4L0 50.8V0h381z"/><path d="M381 67.73l-12.7-4.23c-12.7-4.23-38.1-12.7-63.5-12.7s-50.8 8.47-76.2 7.06c-25.4-1.5-50.8-12.62-76.2-11.3-25.4 1.33-50.8 15.62-76.2 21.17-25.4 5.56-50.8 2.91-63.5 1.4L0 67.74V0h381z" opacity=".66"/></g></svg>'); 
+	content:'';
+	font-family:'shape divider from ShapeDividers.com';
+	position: absolute;
+	bottom: -1px;
+	left: -1px;
+	right: -1px;
+	top: -1px;
+	z-index:-1;
+	pointer-events: none;
+	background-repeat: no-repeat; 
+	background-size: 100% 90px;
+	background-position: 50% 0%;    
+	background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 381 76.2" preserveAspectRatio="none"><g fill="%23d2dee4"><path d="M381 76.2l-12.7-8.47c-12.7-8.46-38.1-25.4-63.5-28.23-25.4-2.72-50.8 8.39-76.2 5.66-25.4-2.83-50.8-19.76-76.2-18.36-25.4 1.51-50.8 21.09-76.2 28.23-25.4 7.15-50.8 1.33-63.5-1.4L0 50.8V0h381z"/><path d="M381 67.73l-12.7-4.23c-12.7-4.23-38.1-12.7-63.5-12.7s-50.8 8.47-76.2 7.06c-25.4-1.5-50.8-12.62-76.2-11.3-25.4 1.33-50.8 15.62-76.2 21.17-25.4 5.56-50.8 2.91-63.5 1.4L0 67.74V0h381z" opacity=".66"/></g></svg>'); 
 }
 @media (min-width:1025px){
-.shapedividers_com-4134::before{ 
-z-index:-1;
-bottom: -0.1vw;
-left: -0.1vw;
-right: -0.1vw;
-top: -0.1vw; 
-background-size: 169% 400px;
-background-position: 50% 0%; 
-transform: rotateY(180deg); 
-background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 381 76.2" preserveAspectRatio="none"><g fill="%23d2dee4"><path d="M381 76.2l-12.7-8.47c-12.7-8.46-38.1-25.4-63.5-28.23-25.4-2.72-50.8 8.39-76.2 5.66-25.4-2.83-50.8-19.76-76.2-18.36-25.4 1.51-50.8 21.09-76.2 28.23-25.4 7.15-50.8 1.33-63.5-1.4L0 50.8V0h381z"/><path d="M381 67.73l-12.7-4.23c-12.7-4.23-38.1-12.7-63.5-12.7s-50.8 8.47-76.2 7.06c-25.4-1.5-50.8-12.62-76.2-11.3-25.4 1.33-50.8 15.62-76.2 21.17-25.4 5.56-50.8 2.91-63.5 1.4L0 67.74V0h381z" opacity=".66"/></g></svg>'); 
+	.shapedividers_com-4134::before{ 
+		z-index:-1;
+		bottom: -0.1vw;
+		left: -0.1vw;
+		right: -0.1vw;
+		top: -0.1vw; 
+		background-size: 169% 400px;
+		background-position: 50% 0%; 
+		transform: rotateY(180deg); 
+		background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 381 76.2" preserveAspectRatio="none"><g fill="%23d2dee4"><path d="M381 76.2l-12.7-8.47c-12.7-8.46-38.1-25.4-63.5-28.23-25.4-2.72-50.8 8.39-76.2 5.66-25.4-2.83-50.8-19.76-76.2-18.36-25.4 1.51-50.8 21.09-76.2 28.23-25.4 7.15-50.8 1.33-63.5-1.4L0 50.8V0h381z"/><path d="M381 67.73l-12.7-4.23c-12.7-4.23-38.1-12.7-63.5-12.7s-50.8 8.47-76.2 7.06c-25.4-1.5-50.8-12.62-76.2-11.3-25.4 1.33-50.8 15.62-76.2 21.17-25.4 5.56-50.8 2.91-63.5 1.4L0 67.74V0h381z" opacity=".66"/></g></svg>'); 
+	}
 }
 
-
-}/*홈페이지*/
+/*홈페이지*/
 @media all and (max-width:1279px) {
+	.container .main_box > .td:nth-child(3){background:#e5ecf0}
+	.container .main_box > .td:nth-child(3) p:before{background-color:#fff}
+	.container .main_box > .td:nth-child(4){background:#fff}
+	.container .main_box > .td:nth-child(4) p:before{background-color:#e5ecf0}
+	
+	
 	.container .mocaBox{height:100%; overflow:hidden}
 	.container .col5{width:100%}
 	.componentImg{height:auto}
 	.container .mocaBox .main_img .mainSvg svg{top:8px}
 	.container .main_box{height:230px}
-	.container .main_box > .td{width:50%; padding:10px 15px; height:100%;}
-	.container .main_box > .td:nth-child(3),.container .main_box > .td:nth-child(4){margin-top:30px; height:290px}
+	.container .main_box > .td{width:50%; padding:10px 15px; height:auto;}
+	.container .main_box > .td:nth-child(1),.container .main_box > .td:nth-child(2){padding-bottom:45px}
+	.container .main_box > .td:nth-child(3),.container .main_box > .td:nth-child(4){height:290px}
 	.container .main_box > .td:nth-child(3):before, .container .main_box > .td:nth-child(4):before{content: ''; display: block; border-top: 2px solid #79a6ba; top: 0; position: absolute; left: -10px; right: -10px;}
 	.container .main_box > .td p > i{display:none}
 	.container .main_box > .td p{word-break: keep-all;}
