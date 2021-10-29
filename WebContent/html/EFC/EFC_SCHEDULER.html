@@ -13,7 +13,7 @@ moca.EFC_SCHEDULER.___ready = function(){
 moca.EFC_SCHEDULER.fn_search = function(_callbackJson){
 	var _showMonth = moca.dateToString(new Date()).월;
 	if(_callbackJson != null){
-		_showMonth = moca.dateToString(_callbackJson.startDt).월
+		_showMonth = moca.dateToString(new Date(_callbackJson.startDt)).월
 	}
     moca.EFC_SCHEDULER.exe({
         url : moca._domain+moca._contextRoot+"/EFC_SCHEDULER/selectScheduleList.do",
@@ -95,6 +95,7 @@ moca.EFC_SCHEDULER.fn_setSchedule = function(response,_callbackJson){
         titleFormat : function(date) { // title 설정
         	return date.date.year +"년 "+(date.date.month +1)+"월"; 
         },
+        timeZone: 'local',
         dayHeaderContent: function (date) {
         	let weekList = ["일", "월", "화", "수", "목", "금", "토"];
         	if(date.view.type == 'timeGridWeek'){
@@ -157,8 +158,13 @@ moca.EFC_SCHEDULER.fn_addSchedule = function(_valueObj,_status){
     	}
     }else{
     	_title = '일정상세';
-    	_start = moca.dateToString(_valueObj.event._instance.range.start).fullFormat
-    	_end = moca.dateToString(_valueObj.event._instance.range.end).fullFormat
+    	var oriStartDate = _valueObj.event._instance.range.start;
+    	var oriEndDate = _valueObj.event._instance.range.end;
+    	var _startDate = new Date(oriStartDate.setHours(oriStartDate.getHours() - 9));
+    	var _endDate = new Date(oriEndDate.setHours(oriEndDate.getHours() - 9));
+    	
+    	_start = moca.dateToString(_startDate).fullFormat;
+    	_end = moca.dateToString(_endDate).fullFormat;
     	_schTitle = _valueObj.event._def.title;
     	_schIdx = _valueObj.event._def.groupId;
     	_bgcolor = _valueObj.event.backgroundColor;
@@ -176,7 +182,7 @@ moca.EFC_SCHEDULER.fn_addSchedule = function(_valueObj,_status){
     o.data = {
  		'start' : _start,
  		'end'   : _end,
- 		'allDay': _allday,
+ 		'allDay': false,
  		'title' : _schTitle,
  		'schIdx': _schIdx,
  		'viewType':_valueObj.view.type,
@@ -194,7 +200,7 @@ moca.EFC_SCHEDULER.fn_pop_callback = function(_json){
 		var _callbackJson = {};
 		_callbackJson.viewType = _json.viewType;
 		_callbackJson.startDt = _json.startDt;
-		
+		debugger;
 		moca.EFC_SCHEDULER.fn_search(_callbackJson);
 	}
 }

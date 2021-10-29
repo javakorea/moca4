@@ -5605,7 +5605,9 @@ public class TOController{
 			if(MapUtils.isEmpty(paramMap)) {
 				paramMap = mocaMap;
 			}
-			model.addAttribute("selectScheduleList",TOMapper.selectScheduleList(paramMap));
+			List list = TOMapper.selectScheduleList(paramMap);
+			model.addAttribute("selectScheduleList",list);
+			System.out.println(list);
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());

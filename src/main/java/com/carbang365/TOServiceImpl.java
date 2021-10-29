@@ -3,11 +3,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +28,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.stream.JsonReader;
 
 import egovframework.com.cmm.service.Globals;
 import egovframework.com.utl.sim.service.EgovFileCmprs;
 import egovframework.com.utl.sim.service.EgovFileTool;
 import egovframework.let.utl.fcc.service.EgovStringUtil;
+import mocaframework.com.cmm.API;
 import mocaframework.com.cmm.U;
 import mocaframework.com.cmm.Util;
 
@@ -2756,4 +2754,57 @@ LOGGER.debug(logTitle+"resCd>>> "+resCd);
 		
 		return nRtn;
 	}
+	
+	
+	/*
+	 * [스케쥴러용] 약관적용일이 되면 적용하기
+	 * @see com.carbang365.TOServiceInterface#tomorrowScheduleAlarmSms(java.util.Map, org.springframework.ui.ModelMap)
+	 */
+	public void batchTomorrowScheduleAlarmSms() throws Exception {
+		// TO_DO
+		
+		//selectTomorrowSchedule
+		List scheduleList = TOMapper.selectTomorrowSchedule(new HashMap());
+		try {
+	    	if(scheduleList != null && scheduleList.size() > 0){
+	    		for(int i=0;i < scheduleList.size() ;i++) {
+	    			Map sendMap = (Map)scheduleList.get(i);
+	    			System.out.println(sendMap);
+	    			System.out.println(sendMap.get("MBTLNUM").toString().replace("-", ""));
+			    	String _cont = sendMap.get("SCH_TITLE").toString();
+			    	if(_cont.length() > 20) {
+			    		_cont = _cont.substring(0,20)+"...";
+			    	};
+			    	//System.out.println(_cont);
+			    	
+					
+			    	String _resultCode = API.sendSms(
+			    			sendMap.get("SCH_WRITER")+"님 "+
+			    					sendMap.get("SCH_START").toString().substring(0, 16)+" "+
+	    				_cont+" 일정이 있습니다.",
+	    				sendMap.get("MBTLNUM").toString().replace("-", ""),
+	    				sendMap.get("SCH_WRITER").toString()
+			    	);
+			    	
+			    	System.out.println(_resultCode);
+			    	JSONParser parser = new JSONParser();
+			    	Object obj = parser.parse( _resultCode );
+			    	JSONObject jsonObj = (JSONObject) obj;
+
+			    	String code = jsonObj.get("result_code").toString();
+			    	String name = (String) jsonObj.get("message");
+			    	System.out.println("code:"+code);
+			    	System.out.println("name:"+name);
+			    	
+			    	if(code.equals("1")){
+			    		Map<String, Object> uMap = new HashMap<String, Object>();
+						uMap.put("SCH_IDX", sendMap.get("SCH_IDX"));
+				    	TOMapper.updateScheduleSendSmsYn(uMap);
+			    	}
+	    		}
+	    	}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	};
 }

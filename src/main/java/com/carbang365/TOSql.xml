@@ -5028,7 +5028,20 @@
     <!-- 스케줄러 조회 -->
     <select id="selectScheduleList" parameterType="map" resultType="map">
     	/*selectScheduleList 스케줄러 조회*/
-		SELECT * 
+		SELECT
+			SCH_IDX,
+			SCH_CATEGORY,
+			SCH_TITLE,
+			SCH_CONT,
+			SCH_WRITER,
+			SCH_CREATE_DTTM,
+			SCH_CURRENTMONTH,
+			SCH_START,
+			SCH_END,
+			SCH_DISP,
+			SCH_COLOR,
+			SCH_DELYN,
+			SCH_SENDYN
 		FROM MT_SCHEDULE
 		WHERE 1=1
 		AND SCH_DELYN = 'N'
@@ -5065,7 +5078,8 @@
 	            SCH_END,
 	            SCH_DISP,
 	            SCH_COLOR,
-	            SCH_DELYN
+	            SCH_DELYN,
+	            SCH_SENDYN
             )VALUES (
            		#{SCH_CATEGORY},
            		#{SCH_TITLE},
@@ -5077,6 +5091,7 @@
 	            #{SCH_END},
 	            #{SCH_DISP},
 	            #{SCH_COLOR},
+	            'N',
 	            'N'
             )
     </insert>
@@ -5101,6 +5116,27 @@
         /* deleteStatusBoard 게시물논리삭제*/
         UPDATE MT_SCHEDULE SET 
         	SCH_DELYN = 'Y'
+        WHERE 1=1
+		AND SCH_IDX=#{SCH_IDX}
+    </update>
+    
+     <!-- 스케줄러 내일일정알림 조회 -->
+    <select id="selectTomorrowSchedule" parameterType="map" resultType="map">
+    	/*selectTomorrowSchedule 스케줄 내일 일정조회*/
+       SELECT A.*, B.MBTLNUM
+		FROM MT_SCHEDULE A LEFT JOIN MT_LETTNEMPLYRINFO 
+		B ON A.SCH_WRITER = B.EMPLYR_ID
+		WHERE 1=1 
+		AND A.SCH_DELYN = 'N' 
+		AND A.SCH_SENDYN = 'N'
+		AND DATE(A.SCH_START) = (SELECT ADDDATE(CURDATE(), 1))
+    </select>
+    
+    <!-- 스케줄러 일정 SMS보내기 YN업데이트 -->
+    <update id="updateScheduleSendSmsYn" parameterType="map">
+        /* updateScheduleSendSmsYn 게시물논리삭제*/
+        UPDATE MT_SCHEDULE SET 
+        	SCH_SENDYN = 'Y'
         WHERE 1=1
 		AND SCH_IDX=#{SCH_IDX}
     </update>

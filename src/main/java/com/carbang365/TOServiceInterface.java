@@ -1,4 +1,5 @@
 package com.carbang365;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,4 +31,7 @@ public interface TOServiceInterface  {
 	
 	//20210503 통합 납부영수증 매핑
 	public String TO_018_procUnfyPayVou(Map<String, Object> mocaMap, ModelMap model) throws Exception;
+	
+	//스케줄러 내일일정 sms보내기
+	public void batchTomorrowScheduleAlarmSms() throws Exception;
 }

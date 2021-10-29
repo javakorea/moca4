@@ -315,5 +315,4 @@ public class MocaEFLServiceImpl extends EgovAbstractServiceImpl implements MocaE
 		
 		U.mailSend(map);
 	}	
-			
 }

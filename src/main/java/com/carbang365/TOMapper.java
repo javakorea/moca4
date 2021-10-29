@@ -462,4 +462,11 @@ public interface TOMapper {
 	public int updateScheduleInfo(Map<String, Object> map);
 	// 게시글논리삭제
 	public int deleteScheduleInfo(Map<String, Object> map);
+	
+	// 내일 스케줄 조회
+	public List<Map<String, Object>> selectTomorrowSchedule(Map<String, Object> map);
+	
+	
+	// 내일 스케줄 sms 보내기 yn
+	public int updateScheduleSendSmsYn(Map<String, Object> map);
 }
