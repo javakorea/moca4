@@ -2153,6 +2153,10 @@ public class TOController{
 				paramMap.put("ID_Facebook", id);	// 페이스북
 			}
 	
+			
+			cnt = TOMapper.insertToUsers(paramMap);
+			
+			/*
 			ToUserVO userVoIsLeaveYn = TOMapper.selectToUsersLeaveYn(paramMap); 
 			if(userVoIsLeaveYn != null &&  "Y".equals(userVoIsLeaveYn.getLeaveYn())) {
 				paramMap.put("inqType", "2");
@@ -2168,7 +2172,7 @@ public class TOController{
 				}
 			}
 
-			
+			*/
 			model.addAttribute("cnt", cnt);
 			
 		}catch(Exception e) {

@@ -54,10 +54,10 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .container .mocaBox a.btn:hover, .container .mocaBox > a.btn:active{opacity:1}
 .container .mocaBox .main_img2{background:url(../images/home/main_img2.png)no-repeat;}
 
-.mocastep {width: calc(25% - 7.6px);  position: relative; box-sizing: border-box; margin-right:10px; border-radius: 0 10px 0px 10px; border-top: 0; height: 150px; border: 1px solid #eae7e7;}
+.mocastep {width: calc(50% - 5px);  position: relative; box-sizing: border-box; border-radius: 0 10px 0px 10px; border-top: 0; height: 120px; border: 1px solid #eae7e7;}
 .mocastep:last-child{margin-right:0}
-.mocastep.step1{ background:#95c8ec; }
-.mocastep.step2{ background:#95c0d5; }
+.mocastep.step1{ background:#f5cd6d; margin-right:5px}
+.mocastep.step2{ background:#95c0d5; margin-left:5px}
 .mocastep.step3{ background:#e9c369; }
 .mocastep.step4{ background:#d1c4f3; }
 .container .contBox{height:189px; background:#ddd}
@@ -84,7 +84,8 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .f_point{color:#3fbda7 !important;}
 
 /*메인 _ 게시판*/
-.boardTable{margin-top:10px}
+.boardArea .col5:nth-child(1){background:#e5ecf0}
+.boardTable table {margin-top:5px}
 .boardTable .notice{border-top: 2px solid #5f80c7; padding:5px 10px}
 .boardTable .notice > div > img{width:calc(100% - 15px); margin:5px 15px 7px 0; box-shadow:1px 1px 2px rgba(0,0,0, 10%)}
 .boardTable .noticeTitle{font-size:15px; font-weight:bold; font-size: 15px; font-weight: bold;text-overflow: ellipsis; overflow: hidden; white-space: nowrap;}
@@ -181,8 +182,6 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 	.container .main_box > .td:nth-child(3) p:before{background-color:#fff}
 	.container .main_box > .td:nth-child(4){background:#fff}
 	.container .main_box > .td:nth-child(4) p:before{background-color:#e5ecf0}
-	
-	
 	.container .mocaBox{height:100%; overflow:hidden}
 	.container .col5{width:100%}
 	.componentImg{height:auto}
@@ -194,11 +193,13 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 	.container .main_box > .td:nth-child(3):before, .container .main_box > .td:nth-child(4):before{content: ''; display: block; border-top: 2px solid #79a6ba; top: 0; position: absolute; left: -10px; right: -10px;}
 	.container .main_box > .td p > i{display:none}
 	.container .main_box > .td p{word-break: keep-all;}
-	    
 	.wrapper{min-width:unset}
 	.mocastep{width:calc(100% - 5px); height:130px; margin-bottom:10px;}
 	.container .mocaBox .main_img p{font-size:15px}
 	.container .mocaBox .main_img2 img{width:100%; height:100%}
+	.boardArea .col5:nth-child(1){background:#fff}
+	.boardArea .col5:nth-child(2){background:#e5ecf0}
+	.mocastep.step2{margin-bottom:0}
 }
  
  

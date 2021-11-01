@@ -7,6 +7,10 @@ moca.EFC_SCHEDULER_POP.end;
 moca.EFC_SCHEDULER_POP.allDay;
 moca.EFC_SCHEDULER_POP.schIdx;
 moca.EFC_SCHEDULER_POP.___ready = function(args){
+	if(moca.getDevice() == "mobile"){
+		moca.hide(moca.EFC_SCHEDULER_POP.getObj("schTitle"));
+		$('#form_schedule').css('height','57px');
+	}
 	moca.hide(moca.EFC_SCHEDULER_POP.getObj("form_schedule"));
 	moca.hide(moca.EFC_SCHEDULER_POP.getObj("btn_update"));
 	moca.hide(moca.EFC_SCHEDULER_POP.getObj("btn_save"));
@@ -17,7 +21,6 @@ moca.EFC_SCHEDULER_POP.___ready = function(args){
     	moca.EFC_SCHEDULER_POP.args = args;
         moca.EFC_SCHEDULER_POP.start = args.parent.data.start;
         moca.EFC_SCHEDULER_POP.end = args.parent.data.end;
-        debugger;
         moca.EFC_SCHEDULER_POP.setFrom('schDate',args.parent.data.start);
         moca.EFC_SCHEDULER_POP.setTo('schDate',args.parent.data.end);
         moca.EFC_SCHEDULER_POP.schIdx = args.parent.data.schIdx;
@@ -224,7 +227,7 @@ moca.EFC_SCHEDULER_POP.fn_del = function(_thisObj){
 			                                	<div type="input" id="wid" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
 			                                </td>
 			                            </tr>
-			                            <tr>
+			                            <tr id ="schTitle">
 			                            	<th>일정제목</th>
 			                                <td colspan="5">
 			                                    <div type="input" id="wtitle" class="mocaInput fl" innerClass="" onclick="" style="width:calc(100% - 45px);" value="" readonly="false"></div>

@@ -35,7 +35,7 @@ var mocaConfig = {
 	userLogInsert : false,
 	isDevMode : function(){
 		var h = location.host;
-		if(h == "dev-mycar.carbang365.co.kr:9090" || h == "localhost:9090" ){
+		if(h == "dev-mycar.carbang365.co.kr:9090" || h == "localhost:8080" ){
 			return true;
 		}else{
 			return false;
@@ -62,9 +62,13 @@ var mocaConfig = {
 	},
 	getSocailLoginKakaoKey:function(){
 		if(mocaConfig.isDevMode()){
-			return "ee62c7e428942f32c7ed8495c4b75fae";
+			return "f637bb89590ac47dc386b8e0131f2678";
+			//return "e6123573a0d519975cd22e9f10a70c8e";
+			//return "ee62c7e428942f32c7ed8495c4b75fae";
 		}else{
-			return "ee62c7e428942f32c7ed8495c4b75fae";
+			return "f637bb89590ac47dc386b8e0131f2678";
+			//return "e6123573a0d519975cd22e9f10a70c8e";
+			//return "ee62c7e428942f32c7ed8495c4b75fae";
 		}
 	},
 	getSocailLoginFacebookKey:function(){
@@ -76,9 +80,11 @@ var mocaConfig = {
 	},	
 	getSocailLoginNaverKey:function(){
 		if(mocaConfig.isDevMode()){
-			return "Epxta39uWV_RSn_p6xxl";
+			return"rmYvWivDmlODPbYgPBq0";
+			//return "Epxta39uWV_RSn_p6xxl";
 		}else{
-			return "Epxta39uWV_RSn_p6xxl";
+			return"rmYvWivDmlODPbYgPBq0";
+			//return "Epxta39uWV_RSn_p6xxl";
 		}
 	},	
 	getSocailLoginUrl:function(){
@@ -88,11 +94,13 @@ var mocaConfig = {
 			return "TOM_02.html";
 		}
 	},	
+	
+	
 	getSocailLoginSuccessUrl:function(){
 		if(mocaConfig.isDevMode()){
-			return "http://dev-mycar.carbang365.co.kr:9090/to/m/TOM_25.html" ;
+			return "https://teammoca.co.kr" ;
 		}else{
-			return "https://mycar.carbang365.co.kr:8443/to/m/TOM_25.html" ;
+			return "https://teammoca.co.kr" ;
 		}
 	},	
 	getSiren24:function(){

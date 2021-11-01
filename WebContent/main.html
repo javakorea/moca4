@@ -16,7 +16,7 @@ moca.main.___ready = function(args){
 	moca.getContent(moca._domain+moca._contextRoot+"/images/home/main_img.svg",function(data) {
 		$('#mainSvg').html(data);
 	});
-	//moca.main.fn_search();
+	moca.main.fn_search();
 };
 moca.main.boardType ='WS';
 moca.main.fn_search = function(){
@@ -46,7 +46,7 @@ moca.main.fn_search = function(){
 				moca.main.BD_CONTENT_FOR_BD_WS[row.BOARD_IDX] = row; 
 			}
 			$('#tbl_BD_WS').html(full_html);
-        	
+			$('#tbl_BD_NOTICE').html(full_html);
         }
     });
 };
@@ -136,127 +136,67 @@ function goMoca(){
 						<div class="fl col5 main_img2">
 							<img src="./images/home/main_img2.png" alt="moca메인이미지2">
 						</div>
-						<!-- 
-						<div class="fr col5" style="background: #e8f0f9;">
-							<div class="content develop">
-								<h3 class="tfl"><i class="fas fa-angle-double-right"></i>MOCA기술지원<span class="eng">SupportCenter</span></h3>
-								<p>TEAMMOCA의 전문 개발진들이 고객님들을 지원합니다</p>
-								<div class="boardTable" id="ws_list">
-									<span class="boardTitle"><i class="fas fa-comment-dots"></i>웹스퀘어게시판</span>
-									<button class="boardMore fr"  onclick="moca.main.fn_pop_boardMain('BD_WS')"><i class="fas fa-plus-circle"></i>더보기</button>
-									<table class="boardList">
-										<colgroup>
-											<col style="width:395px">
-											<col style="">
-											<col style="">
-										</colgroup>
-										<tbody id="tbl_BD_WS">
-											<tr onclick="moca.main.fn_pop_boardPop('BD_WS','#BD_CODE#')">
-												<td class="bdTitle">#BD_TITLE#</td>
-												<td class="bdName tfc">#BD_USERID#</td>
-												<td class="bdDate tfc">#BD_DATE#</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div class="content develop" style="padding-top:0; padding-bottom:20px">
-								<div class="boardTable">
-									<span class="boardTitle"><i class="fas fa-user-friends"></i>구인/구직</span>
-									<button class="boardMore fr" onclick="moca.main.fn_pop_boardView('BD_INCRUIT','#BD_CODE#')" ><i class="fas fa-plus-circle"></i>더보기</button>
-									<table class="boardList">
-										<colgroup>
-											<col style="width:395px">
-											<col style="">
-											<col style="">
-										</colgroup>
-										<tbody id="tbl_BD_INCRUIT">
-											<tr onclick="moca.main.fn_pop_boardView('BD_INCRUIT','#BD_CODE#')" >
-												<td class="bdTitle">#BD_TITLE#</td>
-												<td class="bdName">#BD_USERID#</td>
-												<td class="bdDate tfc">#BD_DATE#</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div class="content support" style=" background:#e8f0f9">
-								<h3 class="tfl"><i class="fas fa-angle-double-right"></i>MOCA기술지원<span class="eng">SupportCenter</span></h3>
-								<p>TEAMMOCA의 전문 개발진들이 고객님들을 지원합니다</p>
-								<div class="boardTable">
-									<span class="boardTitle"><i class="fas fa-comment-dots"></i>Q&A</span>
-									<button class="boardMore fr"><i class="fas fa-plus-circle"></i>더보기</button>
-									<table class="boardList">
-										<colgroup>
-											<col style="width:395px">
-											<col style="">
-											<col style="">
-										</colgroup>
-										<tbody id="tbl_BD_QNA">
-											<tr onclick="moca.main.fn_pop_boardView('BD_QNA','#BD_CODE#')" >
-												<td class="bdTitle">#BD_TITLE#</td>
-												<td class="bdName tfc">#BD_USERID#</td>
-												<td class="bdDate tfc">#BD_DATE#</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div class="content support" style="padding-top:0; background:#e8f0f9">
-								<div class="boardTable">
-									<span class="boardTitle"><i class="fas fa-save"></i>자료실</span>
-									<button class="boardMore fr"><i class="fas fa-plus-circle"></i>더보기</button>
-									<table class="boardList">
-										<colgroup>
-											<col style="width:395px">
-											<col style="">
-											<col style="">
-										</colgroup>
-										<tbody id="tbl_BD_DATA">
-											<tr onclick="moca.main.fn_pop_boardView('BD_DATA','#BD_CODE#')" >
-												<td class="bdTitle">#BD_TITLE#</td>
-												<td class="bdName tfc">#BD_USERID#</td>
-												<td class="bdDate tfc">#BD_DATE#</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-						-->
 					</div>
 				</div>
-				
-				
-				<div class="mocaBox">
-					<div style="height:201px; box-sizing:border-box">
-						<h3 style="font-size: 15px; padding: 10px"><i class="far fa-thumbs-up" style="margin-right:5px; color:#5f80c7"></i>MOCA 적용단계<span style="font-size:11.5px;color:#555; font-weight:normal; margin-left:5px">MOCA를 사용하시면 빠르고 편리한  UI/UX환경을 구축할 수 있습니다.</span></h3>
+				<div class="mocaBox boardArea">
+					<div style="height:176px; box-sizing:border-box">
+						<div class="col5 fl p10">
+							<div class="boardTable" id="ws_list">
+								<span class="boardTitle"><i class="fas fa-comment-dots"></i>웹스퀘어게시판</span>
+								<button class="boardMore fr"  onclick="moca.main.fn_pop_boardMain('BD_WS')"><i class="fas fa-plus-circle"></i>더보기</button>
+								<table class="boardList">
+									<colgroup>
+										<col style="width:395px">
+										<col style="">
+										<col style="">
+									</colgroup>
+									<tbody id="tbl_BD_WS">
+										<tr onclick="moca.main.fn_pop_boardPop('BD_WS','#BD_CODE#')">
+											<td class="bdTitle">#BD_TITLE#</td>
+											<td class="bdName tfc">#BD_USERID#</td>
+											<td class="bdDate tfc">#BD_DATE#</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="col5 fr p10">
+							<div class="boardTable" id="ws_list2">
+								<span class="boardTitle"><i class="fas fa-comment-dots"></i>공지사항</span>
+								<button class="boardMore fr"  onclick="moca.main.fn_pop_boardMain('BD_WS')"><i class="fas fa-plus-circle"></i>더보기</button>
+								<table class="boardList">
+									<colgroup>
+										<col style="width:395px">
+										<col style="">
+										<col style="">
+									</colgroup>
+									<tbody id="tbl_BD_NOTICE">
+										<tr onclick="moca.main.fn_pop_boardPop('BD_WS','#BD_CODE#')">
+											<td class="bdTitle">#BD_TITLE#</td>
+											<td class="bdName tfc">#BD_USERID#</td>
+											<td class="bdDate tfc">#BD_DATE#</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="mocaBox pt10 pb10">
+					<div style="height:120px; box-sizing:border-box">
 						<div class="fl mocastep step1">
 							<div style="background: rgba(255, 255, 255, 0.15);">
-								<span style="height: 37px; display: inline-block; color: #fff; text-align: center; padding: 9px; box-sizing: border-box; font-size: 14px;;">구매상담</span>
-								<i style="display: inline-block; font-size: 25px; font-weight: bold; position: absolute; right: 13px; color: #fff;">1</i>
+								<span style="height: 37px; display: inline-block; color: #fff; text-align: center; padding: 9px; box-sizing: border-box; font-size: 14px;;">컨설팅 상담요청</span>
 							</div>
-							
-							<p style="color:#fff; padding:10px; font-size:15px">구매를 원하시면 친절하게 상담해드리겠습니다.</p>
+							<p style="color:#fff; padding:10px; font-size:15px">컨설팅이 필요하시면 친절하게 상담해드리겠습니다.</p>
 							<button style="width:110px; padding:3px 10px; display:inline-block; position:relative; top:1px; left:10px; color:#333; border-radius:20px; background:#fff; opacity:0.5">
 								<a href="tel:010-9116-8072" style="color:#333">상담 문의<i class="fas fa-angle-double-right" style="margin-left:5px"></a></i>
 							</button>
 							<span class="mainicon2 img1"></span>
-							
 						</div>
 						<div class="fl mocastep step2">
 							<div style="background: rgba(255, 255, 255, 0.15);">
-								<span style="height: 37px; display: inline-block; color: #fff; text-align: center; padding: 9px; box-sizing: border-box; font-size: 14px;">화면디자인 및 퍼블리싱</span>
-								<i style="display: inline-block; font-size: 25px; font-weight: bold; position: absolute; right: 13px; color: #fff;">2</i>
-							</div>
-							
-							<p style="color:#fff; padding:10px; font-size:15px">개발자는 비즈니스로직에만 집중하고 모카팀이 화면을 전담하여 찍어내드립니다.</p>
-							<span class="mainicon2 img2"></span>
-						</div>
-						<div class="fl mocastep step3">
-							<div style="background: rgba(255, 255, 255, 0.15);">
 								<span style="height: 37px; display: inline-block; color: #fff; text-align: center; padding: 9px; box-sizing: border-box; font-size: 14px;">모카기반 개발</span>
-								<i style="display: inline-block; font-size: 25px; font-weight: bold; position: absolute; right: 13px; color: #fff;">3</i>
 							</div>
 							<p style="color:#fff; padding:10px; font-size:15px">개발을 하시기 전에 모카개발교육을 진행합니다.</p>
 							<button style="width:110px; padding:3px 10px; display:inline-block; position:relative; top:1px; left:10px; color:#333; border-radius:20px; background:#fff; opacity:0.5">
@@ -264,18 +204,10 @@ function goMoca(){
 							</button>
 							<span class="mainicon2 img3"></span>
 						</div>
-						<div class="fl mocastep step4">
-							<div style="background: rgba(255, 255, 255, 0.15);">
-								<span style="height: 37px; display: inline-block; color: #fff; text-align: center; padding: 9px; box-sizing: border-box; font-size: 14px;">라이센스 발급</span>
-								<i style="display: inline-block; font-size: 25px; font-weight: bold; position: absolute; right: 13px; color: #fff;">4</i>
-							</div>
-							<p style="color:#fff; padding:10px; font-size:15px">개발이 완료되면 모카 정식 라이센스를 발급해드립니다.</p>
-							<span class="mainicon2 img4"></span>
-						</div>
+					
 					</div>
-				</div> 
+				</div>
 			</div>
-			
 		</div>
 			<div class="footer">
 				<div class="f_content">

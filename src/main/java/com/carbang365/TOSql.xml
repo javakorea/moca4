@@ -1882,8 +1882,9 @@
     </update>
     
     <!-- 미가입 사용자 회원가입 -->
+    <!--                
     <insert id="insertToUsers" parameterType="map">
-    	/* insertToUsers 미가입 사용자 회원가입 */
+    	/* insertUsers 미가입 사용자 회원가입 */
     	INSERT INTO TO_USERS(
 			ID_Kakao               /* 카카오ID */
 			, ID_Naver             /* 네이버ID */
@@ -1919,6 +1920,75 @@
 			, #{SecretKey}
 			, '1'
     	)
+    </insert>
+    -->
+    <insert id="insertToUsers" parameterType="map">
+    	/* insertUsers 미가입 사용자 회원가입 */
+    	INSERT INTO MT_LETTNEMPLYRINFO 
+                (   ESNTL_ID             ,
+                    EMPLYR_ID           ,
+                    USER_NM           ,
+                    PASSWORD            ,
+                    PASSWORD_HINT       ,
+                    PASSWORD_CNSR       ,
+                    EMPL_NO             ,
+                    IHIDNUM             ,
+                    SEXDSTN_CODE        ,
+                    BRTHDY                ,
+                    AREA_NO             ,
+                    HOUSE_MIDDLE_TELNO    ,
+                    HOUSE_END_TELNO       ,
+                    FXNUM               ,
+                    HOUSE_ADRES           ,
+                    DETAIL_ADRES        ,
+                    ZIP                 ,
+                    OFFM_TELNO          ,
+                    MBTLNUM         ,
+                    EMAIL_ADRES         ,
+                    OFCPS_NM            ,
+                    GROUP_ID            ,
+                    ORGNZT_ID           ,
+                    PSTINST_CODE          ,
+                    EMPLYR_STTUS_CODE   ,
+                    SBSCRB_DE           ,
+                    CRTFC_DN_VALUE		,
+                    <if test="endDate != null and paramValue != '' " >
+                   		END_DATE,
+                    </if>
+                    USER_TYPE			)
+            VALUES (
+            		#{uniqId}			,
+            		#{emplyrId}			,
+            		#{emplyrNm}			,
+            		#{password}			,
+            		#{passwordHint}		,
+            		#{passwordCnsr}		,
+            		#{emplNo}			,
+            		#{ihidnum}			,
+            		#{sexdstnCode}		,
+            		#{brth}				,
+            		#{areaNo}			,
+            		#{homemiddleTelno}	,
+            		#{homeendTelno}		,
+            		#{fxnum}			,
+            		#{homeadres}		,
+            		#{detailAdres}		,
+            		#{zip}				,
+            		#{offmTelno}		,
+            		#{moblphonNo}		,
+            		#{emailAdres}		,
+            		#{ofcpsNm}			,
+            		#{groupId}			,
+            		#{orgnztId}			,
+            		#{insttCode}		,
+            		#{emplyrSttusCode}	,
+            		sysdate()           ,
+            		#{subDn}			,
+                    <if test="endDate != null and paramValue != '' " >
+                   		#{endDate},
+                    </if>
+                    #{userType}		 
+              )
     </insert>
     <!-- 탈퇴 사용자 회원가입 -->
     <update id="updateToUsers" parameterType="map">
