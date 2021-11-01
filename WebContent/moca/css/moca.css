@@ -147,7 +147,7 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_ibn.req:hover{border:1px solid #e45c2d;background:#fffbe8}
 .moca_ibn .moca_input {width:100%; height:100%; padding-right:24px; border:0; background:none;}
 .moca_table .moca_ibn .moca_input:read-only {background-color:#eee}
-.moca_input_color{border-radius: 0; height: 24px; border: 1px solid #bbc3ce; width: 36px; margin-left: 2px}
+.moca_input_color{border-radius: 0; height: 24px; border: 1px solid #bbc3ce; width: 33px; margin-left: 2px}
 .moca_ibn .moca_input_color{width:18px; padding:0; border:0; background:none; height:26px; position:absolute; right:0; top:-2px; border-left:1px solid #bbc3ce;}
 .moca_ibn .moca_ibn_btn {position:absolute; top:0; right:0; width:24px; height:100%; background:#fff; background:url(../images/ico_ib_btn.png) no-repeat 50% 50%; border:0; border-left:1px solid #ddd; border-radius:0 2px 2px 0;text-indent:-9999px}
 .moca_ibn2 {padding: 0 7px; margin-left:5px; background: #476d8e; color: #fff; border-radius: 3px; height: 25px; border: 1px solid #476d8e; box-sizing: border-box; box-shadow: inset -1px -1px 1px rgba(0,0,0,0.2); opacity: 0.9;	}

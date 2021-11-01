@@ -131,7 +131,8 @@ moca.EFC_SCHEDULER.fn_setSchedule = function(response,_callbackJson){
       	events: _schArray,
       	eventClick:function(info) {
       		moca.EFC_SCHEDULER.fn_addSchedule(info,'R');
-        }
+        },
+        longPressDelay:10
     });
     calendar.render();
     moca.EFC_SCHEDULER.calendar = calendar;
@@ -200,7 +201,6 @@ moca.EFC_SCHEDULER.fn_pop_callback = function(_json){
 		var _callbackJson = {};
 		_callbackJson.viewType = _json.viewType;
 		_callbackJson.startDt = _json.startDt;
-		debugger;
 		moca.EFC_SCHEDULER.fn_search(_callbackJson);
 	}
 }

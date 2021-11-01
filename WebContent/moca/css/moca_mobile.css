@@ -29,7 +29,7 @@
 	  display: none; /* Chrome, Safari, Opera */
 	}
 	.toast_msg{display:none}
-		
+	.moca_input_color{padding:0}
 	/*multiMdi*/
 	.moca_mdi .moca_tab_control{width:30px}
 	.moca_tab .moca_tab_control .moca_tab_division{display:none}
