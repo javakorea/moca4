@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="./moca/css/fontawesome.css">
 <link rel="stylesheet" type="text/css" href="./css/media.css">
 <link rel="stylesheet" type="text/css" href="/moca/css/moca_mobile.css">
+
 <script>
 
 moca.main.BD_CONTENT_FOR_BD_WS = {};
@@ -17,6 +18,7 @@ moca.main.___ready = function(args){
 		$('#mainSvg').html(data);
 	});
 	moca.main.fn_search();
+	initKakao(mocaConfig.getSocailLoginKakaoKey());
 };
 moca.main.boardType ='WS';
 moca.main.fn_search = function(){
@@ -82,8 +84,75 @@ moca.main.fn_pop_boardMain = function(_gubun){
     o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"WS"};
     moca.popup(o,_this);
 };
-function go(){
-	location.href="/m/TOM_02.html"
+
+
+
+function initKakao(_key){
+	Kakao.init(_key);
+	if(Kakao.Auth.getAccessToken()){
+		loginChecker(1);
+	}
+};
+
+function loginKakao(){
+	Kakao.Auth.login({
+		success: function(authObj) {
+		Kakao.API.request({
+			url: '/v2/user/me',
+			success: function(response) {
+				loginSetter(response.id,response.kakao_account.email,response.kakao_account.profile.nickname);
+			},fail: function(error) {console.log(error);}
+		});
+		},fail: function(err) {},
+	});
+};
+
+function loginSetter(_id,_email,_name){
+	var loginInfo = {};
+	loginInfo.id = _id;
+	loginInfo.name = _name;
+	loginInfo.email = _email;
+	moca.setSs("loginTemp0",loginInfo);
+	moca.main.exe({
+		url : mocaConfig._domain+mocaConfig._contextRoot+"/main/selectMocaUserInfo.do",
+        data : {
+        	"header" : moca.header,
+        	"body" : {
+        		"USER_KAKAO_ID":_id+"",
+        	}
+        },			
+		callback : function(response){
+			if(response.selectMocaUserInfo != null){
+				//곧바로 진행스텝으로
+				moca.setSs("loginInfo",response.selectMocaUserInfo);
+				$('#kakaoLogin').hide();
+				$('#userName').show();
+				$('#userName').html('<i class="fa fa-user" aria-hidden="true"></i>'+response.selectMocaUserInfo.USER_NAME);
+			}else{
+				//회원가입
+				moca.main.exe({
+					url : moca._domain+moca._contextRoot+"/main/insertUserInfo.do",
+				    data : { 
+				    	"header" : moca.header,
+				    	"body" : {
+				    		"USER_KAKAO_ID":_id+"",
+				    		"USER_NAME":_name,
+				    		"USER_EMAIL":_email,
+				    	}
+				    },			
+					callback : function(response){
+				    	debugger;
+					}
+				});
+			}
+		}
+	});
+};
+function loginChecker(loginType){
+	var loginObj = moca.getSs("loginInfo");
+	if(loginObj != null && loginObj.loginType == loginType){
+		location.href = mocaConfig.getSocailLoginSuccessUrl();
+	}
 };
 function goMoca(){
 	location.href="/admin.do"
@@ -91,10 +160,7 @@ function goMoca(){
 
 </script>
 <style>
-	.header{position:relative;}
-	.login{width: 35px; height: 35px; line-height: 35px; color: #5bcbff; display: block; position: absolute; top: 19px; right: 35px/*35px*/; font-size: 18px; border: 1px solid; border-radius: 50% 50%; text-align: center; cursor:pointer;}
-	.login:hover{background:#ecf8ff}
-	.login_mail{color: #25a5e1; position: absolute; right: 35px; top: 28px;}
+	
 </style>
 </head>
 <body>
@@ -103,7 +169,8 @@ function goMoca(){
 		<div class="wrapContent">
 			<div class="header">
 				<h1><a href="./index.html">MOCA</a></h1>
-				 <button class="login" onclick="go()"><i class=" fa fa-user" aria-hidden="true"></i></button>
+				 <button id="kakaoLogin" class="login fr" onclick="loginKakao()"></button>
+				 <span style="display:none" class="loginInfo" id="userName"></span>
 			</div>
 			<div class="container" style="overflow: inherit">
 				<!-- WEB -->

@@ -2127,62 +2127,6 @@ public class TOController{
 	    return jsonview;
 	}
 	
-//	6. 회원가입
-//	- inqType 1: 신규가입, 2: 탈퇴 후 재가입(탈퇴는 관리자에서 처리함)
-	@RequestMapping(value = {"/TOM_02/saveUserInfo.do","/TOM_02/mobile/saveUserInfo.do"})
-	public View saveUserInfo(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
-		try {
-			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
-			// 서비스 테스트용 구문 추가
-			if(MapUtils.isEmpty(paramMap)) {
-				paramMap = mocaMap;
-			}
-			int cnt = 0;
-			String inqType = (String) paramMap.get("inqType");		// 회원가입구분 (1:신규가입, 2:탈퇴 후 재가입)
-			String loginType = (String) paramMap.get("loginType");	// 소셜로그인 구분 1:카카오, 2:네이버, 3:페이스북
-			String id = (String) paramMap.get("id");				// 소셜로그인 id
-			paramMap.put("ID_Kakao", null);
-			paramMap.put("ID_Naver", null);
-			paramMap.put("ID_Facebook",null);
-			
-			if("1".equals(loginType)) {	
-				paramMap.put("ID_Kakao", id);	// 카카오
-			} else if("2".equals(loginType)) {	
-				paramMap.put("ID_Naver", id);	// 네이버
-			} else {
-				paramMap.put("ID_Facebook", id);	// 페이스북
-			}
-	
-			
-			cnt = TOMapper.insertToUsers(paramMap);
-			
-			/*
-			ToUserVO userVoIsLeaveYn = TOMapper.selectToUsersLeaveYn(paramMap); 
-			if(userVoIsLeaveYn != null &&  "Y".equals(userVoIsLeaveYn.getLeaveYn())) {
-				paramMap.put("inqType", "2");
-				paramMap.put("leaveYn", "N");
-				paramMap.put("SESS_USERID", userVoIsLeaveYn.getIdx());
-				paramMap.put("idx", userVoIsLeaveYn.getIdx());
-				cnt = TOMapper.updateToUsers(paramMap);
-			}else {
-				if("1".equals(inqType)) {	// 신규가입
-					cnt = TOMapper.insertToUsers(paramMap);
-				} else {					// 기존회원정보 update 및 탈퇴여부 N으로 처리
-					cnt = TOMapper.updateToUsers(paramMap);
-				}
-			}
-
-			*/
-			model.addAttribute("cnt", cnt);
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-			model.addAttribute("error", e.getMessage());
-		}
-	    return jsonview;
-	};
-
-	
 	/************************************************ 로그인/회원가입 끝 ************************************************/
 	
 		
@@ -5676,6 +5620,44 @@ public class TOController{
 				paramMap = mocaMap;
 			}
 			model.addAttribute("cnt", TOMapper.deleteScheduleInfo(paramMap));
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
+	
+//	6. 회원가입
+//	- inqType 1: 신규가입, 2: 탈퇴 후 재가입(탈퇴는 관리자에서 처리함)
+	@RequestMapping(value = {"/main/insertUserInfo.do"})
+	public View insertUserInfo(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			int cnt = 0;
+			cnt = TOMapper.insertMocaUsers(paramMap);
+			model.addAttribute("cnt", cnt);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+	    return jsonview;
+	};
+	
+	//모카사용자 조회  
+	@RequestMapping(value = "/main/selectMocaUserInfo.do")
+	public View selectMocaUserInfo(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			model.addAttribute("selectMocaUserInfo", TOMapper.selectMocaUserInfo(paramMap));
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());

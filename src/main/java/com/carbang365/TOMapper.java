@@ -234,9 +234,6 @@ public interface TOMapper {
     // 회원상세조회(보안번호로)
     public ToUserVO selectToUsersDetailBySecretKey(Map<String, Object> map);    
     
-    
-    // 미가입 사용자 회원가입
-    public int insertToUsers(Map<String, Object> map);
     // 탈퇴 사용자 회원가입
     public int updateToUsers(Map<String, Object> map);
     // 회원탈퇴
@@ -465,8 +462,11 @@ public interface TOMapper {
 	
 	// 내일 스케줄 조회
 	public List<Map<String, Object>> selectTomorrowSchedule(Map<String, Object> map);
-	
-	
 	// 내일 스케줄 sms 보내기 yn
 	public int updateScheduleSendSmsYn(Map<String, Object> map);
+	
+	// 미가입 사용자 회원가입
+    public int insertMocaUsers(Map<String, Object> map);
+ // 스케줄러단건조회
+ 	public Map <String, Object> selectMocaUserInfo(Map<String, Object> map);
 }

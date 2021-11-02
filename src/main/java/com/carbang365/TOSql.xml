@@ -1881,115 +1881,6 @@
     	WHERE idx = #{idx}
     </update>
     
-    <!-- 미가입 사용자 회원가입 -->
-    <!--                
-    <insert id="insertToUsers" parameterType="map">
-    	/* insertUsers 미가입 사용자 회원가입 */
-    	INSERT INTO TO_USERS(
-			ID_Kakao               /* 카카오ID */
-			, ID_Naver             /* 네이버ID */
-			, ID_Facebook          /* 페이스북ID */
-			, Password             /* 보안번호 */
-			, Email                /* 고객이메일 */
-			, Name                 /* 고객명 */
-			, Sex                  /* [성별] 1 : 남성 / 2 : 여성 */
-			, BirthDate            /* 생년월일 */
-			, Mobile_Phone         /* 휴대폰번호 */
-			, Mobile_Carrier_Major /* [이동통신사] 1 : SKT / 2 : KT / 3 : LG / 4: 알뜰폰(추가) / 0 : 마이그레이션 사용자 중 통신사 정보가 없는 사용자 */ 
-			, FCMToken             /* 푸쉬 알림 발송용 Firebase Token */
-			, DeviceID             /* 휴대폰ID */
-			, OsType               /* [OS 종류] 1:안드로이드 /2:iOS/ 3:web */
-			, LoginTime            /* [최종 로그인 시간] */
-			, SecretKey            /* 사용자 인증정보 암호화 키 */
-			, joinType             /* 가입구분(1:개인소유권이전, 2:카방) */
-    	) VALUES (
-    		#{ID_Kakao}
-			, #{ID_Naver}
-			, #{ID_Facebook}
-			, #{Password}
-			, #{Email}
-			, #{Name}
-			, #{Sex}
-			, #{BirthDate}
-			, #{Mobile_Phone}
-			, #{Mobile_Carrier_Major} 
-			, #{FCMToken}
-			, #{DeviceID}
-			, #{OsType}
-			, CURRENT_TIMESTAMP
-			, #{SecretKey}
-			, '1'
-    	)
-    </insert>
-    -->
-    <insert id="insertToUsers" parameterType="map">
-    	/* insertUsers 미가입 사용자 회원가입 */
-    	INSERT INTO MT_LETTNEMPLYRINFO 
-                (   ESNTL_ID             ,
-                    EMPLYR_ID           ,
-                    USER_NM           ,
-                    PASSWORD            ,
-                    PASSWORD_HINT       ,
-                    PASSWORD_CNSR       ,
-                    EMPL_NO             ,
-                    IHIDNUM             ,
-                    SEXDSTN_CODE        ,
-                    BRTHDY                ,
-                    AREA_NO             ,
-                    HOUSE_MIDDLE_TELNO    ,
-                    HOUSE_END_TELNO       ,
-                    FXNUM               ,
-                    HOUSE_ADRES           ,
-                    DETAIL_ADRES        ,
-                    ZIP                 ,
-                    OFFM_TELNO          ,
-                    MBTLNUM         ,
-                    EMAIL_ADRES         ,
-                    OFCPS_NM            ,
-                    GROUP_ID            ,
-                    ORGNZT_ID           ,
-                    PSTINST_CODE          ,
-                    EMPLYR_STTUS_CODE   ,
-                    SBSCRB_DE           ,
-                    CRTFC_DN_VALUE		,
-                    <if test="endDate != null and paramValue != '' " >
-                   		END_DATE,
-                    </if>
-                    USER_TYPE			)
-            VALUES (
-            		#{uniqId}			,
-            		#{emplyrId}			,
-            		#{emplyrNm}			,
-            		#{password}			,
-            		#{passwordHint}		,
-            		#{passwordCnsr}		,
-            		#{emplNo}			,
-            		#{ihidnum}			,
-            		#{sexdstnCode}		,
-            		#{brth}				,
-            		#{areaNo}			,
-            		#{homemiddleTelno}	,
-            		#{homeendTelno}		,
-            		#{fxnum}			,
-            		#{homeadres}		,
-            		#{detailAdres}		,
-            		#{zip}				,
-            		#{offmTelno}		,
-            		#{moblphonNo}		,
-            		#{emailAdres}		,
-            		#{ofcpsNm}			,
-            		#{groupId}			,
-            		#{orgnztId}			,
-            		#{insttCode}		,
-            		#{emplyrSttusCode}	,
-            		sysdate()           ,
-            		#{subDn}			,
-                    <if test="endDate != null and paramValue != '' " >
-                   		#{endDate},
-                    </if>
-                    #{userType}		 
-              )
-    </insert>
     <!-- 탈퇴 사용자 회원가입 -->
     <update id="updateToUsers" parameterType="map">
     	/*updateToUsers 탈퇴 사용자 회원가입*/
@@ -5210,4 +5101,28 @@
         WHERE 1=1
 		AND SCH_IDX=#{SCH_IDX}
     </update>
+    
+    <!-- 미가입 사용자 회원가입 -->
+    <insert id="insertMocaUsers" parameterType="map">
+    	/* insertMocaUsers 미가입 사용자 회원가입 */
+    	INSERT INTO MT_USERS(
+			USER_KAKAO_ID               /* 카카오ID */
+			, USER_EMAIL                /* 고객이메일 */
+			, USER_NAME                 /* 고객아이디 닉네임 */
+			, USER_LOGINTIME            /* [최종 로그인 시간] */
+    	) VALUES (
+    		#{USER_KAKAO_ID}
+			, #{USER_EMAIL}
+			, #{USER_NAME}
+			, CURRENT_TIMESTAMP
+    	)
+    </insert>
+    
+    <!-- 사용자조회 -->
+    <select id="selectMocaUserInfo" parameterType="map" resultType="map">
+    	/* selectMocaUserInfo 모카사용자조회 */
+     	SELECT * FROM MT_USERS
+		WHERE 1=1
+		AND USER_KAKAO_ID = #{USER_KAKAO_ID}
+    </select>
  </mapper>

@@ -16,10 +16,12 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .mr5{margin-right:5px}
 .wrapper{position:relative; height:100%; min-width:800px}
 .container{position:relative;border-top: 2px solid #6397af; overflow:inherit}
-.header {height:80px; max-width: 1080px; margin: 0 auto;}
+.header {position:relative; height:80px; max-width: 1080px; margin: 0 auto;}
 .header h1{position:relative; top:8px; left:35px; float:left}
 .header h1 a{display:block;background:url(../images/home/MOCA_CI.png)no-repeat;  width:150px; height:50px; text-indent:-9999px}
 .header .message{text-align: center; display: block; top: 18px; position: relative; font-weight: bold; font-size: 21px;}
+.login{display:block; position:relative; width:60px; height:30px; top:18px; right:10px; background:url(../images/home/kakao_login_small.png) no-repeat; cursor:pointer;}
+.loginInfo{color: #4e81b2; display: block; position: absolute; top: 22px; right: 35px; font-size: 18px; text-align: center; cursor:pointer;}
 .item {width: 100%; height: 340px; background:url(../images/home/item.jpg) no-repeat; background-size: cover; background-position: center center;}
 .container .item > p{position: relative; top: 15%; width: 700px; margin: 0 auto; padding: 15px 0; text-align: center; font-size: 35px; color: #fff}
 .container .item > p.item_title{border: 5px solid rgba(255, 255, 255, 0.5); line-height: 52px}
@@ -84,7 +86,8 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .f_point{color:#3fbda7 !important;}
 
 /*메인 _ 게시판*/
-.boardArea .col5:nth-child(1){background:#e5ecf0}
+.boardArea .col5:nth-child(1){background:#f8f8f8}
+
 .boardTable table {margin-top:5px}
 .boardTable .notice{border-top: 2px solid #5f80c7; padding:5px 10px}
 .boardTable .notice > div > img{width:calc(100% - 15px); margin:5px 15px 7px 0; box-shadow:1px 1px 2px rgba(0,0,0, 10%)}
@@ -97,8 +100,7 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .develop h3 > span.eng{color: #a0a0a0; font-weight: 300; font-size: 10px; margin-left: 5px}
 .support h3{font-size: 11px; font-weight: 400; display: inline-block; color: #00436b; padding: 2px; font-weight: bold;}
 .support h3 > span.eng{color: #a0a0a0; font-weight: 300; font-size: 10px; margin-left: 5px}
-.develop .boardTitle > i{color:#5f80c7; margin:0 5px}
-.support .boardTitle > i{color:#216188; margin:0 5px}
+.boardTitle > i{color:#5f80c7; margin:0 5px}
 .boardTable .notice + .boardList{border-top:1px solid #ddd}
 .develop .boardList {width:100%; margin-top:0px; border-top:2px solid #5f80c7}
 .support .boardList {width:100%; margin-top:0px; border-top:2px solid #6c8594}
@@ -197,8 +199,9 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 	.mocastep{width:calc(100% - 5px); height:130px; margin-bottom:10px;}
 	.container .mocaBox .main_img p{font-size:15px}
 	.container .mocaBox .main_img2 img{width:100%; height:100%}
+	.boardArea .col5:nth-child(2){background:#f8f8f8}
 	.boardArea .col5:nth-child(1){background:#fff}
-	.boardArea .col5:nth-child(2){background:#e5ecf0}
+	
 	.mocastep.step2{margin-bottom:0}
 }
  
