@@ -90,7 +90,7 @@ moca.main.fn_pop_boardMain = function(_gubun){
 function initKakao(_key){
 	Kakao.init(_key);
 	if(Kakao.Auth.getAccessToken()){
-		loginChecker(1);
+		loginChecker();
 	}
 };
 
@@ -127,36 +127,56 @@ function loginSetter(_id,_email,_name){
 				moca.setSs("loginInfo",response.selectMocaUserInfo);
 				$('#kakaoLogin').hide();
 				$('#userName').show();
-				$('#userName').html('<i class="fa fa-user" aria-hidden="true"></i>'+response.selectMocaUserInfo.USER_NAME);
+				$('#userName').html('<i class="fa fa-user mr5" aria-hidden="true"></i>'+response.selectMocaUserInfo.USER_NAME);
 			}else{
-				//회원가입
-				moca.main.exe({
-					url : moca._domain+moca._contextRoot+"/main/insertUserInfo.do",
-				    data : { 
-				    	"header" : moca.header,
-				    	"body" : {
-				    		"USER_KAKAO_ID":_id+"",
-				    		"USER_NAME":_name,
-				    		"USER_EMAIL":_email,
-				    	}
-				    },			
-					callback : function(response){
-				    	debugger;
-					}
-				});
+				moca.main.insertUserInfo(_id,_name,_email);
 			}
 		}
 	});
 };
-function loginChecker(loginType){
-	var loginObj = moca.getSs("loginInfo");
-	if(loginObj != null && loginObj.loginType == loginType){
-		location.href = mocaConfig.getSocailLoginSuccessUrl();
+
+moca.main.insertUserInfo = function(_id,_name,_email){
+	//회원가입
+	moca.main.exe({
+		url : moca._domain+moca._contextRoot+"/main/insertUserInfo.do",
+	    data : { 
+	    	"header" : moca.header,
+	    	"body" : {
+	    		"USER_KAKAO_ID":_id+"",
+	    		"USER_NAME":_name,
+	    		"USER_EMAIL":_email,
+	    	}
+	    },			
+		callback : function(response){
+			moca.main.___ready();		
+		}
+	});
+}
+
+moca.main.fn_logout = function(){
+	moca.confirm('로그아웃하시겠습니까?',function(result){
+		if(result == 'Y'){
+			moca.setSs("loginTemp0",null);
+			loginChecker();
+			top.location.href = moca._contextRoot;
+		}
+	});		
+};
+function loginChecker(){
+	if(moca.getSs("loginTemp0") != null && moca.getSs("loginTemp0") != ''){
+		$('#kakaoLogin').hide();
+		$('#userName').show();
+		$('#userName').html('<i class="fa fa-user mr5" aria-hidden="true"></i>'+moca.getSs("loginTemp0").name);
+	}else{
+		$('#kakaoLogin').show();
+		$('#userName').hide();
+		$('#userName').html('');
 	}
 };
 function goMoca(){
 	location.href="/admin.do"
 }
+
 
 </script>
 <style>
@@ -169,8 +189,11 @@ function goMoca(){
 		<div class="wrapContent">
 			<div class="header">
 				<h1><a href="./index.html">MOCA</a></h1>
-				 <button id="kakaoLogin" class="login fr" onclick="loginKakao()"></button>
-				 <span style="display:none" class="loginInfo" id="userName"></span>
+				 <button id="kakaoLogin" class="kakaoLogin fr" onclick="loginKakao()">
+				 	<i></i>
+				 	<span>Login</span>
+				 </button>
+				 <span style="display:none" class="loginInfo" id="userName" onclick="moca.main.fn_logout()"></span>
 			</div>
 			<div class="container" style="overflow: inherit">
 				<!-- WEB -->
@@ -256,7 +279,7 @@ function goMoca(){
 								<span style="height: 37px; display: inline-block; color: #fff; text-align: center; padding: 9px; box-sizing: border-box; font-size: 14px;;">컨설팅 상담요청</span>
 							</div>
 							<p style="color:#fff; padding:10px; font-size:15px">컨설팅이 필요하시면 친절하게 상담해드리겠습니다.</p>
-							<button style="width:110px; padding:3px 10px; display:inline-block; position:relative; top:1px; left:10px; color:#333; border-radius:20px; background:#fff; opacity:0.5">
+							<button style="width:115px; padding:3px 10px; display:inline-block; position:relative; top:1px; left:10px; color:#333; border-radius:20px; background:#fff; opacity:0.5">
 								<a href="tel:010-9116-8072" style="color:#333">상담 문의<i class="fas fa-angle-double-right" style="margin-left:5px"></a></i>
 							</button>
 							<span class="mainicon2 img1"></span>
@@ -266,7 +289,7 @@ function goMoca(){
 								<span style="height: 37px; display: inline-block; color: #fff; text-align: center; padding: 9px; box-sizing: border-box; font-size: 14px;">모카기반 개발</span>
 							</div>
 							<p style="color:#fff; padding:10px; font-size:15px">개발을 하시기 전에 모카개발교육을 진행합니다.</p>
-							<button style="width:110px; padding:3px 10px; display:inline-block; position:relative; top:1px; left:10px; color:#333; border-radius:20px; background:#fff; opacity:0.5">
+							<button style="width:115px; padding:3px 10px; display:inline-block; position:relative; top:1px; left:10px; color:#333; border-radius:20px; background:#fff; opacity:0.5">
 								<a href="https://teammoca.atlassian.net/wiki/spaces/TEAMMOCA/pages/327695/MOCA+API+DOCUMENT" target="_blank" style="color:#333">모카개발가이드<i class="fas fa-angle-double-right" style="margin-left:5px"></i></a>
 							</button>
 							<span class="mainicon2 img3"></span>
