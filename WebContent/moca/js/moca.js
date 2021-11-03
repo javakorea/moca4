@@ -4427,6 +4427,7 @@ Moca.prototype.popClose = function(_popupId,_json){
     	self.close();
     }else{
     	$('#'+_popupId).remove();
+    	$('body').css('overflow','');
     	if($('.moca_tab_list.active').length > 0){
 	        var activeObj = $('.moca_tab_list.active')[0];
 	        var _tab_id = activeObj.getAttribute("tab_id");//MDI_201901091611497970040306010502
@@ -10291,6 +10292,7 @@ Moca.prototype.rendering = function(o,_aTag) {
         var cont = '';
         if(o.modal != false && o.modal != 'false'){
             cont += '<div id="modal" class="moca_popup_modal" style="display:block"></div>';
+            $('body').css('overflow','hidden');
         }
         var _pid = '';
         if(moca.trim(o.id) != '' ){
@@ -10341,6 +10343,9 @@ Moca.prototype.rendering = function(o,_aTag) {
         
         moca_popup.option = o;
         moca_popup.addEventListener('mousedown', function (e) {
+        	if(o.modal != false && o.modal != 'false'){//모달일경우에는 팝업 움직이지못하게
+        		return;
+        	}
             document.nowPopup = this;
             if($(e.srcElement).hasClass('moca_popup_header')){
                 e.preventDefault(); //이게 들어가면 팝업에 글자가 블록이 안씌워짐
@@ -10349,7 +10354,6 @@ Moca.prototype.rendering = function(o,_aTag) {
                 //if(_option.scope == 'mdi'){
                 //  mdiObj.addEventListener('mousemove',moca.popupMove,false);
                 //}else{
-                
                 if(!$(document.nowPopup).hasClass('max')){
                     document.addEventListener('mousemove',moca.popupMove,false);
                 }
@@ -11466,9 +11470,9 @@ Moca.prototype.getTabContents = function(_aTag,_resolve){
 
 Moca.prototype.popup = function(_option,thisObj) {
     ['레이어 팝업오픈'];
-    if($('#'+_option.id+'[pageid='+this.pageId+']').length > 0){
-        return;
-    }
+    //if($('#'+_option.id+'[pageid='+this.pageId+']').length > 0){
+    //    return;
+   // }
     $.ajax({
            type:"GET",
            url:moca._contextRoot+_option.url,
