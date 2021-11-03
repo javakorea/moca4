@@ -11031,6 +11031,7 @@ Moca.prototype.callReady = function(aTag) {
        }
        
        if($(aTag).attr('tab_id') != null && !$(aTag).attr('tab_id').startsWith('POPUP') && aTag.id != "moca_main"){//single page case
+    	   moca[_srcId].args = _argsObj;
            moca[_srcId].___ready(_argsObj);
        }else if($(aTag).attr('tab_id') != null && $(aTag).attr('tab_id').startsWith('POPUP')){//popup case
     	   if(opener){
@@ -11038,9 +11039,10 @@ Moca.prototype.callReady = function(aTag) {
            		moca[srcid].args = JSON.parse(JSON.stringify(opener.moca[srcid].args));
            		_argsObj = moca[srcid].args;
     	   }
-      		
+    	   moca[_srcId].args = _argsObj;	
            moca[_srcId].___ready(_argsObj);
        }else if($(aTag).attr('tab_id') == null && aTag.id != "moca_main"){//popup case
+    	   moca[_srcId].args = _argsObj;
            moca[_srcId].___ready(_argsObj);
        }
 };
