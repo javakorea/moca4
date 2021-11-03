@@ -10342,8 +10342,15 @@ Moca.prototype.rendering = function(o,_aTag) {
        //// if(o.scopeId.startsWith('POPUP'))
         
         if($(tmp).prev().hasClass('moca_popup')){
-            $(tmp).addClass('moca_popupInPopup')
-        }
+        	if(moca.getDevice()=="mobile"){
+        		$(tmp).css("top","0px");
+        	}else{
+        		$(tmp).css("top","45px");
+        	}
+        	$(tmp).css("position","fixed");
+        	$(tmp).css("z-index","6011");
+            //$(tmp).addClass('moca_popupInPopup')
+        };
 
         $(tmp).html(cont);
         $(tmp).attr("tab_id",_tabId);
