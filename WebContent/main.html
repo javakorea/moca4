@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="./css/teammoca.css">
 <link rel="stylesheet" type="text/css" href="./moca/css/fontawesome.css">
 <link rel="stylesheet" type="text/css" href="./css/media.css">
-<link rel="stylesheet" type="text/css" href="/moca/css/moca_mobile.css">
+
 
 <script>
 
@@ -64,7 +64,7 @@ moca.main.fn_pop_boardPop = function(_gubun,_bd_code){
 	    o.id = moca.main.popId;
 	    o.url = '/html/EFC/EFC_BOARD_POP.html';
 	    o.type = "POPUP";
-	    o.modal = "false";
+	    o.modal = "true";
 	    o.title = '게시글상세';
 	    o.callback = moca.main.fn_pop_callback;
 	    o.scopeId = moca.main.pageId;
@@ -77,7 +77,7 @@ moca.main.fn_pop_boardMain = function(_gubun){
     o.id = moca.main.popId;
     o.url = '/html/EFC/EFC_BOARD.html';
     o.type = "POPUP";
-    o.modal = "false";
+    o.modal = "true";
     o.title = '게시글상세';
     o.callback = moca.main.fn_pop_callback;
     o.scopeId = moca.main.pageId;
@@ -200,7 +200,7 @@ function goMoca(){
 				<div class="main_box">
 					<div class="td fl">
 						<div class="label">표준 웹 UI/UX</div>
-						<p class="img1"><i class="fas fa-ellipsis-v"></i>HTML5을 기반으로 한  <br>표준웹 UI/UX</p>
+						<p class="img1"><i class="fas fa-ellipsis-v"></i>HTML5을 기반으로 한  <br>Non ActiveX 표준웹 UI/UX</p>
 					</div>
 					<div class="td fl">
 						<div class="label">듀얼 MDI</div>
