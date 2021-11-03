@@ -194,7 +194,7 @@ ex) 3#2 : 수요일#2째주 에 참
     </bean>
      <bean id="tomorrowScheduleAlarmSms_Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="tomorrowScheduleAlarmSms_Job" />
-        <property name="cronExpression" value="0 0/1 * * * ?" />  
+        <property name="cronExpression" value="0 0 9 * * * ?" />  
     </bean>
     
     
