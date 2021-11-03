@@ -4426,8 +4426,11 @@ Moca.prototype.popClose = function(_popupId,_json){
 	    }
     	self.close();
     }else{
+    	if(!$('#'+_popupId).prev().hasClass('moca_popup')){
+    		$('body').css('overflow','');
+    	}
     	$('#'+_popupId).remove();
-    	$('body').css('overflow','');
+    	
     	if($('.moca_tab_list.active').length > 0){
 	        var activeObj = $('.moca_tab_list.active')[0];
 	        var _tab_id = activeObj.getAttribute("tab_id");//MDI_201901091611497970040306010502
@@ -10334,6 +10337,14 @@ Moca.prototype.rendering = function(o,_aTag) {
             document.body.appendChild(tmp);
         }
         
+        
+       // 형제 클래스가 팝업클래스 갖고있으면 
+       //// if(o.scopeId.startsWith('POPUP'))
+        
+        if($(tmp).prev().hasClass('moca_popup')){
+            $(tmp).addClass('moca_popupInPopup')
+        }
+
         $(tmp).html(cont);
         $(tmp).attr("tab_id",_tabId);
         
@@ -11470,9 +11481,10 @@ Moca.prototype.getTabContents = function(_aTag,_resolve){
 
 Moca.prototype.popup = function(_option,thisObj) {
     ['레이어 팝업오픈'];
-    //if($('#'+_option.id+'[pageid='+this.pageId+']').length > 0){
-    //    return;
-   // }
+    debugger;
+    if($('#'+_option.id+'[pageid='+this.pageId+']').length > 0 && _option.scopeId.startsWith('MDI')){
+        return;
+    }
     $.ajax({
            type:"GET",
            url:moca._contextRoot+_option.url,

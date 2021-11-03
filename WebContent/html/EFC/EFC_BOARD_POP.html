@@ -36,7 +36,10 @@ moca.EFC_BOARD_POP.___ready = function(args){
     		moca.EFC_BOARD_POP._boardTitle = moca.EFC_BOARD_POP.args.parent.data.BOARD_TITLE;
     		moca.EFC_BOARD_POP._pageType = moca.EFC_BOARD_POP.args.parent.data.PAGE_TYPE;
     	}
-    	
+    	if(Object.keys(CKEDITOR.instances).length != 0){
+    		CKEDITOR.instances.editor.destroy();
+        	CKEDITOR.instances.reply_editor.destroy();
+    	}
     	
     	CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
             'instanceReady':function(ev){

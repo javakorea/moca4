@@ -81,6 +81,7 @@
 	};
 	moca.EFC_BOARD.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 	    ['게시글상세']
+	    debugger;
 	    if($(_grd).attr('type') != 'grid'){
 	    	_grd = $(_grd).closest('div[type=grid]')[0];
 	    	rowIndex = $(_grd).attr('selectedrealrowindex');
@@ -97,11 +98,17 @@
 	    }else{
 	    	__BoardParentIdx = '';
 	    }
+	    var _modalStatus;
+	    if(moca.EFC_BOARD.pageId.startsWith('MDI')){
+	    	_modalStatus = "false"
+	    }else{
+	    	_modalStatus = "true"
+	    }
 	    var o = {};
 	    o.id = moca.EFC_BOARD.popId;
 	    o.url = '/html/EFC/EFC_BOARD_POP.html';
 	    o.type = "POPUP";
-	    o.modal = "false";
+	    o.modal = _modalStatus;
 	    o.title = '게시글상세';
 	    o.callback = moca.EFC_BOARD.fn_pop_callback;
 	    o.scopeId = moca.EFC_BOARD.pageId;
