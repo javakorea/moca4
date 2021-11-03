@@ -122,7 +122,7 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 
 .subpage{min-width:inherit}
 .subpage .header{height:60px}
-.subpage .header h1{ top: 11px;}
+.subpage .header h1{ top: 15px;}
  .subpage .header h1 a {background-size:70%}
    
 .subpage .mocaComp .mainComp{padding:20px 20px 0; text-align:center;}
