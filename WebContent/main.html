@@ -84,8 +84,13 @@ moca.main.fn_pop_boardMain = function(_gubun){
     o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"WS"};
     moca.popup(o,_this);
 };
-
-
+moca.main.fn_tel = function(_this){
+	if(moca.getDevice() != "mobile"){
+		moca.alert('<i style="display: block; font-size: 19px;" class="mb5">상담문의</i><a style="font-size:17px; color:#3650ff">010-9116-8072</a> <br/> 언제나 친절하게 상담해드리겠습니다.',function(result){});
+	}else{
+		moca.alert('<i style="display: block; font-size: 19px;" class="mb5">상담문의</i><a href="tel:010-9116-8072" style="font-size:17px; color:#3650ff">010-9116-8072</a> <br/> 언제나 친절하게 상담해드리겠습니다.',function(result){});
+	}
+}
 
 function initKakao(_key){
 	Kakao.init(_key);
@@ -279,8 +284,8 @@ function goMoca(){
 								<span style="height: 37px; display: inline-block; color: #fff; text-align: center; padding: 9px; box-sizing: border-box; font-size: 14px;;">컨설팅 상담요청</span>
 							</div>
 							<p style="color:#fff; padding:10px; font-size:15px">컨설팅이 필요하시면 친절하게 상담해드리겠습니다.</p>
-							<button style="width:115px; padding:3px 10px; display:inline-block; position:relative; top:1px; left:10px; color:#333; border-radius:20px; background:#fff; opacity:0.5">
-								<a href="tel:010-9116-8072" style="color:#333">상담 문의<i class="fas fa-angle-double-right" style="margin-left:5px"></a></i>
+							<button onclick="moca.main.fn_tel(this)" style="width:115px; padding:3px 10px; display:inline-block; position:relative; top:1px; left:10px; color:#333; border-radius:20px; background:#fff; opacity:0.5">
+								<a style="color:#333">상담 문의<i class="fas fa-angle-double-right" style="margin-left:5px"></a></i>
 							</button>
 							<span class="mainicon2 img1"></span>
 						</div>
@@ -305,7 +310,7 @@ function goMoca(){
 					<p><span>경기도 성남시 분당구 서현로180번길 13</span><span>FAX : 031)707-2650</span><br><span>copyright © NEODIANSOFT, Inc All Rights Reserved. Created by TEAM MOCA</span></p>
 					<div class="f_tel">
 						<i class="fas fa-phone-alt"></i><span class="title">대표전화</span>
-						<div><a href="tel:010-9116-8072"> 010-9116-8072 &nbsp;/&nbsp;</a><a href="tel:02-584-0124">02-584-0124</a></div>
+						<div><a href="#"> 010-9116-8072 &nbsp;/&nbsp;</a><a href="tel:02-584-0124">02-584-0124</a></div>
 					</div>
 				</div>
 			</div>		
