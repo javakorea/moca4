@@ -4422,8 +4422,8 @@ Moca.prototype.popClose = function(_popupId,_json){
 	        eval(opener.moca.callbacks[_popupId])(_json);
 	        delete opener.moca.callbacks[_popupId];
 	        delete opener.moca.data[_popupId];
-	        opener.moca.popClose(_popupId);
 	    }
+    	opener.moca.popClose(_popupId);
     	self.close();
     }else{
     	if(!$('#'+_popupId).prev().hasClass('moca_popup')){
