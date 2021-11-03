@@ -71,6 +71,7 @@ moca.main.fn_pop_boardPop = function(_gubun,_bd_code){
 	    o.data = {"PAGE_TYPE":'home',"BOARD_IDX":row.BOARD_IDX+'',"BOARD_PIDX":row.BOARD_PIDX+'',"BOARD_TITLE":row.BOARD_TITLE,"BOARD_TYPE":"WS"};
 	    moca.popup(o,_this);
 };
+
 moca.main.fn_pop_boardMain = function(_gubun){
 	var _this = $('#ws_list')[0];
     var o = {};
@@ -84,6 +85,11 @@ moca.main.fn_pop_boardMain = function(_gubun){
     o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"WS"};
     moca.popup(o,_this);
 };
+
+moca.main.fn_pop_callback  = function(_gubun){
+	
+};
+
 moca.main.fn_tel = function(_this){
 	if(moca.getDevice() != "mobile"){
 		moca.alert('<i style="display: block; font-size: 19px;" class="mb5">상담문의</i><a style="font-size:17px; color:#3650ff">010-9116-8072</a> <br/> 언제나 친절하게 상담해드리겠습니다.',function(result){});
