@@ -35,8 +35,9 @@
 	.moca_tab .moca_tab_control .moca_tab_division{display:none}
 	.moca_mdi .moca_tab_control .moca_tab_allclose{left:0}
 	
-	
+	/*divForm*/
 	.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="td"], div[type="tr"]{width:100%}
+	.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="th"]{text-align:left}
 	/*multiCalendar*/
 	.moca_calendar_fromto.vertical{width:300px; height:auto}
 	.moca_calendar_fromto.vertical .moca_calendar_row .moca_calendar_fl{width:100%}
