@@ -4,6 +4,12 @@
 <script>
 	moca.EFC_BOARD.boardType ='ERP';
 	moca.EFC_BOARD.___ready = function(args){
+		if((moca.getSs("loginTemp0") == null || moca.getSs("loginTemp0") == '') && moca.getSs("USER_ID") == null){
+			moca.hide(moca.EFC_BOARD.getObj("btn_add"));
+		}
+		if(args.parent.data.PAGE_TYPE == 'home'){
+			moca.hide(moca.EFC_BOARD.getObj("btn_del"));
+		}
 		moca.EFC_BOARD.boardType = args.parent.data.BOARD_TYPE;
 		if(moca.EFC_BOARD.boardType == 'WS'){
 			$(moca.EFC_BOARD.getObj('sreenNm')).text('웹스퀘어게시판');
@@ -81,7 +87,6 @@
 	};
 	moca.EFC_BOARD.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 	    ['게시글상세']
-	    debugger;
 	    if($(_grd).attr('type') != 'grid'){
 	    	_grd = $(_grd).closest('div[type=grid]')[0];
 	    	rowIndex = $(_grd).attr('selectedrealrowindex');
@@ -334,13 +339,6 @@
 									class="mocaInput sh"  style="width:207px"  disabled="false" readonly="false" ></div>
 							</span>
 						</div>
-						<!-- 
-						<div class="tb">
-							<div class="buttonGroup">				
-								<div type="button" id="rePurchaseBtn" class="mocaButton imgBtn fl mr5 btn_ts" onclick="moca.EFC_BOARD.fn_rePurchase(this)" style="" innerStyle="padding-left:32px" value="실행할 기능 없음" label="실행할 기능 없음" ></div>
-							</div>
-						</div>
-						 -->
 					</div>
 				</div>
 				<div class="btn_shbox">

@@ -24,6 +24,7 @@
 <link rel="stylesheet" type="text/css" href="/moca/css/moca.css">
 <link rel="stylesheet" type="text/css" href="/moca/css/fontawesome.css">
 <link rel="stylesheet" type="text/css" href="/moca/css/moca_layout.css">
+<link rel="stylesheet" type="text/css" href="/moca/css/moca_mobile.css">
 <script language="JavaScript" src="/moca/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="/moca/js/sha512.min.js"></script>
 <script language="JavaScript" src="/moca/js/config.js"></script>

@@ -12,6 +12,9 @@ moca.EFC_BOARD_POP.___ready = function(args){
 	moca.EFC_BOARD_POP.code({
         "cmb_board":{code:'boardStatus'}
     },function(result){
+    	if((moca.getSs("loginTemp0") == null || moca.getSs("loginTemp0") == '') && moca.getSs("USER_ID") == null){
+			moca.hide(moca.EFC_BOARD_POP.getObj("btn_reply"));
+		}
     	moca.hide(moca.EFC_BOARD_POP.getObj('grd_file_btn_delrow'));
     	moca.hide(moca.EFC_BOARD_POP.getObj('grd_reply_file_btn_delrow'));
     	moca.hide(moca.EFC_BOARD_POP.getObj('btn_add'));
@@ -106,8 +109,8 @@ moca.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
     moca.hide(moca.EFC_BOARD_POP.getObj("thPhone"));
     moca.hide(moca.EFC_BOARD_POP.getObj("tdPhone"));
 	
-    $(moca.EFC_BOARD_POP.getObj('colPhone')).attr('style','display:none');
-    $(moca.EFC_BOARD_POP.getObj('colEmail')).attr('style','display:none');	
+    //$(moca.EFC_BOARD_POP.getObj('colPhone')).attr('style','display:none');
+    //$(moca.EFC_BOARD_POP.getObj('colEmail')).attr('style','display:none');	
     moca.EFC_BOARD_POP._boardIdx = moca.getCellData(_grd,rowIndex,'BOARD_IDX');
     moca.EFC_BOARD_POP.exe({
 		url : moca._domain+moca._contextRoot+"/EFC_BOARD/selectBoardInfo.do",
@@ -133,7 +136,7 @@ moca.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 			    	moca.hide(moca.EFC_BOARD_POP.getObj("btn_update"));
 			    	moca.hide(moca.EFC_BOARD_POP.getObj("btn_del"));
 			    }
-			    if(moca.getValue(moca.EFC_BOARD_POP.getObj("wreplyid")) == moca.getSs("USER_ID")){
+			    if((moca.getValue(moca.EFC_BOARD_POP.getObj("wreplyid")) == moca.getSs("USER_ID"))){
 			    	moca.show(moca.EFC_BOARD_POP.getObj("btn_reply_update"));
 			    }else{
 			    	moca.hide(moca.EFC_BOARD_POP.getObj("btn_reply_update"));
@@ -177,7 +180,8 @@ moca.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 					    moca.hide(moca.EFC_BOARD_POP.getObj("btn_save"));
 					    moca.hide(moca.EFC_BOARD_POP.getObj("btn_add"));
 					    moca.show(moca.EFC_BOARD_POP.getObj('grd_file_btn_fold'));
-					    if(moca.getValue(moca.EFC_BOARD_POP.getObj("wid")) != moca.getSs("USER_ID") && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
+					    
+					    if(moca.getSs("loginTemp0") != null && moca.getValue(moca.EFC_BOARD_POP.getObj("wid")) != moca.getSs("loginTemp0").name || moca.getValue(moca.EFC_BOARD_POP.getObj("wid")) != moca.getSs("USER_ID") && moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
 					    	moca.hide(moca.EFC_BOARD_POP.getObj("btn_del"));
 					    }
 					    if(moca.getValue(moca.EFC_BOARD_POP.getObj("wid")) == moca.getSs("USER_ID")){
@@ -187,11 +191,11 @@ moca.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 					    	moca.show(moca.EFC_BOARD_POP.getObj("btn_receipt"));
 					    }
 					    if(moca.EFC_BOARD_POP._pageType == 'home'){
-				        	moca.hide(moca.EFC_BOARD_POP.getObj("btn_reply"));
 				        	moca.hide(moca.EFC_BOARD_POP.getObj("btn_update"));
 				        	moca.hide(moca.EFC_BOARD_POP.getObj("btn_del"));
 				        	moca.hide(moca.EFC_BOARD_POP.getObj("btn_save"));
 				        	moca.hide(moca.EFC_BOARD_POP.getObj("btn_del_admin"));
+				        	//moca.hide($(moca.EFC_BOARD_POP.getObj("form_board")).find(".moca_addtion_area"));
 				        }
 					    moca.EFC_BOARD_POP.drawGrid('grd_file',moca.getResList(response,"selectBoardFileList"));
 					}else{
@@ -201,7 +205,11 @@ moca.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 			});
 	}else{
 		moca.setValue(moca.EFC_BOARD_POP.getObj("cmb_board"),"N");
-		moca.setValue(moca.EFC_BOARD_POP.getObj("wid"),moca.getSs("USER_ID"));
+		var _writter = moca.getSs("USER_ID");
+		if(moca.getSs("loginTemp0") != null && moca.getSs("loginTemp0") != ''){
+			_writter = moca.getSs("loginTemp0").name;
+		}
+		moca.setValue(moca.EFC_BOARD_POP.getObj("wid"),_writter);
 		moca.setValue(moca.EFC_BOARD_POP.getObj("wdate"),dateLib.getToday());
 		moca.hide(moca.EFC_BOARD_POP.getObj("btn_update"));
 		moca.hide(moca.EFC_BOARD_POP.getObj("btn_del"));
@@ -601,8 +609,8 @@ moca.EFC_BOARD_POP.fn_reply = function(_thisObj){
     moca.hide(moca.EFC_BOARD_POP.getObj("tdEmail"));
     moca.hide(moca.EFC_BOARD_POP.getObj("tdPhone"));
     moca.hide(moca.EFC_BOARD_POP.getObj("thPhone"));
-    $(moca.EFC_BOARD_POP.getObj('colPhone')).attr('style','display:none');
-    $(moca.EFC_BOARD_POP.getObj('colEmail')).attr('style','display:none');
+    //$(moca.EFC_BOARD_POP.getObj('colPhone')).attr('style','display:none');
+    //$(moca.EFC_BOARD_POP.getObj('colEmail')).attr('style','display:none');
     moca.setValue(moca.EFC_BOARD_POP.getObj("wreplyid"),moca.getSs("USER_ID"));
     if(
     		//접수자 null 아니면서 접수자가 세션아이디랑 다를때 
@@ -680,118 +688,115 @@ moca.EFC_BOARD_POP.dispCnt= function(_thisVal){
         <div class="lybox flex fauto">
             <div class="ly_column col_5 fauto">
                 <div class="ly_col_cont flex fcol">
-			         <div type="form" id="form_board" class="moca_table toolbar" style=""
-			                label=""
-			                showRowSelection="false"
-			                addition='[
-			                {"type":"button","position":"right","id":"btn_reply","label":"답변작성","onclick":"moca.EFC_BOARD_POP.fn_reply","innerStyle":"background:#97a2ba"},
-			                {"type":"button","position":"right","id":"btn_update","label":"수정","onclick":"moca.EFC_BOARD_POP.fn_update","innerStyle":"background:#97a2ba"},
-			                {"type":"button","position":"right","id":"btn_del","label":"삭제","onclick":"moca.EFC_BOARD_POP.fn_del","innerStyle":"background:#97a2ba"},
-			                {"type":"button","position":"right","id":"btn_save","label":"저장","onclick":"moca.EFC_BOARD_POP.fn_save","innerStyle":"background:#97a2ba"},
-			                {"type":"button","position":"right","id":"btn_del_admin","label":"물리삭제","onclick":"moca.EFC_BOARD_POP.fn_adminDel","innerStyle":"background:#6d7993", "addClass":""}
-			                    ]'
-			                >
-			                <div class="scrollX_area">
-			                    <table class="moca_table_cont" style="">
-			                    	<caption style="display:none;visibility:hidden; overflow:hidden; width:0;height:0;font-size:0;line-height:0"></caption>
-			                        <colgroup>
-			                                <col style="width:60px">
-			                                <col width="140" style="min-width:140px">
-			                                <col style="width:55px">
-			                                <col style="width:131px">
-			                                <col style="width:80px">
-			                                <col id="colPhone" style="width:110px">
-			                                <col id="colEmail" style="width:150px">
-			                                <col style="width:80px">
-			                                <col style="width:80px">
-			                        </colgroup>
-			                        <thead>
-			                            <tr>
-			                                <th>ID</th>
-			                                <th>제목</th>
-			                                <th>상태</th>
-			                                <th>작성일시</th>
-			                                <th>작성자</th>
-			                                <th id="thPhone">휴대폰번호</th>
-			                                <th id="thEmail">이메일</th>
-			                                <th>접수자</th>
-			                                <th>완료자</th>
-			                            </tr>
-			                        </thead>
-			                        <tbody>
-			                            <tr>
-			                                <td>
-			                                    <div type="input" id="widx" class="mocaInput" innerClass="tac" onclick="" style="" value="" readonly="true"></div>
-			                                </td>
-			                                <td>
-			                                    <div type="input" class="mocaInput" style="width:100%;" innerStyle="" id="wtitle" displayFormat=""  readonly="true"
-			                                        defaultValue="" 
-			                                        selecterItem=""
-			                                        showRadioOption="false"
-			                                    ></div>
-			                                </td>
-			                                <td>
-			                                	<!-- <div type="combo" id="cmb_board" class="moca_combo" readonly="true" displayFormat="[label]" cdField="code" nmField="codeNm" ></div> -->
-			                                	<div type="searchCombo" 
-												id="cmb_board" 
-												class="moca_searchCombo" 
-												inneronchange="" 
-												style="width:100%; text-align:center;" 
-												readOnly="true"
-												displayFormat="[label]" 
-												cdField="code" 
-												nmField="codeNm"   
-												itemset='[{"cd":"0","nm":"해당없음 "},{"cd":"1","nm":"(%)비율"}]'>
-												</div>
-			                                </td>
-			                                <td>
-			                                    <div type="input" id="wdate" class="mocaInput" style="width:100%;text-align:center;" innerStyle="text-align:center;" displayFunction="moca.dateFormat"  readonly="true"
-			                                        defaultValue="" 
-			                                        selecterItem=""
-			                                        showRadioOption="false"
-			                                    ></div>
-			                                </td>
-			                                
-			                                <td>
-			                                    <div type="input" class="mocaInput" style="width:100%;text-align:center;" innerStyle="text-align:center;" id="wid" displayFormat=""  readonly="true"
-			                                        defaultValue="" 
-			                                        selecterItem=""
-			                                        showRadioOption="false"
-			                                    ></div>
-			                                </td>
-			                                <td id="tdPhone">
-			                                    <div type="input" class="mocaInput" style="width:100%; " innerStyle="text-align:center;" id="wphone" displayFormat=""  readonly="true"
-			                                        defaultValue="" 
-			                                        keyMask="onlyNumber" displayFunction="moca.phoneWithDashFormatter"
-			                                        showRadioOption="false"
-			                                    ></div>
-			                                </td>
-			                                <td id="tdEmail">
-			                                    <div type="input" class="mocaInput" style="width:100%;text-align:center;" innerStyle="" id="wemail" displayFormat=""  readonly="true"
-			                                        defaultValue="" 
-			                                        selecterItem=""
-			                                        showRadioOption="false"
-			                                    ></div>
-			                                </td>
-			                                <td>
-			                                    <div type="input" class="mocaInput" style="width:100%;text-align:center;" innerStyle="text-align:center;" id="wreceiptid" displayFunction=""  readonly="true"
-			                                        defaultValue="" 
-			                                        selecterItem=""
-			                                        showRadioOption="false"
-			                                    ></div>
-			                                </td>
-			                                <td>
-			                                    <div type="input" class="mocaInput" style="width:100%;text-align:center;" innerStyle="text-align:center;" id="wcompleteid" displayFunction=""  readonly="true"
-			                                        defaultValue="" 
-			                                        selecterItem=""
-			                                        showRadioOption="false"
-			                                    ></div>
-			                                </td>
-			                            </tr>  
-			                        </tbody>
-			                    </table>
-			              </div>      
-			        </div>
+				<div type="form" id="form_board" class="moca_table toolbar" style=""
+	                label=""
+	                showRowSelection="false"
+	                addition='[
+	                {"type":"button","position":"right","id":"btn_reply","label":"답변작성","onclick":"moca.EFC_BOARD_POP.fn_reply","innerStyle":"background:#97a2ba"},
+	                {"type":"button","position":"right","id":"btn_update","label":"수정","onclick":"moca.EFC_BOARD_POP.fn_update","innerStyle":"background:#97a2ba"},
+	                {"type":"button","position":"right","id":"btn_del","label":"삭제","onclick":"moca.EFC_BOARD_POP.fn_del","innerStyle":"background:#97a2ba"},
+	                {"type":"button","position":"right","id":"btn_save","label":"저장","onclick":"moca.EFC_BOARD_POP.fn_save","innerStyle":"background:#97a2ba"},
+	                {"type":"button","position":"right","id":"btn_del_admin","label":"물리삭제","onclick":"moca.EFC_BOARD_POP.fn_adminDel","innerStyle":"background:#6d7993", "addClass":""}
+	                    ]'
+	                >
+				          	<div class="moca_table_cont" type="table">
+				          		<div type="tbody">
+				          			<div type="tr">
+				          				<div type="th">ID</div>
+		                                <div type="td">
+		                                    <div type="input" id="widx" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+		                                </div>
+		                            </div>
+				          			<div type="tr">
+		                                <div type="th">제목</div>
+		                                <div type="td">
+		                                    <div type="input" class="mocaInput" style="width:100%;" innerStyle="" id="wtitle" displayFormat=""  readonly="true"
+		                                        defaultValue="" 
+		                                        selecterItem=""
+		                                        showRadioOption="false"
+		                                    ></div>
+		                                </div>
+		                            </div>
+				          			<div type="tr">
+		                                <div type="th">상태</div>
+		                                <div type="td">
+		                                	<!-- <div type="combo" id="cmb_board" class="moca_combo" readonly="true" displayFormat="[label]" cdField="code" nmField="codeNm" ></div> -->
+		                                	<div type="searchCombo" 
+											id="cmb_board" 
+											class="moca_searchCombo" 
+											inneronchange="" 
+											style="width:100%;" 
+											readOnly="true"
+											displayFormat="[label]" 
+											cdField="code" 
+											nmField="codeNm"   
+											itemset='[{"cd":"0","nm":"해당없음 "},{"cd":"1","nm":"(%)비율"}]'>
+											</div>
+		                                </div>
+		                            </div>
+				          			<div type="tr">
+		                                <div type="th">작성일시</div>
+		                                <div type="td">
+		                                    <div type="input" id="wdate" class="mocaInput" style="width:100%;" innerStyle="" displayFunction="moca.dateFormat"  readonly="true"
+		                                        defaultValue="" 
+		                                        selecterItem=""
+		                                        showRadioOption="false"
+		                                    ></div>
+		                                </div>
+		                            </div>
+				          			<div type="tr">
+		                                <div type="th">작성자</div>
+		                                <div type="td">
+		                                    <div type="input" class="mocaInput" style="width:100%;" innerStyle="" id="wid" displayFormat=""  readonly="true"
+		                                        defaultValue="" 
+		                                        selecterItem=""
+		                                        showRadioOption="false"
+		                                    ></div>
+		                                </div>
+		                            </div>
+				          			<div type="tr">
+		                                <div type="th">휴대폰번호</div>
+		                                <div type="td">
+		                                    <div type="input" class="mocaInput" style="width:100%; " innerStyle="" id="wphone" displayFormat=""  readonly="true"
+		                                        defaultValue="" 
+		                                        keyMask="onlyNumber" displayFunction="moca.phoneWithDashFormatter"
+		                                        showRadioOption="false"
+		                                    ></div>
+		                                </div>
+		                            </div>
+				          			<div type="tr">
+		                                <div type="th">이메일</div>
+		                                <div type="td">
+		                                    <div type="input" class="mocaInput" style="width:100%" innerStyle="" id="wemail" displayFormat=""  readonly="true"
+		                                        defaultValue="" 
+		                                        selecterItem=""
+		                                        showRadioOption="false"
+		                                    ></div>
+		                                </div>
+		                            </div>
+				          			<div type="tr">
+		                                <div type="th">접수자</div>
+		                                <div type="td">
+		                                    <div type="input" class="mocaInput" style="width:100%;" innerStyle="" id="wreceiptid" displayFunction=""  readonly="true"
+		                                        defaultValue="" 
+		                                        selecterItem=""
+		                                        showRadioOption="false"
+		                                    ></div>
+		                                </div>
+		                            </div>
+				          			<div type="tr">
+		                                <div type="th">완료자</div>
+		                                <div type="td">
+		                                    <div type="input" class="mocaInput" style="width:100%;" innerStyle="" id="wcompleteid" displayFunction=""  readonly="true"
+		                                        defaultValue="" 
+		                                        selecterItem=""
+		                                        showRadioOption="false"
+		                                    ></div>
+		                                </div>
+		                            </div>
+				          		</div>
+				          	</div>
+                	</div>
 			        <div class="mt5 edit fit"  style="top:0">
 			            <div contenteditable="true" placeholder="" id="editor"></div>
 			        </div>
@@ -922,7 +927,7 @@ moca.EFC_BOARD_POP.dispCnt= function(_thisVal){
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <div type="input" id="wreplyidx" class="mocaInput" innerClass="tac" onclick="" style="" value="" readonly="true"></div>
+                                                <div type="input" id="wreplyidx" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
                                             </td>
                                             <td>
                                                 <div type="input" class="mocaInput req" style="width:100%;" innerStyle="" id="wreplytitle" displayFormat=""  readonly="true"
@@ -932,14 +937,14 @@ moca.EFC_BOARD_POP.dispCnt= function(_thisVal){
                                                 ></div>
                                             </td>
                                             <td>
-                                                <div type="input" class="mocaInput" style="width:100%; text-align:center;" innerStyle="text-align:center;" id="wreplydate" displayFunction="moca.dateFormat"  readonly="true"
+                                                <div type="input" class="mocaInput" style="width:100%; " innerStyle="" id="wreplydate" displayFunction="moca.dateFormat"  readonly="true"
                                                     defaultValue="" 
                                                     selecterItem=""
                                                     showRadioOption="false"
                                                 ></div>
                                             </td>
                                             <td>
-                                                <div type="input" class="mocaInput" style="width:100%; text-align:center;" innerStyle="text-align:center;" id="wreplyid" displayFormat=""  readonly="true"
+                                                <div type="input" class="mocaInput" style="width:100%;" innerStyle="text-align:center;" id="wreplyid" displayFormat=""  readonly="true"
                                                     defaultValue="" 
                                                     selecterItem=""
                                                     showRadioOption="false"

@@ -469,11 +469,14 @@ div[contenteditable=true] {
 .moca_shbox .checkboxGroup > *{}
 .moca_table_list{position:relative; top:0; bottom:0; left:0; right:0}
 .moca_table_body{position:relative; top:0; left:0;right:0; overflow-x:auto; clear:both}
-.moca_table{}
+
 .moca_table.fix_height .moca_table_body, .moca_table.fix_height .moca_table_list{bottom:0}/*table높이 일정높이로 지정할 경우*/
-.moca_table_cont{table-layout:fixed; width:100%; position: relative; margin-top:5px; background:#fff; border-radius:2px; border-top:1px solid #9a9ea8; border-collapse: separate;}
+.moca_table_cont{table-layout:fixed; width:100%; position: relative; background:#fff; border-radius:2px; border-top:1px solid #9a9ea8; border-collapse: separate;}
+
+.moca_table.toolbar .moca_table_cont {margin-top:5px;}
+.moca_addtion_area[style*="display: none"] ~ .scrollX_area .moca_table_cont{margin-top:0px;}
 .moca_table_cont > tbody > tr > td{padding:1px 2px; border-bottom:1px solid #c1c8d4; border-right:1px solid #c1c8d4; min-width:30px; background:#fff}
-.moca_table_cont > thead > tr > th, .moca_table_cont tbody > tr > th{padding:0 6px; height:29px; font-size: 12px; box-sizing: border-box; color: #333; background:#e5e8ef; border-right:1px solid #bbc3ce; border-bottom:1px solid #bbc3ce; vertical-align:middle}
+.moca_table_cont > thead > tr > th, .moca_table_cont tbody > tr > th{padding:0 6px; height:27px; font-size: 12px; box-sizing: border-box; color: #333; background:#e5e8ef; border-right:1px solid #bbc3ce; border-bottom:1px solid #bbc3ce; vertical-align:middle}
 .moca_table.th_nowrap .moca_table_body > table > thead > tr > th {overflow: auto; white-space: normal; text-overflow: inherit;}
 .moca_table.th_nowrap .moca_grid_sort_box span {overflow: auto; white-space: normal; text-overflow: inherit;}
 
@@ -1256,7 +1259,55 @@ td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:2
 .fullcalendar.fc .fc-button-active{background-color:#5c83a6 !important}
 .fullcalendar.fc button[title="오늘"].fc-todayBtn-button{margin-left:5px; background-color: #c96f57; border:0; opacity:0.9}
 
-
-
 /*test*/
 .moca_ica[type="inputMultiCalendar"] > div:first-child{width:100%}
+
+/*divForm*/
+div[type="table"]{display:table}
+div[type="thead"]{display:table-header-group}
+div[type="tbody"]{display:table-row-group; background:url(../images/row_bg.png);}
+div[type="tr"]{/*display:table-row*/float:left; margin-bottom:1px}
+div[type="th"], div[type="td"]{display:table-cell}
+
+
+/*
+div[type="table"]{display:flex; flex-wrap: wrap; flex-direction: row;}
+div[type="thead"]{display:flex}
+div[type="tbody"]{display:flex}
+div[type="tr"]{display:flex; flex-wrap: wrap;}
+div[type="th"]{display:flex}
+div[type="td"]{display:flex; flex:auto;}
+*/
+
+div[type="table"].moca_table_cont{table-layout:fixed; width:100%; position: relative; border-top:1px solid #bbc3ce; margin-top:5px; background:#fff; border-radius:2px;  border-collapse: separate;}
+.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="td"]{padding:1px 2px; min-width:30px; background:#fff}
+.moca_table_cont > div[type="thead"] > div[type="tr"] > div[type="th"], .moca_table_cont div[type="tbody"] > div[type="tr"] > div[type="th"]{min-width:90px; padding:0 6px; height:27px; line-height:27px; font-size: 12px; box-sizing: border-box; color: #333; background:#e5e8ef; vertical-align:middle; font-weight: bold; text-align: center;}
+.moca_table.th_nowrap .moca_table_body > div[type="table"] > div[type="thead"] > div[type="tr"] > div[type="th"] {overflow: auto; white-space: normal; text-overflow: inherit;}
+.moca_table.th_nowrap .moca_grid_sort_box span {overflow: auto; white-space: normal; text-overflow: inherit;}
+
+.moca_table_cont.vertical{float:left}
+.moca_table_cont.vertical div[type="tbody"] div[type="th"]{padding:6px 8px; background: #e5e8ef}
+.moca_table_cont div[type="th"] > label{position: sticky; top: 10px; display: inline-block; vertical-align: top;}
+.moca_table_cont > div[type="thead"] > div[type="tr"] > div[type="th"]:first-child, .moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="th"]:first-child{border-left:0}
+.moca_table_cont > div[type="thead"] > div[type="tr"] > div[type="th"]:last-child{border-right:0}
+.moca_table_cont > div[type="thead"] > div[type="tr"] > div[type="th"].bd{border-right: 1px solid #bbc3ce;}
+.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="th"]{height:27px}
+.moca_table_cont .moca_checkbox_input + .moca_checkbox_label {display:inline-block; position:relative; padding-left:10px; margin-right:4px}
+.moca_table_cont.th_tar div[type="th"]{text-align:right}
+
+/*moca_table th색상*/
+.moca_table.bg_green .moca_table_cont div[type="th"]{background:#deecea}
+.moca_table.bg_red .moca_table_cont div[type="th"]{background:#f4d5d5}
+.moca_table div[type="tr"] > div[type="th"].fixed.green{background:#d2e8da}
+.moca_table div[type="tr"] > div[type="th"].fixed.yellow{background:#e8eb28}
+.moca_grid_body div[type="th"].bg_blue, .moca_table_cont div[type="th"].bg_blue{background:#81a4c4 !important;}
+.moca_grid_body div[type="th"].bg_green, .moca_table_cont div[type="th"].bg_green{background:#deecea !important;}
+.moca_grid_body div[type="th"].bg_red, .moca_table_cont div[type="th"].bg_red{background:#f4d5d5 !important;}
+.moca_grid_body div[type="th"].bg_pink, .moca_table_cont div[type="th"].bg_pink{background:#efe5ed !important;}
+.moca_table div[type="tr"] > *:last-child {border-right:0px !important;}
+
+.moca_table_cont div[type="td"] > div{min-height:24px; /* line-height:24px;  */box-sizing:border-box; word-break: break-all}
+.moca_table_cont div[type="td"] > div[type="radio"]{line-height:24px}
+.moca_table_cont div[type="td"] > div[contenteditable]{overflow-y:auto; line-height:1; padding:5px 0}
+.moca_table_cont div[type="td"] > div[contenteditable] > * {min-height:unset;height:1;line-height:1}
+.moca_table_cont div[type="td"] div[type="button"].mocaButton button{height:22px; margin-top:1px; background: #e5e8ef; border: 1px solid rgba(0, 0, 0, 0.3); border-radius: 5px; color: #333; font-weight: bold; letter-spacing: -0.5px;}

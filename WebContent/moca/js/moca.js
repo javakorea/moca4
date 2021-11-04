@@ -11490,7 +11490,6 @@ Moca.prototype.getTabContents = function(_aTag,_resolve){
 
 Moca.prototype.popup = function(_option,thisObj) {
     ['레이어 팝업오픈'];
-    debugger;
     if($('#'+_option.id+'[pageid='+this.pageId+']').length > 0 && _option.scopeId.startsWith('MDI')){
         return;
     }
