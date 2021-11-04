@@ -14,6 +14,8 @@ moca.EFC_BOARD_POP.___ready = function(args){
     },function(result){
     	if((moca.getSs("loginTemp0") == null || moca.getSs("loginTemp0") == '') && moca.getSs("USER_ID") == null){
 			moca.hide(moca.EFC_BOARD_POP.getObj("btn_reply"));
+			$(moca.EFC_BOARD_POP.getObj("form_board")).removeClass("toolbar");
+			$(moca.EFC_BOARD_POP.getObj("form_board")).find(".moca_addtion_area").hide();
 		}
     	moca.hide(moca.EFC_BOARD_POP.getObj('grd_file_btn_delrow'));
     	moca.hide(moca.EFC_BOARD_POP.getObj('grd_reply_file_btn_delrow'));

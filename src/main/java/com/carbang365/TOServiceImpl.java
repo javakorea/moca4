@@ -2757,7 +2757,7 @@ LOGGER.debug(logTitle+"resCd>>> "+resCd);
 	
 	
 	/*
-	 * [스케쥴러용] 약관적용일이 되면 적용하기
+	 * [스케쥴러용] 스케줄러 내일일정 있을경우 sms알림서비스
 	 * @see com.carbang365.TOServiceInterface#tomorrowScheduleAlarmSms(java.util.Map, org.springframework.ui.ModelMap)
 	 */
 	public void batchTomorrowScheduleAlarmSms() throws Exception {
@@ -2803,6 +2803,24 @@ LOGGER.debug(logTitle+"resCd>>> "+resCd);
 			    	}
 	    		}
 	    	}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	};
+	
+	/*
+	 * [스케쥴러용] 주식 아침9시알람
+	 * @see com.carbang365.TOServiceInterface#tomorrowScheduleAlarmSms(java.util.Map, org.springframework.ui.ModelMap)
+	 */
+	public void batchStockAlarmSms() throws Exception {
+		//batchStockAlarmSms
+		try {
+	    	String _resultCode = API.sendSms(
+	    			"안녕하세요!"+ "오전 9시 주식 개장시간입니다",
+				"01090789322,01091168072",
+				"superadmin"
+	    	);
+	    	System.out.println(_resultCode);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
