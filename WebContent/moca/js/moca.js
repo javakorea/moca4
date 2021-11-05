@@ -10322,6 +10322,7 @@ Moca.prototype.rendering = function(o,_aTag) {
             cont += '</div>';
         }
         //$(contDiv).html(cont);
+        debugger;
         var tmp = document.createElement( 'div' );
         tmp.setAttribute("id",_tabId);
         tmp.setAttribute("src",_url);
@@ -10342,11 +10343,7 @@ Moca.prototype.rendering = function(o,_aTag) {
        //// if(o.scopeId.startsWith('POPUP'))
         
         if($(tmp).prev().hasClass('moca_popup')){
-        	if(moca.getDevice()=="mobile"){
-        		$(tmp).css("top","0px");
-        	}else{
-        		$(tmp).css("top","45px");
-        	}
+        	$(tmp).css("top","0px");
         	$(tmp).css("position","fixed");
         	$(tmp).css("z-index","6011");
             //$(tmp).addClass('moca_popupInPopup')

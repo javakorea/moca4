@@ -539,43 +539,47 @@ moca.EFC_BOARD_POP.fn_searchfile = function(_grd,_idx,tdObj,_thisObj){
     }
 };
 moca.EFC_BOARD_POP._openFileUpload = function(_thisObj) {
-    moca.popup({
-        type:"POPUP",
-        modal:"false",
-        url:'/moca/comp/COMP_UPLD.html',
-        title:"파일업로드",
-        callback:function(result){
-            //업로드완료후 리턴업로드된파일정보를 받아서
-            //이후 파일관련테이블에 insert하는 로직을 추가한다.
-            var fileSize = result.fileSize;
-            var fileLength = result.fileLength;
-            var originalFilename = result.originalFilename;
-            var physicalFilename = result.physicalFilename;
-            var physicalFilepath = result.physicalFilepath;
-            var subDir = result.subDir;
-            var uploadDir = result.uploadDir;
-            if(_thisObj.id == "btn_add"){
-            	 var arr = grd_file.list;
-            }else{
-            	 var arr = grd_reply_file.list;
-            }
-            var row = {BOARDFILE_NAME:originalFilename,BOARDFILE_SIZE:fileSize,BOARDFILE_NAMESERVER:physicalFilename,BOARDFILE_PATH:physicalFilepath}; 
-            row._system = {"status":""};
-            var sn = arr.length;
-            arr[sn] =  row;
-            if(_thisObj.id == "btn_add"){
-            	moca.EFC_BOARD_POP.drawGrid('grd_file',arr);
-            }else{
-            	moca.EFC_BOARD_POP.drawGrid('grd_reply_file',arr);
-            }
-            
-            //grd_file.list[sn]._system.status = "C";
+	 var o = {};
+	 	o.url = '/moca/comp/COMP_UPLD.html';
+	 	//o.id = "COMP_UPLD";
+	    o.type = "POPUP";
+	    o.modal = "false";
+	    o.title = '파일업로드';
+	    o.callback = function(result){
+	    	if(result != null){
+	    		//업로드완료후 리턴업로드된파일정보를 받아서
+	            //이후 파일관련테이블에 insert하는 로직을 추가한다.
+	            var fileSize = result.fileSize;
+	            var fileLength = result.fileLength;
+	            var originalFilename = result.originalFilename;
+	            var physicalFilename = result.physicalFilename;
+	            var physicalFilepath = result.physicalFilepath;
+	            var subDir = result.subDir;
+	            var uploadDir = result.uploadDir;
+	            if(_thisObj.id == "btn_add"){
+	            	 var arr = grd_file.list;
+	            }else{
+	            	 var arr = grd_reply_file.list;
+	            }
+	            var row = {BOARDFILE_NAME:originalFilename,BOARDFILE_SIZE:fileSize,BOARDFILE_NAMESERVER:physicalFilename,BOARDFILE_PATH:physicalFilepath}; 
+	            row._system = {"status":""};
+	            var sn = arr.length;
+	            arr[sn] =  row;
+	            if(_thisObj.id == "btn_add"){
+	            	moca.EFC_BOARD_POP.drawGrid('grd_file',arr);
+	            }else{
+	            	moca.EFC_BOARD_POP.drawGrid('grd_reply_file',arr);
+	            }
+	            
+	            //grd_file.list[sn]._system.status = "C";
+	    	}
         },
-        data:{
-            subDir:"EFC_BOARD_POP",
-            onFileSelected:"moca.EFC_BOARD_POP.onFileSelected"
-        }
-    });
+	    o.scopeId = moca.EFC_BOARD_POP.pageId;
+	    o.data = {
+	    		subDir:"EFC_BOARD_POP",
+	            onFileSelected:"moca.EFC_BOARD_POP.onFileSelected"
+	    };
+	    moca.popup(o,_thisObj);
 };
 
 moca.EFC_BOARD_POP.grd_fileDownload = function(_grd,rowIndex,colIndex,colId){
@@ -727,7 +731,7 @@ moca.EFC_BOARD_POP.dispCnt= function(_thisVal){
 											id="cmb_board" 
 											class="moca_searchCombo" 
 											inneronchange="" 
-											style="width:100%;" 
+											style="width:100%" 
 											readOnly="true"
 											displayFormat="[label]" 
 											cdField="code" 

@@ -139,6 +139,15 @@ function loginSetter(_id,_email,_name){
 				$('#kakaoLogin').hide();
 				$('#userName').show();
 				$('#userName').html('<i class="fa fa-user mr5" aria-hidden="true"></i>'+response.selectMocaUserInfo.USER_NAME);
+				//'1972981827' 팀모카
+				//'1972997766' 성혜진
+				//'1973964231' 김세창
+				if(	   moca.getSs("loginTemp0").id == '1972981827'
+					|| moca.getSs("loginTemp0").id == '1972997766' 		
+					|| moca.getSs("loginTemp0").id == '1973964231' 		
+				){
+					$('#btnErp').show();
+				}
 			}else{
 				moca.main.insertUserInfo(_id,_name,_email);
 			}
@@ -178,6 +187,15 @@ function loginChecker(){
 		$('#kakaoLogin').hide();
 		$('#userName').show();
 		$('#userName').html('<i class="fa fa-user mr5" aria-hidden="true"></i>'+moca.getSs("loginTemp0").name);
+		//'1972981827' 팀모카
+		//'1972997766' 성혜진
+		//'1973964231' 김세창
+		if(	   moca.getSs("loginTemp0").id == '1972981827'
+			|| moca.getSs("loginTemp0").id == '1972997766' 		
+			|| moca.getSs("loginTemp0").id == '1973964231' 		
+		){
+			$('#btnErp').show();
+		}
 	}else{
 		$('#kakaoLogin').show();
 		$('#userName').hide();
@@ -204,6 +222,7 @@ function goMoca(){
 				 	<i></i>
 				 	<span>Login</span>
 				 </button>
+				 <span style="display:none" class="btn_Erp" id="btnErp" onclick="goMoca()">ERP</span>
 				 <span style="display:none" class="loginInfo" id="userName" onclick="moca.main.fn_logout()"></span>
 			</div>
 			<div class="container" style="overflow: inherit">
@@ -223,7 +242,7 @@ function goMoca(){
 					</div>
 					<div class="td fl">
 						<div class="label">자체개발 컴포넌트</div>
-						<p class="img4" onclick="goMoca()"><i class="fas fa-ellipsis-v"></i>성능저하의 대표적인 원인 IFRAME을 <br>사용하지않고 자체개발 고성능 컴포넌트를 제공합니다.</p>
+						<p class="img4"><i class="fas fa-ellipsis-v"></i>성능저하의 대표적인 원인 IFRAME을 <br>사용하지않고 자체개발 고성능 컴포넌트를 제공합니다.</p>
 					</div>
 					<!-- <button class="arrow_right"><i class="fas fa-chevron-right"></i></button> -->
 				</div>

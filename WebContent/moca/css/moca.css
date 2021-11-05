@@ -99,7 +99,7 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_input {height:24px; width:100%; padding:0 4px; border:1px solid #d7d7de; border-radius:2px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -webkit-appearance:none; -moz-appearance:none; appearance:none; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
 .moca_input.req{border:1px solid #e79f78; background:#fffbe8;}
 .moca_input.req:hover{border:1px solid #e45c2d;background:#fffbe8}
-.moca_input[readonly]{border:0; background:unset !important}
+.moca_input[readonly]{border:1px solid rgba(0,0,0,0); background:unset !important}
 .moca_input[disabled="true"]{background:#e8e8e8 !important}
 /* MOCA inputGroup */
 .moca_input_group > * {width:auto; float:left; margin-right:4px}
@@ -1210,8 +1210,8 @@ td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:2
 .mocaInput input[type="text"]{height: 24px;width: 100%; padding:0 4px; border: 1px solid #d7d7de; border-radius: 2px; box-sizing: border-box; appearance: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
 .mocaInput.req input[type="text"]{border:1px solid #e79f78; background:#fffbe8;}
 .mocaInput.req input[type="text"]:hover{border:1px solid #e45c2d;background:#fffbe8}
-.mocaInput input[type="text"]:read-only{border:0; background:unset !important}
-.mocaInput input[type="text"]:read-only:hover{border:0}
+.mocaInput input[type="text"]:read-only{border:1px solid rgba(0,0,0,0); background:unset !important}
+.mocaInput input[type="text"]:read-only:hover{border:1px solid rgba(0,0,0,0)}
 .mocaInput input[type="text"]:disabled{border: 1px solid #d7d7de; background: #eee;}
 /* MOCA inputButton */
 .mocaInputButton {position:relative; text-indent:0; height:24px; border:1px solid #ddd; background:#fff; -moz-box-sizing:border-box; box-sizing:border-box}
@@ -1281,8 +1281,8 @@ div[type="td"]{display:flex; flex:auto;}
 */
 
 div[type="table"].moca_table_cont{table-layout:fixed; width:100%; position: relative; border-top:1px solid #bbc3ce; margin-top:5px; background:#fff; border-radius:2px;  border-collapse: separate;}
-.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="td"]{padding:1px 2px; min-width:30px; background:#fff}
-.moca_table_cont > div[type="thead"] > div[type="tr"] > div[type="th"], .moca_table_cont div[type="tbody"] > div[type="tr"] > div[type="th"]{min-width:90px; padding:0 6px; height:27px; line-height:27px; font-size: 12px; border-right:1px solid #bbc3ce; box-sizing: border-box; color: #333; background:#e5e8ef; vertical-align:middle; font-weight: bold; text-align: center;}
+.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="td"]{padding:2px; min-width:30px; background:#fff}
+.moca_table_cont > div[type="thead"] > div[type="tr"] > div[type="th"], .moca_table_cont div[type="tbody"] > div[type="tr"] > div[type="th"]{min-width:90px; padding:0 6px; height:28px; line-height:28px; font-size: 12px; border-right:1px solid #bbc3ce; box-sizing: border-box; color: #333; background:#e5e8ef; vertical-align:middle; font-weight: bold; text-align: center;}
 .moca_table.th_nowrap .moca_table_body > div[type="table"] > div[type="thead"] > div[type="tr"] > div[type="th"] {overflow: auto; white-space: normal; text-overflow: inherit;}
 .moca_table.th_nowrap .moca_grid_sort_box span {overflow: auto; white-space: normal; text-overflow: inherit;}
 
@@ -1292,7 +1292,7 @@ div[type="table"].moca_table_cont{table-layout:fixed; width:100%; position: rela
 .moca_table_cont > div[type="thead"] > div[type="tr"] > div[type="th"]:first-child, .moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="th"]:first-child{border-left:0}
 .moca_table_cont > div[type="thead"] > div[type="tr"] > div[type="th"]:last-child{border-right:0}
 .moca_table_cont > div[type="thead"] > div[type="tr"] > div[type="th"].bd{border-right: 1px solid #bbc3ce;}
-.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="th"]{height:27px}
+.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="th"]{height:28px}
 .moca_table_cont .moca_checkbox_input + .moca_checkbox_label {display:inline-block; position:relative; padding-left:10px; margin-right:4px}
 .moca_table_cont.th_tar div[type="th"]{text-align:right}
 
