@@ -10305,6 +10305,7 @@ Moca.prototype.rendering = function(o,_aTag) {
         }
         var ow = o.width;if(String(ow).indexOf('%') == -1){ow += 'px';};
         var oh = o.height;if(String(oh).indexOf('%') == -1){oh += 'px';};
+        var dodotop = o.top;
         cont += '<div id="'+_pid+'" pageid="'+_tabId+'" srcid="'+moca.srcId+'" class="moca_popup '+o.type+'" style="left:'+o.left+'px;top:'+o.top+'px;width:'+ow+';height:'+oh+'">';
         cont += '   <div class="moca_popup_header">';
         cont += '       <h2 class="moca_popup_title">'+o.title+'('+moca.srcId+')'+'</h2>';
@@ -10322,7 +10323,6 @@ Moca.prototype.rendering = function(o,_aTag) {
             cont += '</div>';
         }
         //$(contDiv).html(cont);
-        debugger;
         var tmp = document.createElement( 'div' );
         tmp.setAttribute("id",_tabId);
         tmp.setAttribute("src",_url);
@@ -10341,14 +10341,30 @@ Moca.prototype.rendering = function(o,_aTag) {
         
        // 형제 클래스가 팝업클래스 갖고있으면 
        //// if(o.scopeId.startsWith('POPUP'))
-        
         if($(tmp).prev().hasClass('moca_popup')){
-        	$(tmp).css("top","0px");
+        	
+        	var gep = 0;//중복팝업시 계단형구현에 필요함
+        	var gep_top = 0;
+        	width = o.width;
+        	height = o.height;
+        	                             
+        	if(document.body.clientHeight <  height){
+        		height = document.body.clientHeight;
+        	}
+        	if(document.body.clientWidth <  width){
+        		width = document.body.clientWidth;
+        	}           
+        	if(moca.getDevice() != 'pc'){
+        		height = document.body.clientHeight;
+        	}
+
+        	var _top = (document.body.offsetHeight/2) - (parseInt(height)/2) + $(document).scrollTop()+gep_top;
+        	//defaultTop = $('div[pageid="'+o.scopeId+'"].moca_tab_panel[role=mdipanel]').offset().top;
+        	$(tmp).css("top", _top+"px");
         	$(tmp).css("position","fixed");
         	$(tmp).css("z-index","6011");
-            //$(tmp).addClass('moca_popupInPopup')
         };
-
+       
         $(tmp).html(cont);
         $(tmp).attr("tab_id",_tabId);
         
@@ -10358,6 +10374,7 @@ Moca.prototype.rendering = function(o,_aTag) {
         
         moca_popup.option = o;
         moca_popup.addEventListener('mousedown', function (e) {
+        	debugger;
         	if(o.modal != false && o.modal != 'false'){//모달일경우에는 팝업 움직이지못하게
         		return;
         	}
@@ -11529,15 +11546,15 @@ Moca.prototype.popup = function(_option,thisObj) {
                 	height = document.body.clientHeight;
                 }
                 
-                
                 var top = (document.body.offsetHeight/2) - (parseInt(height)/2) + $(document).scrollTop()+gep_top;
                 var defaultTop = 0;
                 if(_option.scopeId != null){
                     
                     if(_option.scopeId != null && _option.scopeId.indexOf('POPUP') > -1){
                         //defaultTop = $('div[id="'+_option.scopeId+'"][tab_id='+_option.scopeId+']').offset().top;
-                        defaultTop = $('div[pageid="'+_option.scopeId+'"].moca_popup').offset().top;
-                        top -= defaultTop;
+                        //성혜진
+                    	//defaultTop = $('div[pageid="'+_option.scopeId+'"].moca_popup').offset().top;
+                        top = 0;
                         //if(top < 0){
                         //  top = 0;
                         //}
@@ -11577,6 +11594,7 @@ Moca.prototype.popup = function(_option,thisObj) {
                 
                 //top = top.replace(/\"|\'|(px)|\s/gi,'');
                 //left = left.replace(/\"|\'|(px)|\s/gi,'');
+                
                 var o = _option;
                 o.srcId = moca.url_to_srcId(_option.url);
                 o.htmlContents = _htmlContents;
