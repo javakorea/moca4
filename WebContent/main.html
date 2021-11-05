@@ -218,12 +218,14 @@ function goMoca(){
 		<div class="wrapContent">
 			<div class="header">
 				<h1><a href="./index.html">MOCA</a></h1>
-				 <button id="kakaoLogin" class="kakaoLogin fr" onclick="loginKakao()">
-				 	<i></i>
-				 	<span>Login</span>
-				 </button>
-				 <span style="display:none" class="btn_Erp" id="btnErp" onclick="goMoca()">ERP</span>
-				 <span style="display:none" class="loginInfo" id="userName" onclick="moca.main.fn_logout()"></span>
+				<div class="fr btn_area">
+					<button id="kakaoLogin" class="kakaoLogin fl" onclick="loginKakao()">
+					 	<i></i>
+					 	<span>Login</span>
+					 </button>
+					 <span style="display:none" class="btn_Erp fl" id="btnErp" onclick="goMoca()">ERP<i class="fas fa-location-arrow ml5"></i></span>
+					 <span style="display:none" class="loginInfo fl ml5" id="userName" onclick="moca.main.fn_logout()"><i class="fa fa-user mr5" aria-hidden="true"></i>홍길동</span>
+				</div>
 			</div>
 			<div class="container" style="overflow: inherit">
 				<!-- WEB -->

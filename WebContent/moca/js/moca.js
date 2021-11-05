@@ -8675,6 +8675,7 @@ Moca.prototype.closePopup = function(_thisObj){
 
 Moca.prototype.popupMove = function(e){ 
     ["팝업이동!"]
+    event.preventDefault();
     var thisObj = document.nowPopup;
     if(thisObj.option.scopeId != null && thisObj.option.scopeId.startsWith('MDI')){
         var openerObj = $('#mdi_1')[0];
@@ -8741,6 +8742,7 @@ Moca.prototype.popupMove = function(e){
         if(thisObj.gepY == null){
             thisObj.gepY = _gepY;
         }
+        debugger;
         var _y = mouseY-thisObj.gepY;
         var _y_max = $(window).height()+$('body').scrollTop() - $(thisObj).height()-outline_gep*3;//window창의 outline좌우의 합
 /*
@@ -8769,7 +8771,7 @@ Moca.prototype.popupMove = function(e){
         
         $(thisObj).css('position','fixed'); 
         
-        $(thisObj).css('top',mouseY);   
+        $(thisObj).css('top',_y);   
     }
     
 };
