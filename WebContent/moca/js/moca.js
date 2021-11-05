@@ -8766,7 +8766,10 @@ Moca.prototype.popupMove = function(e){
             _y = 0;
         }
 
-        $(thisObj).css('top',_y);   
+        
+        $(thisObj).css('position','fixed'); 
+        
+        $(thisObj).css('top',mouseY);   
     }
     
 };
