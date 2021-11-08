@@ -12402,6 +12402,9 @@ Moca.prototype.getValue =  function(__comp,_id,_index,_data,_isFocus){
             return $(_comp).find('input[type=text]').focus();
       	}else{
             if(moca.trim($(_comp).find('input[type=text]').val()) != ''){
+            	if(moca.trim(_comp.originalValue) == ''){
+            		_comp.originalValue = moca.trim($(_comp).find('input[type=text]').val());
+            	}
                 return _comp.originalValue;
             }else{
                 return '';
@@ -12639,7 +12642,9 @@ Moca.prototype.displayKeyMask = function(_value,_keyMask){
 //addEvent="enterSearchEvt|onlyMoneyEvt"
 Moca.prototype.keydown = function(_comp,_value,_keyMask){
     var keyMask = moca.trim(_keyMask);
+debugger;
     if(event.key == 'Enter'){
+    	moca.setValue(_comp,_value);
         if(keyMask.indexOf('enterSearch') > -1){
             moca.default_keyup(event.srcElement);
         }else{
