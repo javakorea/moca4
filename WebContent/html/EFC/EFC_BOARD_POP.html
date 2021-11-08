@@ -127,7 +127,6 @@ moca.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 				if(response.selectBoardInfo != null ){
 				var data = response.selectBoardInfo;
 				CKEDITOR.instances.reply_editor.setData(data.BOARD_CONT);
-
 				moca.setValue(moca.EFC_BOARD_POP.getObj("wreplytitle"),data.BOARD_TITLE);
 				moca.setValue(moca.EFC_BOARD_POP.getObj("wreplydate"),data.BOARD_DATE);
 				moca.setValue(moca.EFC_BOARD_POP.getObj("wreplyid"),data.BOARD_WRITER);
@@ -683,6 +682,35 @@ moca.EFC_BOARD_POP.dispCnt= function(_thisVal){
 		_thisVal = '';
 		return _thisVal;
 	}
+};
+
+moca.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
+	//그리드 ,누른 해당 버튼,
+	debugger;
+    var g_jq = _grdObj;
+    var b_jq = _foldBtnObj;
+    var b_id = b_jq.attr('id');
+    if(b_id == 'grd_file_btn_fold'){//원글첨부파일
+    	if(moca.trim(moca.EFC_BOARD_POP._boardIdx)== ''){
+        	if(moca.isShowFoldBtn(_foldBtnObj)){
+            	g_jq.find('.grid_btn').find('button').show();
+            }else{
+            	g_jq.find('.grid_btn').find('button').hide();
+            }
+        }
+    }else if(b_id == 'grd_reply_file_btn_fold'){//답글첨부파일
+    	var _wreplyidx = moca.getValue(moca.EFC_BOARD_POP.getObj("wreplyidx"));
+    	if(moca.trim(_wreplyidx) == ''){
+    		if(moca.isShowFoldBtn(_foldBtnObj)){
+            	g_jq.find('.grid_btn').find('button').show();
+            }else{
+            	g_jq.find('.grid_btn').find('button').hide();
+            }
+    	}
+    }
+    
+    
+    
 }
 
 </script>
@@ -819,6 +847,7 @@ moca.EFC_BOARD_POP.dispCnt= function(_thisVal){
 			                            toolbar_nextbtn="false"
 			                            toolbar_full="false"
 			                            toolbar_fold="true"
+			                            onFoldClick="moca.EFC_BOARD_POP.grd_btnShowHide"
 			                            toolbar_grid_button2='{"position":"left","id":"btn_add","label":"파일찾기","onclick":"moca.EFC_BOARD_POP._openFileUpload","addClass":"","innerDisabled":"false"}'
 			                            onDblClick = "moca.EFC_BOARD_POP.grd_fileDownload"
 			                            subLabel="첨부파일"
@@ -869,7 +898,7 @@ moca.EFC_BOARD_POP.dispCnt= function(_thisVal){
 										<col style="width:30px">
 										<col style="width:60px">
 										
-										<col style="min-width:250px">
+										<col style="min-width:220px">
 										<col style="width:40px">
 										<col style="width:100px">
 										<col style="width:150px">
@@ -920,8 +949,8 @@ moca.EFC_BOARD_POP.dispCnt= function(_thisVal){
                                 <table class="moca_table_cont" style="">
                                     <colgroup>
                                             <col style="width:60px">
-                                            <col width="140" style="min-width:140px">
-                                            <col style="width:200px">
+                                            <col width="200" style="min-width:140px">
+                                            <col style="width:140px">
                                             <col style="width:120px">
                                     </colgroup>
                                     <thead>
@@ -935,7 +964,7 @@ moca.EFC_BOARD_POP.dispCnt= function(_thisVal){
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <div type="input" id="wreplyidx" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+                                                <div type="input" id="wreplyidx" class="mocaInput" innerClass="tac" onclick="" style="" value="" readonly="true"></div>
                                             </td>
                                             <td>
                                                 <div type="input" class="mocaInput req" style="width:100%;" innerStyle="" id="wreplytitle" displayFormat=""  readonly="true"
@@ -945,7 +974,7 @@ moca.EFC_BOARD_POP.dispCnt= function(_thisVal){
                                                 ></div>
                                             </td>
                                             <td>
-                                                <div type="input" class="mocaInput" style="width:100%; " innerStyle="" id="wreplydate" displayFunction="moca.dateFormat"  readonly="true"
+                                                <div type="input" class="mocaInput" style="width:100%; " innerClass="tac" id="wreplydate" displayFunction="moca.dateFormat"  readonly="true"
                                                     defaultValue="" 
                                                     selecterItem=""
                                                     showRadioOption="false"
@@ -977,6 +1006,7 @@ moca.EFC_BOARD_POP.dispCnt= function(_thisVal){
                                         toolbar_nextbtn="false"
                                         toolbar_full="false"
                                         toolbar_fold="true"
+                                        onFoldClick="moca.EFC_BOARD_POP.grd_btnShowHide"
                                         toolbar_grid_button2='{"position":"left","id":"btn_reply_add","label":"파일찾기","onclick":"moca.EFC_BOARD_POP._openFileUpload","addClass":"","innerDisabled":"false"}'
                                         onDblClick = "moca.EFC_BOARD_POP.grd_fileDownload"
                                         subLabel="답변 첨부파일"

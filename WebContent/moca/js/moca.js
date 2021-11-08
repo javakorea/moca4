@@ -4945,27 +4945,41 @@ Moca.prototype._fullScreenGrid = function(_thisObj){
     moca.sFunction(yscrollObj[0]);
 };
 
+Moca.prototype.isShowFoldBtn = function(_foldBtnObj){
+	if(_foldBtnObj.hasClass("grid_fold")){
+		return false;
+	}else{
+		return true;
+	}
+};
+
 Moca.prototype._foldGrid = function(_thisObj){
-    var g = _thisObj.parentElement.parentElement.parentElement;
-    var g_jq = $(g);
+	var g_jq = $(_thisObj).closest('div[type="grid"]');
     var b_jq = $(_thisObj);
+    var _onFoldClick = g_jq.attr("onFoldClick");
+    moca._foldGrid_common(b_jq,g_jq);
+    if(moca.trim(_onFoldClick) != ''){
+    	eval(_onFoldClick)(b_jq,g_jq);
+    };
+};
+
+Moca.prototype._foldGrid_common = function(_foldBtnObj,_grdObj){
+    var g_jq = _grdObj;
+    var b_jq = _foldBtnObj;
     if(g_jq.find('.moca_grid_list').is(":visible")){
         b_jq.siblings().hide();
-        g_jq.find('.grid_btn').find('button').hide();
         b_jq.removeClass('grid_unfold');
         b_jq.addClass('grid_fold');
         g_jq.addClass('fold');
         g_jq.find('.moca_grid_list').hide();
     }else{
         b_jq.siblings().show();
-        g_jq.find('.grid_btn').find('button').show();
         b_jq.removeClass('grid_fold');
         b_jq.addClass('grid_unfold');
         g_jq.removeClass('fold');
         g_jq.find('.moca_grid_list').show();
-        moca.redrawGrid(g);
+        moca.redrawGrid(g_jq[0]);
     }
-    
 };
 
 Moca.prototype.redrawGrid = function(_grd){
@@ -12222,7 +12236,7 @@ Moca.prototype.getBirthDay8 =  function(__fullJumin){
 Moca.prototype.setValue =  function(__comp,__value,_keyMask){
     var _value;
     var _comp;
-    if(__comp.find){
+    if(__comp instanceof $){
         _comp = __comp[0];
     }else{
         _comp = __comp;
