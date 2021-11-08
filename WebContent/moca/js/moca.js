@@ -3432,6 +3432,7 @@ Moca.prototype.renderCheckbox = function(_divObj,_val,_gubun) {
     var _label = _divObj.getAttribute("label");
     var _onclick = "on_" +_divObj.getAttribute("id");
     var _html = '';
+   debugger;
     _html += '<input type="checkbox" class="moca_checkbox_input" name="'+_id+'" id="'+_id+'">';
     _html += '<label class="moca_checkbox_label" for="'+_id+'" onclick="moca.'+_onclick+'(this)">'+_label+'</label>';
     _divObj.innerHTML = _html;
@@ -4349,6 +4350,7 @@ Moca.prototype.code = function(_config,_callback,_url,_pageId,_srcId) {
             var ks = Object.keys(_config);
             for(var i=0; i < ks.length; i++){
                 var compId = ks[i];
+                debugger;
                 if(!compId.startsWith("data___")){
                     var v = _config[compId];
                     var l = response[compId];
@@ -10201,9 +10203,10 @@ Moca.prototype.renderRadio = function(_divObj,_val,_gubun) {
 
 Moca.prototype.renderCheckboxGroup = function(_divObj,_val,_gubun,_metaObj,_checkedInfo) {
     ['render CheckboxGroup'];
+    debugger;
     $(_divObj).addClass('checkboxGroup');
     var _id = _divObj.getAttribute("id");
-    
+   
         
     var _direction = _divObj.getAttribute('direction');
     if(_direction == 'vertical'){
@@ -10213,6 +10216,8 @@ Moca.prototype.renderCheckboxGroup = function(_divObj,_val,_gubun,_metaObj,_chec
     var _itemsetArray = JSON.parse(_itemset);
 
     var _html = '';
+    var _onclick = '';
+    var _srcId = $(_divObj).attr('srcid');
     for(var i=0; i < _itemsetArray.length; i++){
         var obj = _itemsetArray[i];
         var checkedStr = '';
@@ -10223,10 +10228,19 @@ Moca.prototype.renderCheckboxGroup = function(_divObj,_val,_gubun,_metaObj,_chec
         }
         
         var onclickStr = '';
-        if(obj.onclick){
-            onclickStr = 'onclick="'+obj.onclick+'(this)"';
-        }
-        
+        //if(obj.onclick){
+            //onclickStr = 'onclick="'+obj.onclick+'(this)"';
+        //}
+		
+		
+		
+       	_onclick = "on_" +_id+'_'+i;    
+        onclickStr = 'onclick="moca.'+_onclick+'(this)"';
+       	debugger;
+       	//_id = ""'
+       	//onclickStr = 'onclick="'+'moca.'+_srcId+'.getObj('\'+_id+\'_'+i+)'(this)"';
+       
+            
         if(_metaObj != null){
           obj.label = obj[_metaObj.label];
           obj.value = obj[_metaObj.value];
@@ -12642,7 +12656,6 @@ Moca.prototype.displayKeyMask = function(_value,_keyMask){
 //addEvent="enterSearchEvt|onlyMoneyEvt"
 Moca.prototype.keydown = function(_comp,_value,_keyMask){
     var keyMask = moca.trim(_keyMask);
-debugger;
     if(event.key == 'Enter'){
     	moca.setValue(_comp,_value);
         if(keyMask.indexOf('enterSearch') > -1){
