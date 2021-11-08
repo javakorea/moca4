@@ -3432,7 +3432,6 @@ Moca.prototype.renderCheckbox = function(_divObj,_val,_gubun) {
     var _label = _divObj.getAttribute("label");
     var _onclick = "on_" +_divObj.getAttribute("id");
     var _html = '';
-   debugger;
     _html += '<input type="checkbox" class="moca_checkbox_input" name="'+_id+'" id="'+_id+'">';
     _html += '<label class="moca_checkbox_label" for="'+_id+'" onclick="moca.'+_onclick+'(this)">'+_label+'</label>';
     _divObj.innerHTML = _html;
@@ -10217,7 +10216,8 @@ Moca.prototype.renderCheckboxGroup = function(_divObj,_val,_gubun,_metaObj,_chec
 
     var _html = '';
     var _onclick = '';
-    var _srcId = $(_divObj).attr('srcid');
+    var _pageId= $(_divObj).attr('pageid');
+    debugger;
     for(var i=0; i < _itemsetArray.length; i++){
         var obj = _itemsetArray[i];
         var checkedStr = '';
@@ -10226,37 +10226,22 @@ Moca.prototype.renderCheckboxGroup = function(_divObj,_val,_gubun,_metaObj,_chec
         }else if(_metaObj.checked){
           checkedStr = 'checked';
         }
-        
         var onclickStr = '';
-        //if(obj.onclick){
-            //onclickStr = 'onclick="'+obj.onclick+'(this)"';
-        //}
-		
-		
-		
-       	_onclick = "on_" +_id+'_'+i;    
-        onclickStr = 'onclick="moca.'+_onclick+'(this)"';
-       	debugger;
-       	//_id = ""'
-       	//onclickStr = 'onclick="'+'moca.'+_srcId+'.getObj('\'+_id+\'_'+i+)'(this)"';
-       
-            
+        if(obj.onclick){
+        	onclickStr = 'onclick="'+obj.onclick+'(this)"';
+        }
         if(_metaObj != null){
           obj.label = obj[_metaObj.label];
           obj.value = obj[_metaObj.value];
         }
-        
         if(_checkedInfo != null && moca.trim(_checkedInfo[obj.value]) == 'checked'){
           checkedStr = 'checked';
         }else if(_checkedInfo != null && moca.trim(_checkedInfo[obj.value]) == 'unchecked'){
           checkedStr = '';
         }   
         
-        
-        
-        
-        _html += '<input type="checkbox" class="moca_checkbox_input" name="'+_id+'" id="'+_id+'_'+i+'" '+checkedStr+' value="'+obj.value+'">';
-        _html += '<label class="moca_checkbox_label mr15" for="'+_id+'_'+i+'" '+onclickStr+'>'+obj.label+'</label>';
+        _html += '<input type="checkbox" class="moca_checkbox_input" name="'+_id+'" id="'+_pageId+'_'+_id+'_'+i+'" '+checkedStr+' value="'+obj.value+'">';
+        _html += '<label class="moca_checkbox_label mr15" for="'+_pageId+'_'+_id+'_'+i+'" '+onclickStr+'>'+obj.label+'</label>';
     }
     _divObj.innerHTML = _html;
 };
