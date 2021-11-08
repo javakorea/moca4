@@ -686,31 +686,27 @@ moca.EFC_BOARD_POP.dispCnt= function(_thisVal){
 
 moca.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 	//그리드 ,누른 해당 버튼,
-	debugger;
     var g_jq = _grdObj;
     var b_jq = _foldBtnObj;
-    var b_id = b_jq.attr('id');
-    if(b_id == 'grd_file_btn_fold'){//원글첨부파일
-    	if(moca.trim(moca.EFC_BOARD_POP._boardIdx)== ''){
-        	if(moca.isShowFoldBtn(_foldBtnObj)){
-            	g_jq.find('.grid_btn').find('button').show();
-            }else{
-            	g_jq.find('.grid_btn').find('button').hide();
-            }
-        }
-    }else if(b_id == 'grd_reply_file_btn_fold'){//답글첨부파일
-    	var _wreplyidx = moca.getValue(moca.EFC_BOARD_POP.getObj("wreplyidx"));
-    	if(moca.trim(_wreplyidx) == ''){
-    		if(moca.isShowFoldBtn(_foldBtnObj)){
-            	g_jq.find('.grid_btn').find('button').show();
-            }else{
-            	g_jq.find('.grid_btn').find('button').hide();
-            }
-    	}
+    var g_id = g_jq.attr('id');
+    var idx;
+    var attachBtnId;
+    if(g_id == 'grd_file'){//원글첨부파일
+    	idx = moca.trim(moca.EFC_BOARD_POP._boardIdx);
+    	attachBtnId = "btn_add";
+    }else if(g_id == 'grd_reply_file'){//답글첨부파일
+    	idx = moca.trim(moca.getValue(moca.EFC_BOARD_POP.getObj("wreplyidx")));
+    	attachBtnId = "btn_reply_add";
     }
     
-    
-    
+	if(idx == ''){
+		var _btn = moca.getGridObj(g_jq,attachBtnId);
+		if(moca.isShowFoldBtn(_foldBtnObj)){
+			moca.show(_btn);
+        }else{
+        	moca.hide(_btn);
+        }
+	}
 }
 
 </script>

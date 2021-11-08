@@ -4982,6 +4982,10 @@ Moca.prototype._foldGrid_common = function(_foldBtnObj,_grdObj){
     }
 };
 
+Moca.prototype.getGridObj = function(_grdObj,_id){
+	return _grdObj.find('#'+_id);
+};
+
 Moca.prototype.redrawGrid = function(_grd){
     /*
     var cntObj = $(_grd).find('.grid_total .txt_blue');
