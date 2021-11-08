@@ -11572,9 +11572,6 @@ Moca.prototype.popup = function(_option,thisObj) {
                 if(_option.scopeId != null){
                     
                     if(_option.scopeId != null && _option.scopeId.indexOf('POPUP') > -1){
-                        //defaultTop = $('div[id="'+_option.scopeId+'"][tab_id='+_option.scopeId+']').offset().top;
-                        //성혜진
-                    	//defaultTop = $('div[pageid="'+_option.scopeId+'"].moca_popup').offset().top;
                         top = 0;
                         //if(top < 0){
                         //  top = 0;

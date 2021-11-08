@@ -7,7 +7,8 @@ moca.EFC_BOARD_POP._boardIdx;
 moca.EFC_BOARD_POP._boardPIdx;
 moca.EFC_BOARD_POP._boardType;
 moca.EFC_BOARD_POP._boardTitle;
-moca.EFC_BOARD_POP._replyStatus;
+moca.EFC_BOARD_POP._boardStatus;
+moca.EFC_BOARD_POP._boardReplyStatus;
 moca.EFC_BOARD_POP.___ready = function(args){
 	moca.EFC_BOARD_POP.code({
         "cmb_board":{code:'boardStatus'}
@@ -41,7 +42,7 @@ moca.EFC_BOARD_POP.___ready = function(args){
     		moca.EFC_BOARD_POP._boardTitle = moca.EFC_BOARD_POP.args.parent.data.BOARD_TITLE;
     		moca.EFC_BOARD_POP._pageType = moca.EFC_BOARD_POP.args.parent.data.PAGE_TYPE;
     	}
-    	if(Object.keys(CKEDITOR.instances).length != 0){
+    	if(Object.keys(CKEDITOR.instances).length > 0){
     		CKEDITOR.instances.editor.destroy();
         	CKEDITOR.instances.reply_editor.destroy();
     	}
@@ -153,6 +154,7 @@ moca.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 
 moca.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 	if(moca.EFC_BOARD_POP._boardIdx != null){
+		moca.EFC_BOARD_POP._boardStatus = "R";
 		moca.hide($(moca.EFC_BOARD_POP.getObj("cke_editor")).find('.cke_top'));
 			moca.EFC_BOARD_POP.exe({
 				url : moca._domain+moca._contextRoot+"/EFC_BOARD/selectBoardInfo.do",
@@ -205,6 +207,7 @@ moca.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 				}
 			});
 	}else{
+		moca.EFC_BOARD_POP._boardStatus = "C";
 		moca.setValue(moca.EFC_BOARD_POP.getObj("cmb_board"),"N");
 		var _writter = moca.getSs("USER_ID");
 		if(moca.getSs("loginTemp0") != null && moca.getSs("loginTemp0") != ''){
@@ -229,9 +232,11 @@ moca.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 };
 
 moca.EFC_BOARD_POP.fn_update = function(_thisObj){
+	
 	moca.hide(moca.EFC_BOARD_POP.getObj("btn_del_admin"));
 	moca.hide(moca.EFC_BOARD_POP.getObj("btn_reply_del_admin"));
 	if(_thisObj.id != 'btn_reply_update'){ //수정버튼
+		moca.EFC_BOARD_POP._boardStatus = "U";
 		$(moca.EFC_BOARD_POP.getObj("cke_editor")).find("[id$='_top']").show();
 		moca.setReadOnly(moca.EFC_BOARD_POP.getObj("wtitle"),false);
 		moca.setReadOnly(moca.EFC_BOARD_POP.getObj("cmb_board"),false);
@@ -243,10 +248,10 @@ moca.EFC_BOARD_POP.fn_update = function(_thisObj){
 		moca.hide(moca.EFC_BOARD_POP.getObj("btn_del"));
 		moca.hide(moca.EFC_BOARD_POP.getObj("btn_reply"));
 		moca.show(moca.EFC_BOARD_POP.getObj("btn_save"));
-		moca.show(moca.EFC_BOARD_POP.getObj("btn_add"));
 		moca.show(moca.EFC_BOARD_POP.getObj('grd_file_btn_fold'));
 		moca.hide(moca.EFC_BOARD_POP.getObj("btn_del_admin"));
 	}else{ //답변수정
+		moca.EFC_BOARD_POP._boardReplyStatus = "U";
 		moca.setReadOnly(moca.EFC_BOARD_POP.getObj("wreplytitle"),false);
 		$(moca.EFC_BOARD_POP.getObj("cke_reply_editor")).find("[id$='_top']").show();
 		moca.setValue(moca.EFC_BOARD_POP.getObj("wreplyid"),moca.getSs("USER_ID"));
@@ -277,7 +282,7 @@ moca.EFC_BOARD_POP.fn_replyCnt = function(_thisObj,_message){
              "header" : moca.header,
              "body" : {
              	"BOARD_IDX":moca.EFC_BOARD_POP._boardPIdx,
-             	"BOARD_REPLYSTATUS":moca.EFC_BOARD_POP._replyStatus
+             	"BOARD_REPLYSTATUS":moca.EFC_BOARD_POP._boardReplyStatus
                  }
          },          
          callback : function(response){
@@ -397,13 +402,14 @@ moca.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                    },          
 	                    callback : function(response){
 	                    	if(response.cnt > 0){
-	                    		moca.EFC_BOARD_POP._replyStatus = 'add';
+	                    		moca.EFC_BOARD_POP._boardReplyStatus = "C";
 	                    		moca.EFC_BOARD_POP.fn_replyCnt(null,"성공적으로 저장하였습니다.");
 	                         }
 	                    }
 	                });
 	        	}else{
 	        		//답변수정
+	        		moca.EFC_BOARD_POP._boardReplyStatus = "U";
 	        		 moca.EFC_BOARD_POP.exe({
 	                     url : moca._domain+moca._contextRoot+"/EFC_BOARD/updateBoard.do",
 	                     loadingbar:true,
@@ -464,8 +470,9 @@ moca.EFC_BOARD_POP.fn_adminDel = function(_thisObj){
                 callback : function(response){
                     if(response.cnt > 0){
                         if(moca.EFC_BOARD_POP._boardIdx != moca.EFC_BOARD_POP._boardPIdx){ //답글삭제
-                        	moca.EFC_BOARD_POP._replyStatus = 'del';
+                        	moca.EFC_BOARD_POP._boardReplyStatus = "D";
                             moca.EFC_BOARD_POP.fn_replyCnt();
+                            moca.popClose(moca.EFC_BOARD_POP.pageId,{callback:"true",message:"삭제가 완료되었습니다."});
                         }else{//원글삭제
                         	moca.popClose(moca.EFC_BOARD_POP.pageId,{callback:"true",message:"삭제가 완료되었습니다."});
                         }
@@ -508,7 +515,7 @@ moca.EFC_BOARD_POP.fn_del = function(_thisObj){
                      if(response.cnt > 0){
                     	 
                      	if(moca.EFC_BOARD_POP._boardIdx != moca.EFC_BOARD_POP._boardPIdx){ //답글삭제
-                        	moca.EFC_BOARD_POP._replyStatus = 'del';
+                        	moca.EFC_BOARD_POP._boardReplyStatus = "D";
                             moca.EFC_BOARD_POP.fn_replyCnt();
                         }else{//원글삭제
                         	moca.popClose(moca.EFC_BOARD_POP.pageId,{callback:"true",message:"삭제가 완료되었습니다."});
@@ -600,6 +607,7 @@ moca.EFC_BOARD_POP.onFileSelected = function(filename,filesize,_e,_this) {
 moca.EFC_BOARD_POP.popId = "EFC_BOARD_ANS_POP";
 moca.EFC_BOARD_POP.fn_reply = function(_thisObj){
     ['답변달기']
+    moca.EFC_BOARD_POP._boardReplyStatus = "C";
     $(moca.EFC_BOARD_POP.getObj("cke_editor")).find('#cke_1_top').hide();
     moca.setReadOnly(moca.EFC_BOARD_POP.getObj("wreplytitle"),false);
     $(moca.EFC_BOARD_POP.getObj("reply_area")).show();
@@ -685,28 +693,32 @@ moca.EFC_BOARD_POP.dispCnt= function(_thisVal){
 };
 
 moca.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
-	//그리드 ,누른 해당 버튼,
+	//해당 버튼,그리드
     var g_jq = _grdObj;
     var b_jq = _foldBtnObj;
     var g_id = g_jq.attr('id');
     var idx;
     var attachBtnId;
+    var boardStatus;
+    
     if(g_id == 'grd_file'){//원글첨부파일
     	idx = moca.trim(moca.EFC_BOARD_POP._boardIdx);
     	attachBtnId = "btn_add";
+    	boardStatus = moca.EFC_BOARD_POP._boardStatus;
     }else if(g_id == 'grd_reply_file'){//답글첨부파일
     	idx = moca.trim(moca.getValue(moca.EFC_BOARD_POP.getObj("wreplyidx")));
     	attachBtnId = "btn_reply_add";
+    	boardStatus = moca.EFC_BOARD_POP._boardReplyStatus;
+    	
     }
-    
-	if(idx == ''){
+	if(boardStatus == "C" || boardStatus == "U"){
 		var _btn = moca.getGridObj(g_jq,attachBtnId);
 		if(moca.isShowFoldBtn(_foldBtnObj)){
 			moca.show(_btn);
         }else{
         	moca.hide(_btn);
         }
-	}
+    }
 }
 
 </script>

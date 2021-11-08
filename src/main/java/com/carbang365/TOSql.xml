@@ -4722,10 +4722,10 @@
          /*updateReplyCnt 게시물답변카운트*/
          UPDATE MT_BOARD SET 
             <choose>
-				<when test='BOARD_REPLYSTATUS.equals("add")'>
+				<when test='BOARD_REPLYSTATUS.equals("C")'>
 					 BOARD_REPLYCNT = BOARD_REPLYCNT+1
 				</when>
-				<when test='BOARD_REPLYSTATUS.equals("del")'>
+				<when test='BOARD_REPLYSTATUS.equals("D")'>
 					BOARD_REPLYCNT = BOARD_REPLYCNT-1
 				</when>
 			</choose>
