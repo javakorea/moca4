@@ -170,6 +170,16 @@ public class EgovMainController {
 		response.setHeader("X-Frame-Options", "ALLOW-FROM http://220.78.29.171:8080");
 		return "main/StandalonePopup";
 	}
+	
+	@RequestMapping(value = "/cmm/main/StandaloneMdi.do")  
+	public String StandaloneMdi(HttpServletRequest request, HttpServletResponse response,ModelMap model)
+	  throws Exception{
+		
+		String mcsrc = request.getParameter("mcsrc");
+		request.setAttribute("mcsrc", mcsrc);
+		response.setHeader("X-Frame-Options", "ALLOW-FROM http://220.78.29.171:8080");
+		return "main/StandaloneMdi"; 
+	}
 	/**
      * Head메뉴를 조회한다.
      * @param menuManageVO MenuManageVO

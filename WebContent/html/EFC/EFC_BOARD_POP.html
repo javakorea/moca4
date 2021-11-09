@@ -209,9 +209,12 @@ moca.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 	}else{
 		moca.EFC_BOARD_POP._boardStatus = "C";
 		moca.setValue(moca.EFC_BOARD_POP.getObj("cmb_board"),"N");
-		var _writter = moca.getSs("USER_ID");
+		var _writter;
 		if(moca.getSs("loginTemp0") != null && moca.getSs("loginTemp0") != ''){
 			_writter = moca.getSs("loginTemp0").name;
+		}
+		if(moca.getSs("USER_ID") != null){
+			_writter = moca.getSs("USER_ID");
 		}
 		moca.setValue(moca.EFC_BOARD_POP.getObj("wid"),_writter);
 		moca.setValue(moca.EFC_BOARD_POP.getObj("wdate"),dateLib.getToday());
@@ -297,9 +300,10 @@ moca.EFC_BOARD_POP.fn_save = function(_thisObj){
 	if(_thisObj.id == 'btn_save'){
 		moca.confirm('저장하시겠습니까?',function(result){
 	        if(result == 'Y'){
-	            for(var i=0; i<grd_file.list.length;i++){
-	            	if(grd_file.list[i]._system.status != "D"){
-	            		grd_file.list[i]._system.status = "C";
+	        	
+	            for(var i=0; i<moca.EFC_BOARD_POP.getObj("grd_file").list.length;i++){
+	            	if(moca.EFC_BOARD_POP.getObj("grd_file").list[i]._system.status != "D"){
+	            		moca.EFC_BOARD_POP.getObj("grd_file").list[i]._system.status = "C";
 	            	}
 	            };
 	            
@@ -563,9 +567,10 @@ moca.EFC_BOARD_POP._openFileUpload = function(_thisObj) {
 	            var subDir = result.subDir;
 	            var uploadDir = result.uploadDir;
 	            if(_thisObj.id == "btn_add"){
-	            	 var arr = grd_file.list;
+	            	
+	            	 var arr = moca.EFC_BOARD_POP.getObj("grd_file").list;
 	            }else{
-	            	 var arr = grd_reply_file.list;
+	            	 var arr = moca.EFC_BOARD_POP.getObj("grd_reply_file").list;
 	            }
 	            var row = {BOARDFILE_NAME:originalFilename,BOARDFILE_SIZE:fileSize,BOARDFILE_NAMESERVER:physicalFilename,BOARDFILE_PATH:physicalFilepath}; 
 	            row._system = {"status":""};

@@ -7,10 +7,15 @@
 		if((moca.getSs("loginTemp0") == null || moca.getSs("loginTemp0") == '') && moca.getSs("USER_ID") == null){
 			moca.hide(moca.EFC_BOARD.getObj("btn_add"));
 		}
-		if(args.parent.data.PAGE_TYPE == 'home'){
-			moca.hide(moca.EFC_BOARD.getObj("btn_del"));
+		debugger;
+		if(args.parent.data != null){
+			if(args.parent.data.PAGE_TYPE == 'home'){
+				moca.hide(moca.EFC_BOARD.getObj("btn_del"));
+			}
+			moca.EFC_BOARD.boardType = args.parent.data.BOARD_TYPE;
 		}
-		moca.EFC_BOARD.boardType = args.parent.data.BOARD_TYPE;
+		
+		
 		if(moca.EFC_BOARD.boardType == 'WS'){
 			$(moca.EFC_BOARD.getObj('sreenNm')).text('웹스퀘어게시판');
 		}else if(moca.EFC_BOARD.boardType == 'ERP'){
@@ -292,7 +297,6 @@
 
 </head>
 <body>
-	
 <div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
 	<div class="moca_tab_cont" style="height:100%">
 		<div class="moca_cont_wrap flex fcol">

@@ -1609,24 +1609,27 @@ Moca.prototype.scopes = function(){
 };
 Moca.prototype.tree_click = function(_clickedMenuId,_mdiId){
     ['메뉴클릭'];
-    var _mdi2 = $('#mdi_2').is(':visible');
+    debugger;
+    
+    $('#mdi_1',parent.document);
+    var _mdi2 = $('#mdi_2',parent.document).is(':visible');
     if(!_mdi2){_mdiId = 'mdi_1'}
     
-    var node = $('#'+_clickedMenuId).find('SPAN')[0];
-    var _clickedNode = $('#'+_clickedMenuId)[0];
+    var node = $('#'+_clickedMenuId,parent.document).find('SPAN')[0];
+    var _clickedNode = $('#'+_clickedMenuId,parent.document)[0];
     
     
     //basis.addClass('active');
-    $('[menucd]').removeClass('active');
-    $('[menucd='+_clickedMenuId.replace('li','')+']').addClass('active');
-    if(node.tagName == 'SPAN' && $(node).hasClass("moca_tree_tbx") && $(_clickedNode).hasClass('leaf')){
-        var basis = $('#'+_clickedMenuId);
+    $('[menucd]',parent.document).removeClass('active');
+    $('[menucd='+_clickedMenuId.replace('li','')+']',parent.document).addClass('active');
+    if(node.tagName == 'SPAN' && $(node,parent.document).hasClass("moca_tree_tbx") && $(_clickedNode,parent.document).hasClass('leaf')){
+        var basis = $('#'+_clickedMenuId,parent.document);
         basis.parent().children().removeClass('active');
         basis.addClass('active');
         var _type = node.getAttribute("type");
         var _url = $.trim(node.getAttribute("url"));
         
-        var _label = $(node).contents().eq(0).text();
+        var _label = $(node,parent.document).contents().eq(0).text();
         var _fileName = _url.substring(_url.lastIndexOf('/')+1);
         var _srcId = _fileName.substring(0,_fileName.indexOf('.'));
         
@@ -1806,11 +1809,19 @@ Moca.prototype.moca_mdi_click = function(_liObj){
         $($(_liObj).parent().find(".active")[0]).removeClass("active");
         $(_liObj).addClass("active");
         var _tab_id = moca.setPageArea(_liObj);
+        var _src_id ;
+        if(moca[_tab_id] != null){
+        	 _src_id = moca[_tab_id].srcId;
+        }
+       
         var arr = $('#'+_mdiId+' .moca_tab_body');
         var contDiv = $('#'+_mdiId+' .moca_tab_body').parent().find('div[id*="'+_tab_id+'"]');
         for(var i=0;i < arr.length; i++){
             var _row = arr[i];
             if(contDiv[0] === _row){
+            	if(moca[_tab_id] != moca[_src_id]){
+            		moca[_src_id] = moca[_tab_id];
+            	}
                 $(_row).css('display','block');
             }else{
                 $(_row).css('display','none');
@@ -1938,6 +1949,7 @@ Moca.prototype.tabClose = function(_liCloseButtonObj){
             var _tab_id = $(_liCloseButtonObj).closest("[tab_id]").attr("tab_id");
             var _mdiId = $(_liCloseButtonObj).closest('.moca_mdi').attr('id');
             var t = $('*[tab_id='+_tab_id+']');
+            moca[_tab_id]=null;
             $('*[tab_id='+_tab_id+']').remove();
             $(_liCloseButtonObj).parent().remove();
             if(t.hasClass("active")){
@@ -1945,6 +1957,7 @@ Moca.prototype.tabClose = function(_liCloseButtonObj){
                 $('#'+_mdiId+' .moca_tab_ul>li:last-child').addClass('active');//탭액티브
                 $('#'+_mdiId+' .moca_tab_body').last().css('display','block');//컨텐츠액티브      
             }
+            
             $('.moca_tab_ul').removeClass('tabWidth'); //탭메뉴리사이징
             if(moca.getDevice() == 'pc'){
             	if($('#'+_mdiId+' .moca_tab_close:last').length != 0){
@@ -1966,7 +1979,14 @@ Moca.prototype.all_tab_close = function(_liCloseButtonObj){
     var _mdiId = _liCloseButtonObj.closest('.moca_mdi').id;
     moca.confirm('모든 화면을 닫으시겠습니까?',function(result){
         if(result == 'Y'){
-            $('#'+_mdiId+' .moca_tab_ul>li').remove();//탭액티브
+        	debugger;
+        	//moca[_tab_id]=null;
+        	var _li = $('#'+_mdiId+' .moca_tab_ul>li');
+        	for(var i=0; i<_li.length; i++){
+        		moca[$(_li[i]).attr('tab_id')] = null;
+        	}
+        	
+        	_li.remove();//탭액티브
             $('#'+_mdiId+' .moca_tab_body[id!=moca_main]').remove();//컨텐츠액티브
             $('#'+_mdiId+' .moca_tab_body[id=moca_main]').css('display','block');
             $('#'+_mdiId+' .moca_tab_ul').removeClass('tabWidth'); //탭메뉴리사이징
@@ -4349,7 +4369,6 @@ Moca.prototype.code = function(_config,_callback,_url,_pageId,_srcId) {
             var ks = Object.keys(_config);
             for(var i=0; i < ks.length; i++){
                 var compId = ks[i];
-                debugger;
                 if(!compId.startsWith("data___")){
                     var v = _config[compId];
                     var l = response[compId];
@@ -10202,7 +10221,6 @@ Moca.prototype.renderRadio = function(_divObj,_val,_gubun) {
 
 Moca.prototype.renderCheckboxGroup = function(_divObj,_val,_gubun,_metaObj,_checkedInfo) {
     ['render CheckboxGroup'];
-    debugger;
     $(_divObj).addClass('checkboxGroup');
     var _id = _divObj.getAttribute("id");
    
@@ -10217,7 +10235,6 @@ Moca.prototype.renderCheckboxGroup = function(_divObj,_val,_gubun,_metaObj,_chec
     var _html = '';
     var _onclick = '';
     var _pageId= $(_divObj).attr('pageid');
-    debugger;
     for(var i=0; i < _itemsetArray.length; i++){
         var obj = _itemsetArray[i];
         var checkedStr = '';
@@ -11067,6 +11084,9 @@ Moca.prototype.callReady = function(aTag) {
        if($(aTag).attr('tab_id') != null && !$(aTag).attr('tab_id').startsWith('POPUP') && aTag.id != "moca_main"){//single page case
     	   moca[_srcId].args = _argsObj;
            moca[_srcId].___ready(_argsObj);
+           var _pageId = moca[_srcId].pageId;
+           moca[_pageId] =  moca[_srcId];
+           debugger;
        }else if($(aTag).attr('tab_id') != null && $(aTag).attr('tab_id').startsWith('POPUP')){//popup case
     	   if(opener){
     		    var srcid = $('#'+$(aTag).attr('tab_id'),opener.document).find('[srcid]').attr('srcid');
@@ -11075,6 +11095,8 @@ Moca.prototype.callReady = function(aTag) {
     	   }
     	   moca[_srcId].args = _argsObj;	
            moca[_srcId].___ready(_argsObj);
+           var _pageId = moca[_srcId].pageId;
+           moca[_pageId] =  moca[_srcId];
        }else if($(aTag).attr('tab_id') == null && aTag.id != "moca_main"){//popup case
     	   moca[_srcId].args = _argsObj;
            moca[_srcId].___ready(_argsObj);
@@ -13803,6 +13825,11 @@ $(document).ready(function() {
                        //console.log("(__body)wframe2-2"+aTag.id);
                        moca.callReady(aTag);
                        //console.log("(__body)wframe2-3"+aTag.id);
+                   } if(aTag.id == '__iframe'){
+                       //console.log("(else)wframe3"+aTag.id);
+                       data = moca.getContents(data,_url,"IFRAME",aTag);
+                       $(aTag).html(data);
+                       //console.log("(else)wframe3-1"+aTag.id);
                    }else{
                        //console.log("(else)wframe3"+aTag.id);
                        data = moca.getContents(data,_url,"CMN",aTag);
