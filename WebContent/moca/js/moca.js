@@ -11545,6 +11545,12 @@ Moca.prototype.popup = function(_option,thisObj) {
     if($('#'+_option.id+'[pageid='+this.pageId+']').length > 0 && _option.scopeId.startsWith('MDI')){
         return;
     }
+    if(self !== top){
+    	//iframe
+    	_option.scopeId = parent.moca.pageId;
+    	parent.moca.popup(_option,thisObj);
+    	return;
+	}
     $.ajax({
            type:"GET",
            url:moca._contextRoot+_option.url,
