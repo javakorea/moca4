@@ -1319,3 +1319,4 @@ div[type="table"].moca_table_cont{table-layout:fixed; width:100%; position: rela
 .iframe.moca_wrap .moca_tab_head,
 .iframe.moca_wrap .toast_msg{display:none}
 .iframe.moca_wrap .moca_container.on .moca_mdi{top:0}
+.iframe.moca_wrap .moca_cont_wrap {padding:0}

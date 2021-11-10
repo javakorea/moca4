@@ -1609,9 +1609,6 @@ Moca.prototype.scopes = function(){
 };
 Moca.prototype.tree_click = function(_clickedMenuId,_mdiId){
     ['메뉴클릭'];
-    debugger;
-    
-    $('#mdi_1',parent.document);
     var _mdi2 = $('#mdi_2',parent.document).is(':visible');
     if(!_mdi2){_mdiId = 'mdi_1'}
     
@@ -1979,7 +1976,6 @@ Moca.prototype.all_tab_close = function(_liCloseButtonObj){
     var _mdiId = _liCloseButtonObj.closest('.moca_mdi').id;
     moca.confirm('모든 화면을 닫으시겠습니까?',function(result){
         if(result == 'Y'){
-        	debugger;
         	//moca[_tab_id]=null;
         	var _li = $('#'+_mdiId+' .moca_tab_ul>li');
         	for(var i=0; i<_li.length; i++){
@@ -10403,7 +10399,8 @@ Moca.prototype.rendering = function(o,_aTag) {
         	$(tmp).css("z-index","6011");
         };
        
-        $(tmp).html(cont);
+    	$(tmp).html(cont);
+        
         $(tmp).attr("tab_id",_tabId);
         
         var moca_popup = $(tmp).find('#'+_pid)[0];
@@ -11086,7 +11083,6 @@ Moca.prototype.callReady = function(aTag) {
            moca[_srcId].___ready(_argsObj);
            var _pageId = moca[_srcId].pageId;
            moca[_pageId] =  moca[_srcId];
-           debugger;
        }else if($(aTag).attr('tab_id') != null && $(aTag).attr('tab_id').startsWith('POPUP')){//popup case
     	   if(opener){
     		    var srcid = $('#'+$(aTag).attr('tab_id'),opener.document).find('[srcid]').attr('srcid');
@@ -13825,7 +13821,7 @@ $(document).ready(function() {
                        //console.log("(__body)wframe2-2"+aTag.id);
                        moca.callReady(aTag);
                        //console.log("(__body)wframe2-3"+aTag.id);
-                   } if(aTag.id == '__iframe'){
+                   }else if(aTag.id == '__iframe'){
                        //console.log("(else)wframe3"+aTag.id);
                        data = moca.getContents(data,_url,"IFRAME",aTag);
                        $(aTag).html(data);

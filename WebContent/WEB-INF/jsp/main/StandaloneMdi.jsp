@@ -156,20 +156,15 @@ $(document).ready(function() {
 	});
 	    
 	
-	
+    moca.tree_click("li4020000","mdi_1");
 });
 </script>
 </head>
    <body>
 	<div class="moca_wrap iframe">
 		<div class="moca_container on flex">		
-			<div type="wframe" style="position:relative" class="fauto" id="mdi" tag="moca:mdi" src="/moca/comm/mdi.html"></div>
+			<div type="wframe" style="position:relative" class="fauto" id="mdi" tag="moca:mdi" src="/moca/comm/iframeMdi.html"></div>
 		</div>
 	</div>
-	<script>
-	moca.tree_click("li4020000","mdi_1");
-	//moca.openMdi(moca._contextRoot+_url,_srcId,_label,_clickedMenuId,_mdiId);
-	
-	</script>
 </body>
 </html>

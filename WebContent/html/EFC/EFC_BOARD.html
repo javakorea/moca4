@@ -7,7 +7,6 @@
 		if((moca.getSs("loginTemp0") == null || moca.getSs("loginTemp0") == '') && moca.getSs("USER_ID") == null){
 			moca.hide(moca.EFC_BOARD.getObj("btn_add"));
 		}
-		debugger;
 		if(args.parent.data != null){
 			if(args.parent.data.PAGE_TYPE == 'home'){
 				moca.hide(moca.EFC_BOARD.getObj("btn_del"));
@@ -78,8 +77,8 @@
 	
 	moca.EFC_BOARD.popId = "EFC_BOARD_POP";
 	moca.EFC_BOARD.fn_pop = function(_thisObj){
-	    ['글쓰기 팝업']
-	    var o = {};
+		['글쓰기 팝업'];
+		var o = {};
 	    o.id = moca.EFC_BOARD.popId;
 	    o.url = '/html/EFC/EFC_BOARD_POP.html';
 	    o.type = "POPUP";
@@ -88,10 +87,18 @@
 	    o.callback = moca.EFC_BOARD.fn_pop_callback;
 	    o.scopeId = moca.EFC_BOARD.pageId;
 	    o.data = {"PAGE_TYPE":'board',"popTitle":"게시물작성","BOARD_TYPE":moca.EFC_BOARD.boardType};
-	    moca.popup(o,_thisObj);
+	    
+		if(self !== top){
+			o.scopeId = parent.moca.pageId;
+		}
+
+		parent.moca.popup(o,_thisObj);
+		
+	    
 	};
 	moca.EFC_BOARD.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 	    ['게시글상세']
+	    
 	    if($(_grd).attr('type') != 'grid'){
 	    	_grd = $(_grd).closest('div[type=grid]')[0];
 	    	rowIndex = $(_grd).attr('selectedrealrowindex');
@@ -123,7 +130,11 @@
 	    o.callback = moca.EFC_BOARD.fn_pop_callback;
 	    o.scopeId = moca.EFC_BOARD.pageId;
 	    o.data = {"PAGE_TYPE":'board',"BOARD_IDX":_BoardIdx+'',"BOARD_PIDX":__BoardParentIdx+'',"BOARD_TITLE":_BoardTitle,"BOARD_TYPE":moca.EFC_BOARD.boardType};
-	    moca.popup(o,_grd);
+	    
+	    if(self !== top){
+			o.scopeId = parent.moca.pageId;
+		}
+	    parent.moca.popup(o,_grd);
 	};
 	
 	moca.EFC_BOARD.fn_pop_callback = function(_json){
