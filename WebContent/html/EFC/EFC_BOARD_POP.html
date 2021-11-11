@@ -94,6 +94,10 @@ moca.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
     moca.hide($(moca.EFC_BOARD_POP.getObj("cke_editor")).find("[id$='_top']"));
     moca.hide($(moca.EFC_BOARD_POP.getObj("cke_reply_editor")).find("[id$='_top']"));
     moca.show(moca.EFC_BOARD_POP.getObj("reply_area"));
+    if(moca.getDevice() != 'pc'){
+    	 moca.hide($(moca.EFC_BOARD_POP.getObj("form_board")).find(".moca_addtion_area"));
+    	 $(moca.EFC_BOARD_POP.getObj("form_board")).addClass('maxRow');
+    }
     
     moca.hide(moca.EFC_BOARD_POP.getObj("btn_update"));
     moca.hide(moca.EFC_BOARD_POP.getObj("btn_reply"));
@@ -946,65 +950,61 @@ moca.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
             <div class="ly_column col_5 fauto" id="reply_area" style="display:none;">
                 <div class="ly_col_cont pl15 flex fcol">
                      <div type="form" id="form_reply" class="moca_table toolbar" style=""
-                            label="답변작성"
-                            showRowSelection="false"
-                            addition='[
-                            {"type":"button","position":"right","id":"btn_receipt","label":"접수","onclick":"moca.EFC_BOARD_POP.fn_status","innerStyle":"background:#81bcb3"},
-                             {"type":"button","position":"right","id":"btn_success","label":"완료","onclick":"moca.EFC_BOARD_POP.fn_status","innerStyle":"background:#81bcb3"},
-                              {"type":"button","position":"right","id":"btn_reject","label":"반려","onclick":"moca.EFC_BOARD_POP.fn_status","innerStyle":"background:#81bcb3"},
-                            {"type":"button","position":"right","id":"btn_reply_update","label":"답변수정","onclick":"moca.EFC_BOARD_POP.fn_update","innerStyle":"background:#81bcb3"},
-			                {"type":"button","position":"right","id":"btn_reply_del","label":"답변삭제","onclick":"moca.EFC_BOARD_POP.fn_del","innerStyle":"background:#81bcb3"},
-                            {"type":"button","position":"right","id":"btn_reply_save","label":"답변저장","onclick":"moca.EFC_BOARD_POP.fn_save","innerStyle":"background:#81bcb3"},
-                            {"type":"button","position":"right","id":"btn_reply_del_admin","label":"물리삭제","onclick":"moca.EFC_BOARD_POP.fn_adminDel","innerStyle":"background:#638f88", "addClass":""}
-                                ]'
-                            >
-                            <div class="scrollX_area mt5">
-                                <table class="moca_table_cont" style="">
-                                    <colgroup>
-                                            <col style="width:60px">
-                                            <col width="200" style="min-width:140px">
-                                            <col style="width:140px">
-                                            <col style="width:120px">
-                                    </colgroup>
-                                    <thead>
-                                        <tr>
-                                            <th class="bg_green">답변ID</th>
-                                            <th class="bg_green">제목</th>
-                                            <th class="bg_green">작성일시</th>
-                                            <th class="bg_green">작성자</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div type="input" id="wreplyidx" class="mocaInput" innerClass="tac" onclick="" style="" value="" readonly="true"></div>
-                                            </td>
-                                            <td>
-                                                <div type="input" class="mocaInput req" style="width:100%;" innerStyle="" id="wreplytitle" displayFormat=""  readonly="true"
-                                                    defaultValue="" 
-                                                    selecterItem=""
-                                                    showRadioOption="false"
-                                                ></div>
-                                            </td>
-                                            <td>
-                                                <div type="input" class="mocaInput" style="width:100%; " innerClass="tac" id="wreplydate" displayFunction="moca.dateFormat"  readonly="true"
-                                                    defaultValue="" 
-                                                    selecterItem=""
-                                                    showRadioOption="false"
-                                                ></div>
-                                            </td>
-                                            <td>
-                                                <div type="input" class="mocaInput" style="width:100%;" innerStyle="text-align:center;" id="wreplyid" displayFormat=""  readonly="true"
-                                                    defaultValue="" 
-                                                    selecterItem=""
-                                                    showRadioOption="false"
-                                                ></div>
-                                            </td>
-                                        </tr>  
-                                    </tbody>
-                                </table>
-                            </div>
-                    </div>
+						label="답변작성"
+						showRowSelection="false"
+						addition='[
+						{"type":"button","position":"right","id":"btn_receipt","label":"접수","onclick":"moca.EFC_BOARD_POP.fn_status","innerStyle":"background:#81bcb3"},
+						 {"type":"button","position":"right","id":"btn_success","label":"완료","onclick":"moca.EFC_BOARD_POP.fn_status","innerStyle":"background:#81bcb3"},
+						  {"type":"button","position":"right","id":"btn_reject","label":"반려","onclick":"moca.EFC_BOARD_POP.fn_status","innerStyle":"background:#81bcb3"},
+						{"type":"button","position":"right","id":"btn_reply_update","label":"답변수정","onclick":"moca.EFC_BOARD_POP.fn_update","innerStyle":"background:#81bcb3"},
+						{"type":"button","position":"right","id":"btn_reply_del","label":"답변삭제","onclick":"moca.EFC_BOARD_POP.fn_del","innerStyle":"background:#81bcb3"},
+						{"type":"button","position":"right","id":"btn_reply_save","label":"답변저장","onclick":"moca.EFC_BOARD_POP.fn_save","innerStyle":"background:#81bcb3"},
+						{"type":"button","position":"right","id":"btn_reply_del_admin","label":"물리삭제","onclick":"moca.EFC_BOARD_POP.fn_adminDel","innerStyle":"background:#638f88", "addClass":""}
+							]'
+						>
+						
+						
+						<div class="moca_table_cont" type="table">
+							<div type="tbody">
+								<div type="tr">
+									<div type="th">답변ID</div>
+									<div type="td">
+										 <div type="input" id="wreplyidx" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+									</div>
+								</div>
+								<div type="tr">
+									<div type="th">제목</div>
+									<div type="td">
+										<div type="input" class="mocaInput req" style="width:100%;" innerStyle="" id="wreplytitle" displayFormat=""  readonly="true"
+											defaultValue="" 
+											selecterItem=""
+											showRadioOption="false"
+										></div>
+									</div>
+								</div>
+								<div type="tr">
+									<div type="th">작성일시</div>
+									<div type="td">
+										<div type="input" class="mocaInput" style="width:100%; " innerClass="" id="wreplydate" displayFunction="moca.dateFormat"  readonly="true"
+											defaultValue="" 
+											selecterItem=""
+											showRadioOption="false"
+										></div>
+									</div>
+								</div>
+								<div type="tr">
+									<div type="th">작성자</div>
+									<div type="td">
+										<div type="input" class="mocaInput" style="width:100%;" innerStyle="" id="wreplyid" displayFormat=""  readonly="true"
+											defaultValue="" 
+											selecterItem=""
+											showRadioOption="false"
+										></div>
+									</div>
+								</div>    
+							</div>
+						</div>
+					</div>
                     <div class="mt5 edit fit"  style="top:0">
                         <div contenteditable="true" placeholder="" id="reply_editor"></div>
                     </div>
