@@ -105,92 +105,6 @@ moca.shortcut2 = [];
 moca.keyboard = {};
 
 $(document).ready(function() {
-	$('body').attr("spellcheck",false);
-	moca.menuObjs_ori = JSON.parse( JSON.stringify( moca.menuObjs ) );
-	
-    window.addEventListener("keydown",function(event){
-        event.stopPropagation();
-    })
-	$(document).keydown(function(e) {
-		if(event.srcElement.tagName != 'INPUT'){
-			if(moca.nowGrd != null){
-				//그리드 위아래 키 이벤트
-				var selectedRealRowIndex = moca.nowGrd.getAttribute("selectedRealRowIndex");
-				var reIndex = 0;
-				if(event.which == '40' || event.which == '38' ){
-					if(event.which == '40'){ //up키
-						reIndex = Number(selectedRealRowIndex)+1;
-						if(reIndex > moca.nowGrd.list.length-1){
-							reIndex = moca.nowGrd.list.length-1;
-						}
-					}else if(event.which == '38'){ //down키
-						reIndex = Number(selectedRealRowIndex)-1;
-						if(reIndex < 0){
-							reIndex = 0;
-						}
-					}
-					moca.nowGrd.setAttribute("selectedRealRowIndex",reIndex);
-					moca._setRowSelection(moca.nowGrd);
-					if($(moca.nowGrd).attr('onrowselected')){
-						var nowColTd = $(moca.nowGrd).find('td[id='+moca.nowColId+']')[selectedRealRowIndex];
-						eval($(moca.nowGrd).attr('onrowselected'))(moca.nowGrd,selectedRealRowIndex,nowColTd,moca.nowGrd);
-					}
-					
-				}
-				if(event.which == '13'){ //enter
-					if($(moca.nowGrd).attr('ondblclick')){
-						var nowColTd = $(moca.nowGrd).find('td[id='+moca.nowColId+']')[selectedRealRowIndex];
-						eval($(moca.nowGrd).attr('ondblclick'))(moca.nowGrd,selectedRealRowIndex,nowColTd,moca.nowGrd);
-					}
-				}
-			}
-			
-
-			
-			
-			event.stopImmediatePropagation();
-			if(111 < event.which && event.which < 124 && event.which != 116){//Function Key일경우
-				e.preventDefault();
-				menuId = moca.keyboard['F'+ (event.which-111)];
-				$('.leaf.active').removeClass('active');
-				moca.tree_click(menuId);
-				$('.leaf.active').parent().parent().addClass('moca_tree_open');
-			}else{
-			    if(event.which != 16 && event.which != 17 && event.which != 18){
-			    	var menuId = '';
-			    	if( event.shiftKey && event.ctrlKey) {
-			    		return;
-			    	}else if( event.shiftKey ) {
-			        	e.preventDefault();
-			        	menuId = moca.keyboard[("SHIFT+"+String.fromCharCode(event.which)).toUpperCase()];
-			        }else if( event.ctrlKey ) {
-			        	var c = String.fromCharCode(event.which).toUpperCase();
-			        	if(c == "C" || c == "V"){
-			        		return;
-			        	}else{
-				        	e.preventDefault();
-				        	menuId = moca.keyboard[("CTRL+"+ c)];		        		
-			        	}
-			        }else if( event.altKey ) {
-			        	e.preventDefault();
-			        	menuId = moca.keyboard[("ALT+"+String.fromCharCode(event.which)).toUpperCase()];
-			        }else if(!event.shiftKey && !event.ctrlKey && !event.altKey){
-			        	menuId = moca.keyboard[String.fromCharCode(event.which)];
-			        }  
-			    	
-			        if(menuId != null){
-			        	$('.leaf.active').removeClass('active');
-			        	moca.tree_click(menuId);
-			        	$('.leaf.active').parent().parent().addClass('moca_tree_open');
-			        }
-			    }
-			}	
-		}
-	});
-	    
-	
-    //moca.tree_click("li4020000","mdi_1");
-    
     var _fileName = moca.getFileNameFromUrl(param.mcsrc);
     var _srcId = _fileName.substring(0,_fileName.indexOf('.'));
     
@@ -198,13 +112,14 @@ $(document).ready(function() {
 	var params = Object.keys(param);
 	for(var i=0; i < params.length; i++){
 		var key = params[i];
-		if(key != 'mcsrc'){
+		if(key != 'mcsrc' && key != 'label'){
 			var val = param[key];
 			_if_url += key+"="+val+"&";
 		}
 	}
-	alert(_if_url);
+	//alert(_if_url);
     moca.openMdi(_if_url,_srcId,_srcId,'',"mdi_1");
+    moca.setPageHeader($(this).find('#titbox'),param.label);
 });
 </script>
 </head>

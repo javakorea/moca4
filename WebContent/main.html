@@ -18,9 +18,32 @@ moca.main.___ready = function(args){
 		$('#mainSvg').html(data);
 	});
 	moca.main.fn_search('WS');
-	//moca.main.fn_search('NOTICE');
 	initKakao(mocaConfig.getSocailLoginKakaoKey());
 };
+moca.main.fn_search_callback = function(response){
+	var list = response.selectBoardList;
+	var _length = list.length < 5 ? list.length : 5;
+	var full_html = '';
+	if(moca.main.boardType == 'WS'){
+		var _html = $('#tbl_BD_WS').html();
+		for(var i=0; i < _length; i++){
+			var row = list[i];
+			full_html += _html.replace(/#BD_TITLE#/g,row.BOARD_TITLE).replace(/#BD_USERID#/g,row.BOARD_WRITER).replace(/#BD_DATE#/g,moca.longToDate(row.BOARD_DATE).substr(0,10)).replace(/#BD_CODE#/g,row.BOARD_IDX);
+			moca.main.BD_CONTENT_FOR_BD_WS[row.BOARD_IDX] = row; 
+		}
+		$('#tbl_BD_WS').html(full_html);
+		moca.main.fn_search('NOTICE');
+	}else if(moca.main.boardType == 'NOTICE'){
+		var _html = $('#tbl_BD_NOTICE').html();
+		for(var i=0; i < _length; i++){
+			var row = list[i];
+			full_html += _html.replace(/#BD_TITLE#/g,row.BOARD_TITLE).replace(/#BD_USERID#/g,row.BOARD_WRITER).replace(/#BD_DATE#/g,moca.longToDate(row.BOARD_DATE).substr(0,10)).replace(/#BD_CODE#/g,row.BOARD_IDX);
+			moca.main.BD_CONTENT_FOR_BD_WS[row.BOARD_IDX] = row; 
+		}
+		$('#tbl_BD_NOTICE').html(full_html);
+	}
+	
+}
 moca.main.fn_search = function(_boardType){
 	var _today = moca.dateToString(new Date());
 	var _todayStr = _today.year+_today.month+_today.day;
@@ -38,18 +61,7 @@ moca.main.fn_search = function(_boardType){
                 "BOARD_SUPPORT": ['N', 'R', 'B']
             }
         },          
-        callback : function(response){
-        	var list = response.selectBoardList;
-			var full_html = '';
-			var _html = $('#tbl_BD_WS').html();
-			for(var i=0; i < 5; i++){
-				var row = list[i];
-				full_html += _html.replace(/#BD_TITLE#/g,row.BOARD_TITLE).replace(/#BD_USERID#/g,row.BOARD_WRITER).replace(/#BD_DATE#/g,moca.longToDate(row.BOARD_DATE).substr(0,10)).replace(/#BD_CODE#/g,row.BOARD_IDX);
-				moca.main.BD_CONTENT_FOR_BD_WS[row.BOARD_IDX] = row; 
-			}
-			$('#tbl_BD_WS').html(full_html);
-			$('#tbl_BD_NOTICE').html(full_html);
-        }
+        callback : moca.main.fn_search_callback
     });
 };
 moca.main.popId = 'main_pop_board';
@@ -79,10 +91,15 @@ moca.main.fn_pop_boardMain = function(_gubun){
     o.url = '/html/EFC/EFC_BOARD.html';
     o.type = "POPUP";
     o.modal = "true";
-    o.title = '웹스퀘어 게시판';
     o.callback = moca.main.fn_pop_callback;
     o.scopeId = moca.main.pageId;
-    o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"WS"};
+    if(_gubun == 'BD_WS'){
+		o.title = '웹스퀘어 게시판';
+		o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"WS"};
+	}else if(_gubun == 'BD_NOTICE'){
+		o.title = '공지사항';
+		o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"NOTICE"};
+	}
     moca.popup(o,_this);
 };
 
@@ -285,7 +302,7 @@ function goMoca(){
 						<div class="col5 fr p10">
 							<div class="boardTable" id="ws_list2">
 								<span class="boardTitle"><i class="fas fa-comment-dots"></i>공지사항</span>
-								<button class="boardMore fr"  onclick="moca.main.fn_pop_boardMain('BD_WS')"><i class="fas fa-plus-circle"></i>더보기</button>
+								<button class="boardMore fr"  onclick="moca.main.fn_pop_boardMain('BD_NOTICE')"><i class="fas fa-plus-circle"></i>더보기</button>
 								<table class="boardList">
 									<colgroup>
 										<col style="width:395px">

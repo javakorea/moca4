@@ -1748,7 +1748,6 @@ Moca.prototype.openMdi = function(_url,_srcId,_label,_clickedMenuId,_mdiId){
             }
         }
     
-    
         if(_url != null && _url != ''){
             //var loadingId = moca.loading();
             if(_label != null && $.trim(_label) != '' && moca.getCORP_CD() != null){ 
@@ -1758,9 +1757,9 @@ Moca.prototype.openMdi = function(_url,_srcId,_label,_clickedMenuId,_mdiId){
             var arr;
             if(arr0 != null && arr0.length > 1){
             	arr = arr0[1].split('&');
+            	arr.push('label='+_label);
             	o.paramArr = arr;
             }
-            
             
             $.ajax({
                type:"GET",
@@ -1783,7 +1782,8 @@ Moca.prototype.openMdi = function(_url,_srcId,_label,_clickedMenuId,_mdiId){
 							mdiObj.parent.data[arrone[0]] = arrone[1];
 					   }
                    }
-
+                   
+                   moca.setPageHeader($(mdiObj).find('#titbox'),o.label);
                    moca.callReady(mdiObj);
                },
                complete : function(data) {
@@ -2038,11 +2038,11 @@ Moca.prototype.tree_mt_loop = function(_treeId,_data,menuObjs){
         treeHtml += '</div>';
 
         if(moca.trim(row.url) != ''){
-            treeHtml += '<span class="moca_tree_tbx" url="'+url+'" fromDate="'+row.fromDate+'" toDate="'+row.toDate+'" type="'+row.type+'">'+row.nm;
+            treeHtml += '<span class="moca_tree_tbx" url="'+url+'" fromDate="'+row.fromDate+'" toDate="'+row.toDate+'" type="'+row.type+'" label="'+row.nm+'">'+row.nm;
             treeHtml += '<button type="button" class="moca_tree_btn" onclick="moca.tree_plusMinus(this);" style="'+leefStyle+'">+</button>'+'</span>';
             
         }else{
-            treeHtml += '<span class="moca_tree_tbx" url="'+url+'" fromDate="'+row.fromDate+'" toDate="'+row.toDate+'" type="'+row.type+'" style="background-image:url('+icon+');">'+row.nm;
+            treeHtml += '<span class="moca_tree_tbx" url="'+url+'" fromDate="'+row.fromDate+'" toDate="'+row.toDate+'" type="'+row.type+'" label="'+row.nm+'" style="background-image:url('+icon+');">'+row.nm;
             treeHtml += '<button type="button" class="moca_tree_btn" onclick="moca.tree_plusMinus(this);" style="'+leefStyle+'">+</button>'+'</span>';
         }
         treeHtml += '<button type="button" class="tvw_btn_close" onclick="moca.tree_del(this);" >삭제</button>';
@@ -4091,6 +4091,7 @@ Moca.prototype.init = function(_tabId,_srcId,_url,_json_data,_callback) {
         
         
         var arr = _tabObj.find('[type=wframe]');
+        var param;
         for(var i=0; i < arr.length; i++){
             var aTag = arr[i];
             moca.renderWframe(aTag);
@@ -4100,6 +4101,7 @@ Moca.prototype.init = function(_tabId,_srcId,_url,_json_data,_callback) {
         var arr = _tabObj.find('[type=tab][pageid='+_tabObj.attr('tab_id')+']');
         for(var i=0; i < arr.length; i++){
             var aTag = arr[i];
+            
             moca.renderTab(aTag);
         };
         
@@ -11064,6 +11066,28 @@ Moca.prototype.renderWframe = function(aTag) {
     });
 };
 
+Moca.prototype.setPageHeader = function(aTag,_label) {
+	aTag = aTag[0];
+	if(aTag == null){return;}
+	if(aTag.id == 'titbox' && _label != null){
+		var aTagObj = JSON.parse($(aTag).attr('data'));
+		var _parentMenu = $(parent.document).find('#tree1 .moca_tree_tbx[label="'+_label+'"]').closest('.moca_tree_open').find('.moca_tree_tbx').attr('label');
+		
+		aTagObj['sreenNm'] = _label;
+		if(moca.trim(_parentMenu) != ''){
+			aTagObj['sreenPath'] = _parentMenu+','+_label;
+		}else{
+			aTagObj['sreenPath'] = _label;
+		}
+		
+		$(aTag).attr('data',JSON.stringify(aTagObj));
+	}
+	
+	moca.renderWframe(aTag);
+	
+}
+
+
 Moca.prototype.getFileNameFromUrl = function(_url) {
 	var arr = _url.split('?');
 	var _fileName = arr[0].substring(arr[0].lastIndexOf('/')+1);
@@ -11654,6 +11678,11 @@ Moca.prototype.popup = function(_option,thisObj) {
                 
                 $('.moca_input:first').focus();
                 $('.moca_input:first').blur();
+                
+                var _pageid = $(popObj).attr('tab_id');
+                if($('div[pageid="'+_pageid+'"].moca_titbox').length > 0){
+                	moca.setPageHeader($('div[pageid="'+_pageid+'"].moca_titbox'), o.title);
+                }
                 moca.callReady(popObj);
            },
            complete : function(data) {

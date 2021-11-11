@@ -9,7 +9,8 @@ moca.EFC_SCHEDULER_POP.schIdx;
 moca.EFC_SCHEDULER_POP.___ready = function(args){
 	if(moca.getDevice() == "mobile"){
 		moca.hide(moca.EFC_SCHEDULER_POP.getObj("schTitle"));
-		$('#form_schedule').css('height','57px');
+		//$('#form_schedule').css('height','57px');
+		$(moca.EFC_SCHEDULER_POP.getObj("wtitle")).css('width','calc(100% - 45px)');
 	}
 	moca.hide(moca.EFC_SCHEDULER_POP.getObj("form_schedule"));
 	moca.hide(moca.EFC_SCHEDULER_POP.getObj("btn_update"));
@@ -188,56 +189,51 @@ moca.EFC_SCHEDULER_POP.fn_del = function(_thisObj){
             <div class="ly_column col_5 fauto">
                 <div class="ly_col_cont flex fcol">
 			         <div type="form" id="form_schedule" class="moca_table toolbar" style=""
-			                label=""
-			                showRowSelection="false"
-			                addition='[
-			              		{"type":"button","position":"right","id":"btn_save","label":"저장","onclick":"moca.EFC_SCHEDULER_POP.fn_save","innerStyle":"background:#97a2ba"},
-			              		{"type":"button","position":"right","id":"btn_update","label":"수정","onclick":"moca.EFC_SCHEDULER_POP.fn_update","innerStyle":"background:#97a2ba"},
-			              		{"type":"button","position":"right","id":"btn_del","label":"삭제","onclick":"moca.EFC_SCHEDULER_POP.fn_del","innerStyle":"background:#6d7993"}
-			                ]'
-			         >
-			                <div class="scrollX_area">
-			                    <table class="moca_table_cont" style="">
-			                    	<caption style="display:none;visibility:hidden; overflow:hidden; width:0;height:0;font-size:0;line-height:0"></caption>
-			                        <colgroup>
-			                                <col style="width:65px">
-			                                <col style="min-width:290px; width:290px">
-			                                <col style="width:65px">
-			                                <col style="width:132px">
-			                                <col style="width:65px">
-			                                <col style="width:150px">
-			                        </colgroup>
-			                        <tbody>
-			                            <tr>
-			                            	<th>일정기간</th>
-			                                <td>
-			                                	<div type="inputMultiCalendar" class="moca_ica fl" style="width:calc(100% - 2px)" id="schDate" displayFormat="####-##-## ##:##" 
-						                               defaultValue="12개월전" 
-						                               selecterItem="오늘,3일전,6일전"
-						                               showRadioOption="false"
-						                               maxTermByDay="365"
-						                         ></div>
-			                                </td>
-			                                <th>작성일시</th>
-			                                <td>
-			                                	<div type="input" id="createDate" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
-			                                </td>
-			                                <th>작성자명</th>
-			                                <td>
-			                                	<div type="input" id="wid" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
-			                                </td>
-			                            </tr>
-			                            <tr id ="schTitle">
-			                            	<th>일정제목</th>
-			                                <td colspan="5">
-			                                    <div type="input" id="wtitle" class="mocaInput fl" innerClass="" onclick="" style="width:calc(100% - 45px);" value="" readonly="false"></div>
-			                                	<input type="color" id="wcolor" class="moca_input_color" value="#3788d8">
-			                                </td>
-			                            </tr> 
-			                        </tbody>
-			                    </table>
-			              </div>      
-			        </div>
+							label=""
+							showRowSelection="false"
+							addition='[
+								{"type":"button","position":"right","id":"btn_save","label":"저장","onclick":"moca.EFC_SCHEDULER_POP.fn_save","innerStyle":"background:#97a2ba"},
+								{"type":"button","position":"right","id":"btn_update","label":"수정","onclick":"moca.EFC_SCHEDULER_POP.fn_update","innerStyle":"background:#97a2ba"},
+								{"type":"button","position":"right","id":"btn_del","label":"삭제","onclick":"moca.EFC_SCHEDULER_POP.fn_del","innerStyle":"background:#6d7993"}
+							]'
+					 >
+						
+						
+						<div class="moca_table_cont" type="table">
+							<div type="tbody">
+								<div type="tr">
+									<div type="th">일정기간</div>
+									<div type="td">
+										 <div type="inputMultiCalendar" class="moca_ica fl" style="width:calc(100% - 2px)" id="schDate" displayFormat="####-##-## ##:##" 
+											   defaultValue="12개월전" 
+											   selecterItem="오늘,3일전,6일전"
+											   showRadioOption="false"
+											   maxTermByDay="365"
+										 ></div>
+									</div>
+								</div>
+								<div type="tr">
+									<div type="th">작성일시</div>
+									<div type="td">
+										<div type="input" id="createDate" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+									</div>
+								</div>
+								<div type="tr">
+									<div type="th">작성자명</div>
+									<div type="td">
+										<div type="input" id="wid" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+									</div>
+								</div>
+								<div type="tr">
+									<div type="th">일정제목</div>
+									<div type="td">
+										<div type="input" id="wtitle" class="mocaInput fl" innerClass="" onclick="" style="width:300px;" value="" readonly="false"></div>
+								        <input type="color" id="wcolor" class="moca_input_color" value="#3788d8">
+									</div>
+								</div>    
+							</div>
+						</div>
+					</div>
 			        <div class="mt5 edit fit"  style="top:0">
 			            <div contenteditable="true" placeholder="" id="editor"></div>
 			        </div>

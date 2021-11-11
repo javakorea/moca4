@@ -4,6 +4,7 @@
 <script>
 	moca.EFC_BOARD.boardType ='ERP';
 	moca.EFC_BOARD.___ready = function(args){
+		
 		if((moca.getSs("loginTemp0") == null || moca.getSs("loginTemp0") == '') && moca.getSs("USER_ID") == null){
 			moca.hide(moca.EFC_BOARD.getObj("btn_add"));
 		}
@@ -14,14 +15,6 @@
 			moca.EFC_BOARD.boardType = args.parent.data.BOARD_TYPE;
 		}
 		
-		
-		if(moca.EFC_BOARD.boardType == 'WS'){
-			$(moca.EFC_BOARD.getObj('sreenNm')).text('웹스퀘어게시판');
-		}else if(moca.EFC_BOARD.boardType == 'ERP'){
-			$(moca.EFC_BOARD.getObj('sreenNm')).text('업무게시판');
-		}else if(moca.EFC_BOARD.boardType == 'NOTICE'){
-			$(moca.EFC_BOARD.getObj('sreenNm')).text('공지사항');
-		}
 	    moca.EFC_BOARD.code({
             "chkg_1":{code:'boardStatus'}
         },function(result){
