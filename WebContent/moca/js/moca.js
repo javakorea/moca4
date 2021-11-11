@@ -1627,7 +1627,7 @@ Moca.prototype.tree_click = function(_clickedMenuId,_mdiId){
         var _url = $.trim(node.getAttribute("url"));
         
         var _label = $(node,parent.document).contents().eq(0).text();
-        var _fileName = _url.substring(_url.lastIndexOf('/')+1);
+        var _fileName = moca.getFileNameFromUrl(_url);
         var _srcId = _fileName.substring(0,_fileName.indexOf('.'));
         
 
@@ -1714,7 +1714,7 @@ Moca.prototype.encode = function(_txt) {
 
 Moca.prototype.url_to_srcId = function(_url){
     ['from url to srcId'];
-    var _fileName = _url.substring(_url.lastIndexOf('/')+1);
+    var _fileName = moca.getFileNameFromUrl(_url);
     var _srcId = _fileName.substring(0,_fileName.indexOf('.'));
     return _srcId;
 };
@@ -2904,7 +2904,7 @@ Moca.prototype.getContents = function(data,_url,_type,_popupid,_title,_wframeObj
                data = data.replace(/<script(.*?)><\/script>/gi,'');
            }
 
-           var _fileName = _url.substring(_url.lastIndexOf('/')+1);
+           var _fileName = moca.getFileNameFromUrl(_url);
            if(_fileName == null || _fileName == ''){
                _fileName = 'index.html';
            } 
@@ -11064,12 +11064,18 @@ Moca.prototype.renderWframe = function(aTag) {
     });
 };
 
+Moca.prototype.getFileNameFromUrl = function(_url) {
+	var arr = _url.split('?');
+	var _fileName = arr[0].substring(arr[0].lastIndexOf('/')+1);
+	return _fileName;
+};
+
 Moca.prototype.callReady = function(aTag) {
        if(aTag == null){
            return;
        }
        var _url = aTag.getAttribute("src");
-       var _fileName = _url.substring(_url.lastIndexOf('/')+1);
+       var _fileName = moca.getFileNameFromUrl(_url);
        var _srcId = _fileName.substring(0,_fileName.indexOf('.'));
        var _argsObj = {};
        if(aTag.parent == null){

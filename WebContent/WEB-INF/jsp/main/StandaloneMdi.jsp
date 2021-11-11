@@ -69,6 +69,33 @@ if(userAgent.indexOf("MOBI") > -1 || userAgent.indexOf("IPHONE") > -1   || userA
 <script type="text/javascript" src="/fullcalendar/lib/fullcalendar.js"></script>
 
 <script>
+
+var param = {};
+
+<%
+	java.util.Map paramMap = new java.util.HashMap();   
+	java.util.Enumeration en = request.getParameterNames();
+	while(en.hasMoreElements()){
+		try{
+			String key = (String)en.nextElement();
+			System.out.println("--------------------->33key"+key+","+request.getParameter(key)); 
+			if(request.getParameter(key) != null && !"".equals(request.getParameter(key))){
+				String val = java.net.URLDecoder.decode(request.getParameter(key),"UTF-8");
+				paramMap.put(key,val);
+%>
+				param['<%=key%>'] = '<%=val%>';
+<%
+			}	
+		}catch(Exception e){
+			System.out.println("==============="+e);
+		}
+	}
+	System.out.println("--------------------->paramMap-->"+paramMap);
+%> 
+
+
+
+
 var moca = new Moca();
 moca.menuObjs_ori = {};
 moca.menuObjs = {};
@@ -162,7 +189,22 @@ $(document).ready(function() {
 	});
 	    
 	
-    moca.tree_click("li4020000","mdi_1");
+    //moca.tree_click("li4020000","mdi_1");
+    
+    var _fileName = moca.getFileNameFromUrl(param.mcsrc);
+    var _srcId = _fileName.substring(0,_fileName.indexOf('.'));
+    
+    var _if_url = moca._contextRoot+param.mcsrc+"?";
+	var params = Object.keys(param);
+	for(var i=0; i < params.length; i++){
+		var key = params[i];
+		if(key != 'mcsrc'){
+			var val = param[key];
+			_if_url += key+"="+val+"&";
+		}
+	}
+	alert(_if_url);
+    moca.openMdi(_if_url,_srcId,_srcId,'',"mdi_1");
 });
 </script>
 </head>

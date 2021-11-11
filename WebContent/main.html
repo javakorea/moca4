@@ -17,15 +17,15 @@ moca.main.___ready = function(args){
 	moca.getContent(moca._domain+moca._contextRoot+"/images/home/main_img.svg",function(data) {
 		$('#mainSvg').html(data);
 	});
-	moca.main.fn_search();
+	moca.main.fn_search('WS');
+	//moca.main.fn_search('NOTICE');
 	initKakao(mocaConfig.getSocailLoginKakaoKey());
 };
-moca.main.boardType ='WS';
-moca.main.fn_search = function(){
+moca.main.fn_search = function(_boardType){
 	var _today = moca.dateToString(new Date());
 	var _todayStr = _today.year+_today.month+_today.day;
 	var _fromStr = String(_today.year-1)+_today.month+_today.day;
-	
+	moca.main.boardType = _boardType;
     moca.main.exe({
         url : moca._domain+moca._contextRoot+"/EFC_BOARD/selectBoardList.do",
         loadingbar:true,

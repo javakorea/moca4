@@ -19,6 +19,8 @@
 			$(moca.EFC_BOARD.getObj('sreenNm')).text('웹스퀘어게시판');
 		}else if(moca.EFC_BOARD.boardType == 'ERP'){
 			$(moca.EFC_BOARD.getObj('sreenNm')).text('업무게시판');
+		}else if(moca.EFC_BOARD.boardType == 'NOTICE'){
+			$(moca.EFC_BOARD.getObj('sreenNm')).text('공지사항');
 		}
 	    moca.EFC_BOARD.code({
             "chkg_1":{code:'boardStatus'}
