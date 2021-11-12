@@ -4,7 +4,6 @@
 <script>
 	moca.EFC_BOARD.boardType ='ERP';
 	moca.EFC_BOARD.___ready = function(args){
-		
 		if((moca.getSs("loginTemp0") == null || moca.getSs("loginTemp0") == '') && moca.getSs("USER_ID") == null){
 			moca.hide(moca.EFC_BOARD.getObj("btn_add"));
 		}

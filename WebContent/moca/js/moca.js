@@ -1758,6 +1758,11 @@ Moca.prototype.openMdi = function(_url,_srcId,_label,_clickedMenuId,_mdiId){
             if(arr0 != null && arr0.length > 1){
             	arr = arr0[1].split('&');
             	arr.push('label='+_label);
+            	for(i=0; i<arr.length;i++){
+            	    if(moca.trim(arr[i]) == ''){
+            	        arr.splice(i);
+            	    } 
+            	};
             	o.paramArr = arr;
             }
             
@@ -4515,9 +4520,42 @@ Moca.prototype.popChange = function(_popupId,_json){
 	        }
 	    });
     }
+};
+
+
+Moca.prototype.mdiChange = function(_popupId,_json){
+    ['모카mdi타입전환'];
+    if($('#'+_popupId+'.moca_tab_body').length > 0){
+		$('#'+_popupId,opener.document).show();    
+	    moca.closeGubun = 'change';
+	    self.close();
+	    
+    }else{
+    	var _pop = $('#'+_popupId+'_dv.moca_tab_body');
+    	var _mdiId =_pop.attr('mdi_id');
+    	var _src = _pop.attr('src');
+    	var _tab = _pop.parent().find('ul li[tab_id='+_pop.attr('mdi_id')+']');
+    	var _title = _tab.attr('tab_label');
+	    var _w = '1400';
+	    var _h = '600'; 
+	    var __srcid = _pop.find('.moca_tab_panel').attr('srcid');
+	    var __param = moca[__srcid].args.parent.data;
+	    var __url = "/uat/uia/actionMain_link.do?mcsrc="+_src;
+	    var _id = moca.openWindowPopup({
+	        id: _popupId,
+	        method:"post",
+	        title: _title,
+	        width:Number(_w)+16, 
+	        height:Number(_h)+80,
+	        url : __url,
+	        fullscreen : 'no',
+	        param : __param
+	    });
+    }
     
         
 };
+
 
 Moca.prototype.popUnload = function(){
     ['popUnload'];
@@ -11729,14 +11767,13 @@ Moca.prototype.openWindowPopup = function(_opt){
     var left    = (screen.availWidth/2)-(w/2)-20;
     var top     = (screen.availHeight/2)-(h/2); 
     top = top -34;//타이블바 만큼 보정
-    
     var params = _opt.param;
     if(_opt.method == 'post'){
     	params["__title"] = _opt.title;
     	params["__popid"] = _opt.id;
     	params["user_id"] = moca.getSession("USER_ID");
     }
-    
+    debugger;
     var paramArray = Object.keys(params);
     var re_params = '';
     for(var i=0; i < paramArray.length; i++){
