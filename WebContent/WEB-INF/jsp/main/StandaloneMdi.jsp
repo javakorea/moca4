@@ -118,7 +118,7 @@ $(document).ready(function() {
 		}
 	}
 	//alert(_if_url);
-    moca.openMdi(_if_url,_srcId,_srcId,'',"mdi_1");
+    moca.openMdi(_if_url,_srcId,param.label,'',"mdi_1");
     moca.setPageHeader($(this).find('#titbox'),param.label);
 });
 </script>

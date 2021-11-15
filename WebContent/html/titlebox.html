@@ -8,6 +8,11 @@ moca.titlebox.___ready = function(args){
 	var p = $(args.parent);
 	var is = moca.getIncludeScope(p,this);
 	var data = JSON.parse(p.attr("data"));
+	
+	if(opener){
+		data = JSON.parse($('#'+'titbox',opener.document).attr('data'));
+		moca.hide($('.grp_combtns'));
+	}
 	is.find('#sreenCd').html(data.sreenCd);
 	is.find('#sreenNm').html(data.sreenNm);
 	if(moca.trim(data.sreenPath) != ''){

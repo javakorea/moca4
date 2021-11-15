@@ -2,8 +2,10 @@
 <html lang="ko">
 <head meta_width="1400px" meta_height="700px">
 <script>
-	moca.EFC_BOARD.boardType ='ERP';
+
+	moca.EFC_BOARD.boardType;
 	moca.EFC_BOARD.___ready = function(args){
+		moca.EFC_BOARD.boardType ='ERP';
 		if((moca.getSs("loginTemp0") == null || moca.getSs("loginTemp0") == '') && moca.getSs("USER_ID") == null){
 			moca.hide(moca.EFC_BOARD.getObj("btn_add"));
 		}

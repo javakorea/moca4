@@ -4531,7 +4531,7 @@ Moca.prototype.mdiChange = function(_popupId,_json){
 	    self.close();
 	    
     }else{
-    	var _pop = $('#'+_popupId+'_dv.moca_tab_body');
+		var _pop = $('#'+_popupId+'_dv.moca_tab_body');
     	var _mdiId =_pop.attr('mdi_id');
     	var _src = _pop.attr('src');
     	var _tab = _pop.parent().find('ul li[tab_id='+_pop.attr('mdi_id')+']');
@@ -4551,6 +4551,7 @@ Moca.prototype.mdiChange = function(_popupId,_json){
 	        fullscreen : 'no',
 	        param : __param
 	    });
+    	
     }
     
         
@@ -8752,7 +8753,11 @@ Moca.prototype.popupMove = function(e){
     event.preventDefault();
     var thisObj = document.nowPopup;
     if(thisObj.option.scopeId != null && thisObj.option.scopeId.startsWith('MDI')){
+    	
         var openerObj = $('#mdi_1')[0];
+        if(opener && $(thisObj).attr('pageid') != parent.name){
+        	openerObj = $('#'+parent.name)[0];
+        }
         var oTop = openerObj.offsetTop;
         var oLeft = openerObj.offsetLeft;
         
@@ -11145,14 +11150,19 @@ Moca.prototype.callReady = function(aTag) {
        }else{
        		_argsObj = aTag;
        }
-       
        if($(aTag).attr('tab_id') != null && !$(aTag).attr('tab_id').startsWith('POPUP') && aTag.id != "moca_main"){//single page case
+    	   if(opener){
+	   		    var srcid = $('#'+$(aTag).attr('tab_id')+'_dv',opener.document).find('[srcid]').attr('srcid');
+	          		moca[srcid].args = JSON.parse(JSON.stringify(opener.moca[srcid].args));
+	          		_argsObj = moca[srcid].args;
+	   	   }
+	    	   
     	   moca[_srcId].args = _argsObj;
            moca[_srcId].___ready(_argsObj);
            var _pageId = moca[_srcId].pageId;
            moca[_pageId] =  moca[_srcId];
        }else if($(aTag).attr('tab_id') != null && $(aTag).attr('tab_id').startsWith('POPUP')){//popup case
-    	   if(opener){
+    	   if(opener && parent.name == moca[_srcId].pageId){
     		    var srcid = $('#'+$(aTag).attr('tab_id'),opener.document).find('[srcid]').attr('srcid');
            		moca[srcid].args = JSON.parse(JSON.stringify(opener.moca[srcid].args));
            		_argsObj = moca[srcid].args;
@@ -11773,7 +11783,6 @@ Moca.prototype.openWindowPopup = function(_opt){
     	params["__popid"] = _opt.id;
     	params["user_id"] = moca.getSession("USER_ID");
     }
-    debugger;
     var paramArray = Object.keys(params);
     var re_params = '';
     for(var i=0; i < paramArray.length; i++){
@@ -11793,6 +11802,7 @@ Moca.prototype.openWindowPopup = function(_opt){
     	addFlag = '?';
     }
     var _url = _opt.url+addFlag+"__popid="+_opt.id+"&__title="+moca.encode(_opt.title)+"&"+re_params;
+    debugger;
     var reid = '';
     try{
 	    if(_opt.method == 'post'){

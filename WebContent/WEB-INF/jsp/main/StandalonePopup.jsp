@@ -59,9 +59,10 @@ var param = {};
 	System.out.println("--------------------->paramMap-->"+paramMap);
 %> 
 
-$(document).ready(function() {
+$(document).ready(function(args) {
 	//moca.popClose($('#'+param['__popid'],opener.document));
 	$('#'+param['__popid'],opener.document).hide();
+	
 	/*
 	$('.moca_wrap').html('');
 	$('#'+param['__popid'],opener.document).find('.moca_popup').css({
