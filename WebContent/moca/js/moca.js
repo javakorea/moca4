@@ -4440,7 +4440,8 @@ Moca.prototype.openPdfViewer = function(_opt){
 
 Moca.prototype.popClose = function(_popupId,_json){
     ['모카팝업 닫기'];
-    if(top.name.startsWith("POPUP")){
+    //if(top.name.startsWith("POPUP"))
+    if(opener && $('#'+_popupId).attr('id') == parent.name){
     	if(opener.moca.callbacks[_popupId]){
 	        eval(opener.moca.callbacks[_popupId])(_json);
 	        delete opener.moca.callbacks[_popupId];
