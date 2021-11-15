@@ -34,15 +34,16 @@
 			ORDER BY INQ_SEQ
 		]]>
 	</select>
+	<!-- 20210728 -->
     <select id="CmmUseDAO.selectOgrnztIdDetail" parameterClass="ComDefaultCodeVO" resultMap="CmmCodeDetail">
             <![CDATA[ 
             SELECT 
                 #tableNm#     CODE_ID, 
-                ORGNZT_ID     CODE, 
-                ORGNZT_NM     CODE_NM, 
-                ORGNZT_DC     CODE_DC
+                CORP_CD     	CODE, 
+                CORP_NM     	CODE_NM, 
+                ETC     		CODE_DC
             FROM 
-                MT_LETTNORGNZTINFO
+                MT_CORP
             WHERE 1=1
             ]]>
             <isEqual prepend="AND" property="haveDetailCondition" compareValue="Y">

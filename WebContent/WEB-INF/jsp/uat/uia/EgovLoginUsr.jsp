@@ -56,7 +56,7 @@ function actionLogin() {
         return false;
     } else {
     	sessionStorage['CORP_CD'] = document.loginForm.CORP_CD.value;
-    	sessionStorage['CORP_NM'] = document.loginForm.CORP_CD.innerText;
+    	sessionStorage['CORP_NM'] = $(document.loginForm).find('option:selected').text();
     	sessionStorage['USER_ID'] = document.loginForm.id.value;
     	var _dt = moca.dateFormat(moca.now()).substring(0,10);
     	var _time = moca.dateFormat(moca.now()).substring(11,16);
