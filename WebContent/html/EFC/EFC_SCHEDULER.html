@@ -21,7 +21,8 @@ moca.EFC_SCHEDULER.fn_search = function(_callbackJson){
         data : {
             "header" : moca.header,
             "body" : {
-            	"SCH_CURRENTMONTH":_showMonth
+            	"SCH_CURRENTMONTH":_showMonth,
+            	"CORP_CD":moca.getSs("CORP_CD")
             }
         },          
         callback : function(response){

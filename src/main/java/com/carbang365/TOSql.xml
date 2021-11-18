@@ -5004,6 +5004,7 @@
     <select id="selectScheduleList" parameterType="map" resultType="map">
     	/*selectScheduleList 스케줄러 조회*/
 		SELECT
+			CORP_CD,
 			SCH_IDX,
 			SCH_CATEGORY,
 			SCH_TITLE,
@@ -5020,13 +5021,15 @@
 		FROM MT_SCHEDULE
 		WHERE 1=1
 		AND SCH_DELYN = 'N'
-		AND SCH_CURRENTMONTH =#{SCH_CURRENTMONTH}
+		AND SCH_CURRENTMONTH = #{SCH_CURRENTMONTH}
+		AND CORP_CD = #{CORP_CD}
     </select>
     
     <!-- 스케줄러 단건조회 -->
     <select id="selectScheduleInfo" parameterType="map" resultType="map">
     	/*selectScheduleInfo 스케줄러 단건조회*/
         SELECT
+        	CORP_CD,
             SCH_IDX, 
             SCH_TITLE, 
             SCH_CONT, 
@@ -5037,6 +5040,7 @@
         FROM MT_SCHEDULE
         WHERE 1=1
         AND SCH_IDX = #{SCH_IDX}
+        AND CORP_CD = #{CORP_CD}
     </select>
     
     <!-- 스케줄러 작성 -->
@@ -5054,7 +5058,8 @@
 	            SCH_DISP,
 	            SCH_COLOR,
 	            SCH_DELYN,
-	            SCH_SENDYN
+	            SCH_SENDYN,
+	            CORP_CD
             )VALUES (
            		#{SCH_CATEGORY},
            		#{SCH_TITLE},
@@ -5067,7 +5072,8 @@
 	            #{SCH_DISP},
 	            #{SCH_COLOR},
 	            'N',
-	            'N'
+	            'N',
+	            #{CORP_CD}
             )
     </insert>
     

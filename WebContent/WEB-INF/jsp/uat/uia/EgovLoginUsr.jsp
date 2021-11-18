@@ -120,27 +120,27 @@ function fnInit() {
 <body  onload="fnInit();">
 	<div class="wrap">
 		<div class="login_box">
-			<h1 class="logo">teammoca ERP</h1>
-			<div class="login_img"></div>
-			<form:form id="loginForm" name="loginForm" method="post">
- 			<select name="CORP_CD" id="CORP_CD">
-				<option value="001"></option>
-			</select>
-
-			<input type="text" placeholder="아이디" title="아이디를 입력하세요." id="id" name="id" maxlength="10">
-			<input type="password" placeholder="비밀번호" maxlength="25" title="비밀번호를 입력하세요." id="password" name="password" onkeydown="javascript:if (event.keyCode == 13) { actionLogin(); }"/>
-			<button onclick="javascript:actionLogin()" >로그인</button>
-			<div class="login_option">
-				<input type="checkbox" name="checkId" title="로그인ID 저장여부" onclick="javascript:saveid(this.form);" id="checkId" />아이디저장
-			<!--<div class="lang">
-					<input type="radio" name="lang" value="kor" checked>한국어
-					<input type="radio" name="lang" value="eng">English
-				</div> -->
+			<div class="login_left">
+				<h1 class="logo">teammoca ERP</h1>
+				<form:form id="loginForm" name="loginForm" method="post">
+	 			<select name="CORP_CD" id="CORP_CD">
+					<option value="001"></option>
+				</select>
+	
+				<input type="text" placeholder="아이디" title="아이디를 입력하세요." id="id" name="id" maxlength="10">
+				<input type="password" placeholder="비밀번호" maxlength="25" title="비밀번호를 입력하세요." id="password" name="password" onkeydown="javascript:if (event.keyCode == 13) { actionLogin(); }"/>
+				<button onclick="javascript:actionLogin()" >LOGIN</button>
+				<div class="login_option">
+					<input type="checkbox" name="checkId" title="로그인ID 저장여부" onclick="javascript:saveid(this.form);" id="checkId" />아이디저장
+				</div>
+	            <input type="hidden" name="message" value="${message}" />
+	            <input type="hidden" name="userSe"  value="USR"/>
+	            <input name="j_username" type="hidden"/>
+	            </form:form>    
 			</div>
-            <input type="hidden" name="message" value="${message}" />
-            <input type="hidden" name="userSe"  value="USR"/>
-            <input name="j_username" type="hidden"/>
-            </form:form>                			
+			<div class="login_right">
+			
+			</div>
 		</div>
 	</div>
 </body>

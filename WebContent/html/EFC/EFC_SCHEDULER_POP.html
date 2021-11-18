@@ -62,7 +62,8 @@ moca.EFC_SCHEDULER_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 		data : {
 			"header" : moca.header,
 			"body" : {
-				"SCH_IDX":moca.EFC_SCHEDULER_POP.schIdx
+				"SCH_IDX":moca.EFC_SCHEDULER_POP.schIdx,
+				"CORP_CD":moca.getSs("CORP_CD")
 				}
 		},			
 		callback : function(response){
@@ -116,8 +117,8 @@ moca.EFC_SCHEDULER_POP.fn_save = function(_thisObj){
     	        	            "SCH_CURRENTMONTH":moca.EFC_SCHEDULER_POP.getFrom('schDate').substr(5,2),
     	        	        	"SCH_START":moca.EFC_SCHEDULER_POP.getFrom('schDate'),
     	        	        	"SCH_END":moca.EFC_SCHEDULER_POP.getTo('schDate'),
-    	        	        	"SCH_COLOR":moca.getValue(moca.EFC_SCHEDULER_POP.getObj('wcolor'))
-    	        	        	
+    	        	        	"SCH_COLOR":moca.getValue(moca.EFC_SCHEDULER_POP.getObj('wcolor')),
+    	        	        	"CORP_CD":moca.getSs("CORP_CD")
     	        	        }
     	        	    },          
     	        	    callback : function(response){
