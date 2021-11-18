@@ -334,7 +334,8 @@ moca.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                            "BOARD_WRITER":moca.getValue(moca.EFC_BOARD_POP.getObj("wid")),
 	                            "BOARD_PHONE":moca.getValue(moca.EFC_BOARD_POP.getObj("wphone")),
 	                            "BOARD_EMAIL":moca.getValue(moca.EFC_BOARD_POP.getObj("wemail")),
-	                            "fileList":moca.EFC_BOARD_POP.getFilteredList("grd_file","status","C")
+	                            "fileList":moca.EFC_BOARD_POP.getFilteredList("grd_file","status","C"),
+	                            "CORP_CD":moca.getSs("CORP_CD")
 	                            }
 	                    },          
 	                    callback : function(response){
@@ -405,7 +406,8 @@ moca.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                            "BOARD_CONT":CKEDITOR.instances.reply_editor.getData(),
 	                            "GET_CONT_TXT":CKEDITOR.instances.reply_editor.document.getBody().getText(),
 	                            "BOARD_WRITER":moca.getValue(moca.EFC_BOARD_POP.getObj("wreplyid")),
-	                            "fileList":moca.EFC_BOARD_POP.getFilteredList("grd_reply_file","status","C")
+	                            "fileList":moca.EFC_BOARD_POP.getFilteredList("grd_reply_file","status","C"),
+	                            "CORP_CD":moca.getSs("CORP_CD")
 	                            }
 	                    },          
 	                    callback : function(response){

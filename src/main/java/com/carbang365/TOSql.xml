@@ -4548,6 +4548,7 @@
     	/*selectBoardList 게시판 조회*/
     	<include refid="setRnSt"/>
 	        SELECT 
+	        	A.CORP_CD,
 	        	A.BOARD_PIDX, 
 	        	A.BOARD_IDX, 
 	        	A.BOARD_SUPPORT, 
@@ -4566,6 +4567,9 @@
 			AND A.BOARD_DELYN = 'N'
 			AND A.BOARD_PIDX = A.BOARD_IDX
 			AND A.BOARD_TYPE like CONCAT('%', #{BOARD_TYPE}, '%')
+			<if test="PAGE_TYPE != 'home'">
+	            AND A.CORP_CD like CONCAT('%', #{CORP_CD}, '%')
+	        </if>
 			<if test="BOARD_WRITER != null and BOARD_WRITER != ''">
 	            AND A.BOARD_WRITER like CONCAT('%', #{BOARD_WRITER}, '%')
 	        </if>
@@ -4635,6 +4639,7 @@
     	 /*selectBoardNumList 게시판 조회 numList*/
     	<include refid="setRnSt"/>
 	        SELECT 
+	        	A.CORP_CD,
 	        	A.BOARD_PIDX, 
 	        	A.BOARD_IDX, 
 	        	A.BOARD_SUPPORT, 
@@ -4645,7 +4650,8 @@
 	        	A.BOARD_TYPE,
 	        	A.BOARD_RECEIPTIONER,
 	        	COUNT(F.BOARD_IDX) AS CNT,
-	        	A.BOARD_REPLYCNT
+	        	A.BOARD_REPLYCNT,
+	        	
 			FROM MT_BOARD A 
 			LEFT OUTER JOIN MT_BOARDFILE F ON A.BOARD_IDX = F.BOARD_IDX
 			
@@ -4661,6 +4667,9 @@
 	        </if>
 	        <if test="BOARD_RECEIPTIONER != null and BOARD_RECEIPTIONER != ''">
 	            AND A.BOARD_RECEIPTIONER like CONCAT('%', #{BOARD_RECEIPTIONER}, '%')
+	        </if>
+	        <if test="PAGE_TYPE != 'home'">
+	            AND A.CORP_CD like CONCAT('%', #{CORP_CD}, '%')
 	        </if>
 	        <choose>
 			    <when test="BOARD_SUPPORT.size > 0">
@@ -4685,7 +4694,7 @@
     
  	<!-- 게시판 상태 건수-->
     <select id="selectBoardStatusCnt" parameterType="map" resultType="map">
-     /*selectBoardStatusCnt 게시물 답변조회*/
+     /*selectBoardStatusCnt 게시판 상태 건수*/
      SELECT 
      	A.BOARD_SUPPORT, COUNT(A.BOARD_SUPPORT) AS CNT
      FROM MT_BOARD A
@@ -4775,7 +4784,8 @@
 	            BOARD_WRITER,
 	            BOARD_PHONE,
 	            BOARD_EMAIL,
-	            BOARD_DATE
+	            BOARD_DATE,
+	            CORP_CD
             )VALUES (
            		#{BOARD_DELYN},
            		#{BOARD_TYPE},
@@ -4788,7 +4798,8 @@
 	            #{BOARD_WRITER},
 	            #{BOARD_PHONE},
 	            #{BOARD_EMAIL},
-	            CURRENT_TIMESTAMP
+	            CURRENT_TIMESTAMP,
+	            #{CORP_CD}
             )
     </insert>
     

@@ -4,13 +4,15 @@
 <script>
 
 	moca.EFC_BOARD.boardType;
+	moca.EFC_BOARD.pageType;
 	moca.EFC_BOARD.___ready = function(args){
 		moca.EFC_BOARD.boardType ='ERP';
 		if((moca.getSs("loginTemp0") == null || moca.getSs("loginTemp0") == '') && moca.getSs("USER_ID") == null){
 			moca.hide(moca.EFC_BOARD.getObj("btn_add"));
 		}
 		if(args.parent.data != null){
-			if(args.parent.data.PAGE_TYPE == 'home'){
+			moca.EFC_BOARD.pageType = args.parent.data.PAGE_TYPE;
+			if(moca.EFC_BOARD.pageType == 'home'){
 				moca.hide(moca.EFC_BOARD.getObj("btn_del"));
 			}
 			moca.EFC_BOARD.boardType = args.parent.data.BOARD_TYPE;
@@ -50,7 +52,8 @@
 	            	"BOARD_TITLE":moca.getValue(moca.EFC_BOARD.getObj( "ipt_TITLE")),
 	            	"FROM":moca.EFC_BOARD.getFrom("CREATE_DTTM").replace(/-/g,''),
                     "TO":moca.EFC_BOARD.getTo("CREATE_DTTM").replace(/-/g,''),
-                    "BOARD_SUPPORT":moca.getCheckboxGroupCheckedList(moca.EFC_BOARD.getObj('chkg_1'))
+                    "BOARD_SUPPORT":moca.getCheckboxGroupCheckedList(moca.EFC_BOARD.getObj('chkg_1')),
+                    "CORP_CD":moca.getSs("CORP_CD")
 	            }
 	        },          
 	        callback : function(response){

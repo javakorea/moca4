@@ -125,6 +125,10 @@ public class EgovLoginController {
 		System.out.println("====================================================================");
 		System.out.println("loginPolicyYn:"+loginPolicyYn);
 		
+		String corpCd = resultVO.getCORP_CD();
+		System.out.println("===CORP_CD:"+CORP_CD);
+		
+		
 		String endDate = resultVO.getEndDate();
 		System.out.println("===endDate:"+endDate);
 		if(endDate != null && endDate.length() > 9) {
@@ -133,6 +137,7 @@ public class EgovLoginController {
 		}else {
 			endDate = "99999999";
 		}
+		
 		
 		SimpleDateFormat format1 = new SimpleDateFormat ("yyyyMMdd");
 		Date time = new Date();
