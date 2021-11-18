@@ -39,11 +39,13 @@
 	.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="td"], div[type="tr"]{width:100%}
 	.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="th"]{text-align:left}
 	/*multiCalendar*/
-	.moca_calendar_fromto.vertical{width:300px; height:auto}
+	.moca_calendar_fromto.vertical{width:264px; height:auto}
+	.moca_calendar_fromto.vertical .moca_calendar_header{height:20px}
+	.moca_calendar_fromto.vertical .moca_calendar{padding-bottom:4px}
 	.moca_calendar_fromto.vertical .moca_calendar_row .moca_calendar_fl{width:100%}
-	.moca_calendar_fromto.vertical .moca_calendar_lta{position:relative; width:auto; height:40px}
-	.moca_calendar_fromto.vertical .moca_calendar_lta .moca_calendar_list {height:auto; float:left; padding-top:11px}
-	.moca_calendar_fromto.vertical .moca_calendar_lta .moca_calendar_footer{float:right; padding:8px 8px 0 0}
+	.moca_calendar_fromto.vertical .moca_calendar_lta{position:relative; width:auto; height:33px}
+	.moca_calendar_fromto.vertical .moca_calendar_lta .moca_calendar_list {padding: 8px 0px 0 8px;height:auto; float:left}
+	.moca_calendar_fromto.vertical .moca_calendar_lta .moca_calendar_footer{float:right; padding:4px 4px 0 0}
 	.moca_calendar_fromto.vertical .moca_calendar_row .moca_calendar_fl:nth-child(1){padding-right:0; background:#242731; padding-bottom:8px}
 	.moca_calendar_fromto.vertical .moca_calendar_row .moca_calendar_fl:nth-child(1) > .moca_calendar{background:none;}
 	.moca_calendar_fromto.vertical .moca_calendar_row .moca_calendar_fl:nth-child(2){padding-left:0; padding-bottom:8px}
@@ -52,6 +54,20 @@
 	.moca_calendar_fromto.vertical .moca_calendar_list li.active button{width:100%; padding:0 5px; text-indent:-3px}
 	.moca_calendar_fromto.vertical .moca_calendar_lta .moca_calendar_list li {width:50px}
 	.moca_calendar_fromto.vertical .moca_calendar_rta{position:relative;left:0; padding:0}
+	.moca_calendar .moca_calendar_body table td button,
+	.moca_calendar_fromto.vertical .moca_calendar .moca_calendar_body table th, 
+	.moca_calendar .moca_calendar_body table td{height:24px}
+	.moca_calendar_fromto.vertical .moca_calendar .moca_calendar_body{padding-bottom:0}
+	.moca_calendar_fromto.vertical .moca_calendar_footer button{padding:0 10px;}
+	.moca_calendar_fromto.vertical button.moca_calendar_dynamic{height:20px; top:0; line-height:20px}
+	.moca_calendar_fromto.vertical .moca_calendar_btn_prev,
+	.moca_calendar_fromto.vertical .moca_calendar_btn_next, 
+	.moca_calendar_fromto.vertical .moca_calendar_btn_prev_year, 
+	.moca_calendar_fromto.vertical .moca_calendar_btn_prev_month,
+	.moca_calendar_fromto.vertical .moca_calendar_btn_next_month,
+	.moca_calendar_fromto.vertical .moca_calendar_btn_next_year{height:20px; top:0}
+	.moca_calendar_fromto.vertical .moca_calendar_row .moca_calendar_fl .moca_input{margin:0 auto;}
+	
 	/*layerPop*/
 	.moca_pop_cont_wrap{min-width:unset}
 	.moca_pop_cont_wrap.flex .lybox.flex{flex-direction:column}
@@ -61,7 +77,6 @@
 	.moca_pop_cont_wrap.flex .lybox.flex .ly_column:nth-child(2) > .ly_col_cont{padding-left:0 !important}
 	.moca_pop_cont_wrap.flex .lybox.flex .ly_column:nth-child(2):not([style*="display:none"]) + .reply_bg{position: absolute; left: 0; right: 0; bottom: 0; background: #ced7dc; top: 50%; opacity: 0.3;}
 	.moca_pop_cont_wrap.flex .lybox .ly_column .scrollX_area{width: 100%; position: absolute; bottom:0; overflow-x:auto;}
-
-
+	
 	.moca_table.maxRow {height:88px; overflow:auto} 
 }
