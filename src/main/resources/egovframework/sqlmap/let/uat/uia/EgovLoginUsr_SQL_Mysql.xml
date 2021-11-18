@@ -33,7 +33,9 @@
 	<select id="loginDAO.actionLogin" resultMap="login">
 		<isEqual property="userSe" compareValue="USR">
 			<![CDATA[
-            SELECT EMPLYR_ID AS id
+            SELECT 
+            	   ORGNZT_ID
+            	 , EMPLYR_ID AS id
                  , USER_NM AS name
                  , PASSWORD AS password
                  , IHIDNUM AS ihidNum
@@ -46,6 +48,7 @@
              WHERE EMPLYR_ID = #id#
                AND PASSWORD = #password#
                AND EMPLYR_STTUS_CODE = 'P'
+               AND ORGNZT_ID = #CORP_CD#
 			]]>
 		</isEqual>
 	</select>

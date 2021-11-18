@@ -104,6 +104,7 @@ public class EgovLoginController {
 		String CORP_CD = request.getParameter("CORP_CD");
 
 		// 1. 일반 로그인 처리
+		loginVO.setCORP_CD(CORP_CD);
 		LoginVO resultVO = loginService.actionLogin(loginVO);
 		resultVO.setCORP_CD(CORP_CD);
 		boolean loginPolicyYn = true;

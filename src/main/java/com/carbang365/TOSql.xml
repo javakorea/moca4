@@ -4711,6 +4711,9 @@
         <if test="BOARD_RECEIPTIONER != null and BOARD_RECEIPTIONER != ''">
             AND A.BOARD_RECEIPTIONER like CONCAT('%', #{BOARD_RECEIPTIONER}, '%')
         </if>
+        <if test="PAGE_TYPE != 'home'">
+            AND A.CORP_CD like CONCAT('%', #{CORP_CD}, '%')
+        </if>
         <choose>
 		    <when test="BOARD_SUPPORT.size > 0">
 		        AND BOARD_SUPPORT in 
