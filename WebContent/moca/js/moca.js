@@ -1740,6 +1740,7 @@ Moca.prototype.openMdi = function(_url,_srcId,_label,_clickedMenuId,_mdiId){
                 var _tab_id = moca.setPageArea(aTab);
                 arr.removeClass("active");
                 $(aTab).addClass('active');//탭액티브
+                $(aTab).closest('.moca_tab_listarea').scrollLeft($(aTab).offset().left);
                 $('#'+_mdiId+' .moca_tab_body').css('display','none');
                 var contDiv = $('#'+_mdiId+' .moca_tab_body').parent().find('div[id*="'+_tab_id+'"]');
                 contDiv.css('display','block');
@@ -11821,7 +11822,6 @@ Moca.prototype.openWindowPopup = function(_opt){
     	addFlag = '?';
     }
     var _url = _opt.url+addFlag+"__popid="+_opt.id+"&__title="+moca.encode(_opt.title)+"&"+re_params;
-    debugger;
     var reid = '';
     try{
 	    if(_opt.method == 'post'){
