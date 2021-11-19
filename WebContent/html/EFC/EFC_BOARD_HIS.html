@@ -67,11 +67,11 @@
 				data = '{"sreenCd":"MOCA_BOARD_HIS","sreenNm":"게시판이력","sreenPath":"시스템설정,게시판이력"}'
 			></div>
 
-			<div class="moca_shbox">
+			<div class="moca_shbox slim">
 				<div class="shbox_inner">
 					<div class="flex fwrap">
 						<div class="tb">
-							<span class="tb_th">조회일자</span>
+							<span class="tb_th">기간</span>
 							<span class="tb_td">
 								<div type="inputMultiCalendar" class="moca_ica fl" style="width:auto" id="CREATE_DTTM" displayFormat="####-##-##" 
                                     defaultValue="12개월전" 
@@ -81,8 +81,8 @@
 							</span>
 						</div>
 						<div class="tb">
-							<span class="tb_th">이력상태</span>
-							<span class="tb_td">
+							<span class="tb_th">상태</span>
+							<span class="tb_td" style="width:296px">
 								<div type="checkboxGroup" class="fl bd" direction="vertical" id="chkg_1"
                                    itemset='[
                                        {"id":"chk1","label":"입력","value":"1","checked":"true"},
@@ -94,13 +94,13 @@
 							</span>
 						</div>
 						<div class="tb">
-							<span class="tb_th">게시판ID</span>
+							<span class="tb_th">번호</span>
 							<span class="tb_td">
 								<div type="input" id="ipt_BOARDIDX" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
 							</span>
 						</div>
 						<div class="tb">
-							<span class="tb_th">작성자</span>
+							<span class="tb_th">이름</span>
 							<span class="tb_td">
 								<div type="input" id="ipt_WRITER" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
 							</span>

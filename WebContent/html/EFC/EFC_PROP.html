@@ -117,18 +117,18 @@
 				<div class="shbox_inner">
 					<div class="flex fwrap">
 						<div class="tb">
-							<span class="tb_th">key</span>
+							<span class="tb_th">설정키값</span>
 							<span class="tb_td">
 								<div type="input" id="PROP_KEY" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
 							</span>
 						</div>
 						<div class="tb">
-							<span class="tb_th">NativeComboTest</span>
+							<span class="tb_th">모카콤보</span>
 							<span class="tb_td">
 								<div type="combo" 
 									id="cmb_1" 
 									class="moca_combo" 
-									style="width:200px" 
+									style="width:165px" 
 									displayFormat="[label]" 
 									cdField="code" 
 									nmField="codeNm"
@@ -138,13 +138,13 @@
 							</span>
 						</div>
 						<div class="tb">
-							<span class="tb_th">SearchComboTest</span>
+							<span class="tb_th">서치콤보</span>
 							<span class="tb_td">
 								<div type="searchCombo" 
 									id="scmb_1" 
 									class="moca_searchCombo" 
 									inneronchange="moca.EFC_PROP.selectSetter(this)" 
-									style="width:200px" 
+									style="width:165px" 
 									readOnly="false"
 									displayFormat="[label]" 
 									cdField="code" 
@@ -157,7 +157,7 @@
 				</div>
 				<div class="btn_shbox">
 					<button type="button" class="button btn_sc" onclick="moca.EFC_PROP.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
-					<button type="button" class="button btn_sc" onclick="moca.EFC_PROP._openFileUpload(this)"><i class="fas fa-search"></i><span>파일첨부</span></button>
+					<button type="button" class="button btn_sc" style="display:none" onclick="moca.EFC_PROP._openFileUpload(this)"><i class="fas fa-search"></i><span>파일첨부</span></button>
 				</div>
 			</div>
 			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"

@@ -3,10 +3,12 @@
 	html{overscroll-behavior: contain;}
 	.moca_header .info_photo {float: left; margin-top: 5px;}
 	.moca_header .info{margin-right:0}
-	.moca_header .gnb .info_photo + span{width: 86px; overflow: hidden; display: inline-block; float: left; text-overflow: ellipsis; height: 21px;}
+	.moca_header .gnb .info_photo + span{display:none}
 	.moca_titbox{display:none}
-    .moca_wrap{min-width:unset} 
-    .moca_shbox .tb .tb_td{padding:0}
+    .moca_wrap{min-width:unset}
+    .moca_shbox.slim{padding:10px 8px 0}
+    .moca_shbox.slim .moca_checkbox_label{margin-right:5px !important}
+    .moca_shbox .tb .tb_td{padding:0; width:165px;}
     .moca_shbox .btn_shbox .button{padding:5px 7px}
     /*.moca_scrollY_type1{display:none}*/
     .moca_aside{background:none}
