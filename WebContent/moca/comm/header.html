@@ -31,8 +31,8 @@
 		}
 		
 		$('#session0').html(LOGINDT);
-		$('#session1').html(CORP_NM);
-		$('#session2').html(USER_ID);
+		$('#session1').html("법인명 : "+CORP_NM);
+		$('#session2').html("사용자 : "+USER_ID);
 		moca.openMdi(mocaConfig._contextRoot+"/moca/comm/main.html","main","");
 		
 		var menu_html = '';

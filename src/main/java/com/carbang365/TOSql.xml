@@ -4549,6 +4549,7 @@
     	<include refid="setRnSt"/>
 	        SELECT 
 	        	A.CORP_CD,
+	        	A.CORP_NM,
 	        	A.BOARD_PIDX, 
 	        	A.BOARD_IDX, 
 	        	A.BOARD_SUPPORT, 
@@ -4568,7 +4569,17 @@
 			AND A.BOARD_PIDX = A.BOARD_IDX
 			AND A.BOARD_TYPE like CONCAT('%', #{BOARD_TYPE}, '%')
 			<if test="PAGE_TYPE != 'home'">
-	            AND A.CORP_CD like CONCAT('%', #{CORP_CD}, '%')
+	            <choose>
+				    <when test="CORP_CD.size > 0">
+				        AND A.CORP_CD in 
+				        <foreach collection="CORP_CD" item="item" index="index" separator="," open="(" close=")">
+				          #{item}
+				        </foreach>
+				    </when>
+				    <otherwise>
+				        AND A.CORP_CD = ''
+				    </otherwise>
+				</choose>
 	        </if>
 			<if test="BOARD_WRITER != null and BOARD_WRITER != ''">
 	            AND A.BOARD_WRITER like CONCAT('%', #{BOARD_WRITER}, '%')
@@ -4617,6 +4628,19 @@
 	        <if test="BOARD_RECEIPTIONER != null and BOARD_RECEIPTIONER != ''">
 	            AND A.BOARD_RECEIPTIONER like CONCAT('%', #{BOARD_RECEIPTIONER}, '%')
 	        </if>
+	        <if test="PAGE_TYPE != 'home'">
+	            <choose>
+				    <when test="CORP_CD.size > 0">
+				        AND A.CORP_CD in 
+				        <foreach collection="CORP_CD" item="item" index="index" separator="," open="(" close=")">
+				          #{item}
+				        </foreach>
+				    </when>
+				    <otherwise>
+				        AND A.CORP_CD = ''
+				    </otherwise>
+				</choose>
+	        </if>
 	        <choose>
 			    <when test="BOARD_SUPPORT.size > 0">
 			        AND BOARD_SUPPORT in 
@@ -4640,6 +4664,7 @@
     	<include refid="setRnSt"/>
 	        SELECT 
 	        	A.CORP_CD,
+	        	A.CORP_NM,
 	        	A.BOARD_PIDX, 
 	        	A.BOARD_IDX, 
 	        	A.BOARD_SUPPORT, 
@@ -4669,7 +4694,17 @@
 	            AND A.BOARD_RECEIPTIONER like CONCAT('%', #{BOARD_RECEIPTIONER}, '%')
 	        </if>
 	        <if test="PAGE_TYPE != 'home'">
-	            AND A.CORP_CD like CONCAT('%', #{CORP_CD}, '%')
+	            <choose>
+				    <when test="CORP_CD.size > 0">
+				        AND A.CORP_CD in 
+				        <foreach collection="CORP_CD" item="item" index="index" separator="," open="(" close=")">
+				          #{item}
+				        </foreach>
+				    </when>
+				    <otherwise>
+				        AND A.CORP_CD = ''
+				    </otherwise>
+				</choose>
 	        </if>
 	        <choose>
 			    <when test="BOARD_SUPPORT.size > 0">
@@ -4712,7 +4747,17 @@
             AND A.BOARD_RECEIPTIONER like CONCAT('%', #{BOARD_RECEIPTIONER}, '%')
         </if>
         <if test="PAGE_TYPE != 'home'">
-            AND A.CORP_CD like CONCAT('%', #{CORP_CD}, '%')
+            <choose>
+			    <when test="CORP_CD.size > 0">
+			        AND A.CORP_CD in 
+			        <foreach collection="CORP_CD" item="item" index="index" separator="," open="(" close=")">
+			          #{item}
+			        </foreach>
+			    </when>
+			    <otherwise>
+			        AND A.CORP_CD = ''
+			    </otherwise>
+			</choose>
         </if>
         <choose>
 		    <when test="BOARD_SUPPORT.size > 0">
@@ -4721,6 +4766,9 @@
 		          #{item}
 		        </foreach>
 		    </when>
+		    <otherwise>
+		        AND A.BOARD_SUPPORT = ''
+		    </otherwise>
 		</choose>
         <!-- AND A.BOARD_DATE BETWEEN #{FROM} AND #{TO} -->
         <![CDATA[
@@ -4788,7 +4836,8 @@
 	            BOARD_PHONE,
 	            BOARD_EMAIL,
 	            BOARD_DATE,
-	            CORP_CD
+	            CORP_CD,
+	            CORP_NM
             )VALUES (
            		#{BOARD_DELYN},
            		#{BOARD_TYPE},
@@ -4802,7 +4851,8 @@
 	            #{BOARD_PHONE},
 	            #{BOARD_EMAIL},
 	            CURRENT_TIMESTAMP,
-	            #{CORP_CD}
+	            #{CORP_CD},
+	            #{CORP_NM}
             )
     </insert>
     

@@ -42,6 +42,9 @@ moca.EFC_BOARD_POP.___ready = function(args){
     		moca.EFC_BOARD_POP._boardTitle = moca.EFC_BOARD_POP.args.parent.data.BOARD_TITLE;
     		moca.EFC_BOARD_POP._pageType = moca.EFC_BOARD_POP.args.parent.data.PAGE_TYPE;
     	}
+    	if(moca.EFC_BOARD_POP._boardType == "NOTICE"){
+    		moca.hide(moca.EFC_BOARD_POP.getObj('tr_status'));
+    	}
     	if(Object.keys(CKEDITOR.instances).length > 0){
     		CKEDITOR.instances.editor.destroy();
         	CKEDITOR.instances.reply_editor.destroy();
@@ -335,7 +338,8 @@ moca.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                            "BOARD_PHONE":moca.getValue(moca.EFC_BOARD_POP.getObj("wphone")),
 	                            "BOARD_EMAIL":moca.getValue(moca.EFC_BOARD_POP.getObj("wemail")),
 	                            "fileList":moca.EFC_BOARD_POP.getFilteredList("grd_file","status","C"),
-	                            "CORP_CD":moca.getSs("CORP_CD")
+	                            "CORP_CD":moca.getSs("CORP_CD"),
+	                            "CORP_NM":moca.getSs("CORP_NM"),
 	                            }
 	                    },          
 	                    callback : function(response){
@@ -407,7 +411,8 @@ moca.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                            "GET_CONT_TXT":CKEDITOR.instances.reply_editor.document.getBody().getText(),
 	                            "BOARD_WRITER":moca.getValue(moca.EFC_BOARD_POP.getObj("wreplyid")),
 	                            "fileList":moca.EFC_BOARD_POP.getFilteredList("grd_reply_file","status","C"),
-	                            "CORP_CD":moca.getSs("CORP_CD")
+	                            "CORP_CD":moca.getSs("CORP_CD"),
+	                            "CORP_NM":moca.getSs("CORP_NM")
 	                            }
 	                    },          
 	                    callback : function(response){
@@ -618,6 +623,10 @@ moca.EFC_BOARD_POP.onFileSelected = function(filename,filesize,_e,_this) {
 moca.EFC_BOARD_POP.popId = "EFC_BOARD_ANS_POP";
 moca.EFC_BOARD_POP.fn_reply = function(_thisObj){
     ['답변달기']
+    if(moca.getDevice() != 'pc'){
+   	 moca.hide($(moca.EFC_BOARD_POP.getObj("form_board")).find(".moca_addtion_area"));
+   	 $(moca.EFC_BOARD_POP.getObj("form_board")).addClass('maxRow');
+   }
     moca.EFC_BOARD_POP._boardReplyStatus = "C";
     $(moca.EFC_BOARD_POP.getObj("cke_editor")).find('#cke_1_top').hide();
     moca.setReadOnly(moca.EFC_BOARD_POP.getObj("wreplytitle"),false);
@@ -755,13 +764,13 @@ moca.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 				          	<div class="moca_table_cont" type="table">
 				          		<div type="tbody">
 				          			<div type="tr">
-				          				<div type="th">ID</div>
+				          				<div type="th" class="tar">ID</div>
 		                                <div type="td">
 		                                    <div type="input" id="widx" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
 		                                </div>
 		                            </div>
 				          			<div type="tr">
-		                                <div type="th">제목</div>
+		                                <div type="th" class="tar">제목</div>
 		                                <div type="td">
 		                                    <div type="input" class="mocaInput" style="width:100%;" innerStyle="" id="wtitle" displayFormat=""  readonly="true"
 		                                        defaultValue="" 
@@ -770,8 +779,8 @@ moca.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 		                                    ></div>
 		                                </div>
 		                            </div>
-				          			<div type="tr">
-		                                <div type="th">상태</div>
+				          			<div type="tr" id="tr_status">
+		                                <div type="th" class="tar">상태</div>
 		                                <div type="td">
 		                                	<!-- <div type="combo" id="cmb_board" class="moca_combo" readonly="true" displayFormat="[label]" cdField="code" nmField="codeNm" ></div> -->
 		                                	<div type="searchCombo" 
@@ -788,7 +797,7 @@ moca.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 		                                </div>
 		                            </div>
 				          			<div type="tr">
-		                                <div type="th">작성일시</div>
+		                                <div type="th" class="tar">작성일시</div>
 		                                <div type="td">
 		                                    <div type="input" id="wdate" class="mocaInput" style="width:100%;" innerStyle="" displayFunction="moca.dateFormat"  readonly="true"
 		                                        defaultValue="" 
@@ -798,7 +807,7 @@ moca.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 		                                </div>
 		                            </div>
 				          			<div type="tr">
-		                                <div type="th">작성자</div>
+		                                <div type="th" class="tar">작성자</div>
 		                                <div type="td">
 		                                    <div type="input" class="mocaInput" style="width:100%;" innerStyle="" id="wid" displayFormat=""  readonly="true"
 		                                        defaultValue="" 
@@ -808,7 +817,7 @@ moca.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 		                                </div>
 		                            </div>
 				          			<div type="tr">
-		                                <div type="th">휴대폰번호</div>
+		                                <div type="th" class="tar">휴대폰번호</div>
 		                                <div type="td">
 		                                    <div type="input" class="mocaInput" style="width:100%; " innerStyle="" id="wphone" displayFormat=""  readonly="true"
 		                                        defaultValue="" 
@@ -818,7 +827,7 @@ moca.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 		                                </div>
 		                            </div>
 				          			<div type="tr">
-		                                <div type="th">이메일</div>
+		                                <div type="th" class="tar">이메일</div>
 		                                <div type="td">
 		                                    <div type="input" class="mocaInput" style="width:100%" innerStyle="" id="wemail" displayFormat=""  readonly="true"
 		                                        defaultValue="" 
@@ -840,7 +849,7 @@ moca.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 		                            </div>
 		                             -->
 				          			<div type="tr">
-		                                <div type="th">완료자</div>
+		                                <div type="th" class="tar">완료자</div>
 		                                <div type="td">
 		                                    <div type="input" class="mocaInput" style="width:100%;" innerStyle="" id="wcompleteid" displayFunction=""  readonly="true"
 		                                        defaultValue="" 
@@ -874,10 +883,10 @@ moca.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 			        >
 			                <table style="width: 100%">
 			                    <colgroup>
+			                            <col style="width:60px" mobileHide="true" columnKey="status" thKey="H_status">
 			                            <col style="width:60px">
-			                            <col style="width:80px">
 			                            <col style="">
-			                            <col style="width:150px">       
+			                            <col style="width:60px">       
 			                    </colgroup>
 			                    <thead>
 			                        <tr>
@@ -969,13 +978,13 @@ moca.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 						<div class="moca_table_cont" type="table">
 							<div type="tbody">
 								<div type="tr">
-									<div type="th">답변ID</div>
+									<div type="th" class="tar">답변ID</div>
 									<div type="td">
 										 <div type="input" id="wreplyidx" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
 									</div>
 								</div>
 								<div type="tr">
-									<div type="th">제목</div>
+									<div type="th" class="tar">제목</div>
 									<div type="td">
 										<div type="input" class="mocaInput req" style="width:100%;" innerStyle="" id="wreplytitle" displayFormat=""  readonly="true"
 											defaultValue="" 
@@ -985,7 +994,7 @@ moca.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 									</div>
 								</div>
 								<div type="tr">
-									<div type="th">작성일시</div>
+									<div type="th" class="tar">작성일시</div>
 									<div type="td">
 										<div type="input" class="mocaInput" style="width:100%; " innerClass="" id="wreplydate" displayFunction="moca.dateFormat"  readonly="true"
 											defaultValue="" 
@@ -995,7 +1004,7 @@ moca.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 									</div>
 								</div>
 								<div type="tr">
-									<div type="th">작성자</div>
+									<div type="th" class="tar">작성자</div>
 									<div type="td">
 										<div type="input" class="mocaInput" style="width:100%;" innerStyle="" id="wreplyid" displayFormat=""  readonly="true"
 											defaultValue="" 
@@ -1029,10 +1038,10 @@ moca.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
                     >
                             <table style="width: 100%">
                                 <colgroup>
+                                        <col style="width:60px" mobileHide="true" columnKey="status" thKey="H_status">
                                         <col style="width:60px">
-                                        <col style="width:80px">
                                         <col style="">
-                                        <col style="width:150px">       
+                                        <col style="width:60px">       
                                 </colgroup>
                                 <thead>
                                     <tr>

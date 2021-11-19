@@ -34,9 +34,9 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .container .main_box {max-width:1080px; height:290px; margin:0 auto; position:relative}
 .container .main_box > button.arrow_left{font-size: 65px; color: #a3cee2; position:absolute; top:90px; left:-50px}
 .container .main_box > button.arrow_right{font-size: 65px; color: #a3cee2; position:absolute; top:90px; right:-50px}
-.container .main_box > .td{height:100%; position:relative; width:25%; padding:20px 30px; box-sizing:border-box; font-size:17px; font-weight:700; text-align:center; line-height:1.3; letter-spacing:-1px}
+.container .main_box > .td{height:100%; position:relative; width:25%; padding:20px 0px; box-sizing:border-box; font-size:17px; font-weight:700; text-align:center; line-height:1.3; letter-spacing:-1px}
 .container .main_box > .td .label{width: 75%; height: 27px; border-radius: 30px; background: #95c0d5; text-align: center; font-size: 14px; font-weight: 100; letter-spacing: -1px; color: #fff; line-height: 27px; position: absolute;left: 12%; top: -15px}
-.container .main_box > .td p{height: 204px; word-break:keep-all; font-weight:normal; font-size:15px}
+.container .main_box > .td p{word-break:keep-all; font-weight:normal; font-size:15px}
 .container .main_box > .td p:before{content:''; display:block; position:relative; width:140px; height:140px; margin:10px auto 15px; background:url(../images/home/main_box.png)no-repeat 0 0; background-color:#e5ecf0; border-radius:50%}
 .container .main_box > .td p > i {display:block; margin: 0 auto 15px; color: #5599c7; font-size: 13px;}
 .container .main_box > .td p.img1:before{background-position:center 15px;}
@@ -199,6 +199,7 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 	.container .main_box > .td:nth-child(3),.container .main_box > .td:nth-child(4){height:290px}
 	.container .main_box > .td:nth-child(3):before, .container .main_box > .td:nth-child(4):before{content: ''; display: block; border-top: 2px solid #79a6ba; top: 0; position: absolute; left: -10px; right: -10px;}
 	.container .main_box > .td p > i{display:none}
+	.container .main_box > .td p > e{display:block}
 	.container .main_box > .td p{word-break: keep-all;}
 	.wrapper{min-width:unset}
 	.mocastep{width:calc(100% - 5px); height:130px; margin-bottom:10px;}

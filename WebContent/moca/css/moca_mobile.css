@@ -37,7 +37,7 @@
 	
 	/*divForm*/
 	.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="td"], div[type="tr"]{width:100%}
-	.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="th"]{text-align:left}
+	.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="th"]{text-align:center}
 	/*multiCalendar*/
 	.moca_calendar_fromto.vertical{width:264px; height:auto}
 	.moca_calendar_fromto.vertical .moca_calendar_header{height:20px}
@@ -69,6 +69,7 @@
 	.moca_calendar_fromto.vertical .moca_calendar_row .moca_calendar_fl .moca_input{margin:0 auto;}
 	
 	/*layerPop*/
+	.moca_popup .moca_popup_header .moca_popup_title{max-width: 275px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;}
 	.moca_pop_cont_wrap{min-width:unset}
 	.moca_pop_cont_wrap.flex .lybox.flex{flex-direction:column}
 	.moca_pop_cont_wrap.flex .lybox.flex .ly_column{width:100% !important}

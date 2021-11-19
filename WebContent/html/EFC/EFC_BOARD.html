@@ -5,10 +5,16 @@
 
 	moca.EFC_BOARD.boardType;
 	moca.EFC_BOARD.pageType;
+	moca.EFC_BOARD.popTitle;
 	moca.EFC_BOARD.___ready = function(args){
 		moca.EFC_BOARD.boardType ='ERP';
 		if((moca.getSs("loginTemp0") == null || moca.getSs("loginTemp0") == '') && moca.getSs("USER_ID") == null){
 			moca.hide(moca.EFC_BOARD.getObj("btn_add"));
+		}
+		if(moca.getSs("USER_ID") == 'superadmin'){
+			moca.show(moca.EFC_BOARD.getObj("tb_chkg_corp"));
+			$(moca.EFC_BOARD.getObj("grd_1")).find('.moca_grid_body col[columnkey="CORP_NM"]').attr('hide','false');
+			$(moca.EFC_BOARD.getObj("grd_1")).find('.moca_grid_body col').css('display','');
 		}
 		if(args.parent.data != null){
 			moca.EFC_BOARD.pageType = args.parent.data.PAGE_TYPE;
@@ -16,16 +22,20 @@
 				moca.hide(moca.EFC_BOARD.getObj("btn_del"));
 			}
 			moca.EFC_BOARD.boardType = args.parent.data.BOARD_TYPE;
+			moca.EFC_BOARD.popTitle = $(moca.EFC_BOARD.getObj('sreenNm')).html();
+			if(moca.EFC_BOARD.boardType == 'NOTICE'){
+				moca.hide(moca.EFC_BOARD.getObj("tb_chkg_1"));
+				moca.hide($(moca.EFC_BOARD.getObj('grd_1')).find('.grid_label_span[grdkey="supportN"]'));
+				moca.hide($(moca.EFC_BOARD.getObj('grd_1')).find('.grid_label_span[grdkey="supportR"]'));
+				moca.hide($(moca.EFC_BOARD.getObj('grd_1')).find('.grid_label_span[grdkey="supportY"]'));
+				moca.hide($(moca.EFC_BOARD.getObj('grd_1')).find('.grid_label_span[grdkey="supportB"]'));
+				
+			}
 		}
 		
 	    moca.EFC_BOARD.code({
             "chkg_1":{code:'boardStatus'}
         },function(result){
-        	
-        	//test
-        	//moca.setDisabled(moca.EFC_BOARD.getObj("rePurchaseBtn"), true);
-        	
-        	
         	if(moca.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
     	    	moca.hide(moca.EFC_BOARD.getObj("btn_del_admin"));
     	    }
@@ -36,11 +46,41 @@
         			{label:"codeNm",value:"code",checked:true},
         			{"Y":"unchecked"}
         	);
-        	moca.EFC_BOARD.fn_search();
+        	moca.EFC_BOARD.fn_searchCorp();
         });
 	};
+	
+	moca.EFC_BOARD.fn_searchCorp = function(){
+		moca.EFC_BOARD.exe({
+			url : moca._domain+moca._contextRoot+"/uss/umt/user/selectOgrnztIdDetail.do",
+			loadingbar:false,
+            data : {
+            	"header" : moca.header,
+            	"body" : {}
+            },			
+			callback : function(response2){
+				var list = response2.list;
+				moca.setCheckboxGroupList(
+	        			moca.EFC_BOARD.getObj('chkg_corp'),
+	        			list,
+	        			{label:"codeNm",value:"code",checked:true},
+	        			{"Y":"unchecked"}
+	        	);
+				//moca.EFC_BOARD.bindCombo("cmb_corp",{metaInfo:{codeCd:"code",codeNm:"codeNm"}},list);
+				moca.EFC_BOARD.fn_search();
+			}
+		});
+		
+	}
+	
 	moca.EFC_BOARD.grdList ;
 	moca.EFC_BOARD.fn_search = function(){
+		var _corpCdArr = [];
+		if(moca.getSs("USER_ID") == 'superadmin'){
+			_corpCdArr = moca.getCheckboxGroupCheckedList(moca.EFC_BOARD.getObj('chkg_corp'));
+		}else{
+			_corpCdArr.push(moca.getSs("CORP_CD"));
+		}
 	    moca.EFC_BOARD.exe({
 	        url : moca._domain+moca._contextRoot+"/EFC_BOARD/selectBoardList.do",
 	        loadingbar:true,
@@ -53,7 +93,7 @@
 	            	"FROM":moca.EFC_BOARD.getFrom("CREATE_DTTM").replace(/-/g,''),
                     "TO":moca.EFC_BOARD.getTo("CREATE_DTTM").replace(/-/g,''),
                     "BOARD_SUPPORT":moca.getCheckboxGroupCheckedList(moca.EFC_BOARD.getObj('chkg_1')),
-                    "CORP_CD":moca.getSs("CORP_CD")
+                    "CORP_CD":_corpCdArr
 	            }
 	        },          
 	        callback : function(response){
@@ -82,7 +122,7 @@
 	    o.url = '/html/EFC/EFC_BOARD_POP.html';
 	    o.type = "POPUP";
 	    o.modal = "false";
-	    o.title = '게시물작성';
+	    o.title = moca.EFC_BOARD.popTitle +' - '+'게시물작성';
 	    o.callback = moca.EFC_BOARD.fn_pop_callback;
 	    o.scopeId = moca.EFC_BOARD.pageId;
 	    o.data = {"PAGE_TYPE":'board',"popTitle":"게시물작성","BOARD_TYPE":moca.EFC_BOARD.boardType};
@@ -118,7 +158,7 @@
 	    o.url = '/html/EFC/EFC_BOARD_POP.html';
 	    o.type = "POPUP";
 	    o.modal = _modalStatus;
-	    o.title = '게시글상세';
+	    o.title = moca.EFC_BOARD.popTitle +' - '+'게시글상세';
 	    o.callback = moca.EFC_BOARD.fn_pop_callback;
 	    o.scopeId = moca.EFC_BOARD.pageId;
 	    o.data = {"PAGE_TYPE":'board',"BOARD_IDX":_BoardIdx+'',"BOARD_PIDX":__BoardParentIdx+'',"BOARD_TITLE":_BoardTitle,"BOARD_TYPE":moca.EFC_BOARD.boardType};
@@ -224,15 +264,20 @@
     	var _showVal = '';
     	var _replyCnt = (_grd.list[_realrow].BOARD_REPLYCNT > 0)?_grd.list[_realrow].BOARD_REPLYCNT:'';
     	var _thisValStr = (_grd.list[_realrow].BOARD_REPLYCNT > 0)?_thisVal+ '<span class="txt_red">[' +_replyCnt+ ']</span>':_thisVal;
-			if(_grd.list[_realrow].BOARD_SUPPORT == "N"){
-				_showVal = "<i class='msg txt_sky mr5'>요청</i>"+ _thisValStr;
-			}else if(_grd.list[_realrow].BOARD_SUPPORT == "R"){
-				_showVal = "<i class='msg txt_green mr5'>접수</i>"+ _thisValStr;
-			}else if(_grd.list[_realrow].BOARD_SUPPORT == "B"){
-				_showVal = "<i class='msg txt_orange mr5'>반려</i>"+ _thisValStr;
-			}else{
-				_showVal = _thisValStr;
-			}
+    		if(moca.EFC_BOARD.boardType != 'NOTICE'){
+    			if(_grd.list[_realrow].BOARD_SUPPORT == "N"){
+    				_showVal = "<i class='msg txt_sky mr5'>요청</i>"+ _thisValStr;
+    			}else if(_grd.list[_realrow].BOARD_SUPPORT == "R"){
+    				_showVal = "<i class='msg txt_green mr5'>접수</i>"+ _thisValStr;
+    			}else if(_grd.list[_realrow].BOARD_SUPPORT == "B"){
+    				_showVal = "<i class='msg txt_orange mr5'>반려</i>"+ _thisValStr;
+    			}else{
+    				_showVal = _thisValStr;
+    			}
+    		}else{
+    			_showVal = _thisValStr;
+    		}
+			
 		return _showVal;
     }
     
@@ -317,6 +362,18 @@
 		                         ></div>
 							</span>
 						</div>
+						<div class="tb" id="tb_chkg_corp" style="display:none">
+							<span class="tb_th">법인</span>
+							<span class="tb_td">
+		                                	<!-- <div type="combo" id="cmb_board" class="moca_combo" readonly="true" displayFormat="[label]" cdField="code" nmField="codeNm" ></div> -->
+		                    	<!-- <div type="combo" id="cmb_corp" class="moca_combo" style="width:calc(50% - 2px); margin-right:2px" displayFormat="[label]" cdField="cd" nmField="nm" ></div> -->
+								<div type="checkboxGroup" class="fl bd" direction="vertical" id="chkg_corp" style="width:170px"
+	                                itemset='[
+	                                    {"id":"chk1","label":"완료","value":"Y","checked":"true"}
+	                                ]'>
+	                            </div>
+							</span>
+						</div>
 						<div class="tb" id="tb_chkg_1">
 							<span class="tb_th">상태</span>
 							<span class="tb_td">
@@ -368,6 +425,7 @@
 						<caption style="position:relative; visibility:hidden; overflow:hidden; width:0;height:0;font-size:0;line-height:0"></caption>
 						<colgroup>
 								<col style="width:30px" mobileHide="true" hide="false" columnKey="chk" thKey="H_chk" >
+								<col style="width:80px" mobileHide="true" hide="true" columnKey="CORP_NM" thKey="H_CORP_NM">
 								<col style="width:60px" mobileHide="true" hide="false" columnKey="BOARD_PIDX" thKey="H_BOARD_PIDX">
 								<col style="min-width:300px" mobileHide="false"  hide="false" columnKey="BOARD_TITLE" thKey="H_BOARD_TITLE">
 								<col style="width:40px" mobileHide="true"  hide="false" columnKey="CNT" thKey="H_BOARD_FILECNT">
@@ -380,6 +438,7 @@
 								<th scope="col" celltype="checkbox" id="H_chk" targetId="chk">선택</th>
 								<!--<th scope="col" id="H_BOARD_TYPE">게시판유형</th> -->
 								<!--<th scope="col" id="H_BOARD_PHONE">연락처테스트</th> -->
+								<th scope="col" id="H_CORP_NM">법인명</th>
 								<th scope="col" id="H_BOARD_PIDX">ID</th>
 								<!-- <th scope="col" id="H_BOARD_IDX">ID</th> -->
 								<th scope="col" id="H_BOARD_TITLE">제목</th>
@@ -402,6 +461,7 @@
 								displayFunctionApply="realtime"
 								maxLength="13"
 								></td>-->
+								<td id="CORP_NM" celltype="input" style="text-align:center" name="법인명" readOnly="true"></td>
 								<td id="BOARD_PIDX" celltype="input" style="text-align:center" name="부모ID" readOnly="true"></td>
 								<!-- <td id="BOARD_IDX" celltype="input" style="text-align:center" name="ID" readOnly="true"></td> -->
 								<td id="BOARD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true" displayFunction="moca.EFC_BOARD.dispReply"></td>

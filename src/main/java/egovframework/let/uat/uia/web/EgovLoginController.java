@@ -112,7 +112,7 @@ public class EgovLoginController {
 		LoginPolicyVO loginPolicyVO = new LoginPolicyVO();
 		loginPolicyVO.setEmplyrId(resultVO.getId());
 		loginPolicyVO = egovLoginPolicyService.selectLoginPolicy(loginPolicyVO);
-
+		
 		if (loginPolicyVO == null) {
 			loginPolicyYn = true;
 		} else {
