@@ -1,6 +1,9 @@
  
 @media all and (max-width:1279px) {
 	html{overscroll-behavior: contain;}
+	.moca_header .info_photo {float: left; margin-top: 5px;}
+	.moca_header .info{margin-right:0}
+	.moca_header .gnb .info_photo + span{width: 86px; overflow: hidden; display: inline-block; float: left; text-overflow: ellipsis; height: 21px;}
 	.moca_titbox{display:none}
     .moca_wrap{min-width:unset} 
     .moca_shbox .tb .tb_td{padding:0}
