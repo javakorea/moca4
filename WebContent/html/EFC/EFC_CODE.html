@@ -158,21 +158,21 @@
 									toolbar_full="true"
 									toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"moca.EFC_CODE.fn_exe","addClass":""}'
 									
-									label="코드그룹목록"
+									label="코드그룹"
 						>
 								<table style="width: 100%">
 									<colgroup>
-										<col style="width:60px">
-										<col style="width:150px">
-										<col style="">		
-										<col style="width:110px">								
+										<col style="width:60px" mobileHide="true" hide="false" columnKey="status" thKey="H_status" >
+										<col style="width:90px" mobileHide="false" hide="false" columnKey="codeId" thKey="H_codeId" >
+										<col style="" mobileHide="false" hide="false" columnKey="codeIdNm" thKey="H_codeIdNm" >		
+										<col style="width:110px" mobileHide="true" hide="false" columnKey="useAt" thKey="H_useAt" >								
 									</colgroup>
 									<thead>
 										<tr>
-											<th scope="col" id="lv0">상태</th>
-											<th scope="col" id="lv1">코드그룹아이디</th>
-											<th scope="col" id="lv2">코드그룹명</th>
-											<th scope="col" id="lv3">사용여부</th>
+											<th scope="col" id="H_status">상태</th>
+											<th scope="col" id="H_codeId">코드그룹아이디</th>
+											<th scope="col" id="H_codeIdNm">코드그룹명</th>
+											<th scope="col" id="H_useAt">사용여부</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -203,17 +203,17 @@
 						>
 								<table style="width: 100%">
 									<colgroup>
-											<col style="width:60px">
-											<col style="width:120px">
-											<col style="">		
-											<col style="width:110px">								
+											<col style="width:60px" mobileHide="true" hide="false" columnKey="status" thKey="H_status" >
+											<col style="width:60px" mobileHide="false" hide="false" columnKey="code" thKey="H_code" >
+											<col style="" mobileHide="false" hide="false" columnKey="codeNm" thKey="H_codeNm" >		
+											<col style="width:110px" mobileHide="true" hide="false" columnKey="useAt" thKey="H_useAt" >								
 									</colgroup>
 									<thead>
 										<tr>
-											<th scope="col" id="lv0">상태</th>
-											<th scope="col" id="lv1">코드</th>
-											<th scope="col" id="lv2">코드명</th>
-											<th scope="col" id="lv3">사용여부</th>
+											<th scope="col" id="H_status">상태</th>
+											<th scope="col" id="H_code">코드</th>
+											<th scope="col" id="H_codeNm">코드명</th>
+											<th scope="col" id="H_useAt">사용여부</th>
 										</tr>
 									</thead>
 									<tbody>

@@ -185,17 +185,17 @@
 						>
 								<table style="width: 100%">
 									<colgroup>
-											<col style="width:60px">
+											<col style="width:60px" mobileHide="true" hide="false" columnKey="status" thKey="H_status" >
 											<col style="width:150px">	
-											<col style="width:200px">
-											<col style="">	
-											<col style="width:150px">							
+											<col style="width:100px">
+											<col style="" mobileHide="true" hide="false" columnKey="authorNm" thKey="H_authNm" >	
+											<col style="width:100px">							
 									</colgroup>
 									<thead>
 										<tr>
-											<th scope="col" id="lv0">상태</th>
+											<th scope="col" id="H_status">상태</th>
 											<th scope="col" id="lv1">권한코드</th>
-											<th scope="col" id="lv2">권한명</th>
+											<th scope="col" id="H_authNm">권한명</th>
 											<th scope="col" id="lv3">설명</th>
 											<th scope="col" id="lv4">등록일자</th>
 										</tr>
@@ -230,33 +230,29 @@
 							>
 									<table style="width: 100%">
 										<colgroup>
-												<col style="width:60px">
-												<col style="width:60px">
-												<col style="width:180px">
-												<col style="width:120px">
-												<col style="width:80px">
-												<col style="width:80px">
-												<col style="width:180px">
-												<col style="width:40px">
-												<col style="width:180px">
-<!--  												<col style="width:170px">
-												<col style="width:170px"> -->
-												<col style="">
+												<col style="width:60px" mobileHide="true" hide="false" columnKey="status" thKey="H_status" >
+												<col style="width:40px" mobileHide="false" hide="false" columnKey="chk" thKey="H_chk" >
+												<col style="width:145px" mobileHide="false" hide="false" columnKey="treeDepth" thKey="H_treeDepth" >
+												<col style="width:120px" mobileHide="true" hide="false" columnKey="depth" thKey="H_depth" >
+												<col style="width:80px" mobileHide="true" hide="false" columnKey="upperMenuId" thKey="H_upperMenuId" >
+												<col style="width:80px" mobileHide="true" hide="false" columnKey="menuNo" thKey="H_menuNo" >
+												<col style="width:180px" mobileHide="true" hide="false" columnKey="menuNm" thKey="H_menuNm" >
+												<col style="width:40px" mobileHide="true" hide="false" columnKey="menuOrdr" thKey="H_menuOrdr" >
+												<col style="width:180px" mobileHide="false" hide="false" columnKey="progrmFileNm" thKey="H_progrmFileNm" >
+												<col style="" mobileHide="true" hide="false" columnKey="menuDc" thKey="H_menuDc">
 										</colgroup>
 										<thead>
 											<tr>
-												<th scope="col" id="lv0">상태</th>
-												<th scope="col" id="lv1">선택</th>
-												<th scope="col" id="lv1">TREE</th>
-												<th scope="col" id="lv2">LEVEL</th>
-												<th scope="col" id="lv3">상위메뉴</th>
-												<th scope="col" id="lv4">메뉴번호</th>
-												<th scope="col" id="lv5">메뉴명</th>
-												<th scope="col" id="lv6">순서</th>
-												<th scope="col" id="lv7">프로그램파일명</th>
-<!--  												<th scope="col" id="lv6">이미지명</th>
-												<th scope="col" id="lv7">이미지경로</th> -->
-												<th scope="col" id="lv8">설명</th>
+												<th scope="col" id="H_status">상태</th>
+												<th scope="col" id="H_chk">선택</th>
+												<th scope="col" id="H_treeDepth">TREE</th>
+												<th scope="col" id="H_depth">LEVEL</th>
+												<th scope="col" id="H_upperMenuId">상위메뉴</th>
+												<th scope="col" id="H_menuNo">메뉴번호</th>
+												<th scope="col" id="H_menuNm">메뉴명</th>
+												<th scope="col" id="H_menuOrdr">순서</th>
+												<th scope="col" id="H_progrmFileNm">프로그램파일명</th>
+												<th scope="col" id="H_menuDc">설명</th>
 											</tr>
 										</thead>
 										<tbody>

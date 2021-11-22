@@ -18,7 +18,9 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .container{position:relative;border-top: 2px solid #6397af; overflow:inherit}
 .header {position:relative; height:80px; max-width: 1080px; margin: 0 auto;}
 .header h1{position:relative; top:12px; left:35px; float:left}
-.header h1 a{display:block;background:url(../images/home/MOCA_CI.svg)no-repeat;  width:136px; height:43px; text-indent:-9999px}
+.header h1 a.logo{display:block;background:url(../images/home/MOCA_CI.svg)no-repeat;  width:136px; height:43px; text-indent:-9999px; float:left}
+.header h1 a.banner{display:block;background:url(../images/home/christmas.gif)no-repeat;  width:43px; height:46px; background-size:98px; text-indent:-9999px; float:right; background-position:-28px -15px;}
+
 .header .btn_area{position:relative; top:25px; right:35px}
 .header .message{text-align: center; display: block; top: 18px; position: relative; font-weight: bold; font-size: 21px;}
 .kakaoLogin{display:block; position:relative;  padding:0 8px; background: #fee500; height: 30px; border-radius: 5px; font-size: 12px; font-weight:bold; color: #181600; line-height: 30px; text-align: center;}
@@ -29,6 +31,7 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .item {width: 100%; height: 340px; background:url(../images/home/item.jpg) no-repeat; background-size: cover; background-position: center center;}
 .container .item > p{position: relative; top: 15%; width: 700px; margin: 0 auto; padding: 15px 0; text-align: center; font-size: 35px; color: #fff}
 .container .item > p.item_title{border: 5px solid rgba(255, 255, 255, 0.5); line-height: 52px}
+.container .mocaBox .main_img p e{color:#ebd852}
 .container .quote:before{content:''; display:inline-block; width:60px; height:60px; background:url(../images/home/ico_quote_left.png)center center no-repeat; opacity:0.5}
 .container .quote:after{content:''; display:inline-block; width:60px; height:60px; background:url(../images/home/ico_quote_right.png)center center no-repeat; opacity:0.5}
 .container .main_box {max-width:1080px; height:290px; margin:0 auto; position:relative}
@@ -53,10 +56,12 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 
 .container .mocaBox > div{max-width:1080px; margin:0 auto;}
 .container .mocaBox .left{float:left; width:50%; }
-.container .mocaBox .main_img{position:relative;color:#fff; background:#cbe4ed; padding:20px; box-sizing:border-box}
-.container .mocaBox .main_img p{position: absolute; text-align: right; right: 20px; width: 300px;top: 32px; font-size:22px}
+.container .mocaBox .main_img{position:relative;color:#fff; background:#627987; padding:20px; box-sizing:border-box}
+.container .mocaBox .main_img h3{font-size:20px; font-weight:normal; font-style:italic;}
+.container .mocaBox .main_img h3 e{font-weight:bold}
+.container .mocaBox .main_img p{position: absolute; text-align: right; right: 20px; width: 300px;top: 106px; font-size:15px; word-break:keep-all}
 .container .mocaBox .logo_next{height: 44px;display: inline-block; width: 3px;}
-.container .mocaBox .main_img .mainSvg svg{width:104%;position:relative; height:100%; top:86px; left:-10px;}
+.container .mocaBox .main_img .mainSvg svg{width:104%;position:relative; height:100%; top:50px; left:-10px;}
 .container .mocaBox .main_img a.btn_more{font-size:18px; color:#fff; text-decoration:underline; font-weight:400}
 .container .mocaBox .main_img a.btn_more:after{content:''; display:inline-block; position:relative; top:2px; left:5px; width:20px; height:20px; background:url(../images/home/ico_plus.png)no-repeat; margin-left:5px}
 .container .mocaBox a.btn{display:block; width: 300px; height: 45px; margin: 0 auto; font-size: 20px; color: #eee; text-align:center; background: #3fbda7 no-repeat 27% 50%; background-image:url(../images/home/ico_play.png); line-height: 45px; border-radius: 5px; text-indent:20px; opacity:0.9; cursor:pointer}
@@ -79,7 +84,7 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .container .contBox .col5.left{border-right: 1px dashed #c5c5c5; box-sizing: border-box;}
 .container .contBox .col5.right{padding-left: 15px; box-sizing: border-box;}
 
-.footer{position:absolute; left:0; right:0; background:#434343; font-size:17px; color:#bbb}
+.footer{position:absolute; left:0; right:0; background:#434343; font-size:20px; color:#bbb}
 .footer .f_content{position: relative; padding:0 65px; max-width:1080px; margin:0 auto;overflow: hidden; box-sizing: border-box}
 .footer .f_content h2{float:left; margin-right:25px; padding:20px 0}
 .footer .f_content p{display:inline-block; float:left; position:relative; top:19px; font-size:12px;}
@@ -192,21 +197,23 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 	.container .main_box > .td:nth-child(3) p:before{background-color:#fff}
 	.container .main_box > .td:nth-child(1), .container .main_box > .td:nth-child(4){background:#fbf5e0}
 	.container .main_box > .td:nth-child(1) p:before, .container .main_box > .td:nth-child(4) p:before{background-color:#fff}
+	.container .main_box > .td p{font-size:13px}
 	.container .mocaBox{height:100%; overflow:hidden}
 	.container .col5{width:100%}
 	.componentImg{height:auto}
-	.container .mocaBox .main_img .mainSvg svg{top:8px}
+	.container .mocaBox .main_img h3{font-size:18px; position: relative; line-height: 18px; top: -3px;}
+	.container .mocaBox .main_img .mainSvg svg{top:22px}
 	.container .main_box{height:230px}
-	.container .main_box > .td{width:50%; padding:10px 25px; height:290px}
+	.container .main_box > .td{width:50%; padding:10px 15px; height:290px}
 	.container .main_box > .td:nth-child(1),.container .main_box > .td:nth-child(2){padding-bottom:45px}
-	.container .main_box > .td:nth-child(3),.container .main_box > .td:nth-child(4){height:290px}
+	.container .main_box > .td:nth-child(3),.container .main_box > .td:nth-child(4){height:273px}
 	.container .main_box > .td:nth-child(3):before, .container .main_box > .td:nth-child(4):before{content: ''; display: block; border-top: 2px solid #79a6ba; top: 0; position: absolute; left: -10px; right: -10px;}
 	.container .main_box > .td p > i{display:none}
 	.container .main_box > .td p > e{display:block}
 	.container .main_box > .td p{word-break: keep-all;}
 	.wrapper{min-width:unset}
 	.mocastep{width:100%; height:130px; margin-bottom:10px;}
-	.container .mocaBox .main_img p{width:230px; font-size:15px}
+	.container .mocaBox .main_img p{width:230px; font-size:13px; top:44px}
 	.container .mocaBox .main_img2 img{width:100%; height:100%}
 	.boardArea .col5:nth-child(2){background:#f8f8f8}
 	.boardArea .col5:nth-child(1){background:#fff}
@@ -215,5 +222,24 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 }
  
  
- 
+ lease put this CSS in your css file or html head.
+.custom-shape-divider-top-1637563327 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.custom-shape-divider-top-1637563327 svg {
+    position: relative;
+    display: block;
+    width: calc(108% + 1.3px);
+    height: 177px;
+}
+
+.custom-shape-divider-top-1637563327 .shape-fill {
+    fill: #fff;
+}
 	

@@ -93,7 +93,7 @@
 						<div class="tb">
 							<span class="tb_th">사용자명</span>
 							<span class="tb_td">
-								<div type="input" id="USER_ID" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
+								<div type="input" id="USER_ID" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:207px"  disabled="false" readonly="false"></div>
 							</span>
 						</div>
 					</div>
@@ -121,35 +121,24 @@
 			>
 					<table style="width: 100%">
 						<colgroup>
-								<!-- <col style="width:60px"> -->
-								<col style="width:160px">
-								<col style="width:60px">
-								<col style="width:160px">
-								<!-- <col style="width:160px"> -->
-								<!-- <col style="width:60px">	 -->
-								<col style="">								
+								<col style="width:130px" mobileHide="false" hide="false" columnKey="status" thKey="H_LAST_UPDT_PNTTM" >
+								<col style="width:120px" mobileHide="false" hide="false" columnKey="status" thKey="H_USER_ID" >
+								<col style="width:160px" mobileHide="false" hide="false" columnKey="status" thKey="H_MENU_NM" >
+								<col style="" mobileHide="true" hide="false" columnKey="status" thKey="H_LABEL" >								
 						</colgroup>
 						<thead>
 							<tr>
-								<!-- <th scope="col" id="lv0">상태</th> -->
-								<!-- <th scope="col" id="lv1">법인</th> -->
-								<th scope="col" id="lv3" sortable="true">사용일시</th>
-								<th scope="col" id="lv2" sortable="true">사용자</th>
-								<th scope="col" id="lv4" sortable="true">항목</th>
-								<!-- <th scope="col" id="lv5" sortable="true">URL</th> -->
-								<!-- <th scope="col" id="lv6" sortable="true">SRCID</th> -->
-								<th scope="col" id="lv7" >로그</th>
+								<th scope="col" id="H_LAST_UPDT_PNTTM" sortable="true">사용일시</th>
+								<th scope="col" id="H_USER_ID" sortable="true">사용자</th>
+								<th scope="col" id="H_MENU_NM" sortable="true">항목</th>
+								<th scope="col" id="H_LABEL" >로그</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<!-- <td id="status" celltype="input" style="" readOnly="true" name="상태"></td> -->
-								<!-- <td id="CORP_CD" celltype="select" style="text-align:center" readOnly="true" name="법인"></td> -->
 								<td id="LAST_UPDT_PNTTM" celltype="input" style="" readOnly="true" name="사용일시" displayFunction="moca.longToDate"></td>
 								<td id="USER_ID" celltype="input" style="" readOnly="true" name="사용자"></td>
 								<td id="MENU_NM" celltype="input" style="text-align:left" readOnly="true" name="메뉴명"></td>
-								<!-- <td id="URL" celltype="input"  style="text-align:left"  readOnly="true" name="URL"></td> -->
-								<!-- <td id="SRCID" celltype="input"  style="text-align:left"  readOnly="true" name="SRCID"></td> -->
 								<td id="LABEL" celltype="input" style="text-align:left" readOnly="true" name="LABEL" tooltip="true"></td>
 							</tr>
 						</tbody>

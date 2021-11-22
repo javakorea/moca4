@@ -1783,7 +1783,7 @@ Moca.prototype.openMdi = function(_url,_srcId,_label,_clickedMenuId,_mdiId){
                    var thisTabObj = $(mdiObj).parent().find('.moca_tab_head li[tab_id="'+tabId+'"]');
                    if(thisTabObj.length > 0){
                 	   var thisTabObjLeft = thisTabObj.offset().left;
-                	   $(mdiObj).parent().find('.moca_tab_listarea').scrollLeft(thisTabObjLeft);
+                	   $(mdiObj).parent().find('.moca_tab_listarea').scrollLeft(thisTabObjLeft+100);
                    }
                   
                    
@@ -3580,11 +3580,16 @@ Moca.prototype.renderGrid = function(_divObj) {
             _html += '</div>';
         } 
         _html += '<div class="mr5 grid_total" grdkey="'+_id+'">';
-        if(_label != null || _subLabel != null){
-            _html += '<span><em class="txt_blue"></em>건</span>';
+        if(paging.type == 'numberList'){
+        	 _html += '<span>총<em class="txt_blue ml2"></em>건</span>';
         }else{
-            _html += '<span>Fetch : <em class="txt_blue"></em>건</span>';            
+        	if(_label != null || _subLabel != null){
+                _html += '<span><em class="txt_blue"></em>건</span>';
+            }else{
+                _html += '<span>Fetch : <em class="txt_blue"></em>건</span>';            
+            }
         }
+        
         _html += '</div>';
         var attArray = _divObj.getAttributeNames();
         for(var k=0; k <attArray.length; k++){

@@ -123,7 +123,7 @@ function fnInit() {
 			<div class="login_left">
 				<h1 class="logo">teammoca ERP</h1>
 				<form:form id="loginForm" name="loginForm" method="post">
-	 			<select name="CORP_CD" id="CORP_CD">
+	 			<select class="login_cmb" name="CORP_CD" id="CORP_CD">
 					<option value="001"></option>
 				</select>
 	

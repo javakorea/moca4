@@ -71,16 +71,6 @@
 				<div class="shbox_inner">
 					<div class="flex fwrap">
 						<div class="tb">
-							<span class="tb_th">기간</span>
-							<span class="tb_td">
-								<div type="inputMultiCalendar" class="moca_ica fl" style="width:auto" id="CREATE_DTTM" displayFormat="####-##-##" 
-                                    defaultValue="12개월전" 
-                                    selecterItem="오늘,3일전,6일전"
-                                    showRadioOption="false"
-                                ></div>
-							</span>
-						</div>
-						<div class="tb">
 							<span class="tb_th">상태</span>
 							<span class="tb_td" style="width:296px">
 								<div type="checkboxGroup" class="fl bd" direction="vertical" id="chkg_1"
@@ -94,21 +84,31 @@
 							</span>
 						</div>
 						<div class="tb">
+							<span class="tb_th">기간</span>
+							<span class="tb_td">
+								<div type="inputMultiCalendar" class="moca_ica fl" style="width:auto" id="CREATE_DTTM" displayFormat="####-##-##" 
+                                    defaultValue="12개월전" 
+                                    selecterItem="오늘,3일전,6일전"
+                                    showRadioOption="false"
+                                ></div>
+							</span>
+						</div>
+						<div class="tb">
 							<span class="tb_th">번호</span>
 							<span class="tb_td">
-								<div type="input" id="ipt_BOARDIDX" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
+								<div type="input" id="ipt_BOARDIDX" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:207px"  disabled="false" readonly="false"></div>
 							</span>
 						</div>
 						<div class="tb">
 							<span class="tb_th">이름</span>
 							<span class="tb_td">
-								<div type="input" id="ipt_WRITER" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
+								<div type="input" id="ipt_WRITER" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:207px"  disabled="false" readonly="false"></div>
 							</span>
 						</div>
 						<div class="tb">
 							<span class="tb_th">제목</span>
 							<span class="tb_td">
-								<div type="input" id="ipt_TITLE" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
+								<div type="input" id="ipt_TITLE" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:207px"  disabled="false" readonly="false"></div>
 							</span>
 						</div>
 					</div>
@@ -134,14 +134,14 @@
 			>
 					<table style="width: 100%">
 						<colgroup>
-								<col style="width:130px">
-						        <col style="width:120px">
-								<col style="width:60px">
-								<col style="width:60px">
-								<col style="width:60px">
-								<col style="width:100px">
-								<col style="">
-								<col style="width:100px">
+								<col style="width:130px" mobileHide="false" hide="false" columnKey="BOARDHIS_DATE" thKey="H_BOARDHIS_DATE" >
+						        <col style="width:100px" mobileHide="false" hide="false" columnKey="BOARD_TYPE" thKey="H_BOARD_TYPE" >
+								<col style="width:60px" mobileHide="true" hide="false" columnKey="BOARD_SUPPORT" thKey="H_BOARD_SUPPORT" >
+								<col style="width:60px" mobileHide="true" hide="false" columnKey="BOARDHIS_IDX" thKey="H_BOARDHIS_IDX" >
+								<col style="width:60px" mobileHide="true" hide="false" columnKey="BOARD_IDX" thKey="H_BOARD_IDX" >
+								<col style="width:100px" mobileHide="true" hide="false" columnKey="BOARDHIS_STATUS" thKey="H_BOARDHIS_STATUS" >
+								<col style="" mobileHide="false" hide="false" columnKey="BOARD_TITLE" thKey="H_BOARD_TITLE" >
+								<col style="width:100px" mobileHide="true" hide="false" columnKey="BOARD_WRITER" thKey="H_BOARD_WRITER" >
 						</colgroup>
 						<thead>
 							<tr>

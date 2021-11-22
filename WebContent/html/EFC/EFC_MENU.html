@@ -113,38 +113,33 @@
 			>
 					<table style="width: 100%">
 						<colgroup>
-								<col style="width:60px">
-								<col style="width:180px">
-								<col style="width:80px">
-								<col style="width:80px">
-								<col style="width:80px">
-								<col style="width:180px">
-								<col style="width:60px">
-								<col style="width:180px">
-<!-- 								<col style="width:170px">
-								<col style="width:170px"> -->
-								<col style="width:100px">
-								<col style="width:100px">
-								<col style="width:100px">
-								<col style="width:100px">
+								<col style="width:60px" mobileHide="true" hide="false" columnKey="status" thKey="H_status" ><!-- 상태  -->
+								<col style="width:140px" mobileHide="false" hide="false" columnKey="treeDepth" thKey="H_treeDepth" ><!-- TREE  -->
+								<col style="width:80px" mobileHide="true" hide="false" columnKey="depth" thKey="H_depth" ><!-- LEVEL  -->
+								<col style="width:80px" mobileHide="true" hide="false" columnKey="upperMenuId" thKey="H_upperMenuId" ><!-- 상위메뉴  -->
+								<col style="width:80px" mobileHide="true" hide="false" columnKey="menuNo" thKey="H_menuNo" ><!-- 메뉴번호  -->
+								<col style="width:180px" mobileHide="true" hide="false" columnKey="menuNm" thKey="H_menuNm" ><!-- 메뉴명  -->
+								<col style="width:60px" mobileHide="true" hide="false" columnKey="menuOrdr" thKey="H_menuOrdr" ><!-- 순서  -->
+								<col style="width:180px" mobileHide="false" hide="false" columnKey="progrmFileNm" thKey="H_progrmFileNm" ><!-- 프로그램파일명  -->
+								<col style="width:100px" mobileHide="true" hide="false" columnKey="menuDc" thKey="H_menuDc" ><!-- 설명  -->
+								<col style="width:100px" mobileHide="true" hide="false" columnKey="fromDate" thKey="H_fromDate" ><!-- FROMDATE  -->
+								<col style="width:100px" mobileHide="true" hide="false" columnKey="toDate" thKey="H_toDate" ><!-- TODATE  -->
+								<col style="width:100px" mobileHide="true" hide="false" columnKey="shortCut" thKey="H_shortCut" ><!-- 단축키  -->
 						</colgroup>
 						<thead>
 							<tr>
-								<th scope="col" id="lv0">상태</th>
-								<th scope="col" id="lv1">TREE</th>
-								<th scope="col" id="lv1">LEVEL</th>
-								<th scope="col" id="lv1">상위메뉴</th>
-								<th scope="col" id="lv2">메뉴번호</th>
-								<th scope="col" id="lv3">메뉴명</th>
-								<th scope="col" id="lv4">순서</th>
-								<th scope="col" id="lv5">프로그램파일명</th>
-<!-- 								<th scope="col" id="lv6">이미지명</th>
-								<th scope="col" id="lv7">이미지경로</th> -->
-								<th scope="col" id="lv8">설명</th>
-								
-								<th scope="col" id="lv9">FROMDATE</th>
-								<th scope="col" id="lv10">TODATE</th>
-								<th scope="col" id="lv11">단축키</th>
+								<th scope="col" id="H_status">상태</th>
+								<th scope="col" id="H_treeDepth">TREE</th>
+								<th scope="col" id="H_depth">LEVEL</th>
+								<th scope="col" id="H_upperMenuId">상위메뉴</th>
+								<th scope="col" id="H_menuNo">메뉴번호</th>
+								<th scope="col" id="H_menuNm">메뉴명</th>
+								<th scope="col" id="H_menuOrdr">순서</th>
+								<th scope="col" id="H_progrmFileNm">프로그램파일명</th>
+								<th scope="col" id="H_menuDc">설명</th>
+								<th scope="col" id="H_fromDate">FROMDATE</th>
+								<th scope="col" id="H_toDate">TODATE</th>
+								<th scope="col" id="H_shortCut">단축키</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -157,8 +152,6 @@
 								<td id="menuNm" celltype="input" style="text-align:left" required="true" name="메뉴명"></td>
 								<td id="menuOrdr" celltype="input" style="text-align:center"  required="true" name="순서"></td>
 								<td id="progrmFileNm" celltype="inputButton" style="" required="true" callFunction="moca.EFC_MENU.fn_searchProgram" name="프로그램파일명"></td>
-<!-- 								<td id="relateImageNm" celltype="input" style="" name="이미지명"></td>
-								<td id="relateImagePath" celltype="input" style="" name="이미지경로"></td> -->
 								<td id="menuDc" celltype="input" style="" name="설명"></td>
 								<td id="fromDate" celltype="input" style="" name="일자시작조건"></td>
 								<td id="toDate" celltype="input" style="" name="일자끝조건"></td>
