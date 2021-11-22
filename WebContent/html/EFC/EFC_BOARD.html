@@ -17,6 +17,7 @@
 			$(moca.EFC_BOARD.getObj("grd_1")).find('.moca_grid_body col').css('display','');
 		}
 		if(args.parent.data != null){
+			debugger;
 			moca.EFC_BOARD.pageType = args.parent.data.PAGE_TYPE;
 			if(moca.EFC_BOARD.pageType == 'home'){
 				moca.hide(moca.EFC_BOARD.getObj("btn_del"));
@@ -93,7 +94,8 @@
 	            	"FROM":moca.EFC_BOARD.getFrom("CREATE_DTTM").replace(/-/g,''),
                     "TO":moca.EFC_BOARD.getTo("CREATE_DTTM").replace(/-/g,''),
                     "BOARD_SUPPORT":moca.getCheckboxGroupCheckedList(moca.EFC_BOARD.getObj('chkg_1')),
-                    "CORP_CD":_corpCdArr
+                    "CORP_CD":_corpCdArr,
+                    "PAGE_TYPE":moca.EFC_BOARD.pageType
 	            }
 	        },          
 	        callback : function(response){

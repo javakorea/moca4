@@ -112,7 +112,6 @@ FROM(
                     EMPLYR_STTUS_CODE   ,
                     SBSCRB_DE           ,
                     CRTFC_DN_VALUE		,
-                    ORGNZT_ID			,
                    <isNotEmpty property="endDate">END_DATE,</isNotEmpty>
                     USER_TYPE			)
             VALUES (
@@ -143,7 +142,6 @@ FROM(
                     #emplyrSttusCode#   ,
                     sysdate()           ,
                     #subDn#				,
-                    #orgnztId#			,		/*20210728  조직코드(법인코드) */
                     <isNotEmpty property="endDate">#endDate#,</isNotEmpty>
                     #userType#			 )
     </insert>

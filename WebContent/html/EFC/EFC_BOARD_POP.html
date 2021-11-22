@@ -42,7 +42,7 @@ moca.EFC_BOARD_POP.___ready = function(args){
     		moca.EFC_BOARD_POP._boardTitle = moca.EFC_BOARD_POP.args.parent.data.BOARD_TITLE;
     		moca.EFC_BOARD_POP._pageType = moca.EFC_BOARD_POP.args.parent.data.PAGE_TYPE;
     	}
-    	if(moca.EFC_BOARD_POP._boardType == "NOTICE"){
+    	if(moca.EFC_BOARD_POP._boardType == "NOTICE" || moca.EFC_BOARD_POP._pageType == 'home'){
     		moca.hide(moca.EFC_BOARD_POP.getObj('tr_status'));
     		moca.hide(moca.EFC_BOARD_POP.getObj('tr_phone'));
     		moca.hide(moca.EFC_BOARD_POP.getObj('tr_email'));
