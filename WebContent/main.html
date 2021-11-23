@@ -13,90 +13,89 @@
 
 
 <script>
+$m.main.BD_CONTENT_FOR_BD_WS = {};
 
-moca.main.BD_CONTENT_FOR_BD_WS = {};
-
-moca.main.___ready = function(args){
-	moca.getContent(moca._domain+moca._contextRoot+"/images/home/main_img.svg",function(data) {
+$m.main.___ready = function(args){
+	$m.getContent($m._domain+$m._contextRoot+"/images/home/main_img.svg",function(data) {
 		$('#mainSvg').html(data);
 	});
-	moca.main.fn_search('WS');
+	$m.main.fn_search('WS');
 	initKakao(mocaConfig.getSocailLoginKakaoKey());
 };
-moca.main.fn_search_callback = function(response){
+$m.main.fn_search_callback = function(response){
 	var list = response.selectBoardList;
 	var _length = list.length < 5 ? list.length : 5;
 	var full_html = '';
-	if(moca.main.boardType == 'WS'){
+	if($m.main.boardType == 'WS'){
 		var _html = $('#tbl_BD_WS').html();
 		for(var i=0; i < _length; i++){
 			var row = list[i];
 			full_html += _html.replace(/#BD_TITLE#/g,row.BOARD_TITLE).replace(/#BD_USERID#/g,row.BOARD_WRITER).replace(/#BD_DATE#/g,moca.longToDate(row.BOARD_DATE).substr(0,10)).replace(/#BD_CODE#/g,row.BOARD_IDX);
-			moca.main.BD_CONTENT_FOR_BD_WS[row.BOARD_IDX] = row; 
+			$m.main.BD_CONTENT_FOR_BD_WS[row.BOARD_IDX] = row; 
 		}
 		$('#tbl_BD_WS').html(full_html);
-		moca.main.fn_search('NOTICE');
-	}else if(moca.main.boardType == 'NOTICE'){
+		$m.main.fn_search('NOTICE');
+	}else if($m.main.boardType == 'NOTICE'){
 		var _html = $('#tbl_BD_NOTICE').html();
 		for(var i=0; i < _length; i++){
 			var row = list[i];
 			full_html += _html.replace(/#BD_TITLE#/g,row.BOARD_TITLE).replace(/#BD_USERID#/g,row.BOARD_WRITER).replace(/#BD_DATE#/g,moca.longToDate(row.BOARD_DATE).substr(0,10)).replace(/#BD_CODE#/g,row.BOARD_IDX);
-			moca.main.BD_CONTENT_FOR_BD_WS[row.BOARD_IDX] = row; 
+			$m.main.BD_CONTENT_FOR_BD_WS[row.BOARD_IDX] = row; 
 		}
 		$('#tbl_BD_NOTICE').html(full_html);
 	}
 	
 }
-moca.main.fn_search = function(_boardType){
-	var _today = moca.dateToString(new Date());
+$m.main.fn_search = function(_boardType){
+	var _today = $m.dateToString(new Date());
 	var _todayStr = _today.year+_today.month+_today.day;
 	var _fromStr = String(_today.year-1)+_today.month+_today.day;
-	moca.main.boardType = _boardType;
-    moca.main.exe({
-        url : moca._domain+moca._contextRoot+"/EFC_BOARD/selectBoardList.do",
+	$m.main.boardType = _boardType;
+	$m.main.exe({
+        url : $m._domain+$m._contextRoot+"/EFC_BOARD/selectBoardList.do",
         loadingbar:true,
         data : {
-            "header" : moca.header,
+            "header" : $m.header,
             "body" : {
-            	"BOARD_TYPE":moca.main.boardType,
+            	"BOARD_TYPE":$m.main.boardType,
             	"FROM":_fromStr,
                 "TO":_todayStr,
                 "BOARD_SUPPORT": ['N', 'R', 'B'],
                 "PAGE_TYPE":"home"
             }
         },          
-        callback : moca.main.fn_search_callback
+        callback : $m.main.fn_search_callback
     });
 };
-moca.main.popId = 'main_pop_board';
-moca.main.fn_pop_boardPop = function(_gubun,_bd_code){
+$m.main.popId = 'main_pop_board';
+$m.main.fn_pop_boardPop = function(_gubun,_bd_code){
 	var row;
 	var _title;
 	if(_gubun == 'BD_WS'){
-		row = moca.main.BD_CONTENT_FOR_BD_WS[_bd_code];
+		row = $m.main.BD_CONTENT_FOR_BD_WS[_bd_code];
 	}
 		var _this = $('#ws_list')[0];
 	    var o = {};
-	    o.id = moca.main.popId;
+	    o.id = $m.main.popId;
 	    o.url = '/html/EFC/EFC_BOARD_POP.html';
 	    o.type = "POPUP";
 	    o.modal = "true";
 	    o.title = '게시글상세';
-	    o.callback = moca.main.fn_pop_callback;
-	    o.scopeId = moca.main.pageId;
+	    o.callback = $m.main.fn_pop_callback;
+	    o.scopeId = $m.main.pageId;
 	    o.data = {"PAGE_TYPE":'home',"BOARD_IDX":row.BOARD_IDX+'',"BOARD_PIDX":row.BOARD_PIDX+'',"BOARD_TITLE":row.BOARD_TITLE,"BOARD_TYPE":"WS"};
-	    moca.popup(o,_this);
+	    $m.popup(o,_this);
 };
 
-moca.main.fn_pop_boardMain = function(_gubun){
+$m.main.fn_pop_boardMain = function(_gubun){
 	var _this = $('#ws_list')[0];
     var o = {};
-    o.id = moca.main.popId;
+    o.id = $m.main.popId;
     o.url = '/html/EFC/EFC_BOARD.html';
     o.type = "POPUP";
     o.modal = "true";
-    o.callback = moca.main.fn_pop_callback;
-    o.scopeId = moca.main.pageId;
+    o.callback = $m.main.fn_pop_callback;
+    o.scopeId = $m.main.pageId;
     if(_gubun == 'BD_WS'){
 		o.title = '웹스퀘어 게시판';
 		o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"WS"};
@@ -104,18 +103,18 @@ moca.main.fn_pop_boardMain = function(_gubun){
 		o.title = '공지사항';
 		o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"NOTICE"};
 	}
-    moca.popup(o,_this);
+    $m.popup(o,_this);
 };
 
-moca.main.fn_pop_callback  = function(_gubun){
+$m.main.fn_pop_callback  = function(_gubun){
 	
 };
 
-moca.main.fn_tel = function(_this){
-	if(moca.getDevice() != "mobile"){
-		moca.alert('<i style="display: block; font-size: 19px;" class="mb5">상담문의</i><a style="font-size:17px; color:#3650ff">010-9116-8072</a> <br/> 언제나 친절하게 상담해드리겠습니다.',function(result){});
+$m.main.fn_tel = function(_this){
+	if($m.getDevice() != "mobile"){
+		$m.alert('<i style="display: block; font-size: 19px;" class="mb5">상담문의</i><a style="font-size:17px; color:#3650ff">010-9116-8072</a> <br/> 언제나 친절하게 상담해드리겠습니다.',function(result){});
 	}else{
-		moca.alert('<i style="display: block; font-size: 19px;" class="mb5">상담문의</i><a href="tel:010-9116-8072" style="font-size:17px; color:#3650ff">010-9116-8072</a> <br/> 언제나 친절하게 상담해드리겠습니다.',function(result){});
+		$m.alert('<i style="display: block; font-size: 19px;" class="mb5">상담문의</i><a href="tel:010-9116-8072" style="font-size:17px; color:#3650ff">010-9116-8072</a> <br/> 언제나 친절하게 상담해드리겠습니다.',function(result){});
 	}
 }
 
@@ -144,11 +143,11 @@ function loginSetter(_id,_email,_name){
 	loginInfo.id = _id;
 	loginInfo.name = _name;
 	loginInfo.email = _email;
-	moca.setSs("loginTemp0",loginInfo);
-	moca.main.exe({
+	$m.setSs("loginTemp0",loginInfo);
+	$m.main.exe({
 		url : mocaConfig._domain+mocaConfig._contextRoot+"/main/selectMocaUserInfo.do",
         data : {
-        	"header" : moca.header,
+        	"header" : $m.header,
         	"body" : {
         		"USER_KAKAO_ID":_id+"",
         	}
@@ -156,32 +155,32 @@ function loginSetter(_id,_email,_name){
 		callback : function(response){
 			if(response.selectMocaUserInfo != null){
 				//곧바로 진행스텝으로
-				moca.setSs("loginInfo",response.selectMocaUserInfo);
+				$m.setSs("loginInfo",response.selectMocaUserInfo);
 				$('#kakaoLogin').hide();
 				$('#userName').show();
 				$('#userName').html('<i class="fa fa-user mr5" aria-hidden="true"></i>'+response.selectMocaUserInfo.USER_NAME);
 				//'1972981827' 팀모카
 				//'1972997766' 성혜진
 				//'1973964231' 김세창
-				if(	   moca.getSs("loginTemp0").id == '1972981827'
-					|| moca.getSs("loginTemp0").id == '1972997766' 		
-					|| moca.getSs("loginTemp0").id == '1973964231' 		
+				if(	   $m.getSs("loginTemp0").id == '1972981827'
+					|| $m.getSs("loginTemp0").id == '1972997766' 		
+					|| $m.getSs("loginTemp0").id == '1973964231' 		
 				){
 					$('#btnErp').show();
 				}
 			}else{
-				moca.main.insertUserInfo(_id,_name,_email);
+				$m.main.insertUserInfo(_id,_name,_email);
 			}
 		}
 	});
 };
 
-moca.main.insertUserInfo = function(_id,_name,_email){
+$m.main.insertUserInfo = function(_id,_name,_email){
 	//회원가입
-	moca.main.exe({
-		url : moca._domain+moca._contextRoot+"/main/insertUserInfo.do",
+	$m.main.exe({
+		url : $m._domain+$m._contextRoot+"/main/insertUserInfo.do",
 	    data : { 
-	    	"header" : moca.header,
+	    	"header" : $m.header,
 	    	"body" : {
 	    		"USER_KAKAO_ID":_id+"",
 	    		"USER_NAME":_name,
@@ -189,31 +188,31 @@ moca.main.insertUserInfo = function(_id,_name,_email){
 	    	}
 	    },			
 		callback : function(response){
-			moca.main.___ready();		
+			$m.main.___ready();		
 		}
 	});
 }
 
-moca.main.fn_logout = function(){
-	moca.confirm('로그아웃하시겠습니까?',function(result){
+$m.main.fn_logout = function(){
+	$m.confirm('로그아웃하시겠습니까?',function(result){
 		if(result == 'Y'){
-			moca.setSs("loginTemp0",null);
+			$m.setSs("loginTemp0",null);
 			loginChecker();
-			top.location.href = moca._contextRoot;
+			top.location.href = $m._contextRoot;
 		}
 	});		
 };
 function loginChecker(){
-	if(moca.getSs("loginTemp0") != null && moca.getSs("loginTemp0") != ''){
+	if($m.getSs("loginTemp0") != null && $m.getSs("loginTemp0") != ''){
 		$('#kakaoLogin').hide();
 		$('#userName').show();
-		$('#userName').html('<i class="fa fa-user mr5" aria-hidden="true"></i>'+moca.getSs("loginTemp0").name);
+		$('#userName').html('<i class="fa fa-user mr5" aria-hidden="true"></i>'+$m.getSs("loginTemp0").name);
 		//'1972981827' 팀모카
 		//'1972997766' 성혜진
 		//'1973964231' 김세창
-		if(	   moca.getSs("loginTemp0").id == '1972981827'
-			|| moca.getSs("loginTemp0").id == '1972997766' 		
-			|| moca.getSs("loginTemp0").id == '1973964231' 		
+		if(	   $m.getSs("loginTemp0").id == '1972981827'
+			|| $m.getSs("loginTemp0").id == '1972997766' 		
+			|| $m.getSs("loginTemp0").id == '1973964231' 		
 		){
 			$('#btnErp').show();
 		}
@@ -245,7 +244,7 @@ function goMoca(){
 					 	<span>Login</span>
 					 </button>
 					 <span style="display:none" class="btn_Erp fl" id="btnErp" onclick="goMoca()">ERP<i class="fas fa-location-arrow ml5"></i></span>
-					 <span style="display:none" class="loginInfo fl ml5" id="userName" onclick="moca.main.fn_logout()"><i class="fa fa-user mr5" aria-hidden="true"></i>홍길동</span>
+					 <span style="display:none" class="loginInfo fl ml5" id="userName" onclick="$m.main.fn_logout()"><i class="fa fa-user mr5" aria-hidden="true"></i>홍길동</span>
 				</div>
 			</div>
 			<div class="container" style="overflow: inherit">
@@ -286,7 +285,7 @@ function goMoca(){
 						<div class="col5 fl p10">
 							<div class="boardTable" id="ws_list">
 								<span class="boardTitle"><i class="fas fa-comment-dots"></i>웹스퀘어게시판</span>
-								<button class="boardMore fr"  onclick="moca.main.fn_pop_boardMain('BD_WS')"><i class="fas fa-plus-circle"></i>더보기</button>
+								<button class="boardMore fr"  onclick="$m.main.fn_pop_boardMain('BD_WS')"><i class="fas fa-plus-circle"></i>더보기</button>
 								<table class="boardList">
 									<colgroup>
 										<col style="width:395px">
@@ -294,7 +293,7 @@ function goMoca(){
 										<col style="">
 									</colgroup>
 									<tbody id="tbl_BD_WS">
-										<tr onclick="moca.main.fn_pop_boardPop('BD_WS','#BD_CODE#')">
+										<tr onclick="$m.main.fn_pop_boardPop('BD_WS','#BD_CODE#')">
 											<td class="bdTitle">#BD_TITLE#</td>
 											<td class="bdName tfc">#BD_USERID#</td>
 											<td class="bdDate tfc">#BD_DATE#</td>
@@ -306,7 +305,7 @@ function goMoca(){
 						<div class="col5 fr p10">
 							<div class="boardTable" id="ws_list2">
 								<span class="boardTitle"><i class="fas fa-comment-dots"></i>공지사항</span>
-								<button class="boardMore fr"  onclick="moca.main.fn_pop_boardMain('BD_NOTICE')"><i class="fas fa-plus-circle"></i>더보기</button>
+								<button class="boardMore fr"  onclick="$m.main.fn_pop_boardMain('BD_NOTICE')"><i class="fas fa-plus-circle"></i>더보기</button>
 								<table class="boardList">
 									<colgroup>
 										<col style="width:395px">
@@ -314,7 +313,7 @@ function goMoca(){
 										<col style="">
 									</colgroup>
 									<tbody id="tbl_BD_NOTICE">
-										<tr onclick="moca.main.fn_pop_boardPop('BD_WS','#BD_CODE#')">
+										<tr onclick="$m.main.fn_pop_boardPop('BD_WS','#BD_CODE#')">
 											<td class="bdTitle">#BD_TITLE#</td>
 											<td class="bdName tfc">#BD_USERID#</td>
 											<td class="bdDate tfc">#BD_DATE#</td>
@@ -332,7 +331,7 @@ function goMoca(){
 								<span style="height: 37px; display: inline-block; color: #fff; text-align: center; padding: 9px; box-sizing: border-box; font-size: 14px;;">컨설팅 상담요청</span>
 							</div>
 							<p style="color:#fff; padding:10px; font-size:15px">컨설팅이 필요하시면 친절하게 상담해드리겠습니다.</p>
-							<button onclick="moca.main.fn_tel(this)" style="width:115px; padding:3px 10px; display:inline-block; position:relative; top:1px; left:10px; color:#333; border-radius:20px; background:#fff; opacity:0.5">
+							<button onclick="$m.main.fn_tel(this)" style="width:115px; padding:3px 10px; display:inline-block; position:relative; top:1px; left:10px; color:#333; border-radius:20px; background:#fff; opacity:0.5">
 								<a style="color:#333">상담 문의<i class="fas fa-angle-double-right" style="margin-left:5px"></a></i>
 							</button>
 							<span class="mainicon2 img1"></span>

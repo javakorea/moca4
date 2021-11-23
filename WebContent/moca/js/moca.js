@@ -10,7 +10,7 @@ function Moca(){
     }
     this.display = {
         "YYYY-MM-DD":function(_value){
-            var _val = moca.trim(_value);
+            var _val = $m.trim(_value);
             _val = _val.replace(/-/,'');
             if(_val.length > 7){
                 var _val1 = _val.substring(0,4);
@@ -58,7 +58,7 @@ function Moca(){
     });
     
     $(window).bind('resize', function() {
-        moca.redrawGrid();
+        $m.redrawGrid();
     });
     
     Moca.prototype.filterClose = function(_o){
@@ -107,7 +107,7 @@ function Moca(){
             }
             
             ///////////////////////////////////////////////////
-            moca.hideDashed();
+            $m.hideDashed();
         }else if (___m.resizingbarDiv) {
             var leftMdi     = ___m.resizingbarDiv.previousElementSibling;
             var rightMdi    = ___m.resizingbarDiv.nextElementSibling;
@@ -122,7 +122,7 @@ function Moca(){
             $(rightMdi).css('width',(reCurrentMdiRight)+"px");
             ___m.resizingbarDiv = null;
             document.body.style.cursor = '';
-            moca.hideDashed();
+            $m.hideDashed();
             e.preventDefault();
         }
         
@@ -132,7 +132,7 @@ function Moca(){
         var _onclick = _se.getAttribute("onclick");
         var _type = _se.getAttribute("type");
         var _class = _se.getAttribute("class");
-        if(_onclick != "moca.fn_inputCal(this);" && sampleCalendar && _type != 'button' && _class != null && !_class.startsWith('moca_calendar')){
+        if(_onclick != "$m.fn_inputCal(this);" && sampleCalendar && _type != 'button' && _class != null && !_class.startsWith('moca_calendar')){
             sampleCalendar.calendarVariableResset();
         }
         */
@@ -782,16 +782,16 @@ Moca.prototype.sFunction = function(yscroll) {
         return;
     }
     
-      //if (!moca.ticking) {
-          //moca.ticking = true;
+      //if (!$m.ticking) {
+          //$m.ticking = true;
           //window.requestAnimationFrame(function() {
-                moca.pageId = $(yscroll).attr("pageid");
-                moca.srcId = $(yscroll).attr("srcid");
+                $m.pageId = $(yscroll).attr("pageid");
+                $m.srcId = $(yscroll).attr("srcid");
                 //var _grd = document.getElementById(yscroll.getAttribute("componentid"));
                 var _grdId = yscroll.getAttribute("componentid");
-                var _grd = moca.getObj(_grdId,null,moca.pageId,moca.srcId);
+                var _grd = $m.getObj(_grdId,null,$m.pageId,$m.srcId);
                 var onScrollEnd = _grd.getAttribute('onScrollEnd');
-                var _default_cell_height = moca.getCellHeight(_grd);
+                var _default_cell_height = $m.getCellHeight(_grd);
 
 
       
@@ -801,10 +801,10 @@ Moca.prototype.sFunction = function(yscroll) {
                 var yscrollIdx = _grd.getAttribute("yscrollIdx");
                 if(yscrollIdx == null) yscrollIdx = 0;
                 //if(yscrollIdx != startIdx){//확장시에 index가 같아도 다시 그리도록!
-                    moca.setVirtualScroll(_grd);
+                    $m.setVirtualScroll(_grd);
                     
                 //}
-                //moca.ticking = false;
+                //$m.ticking = false;
                 var isEnd = false;
                 
 
@@ -818,9 +818,9 @@ Moca.prototype.sFunction = function(yscroll) {
 				//console.log('remainder'+remainder);
                 if ((yscroll.offsetHeight != _scrollHeight) && yscroll.offsetHeight + yscroll.scrollTop >= _scrollHeight && remainder > 0) {
                     isEnd = true;
-                    moca.genTbody(_grd,_grd.list,startIdx+1,false);//0번째라인이 일부를 보여줄수없으므로 마지막한라인더 보여줘야 다 보여줄수있음
+                    $m.genTbody(_grd,_grd.list,startIdx+1,false);//0번째라인이 일부를 보여줄수없으므로 마지막한라인더 보여줘야 다 보여줄수있음
                 }else{
-                	moca.genTbody(_grd,_grd.list,startIdx,false);//마지막스크롤이 아니면 정상적인 인덱스로 보여줘야함
+                	$m.genTbody(_grd,_grd.list,startIdx,false);//마지막스크롤이 아니면 정상적인 인덱스로 보여줘야함
                 }
                     
                 if(isEnd){
@@ -832,8 +832,8 @@ Moca.prototype.sFunction = function(yscroll) {
                             var yscrollIdx = _grd.getAttribute("yscrollIdx");
                             if(yscrollIdx == null) yscrollIdx = 0;
                             
-                            moca.setVirtualScroll(_grd);
-                            moca.genTbody(_grd,_grd.list,startIdx+1,true);////0번째라인이 일부를 보여줄수없으므로 마지막한라인더 보여줘야 다 보여줄수있음
+                            $m.setVirtualScroll(_grd);
+                            $m.genTbody(_grd,_grd.list,startIdx+1,true);////0번째라인이 일부를 보여줄수없으므로 마지막한라인더 보여줘야 다 보여줄수있음
                         });
                     }
                 }
@@ -845,8 +845,8 @@ Moca.prototype.sFunction = function(yscroll) {
 Moca.prototype.wFunction = function(yscroll) {
     //var _grd = document.getElementById(yscroll.getAttribute("componentid"));
     
-    var _grd = moca.getObj(yscroll.getAttribute("componentid"));
-    var _default_cell_height = moca.getCellHeight(_grd);
+    var _grd = $m.getObj(yscroll.getAttribute("componentid"));
+    var _default_cell_height = $m.getCellHeight(_grd);
     var val  =0;
     if (event.deltaY < 0) {
         val = yscroll.scrollTop - _default_cell_height;
@@ -957,15 +957,15 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                 _style = cellTd.getAttribute("style");
                 
                 var aCol = $(_grd).find('.moca_grid_body colgroup').find('col[columnkey='+_id+']');
-    	        if(moca.getDevice() == "pc"){
-    	        	moca.moblePcHide(aCol[0],"hide");
+    	        if($m.getDevice() == "pc"){
+    	        	$m.moblePcHide(aCol[0],"hide");
     	        	if(aCol.attr("hide") == "true"){
     	        		_style = _style.replace("display: table-cell","display: none");
     	        	}else{
     	        		_style = _style.replace("display: none","display: table-cell");
     	        	}
     	        }else{
-    	        	moca.moblePcHide(aCol[0],"mobileHide");
+    	        	$m.moblePcHide(aCol[0],"mobileHide");
     	        	if(aCol.attr("mobileHide") == "true"){
     	        		_style = _style.replace("display: table-cell","display: none");
     	        	}else{
@@ -1030,15 +1030,15 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                         _allOpt = codeOpt.allOption;
                     }
                     
-                    _grd[_id]["map"] = moca.listToMap(arr,codeOpt);
+                    _grd[_id]["map"] = $m.listToMap(arr,codeOpt);
                     
                     var _metaInfo;
                     if(codeOpt != null){
                         _metaInfo = codeOpt.metaInfo;
                     }
                     
-                    var _codeCd = moca.codeCd;
-                    var _codeNm = moca.codeNm;
+                    var _codeCd = $m.codeCd;
+                    var _codeNm = $m.codeNm;
                     if(_metaInfo != null){
                         _codeCd = _metaInfo.codeCd;
                         _codeNm = _metaInfo.codeNm;
@@ -1056,7 +1056,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                         }else{
                             _reLabel = _allOpt.label;
                         }
-                        selectTag   = '<input type="text" class="moca_select" style="background-color:pink" readonly value="'+_reLabel+'" onfocus="moca.openSelect(this)" >';
+                        selectTag   = '<input type="text" class="moca_select" style="background-color:pink" readonly value="'+_reLabel+'" onfocus="$m.openSelect(this)" >';
                         cd = _allOpt.value;
                         nm = _allOpt.label;
                         label = _reLabel;
@@ -1077,7 +1077,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                         }
                         if(cell == aData[_codeCd]){
                             selectFlag = true;
-                            selectTag   = moca.getInputSelectTag(_reLabel,_required);
+                            selectTag   = $m.getInputSelectTag(_reLabel,_required);
                             cd = _cd;
                             nm = _nm;
                             label = _reLabel;
@@ -1085,7 +1085,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                         }
                     }   
                     if(!selectFlag){
-                        selectTag   = moca.getInputSelectTag("-선택-",_required);
+                        selectTag   = $m.getInputSelectTag("-선택-",_required);
                         if(!isAllOpt){
                             cd = "";
                             nm = "-선택-";
@@ -1096,7 +1096,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                     if(readOnly == "true"){
                         row += label;
                     }else{
-                        row += moca.getSelectDivTagForCombo(label,_required,cd,nm,ch);
+                        row += $m.getSelectDivTagForCombo(label,_required,cd,nm,ch);
                         row += selectTag;
                     }
                 }
@@ -1119,13 +1119,13 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                     _inTag = _reLabel;
                 }else{
                     if(_required == 'true'){
-                        _inTag = '<input type="text" maxLength="'+moca.trim(_maxLength)+'" onblur="moca.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="moca.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  displayFunctionApply=\''+_displayFunctionApply+'\' class="moca_input req" style="'+_style+'" value="'+_reLabel+'" onkeyup="moca._uptData(this)" onfocus="moca._evt_selectFocus(this)">';
+                        _inTag = '<input type="text" maxLength="'+$m.trim(_maxLength)+'" onblur="$m.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  displayFunctionApply=\''+_displayFunctionApply+'\' class="moca_input req" style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">';
                     }else{
-                        _inTag = '<input type="text" maxLength="'+moca.trim(_maxLength)+'" onblur="moca.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="moca.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  displayFunctionApply=\''+_displayFunctionApply+'\' class="moca_input" style="'+_style+'" value="'+_reLabel+'" onkeyup="moca._uptData(this)" onfocus="moca._evt_selectFocus(this)">';
+                        _inTag = '<input type="text" maxLength="'+$m.trim(_maxLength)+'" onblur="$m.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  displayFunctionApply=\''+_displayFunctionApply+'\' class="moca_input" style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">';
                     }
                     
                 }
-                row += '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" onclick="moca.defaultCellClick(this)">'+_inTag+'</td>';
+                row += '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" onclick="$m.defaultCellClick(this)">'+_inTag+'</td>';
             }else if(_celltype == 'inputButton'){
                 var _reLabel = '';
                 if(_displayFunction != null && eval(_displayFunction) != null){
@@ -1139,13 +1139,13 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                 }else{
                     if(_required == 'true'){
                         _inTag = '<div class="moca_ibn req">';  
-                        _inTag += '<input type="text" class="moca_input" readonly style="'+_style+'" value="'+_reLabel+'" onkeyup="moca._uptData(this)" onfocus="moca._evt_selectFocus(this)">';
+                        _inTag += '<input type="text" class="moca_input" readonly style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">';
                     }else{
                         _inTag = '<div class="moca_ibn">';
-                        _inTag += '<input type="text" class="moca_input" readonly  style="'+_style+'" value="'+_reLabel+'" onkeyup="moca._uptData(this)" onfocus="moca._evt_selectFocus(this)">';
+                        _inTag += '<input type="text" class="moca_input" readonly  style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">';
                     }
-                    if(moca.trim(_callFunction) != ''){
-                        _inTag += '<button type="button" class="moca_ibn_btn" onclick="'+_callFunction+'(this)" onfocus="moca._evt_selectFocus(this)">검색</button></div>';
+                    if($m.trim(_callFunction) != ''){
+                        _inTag += '<button type="button" class="moca_ibn_btn" onclick="'+_callFunction+'(this)" onfocus="$m._evt_selectFocus(this)">검색</button></div>';
                     }
                     
                 }
@@ -1172,9 +1172,9 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                 if(readOnly == "true"){
                     _inTag = _reLabel;
                 }else{
-                    if(moca.trim(_callFunction) != ''){
+                    if($m.trim(_callFunction) != ''){
                         _inTag = '<div class="grid_btn">';
-                        _inTag += '<button type="button" onclick="'+_callFunction+'(this,\''+_nowIndex+'\',\''+_id+'\')" onfocus="moca._evt_selectFocus(this)" '+isDisabled+'>'+btnLabel+'</button>';
+                        _inTag += '<button type="button" onclick="'+_callFunction+'(this,\''+_nowIndex+'\',\''+_id+'\')" onfocus="$m._evt_selectFocus(this)" '+isDisabled+'>'+btnLabel+'</button>';
                         _inTag += '</div>';
                     }
                 }
@@ -1248,7 +1248,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                         ct_nm = '<span class="category '+cellTd.getAttribute("depth5IconClass")+'">'+cellTd.getAttribute("depth5IconClass")+'</span>';  
                     }
                     
-                    _inTag += '<span>'+line+'<div class="'+icon_folder+'" onclick="moca.grid_expand(this);"></div>'+ct_nm+'<label>'+_label+'</label></span>';
+                    _inTag += '<span>'+line+'<div class="'+icon_folder+'" onclick="$m.grid_expand(this);"></div>'+ct_nm+'<label>'+_label+'</label></span>';
                 }else{
                     _inTag += '';
                 }
@@ -1281,11 +1281,11 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                     _inTag = _reLabel;
                 }else{
                     _inTag = '<div class="moca_checkbox_grid">';
-                    _inTag += '<input type="checkbox" class="moca_checkbox_input" name="cbx" id="cbx_'+moca.pageId+'_'+moca.srcId+'_'+_grd.id+'_'+_nowIndex+'" grd_id='+_grd.id+'  value="'+_trueValue+'"   '+isChecked+' '+isDisabled+' >';
-                    _inTag += '<label class="moca_checkbox_label" for="cbx_'+moca.pageId+'_'+moca.srcId+'_'+_grd.id+'_'+_nowIndex+'"  >label</label>';
+                    _inTag += '<input type="checkbox" class="moca_checkbox_input" name="cbx" id="cbx_'+$m.pageId+'_'+$m.srcId+'_'+_grd.id+'_'+_nowIndex+'" grd_id='+_grd.id+'  value="'+_trueValue+'"   '+isChecked+' '+isDisabled+' >';
+                    _inTag += '<label class="moca_checkbox_label" for="cbx_'+$m.pageId+'_'+$m.srcId+'_'+_grd.id+'_'+_nowIndex+'"  >label</label>';
                     _inTag += '</div>';
                 }
-                row += '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" trueValue="'+_trueValue+'" falseValue="'+_falseValue+'"  disabledFunction="'+_disabledFunction+'" onclick="moca.defaultCellClick(this);" >'+_inTag+'</td>';
+                row += '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" trueValue="'+_trueValue+'" falseValue="'+_falseValue+'"  disabledFunction="'+_disabledFunction+'" onclick="$m.defaultCellClick(this);" >'+_inTag+'</td>';
             }
         }
     }
@@ -1303,27 +1303,27 @@ Moca.prototype.getCellHeight = function(_grd) {
 };
 
 Moca.prototype.drawGrid = function(_grdId,_list,_pageId,_srcId){
-    moca.drawGrid_inside(_grdId,_list,_list,_pageId,_srcId);
+    $m.drawGrid_inside(_grdId,_list,_list,_pageId,_srcId);
 };
 
 Moca.prototype.drawGrid_inside = function(_grdId,_list,_orilist,_pageId,_srcId,_response){
     var _grd;
     if(typeof _grdId == 'string'){
-        _grd = moca.getObj(_grdId,null,_pageId,_srcId);
+        _grd = $m.getObj(_grdId,null,_pageId,_srcId);
     }else{
         _grd = _grdId;
         _grdId = _grdId.id;
     }
     _srcId = _grd.getAttribute("srcid");
-    moca[_srcId].filterRemoveAll(_grd);
+    $m[_srcId].filterRemoveAll(_grd);
     _grd.list = _list;
     if(_grd.list != null){
-    	if(moca.getAttrObj(_grd,'paging').type != 'numberList'){
-    		moca[_srcId].setTotalCnt(_grd,this.comma(_grd.list.length));
+    	if($m.getAttrObj(_grd,'paging').type != 'numberList'){
+    		$m[_srcId].setTotalCnt(_grd,this.comma(_grd.list.length));
     	}else{
-    		var _totalCnt =_response[moca.getAttrObj(_grd,'paging').totalCntKey];
+    		var _totalCnt =_response[$m.getAttrObj(_grd,'paging').totalCntKey];
     		
-    		moca[_srcId].setTotalCnt(_grd,_totalCnt);
+    		$m[_srcId].setTotalCnt(_grd,_totalCnt);
     	}
         if(_orilist != null){
             _grd.ori_list =  _orilist.clone();
@@ -1356,9 +1356,9 @@ Moca.prototype.drawGrid_inside = function(_grdId,_list,_orilist,_pageId,_srcId,_
             for(var k=0; k < filterArr.length; k++){
                 var tdId = filterArr[k];
                 var tdValue = row[tdId];
-                jq_grd_2[tdId]['filterableMap'][tdValue] = (moca.getNumber(jq_grd_2[tdId]['filterableMap'][tdValue])+1);
+                jq_grd_2[tdId]['filterableMap'][tdValue] = ($m.getNumber(jq_grd_2[tdId]['filterableMap'][tdValue])+1);
                 if(i == list.length-1){
-                    jq_grd_2[tdId]['filterableMap'] = moca.sortObject(jq_grd_2[tdId]['filterableMap']);
+                    jq_grd_2[tdId]['filterableMap'] = $m.sortObject(jq_grd_2[tdId]['filterableMap']);
                     jq_grd_2[tdId]['countableMap'] = {};
                     var m = jq_grd_2[tdId].filterableMap;
                     var keys = Object.keys(m);
@@ -1369,9 +1369,9 @@ Moca.prototype.drawGrid_inside = function(_grdId,_list,_orilist,_pageId,_srcId,_
                             val = m[key];
                         }
                         var reKey = "("+val+"건)"+" "+key;
-                        jq_grd_2[tdId]['countableMap'][reKey] = key+" "+"("+moca.comma(val)+"건)";
+                        jq_grd_2[tdId]['countableMap'][reKey] = key+" "+"("+$m.comma(val)+"건)";
                     }
-                    jq_grd_2[tdId]['countableMap'] = moca.sortObjectNumString(jq_grd_2[tdId]['countableMap']);
+                    jq_grd_2[tdId]['countableMap'] = $m.sortObjectNumString(jq_grd_2[tdId]['countableMap']);
                     var keys = Object.keys(jq_grd_2[tdId]['countableMap']);
                     for(var j=0; j < keys.length; j++){
                         var key = keys[j];
@@ -1401,7 +1401,7 @@ Moca.prototype.drawGrid_inside = function(_grdId,_list,_orilist,_pageId,_srcId,_
                     val = m[key];
                 }
                 
-                jq_grd_2[tdId]['filterableMap'][key] = (j+1)+"."+key+" "+"("+moca.comma(val)+"건)";
+                jq_grd_2[tdId]['filterableMap'][key] = (j+1)+"."+key+" "+"("+$m.comma(val)+"건)";
             }
             
             $(jq_grd_2).find(".itemTable[thid="+thId+"]").remove();
@@ -1422,7 +1422,7 @@ Moca.prototype.setVirtualScroll = function(_grd){
     var fullHeight = _default_cell_height *_grd.list.length + ($(_grd).find('thead').height()); 
     /////////////////////////////////////////////////////////////////////
     var div = $(_grd).find('.moca_grid_body')[0];
-    if(div.scrollWidth > div.clientWidth && moca.getDevice() != 'mobile'){
+    if(div.scrollWidth > div.clientWidth && $m.getDevice() != 'mobile'){
     	//세로스크롤이 +1개 추가되도록해줌.
     	fullHeight = fullHeight+_default_cell_height;
     }
@@ -1627,7 +1627,7 @@ Moca.prototype.tree_click = function(_clickedMenuId,_mdiId){
         var _url = $.trim(node.getAttribute("url"));
         
         var _label = $(node,parent.document).contents().eq(0).text();
-        var _fileName = moca.getFileNameFromUrl(_url);
+        var _fileName = $m.getFileNameFromUrl(_url);
         var _srcId = _fileName.substring(0,_fileName.indexOf('.'));
         
 
@@ -1639,20 +1639,20 @@ Moca.prototype.tree_click = function(_clickedMenuId,_mdiId){
             var re_params = '';
             for(var i=0; i < paramArray.length; i++){
                 var keyVal = paramArray[i].split('=');
-                re_params = re_params + keyVal[0]+'='+moca.encode(keyVal[1])+"&";
+                re_params = re_params + keyVal[0]+'='+$m.encode(keyVal[1])+"&";
             }
             _url = url_head+re_params;
             
-            moca.openPop({width:1000,height:600,url:moca._contextRoot+_url,id:_label});
+            $m.openPop({width:1000,height:600,url:$m._contextRoot+_url,id:_label});
         }else{
             //모바일에서 메뉴클릭시 
-            if(moca.getDevice() != 'pc'){
+            if($m.getDevice() != 'pc'){
             	$('.moca_container').addClass('on')
                 $('.moca_header').addClass('on');
                 $('.moca_aside').addClass('on');
             }
             
-        	moca.openMdi(moca._contextRoot+_url,_srcId,_label,_clickedMenuId,_mdiId);
+        	$m.openMdi($m._contextRoot+_url,_srcId,_label,_clickedMenuId,_mdiId);
             
         }
         
@@ -1714,7 +1714,7 @@ Moca.prototype.encode = function(_txt) {
 
 Moca.prototype.url_to_srcId = function(_url){
     ['from url to srcId'];
-    var _fileName = moca.getFileNameFromUrl(_url);
+    var _fileName = $m.getFileNameFromUrl(_url);
     var _srcId = _fileName.substring(0,_fileName.indexOf('.'));
     return _srcId;
 };
@@ -1737,7 +1737,7 @@ Moca.prototype.openMdi = function(_url,_srcId,_label,_clickedMenuId,_mdiId){
             var aTab = arr[i];
             var aUrl = $(aTab).attr('tab_url');
             if(aUrl == _url){
-                var _tab_id = moca.setPageArea(aTab);
+                var _tab_id = $m.setPageArea(aTab);
                 arr.removeClass("active");
                 $(aTab).addClass('active');//탭액티브
                 $(aTab).closest('.moca_tab_listarea').scrollLeft($(aTab).offset().left);
@@ -1749,9 +1749,9 @@ Moca.prototype.openMdi = function(_url,_srcId,_label,_clickedMenuId,_mdiId){
         }
     
         if(_url != null && _url != ''){
-            //var loadingId = moca.loading();
-            if(_label != null && $.trim(_label) != '' && moca.getCORP_CD() != null){ 
-                moca.userLogInsert({URL:_url,SRCID:_srcId,LABEL:'',MENU_NM:_label});
+            //var loadingId = $m.loading();
+            if(_label != null && $.trim(_label) != '' && $m.getCORP_CD() != null){ 
+                $m.userLogInsert({URL:_url,SRCID:_srcId,LABEL:'',MENU_NM:_label});
             }
             var arr0 = _url.split('?');
             var arr;
@@ -1759,7 +1759,7 @@ Moca.prototype.openMdi = function(_url,_srcId,_label,_clickedMenuId,_mdiId){
             	arr = arr0[1].split('&');
             	arr.push('label='+_label);
             	for(i=0; i<arr.length;i++){
-            	    if(moca.trim(arr[i]) == ''){
+            	    if($m.trim(arr[i]) == ''){
             	        arr.splice(i);
             	    } 
             	};
@@ -1772,13 +1772,13 @@ Moca.prototype.openMdi = function(_url,_srcId,_label,_clickedMenuId,_mdiId){
                async: false,               
                dataType : "html",
                data : {
-                   "header" : moca.header,
+                   "header" : $m.header,
                    "body" : {aaa:'111',bbb:'222'},
                    "message" : {}
                },
                success : function(data) {
                    o.data = data;
-                   var mdiObj = moca.rendering(o);
+                   var mdiObj = $m.rendering(o);
                    var tabId = $(mdiObj).attr("tab_id");
                    var thisTabObj = $(mdiObj).parent().find('.moca_tab_head li[tab_id="'+tabId+'"]');
                    if(thisTabObj.length > 0){
@@ -1796,11 +1796,11 @@ Moca.prototype.openMdi = function(_url,_srcId,_label,_clickedMenuId,_mdiId){
 					   }
                    }
                    
-                   moca.setPageHeader($(mdiObj).find('#titbox'),o.label);
-                   moca.callReady(mdiObj);
+                   $m.setPageHeader($(mdiObj).find('#titbox'),o.label);
+                   $m.callReady(mdiObj);
                },
                complete : function(data) {
-                  // moca.loading(loadingId);
+                  // $m.loading(loadingId);
                },
                error : function(xhr, status, error) {
                    console.log(xhr, status, error);
@@ -1818,10 +1818,10 @@ Moca.prototype.moca_mdi_click = function(_liObj){
     if($(_liObj).hasClass("moca_tab_list")){
         $($(_liObj).parent().find(".active")[0]).removeClass("active");
         $(_liObj).addClass("active");
-        var _tab_id = moca.setPageArea(_liObj);
+        var _tab_id = $m.setPageArea(_liObj);
         var _src_id ;
-        if(moca[_tab_id] != null){
-        	 _src_id = moca[_tab_id].srcId;
+        if($m[_tab_id] != null){
+        	 _src_id = $m[_tab_id].srcId;
         }
        
         var arr = $('#'+_mdiId+' .moca_tab_body');
@@ -1829,8 +1829,8 @@ Moca.prototype.moca_mdi_click = function(_liObj){
         for(var i=0;i < arr.length; i++){
             var _row = arr[i];
             if(contDiv[0] === _row){
-            	if(moca[_tab_id] != moca[_src_id]){
-            		moca[_src_id] = moca[_tab_id];
+            	if($m[_tab_id] != $m[_src_id]){
+            		$m[_src_id] = $m[_tab_id];
             	}
                 $(_row).css('display','block');
             }else{
@@ -1844,9 +1844,9 @@ Moca.prototype.setPageArea = function(_pageObj){
     ['페이지영역을 세팅함'];
     var _tab_id = _pageObj.getAttribute("tab_id");//MDI_201901091611497970040306010502
     var _tab_url = _pageObj.getAttribute("tab_url");//./xxx/xxx.html
-    var _src_id = moca.url_to_srcId(_tab_url);
-    moca.pageId = _tab_id;
-    moca.srcId = _src_id;
+    var _src_id = $m.url_to_srcId(_tab_url);
+    $m.pageId = _tab_id;
+    $m.srcId = _src_id;
     return _tab_id;
 };
 
@@ -1881,7 +1881,7 @@ Moca.prototype.drop_mdi = function(thisMdiLi){
     var contentId = _mdi_tab_id.replace(/(.*?)_li$/g,'$1')+"_dv";var targetDiv = $(thisMdiLi).closest('.moca_mdi');targetDiv.append($('#'+contentId));
     
     
-    moca.moca_mdi_click(sourceLi);
+    $m.moca_mdi_click(sourceLi);
     
     
     
@@ -1905,7 +1905,7 @@ Moca.prototype.drop_mdi = function(thisMdiLi){
     for(var i=0;i < arr.length; i++){
         var aTab = arr[i];
         if(i == 0){
-            var _tab_id = moca.setPageArea(aTab);
+            var _tab_id = $m.setPageArea(aTab);
             arr.removeClass("active");
             $(aTab).addClass('active');//탭액티브
             $('#'+_preMdiId+' .moca_tab_body').css('display','none');
@@ -1921,7 +1921,7 @@ Moca.prototype.drop_mdi = function(thisMdiLi){
     for(var i=0;i < arr.length; i++){
         var _row = arr[i];
         if(i==1){
-            moca.moca_mdi_click(_row);
+            $m.moca_mdi_click(_row);
             $(_row).css('display','block');
         }else{
             $(_row).css('display','none');
@@ -1933,18 +1933,18 @@ Moca.prototype.drop_mdi = function(thisMdiLi){
 };
 Moca.prototype.tree_addTab = function(_label,_tabId,_url,_mdiId){
     ['tree_addTab'];
-    var tabHtml = '<li draggable="true" ondragstart="moca.dragStart_mdi(this)" class="moca_tab_list active" tab_url="'+_url+'" tab_label="'+_label+'" tab_id="'+_tabId+'" id="'+_tabId+'_li" onclick="moca.moca_mdi_click(this);">';
+    var tabHtml = '<li draggable="true" ondragstart="$m.dragStart_mdi(this)" class="moca_tab_list active" tab_url="'+_url+'" tab_label="'+_label+'" tab_id="'+_tabId+'" id="'+_tabId+'_li" onclick="$m.moca_mdi_click(this);">';
    
     tabHtml += '<span class="moca_tab_mark"></span>';
     tabHtml += '<button type="button" role="tab" aria-controls="moca_tab_bridge1" class="moca_tab_label">'+_label+'</button>';
-    tabHtml += '<button type="button" class="moca_tab_close" onclick="moca.tabClose(this)">닫기</button>';
+    tabHtml += '<button type="button" class="moca_tab_close" onclick="$m.tabClose(this)">닫기</button>';
     tabHtml += '<span class="tab_bg"></span>';
     tabHtml += '</li>';
     var _html = $('#'+_mdiId+' .moca_tab_ul').html();
     var _full_html = _html.replace(/active/g,'')+tabHtml;
     $('#'+_mdiId+' .moca_tab_ul').html(_full_html); 
 
-    if(moca.getDevice() == 'pc'){
+    if($m.getDevice() == 'pc'){
     	if($('#'+_mdiId+' .moca_tab_close:last').length != 0){
             ($('#'+_mdiId+' .moca_tab_allclose').offset().left - $('#'+_mdiId+' .moca_tab_close:last').offset().left <= 100)? $('#'+_mdiId+' .moca_tab_ul').addClass('tabWidth') : $('#'+_mdiId+' .moca_tab_ul').removeClass('tabWidth');
         }
@@ -1954,12 +1954,12 @@ Moca.prototype.tree_addTab = function(_label,_tabId,_url,_mdiId){
 
 Moca.prototype.tabClose = function(_liCloseButtonObj){
     ['탭닫기'];
-    moca.confirm('현재 화면을 닫으시겠습니까?',function(result){
+    $m.confirm('현재 화면을 닫으시겠습니까?',function(result){
         if(result == 'Y'){
             var _tab_id = $(_liCloseButtonObj).closest("[tab_id]").attr("tab_id");
             var _mdiId = $(_liCloseButtonObj).closest('.moca_mdi').attr('id');
             var t = $('*[tab_id='+_tab_id+']');
-            moca[_tab_id]=null;
+            $m[_tab_id]=null;
             $('*[tab_id='+_tab_id+']').remove();
             $(_liCloseButtonObj).parent().remove();
             if(t.hasClass("active")){
@@ -1969,7 +1969,7 @@ Moca.prototype.tabClose = function(_liCloseButtonObj){
             }
             
             $('.moca_tab_ul').removeClass('tabWidth'); //탭메뉴리사이징
-            if(moca.getDevice() == 'pc'){
+            if($m.getDevice() == 'pc'){
             	if($('#'+_mdiId+' .moca_tab_close:last').length != 0){
                     ($('#'+_mdiId+' .moca_tab_allclose').offset().left - $('#'+_mdiId+' .moca_tab_close:last').offset().left <= 100)? $('#'+_mdiId+' .moca_tab_ul').addClass('tabWidth') : $('#'+_mdiId+' .moca_tab_ul').removeClass('tabWidth');
                 }
@@ -1987,12 +1987,12 @@ Moca.prototype.tabClose = function(_liCloseButtonObj){
 Moca.prototype.all_tab_close = function(_liCloseButtonObj){
     ['탭닫기']; 
     var _mdiId = _liCloseButtonObj.closest('.moca_mdi').id;
-    moca.confirm('모든 화면을 닫으시겠습니까?',function(result){
+    $m.confirm('모든 화면을 닫으시겠습니까?',function(result){
         if(result == 'Y'){
-        	//moca[_tab_id]=null;
+        	//$m[_tab_id]=null;
         	var _li = $('#'+_mdiId+' .moca_tab_ul>li');
         	for(var i=0; i<_li.length; i++){
-        		moca[$(_li[i]).attr('tab_id')] = null;
+        		$m[$(_li[i]).attr('tab_id')] = null;
         	}
         	
         	_li.remove();//탭액티브
@@ -2042,23 +2042,23 @@ Moca.prototype.tree_mt_loop = function(_treeId,_data,menuObjs){
             icon = row.icon;
         }
 
-        //treeHtml += '<li id="li'+row.cd+'" class="'+openClass+' '+leafClass+'" ondrop="moca.tree_drop(this);" ondragstart="moca.tree_dragstart(this);"  ondragover="moca.tree_dragover(this);" onmousedown="moca.tree_mousedown(this);" onclick="moca.tree_click(\'li'+row.cd+'\');" draggable="true" treeId="'+_treeId+'"  level="'+row.level+'">';
-        treeHtml += '<li id="li'+row.cd+'" class="'+openClass+' '+leafClass+'" onmousedown="moca.tree_mousedown(this);"  treeId="'+_treeId+'"  level="'+row.level+'">';
-        treeHtml += '<div class="mdi_choice w50" onclick="moca.tree_click(\'li'+row.cd+'\',\'mdi_1\');" onmouseover="moca.leafMenuOver(\'li'+row.cd+'\',\'mdi_1\',this);"><i></i></div>';
-        treeHtml += '<div class="mdi_choice w50" onclick="moca.tree_click(\'li'+row.cd+'\',\'mdi_2\');" onmouseover="moca.leafMenuOver(\'li'+row.cd+'\',\'mdi_2\',this);"><i></i></div>';
+        //treeHtml += '<li id="li'+row.cd+'" class="'+openClass+' '+leafClass+'" ondrop="$m.tree_drop(this);" ondragstart="$m.tree_dragstart(this);"  ondragover="$m.tree_dragover(this);" onmousedown="$m.tree_mousedown(this);" onclick="$m.tree_click(\'li'+row.cd+'\');" draggable="true" treeId="'+_treeId+'"  level="'+row.level+'">';
+        treeHtml += '<li id="li'+row.cd+'" class="'+openClass+' '+leafClass+'" onmousedown="$m.tree_mousedown(this);"  treeId="'+_treeId+'"  level="'+row.level+'">';
+        treeHtml += '<div class="mdi_choice w50" onclick="$m.tree_click(\'li'+row.cd+'\',\'mdi_1\');" onmouseover="$m.leafMenuOver(\'li'+row.cd+'\',\'mdi_1\',this);"><i></i></div>';
+        treeHtml += '<div class="mdi_choice w50" onclick="$m.tree_click(\'li'+row.cd+'\',\'mdi_2\');" onmouseover="$m.leafMenuOver(\'li'+row.cd+'\',\'mdi_2\',this);"><i></i></div>';
         treeHtml += '<div class="moca_checkbox_tree"  >';
-        treeHtml += '<input type="checkbox" id="mnu'+row.cd+'"  class="moca_checkbox_input" onclick="moca.tree_check(this);"><label for="mnu'+row.cd+'"  class="moca_checkbox_label">'+row.nm+'</label>';
+        treeHtml += '<input type="checkbox" id="mnu'+row.cd+'"  class="moca_checkbox_input" onclick="$m.tree_check(this);"><label for="mnu'+row.cd+'"  class="moca_checkbox_label">'+row.nm+'</label>';
         treeHtml += '</div>';
 
-        if(moca.trim(row.url) != ''){
+        if($m.trim(row.url) != ''){
             treeHtml += '<span class="moca_tree_tbx" url="'+url+'" fromDate="'+row.fromDate+'" toDate="'+row.toDate+'" type="'+row.type+'" label="'+row.nm+'">'+row.nm;
-            treeHtml += '<button type="button" class="moca_tree_btn" onclick="moca.tree_plusMinus(this);" style="'+leefStyle+'">+</button>'+'</span>';
+            treeHtml += '<button type="button" class="moca_tree_btn" onclick="$m.tree_plusMinus(this);" style="'+leefStyle+'">+</button>'+'</span>';
             
         }else{
             treeHtml += '<span class="moca_tree_tbx" url="'+url+'" fromDate="'+row.fromDate+'" toDate="'+row.toDate+'" type="'+row.type+'" label="'+row.nm+'" style="background-image:url('+icon+');">'+row.nm;
-            treeHtml += '<button type="button" class="moca_tree_btn" onclick="moca.tree_plusMinus(this);" style="'+leefStyle+'">+</button>'+'</span>';
+            treeHtml += '<button type="button" class="moca_tree_btn" onclick="$m.tree_plusMinus(this);" style="'+leefStyle+'">+</button>'+'</span>';
         }
-        treeHtml += '<button type="button" class="tvw_btn_close" onclick="moca.tree_del(this);" >삭제</button>';
+        treeHtml += '<button type="button" class="tvw_btn_close" onclick="$m.tree_del(this);" >삭제</button>';
         if(data !=null){
             treeHtml += subHtml;
         }else{
@@ -2126,7 +2126,7 @@ Moca.prototype.grid_checkBorder = function(_thisObj){
                 aTh.style.cursor=this.resizeCursor;
                 $(aTh).find('div').css('cursor',this.resizeCursor);
                 $(aTh).find('button').css('cursor',this.resizeCursor);
-                moca.showDashed(event.clientX);
+                $m.showDashed(event.clientX);
             }
         }
         //event.preventDefault();
@@ -2179,7 +2179,7 @@ Moca.prototype.grid_colDown = function(_thead_tr_obj){
                     this.curColForResize.colIndex = k;
                 }
             }
-            moca.showDashed(event.clientX);
+            $m.showDashed(event.clientX);
         }
     }
 };
@@ -2220,7 +2220,7 @@ Moca.prototype.alert = function(_message,_callback){
     alert_html += '<p>'+_message+'</p>';
     alert_html += '</div>';
     alert_html += '<div class="moca_btnbox">';
-    alert_html += '<button type="button" class="moca_btn_confirm" onclick="moca.alertok(\''+messageboxId+'\');">확인</button>';
+    alert_html += '<button type="button" class="moca_btn_confirm" onclick="$m.alertok(\''+messageboxId+'\');">확인</button>';
     alert_html += '</div>';
     alert_html += '</div>';
     alert_html += '</div>';
@@ -2242,16 +2242,16 @@ Moca.prototype.malert = function(_message1,_message2,_callback){
     var alert_html = '';
     alert_html += '<div class="pop_msg type1">';
     alert_html += '<div class="pop_cont">';
-    if(moca.trim(_message1) != ''){
+    if($m.trim(_message1) != ''){
         alert_html += '<strong>'+_message1+'</strong>';
     }
-    if(moca.trim(_message2) != ''){
+    if($m.trim(_message2) != ''){
         alert_html += '<span>'+_message2+'</span>';
     }
     alert_html += '</div>';
     alert_html += '<div class="btnbox">';
     alert_html += '<div class="rta">';
-    alert_html += '<button class="btn_cm" type="button"  onclick="moca.alertok(\''+messageboxId+'\');">확인</button>';
+    alert_html += '<button class="btn_cm" type="button"  onclick="$m.alertok(\''+messageboxId+'\');">확인</button>';
     alert_html += '</div>';
     alert_html += '</div>';
     alert_html += '</div>';
@@ -2271,14 +2271,14 @@ Moca.prototype.mresult = function(_message1,_message2,_callback){
     alert_html += '<div class="pop_msg pb15">';
     alert_html += '<i class="confirm"></i>';
     alert_html += '<div class="pop_cont">';
-    if(moca.trim(_message1) != ''){
+    if($m.trim(_message1) != ''){
         alert_html += '<strong>'+_message1+'</strong>';
     }
-    if(moca.trim(_message2) != ''){
+    if($m.trim(_message2) != ''){
         alert_html += '<span class="dd">'+_message2+'</span>';
     }
     alert_html += '</div>';
-    alert_html += '<button class="btn_go mt30" type="button"  onclick="moca.alertok(\''+messageboxId+'\');">확인</button>';
+    alert_html += '<button class="btn_go mt30" type="button"  onclick="$m.alertok(\''+messageboxId+'\');">확인</button>';
     alert_html += '</div>';
     var tmp = document.createElement( 'div' );
     tmp.setAttribute("id",messageboxId);
@@ -2302,7 +2302,7 @@ Moca.prototype.mvalid = function(_message1,_message2,_message3,_callback){
     if(_message3 != null){
         alert_html += '<p class="tip tac mt20">'+_message3+'</p>';
     }
-    alert_html += '<button class="btn_close" type="button"  onclick="moca.alertok(\''+messageboxId+'\');">다시입력하기</button>';
+    alert_html += '<button class="btn_close" type="button"  onclick="$m.alertok(\''+messageboxId+'\');">다시입력하기</button>';
     alert_html += '</div>';
     var tmp = document.createElement( 'div' );
     tmp.setAttribute("id",messageboxId);
@@ -2311,7 +2311,7 @@ Moca.prototype.mvalid = function(_message1,_message2,_message3,_callback){
     document.body.appendChild(tmp);
 };
 
-//moca.minfo(_msg,'',null,location.origin+"/to/m/TOM_04.html?idx="+_idx);
+//$m.minfo(_msg,'',null,location.origin+"/to/m/TOM_04.html?idx="+_idx);
 Moca.prototype.minfo = function(_message1,_message2,_callback,_url){
     ['check icon, confirm large button'];   
     var messageboxId = "MESSAGE_"+this.now()+this.shuffleRandom(6);
@@ -2325,7 +2325,7 @@ Moca.prototype.minfo = function(_message1,_message2,_callback,_url){
     alert_html += '<iframe src=\''+_url+'\'>';
     alert_html += '</iframe>';
     alert_html += '</div>';
-    alert_html += '<button class="btn_go mt15" type="button"  onclick="moca.alertok(\''+messageboxId+'\');">확인</button>';
+    alert_html += '<button class="btn_go mt15" type="button"  onclick="$m.alertok(\''+messageboxId+'\');">확인</button>';
     alert_html += '</div>';
     var tmp = document.createElement( 'div' );
     tmp.setAttribute("id",messageboxId);
@@ -2334,7 +2334,7 @@ Moca.prototype.minfo = function(_message1,_message2,_callback,_url){
     document.body.appendChild(tmp);
 };
 
-//moca.mpopup("약관변경공지",'',null,location.origin+"/to/m/TOM_01.html?idx=1");
+//$m.mpopup("약관변경공지",'',null,location.origin+"/to/m/TOM_01.html?idx=1");
 Moca.prototype.mpopup = function(_message1,_message2,_callback,_url){
     ['mobile popup'];   
     var messageboxId = "MESSAGE_"+this.now()+this.shuffleRandom(6);
@@ -2343,18 +2343,18 @@ Moca.prototype.mpopup = function(_message1,_message2,_callback,_url){
     alert_html += '<div class="pop_msg pb15 type2 mpopup iframe">';
     alert_html += '<div class="dfbox">';
     alert_html += '<h3>'+_message1+'</h3>';
-    alert_html += '<button type="button" id="btn_popClose" class="btn_close" onclick="moca.mpopClose(this,\''+messageboxId+'\');">닫기</button>';
+    alert_html += '<button type="button" id="btn_popClose" class="btn_close" onclick="$m.mpopClose(this,\''+messageboxId+'\');">닫기</button>';
     alert_html += '</div>';
     alert_html += '<div class="pop_cont">';
     alert_html += '<iframe src=\''+_url+'\'>';
     alert_html += '</iframe>';
     alert_html += '</div>';
     alert_html += '<div class="ftbox">';
-    alert_html += '<div class="fl" onclick="moca.mpopNotViewToday(this,\''+messageboxId+'\')">';
+    alert_html += '<div class="fl" onclick="$m.mpopNotViewToday(this,\''+messageboxId+'\')">';
     alert_html += '<button type="button" id="btn_notViewToday" class="" >오늘 하루 보지 않기</button>';
     alert_html += '</div>';
     alert_html += '<i class="fl"></i>';
-    alert_html += '<div class="fr" onclick="moca.mpopClose(this,\''+messageboxId+'\');">';
+    alert_html += '<div class="fr" onclick="$m.mpopClose(this,\''+messageboxId+'\');">';
     alert_html += '<button type="button" id="btn_popClose2" class="" >닫기</button>';
     alert_html += '</div>';
     alert_html += '</div>';
@@ -2368,8 +2368,8 @@ Moca.prototype.mpopup = function(_message1,_message2,_callback,_url){
 
 Moca.prototype.mpopNotViewToday = function(_thisObj,_messageboxId){
     ['모카팝업 오늘 하루 보지 않기'];
-    moca.setLs("notViewToday",moca.now());
-    moca.mpopClose(this,_messageboxId);
+    $m.setLs("notViewToday",$m.now());
+    $m.mpopClose(this,_messageboxId);
 };
 
 Moca.prototype.merror = function(_message1,_message2,_callback){
@@ -2380,14 +2380,14 @@ Moca.prototype.merror = function(_message1,_message2,_callback){
     alert_html += '<div class="pop_msg pb15">';
     alert_html += '<i class="error"></i>';
     alert_html += '<div class="pop_cont">';
-    if(moca.trim(_message1) != ''){
+    if($m.trim(_message1) != ''){
         alert_html += '<strong>'+_message1+'</strong>';
     }
-    if(moca.trim(_message2) != ''){
+    if($m.trim(_message2) != ''){
         alert_html += '<span class="dd">'+_message2+'</span>';
     }
     alert_html += '</div>';
-    alert_html += '<button class="btn_go mt30" type="button"  onclick="moca.alertok(\''+messageboxId+'\');">확인</button>';
+    alert_html += '<button class="btn_go mt30" type="button"  onclick="$m.alertok(\''+messageboxId+'\');">확인</button>';
     alert_html += '</div>';
     var tmp = document.createElement( 'div' );
     tmp.setAttribute("id",messageboxId);
@@ -2410,15 +2410,15 @@ Moca.prototype.merrorBig = function(_message0,_message1,_message2,_btnLabel,_cal
     alert_html += '<div class="c_msg">';
     alert_html += '<i class="no"></i>';
     alert_html += '<div class="cont">';
-    if(moca.trim(_message1) != ''){
+    if($m.trim(_message1) != ''){
         alert_html += '<strong>'+_message1+'</strong>';
     }
-    if(moca.trim(_message2) != ''){
+    if($m.trim(_message2) != ''){
         alert_html += '<span class="dd">'+_message2+'</span>';
     }
     alert_html += '</div>';
     alert_html += '</div>';
-    alert_html += '<button class="btn_go mt30" type="button"  onclick="moca.alertok(\''+messageboxId+'\');">'+_btnLabel+'</button>';
+    alert_html += '<button class="btn_go mt30" type="button"  onclick="$m.alertok(\''+messageboxId+'\');">'+_btnLabel+'</button>';
     alert_html += '</div>';
     var tmp = document.createElement( 'div' );
     tmp.setAttribute("id",messageboxId);
@@ -2437,11 +2437,11 @@ Moca.prototype.minfoBottom = function(_message1,_message2,_callback){
     alert_html += '<h3>'+_message1+'</h3>';
     alert_html += '</div>';
     alert_html += '<div>';
-    if(moca.trim(_message2) != ''){
+    if($m.trim(_message2) != ''){
         alert_html += '<p class="fs14">'+_message2+'</p>';
     }
     alert_html += '</div>';
-    alert_html += '<button class="btn_go mt30" type="button"  onclick="moca.alertok(\''+messageboxId+'\');">확인</button>';
+    alert_html += '<button class="btn_go mt30" type="button"  onclick="$m.alertok(\''+messageboxId+'\');">확인</button>';
     alert_html += '</div>';
     var tmp = document.createElement( 'div' );
     tmp.setAttribute("id",messageboxId);
@@ -2464,8 +2464,8 @@ Moca.prototype.confirm = function(_message,_callback){
     confirm_html += '               <p>'+_message+'</p>                                      ';
     confirm_html += '           </div>                                                          ';
     confirm_html += '           <div class="moca_btnbox">                                       ';
-    confirm_html += '               <button type="button" class="moca_btn_confirm" onclick="moca.confirmyn(\''+messageboxId+'\',\'Y\');">확인</button>  ';
-    confirm_html += '               <button type="button" class="moca_btn_cancel" onclick="moca.confirmyn(\''+messageboxId+'\',\'N\');">취소</button>   ';
+    confirm_html += '               <button type="button" class="moca_btn_confirm" onclick="$m.confirmyn(\''+messageboxId+'\',\'Y\');">확인</button>  ';
+    confirm_html += '               <button type="button" class="moca_btn_cancel" onclick="$m.confirmyn(\''+messageboxId+'\',\'N\');">취소</button>   ';
     confirm_html += '           </div>                                                          ';
     confirm_html += '       </div>                                                              ';
     confirm_html += '   </div>                                                                  ';
@@ -2488,10 +2488,10 @@ Moca.prototype.mconfirm = function(_message1,_message2,_callback,_label1,_label2
     var alert_html = '';
     alert_html += '<div class="pop_msg type1">';
     alert_html += '<div class="pop_cont">';
-    if(moca.trim(_message1) != ''){
+    if($m.trim(_message1) != ''){
         alert_html += '<strong>'+_message1+'</strong>';
     }
-    if(moca.trim(_message2) != ''){
+    if($m.trim(_message2) != ''){
         alert_html += '<span>'+_message2+'</span>';
     }
     alert_html += '</div>';
@@ -2508,10 +2508,10 @@ Moca.prototype.mconfirm = function(_message1,_message2,_callback,_label1,_label2
         label2 = _label2;
     }
     
-    alert_html += '             <button type="button" class="btn_df" onclick="moca.confirmyn(\''+messageboxId+'\',\'N\');">'+label1+'</button>   ';
-    alert_html += '             <button type="button" class="btn_cm" onclick="moca.confirmyn(\''+messageboxId+'\',\'Y\');">'+label2+'</button>  ';
+    alert_html += '             <button type="button" class="btn_df" onclick="$m.confirmyn(\''+messageboxId+'\',\'N\');">'+label1+'</button>   ';
+    alert_html += '             <button type="button" class="btn_cm" onclick="$m.confirmyn(\''+messageboxId+'\',\'Y\');">'+label2+'</button>  ';
     
-    //alert_html += '<button class="btn_cm" type="button"  onclick="moca.alertok(\''+messageboxId+'\');">확인</button>';
+    //alert_html += '<button class="btn_cm" type="button"  onclick="$m.alertok(\''+messageboxId+'\');">확인</button>';
     alert_html += '</div>';
     alert_html += '</div>';
     alert_html += '</div>';
@@ -2539,9 +2539,9 @@ Moca.prototype.question = function(_message,_callback,m1,m2,m3){
     confirm_html += '           </div>                                                          ';
     confirm_html += '           <div class="moca_btnbox">                                       ';
     
-    confirm_html += '               <button type="button" class="moca_btn_confirm" onclick="moca.question123(\''+messageboxId+'\',\'1\');">'+m1+'</button>  ';
-    confirm_html += '               <button type="button" class="moca_btn_confirm" onclick="moca.question123(\''+messageboxId+'\',\'2\');">'+m2+'</button>  ';
-    confirm_html += '               <button type="button" class="moca_btn_cancel" onclick="moca.question123(\''+messageboxId+'\',\'3\');">'+m3+'</button>   ';
+    confirm_html += '               <button type="button" class="moca_btn_confirm" onclick="$m.question123(\''+messageboxId+'\',\'1\');">'+m1+'</button>  ';
+    confirm_html += '               <button type="button" class="moca_btn_confirm" onclick="$m.question123(\''+messageboxId+'\',\'2\');">'+m2+'</button>  ';
+    confirm_html += '               <button type="button" class="moca_btn_cancel" onclick="$m.question123(\''+messageboxId+'\',\'3\');">'+m3+'</button>   ';
     confirm_html += '           </div>                                                          ';
     confirm_html += '       </div>                                                              ';
     confirm_html += '   </div>                                                                  ';
@@ -2571,7 +2571,7 @@ Moca.prototype.error = function(_message,_callback){
     error_html +='              <p>'+_message+'</p>                                          ';
     error_html +='          </div>                                                        ';
     error_html +='          <div class="moca_btnbox">                                     ';
-    error_html +='              <button type="button" class="moca_btn_confirm" onclick="moca.errorok(\''+messageboxId+'\');">확인</button>';
+    error_html +='              <button type="button" class="moca_btn_confirm" onclick="$m.errorok(\''+messageboxId+'\');">확인</button>';
     error_html +='          </div>                                                        ';
     error_html +='      </div>                                                            ';
     error_html +='  </div>                                                                ';
@@ -2702,7 +2702,7 @@ Moca.prototype.loading = function(_loadingId,_time,_thisObj,_loadingInfo){
         }else{
             error_html +='<div class="moca_progress type1"><div class="loader"></div></div>'; 
         }
-        if(moca.trim(clsName) == '' ){
+        if($m.trim(clsName) == '' ){
             clsName = "moca_modal";
         }
         
@@ -2897,16 +2897,16 @@ Moca.prototype.getContents = function(data,_url,_type,_popupid,_title,_includeOb
                 
                 
                 
-            var mdiObj = moca.rendering(o);
-            moca.callReady(mdiObj);
+            var mdiObj = $m.rendering(o);
+            $m.callReady(mdiObj);
        }else if(_type == 'HTML'){
             var o = {type:_type};
             o.url = _url;
             o.srcId = _url.replace(/(.*?)(\/)([^\/]*?)(\.[^\/]*?$)/g,'$3');;
             o.label = _title;
             o.data = data;
-            var htmlObj = moca.rendering(o);
-            //moca.callReady(htmlObj);
+            var htmlObj = $m.rendering(o);
+            //$m.callReady(htmlObj);
             return htmlObj;
        }else{
            if(_mode != '혼합모드'){
@@ -2917,21 +2917,21 @@ Moca.prototype.getContents = function(data,_url,_type,_popupid,_title,_includeOb
                data = data.replace(/<script(.*?)><\/script>/gi,'');
            }
 
-           var _fileName = moca.getFileNameFromUrl(_url);
+           var _fileName = $m.getFileNameFromUrl(_url);
            if(_fileName == null || _fileName == ''){
                _fileName = 'index.html';
            } 
            var _srcId = _fileName.substring(0,_fileName.indexOf('.'));
-           moca.pageId = _type+"_"+moca.now()+moca.shuffleRandom(6);
-           moca.srcId = _srcId; 
-           data = data.replace(/class="moca_tab_panel"/gi,'class="moca_tab_panel" id="'+moca.pageId+'" ');
-           data = moca.addPageId(data,moca.pageId,_srcId);
-           data = moca.injectionPageObj(data,moca.pageId,_srcId,_mode); 
+           $m.pageId = _type+"_"+$m.now()+$m.shuffleRandom(6);
+           $m.srcId = _srcId; 
+           data = data.replace(/class="moca_tab_panel"/gi,'class="moca_tab_panel" id="'+$m.pageId+'" ');
+           data = $m.addPageId(data,$m.pageId,_srcId);
+           data = $m.injectionPageObj(data,$m.pageId,_srcId,_mode); 
            var _json_data = '';
            if(_includeObj != null){
                _json_data = _includeObj.getAttribute("data");
            }
-           data = data.replace(/moca\.init\s*\(/gi,"moca.init('"+moca.pageId+"','"+moca.srcId+"','"+_url+"','"+_json_data+"', ");
+           data = data.replace(/moca\.init\s*\(/gi,"$m.init('"+$m.pageId+"','"+$m.srcId+"','"+_url+"','"+_json_data+"', ");
        }
        
        
@@ -2946,17 +2946,17 @@ Moca.prototype.renderInputCalendar = function(_divObj) {
     var _html = '';
     
     var defaultValue = _divObj.getAttribute("defaultValue");
-    if(moca.trim(defaultValue) == ''){
+    if($m.trim(defaultValue) == ''){
         defaultValue = "오늘";
     }
     var ondateSelected = _divObj.getAttribute("ondateSelected");    
     
     
     var value = "";
-    value = moca.getFromToByOption(defaultValue).from;
-    //var v = moca.getDisplayFormat_value(_comp,_value);
-    _html += '<input type="text" class="moca_input" id="'+('sub_'+_id)+'" ondateSelected="'+ondateSelected+'" displayFormat="'+displayFormat+'" value="'+value+'" compType="'+type+'" onblur="moca.setValue(this,this.value);"  onkeydown="moca.keydown(this,this.value);">';
-    _html += '<button type="button" class="moca_ica_btn"onclick="moca.fn_inputCal(this);">달력선택</button>';
+    value = $m.getFromToByOption(defaultValue).from;
+    //var v = $m.getDisplayFormat_value(_comp,_value);
+    _html += '<input type="text" class="moca_input" id="'+('sub_'+_id)+'" ondateSelected="'+ondateSelected+'" displayFormat="'+displayFormat+'" value="'+value+'" compType="'+type+'" onblur="$m.setValue(this,this.value);"  onkeydown="$m.keydown(this,this.value);">';
+    _html += '<button type="button" class="moca_ica_btn"onclick="$m.fn_inputCal(this);">달력선택</button>';
     _divObj.innerHTML = _html;
 };
 
@@ -2965,10 +2965,10 @@ Moca.prototype.setCalByRadio = function(_thisObj) {
     var objIndexText = $(_thisObj).parent().find('label').text();
     //getFromToByOption = function(objIndexText,_to_date)
     var calObj =  $(_thisObj).closest("[type='inputMultiCalendar']")[0];
-    var reFromTo = moca.getFromToByOption(objIndexText,$(calObj).find('input')[1].value);
+    var reFromTo = $m.getFromToByOption(objIndexText,$(calObj).find('input')[1].value);
     
-    $(calObj).find('input')[0].value = moca.getDisplayFormat_value(calObj,reFromTo.from);
-    $(calObj).find('input')[1].value = moca.getDisplayFormat_value(calObj,reFromTo.to);
+    $(calObj).find('input')[0].value = $m.getDisplayFormat_value(calObj,reFromTo.from);
+    $(calObj).find('input')[1].value = $m.getDisplayFormat_value(calObj,reFromTo.to);
 };
 
 Moca.prototype.renderInputMultiCalendar = function(_divObj,_srcId) {
@@ -2987,7 +2987,7 @@ Moca.prototype.renderInputMultiCalendar = function(_divObj,_srcId) {
     _html += '  <input type="text" class="moca_input"  style="width:calc(50% - 15px);"  value="" '+_maxLength+'>';
     _html += '  <i style="position:relative; left:-1px">~</i>';
     _html += '  <input type="text" class="moca_input"  style="width:calc(50% - 15px);"  value="" '+_maxLength+'>';
-    _html += '  <button type="button" class="moca_ica_btn"onclick="moca.fn_inputMultiCal(this);">달력선택</button>';
+    _html += '  <button type="button" class="moca_ica_btn"onclick="$m.fn_inputMultiCal(this);">달력선택</button>';
     _html += '</div>';
     //_divObj.innerHTML = _html;
     var defaultValue = _divObj.getAttribute("defaultValue");
@@ -3015,7 +3015,7 @@ Moca.prototype.renderInputMultiCalendar = function(_divObj,_srcId) {
                 obj.value = 0;      
             }
             
-            _html += '<div class="fl"><input type="radio" class="moca_radio_input" name="'+_id+'" id="'+_id+'_'+i+'" value="'+obj.value+'" '+checkedStr+' onclick="moca.setCalByRadio(this)">';
+            _html += '<div class="fl"><input type="radio" class="moca_radio_input" name="'+_id+'" id="'+_id+'_'+i+'" value="'+obj.value+'" '+checkedStr+' onclick="$m.setCalByRadio(this)">';
             _html += '<label class="moca_radio_label mr5" for="'+_id+'_'+i+'">'+obj.label+'</label>';
             _html += '</input></div>';
         }
@@ -3024,11 +3024,11 @@ Moca.prototype.renderInputMultiCalendar = function(_divObj,_srcId) {
 
     _divObj.innerHTML = _html;
 
-    var initJson = moca[_srcId].getFromTo(defaultValue);
+    var initJson = $m[_srcId].getFromTo(defaultValue);
     
     //$('#ipc_3 input')[0].value,to:$('#ipc_3 input')[1].value
-    moca.setMultiCalendar(_divObj,initJson);
-    moca.setFromToByMenuId(_id,moca.menuId,_srcId);
+    $m.setMultiCalendar(_divObj,initJson);
+    $m.setFromToByMenuId(_id,$m.menuId,_srcId);
 };
 
 Moca.prototype.setMultiCalendar = function(_divObj,initJson) {
@@ -3072,14 +3072,14 @@ Moca.prototype.renderCombo = function(_divObj,_val,_gubun,_pageId,_srcId) {
         var _inneronchange = _divObj.getAttribute('inneronchange');
         var _readonly = _divObj.getAttribute('readonly');
         if(_readonly){_divObj.setAttribute('readonly',_readonly)};
-        if(moca.trim(_inneronchange) != ''){
+        if($m.trim(_inneronchange) != ''){
             _onchange = _inneronchange;
         }
         var _html = '';
         if(_gubun == 'normal'){
-            _html += moca.getSelectTagForNormal(_grdId,_onchange,_pageId,_srcId);
+            _html += $m.getSelectTagForNormal(_grdId,_onchange,_pageId,_srcId);
         }else{
-            _html += moca.getSelectTagForCombo(_grdId,_pageId,_srcId);
+            _html += $m.getSelectTagForCombo(_grdId,_pageId,_srcId);
         }
         var cdKey = _divObj.getAttribute('cdField');
         var nmKey = _divObj.getAttribute('nmField');
@@ -3143,11 +3143,11 @@ Moca.prototype.renderCombo = function(_divObj,_val,_gubun,_pageId,_srcId) {
         _divObj['codeToLabelMap'] = codeToLabelMap;
         _divObj['codeToDispLabelMap'] = codeToDispLabelMap;
         _html += '</select>';
-        $(_divObj).attr('code',moca.getValue(_divObj));
-   	 	$(_divObj).attr('label',moca[_srcId].getComboLabel(_grdId));
+        $(_divObj).attr('code',$m.getValue(_divObj));
+   	 	$(_divObj).attr('label',$m[_srcId].getComboLabel(_grdId));
         if(_readonly){
-        	_divObj.innerHTML = '<input class="moca_input" type="text" readonly value="'+_divObj['codeToDispLabelMap'][moca.getValue(_divObj)]+'">';
-        	//_divObj.innerHTML = _divObj['codeToDispLabelMap'][moca.getValue(_divObj)];
+        	_divObj.innerHTML = '<input class="moca_input" type="text" readonly value="'+_divObj['codeToDispLabelMap'][$m.getValue(_divObj)]+'">';
+        	//_divObj.innerHTML = _divObj['codeToDispLabelMap'][$m.getValue(_divObj)];
         }else{
         	_divObj.innerHTML = _html;
         }
@@ -3376,7 +3376,7 @@ Moca.prototype.renderSearchCombo = function(_divObj,_val,_gubun,_pageId,_srcId) 
         
         
         var _inneronchange = _divObj.getAttribute('inneronchange');
-        if(moca.trim(_inneronchange) != ''){
+        if($m.trim(_inneronchange) != ''){
             _inneronchange = _inneronchange.replace(/\(.*?\)/,'');
             _divObj.inneronchange = _inneronchange;
         }
@@ -3385,12 +3385,12 @@ Moca.prototype.renderSearchCombo = function(_divObj,_val,_gubun,_pageId,_srcId) 
         if(_readOnly == "true"){
             _html += '  <input type="text" class="moca_input" style="" readonly value="" >';            
         }else{
-            _html += '  <input type="text" class="moca_input" style="" value="" onkeyup="moca.searchComboFilter(this)" placeholder="검색어를 입력하세요" onclick="moca.searchComboClick(this)" onblur="moca.searchComboBlur(this)" onfocus="moca.searchComboFocus(this)">';
-            _html += '  <button class="btn_cmb" onclick="moca.searchComboFullShow(this)"></button>';
+            _html += '  <input type="text" class="moca_input" style="" value="" onkeyup="$m.searchComboFilter(this)" placeholder="검색어를 입력하세요" onclick="$m.searchComboClick(this)" onblur="$m.searchComboBlur(this)" onfocus="$m.searchComboFocus(this)">';
+            _html += '  <button class="btn_cmb" onclick="$m.searchComboFullShow(this)"></button>';
         }
         _html += '</div>';
         _html += '<div class="searchCmbTable" style="display:none">';
-        _html += '<ul top_position="348" style="max-height: 497px;" onclick="moca.searchComboSelectedClick(this)" onmouseover="moca.searchComboSelectedMouseover(this)">';
+        _html += '<ul top_position="348" style="max-height: 497px;" onclick="$m.searchComboSelectedClick(this)" onmouseover="$m.searchComboSelectedMouseover(this)">';
         
         var cdKey = _divObj.getAttribute('cdField');
         var nmKey = _divObj.getAttribute('nmField');
@@ -3462,7 +3462,7 @@ Moca.prototype.renderCheckbox = function(_divObj,_val,_gubun) {
     var _onclick = "on_" +_divObj.getAttribute("id");
     var _html = '';
     _html += '<input type="checkbox" class="moca_checkbox_input" name="'+_id+'" id="'+_id+'">';
-    _html += '<label class="moca_checkbox_label" for="'+_id+'" onclick="moca.'+_onclick+'(this)">'+_label+'</label>';
+    _html += '<label class="moca_checkbox_label" for="'+_id+'" onclick="$m.'+_onclick+'(this)">'+_label+'</label>';
     _divObj.innerHTML = _html;
 };
 
@@ -3475,7 +3475,7 @@ Moca.prototype.renderGrid = function(_divObj) {
     var _id = _divObj.id;
     var pageid = _divObj.getAttribute("pageid");
     var srcid = _divObj.getAttribute("srcid");
-    moca.getObj(_id,null,pageid,srcid);//id중복체크
+    $m.getObj(_id,null,pageid,srcid);//id중복체크
     
     var _default_cell_height = _divObj.getAttribute("default_cell_height");
     var _label = _divObj.getAttribute("label");
@@ -3502,7 +3502,7 @@ Moca.prototype.renderGrid = function(_divObj) {
     var toolbar_dblclick = _divObj.getAttribute("toolbar_dblclick");
     var toolbar_fold = _divObj.getAttribute("toolbar_fold");
     
-    if(moca.getDevice() == 'pc'){
+    if($m.getDevice() == 'pc'){
     	if(_divObj.getAttribute('toolbar_common_btns_pc')){
         	var _commBtnsStr = _divObj.getAttribute('toolbar_common_btns_pc');
         	var _commBtnsObj = JSON.parse(_commBtnsStr);
@@ -3600,23 +3600,23 @@ Moca.prototype.renderGrid = function(_divObj) {
                     var x1Obj = JSON.parse(attValue);
                     if(x1Obj.position == 'left'){
                         if(attrName.indexOf('toolbar_grid_checkbox') > -1){
-                            _html += moca.renderGridToolbarCheckbox(x1Obj);
+                            _html += $m.renderGridToolbarCheckbox(x1Obj);
                         }else if(attrName.indexOf('toolbar_grid_input') > -1){
-                            _html += moca.renderGridToolbarInput(x1Obj);
+                            _html += $m.renderGridToolbarInput(x1Obj);
                         }else if(attrName.indexOf('toolbar_grid_button') > -1){
-                            _html += moca.renderGridToolbarButton(x1Obj,_divObj.id);
+                            _html += $m.renderGridToolbarButton(x1Obj,_divObj.id);
                         }else if(attrName.indexOf('toolbar_grid_label_span') > -1){
-                            _html += moca.renderGridToolbarLabelSpan(x1Obj);
+                            _html += $m.renderGridToolbarLabelSpan(x1Obj);
                         }else if(attrName.indexOf('toolbar_grid_label_input') > -1){
-                            _html += moca.renderGridToolbarLabelInput(x1Obj);
+                            _html += $m.renderGridToolbarLabelInput(x1Obj);
                         }else if(attrName.indexOf('toolbar_grid_label_combo') > -1){
-                            _html += moca.renderGridToolbarLabelCombo(x1Obj,_divObj.id);
+                            _html += $m.renderGridToolbarLabelCombo(x1Obj,_divObj.id);
                         }else if(attrName.indexOf('toolbar_grid_combo') > -1){
-                            _html += moca.renderGridToolbarCombo(x1Obj,_divObj.id);
+                            _html += $m.renderGridToolbarCombo(x1Obj,_divObj.id);
                         }else if(attrName.indexOf('toolbar_grid_label') > -1){
-                            _html += moca.renderGridToolbarLabel(x1Obj);
+                            _html += $m.renderGridToolbarLabel(x1Obj);
                         }else if(attrName.indexOf('toolbar_grid_radio') > -1){
-                            _html += moca.renderGridToolbarRadio(x1Obj);
+                            _html += $m.renderGridToolbarRadio(x1Obj);
                         }
                         
                         
@@ -3644,19 +3644,19 @@ Moca.prototype.renderGrid = function(_divObj) {
         _html += '</div>';
         _html += '<div class="rta" grdkey="'+_id+'">';
 
-        if(toolbar_col_showhide == "true") _html += '<button type="button" id="'+_id+'_col_showhide" class="button col_showhide" title="컬럼숨기기" grdkey="'+_id+'" onclick="moca._col_showhide(this)"></button>';
+        if(toolbar_col_showhide == "true") _html += '<button type="button" id="'+_id+'_col_showhide" class="button col_showhide" title="컬럼숨기기" grdkey="'+_id+'" onclick="$m._col_showhide(this)"></button>';
         
-        if(toolbar_detail == "true") _html += '<button type="button" id="'+_id+'_btn_detail" class="button grid_detail" title="디테일뷰" grdkey="'+_id+'" onclick="moca._detailview(this)"></button>';
+        if(toolbar_detail == "true") _html += '<button type="button" id="'+_id+'_btn_detail" class="button grid_detail" title="디테일뷰" grdkey="'+_id+'" onclick="$m._detailview(this)"></button>';
         else if(toolbar_detail == "dblclick") _html += '<button type="button" id="'+_id+'_btn_detail" class="button grid_detail" title="디테일뷰" grdkey="'+_id+'" onclick="'+_onDblClickFunc+'(this)"></button>';
         
-        if(toolbar_exup == "true") _html += '<button type="button" id="'+_id+'_btn_exup" class="button excel_up" title="엑셀업로드" grdkey="'+_id+'" onclick="moca._excel_up(this)"></button>';
-        if(toolbar_exdn == "true") _html += '<button type="button" id="'+_id+'_btn_exdn" class="button excel_dn" title="엑셀다운로드" grdkey="'+_id+'" onclick="moca._excel_down(this)"></button>';
-        if(toolbar_addrow == "true") _html += '<button type="button" id="'+_id+'_btn_addrow" class="button add_row" title="행추가" grdkey="'+_id+'" onclick="moca._row_add(this)"></button>';
-        if(toolbar_delrow == "true") _html += '<button type="button" id="'+_id+'_btn_delrow" class="button del_row" title="행삭제" grdkey="'+_id+'" onclick="moca._row_del(this)"></button>';
-        if(toolbar_nextbtn == "true") _html += '<button type="button" id="'+_id+'_btn_nextbtn" class="button read_next" title="다음" grdkey="'+_id+'" onclick="moca._next(this)"></button>';
-        if(toolbar_full == "true") _html += '<button type="button" id="'+_id+'_btn_full" class="button grid_full" title="그리드 전체화면"  grdkey="'+_id+'" onclick="moca._fullScreenGrid(this)"></button>';
+        if(toolbar_exup == "true") _html += '<button type="button" id="'+_id+'_btn_exup" class="button excel_up" title="엑셀업로드" grdkey="'+_id+'" onclick="$m._excel_up(this)"></button>';
+        if(toolbar_exdn == "true") _html += '<button type="button" id="'+_id+'_btn_exdn" class="button excel_dn" title="엑셀다운로드" grdkey="'+_id+'" onclick="$m._excel_down(this)"></button>';
+        if(toolbar_addrow == "true") _html += '<button type="button" id="'+_id+'_btn_addrow" class="button add_row" title="행추가" grdkey="'+_id+'" onclick="$m._row_add(this)"></button>';
+        if(toolbar_delrow == "true") _html += '<button type="button" id="'+_id+'_btn_delrow" class="button del_row" title="행삭제" grdkey="'+_id+'" onclick="$m._row_del(this)"></button>';
+        if(toolbar_nextbtn == "true") _html += '<button type="button" id="'+_id+'_btn_nextbtn" class="button read_next" title="다음" grdkey="'+_id+'" onclick="$m._next(this)"></button>';
+        if(toolbar_full == "true") _html += '<button type="button" id="'+_id+'_btn_full" class="button grid_full" title="그리드 전체화면"  grdkey="'+_id+'" onclick="$m._fullScreenGrid(this)"></button>';
         if(toolbar_dblclick == "true") _html += '<button type="button" id="'+_id+'_btn_dblclick" class="button grid_dblclick" title="그리드 더블클릭"  grdkey="'+_id+'" onclick="'+_onDblClickFunc+'(this)"></button>';
-        if(toolbar_fold == "true") _html += '<button type="button" id="'+_id+'_btn_fold" class="button grid_fold" title="그리드 접기"  grdkey="'+_id+'" onclick="moca._foldGrid(this)"></button>';
+        if(toolbar_fold == "true") _html += '<button type="button" id="'+_id+'_btn_fold" class="button grid_fold" title="그리드 접기"  grdkey="'+_id+'" onclick="$m._foldGrid(this)"></button>';
         
         for(var k=0; k <attArray.length; k++){
             var attrName = attArray[k];
@@ -3666,23 +3666,23 @@ Moca.prototype.renderGrid = function(_divObj) {
                     var x1Obj = JSON.parse(attValue);
                     if(x1Obj.position == 'right'){
                         if(attrName.indexOf('toolbar_grid_checkbox') > -1){
-                            _html += moca.renderGridToolbarCheckbox(x1Obj);
+                            _html += $m.renderGridToolbarCheckbox(x1Obj);
                         }else if(attrName.indexOf('toolbar_grid_input') > -1){
-                            _html += moca.renderGridToolbarInput(x1Obj);
+                            _html += $m.renderGridToolbarInput(x1Obj);
                         }else if(attrName.indexOf('toolbar_grid_button') > -1){
-                            _html += moca.renderGridToolbarButton(x1Obj,_divObj.id);
+                            _html += $m.renderGridToolbarButton(x1Obj,_divObj.id);
                         }else if(attrName.indexOf('toolbar_grid_label_span') > -1){
-                            _html += moca.renderGridToolbarLabelSpan(x1Obj);
+                            _html += $m.renderGridToolbarLabelSpan(x1Obj);
                         }else if(attrName.indexOf('toolbar_grid_label_input') > -1){
-                            _html += moca.renderGridToolbarLabelInput(x1Obj);
+                            _html += $m.renderGridToolbarLabelInput(x1Obj);
                         }else if(attrName.indexOf('toolbar_grid_label_combo') > -1){
-                            _html += moca.renderGridToolbarLabelCombo(x1Obj,_divObj.id);
+                            _html += $m.renderGridToolbarLabelCombo(x1Obj,_divObj.id);
                         }else if(attrName.indexOf('toolbar_grid_combo') > -1){
-                            _html += moca.renderGridToolbarCombo(x1Obj,_divObj.id);
+                            _html += $m.renderGridToolbarCombo(x1Obj,_divObj.id);
                         }else if(attrName.indexOf('toolbar_grid_label') > -1){
-                            _html += moca.renderGridToolbarLabel(x1Obj);
+                            _html += $m.renderGridToolbarLabel(x1Obj);
                         }else if(attrName.indexOf('toolbar_grid_radio') > -1){
-                            _html += moca.renderGridToolbarRadio(x1Obj);
+                            _html += $m.renderGridToolbarRadio(x1Obj);
                         }
                     }
                 }catch(e){
@@ -3704,9 +3704,9 @@ Moca.prototype.renderGrid = function(_divObj) {
     var __onclick = '';
     var __ondblclick = '';
     var __swipeStyle = '';
-    if(moca.getDevice() != 'pc'){
-    	__onclick = 'onclick="moca.swaipClickScroll(this)"';
-    	__ondblclick = 'ondblclick="moca.swaipDblScroll(this)"';
+    if($m.getDevice() != 'pc'){
+    	__onclick = 'onclick="$m.swaipClickScroll(this)"';
+    	__ondblclick = 'ondblclick="$m.swaipDblScroll(this)"';
     	__swipeStyle = 'width: 100%; left: 0px;';
     }    
     
@@ -3714,7 +3714,7 @@ Moca.prototype.renderGrid = function(_divObj) {
         _html += '<div class="moca_grid_body" style="right:18px;">';
         _html += _header_body;
         _html += '</div>';
-        _html += '<div id="'+_id+'_moca_scroll_y" componentid="'+_id+'" class="moca_scrollY_type1" '+__onclick+' '+__ondblclick+' onscroll="moca.sFunction(this);" style="'+__swipeStyle+'">';
+        _html += '<div id="'+_id+'_moca_scroll_y" componentid="'+_id+'" class="moca_scrollY_type1" '+__onclick+' '+__ondblclick+' onscroll="$m.sFunction(this);" style="'+__swipeStyle+'">';
         _html += '<div id="'+_id+'_grid_height" style="height: 0px; position: absolute; top: 0px; left: 0px; width: 18px;"></div>';
         _html += '</div>';
         _html += '<div id="lin_dashed" style="position:absolute; top:0px; bottom:0px; border-left:1px dashed #000; z-index:100; height:100%; left:340px;display:none"></div>';
@@ -3723,22 +3723,22 @@ Moca.prototype.renderGrid = function(_divObj) {
     
     if(paging.type == 'numberList'){
         _html += '<div class="moca_grid_paging" id="grid_paging">';
-        _html += '<button type="button" class="first" onclick="moca.pagingFirst(this)"><span>첫 페이지로 이동</span></button>';
-        _html += '<button type="button" class="prev" onclick="moca.pagingPrev(this)"><span>이전페이지로 이동</span></button>';
+        _html += '<button type="button" class="first" onclick="$m.pagingFirst(this)"><span>첫 페이지로 이동</span></button>';
+        _html += '<button type="button" class="prev" onclick="$m.pagingPrev(this)"><span>이전페이지로 이동</span></button>';
         _html += '<span class="num" id="numGrp">';
         _html += '</span>';
-        _html += '<button type="button" class="next" onclick="moca.pagingNext(this)"><span>다음페이지로 이동</span></button>';
-        _html += '<button type="button" class="last" onclick="moca.pagingLast(this)"><span>마지막 페이지로 이동</span></button>';
+        _html += '<button type="button" class="next" onclick="$m.pagingNext(this)"><span>다음페이지로 이동</span></button>';
+        _html += '<button type="button" class="last" onclick="$m.pagingLast(this)"><span>마지막 페이지로 이동</span></button>';
         _html += '</div>';
     }
     
     _html +='   <div class="gridDetail_body" style="display:none" grdkey="'+_id+'"> ';
     _html +='       <div class="moca_grid_toolbar_detail"> ';
     _html +='           <div class="rta"> ';
-    _html +='               <button type="button" id="btn_colTh1" class="button colTh1" style="" title="그리드th1단"  onclick="moca._detailView1(this)"></button> ';
-    _html +='               <button type="button" id="btn_colTh2" class="button colTh2" style="" title="그리드th2단"  onclick="moca._detailView2(this)"></button> ';
-    _html +='               <button type="button" id="btn_colTh3" class="button colTh3" style="" title="그리드th3단"  onclick="moca._detailView3(this)"></button>'; 
-    _html +='               <button type="button" id="" class="button grid_detail_close" style="" title="" onclick="moca._detailViewClose(this)"></button>';
+    _html +='               <button type="button" id="btn_colTh1" class="button colTh1" style="" title="그리드th1단"  onclick="$m._detailView1(this)"></button> ';
+    _html +='               <button type="button" id="btn_colTh2" class="button colTh2" style="" title="그리드th2단"  onclick="$m._detailView2(this)"></button> ';
+    _html +='               <button type="button" id="btn_colTh3" class="button colTh3" style="" title="그리드th3단"  onclick="$m._detailView3(this)"></button>'; 
+    _html +='               <button type="button" id="" class="button grid_detail_close" style="" title="" onclick="$m._detailViewClose(this)"></button>';
     _html +='           </div> ';   
     _html +='       </div> ';
     _html +='       <table class="gridDetail mb5" id="gridDetail1"> ';
@@ -3791,11 +3791,11 @@ Moca.prototype.renderGrid = function(_divObj) {
     
     
     
-    _html +='   <div id="col_showhide" class="PopColgroup p5" style="display:none" onclick="moca.preven(this)">';
+    _html +='   <div id="col_showhide" class="PopColgroup p5" style="display:none" onclick="$m.preven(this)">';
     _html +='       <div class="groupListHeader">';
     _html +='           <div class="fr">';
-    _html +='               <button type="button" class="button btn_save"  onclick="moca._col_showhideApply(this)"><span>적용</span></button>';
-    _html +='               <button type="button" class="button btn_close" style="" title="" onclick="moca._col_showhideClose(this)"></button>';
+    _html +='               <button type="button" class="button btn_save"  onclick="$m._col_showhideApply(this)"><span>적용</span></button>';
+    _html +='               <button type="button" class="button btn_close" style="" title="" onclick="$m._col_showhideClose(this)"></button>';
     _html +='           </div>';
     _html +='       </div>';    
     _html +='       <div class="ly_column col_2">';
@@ -3807,7 +3807,7 @@ Moca.prototype.renderGrid = function(_divObj) {
     _html +='                   </colgroup>';
     _html +='                   <tr>';
     _html +='                       <td><div class="moca_ibn"><input type="text" class="moca_input" style="" id="grpNm_'+_id+'" placeholder="그룹명을 입력해주세요"><input type="color" class="moca_input_color"></div></td>';
-    _html +='                       <td><button type="button" class="button btn_plus" onclick="moca.createColGroup(this)"><i class="fas fa-plus"></i></button></td>';
+    _html +='                       <td><button type="button" class="button btn_plus" onclick="$m.createColGroup(this)"><i class="fas fa-plus"></i></button></td>';
     _html +='                   </tr>';
     _html +='               </table>';
     _html +='               <table class="groupList mb5">';
@@ -3825,7 +3825,7 @@ Moca.prototype.renderGrid = function(_divObj) {
     _html +='       </div>';
     _html +='   </div>';
 
-    _html = moca.addPageId(_html,pageid,srcid);
+    _html = $m.addPageId(_html,pageid,srcid);
     _divObj.innerHTML = _html;
     _divObj.onRowSelectedFunction = function(){
         var tdObj;
@@ -3838,14 +3838,14 @@ Moca.prototype.renderGrid = function(_divObj) {
         }
         //event.srcElement.parentElement.parentElement 트리일 경우.
         if(tdObj != null && tdObj.tagName == 'TD'){
-            moca._setSelectRowIndex(tdObj);
-            moca._setRowSelection(this,tdObj);
+            $m._setSelectRowIndex(tdObj);
+            $m._setRowSelection(this,tdObj);
             
             var onRowSelectedFunc = _divObj.getAttribute("onRowSelected");
             if(onRowSelectedFunc != undefined){
                 var _realIndex = _divObj.getAttribute("selectedRealRowIndex");
-                moca.pageId = this.getAttribute("pageId");
-                moca.srcId =  this.getAttribute("srcId");
+                $m.pageId = this.getAttribute("pageId");
+                $m.srcId =  this.getAttribute("srcId");
                 eval(onRowSelectedFunc)(_divObj,_realIndex,tdObj,this);
             }
         }
@@ -3868,10 +3868,10 @@ Moca.prototype.renderGrid = function(_divObj) {
 
     for(var i=0; i < colArray.length; i++){
         var aCol = colArray[i];
-        if(moca.getDevice() == "pc"){
-        	moca.moblePcHide(aCol,"hide");
+        if($m.getDevice() == "pc"){
+        	$m.moblePcHide(aCol,"hide");
         }else{
-        	moca.moblePcHide(aCol,"mobileHide");
+        	$m.moblePcHide(aCol,"mobileHide");
         }
         
         var aTh = _thMap[aCol.getAttribute("thid")];
@@ -3895,10 +3895,10 @@ Moca.prototype.renderGrid = function(_divObj) {
             var _after = '';
             var thCelltype = aTh.getAttribute("celltype");
             if(thCelltype == 'checkbox'){
-                $(aTh).off("click").on("click",moca.cellAllCheck);
+                $(aTh).off("click").on("click",$m.cellAllCheck);
                 _after = '<div class="moca_checkbox_grid" >';
-                _after += '<input type="checkbox" class="moca_checkbox_input allcheck" name="cbxAll" id="cbx_'+moca.pageId+'_'+moca.srcId+'_'+_id+'" grd_id='+_id+'>';
-                _after += '<label class="moca_checkbox_label" for="cbx_'+moca.pageId+'_'+moca.srcId+'_'+_id+'"  >label</label>';
+                _after += '<input type="checkbox" class="moca_checkbox_input allcheck" name="cbxAll" id="cbx_'+$m.pageId+'_'+$m.srcId+'_'+_id+'" grd_id='+_id+'>';
+                _after += '<label class="moca_checkbox_label" for="cbx_'+$m.pageId+'_'+$m.srcId+'_'+_id+'"  >label</label>';
                 _after += '</div>';
             }else{
                 _after += '<div class="moca_grid_sort_box">';
@@ -3907,12 +3907,12 @@ Moca.prototype.renderGrid = function(_divObj) {
             
             var sortable = aTh.getAttribute("sortable");
             if(sortable == "true"){
-                _after += '<button class="moca_grid_sort_btn sort_none"  onclick="moca.doSort(this)">정렬취소</button>';
+                _after += '<button class="moca_grid_sort_btn sort_none"  onclick="$m.doSort(this)">정렬취소</button>';
             }
             
             var filterable = aTh.getAttribute("filterable");
             if(filterable == "true"){
-                _after += '<button class="moca_grid_filter_btn" onclick="moca.doFilter(this)" ondblclick="moca.doFilterDblclick(this)">필터</button><i onclick="moca.filterRemoveAllConfirm(this);"></i>';
+                _after += '<button class="moca_grid_filter_btn" onclick="$m.doFilter(this)" ondblclick="$m.doFilterDblclick(this)">필터</button><i onclick="$m.filterRemoveAllConfirm(this);"></i>';
             }   
             
             //sort_none , sort_asc , sort_desc
@@ -3926,7 +3926,7 @@ Moca.prototype.renderGrid = function(_divObj) {
     _divObj.cellInfo = _cellMap;
     _divObj.cellArr = _cellArr;
     _divObj.cellIndex = _cellIndex;
-    moca._col_showhideExe(_divObj);
+    $m._col_showhideExe(_divObj);
     _divObj.list = [];
     $(_divObj).find('tbody:first').html('');
     
@@ -3936,11 +3936,11 @@ Moca.prototype.renderGrid = function(_divObj) {
         e.stopPropagation();
         e.stopImmediatePropagation();
         */
-        moca.grid_colDown(this);
+        $m.grid_colDown(this);
         return false;       
     });
     
-    $(_divObj).find('thead:first th[id]').bind('dblclick',moca.doSort); 
+    $(_divObj).find('thead:first th[id]').bind('dblclick',$m.doSort); 
 
     var _default_cell_height =  this.getCellHeight(_divObj);
     var headerCellCnt = $(_divObj).find('thead').children().length;
@@ -4017,8 +4017,8 @@ Moca.prototype.doSort = function(thisObj) {
         o = $(p).find('.moca_grid_sort_btn');
         h = p;
     }
-    var grdo = moca.getTypeObj(p)[0];
-    moca.stopEvent(event);
+    var grdo = $m.getTypeObj(p)[0];
+    $m.stopEvent(event);
     var _divObj = grdo;
     
     var colArray = $(_divObj).find('colgroup:first col');
@@ -4058,28 +4058,28 @@ Moca.prototype.doSort = function(thisObj) {
 
     if(o.hasClass('sort_none')){
         //오름차순 다 나 가
-        returnArray = moca.arrayOrderFnc(dataArray,[colid], ["asc"]);
+        returnArray = $m.arrayOrderFnc(dataArray,[colid], ["asc"]);
         grdo.list = returnArray;
         
-        moca.drawGrid_inside(grdo, returnArray);
+        $m.drawGrid_inside(grdo, returnArray);
         o.removeClass("sort_none");
         o.addClass("sort_asc");                 
     }else if(o.hasClass('sort_asc')){
         //내림차순 가 나 다
-        returnArray = moca.arrayOrderFnc(dataArray,[colid], ["desc"]);
+        returnArray = $m.arrayOrderFnc(dataArray,[colid], ["desc"]);
         grdo.list = returnArray;
-        moca.drawGrid_inside(grdo, returnArray);
+        $m.drawGrid_inside(grdo, returnArray);
         o.removeClass("sort_asc");
         o.addClass("sort_desc");
     }else if(o.hasClass('sort_desc')){
         //원래대로
         returnArray = grdo.sort_ori_list;
         grdo.list = returnArray;
-        moca.drawGrid_inside(grdo, returnArray);    
+        $m.drawGrid_inside(grdo, returnArray);    
         o.removeClass("sort_desc");
         o.addClass("sort_none");                    
     }
-    moca.redrawGrid(grdo);//스크롤포시션 유지되면서 sort됨
+    $m.redrawGrid(grdo);//스크롤포시션 유지되면서 sort됨
     return false;       
 };
 
@@ -4097,22 +4097,15 @@ Moca.prototype.init = function(_tabId,_srcId,_url,_json_data,_callback) {
             _tabObj = $("div[tab_id="+_tabId+"]");
         }else{
             _tabObj = $("div[id="+_tabId+"]");
-            moca.srcId = _srcId;
+            $m.srcId = _srcId;
         }
-        
-        
-        
-        
-        
-        
-        
         
         
         var arr = _tabObj.find('[type=include]');
         var param;
         for(var i=0; i < arr.length; i++){
             var aTag = arr[i];
-            moca.renderinclude(aTag);
+            $m.renderinclude(aTag);
         };
         
 
@@ -4120,37 +4113,37 @@ Moca.prototype.init = function(_tabId,_srcId,_url,_json_data,_callback) {
         for(var i=0; i < arr.length; i++){
             var aTag = arr[i];
             
-            moca.renderTab(aTag);
+            $m.renderTab(aTag);
         };
         
         var arr = _tabObj.find('div[type=form][pageid='+_tabObj.attr('tab_id')+']');
         for(var i=0; i < arr.length; i++){
             var aTag = arr[i];
-            moca.renderForm(aTag);
+            $m.renderForm(aTag);
         };  
         
         
         var arr = _tabObj.find('div[type=inputCalendar][pageid='+_tabObj.attr('tab_id')+']');
         for(var i=0; i < arr.length; i++){
             var aTag = arr[i];
-            moca.renderInputCalendar(aTag);
+            $m.renderInputCalendar(aTag);
         };
         
         var arr = _tabObj.find('div[type=inputMultiCalendar][pageid='+_tabObj.attr('tab_id')+']');
         for(var i=0; i < arr.length; i++){
             var aTag = arr[i];
-            moca.renderInputMultiCalendar(aTag,_srcId);
+            $m.renderInputMultiCalendar(aTag,_srcId);
         };
         
         var arr = _tabObj.find('div[type=combo][pageid='+_tabObj.attr('tab_id')+']');
         for(var i=0; i < arr.length; i++){
             var aTag = arr[i];
-            moca.renderCombo(aTag);
+            $m.renderCombo(aTag);
         };  
         var arr = _tabObj.find('div[type=searchCombo][pageid='+_tabObj.attr('tab_id')+']');
         for(var i=0; i < arr.length; i++){
             var aTag = arr[i];
-            moca.renderSearchCombo(aTag);
+            $m.renderSearchCombo(aTag);
         };  
         
         
@@ -4162,24 +4155,24 @@ Moca.prototype.init = function(_tabId,_srcId,_url,_json_data,_callback) {
 
         for(var i=0; i < arr.length; i++){
             var aTag = arr[i];
-            moca.renderGrid(aTag);
+            $m.renderGrid(aTag);
         };  
         
         var arr = _tabObj.find('div[type=checkbox][pageid='+_tabObj.attr('tab_id')+']');
         for(var i=0; i < arr.length; i++){
             var aTag = arr[i];
-            moca.renderCheckbox(aTag);
+            $m.renderCheckbox(aTag);
         };  
         var arr = _tabObj.find('div[type=checkboxGroup][pageid='+_tabObj.attr('tab_id')+']');
         for(var i=0; i < arr.length; i++){
             var aTag = arr[i];
-            moca.renderCheckboxGroup(aTag);
+            $m.renderCheckboxGroup(aTag);
         };  
 
         var arr = _tabObj.find('div[type=table][pageid='+_tabObj.attr('tab_id')+']');
         for(var i=0; i < arr.length; i++){
             var aTag = arr[i];
-            moca.renderTable(aTag);
+            $m.renderTable(aTag);
         };  
 
 
@@ -4187,31 +4180,31 @@ Moca.prototype.init = function(_tabId,_srcId,_url,_json_data,_callback) {
         var arr = _tabObj.find('div[type=radio][pageid='+_tabObj.attr('tab_id')+']');
         for(var i=0; i < arr.length; i++){
             var aTag = arr[i];
-            moca.renderRadio(aTag);
+            $m.renderRadio(aTag);
         };
         
         var arr = _tabObj.find('div[type=input][pageid='+_tabObj.attr('tab_id')+']');
         for(var i=0; i < arr.length; i++){
             var aTag = arr[i];
-            moca.renderMocaInput(aTag);
+            $m.renderMocaInput(aTag);
         };  
         
         var arr = _tabObj.find('div[type=inputButton][pageid='+_tabObj.attr('tab_id')+']');
         for(var i=0; i < arr.length; i++){
             var aTag = arr[i];
-            moca.renderMocaInputButton(aTag);
+            $m.renderMocaInputButton(aTag);
         };  
             
         var arr = _tabObj.find('div[type=button][pageid='+_tabObj.attr('tab_id')+']');
         for(var i=0; i < arr.length; i++){
             var aTag = arr[i];
-            moca.renderMocaButton(aTag);
+            $m.renderMocaButton(aTag);
         };  
                 
         var arr = _tabObj.find('div[mobileHide=true][pageid='+_tabObj.attr('tab_id')+']');
         for(var i=0; i < arr.length; i++){
             var aTag = arr[i];
-            moca.renderMocaDiv(aTag);
+            $m.renderMocaDiv(aTag);
         };    
         
     }
@@ -4228,21 +4221,21 @@ Moca.prototype.exe = function(_sObj,thisObj) {
      if(_sObj.loadingbar != false){
          var loadingInfo = _sObj.loadingInfo;
          if(_sObj.loadingbarScope == 'wrap'){
-             loadingId = moca.loading(null,null,thisObj,loadingInfo);
+             loadingId = $m.loading(null,null,thisObj,loadingInfo);
          }else{
-             loadingId = moca.loading(null,null,thisObj,loadingInfo);
+             loadingId = $m.loading(null,null,thisObj,loadingInfo);
          }
      }
      var _dataType = 'JSON';
-     if(_sObj.dataType != null || moca.trim(_sObj.dataType) != ""){
+     if(_sObj.dataType != null || $m.trim(_sObj.dataType) != ""){
          _dataType = _sObj.dataType;
      }
      var _type = 'POST';
-     if(_sObj.type != null || moca.trim(_sObj.type) != ""){
+     if(_sObj.type != null || $m.trim(_sObj.type) != ""){
          _type = _sObj.type;
      }
      
-     _sObj.data.header.TRANID = "TRAN_"+moca.now()+moca.shuffleRandom(6);
+     _sObj.data.header.TRANID = "TRAN_"+$m.now()+$m.shuffleRandom(6);
      var _data = {};
      if(_sObj.data != null){
          _data = {header:JSON.stringify(_sObj.data.header),body:JSON.stringify(_sObj.data.body)};
@@ -4265,13 +4258,13 @@ Moca.prototype.exe = function(_sObj,thisObj) {
          _sObj.pageId =  this.pageId;
      }
      if(_sObj.showStatus != false){
-         moca.writeMessage({srcId:_sObj.srcId,pageId:_sObj.pageId,message:"진행중",url:_sObj.url });
+         $m.writeMessage({srcId:_sObj.srcId,pageId:_sObj.pageId,message:"진행중",url:_sObj.url });
      }
      
      
      if(_sObj.abort != false){
-         if(moca.processMap[_sObj.url] != null){
-             moca.processMap[_sObj.url].abort();
+         if($m.processMap[_sObj.url] != null){
+             $m.processMap[_sObj.url].abort();
          }
      }
 
@@ -4287,13 +4280,13 @@ Moca.prototype.exe = function(_sObj,thisObj) {
                    return;
                }
                if(_sObj.showStatus != false){
-                   moca.writeMessage({srcId:_sObj.srcId,pageId:_sObj.pageId,message:"완료",url:_sObj.url});
+                   $m.writeMessage({srcId:_sObj.srcId,pageId:_sObj.pageId,message:"완료",url:_sObj.url});
                }
                
                if(typeof result == 'object'){
                    if(result["map"] != null && result["map"]["ERROR"] == "NOLOGIN"){
                        alert("SESSION EXPIRED! MOVE TO LOGINPAGE!");
-                       top.location.href = moca._contextRoot+'/uat/uia/egovLoginUsr.do';
+                       top.location.href = $m._contextRoot+'/uat/uia/egovLoginUsr.do';
                        return;
                    }else if(result["map"] != null && result["map"]["ERROR"] == 'NOAUTH'){
                        alert("권한이 없습니다!");
@@ -4304,12 +4297,12 @@ Moca.prototype.exe = function(_sObj,thisObj) {
                    var resultJson;
                    resultJson = JSON.parse(result);
                    if(resultJson.message == "NO_SESSION"){
-                       top.location.href = moca._contextRoot+'/uat/uia/egovLoginUsr.do';
+                       top.location.href = $m._contextRoot+'/uat/uia/egovLoginUsr.do';
                        return;
                    }
                }
                if(_sObj.loadingbar != false){
-               moca.loading(loadingId,0,thisObj);
+               $m.loading(loadingId,0,thisObj);
                }
                if(_sObj.callback){
                    setTimeout(_sObj.callback(result),100);
@@ -4323,11 +4316,11 @@ Moca.prototype.exe = function(_sObj,thisObj) {
                $('._modal').remove();
                
                if(loadingId != null){
-                   moca.loading(loadingId,0,thisObj);
+                   $m.loading(loadingId,0,thisObj);
                }
            }
      });
-     moca.processMap[_sObj.url] = process;
+     $m.processMap[_sObj.url] = process;
 };
 
 
@@ -4368,20 +4361,20 @@ Moca.prototype.code = function(_config,_callback,_url,_pageId,_srcId) {
     }else{
         u = this._domain+this._contextRoot+"/code_json.do";
     }
-    var exeObj = moca;
+    var exeObj = $m;
     if(_pageId != null){
-        exeObj = moca[_srcId];
+        exeObj = $m[_srcId];
     }
     exeObj.exe({
         url : u,
         async: false,
         loadingbar:false,
         data : {
-            "header" : moca.header,
+            "header" : $m.header,
             "body" : {"config":_config}
         },          
         callback : function(_response){
-            var response = moca.getRes(_response).map;
+            var response = $m.getRes(_response).map;
             var ks = Object.keys(_config);
             for(var i=0; i < ks.length; i++){
                 var compId = ks[i];
@@ -4393,27 +4386,27 @@ Moca.prototype.code = function(_config,_callback,_url,_pageId,_srcId) {
                     if(gridAndCellArr.length == 1){
                         //일반
                         var compId = gridAndCellArr[0];
-                        var compObj = moca.getObj(compId,null,_pageId,_srcId);
+                        var compObj = $m.getObj(compId,null,_pageId,_srcId);
                         if(compObj != null ){//&& compObj['list'] == null
                             compObj['list'] = l;
                             compObj['codeOpt'] = v;
                             if(compObj.getAttribute("type") == "searchCombo"){
-                                moca.renderSearchCombo(compObj,null,'normal',_pageId,_srcId);
+                                $m.renderSearchCombo(compObj,null,'normal',_pageId,_srcId);
                             }else if(compObj.getAttribute("type") == "combo"){
-                                moca.renderCombo(compObj,null,'normal',_pageId,_srcId);
+                                $m.renderCombo(compObj,null,'normal',_pageId,_srcId);
                             }
                         }                   
                     }else{
                         //그리드
                         var gridId = gridAndCellArr[0];
                         var cellId = gridAndCellArr[1];
-                        var g_obj = moca.getObj(gridId,null,_pageId,_srcId);
+                        var g_obj = $m.getObj(gridId,null,_pageId,_srcId);
                         if(g_obj[cellId] == null){
                             g_obj[cellId] = {};
                         } 
                         g_obj[cellId]['list'] = l;
                         g_obj[cellId]['codeOpt'] = v;
-                        g_obj[cellId]['map'] = moca.listToMap(l,v);
+                        g_obj[cellId]['map'] = $m.listToMap(l,v);
                     }
                 }else{
                     
@@ -4436,18 +4429,18 @@ Moca.prototype.openPdfViewer = function(_opt){
     for(var i=0; i < paramArray.length; i++){
         var key = paramArray[i];
         var val = params[key];
-        re_params = re_params + key+'='+moca.encode(val);
+        re_params = re_params + key+'='+$m.encode(val);
         if(i != paramArray.length-1){
             re_params = re_params +"&";
         }else{
-            re_params = re_params +"&user_id="+moca.getSession("USER_ID");
+            re_params = re_params +"&user_id="+$m.getSession("USER_ID");
         }
     }
-    var _srcId = moca._contextRoot+ "/moca/web/viewer.html";
-    moca.userLogInsert({URL:_opt.url,SRCID:_opt.id,LABEL:_opt.param.FILE_REAL_NM,MENU_NM:_opt.title});
-    var _url = _opt.url+"?__popid="+_opt.id+"&__title="+moca.encode(_opt.title)+"&"+re_params;
+    var _srcId = $m._contextRoot+ "/moca/web/viewer.html";
+    $m.userLogInsert({URL:_opt.url,SRCID:_opt.id,LABEL:_opt.param.FILE_REAL_NM,MENU_NM:_opt.title});
+    var _url = _opt.url+"?__popid="+_opt.id+"&__title="+$m.encode(_opt.title)+"&"+re_params;
     _opt.url = _srcId+"?file="+ encodeURIComponent(_url + "#" + "moca");
-    moca.openWindowPopup(_opt);
+    $m.openWindowPopup(_opt);
 };
 
 
@@ -4455,12 +4448,12 @@ Moca.prototype.popClose = function(_popupId,_json){
     ['모카팝업 닫기'];
     //if(top.name.startsWith("POPUP"))
     if(opener && $('#'+_popupId).attr('id') == parent.name){
-    	if(opener.moca.callbacks[_popupId]){
-	        eval(opener.moca.callbacks[_popupId])(_json);
-	        delete opener.moca.callbacks[_popupId];
-	        delete opener.moca.data[_popupId];
+    	if(opener.$m.callbacks[_popupId]){
+	        eval(opener.$m.callbacks[_popupId])(_json);
+	        delete opener.$m.callbacks[_popupId];
+	        delete opener.$m.data[_popupId];
 	    }
-    	opener.moca.popClose(_popupId);
+    	opener.$m.popClose(_popupId);
     	self.close();
     }else{
     	if(!$('#'+_popupId).prev().hasClass('moca_popup')){
@@ -4472,12 +4465,12 @@ Moca.prototype.popClose = function(_popupId,_json){
 	        var activeObj = $('.moca_tab_list.active')[0];
 	        var _tab_id = activeObj.getAttribute("tab_id");//MDI_201901091611497970040306010502
 	        var _tab_url = activeObj.getAttribute("tab_url");//MDI_201901091611497970040306010502
-	        var _src_id = moca.url_to_srcId(_tab_url);
-	        moca.pageId = _tab_id;
-	        moca.srcId = _src_id;
+	        var _src_id = $m.url_to_srcId(_tab_url);
+	        $m.pageId = _tab_id;
+	        $m.srcId = _src_id;
 	    }else{
-	        moca.pageId = $("div[type=grid]").attr("pageid");
-	        moca.srcId = $("div[type=grid]").attr("srcid");
+	        $m.pageId = $("div[type=grid]").attr("pageid");
+	        $m.srcId = $("div[type=grid]").attr("srcid");
 	    }
 	    if(this.callbacks[_popupId]){
 	        eval(this.callbacks[_popupId])(_json);
@@ -4495,12 +4488,12 @@ Moca.prototype.popChange = function(_popupId,_json){
         var activeObj = $('.moca_tab_list.active')[0];
         var _tab_id = activeObj.getAttribute("tab_id");//MDI_201901091611497970040306010502
         var _tab_url = activeObj.getAttribute("tab_url");//MDI_201901091611497970040306010502
-        var _src_id = moca.url_to_srcId(_tab_url);
-        moca.pageId = _tab_id;
-        moca.srcId = _src_id;
+        var _src_id = $m.url_to_srcId(_tab_url);
+        $m.pageId = _tab_id;
+        $m.srcId = _src_id;
     }else{
-        moca.pageId = $("div[type=grid]").attr("pageid");
-        moca.srcId = $("div[type=grid]").attr("srcid");
+        $m.pageId = $("div[type=grid]").attr("pageid");
+        $m.srcId = $("div[type=grid]").attr("srcid");
     }
     if(this.callbacks[_popupId]){
         eval(this.callbacks[_popupId])(_json);
@@ -4511,7 +4504,7 @@ Moca.prototype.popChange = function(_popupId,_json){
     
     if($('#'+_popupId+' > .moca_popup.POP').length > 0){
 		$('#'+_popupId,opener.document).show();    
-	    moca.closeGubun = 'change';
+	    $m.closeGubun = 'change';
 	    self.close();
 	    
     }else{
@@ -4520,9 +4513,9 @@ Moca.prototype.popChange = function(_popupId,_json){
 	    var _h = _pop.css('height').replace(/px/g,''); 
 	    var _title =_pop[0].option.title;
 	    var __srcid = _pop.attr('srcid');
-	    var __param = moca[__srcid].args.parent.data;
+	    var __param = $m[__srcid].args.parent.data;
 	    var __url = "/uat/uia/actionMain_link.do?mcsrc="+$('#'+_popupId).attr('src');
-	    var _id = moca.openWindowPopup({
+	    var _id = $m.openWindowPopup({
 	        id: _popupId,
 	        method:"post",
 	        title: _title,
@@ -4541,7 +4534,7 @@ Moca.prototype.mdiChange = function(_popupId,_json){
     ['모카mdi타입전환'];
     if($('#'+_popupId+'.moca_tab_body').length > 0){
 		$('#'+_popupId,opener.document).show();    
-	    moca.closeGubun = 'change';
+	    $m.closeGubun = 'change';
 	    self.close();
 	    
     }else{
@@ -4553,9 +4546,9 @@ Moca.prototype.mdiChange = function(_popupId,_json){
 	    var _w = '1400';
 	    var _h = '600'; 
 	    var __srcid = _pop.find('.moca_tab_panel').attr('srcid');
-	    var __param = moca[__srcid].args.parent.data;
+	    var __param = $m[__srcid].args.parent.data;
 	    var __url = "/uat/uia/actionMain_link.do?mcsrc="+_src;
-	    var _id = moca.openWindowPopup({
+	    var _id = $m.openWindowPopup({
 	        id: _popupId,
 	        method:"post",
 	        title: _title,
@@ -4574,10 +4567,10 @@ Moca.prototype.mdiChange = function(_popupId,_json){
 
 Moca.prototype.popUnload = function(){
     ['popUnload'];
-	if(moca.closeGubun != 'change'){
-		moca.popClose(param['__popid'],null);
+	if($m.closeGubun != 'change'){
+		$m.popClose(param['__popid'],null);
 	}else{
-		moca.closeGubun = '';
+		$m.closeGubun = '';
 	}
 };
 
@@ -4598,8 +4591,8 @@ Moca.prototype.getObj = function(_objId,_tag,_pageId,_srcId){
             re = $('div[id='+_objId+']').filter('[pageId="'+_pageId+'"][srcId="'+_srcId+'"]');
         }else if(this.pageId != null){
             re = $('div[id='+_objId+']').filter('[pageId="'+this.pageId+'"][srcId="'+this.srcId+'"]');
-        }else if(moca.pageId != null){
-                re = $('div[id='+_objId+']').filter('[pageId="'+moca.pageId+'"][srcId="'+moca.srcId+'"]');
+        }else if($m.pageId != null){
+                re = $('div[id='+_objId+']').filter('[pageId="'+$m.pageId+'"][srcId="'+$m.srcId+'"]');
         }else{
             re = $('div[id='+_objId+']');
         }
@@ -4608,8 +4601,8 @@ Moca.prototype.getObj = function(_objId,_tag,_pageId,_srcId){
             re = $(_tag+'[id='+_objId+']').filter('[pageId="'+_pageId+'"][srcId="'+_srcId+'"]');
         }else if(this.pageId != null){
             re = $(_tag+'[id='+_objId+']').filter('[pageId="'+this.pageId+'"][srcId="'+this.srcId+'"]');
-        }else if(moca.pageId != null){
-            re = $(_tag+'[id='+_objId+']').filter('[pageId="'+moca.pageId+'"][srcId="'+moca.srcId+'"]');
+        }else if($m.pageId != null){
+            re = $(_tag+'[id='+_objId+']').filter('[pageId="'+$m.pageId+'"][srcId="'+$m.srcId+'"]');
         }else{
             re = $(_tag+'[id='+_objId+']');
         }       
@@ -4651,9 +4644,9 @@ Moca.prototype.addPageId = function(data,_pageId,_srcId){
     if(_pageId != null){
         return data.replace(/(<[^<]*?)id\s*?=\s*?(\'|\")(.*?)(\'|\")([^<]*?>)/g,'$1 id="$3" pageId="'+_pageId+'" srcId="'+_srcId+'" $5'); 
     }else{
-        return data.replace(/(<[^<]*?)id\s*?=\s*?(\'|\")(.*?)(\'|\")([^<]*?>)/g,'$1 id="$3" pageId="'+moca.pageId+'" srcId="'+moca.srcId+'" $5'); 
+        return data.replace(/(<[^<]*?)id\s*?=\s*?(\'|\")(.*?)(\'|\")([^<]*?>)/g,'$1 id="$3" pageId="'+$m.pageId+'" srcId="'+$m.srcId+'" $5'); 
     }
-    //return data.replace(/id\s*?=\s*?(\'|\")(.*?)(\'|\")/g,'id="$2" pageId="'+moca.pageId+'" srcId="'+moca.srcId+'" '); 
+    //return data.replace(/id\s*?=\s*?(\'|\")(.*?)(\'|\")/g,'id="$2" pageId="'+$m.pageId+'" srcId="'+$m.srcId+'" '); 
 };
 Moca.prototype.openSelect = function(_thisObj){
     ['grid cell selectbox동적열기'];
@@ -4683,14 +4676,14 @@ Moca.prototype.openSelect = function(_thisObj){
     //var rowIndex = $(_thisObj).parent().children().index($(_thisObj));
     var combo_div = _thisObj.parentElement;
     var _html = '';
-    _html += moca.getSelectTagForCombo(grd.id); 
+    _html += $m.getSelectTagForCombo(grd.id); 
     
     var selectList = grd[_thisObj.parentElement.parentElement.id];
     var list = selectList.list;
     var codeOpt = selectList.codeOpt;
     var _metaInfo = codeOpt.metaInfo;
-    var _codeCd = moca.codeCd;
-    var _codeNm = moca.codeNm;
+    var _codeCd = $m.codeCd;
+    var _codeNm = $m.codeNm;
     if(_metaInfo != null){
         _codeCd = _metaInfo.codeCd;
         _codeNm = _metaInfo.codeNm;
@@ -4731,15 +4724,15 @@ Moca.prototype.openSelect = function(_thisObj){
     }
     _html += '</select>';
     combo_div.innerHTML = _html;
-    moca.setCellData(grd,realRowIndex,colid,combo_div.children[0].value);
-    moca._selectFocus(combo_div);
+    $m.setCellData(grd,realRowIndex,colid,combo_div.children[0].value);
+    $m._selectFocus(combo_div);
 };
 Moca.prototype.closeSelect = function(_thisObj){
     ['grid cell selectbox동적닫기'];
     setTimeout(function(){
         try{
             var combo_div = _thisObj.parentElement;
-            combo_div.innerHTML = moca.getInputSelectTag(combo_div.getAttribute("label"));
+            combo_div.innerHTML = $m.getInputSelectTag(combo_div.getAttribute("label"));
         }catch(e){
             //thisObj가 사라졌을때(input으로 바뀔수있음 예외가 발생
         }
@@ -4766,10 +4759,10 @@ Moca.prototype.gridCell_selectChange = function(_thisObj){
     comboObj.setAttribute("label",label);
     
     var combo_div = _thisObj.parentElement;
-    combo_div.innerHTML = moca.getInputSelectTag(label);
-    moca.setCellData(grd,realRowIndex,colid,combo_div.getAttribute('cd'));
+    combo_div.innerHTML = $m.getInputSelectTag(label);
+    $m.setCellData(grd,realRowIndex,colid,combo_div.getAttribute('cd'));
     
-    if(moca.trim(_onSelectChanged) != '' ){
+    if($m.trim(_onSelectChanged) != '' ){
         eval(_onSelectChanged)(realRowIndex,colid,beforeCd,beforeNm,_thisObj.value,label);
     }
 };
@@ -4818,7 +4811,7 @@ Moca.prototype.arrayOrderFnc = function(dataArray, orderArray, type){
     let subOrderCallBoolean = false;
     
     //1차 정렬
-    returnArray = moca.orderFnc(dataArray, orderArray[0], type[0]);
+    returnArray = $m.orderFnc(dataArray, orderArray[0], type[0]);
         
     
     //동일한 값이 있고 기준 컬럼 배열이 2개 이상일때 실행
@@ -4826,7 +4819,7 @@ Moca.prototype.arrayOrderFnc = function(dataArray, orderArray, type){
     //if(subOrderCallBoolean && orderArraySizeMax >= 2){
     if(orderArraySizeMax >= 2){
         //2차 정렬
-        moca.subOrderFnc(returnArray, orderArray, type);
+        $m.subOrderFnc(returnArray, orderArray, type);
         
     }
     
@@ -4930,7 +4923,7 @@ Moca.prototype.subOrderFnc = function(returnArray, orderArray, type){
     
         $.each(sameDataArray,function(index3, item3){
             let matchDataArray = sameDataArray[index3].matchData;
-            let tempArray = moca.orderFnc(sameDataArray[index3].data, orderArray[orderIndex], type[orderIndex]);
+            let tempArray = $m.orderFnc(sameDataArray[index3].data, orderArray[orderIndex], type[orderIndex]);
             let checkBoolean = false;
             
             for(let n =0 ; n < returnArray.length ;n++){
@@ -5013,7 +5006,7 @@ Moca.prototype._fullScreenGrid = function(_thisObj){
     
     var grdkey = _thisObj.getAttribute("grdkey");
     var yscrollObj = $('.moca_scrollY_type1[id='+grdkey+'_moca_scroll_y][pageid='+_pageid+'][srcid='+_srcid+']');
-    moca.sFunction(yscrollObj[0]);
+    $m.sFunction(yscrollObj[0]);
 };
 
 Moca.prototype.isShowFoldBtn = function(_foldBtnObj){
@@ -5028,8 +5021,8 @@ Moca.prototype._foldGrid = function(_thisObj){
 	var g_jq = $(_thisObj).closest('div[type="grid"]');
     var b_jq = $(_thisObj);
     var _onFoldClick = g_jq.attr("onFoldClick");
-    moca._foldGrid_common(b_jq,g_jq);
-    if(moca.trim(_onFoldClick) != ''){
+    $m._foldGrid_common(b_jq,g_jq);
+    if($m.trim(_onFoldClick) != ''){
     	eval(_onFoldClick)(b_jq,g_jq);
     };
 };
@@ -5049,7 +5042,7 @@ Moca.prototype._foldGrid_common = function(_foldBtnObj,_grdObj){
         b_jq.addClass('grid_unfold');
         g_jq.removeClass('fold');
         g_jq.find('.moca_grid_list').show();
-        moca.redrawGrid(g_jq[0]);
+        $m.redrawGrid(g_jq[0]);
     }
 };
 
@@ -5061,24 +5054,24 @@ Moca.prototype.redrawGrid = function(_grd){
     /*
     var cntObj = $(_grd).find('.grid_total .txt_blue');
     if(_grd.ori_list.length != _grd.list.length){
-        cntObj.html('<b style="color:red">'+moca.comma(_grd.list.length)+'</b>'+'/'+moca.comma(_grd.ori_list.length));
+        cntObj.html('<b style="color:red">'+$m.comma(_grd.list.length)+'</b>'+'/'+$m.comma(_grd.ori_list.length));
     }else{
-        cntObj.html(moca.comma(_grd.ori_list.length));
+        cntObj.html($m.comma(_grd.ori_list.length));
     }
     */
     
     $('.itemTable').remove();//필터창 열린게 있으면 닫기
     if(_grd == null){
         //setTimeout(function(){
-            var yscrollArr = $('.moca_scrollY_type1[pageid='+moca.pageId+'][srcid='+moca.srcId+']');
+            var yscrollArr = $('.moca_scrollY_type1[pageid='+$m.pageId+'][srcid='+$m.srcId+']');
             for(var i=0,j=yscrollArr.length; i < j; i++){
-                moca.sFunction(yscrollArr[i]);
+                $m.sFunction(yscrollArr[i]);
             }
         //},100);
     }else{
         var yscrollObj = $(_grd).find('.moca_scrollY_type1')[0];
         //setTimeout(function(){
-            moca.sFunction(yscrollObj);
+            $m.sFunction(yscrollObj);
         //},100);
     }
 };
@@ -5126,7 +5119,7 @@ Moca.prototype.toMillDate = function(_millisecond){
     ['밀리세컨드를 날짜시간으로 ']
     if(_millisecond != undefined && $.trim(_millisecond) != ""){
         var d = new Date(parseInt(_millisecond));
-        return moca.dateFormat(moca.now(d));
+        return $m.dateFormat($m.now(d));
     }else{
         return '';
     }
@@ -5144,7 +5137,7 @@ Moca.prototype.toFormatYYYYMMDDByDash = function(_YYYYMMDD){
 
 Moca.prototype._row_add = function(_thisObj){
     ['행추가'] 
-    var g_jq = moca.getTypeObj(_thisObj);
+    var g_jq = $m.getTypeObj(_thisObj);
     var grd = g_jq[0];
     var b_jq = $(_thisObj);
     var grdkey = _thisObj.getAttribute("grdkey");
@@ -5162,35 +5155,35 @@ Moca.prototype._row_add = function(_thisObj){
         grd.list = [];
     }
     grd.list.unshift(aRow); 
-    moca[grd.getAttribute('srcId')].drawGrid(grd,grd.list);
+    $m[grd.getAttribute('srcId')].drawGrid(grd,grd.list);
     var rowForFocus = $(grd).find('tbody:first').children()[0];
     if(rowForFocus != null){
-        moca._setSelectRowIndex(rowForFocus);
-        moca._setRowSelection(grd);
+        $m._setSelectRowIndex(rowForFocus);
+        $m._setRowSelection(grd);
     }
 };
 
 Moca.prototype._row_del = function(_thisObj){
     ['행삭제']
-    var _type = moca.getType(_thisObj); 
-    var g = moca.getTypeObj(_thisObj)[0];
+    var _type = $m.getType(_thisObj); 
+    var g = $m.getTypeObj(_thisObj)[0];
     var toolbar_delrow_imd = g.getAttribute("toolbar_delrow_imd");
     //var selectedRowIndex = g.getAttribute("selectedRowIndex");
     var selectedRealRowIndex = g.getAttribute("selectedRealRowIndex");
     //var targetRow = $(g).find('tbody>tr:eq('+selectedRowIndex+')');
     var status = g.list[selectedRealRowIndex]["_system"]['status'];
     if(status == 'C' || toolbar_delrow_imd == 'true'){
-        moca.removeRow(g,selectedRealRowIndex); 
+        $m.removeRow(g,selectedRealRowIndex); 
     }else if(status == 'D'){    
-        moca.setCellData(g,selectedRealRowIndex,'status','');       
+        $m.setCellData(g,selectedRealRowIndex,'status','');       
     }else{
-        moca.setCellData(g,selectedRealRowIndex,'status','D');
+        $m.setCellData(g,selectedRealRowIndex,'status','D');
     }
 };
 
 Moca.prototype.getSelectedRowJson = function(_gridId,_pageId,_srcId){
     ['getRowJson']
-    var _grd = moca.getObj(_gridId,null,_pageId,_srcId);
+    var _grd = $m.getObj(_gridId,null,_pageId,_srcId);
     var selectedRealRowIndex = _grd.getAttribute("selectedRealRowIndex");
     var _json = _grd.list[selectedRealRowIndex];
     return _json;
@@ -5220,7 +5213,7 @@ Moca.prototype.setCellData = function(_grd,_realRowIndex,_colId,_data){
     }
 
 
-    var oriVal = moca.getCellOriData(_grd,_realRowIndex,_colId);
+    var oriVal = $m.getCellOriData(_grd,_realRowIndex,_colId);
     if(oriVal == undefined){
         oriVal = "";
     }
@@ -5228,7 +5221,7 @@ Moca.prototype.setCellData = function(_grd,_realRowIndex,_colId,_data){
         _data = "";
     }
     if( !(_data == "0" && oriVal == "")  && oriVal != _data ){
-        var status_now = moca.getCellData(_grd,_realRowIndex,'status');
+        var status_now = $m.getCellData(_grd,_realRowIndex,'status');
         if(status_now !='C'){
             if(_colId == "status"){
                 _grd.list[_realRowIndex]["_system"]['status'] = _data;
@@ -5240,7 +5233,7 @@ Moca.prototype.setCellData = function(_grd,_realRowIndex,_colId,_data){
 
         }
     }else{
-        var status_now = moca.getCellData(_grd,_realRowIndex,'status');
+        var status_now = $m.getCellData(_grd,_realRowIndex,'status');
         if(status_now !='C'){
             var cellArray = Object.keys(_grd.cellInfo);
             var flag = true;
@@ -5279,14 +5272,14 @@ Moca.prototype.removeRow = function(_grd,_rowIndex){
         _grd.setAttribute("selectedRealRowIndex","");
     }
     //새로그려야함. 데이터 정합성을 위해
-    moca.grid_redraw(_grd);
+    $m.grid_redraw(_grd);
 };
 
 
 Moca.prototype._uptData = function(_thisObj){
     ['에디팅데이터 실시간 dataList에 반영'];
     event.preventDefault();
-    moca._selectFocus(_thisObj);
+    $m._selectFocus(_thisObj);
     var grd = $(_thisObj).closest('div[type=grid]')[0];
     var _thisTd = $(_thisObj).closest('td');
     var colid = $(_thisObj).closest('td')[0].id;
@@ -5296,7 +5289,7 @@ Moca.prototype._uptData = function(_thisObj){
     var realRowIndex = grd.getAttribute("selectedRealRowIndex");
     
     if(_thisObj.tagName == "TD"){
-        moca._selectFocus(_thisObj);
+        $m._selectFocus(_thisObj);
         var temp = $(_thisObj).find(".moca_checkbox_grid>input");
         if(temp.length > 0){
             _thisObj = temp[0];
@@ -5332,34 +5325,34 @@ Moca.prototype._uptData = function(_thisObj){
             if(v == null){
                 v = "true";
             }
-            moca.setCellData(grd,realRowIndex,colid,v);
+            $m.setCellData(grd,realRowIndex,colid,v);
         }else{
             var v = _thisTd[0].getAttribute("falseValue");
-            moca.setCellData(grd,realRowIndex,colid,v);
+            $m.setCellData(grd,realRowIndex,colid,v);
         }
     }else if(_thisObj.tagName == 'TD'){
         if($(_thisObj).find('input').length > 0){
             _value = $(_thisObj).find('input').attr('value');
-            moca.setCellData(grd,realRowIndex,colid,_value);
+            $m.setCellData(grd,realRowIndex,colid,_value);
         }else{
             _value = $(_thisObj).html();
         }
     }else{
         var displayfunctionValue = $(_thisObj).attr('displayfunction');
         var displayFunctionApplyValue = $(_thisObj).attr('displayFunctionApply');
-        if(moca.trim(displayfunctionValue) != '' && moca.trim(displayFunctionApplyValue) == 'realtime'){
+        if($m.trim(displayfunctionValue) != '' && $m.trim(displayFunctionApplyValue) == 'realtime'){
             var reValue = eval(displayfunctionValue)(_thisObj.value);
             //일단데이터(input)
-            moca.setCellData(grd,realRowIndex,colid,reValue);
+            $m.setCellData(grd,realRowIndex,colid,reValue);
         }else{
             //일단데이터(input)
-            moca.setCellData(grd,realRowIndex,colid,_thisObj.value);
+            $m.setCellData(grd,realRowIndex,colid,_thisObj.value);
         }
     }
 };
 Moca.prototype._evt_selectFocus = function(_thisObj){
     ['focus이벤트에서 포커스배경색주기'];
-    moca._selectFocus(event.srcElement.parentElement);
+    $m._selectFocus(event.srcElement.parentElement);
 };
 
 
@@ -5372,8 +5365,8 @@ Moca.prototype._selectFocus = function(_thisObj){
         if(grd == null){
             grd = $("#"+_tdObj.id).closest('div[type="grid"]')[0];
         }
-        moca._setSelectRowIndex(isTd);
-        moca._setRowSelection(grd);
+        $m._setSelectRowIndex(isTd);
+        $m._setRowSelection(grd);
     }else {
         //select경우
         isTd = _thisObj.parentElement;
@@ -5384,8 +5377,8 @@ Moca.prototype._selectFocus = function(_thisObj){
             }           
             var type = grd.getAttribute("type");
             if(type == 'grid'){
-                moca._setSelectRowIndex(isTd);
-                moca._setRowSelection(grd);
+                $m._setSelectRowIndex(isTd);
+                $m._setRowSelection(grd);
             }
         }
     }
@@ -5411,7 +5404,7 @@ Moca.prototype._setSelectRowIndex = function(_tdObj){
 Moca.prototype._setRowSelection = function(grd,_tdObj){ 
     ['row select 표시'];
     var _realIndex = grd.getAttribute("selectedRealRowIndex");
-    if(moca.trim(_realIndex) != ''){
+    if($m.trim(_realIndex) != ''){
         var foundedRow = $(grd).find('tbody:first>tr[realrowindex='+_realIndex+']');
         var selectedRow;
         if(foundedRow.length == 1){
@@ -5419,7 +5412,7 @@ Moca.prototype._setRowSelection = function(grd,_tdObj){
         }
         if(selectedRow != null){
             $(grd).find('tbody:first').children().children().css('background-color','').css('color','');
-            $(selectedRow).children().css('background-color',moca.rowSelectedColor).css('color','#FFF');
+            $(selectedRow).children().css('background-color',$m.rowSelectedColor).css('color','#FFF');
         }
     }
 };
@@ -5429,7 +5422,7 @@ Moca.prototype.getFilteredList = function(_grdId,key,_val,isNot,_pageId,_srcId){
     ['응답객체를 리턴타입에 맞게 변환']
     var _grd;
     if(typeof _grdId == 'string'){
-        _grd = moca.getObj(_grdId,null,_pageId,_srcId);
+        _grd = $m.getObj(_grdId,null,_pageId,_srcId);
     }else{
         _grd = _grdId;
     }
@@ -5484,7 +5477,7 @@ Moca.prototype.validate = function(__grdId,_key,_val,_pageId,srcId){
     var isExist = false;
     for(var g=0; g < _grdIdArr.length; g++){
         var _grdId = _grdIdArr[g];
-        var _grd = moca.getObj(_grdId,null,_pageId,srcId);
+        var _grd = $m.getObj(_grdId,null,_pageId,srcId);
         var reObj =  _grd.list;
         for(let i =0; i < reObj.length; i++){
             let row = reObj[i]; 
@@ -5497,7 +5490,7 @@ Moca.prototype.validate = function(__grdId,_key,_val,_pageId,srcId){
                     if(required == "true"){
                         
                         if($.trim(row[key]) === '' || row[key] == undefined){
-                            moca.alert(key+'는 필수입력항목입니다!',function(){moca.setFocus(_grd,i,key);});
+                            $m.alert(key+'는 필수입력항목입니다!',function(){$m.setFocus(_grd,i,key);});
                             return false;
                         }
                     }           
@@ -5507,7 +5500,7 @@ Moca.prototype.validate = function(__grdId,_key,_val,_pageId,srcId){
         }
     }
     if(!isExist){
-        moca.alert('처리할 대상이 없습니다.');
+        $m.alert('처리할 대상이 없습니다.');
         //isExist = true;
     }
     return isExist;
@@ -5527,16 +5520,16 @@ Moca.prototype.cell_check = function(_thisObj){
     }else{
         trObj = _thisObj.parentElement.parentElement.parentElement;
     }
-    var realRowInfo = moca.getRealRowInfo(trObj);
+    var realRowInfo = $m.getRealRowInfo(trObj);
     var _realIndex = realRowInfo.realRowIndex;
     var _grd = realRowInfo.grd;
-    moca.grid_expand_loop(_grd,_realIndex,null,1);  
-    moca.grid_redraw(_grd);
+    $m.grid_expand_loop(_grd,_realIndex,null,1);  
+    $m.grid_redraw(_grd);
 };
 
 Moca.prototype.grid_redraw = function(_grd){
     ['grid_redraw']
-    moca.sFunction($(_grd).find('.moca_scrollY_type1')[0]);
+    $m.sFunction($(_grd).find('.moca_scrollY_type1')[0]);
 };
 
 
@@ -5583,7 +5576,7 @@ Moca.prototype.isExpaned = function(_isExpaned,nowRow){
     }else{
         isExpaned = nowRow["_system"]["expand"];
     }
-    moca.grid_show_hide(isExpaned,_isExpaned,nowRow);
+    $m.grid_show_hide(isExpaned,_isExpaned,nowRow);
     return isExpaned;
 };
 
@@ -5613,11 +5606,11 @@ Moca.prototype.grid_expand = function(_thisObj){
         //trObj = _thisObj.parentElement.parentElement.parentElement;
         trObj = $(_thisObj).closest('tr')[0];
     }
-    var realRowInfo = moca.getRealRowInfo(trObj);
+    var realRowInfo = $m.getRealRowInfo(trObj);
     var _realIndex = realRowInfo.realRowIndex;
     var _grd = realRowInfo.grd;
-    moca.grid_expand_loop(_grd,_realIndex,null,1);  
-    moca.grid_redraw(_grd);
+    $m.grid_expand_loop(_grd,_realIndex,null,1);  
+    $m.grid_redraw(_grd);
 };
 
 Moca.prototype.grid_child_show_hide = function(isExpaned,childRow,parent_expand,parent_display){
@@ -5640,9 +5633,9 @@ Moca.prototype.grid_child_show_hide = function(isExpaned,childRow,parent_expand,
 Moca.prototype.grid_expand_loop = function(_grd,_realIndex,_isExpaned,_depth){
     ['grid_tree grid_expand_loop']
     var re = {};
-    var tro = moca.get_tree_info(_grd);
-    var nro = moca.nowRow_info(_grd,_realIndex,tro);
-    var isExpaned= moca.isExpaned(_isExpaned,nro.now);
+    var tro = $m.get_tree_info(_grd);
+    var nro = $m.nowRow_info(_grd,_realIndex,tro);
+    var isExpaned= $m.isExpaned(_isExpaned,nro.now);
     var parent_display = nro.now["_system"]["display"];
     var parent_expand = nro.now["_system"]["expand"];
     
@@ -5652,10 +5645,10 @@ Moca.prototype.grid_expand_loop = function(_grd,_realIndex,_isExpaned,_depth){
     for(var i=last_i; i < _grd.list.length; ){
         var childRow = _grd.list[i];
         if(childRow[tro.parentNodeId] == nro.nk){
-            moca.grid_child_show_hide(isExpaned,childRow,parent_expand,parent_display);
+            $m.grid_child_show_hide(isExpaned,childRow,parent_expand,parent_display);
             returnCnt++;
-            if(moca.getIsLeaf(_grd,i,childRow,tro.levelId) != "true"){//폴더
-                var reObj = moca.grid_expand_loop(_grd,i,isExpaned,_depth+1);
+            if($m.getIsLeaf(_grd,i,childRow,tro.levelId) != "true"){//폴더
+                var reObj = $m.grid_expand_loop(_grd,i,isExpaned,_depth+1);
                 returnCnt += reObj.returnCnt;
                 i = reObj.i;
                 last_i = i;
@@ -5752,11 +5745,11 @@ Moca.prototype.genTbody = function(_grd,_list,_idx,isEnd) {
         this.genRows(row,row_pre,row_next,_grd,null,idx,i,"after");
     }
     
-    moca._col_showhideExe(_grd);
-    moca._setRowSelection(_grd);
+    $m._col_showhideExe(_grd);
+    $m._setRowSelection(_grd);
     
     var _onDblClickFunc = _grd.getAttribute("onDblClick");
-    if(moca.trim(_onDblClickFunc) != ''){
+    if($m.trim(_onDblClickFunc) != ''){
         $(_grd).off('dblclick','tr');
         $(_grd).on('dblclick','tr', function(e) {
         	
@@ -5804,12 +5797,12 @@ Moca.prototype.genTbody = function(_grd,_list,_idx,isEnd) {
         }).on("wheel", "tbody:first", function(e) {
             if(e.currentTarget.tagName == 'TBODY'){
                 var grd = $(e.currentTarget).closest("[type=grid]");
-                moca.pageId = grd.attr('pageId');
-                moca.srcId = grd.attr('srcid');
+                $m.pageId = grd.attr('pageId');
+                $m.srcId = grd.attr('srcid');
             }
-            moca.wFunction(moca.getObj(_grd.id+"_moca_scroll_y"));          
+            $m.wFunction($m.getObj(_grd.id+"_moca_scroll_y"));          
         }).on("mousemove", "table", function(e) {
-            moca.grid_checkBorder(this);
+            $m.grid_checkBorder(this);
             //e.preventDefault();
             //e.stopPropagation();
             //e.stopImmediatePropagation();
@@ -5817,7 +5810,7 @@ Moca.prototype.genTbody = function(_grd,_list,_idx,isEnd) {
         });
 
     }
-    //moca.sFunction(this);
+    //$m.sFunction(this);
     //다그리고난후에 색칠함!
     var rowBgColorFunctionStr = _grd.getAttribute("rowBgColorFunction");
     if(rowBgColorFunctionStr != null){
@@ -5851,7 +5844,7 @@ Moca.prototype.getInputSelectTag = function(_label,_req){
     }else{
         _req = "";  
     }
-    var selectTag = '<input type="text" class="moca_select '+_req+'" readonly value="'+_label+'" onclick="moca.openSelect(this)" >';//onfocus="moca._evt_selectFocus(this)"
+    var selectTag = '<input type="text" class="moca_select '+_req+'" readonly value="'+_label+'" onclick="$m.openSelect(this)" >';//onfocus="$m._evt_selectFocus(this)"
     return selectTag;
 };
 Moca.prototype.getSelectDivTagForCombo = function(_label,_req,_cd,_nm,_height){
@@ -5866,7 +5859,7 @@ Moca.prototype.getSelectDivTagForCombo = function(_label,_req,_cd,_nm,_height){
 };
 Moca.prototype.getSelectTagForCombo = function(_id){
     ['getSelectTagForCombo for grid cell'];
-    var selectTag = '<select name="sel_tree1" id="'+('sub_'+_id)+'" class="moca_select"  onchange="moca.gridCell_selectChange(this)" onblur="moca.closeSelect(this)" >';
+    var selectTag = '<select name="sel_tree1" id="'+('sub_'+_id)+'" class="moca_select"  onchange="$m.gridCell_selectChange(this)" onblur="$m.closeSelect(this)" >';
     return selectTag;
 };
 
@@ -5876,18 +5869,18 @@ Moca.prototype.getSelectTagForNormal = function(_id,_onchange){
     if(_onchange != null){
         _onchange = _onchange.replace(/\(this\)/g,'');
     }
-    _onchange_str = 'onchange="moca.defaultOnChange(this,\''+_onchange+'\')"';
+    _onchange_str = 'onchange="$m.defaultOnChange(this,\''+_onchange+'\')"';
     var selectTag = '<select name="sel_tree1" id="'+('sub_'+_id)+'" class="moca_select" '+_onchange_str+' >';
     return selectTag;
 };
 
 Moca.prototype.defaultOnChange = function(_thisSelectObj,_onchangeFunction){
     ['현재선택된값을 div에 저장함'];
-    var cd = moca[$(_thisSelectObj.parentElement).attr('srcid')].getCombo(_thisSelectObj.parentElement.id);
-    var nm = moca[$(_thisSelectObj.parentElement).attr('srcid')].getComboLabel(_thisSelectObj.parentElement.id);
+    var cd = $m[$(_thisSelectObj.parentElement).attr('srcid')].getCombo(_thisSelectObj.parentElement.id);
+    var nm = $m[$(_thisSelectObj.parentElement).attr('srcid')].getComboLabel(_thisSelectObj.parentElement.id);
     $(_thisSelectObj.parentElement).attr('code',cd);
     $(_thisSelectObj.parentElement).attr('label',nm);
-    if(moca.trim(_onchangeFunction) != ''){
+    if($m.trim(_onchangeFunction) != ''){
     	eval(_onchangeFunction)(_thisSelectObj);
     }
 };
@@ -6079,7 +6072,7 @@ var sampleCalendar ={
                                 if(index2 == 0){
                                     $(this).addClass('moca_calendar_holiday');
                                 }
-                                //calendarTdHtml = '<button aria-pressed="false" type="button"  onclick="moca.iptCalSelect('+calendarVariable.id+','+calendarVariable.putObj+','+(_dt_yaer + _dt_month + comLib.gfn_toTwoChar(dayCnt))+')" >' + dayCnt + '</button>';
+                                //calendarTdHtml = '<button aria-pressed="false" type="button"  onclick="$m.iptCalSelect('+calendarVariable.id+','+calendarVariable.putObj+','+(_dt_yaer + _dt_month + comLib.gfn_toTwoChar(dayCnt))+')" >' + dayCnt + '</button>';
                                 calendarTdHtml = '<button aria-pressed="false" type="button" >' + dayCnt + '</button>';
                                 $(this).attr("index",dayCnt);
                                 dayCnt++;
@@ -6092,7 +6085,7 @@ var sampleCalendar ={
                                 if(index2 == 0){
                                     $(this).addClass('moca_calendar_holiday');
                                 }
-                                //calendarTdHtml = '<button aria-pressed="false" type="button" onclick="moca.iptCalSelect('+calendarVariable.id+','+calendarVariable.putObj+','+(_dt_yaer + _dt_month + comLib.gfn_toTwoChar(dayCnt))+')" >' + dayCnt + '</button>';
+                                //calendarTdHtml = '<button aria-pressed="false" type="button" onclick="$m.iptCalSelect('+calendarVariable.id+','+calendarVariable.putObj+','+(_dt_yaer + _dt_month + comLib.gfn_toTwoChar(dayCnt))+')" >' + dayCnt + '</button>';
                                 calendarTdHtml = '<button aria-pressed="false" type="button" >' + dayCnt + '</button>';
                                 $(this).attr("index",dayCnt);
                                 dayCnt++;
@@ -6551,34 +6544,34 @@ var sampleCalendar ={
         },calendarDateBtnEventSetting : function(calendarVariable,dateStr, objIndex){
             let returnDateVal = "";
             if(calendarVariable.returnDateType == 0){
-                returnDateVal = (calendarVariable.dateArray.year+'').replace(/\s/g,'')+ "-" +comLib.gfn_toTwoChar(moca.trim(calendarVariable.dateArray.month+"").replace(/\s/g,''))+ "-" +comLib.gfn_toTwoChar(dateStr+"".replace(/\s/g,''));
+                returnDateVal = (calendarVariable.dateArray.year+'').replace(/\s/g,'')+ "-" +comLib.gfn_toTwoChar($m.trim(calendarVariable.dateArray.month+"").replace(/\s/g,''))+ "-" +comLib.gfn_toTwoChar(dateStr+"".replace(/\s/g,''));
             }else if(calendarVariable.returnDateType == 1){
-                returnDateVal = (calendarVariable.dateArray.year+'').replace(/\s/g,'')+ "-" +comLib.gfn_toTwoChar(moca.trim(calendarVariable.dateArray.month+"").replace(/\s/g,'')); 
+                returnDateVal = (calendarVariable.dateArray.year+'').replace(/\s/g,'')+ "-" +comLib.gfn_toTwoChar($m.trim(calendarVariable.dateArray.month+"").replace(/\s/g,'')); 
             }else{
                 returnDateVal = (calendarVariable.dateArray.year+'').replace(/\s/g,'');
             }
             $(calendarVariable.putObj).val(returnDateVal);
             
             var ondateSelectedFuncStr = calendarVariable.putObj.closest("[type=inputCalendar]").attr('ondateSelected');
-            if(moca.trim(ondateSelectedFuncStr) != ''){
+            if($m.trim(ondateSelectedFuncStr) != ''){
                 eval(ondateSelectedFuncStr)(returnDateVal);
             }
-            moca.closeCalendar($('#'+calendarVariable.id));
+            $m.closeCalendar($('#'+calendarVariable.id));
             sampleCalendar.calendarVariableResset();
         }
         ,calendarGoToday : function(calendarVariable,dateStr, objIndex){
             let returnDateVal = "";
             if(calendarVariable.returnDateType == 0){
-                returnDateVal = (calendarVariable.dateArray.year+'').replace(/\s/g,'')+ "-" +comLib.gfn_toTwoChar(moca.trim(calendarVariable.dateArray.month+"").replace(/\s/g,''))+ "-" +comLib.gfn_toTwoChar(dateStr+"".replace(/\s/g,''));
+                returnDateVal = (calendarVariable.dateArray.year+'').replace(/\s/g,'')+ "-" +comLib.gfn_toTwoChar($m.trim(calendarVariable.dateArray.month+"").replace(/\s/g,''))+ "-" +comLib.gfn_toTwoChar(dateStr+"".replace(/\s/g,''));
             }else if(calendarVariable.returnDateType == 1){
-                returnDateVal = (calendarVariable.dateArray.year+'').replace(/\s/g,'')+ "-" +comLib.gfn_toTwoChar(moca.trim(calendarVariable.dateArray.month+"").replace(/\s/g,'')); 
+                returnDateVal = (calendarVariable.dateArray.year+'').replace(/\s/g,'')+ "-" +comLib.gfn_toTwoChar($m.trim(calendarVariable.dateArray.month+"").replace(/\s/g,'')); 
             }else{
                 returnDateVal = (calendarVariable.dateArray.year+'').replace(/\s/g,'');
             }
             $(calendarVariable.putObj).val(returnDateVal);
             
             var ondateSelectedFuncStr = calendarVariable.putObj.closest("[type=inputCalendar]").attr('ondateSelected');
-            if(moca.trim(ondateSelectedFuncStr) != ''){
+            if($m.trim(ondateSelectedFuncStr) != ''){
                 eval(ondateSelectedFuncStr)(returnDateVal);
             }
         }
@@ -7063,7 +7056,7 @@ var multiCalendar ={
             var _l = $(_thisObj).prev().prev().offset().left;
             var _h = $(_thisObj).prev().height();
             /*
-            if(moca.getDevice() == "pc"){
+            if($m.getDevice() == "pc"){
             	$('#'+messageboxId).css('top',0).css('left',_l);
             }
             */
@@ -7134,7 +7127,7 @@ var multiCalendar ={
 
             
             multiCalendar.initEvent(multiCalendar.calendarVariable.calArray[0].id);
-            if(moca.getDevice() != "pc"){
+            if($m.getDevice() != "pc"){
             	$(tmp).addClass('vertical');
             	var _width = $(tmp).width();
             	var _height = $(tmp).height();
@@ -7305,7 +7298,7 @@ var multiCalendar ={
                 $("#"+calendarId).find(".moca_calendar_lta").find("li").removeClass("active");
                 $(this).parent().addClass("active");
                 
-                var reFromTo = moca.getFromToByOption(objIndexText);
+                var reFromTo = $m.getFromToByOption(objIndexText);
 
                 multiCalendar.calendarVariable.calArray[0].selectDay = reFromTo.from;
                 multiCalendar.calendarVariable.calArray[1].selectDay =  reFromTo.to;
@@ -7330,7 +7323,7 @@ var multiCalendar ={
             //최소 버튼
             $("#"+calendarId).find(".moca_calendar_btn_cancel").off("click").on("click",function(){
                 event.stopPropagation();
-                moca.closeMultiCalendar($('#'+calendarId));
+                $m.closeMultiCalendar($('#'+calendarId));
             })
 
             //확인 버튼
@@ -7386,7 +7379,7 @@ var multiCalendar ={
                 }
                 $(multiCalendar.calendarVariable.calViewObj).find("input").eq(0).val(fromDt);
                 $(multiCalendar.calendarVariable.calViewObj).find("input").eq(1).val(toDt);
-                moca.closeMultiCalendar($('#'+calendarId));
+                $m.closeMultiCalendar($('#'+calendarId));
             })
         },
         dateViewSetting : function(that, calendarVariable ,objIndex){
@@ -7422,7 +7415,7 @@ var multiCalendar ={
             
         },calendarDateBtnEventSetting : function(calendarVariable,dateStr, objIndex){
         	if(dateStr == '' || dateStr == null) return;
-            //document.getElementById(calendarVariable.putId).value = moca.getDisplayFormat_value(document.getElementById(calendarVariable.putObj).parentElement,calendarVariable.dateArray.year+calendarVariable.dateArray.month+ comLib.gfn_toTwoChar(dateStr));
+            //document.getElementById(calendarVariable.putId).value = $m.getDisplayFormat_value(document.getElementById(calendarVariable.putObj).parentElement,calendarVariable.dateArray.year+calendarVariable.dateArray.month+ comLib.gfn_toTwoChar(dateStr));
             let returnDateVal = "";
             if(calendarVariable.returnDateType == 0){
                 calendarVariable.dateArray.date = $.trim(comLib.gfn_toTwoChar(dateStr));
@@ -7455,14 +7448,14 @@ var multiCalendar ={
         }
             
             //console.log("["+objIndex+"]"+multiCalendar.calendarVariable.calArray[objIndex].selectDay);
-            //moca.closeCalendar($('#'+calendarVariable.id));
+            //$m.closeCalendar($('#'+calendarVariable.id));
         }
     }
 
 
 Moca.prototype.doFilterForSingle = function(_thisObj,_e,grd) {
     //첫적용
-    moca.stopEvent(_e);
+    $m.stopEvent(_e);
     var o = $(_thisObj).closest('TH');
     var _id = o.attr('id');
     var itemTable = $(_thisObj).closest('.moca_grid_body').find(".itemTable[thid="+_id+"]");
@@ -7490,7 +7483,7 @@ Moca.prototype.doFilterForSingle = function(_thisObj,_e,grd) {
         if(column_map == null){
             column_map = {};
         }
-        //var _filterMap = moca.groupBy(grd[0].nowlist,o.attr("filterableId"));
+        //var _filterMap = $m.groupBy(grd[0].nowlist,o.attr("filterableId"));
         var _filterMap_cdNm = grd[0][o.attr("filterableId")]['filterableMap'];
         var _filterMap = {};
         var kks = Object.keys(_filterMap_cdNm);
@@ -7517,7 +7510,7 @@ Moca.prototype.doFilterForSingle = function(_thisObj,_e,grd) {
             
     
             var _reLabel = _nm;
-            _reLabel = moca.trim(_reLabel);
+            _reLabel = $m.trim(_reLabel);
 
             if(filter != null && filter.indexOf(_cd) > -1){
                 checkedStr = "checked";
@@ -7548,14 +7541,14 @@ Moca.prototype.doFilterForSingle = function(_thisObj,_e,grd) {
         _all += '</span>';
         _all += '<div class="fr">';
         if(grd[0][o.attr("filterableId")].filterType != 'countableMap'){
-            _all += '<button type="button" class="moca_ibn_btn mr3" onclick="moca.filterSort(this,\''+_id+'\',\''+o.attr("filterableId")+'\')" style="">건수순</button>';
+            _all += '<button type="button" class="moca_ibn_btn mr3" onclick="$m.filterSort(this,\''+_id+'\',\''+o.attr("filterableId")+'\')" style="">건수순</button>';
         }else{
-            _all += '<button type="button" class="moca_ibn_btn mr3" onclick="moca.filterAlpha(this,\''+_id+'\',\''+o.attr("filterableId")+'\')" style="">가나다순</button>';
+            _all += '<button type="button" class="moca_ibn_btn mr3" onclick="$m.filterAlpha(this,\''+_id+'\',\''+o.attr("filterableId")+'\')" style="">가나다순</button>';
         }
-        _all += '<button type="button" class="moca_ibn_btn mr3" onclick="moca.filterApply(this,\''+_id+'\',\''+o.attr("filterableId")+'\')" style="">적용</button>'; 
-        _all += '<button type="button" class="moca_ibn_btn mr3 bd0" onclick="moca.expand(this,\''+_id+'\',\''+o.attr("filterableId")+'\')" style=""><i class="fas fa-angle-double-down"></i></button>';
+        _all += '<button type="button" class="moca_ibn_btn mr3" onclick="$m.filterApply(this,\''+_id+'\',\''+o.attr("filterableId")+'\')" style="">적용</button>'; 
+        _all += '<button type="button" class="moca_ibn_btn mr3 bd0" onclick="$m.expand(this,\''+_id+'\',\''+o.attr("filterableId")+'\')" style=""><i class="fas fa-angle-double-down"></i></button>';
         _all += '</div>';
-        _all += '<input type="text" class="moca_input req" style="" value="" onkeyup="moca.realtimeSearch(this)" placeholder="검색어를 입력하세요">';
+        _all += '<input type="text" class="moca_input req" style="" value="" onkeyup="$m.realtimeSearch(this)" placeholder="검색어를 입력하세요">';
         _all += '</div>';
         
         _itemTable = _all+'<ul>'+_itemTable+'</ul>';            
@@ -7563,7 +7556,7 @@ Moca.prototype.doFilterForSingle = function(_thisObj,_e,grd) {
         tmp.setAttribute("thid",o.attr('id'));
         tmp.setAttribute("class","itemTable");
         tmp.innerHTML = _itemTable;         
-        moca.filterClose();
+        $m.filterClose();
         $(_thisObj).closest('.moca_grid_body').append(tmp);
         grd[0].itemTable = itemTable;
         
@@ -7600,7 +7593,7 @@ Moca.prototype.doFilterForSingle = function(_thisObj,_e,grd) {
                     allCheckbox.prop('indeterminate',true);
                 }
             }
-            moca.filterSetColor(this);
+            $m.filterSetColor(this);
         });
         
         
@@ -7647,12 +7640,12 @@ Moca.prototype.doFilterForSingle = function(_thisObj,_e,grd) {
         if(itemTable.css('display') != 'none'){
             itemTable.css('display','none');
         }else{
-            moca.filterClose();
+            $m.filterClose();
             itemTable.css('display','block');
         }
     }
     itemTable.off("click").on('click',function(){
-        moca.stopEvent(event);
+        $m.stopEvent(event);
     });
 }
 
@@ -7667,8 +7660,8 @@ Moca.prototype.doFilter = function(_thisObj) {
     //선택한 필터가 최종필터가 아닐때!
     
     if(grd[0].appliedFilterMap != null && grd[0].appliedFilterMap[_headerId] != null && (grd[0].appliedFilterMap[_headerId].idx < grd[0].appliedFilterArr.length)){
-        moca.filterRemoveAll(grd);
-        //moca.drawGrid(grd[0].id, grd[0].ori_list);
+        $m.filterRemoveAll(grd);
+        //$m.drawGrid(grd[0].id, grd[0].ori_list);
     }
     
     var myIdx;
@@ -7677,13 +7670,13 @@ Moca.prototype.doFilter = function(_thisObj) {
     }
     //if(grd[0]['filterMaxIdx'] == null){//멀티필터시필요
     if(true){
-        moca.doFilterForSingle(_thisObj,event,grd);
+        $m.doFilterForSingle(_thisObj,event,grd);
     }else{
         //alert('_headerId'+_headerId+','+myIdx)
         if(myIdx != null){
-            moca.doFilterForSingle(_thisObj,event,grd);
+            $m.doFilterForSingle(_thisObj,event,grd);
         }else{
-            moca.question('멀티필터로 적용하시겠습니까?',function(result){
+            $m.question('멀티필터로 적용하시겠습니까?',function(result){
                 if(result != '3'){
                     if(result == '1'){
                         var list = grd[0].list;
@@ -7711,9 +7704,9 @@ Moca.prototype.doFilter = function(_thisObj) {
                             for(var k=0; k < filterArr.length; k++){
                                 var tdId = filterArr[k];
                                 var tdValue = row[tdId];
-                                jq_grd_2[tdId]['filterableMap'][tdValue] = (moca.getNumber(jq_grd_2[tdId]['filterableMap'][tdValue])+1);
+                                jq_grd_2[tdId]['filterableMap'][tdValue] = ($m.getNumber(jq_grd_2[tdId]['filterableMap'][tdValue])+1);
                                 if(i == list.length-1){
-                                    jq_grd_2[tdId]['filterableMap'] = moca.sortObject(jq_grd_2[tdId]['filterableMap']);
+                                    jq_grd_2[tdId]['filterableMap'] = $m.sortObject(jq_grd_2[tdId]['filterableMap']);
                                     jq_grd_2[tdId]['countableMap'] = {};
                                     var m = jq_grd_2[tdId].filterableMap;
                                     var keys = Object.keys(m);
@@ -7724,9 +7717,9 @@ Moca.prototype.doFilter = function(_thisObj) {
                                             val = m[key];
                                         }
                                         var reKey = "("+val+"건)"+" "+key;
-                                        jq_grd_2[tdId]['countableMap'][reKey] = key+" "+"("+moca.comma(val)+"건)";
+                                        jq_grd_2[tdId]['countableMap'][reKey] = key+" "+"("+$m.comma(val)+"건)";
                                     }
-                                    jq_grd_2[tdId]['countableMap'] = moca.sortObjectNumString(jq_grd_2[tdId]['countableMap']);
+                                    jq_grd_2[tdId]['countableMap'] = $m.sortObjectNumString(jq_grd_2[tdId]['countableMap']);
                                     var keys = Object.keys(jq_grd_2[tdId]['countableMap']);
                                     for(var j=0; j < keys.length; j++){
                                         var key = keys[j];
@@ -7756,7 +7749,7 @@ Moca.prototype.doFilter = function(_thisObj) {
                                     val = m[key];
                                 }
                                 
-                                jq_grd_2[tdId]['filterableMap'][key] = (j+1)+"."+key+" "+"("+moca.comma(val)+"건)";
+                                jq_grd_2[tdId]['filterableMap'][key] = (j+1)+"."+key+" "+"("+$m.comma(val)+"건)";
                             }
                             
                             $(jq_grd_2).find(".itemTable[thid="+thId+"]").remove();
@@ -7764,13 +7757,13 @@ Moca.prototype.doFilter = function(_thisObj) {
                         }
                         
                     //////////////////////////////////////////////////////////////////filter 구성 end
-                        moca.doFilterForSingle(_thisObj,event,grd);
+                        $m.doFilterForSingle(_thisObj,event,grd);
                         
                         
                     }else if(result == '2'){
-                        moca.filterRemoveAll(grd);
-                        moca.drawGrid(grd[0].id, grd[0].ori_list);
-                        moca.doFilterForSingle(_thisObj,event,grd);
+                        $m.filterRemoveAll(grd);
+                        $m.drawGrid(grd[0].id, grd[0].ori_list);
+                        $m.doFilterForSingle(_thisObj,event,grd);
                     }
                 }
             },
@@ -7787,9 +7780,9 @@ Moca.prototype.filterSort = function(thisObj,_headerId,_tdId) {
     var cm = grd[_tdId]['countableMap'];
     grd[_tdId]['filterableMap'] = cm;
     grd[_tdId].filterType = 'countableMap';
-    moca.filterClose();
+    $m.filterClose();
     $('.itemTable').remove();
-    moca.doFilter(_headerId);
+    $m.doFilter(_headerId);
 };
 Moca.prototype.filterAlpha = function(thisObj,_headerId,_tdId) {
     ['알파벳순으로 소트']
@@ -7797,9 +7790,9 @@ Moca.prototype.filterAlpha = function(thisObj,_headerId,_tdId) {
     var am = grd[_tdId]['alphabeticalMap'];
     grd[_tdId]['filterableMap'] = am;
     grd[_tdId].filterType = 'alphabeticalMap';
-    moca.filterClose();
+    $m.filterClose();
     $('.itemTable').remove();
-    moca.doFilter(_headerId);
+    $m.doFilter(_headerId);
 };
 
 Moca.prototype.filterApply = function(thisObj,_headerId,_tdId) {
@@ -7827,7 +7820,7 @@ Moca.prototype.filterApply = function(thisObj,_headerId,_tdId) {
     for(var i=0; i < loopLeng; i++){
         var hId = grd.appliedFilterArr[i];
         var map = grd.appliedFilterMap[hId];
-        grd.list = moca.getFilteredListForFilter(grd.ori_list,map.tdId,map.checkedString);
+        grd.list = $m.getFilteredListForFilter(grd.ori_list,map.tdId,map.checkedString);
     }
     
     var applyNumber = 1;
@@ -7850,7 +7843,7 @@ Moca.prototype.filterApply = function(thisObj,_headerId,_tdId) {
     }else{
         __list = grd.ori_list;
     }
-    grd.list = moca.getFilteredListForFilter(__list,_tdId,grd['filter'][_headerId]);
+    grd.list = $m.getFilteredListForFilter(__list,_tdId,grd['filter'][_headerId]);
     grd.appliedFilterMap[_headerId] = {'idx':applyNumber,'checkedString':grd['filter'][_headerId],'tdId':_tdId,'allCheckedString':grd['filterFull'][_headerId]};
     grd['filterMaxIdx'] = grd.appliedFilterMap[_headerId].idx;
     grd['filterIdx'] = {};
@@ -7861,18 +7854,18 @@ Moca.prototype.filterApply = function(thisObj,_headerId,_tdId) {
     hObj.find('.moca_grid_filter_btn').addClass('multi');
     hObj.find('i').text(grd.appliedFilterMap[_headerId].idx);
     *///멀티필터시필요
-    moca.redrawGrid(grd);
+    $m.redrawGrid(grd);
     if(grd.list.length != grd.ori_list.length){
-        var cnt = '<b class="txt_red">'+moca.comma(grd.list.length)+'</b>'+'/'+moca.comma(grd.ori_list.length);
-        moca[grd.getAttribute("srcid")].setTotalCnt(grd,cnt);
+        var cnt = '<b class="txt_red">'+$m.comma(grd.list.length)+'</b>'+'/'+$m.comma(grd.ori_list.length);
+        $m[grd.getAttribute("srcid")].setTotalCnt(grd,cnt);
     }else{
         var cnt = grd.ori_list.length;
-        moca[grd.getAttribute("srcid")].setTotalCnt(grd,cnt);       
+        $m[grd.getAttribute("srcid")].setTotalCnt(grd,cnt);       
     }
 }
 
 Moca.prototype.doFilterDblclick = function() {
-    moca.stopEvent(event);
+    $m.stopEvent(event);
 }
 
 Moca.prototype.stopEvent = function(_evt) {
@@ -7890,8 +7883,8 @@ Moca.prototype.groupBy = function(_list, _colId) {
 }
 
 Moca.prototype._excel_up = function(_thisObj) {
-    var _type = moca.getType(_thisObj); 
-    var grd = moca.getTypeObj(_thisObj);
+    var _type = $m.getType(_thisObj); 
+    var grd = $m.getTypeObj(_thisObj);
     var _excel_start_index = grd.attr('excel_start_index');
     if(_excel_start_index == null){
         _excel_start_index = "1";
@@ -7906,12 +7899,12 @@ Moca.prototype._excel_up = function(_thisObj) {
             _jsonMap[excelIndex] = key;
         }
     }
-    moca.popup({
+    $m.popup({
         type:"POPUP",
         modal:"false",
         url:'/moca/comp/COMP_EXUP.html',
         title:"엑셀업로드",
-        callback:moca[grd[0].getAttribute("srcid")]._excelCallback,
+        callback:$m[grd[0].getAttribute("srcid")]._excelCallback,
         data:{
             mapper:_jsonMap,
             grdId:grd[0].id,
@@ -7925,8 +7918,8 @@ Moca.prototype._excel_up = function(_thisObj) {
 
 Moca.prototype._excel_down = function(_thisObj) {
     ['Ajax버전의 파일다운로드 함수'];
-    var _type = moca.getType(_thisObj)
-    var grd = moca.getTypeObj(_thisObj)
+    var _type = $m.getType(_thisObj)
+    var grd = $m.getTypeObj(_thisObj)
     var cellInfo = {};
     var ks = Object.keys(grd[0].cellInfo);
     for(var i=0,j=ks.length;i < j; i++){
@@ -7945,7 +7938,7 @@ Moca.prototype._excel_down = function(_thisObj) {
 
     var list = grd[0].list;
     if(list.length == 0){
-    	 moca.alert("다운로드할 데이터가 없습니다.");
+    	 $m.alert("다운로드할 데이터가 없습니다.");
     	 return;
     }
     var _parammap = {};
@@ -7980,7 +7973,7 @@ Moca.prototype._excel_down = function(_thisObj) {
                     }else{
                         v = escapeVal(v);
                         if(v.length == 13 && $.isNumeric(v) && hkey != "FILE_ID"){
-                            v = moca.longToDate(v);
+                            v = $m.longToDate(v);
                         }else if(hkey == "FILE_ID"){
                             v = ""+v+"_";
                             
@@ -8019,12 +8012,12 @@ Moca.prototype._excel_down = function(_thisObj) {
     var downloadUrl = "/efms/EFL_CAFL/exceldownload.do";
     
     var xhttp = new XMLHttpRequest();
-    var loadingId = moca.loading();
+    var loadingId = $m.loading();
     
     xhttp.onreadystatechange = function(){
         
         if(xhttp.readyState == 4 && xhttp.status == 200){
-            moca.loading(loadingId,0);
+            $m.loading(loadingId,0);
             var cd = xhttp.getResponseHeader('content-disposition');
             var ar = cd.split(';');
             var fNameParam = ar[1];
@@ -8032,7 +8025,7 @@ Moca.prototype._excel_down = function(_thisObj) {
             var fileName = ar2[1];
             var _fileName = decodeURIComponent(fileName);
             fileName = _fileName.replace(/\"/g,'');
-            if(moca.isChrome()){
+            if($m.isChrome()){
                 var a = document.createElement('a');
                 a.id = 'tmpDownload';
                 a.href = window.URL.createObjectURL(xhttp.response);
@@ -8045,7 +8038,7 @@ Moca.prototype._excel_down = function(_thisObj) {
             }
 
         }else if(xhttp.readyState == 4 && xhttp.status == 500){
-            moca.loading(loadingId,0);
+            $m.loading(loadingId,0);
             var blob = new Blob([this.response],{type:'application/json'});
             var fileReader = new window.FileReader();
             fileReader.readAsText(blob);
@@ -8065,7 +8058,7 @@ Moca.prototype._excel_down = function(_thisObj) {
     xhttp.responseType = 'blob';
     setTimeout(function(){
         if(typeof _parammap == 'object'){
-            xhttp.send("body="+JSON.stringify(_parammap)+"&header="+JSON.stringify({TRANID:"TRAN_"+moca.now()+moca.shuffleRandom(6)}));
+            xhttp.send("body="+JSON.stringify(_parammap)+"&header="+JSON.stringify({TRANID:"TRAN_"+$m.now()+$m.shuffleRandom(6)}));
         }else{
             xhttp.send(_parammap);
         }
@@ -8077,7 +8070,7 @@ Moca.prototype._excel_down = function(_thisObj) {
 
 
 Moca.prototype._detailview = function(_thisObj) {
-    moca._detailView1(_thisObj);
+    $m._detailView1(_thisObj);
     $(".button.colTh1").addClass('on');
 }
 
@@ -8094,7 +8087,7 @@ Moca.prototype._col_showhide = function(_thisObj) {
     var _srcId =grd.attr('srcId');
     var _compId =grd.attr('id');
     var name = "그룹없음";
-    var colGroupObj = moca.getLocalStorage(_srcId,_compId,'colGroup');
+    var colGroupObj = $m.getLocalStorage(_srcId,_compId,'colGroup');
     if(colGroupObj[name] == null){
         colGroupObj[name] = {colorCd:"#FFF"};
         colGroupObj[name].checkList = {};
@@ -8102,7 +8095,7 @@ Moca.prototype._col_showhide = function(_thisObj) {
         var keyArray = Object.keys(map);
         for(var i=0; i < keyArray.length; i++){
             var k = keyArray[i];
-            if(moca.trim(k) != ''){
+            if($m.trim(k) != ''){
                 var _label = '';
                 if(renderType == null){
                     _label = +map[k].getAttribute('name');
@@ -8111,26 +8104,26 @@ Moca.prototype._col_showhide = function(_thisObj) {
                 }
                 
                 tags += '<li class="p10 pr20">';
-                tags += '<input type="checkbox" class="grpCheckbox" name="cbx" id="cbx_'+k+'" onclick="moca.grpCheckboxClick(this)" groupId="'+"그룹없음"+'" columnId="'+k+'" >';
+                tags += '<input type="checkbox" class="grpCheckbox" name="cbx" id="cbx_'+k+'" onclick="$m.grpCheckboxClick(this)" groupId="'+"그룹없음"+'" columnId="'+k+'" >';
                 tags += '<label for="cbx_'+k+'" class="mr10"><span class="cbx"></span>'+_label+'('+k+')'+'</label>';
                 tags += '<div class="moca_radio" >';
-                tags += '<input type="radio" name="radio_'+k+'" id="radio_'+k+'_1" onclick="moca.columnShowHideRadioClick(this)" value="1" checked >';
+                tags += '<input type="radio" name="radio_'+k+'" id="radio_'+k+'_1" onclick="$m.columnShowHideRadioClick(this)" value="1" checked >';
                 tags += '<label for="radio_'+k+'_1">보이기</label>';
-                tags += '<input type="radio" name="radio_'+k+'" id="radio_'+k+'_2" onclick="moca.columnShowHideRadioClick(this)" value="0">';
+                tags += '<input type="radio" name="radio_'+k+'" id="radio_'+k+'_2" onclick="$m.columnShowHideRadioClick(this)" value="0">';
                 tags += '<label for="radio_'+k+'_2">숨기기</label>';
                 tags += '</div>';
                 tags += '</li>';
                 colGroupObj[name].checkList[k] = '1';
             }
         }
-        moca.setLocalStorage(_srcId,_compId,'colGroup',colGroupObj);
+        $m.setLocalStorage(_srcId,_compId,'colGroup',colGroupObj);
     }else{
         var checkListMap = colGroupObj[name].checkList;
         var map = grd[0].cellInfo;
         var keyArray = Object.keys(map);
         for(var i=0; i < keyArray.length; i++){
             var k = keyArray[i];
-            if(moca.trim(k) != ''){
+            if($m.trim(k) != ''){
                 var _label = '';
                 if(renderType == null){
                     _label = map[k].getAttribute('name');
@@ -8140,19 +8133,19 @@ Moca.prototype._col_showhide = function(_thisObj) {
     
                 var v = checkListMap[k];
                 tags += '<li class="p10 pr20">';
-                tags += '<input type="checkbox" class="grpCheckbox" name="cbx" id="cbx_'+k+'" onclick="moca.grpCheckboxClick(this)" groupId="'+"그룹없음"+'" columnId="'+k+'" >';
+                tags += '<input type="checkbox" class="grpCheckbox" name="cbx" id="cbx_'+k+'" onclick="$m.grpCheckboxClick(this)" groupId="'+"그룹없음"+'" columnId="'+k+'" >';
                 tags += '<label for="cbx_'+k+'" class="mr10"><span class="cbx"></span>'+_label+'('+k+')'+'</label>';
                 tags += '<div class="moca_radio" >';
                 
                 if(v != '0'){
-                    tags += '<input type="radio" name="radio_'+k+'" id="radio_'+k+'_1" onclick="moca.columnShowHideRadioClick(this)" value="1" checked >';
+                    tags += '<input type="radio" name="radio_'+k+'" id="radio_'+k+'_1" onclick="$m.columnShowHideRadioClick(this)" value="1" checked >';
                     tags += '<label for="radio_'+k+'_1">보이기</label>';
-                    tags += '<input type="radio" name="radio_'+k+'" id="radio_'+k+'_2" onclick="moca.columnShowHideRadioClick(this)" value="0">';
+                    tags += '<input type="radio" name="radio_'+k+'" id="radio_'+k+'_2" onclick="$m.columnShowHideRadioClick(this)" value="0">';
                     tags += '<label for="radio_'+k+'_2">숨기기</label>';
                 }else{
-                    tags += '<input type="radio" name="radio_'+k+'" id="radio_'+k+'_1" onclick="moca.columnShowHideRadioClick(this)" value="1">';
+                    tags += '<input type="radio" name="radio_'+k+'" id="radio_'+k+'_1" onclick="$m.columnShowHideRadioClick(this)" value="1">';
                     tags += '<label for="radio_'+k+'_1">보이기</label>';
-                    tags += '<input type="radio" name="radio_'+k+'" id="radio_'+k+'_2" onclick="moca.columnShowHideRadioClick(this)" value="0" checked>';
+                    tags += '<input type="radio" name="radio_'+k+'" id="radio_'+k+'_2" onclick="$m.columnShowHideRadioClick(this)" value="0" checked>';
                     tags += '<label for="radio_'+k+'_2">숨기기</label>';
                 }
     
@@ -8165,21 +8158,21 @@ Moca.prototype._col_showhide = function(_thisObj) {
     
     grd.find('.groupColList').html(tags);
     grd.find('#col_showhide').css('display','block');
-    moca.listColGroup(grd.find('.btn_plus')[0]);
+    $m.listColGroup(grd.find('.btn_plus')[0]);
 }
 
 
 Moca.prototype._detailViewClose = function(_thisObj) {
-    moca._detailViewContentCopy(_thisObj);
-    var _type = moca.getType(_thisObj)
-    var _grid = moca.getTypeObj(_thisObj)
+    $m._detailViewContentCopy(_thisObj);
+    var _type = $m.getType(_thisObj)
+    var _grid = $m.getTypeObj(_thisObj)
     var dbody = _grid.find(".gridDetail_body");
     dbody.css('display','none');
 }
 
 Moca.prototype._col_showhideClose = function(_thisObj) {
-    var _type = moca.getType(_thisObj); 
-    var _grid = moca.getTypeObj(_thisObj);
+    var _type = $m.getType(_thisObj); 
+    var _grid = $m.getTypeObj(_thisObj);
     _grid.find('#col_showhide').css('display','none');
 }
 
@@ -8196,8 +8189,8 @@ Moca.prototype._detailViewContentCopy = function(_thisObj) {
     }else if($(_thisObj).hasClass("colTh3")){
         $(".button.colTh3").addClass('on');
     }
-    var _type = moca.getType(_thisObj); 
-    var _grid = moca.getTypeObj(_thisObj);
+    var _type = $m.getType(_thisObj); 
+    var _grid = $m.getTypeObj(_thisObj);
     var selectedDetailView = _grid.attr('selectedDetailView');
     if(selectedDetailView != null){
         _gridDetailNum = 'gridDetail'+selectedDetailView;
@@ -8214,7 +8207,7 @@ Moca.prototype._detailViewContentCopy = function(_thisObj) {
                 var realRowIndex = aTr.attr('realrowindex');
                 var colid = $(aTd).prev().find('label').attr("id");
                 var grd = _grid[0];
-                moca.setCellData(grd,realRowIndex,colid,cont);
+                $m.setCellData(grd,realRowIndex,colid,cont);
             }
             
         }
@@ -8224,20 +8217,20 @@ Moca.prototype._detailViewContentCopy = function(_thisObj) {
 }
 
 Moca.prototype._detailView1 = function(_thisObj) {
-    var _type = moca.getType(_thisObj); 
-    var grd = moca.getTypeObj(_thisObj);
-    moca._detailViewContentCopy(_thisObj);
+    var _type = $m.getType(_thisObj); 
+    var grd = $m.getTypeObj(_thisObj);
+    $m._detailViewContentCopy(_thisObj);
     grd.attr('selectedDetailView',1);
     var selectedRealRowIndex = grd[0].getAttribute("selectedRealRowIndex");
     if(selectedRealRowIndex != null){
         var foundedRow = grd.find('tbody:first>tr[realrowindex='+selectedRealRowIndex+']');
         var tdArr = foundedRow.find('td');
-        moca.removeCol(tdArr);
+        $m.removeCol(tdArr);
         var _html = '';
         for(var i=0;i < tdArr.length; i++){
             var aTd = tdArr[i];
             _html +='           <tr realrowindex='+selectedRealRowIndex+'> ';
-            _html += moca._detailViewMakeTd(aTd);
+            _html += $m._detailViewMakeTd(aTd);
             _html +='           </tr> ';
         }
         
@@ -8246,7 +8239,7 @@ Moca.prototype._detailView1 = function(_thisObj) {
         grd.find('#gridDetail1').html(_html);
         $(_thisObj).closest("div[type="+_type+"]").find(".gridDetail_body").css('display','block'); 
     }else{
-        moca.alert("상세보기할 행을 선택하세요!");
+        $m.alert("상세보기할 행을 선택하세요!");
     }
 
 }
@@ -8277,26 +8270,26 @@ Moca.prototype._detailViewMakeTd = function(aTd) {
 };
 
 Moca.prototype._detailView2 = function(_thisObj) {
-    var _type = moca.getType(_thisObj); 
-    var grd = moca.getTypeObj(_thisObj);
-    moca._detailViewContentCopy(_thisObj);
+    var _type = $m.getType(_thisObj); 
+    var grd = $m.getTypeObj(_thisObj);
+    $m._detailViewContentCopy(_thisObj);
     grd.attr('selectedDetailView',2);
     
     var selectedRealRowIndex = grd[0].getAttribute("selectedRealRowIndex");
     var foundedRow = grd.find('tbody:first>tr[realrowindex='+selectedRealRowIndex+']');
     var tdArr = foundedRow.find('td');
-    moca.removeCol(tdArr);
+    $m.removeCol(tdArr);
     var _html = '';
     
     for(var i=0;i < tdArr.length;){
         _html +='           <tr realrowindex='+selectedRealRowIndex+'> ';
         
         var aTd = tdArr[i];
-        _html += moca._detailViewMakeTd(aTd);
+        _html += $m._detailViewMakeTd(aTd);
         if(i+1 < tdArr.length){
             var aTd = tdArr[i+1];
 
-            _html += moca._detailViewMakeTd(aTd);
+            _html += $m._detailViewMakeTd(aTd);
         }else{
             _html +='               <th><label></label></th> ';
             _html +='               <td></td> ';
@@ -8310,24 +8303,24 @@ Moca.prototype._detailView2 = function(_thisObj) {
     $(_thisObj).closest("div[type="+_type+"]").find(".gridDetail_body").css('display','block'); 
 }
 Moca.prototype._detailView3 = function(_thisObj) {
-    var _type = moca.getType(_thisObj); 
-    var grd = moca.getTypeObj(_thisObj);
-    moca._detailViewContentCopy(_thisObj);
+    var _type = $m.getType(_thisObj); 
+    var grd = $m.getTypeObj(_thisObj);
+    $m._detailViewContentCopy(_thisObj);
     grd.attr('selectedDetailView',3);
     var selectedRealRowIndex = grd[0].getAttribute("selectedRealRowIndex");
     var foundedRow = grd.find('tbody:first>tr[realrowindex='+selectedRealRowIndex+']');
     var tdArr = foundedRow.find('td');
-    moca.removeCol(tdArr);
+    $m.removeCol(tdArr);
     var _html = '';
     for(var i=0;i < tdArr.length;){
         _html +='           <tr realrowindex='+selectedRealRowIndex+'> ';
         
         var aTd = tdArr[i];
-        _html += moca._detailViewMakeTd(aTd);
+        _html += $m._detailViewMakeTd(aTd);
         i = i+1;
         if(i < tdArr.length){
             var aTd = tdArr[i];
-            _html += moca._detailViewMakeTd(aTd);
+            _html += $m._detailViewMakeTd(aTd);
         }else{
             _html +='               <th><label></label></th> ';
             _html +='               <td></td> ';
@@ -8338,7 +8331,7 @@ Moca.prototype._detailView3 = function(_thisObj) {
         i = i+1;
         if(i < tdArr.length){
                 var aTd = tdArr[i];
-                _html += moca._detailViewMakeTd(aTd);
+                _html += $m._detailViewMakeTd(aTd);
         }else{
             _html +='               <th><label></label></th> ';
             _html +='               <td></td> ';
@@ -8396,19 +8389,19 @@ Moca.prototype.trim = function(_val) {
 
 Moca.prototype.menuSearch = function(_thisObj) {
     ['메뉴찾기'];
-    var str = JSON.stringify(moca.menuObjs_ori);
+    var str = JSON.stringify($m.menuObjs_ori);
     var reg = new RegExp("\{((?!"+_thisObj.value+")[^{])+?\},*","ig");
     str =str.replace(reg,'');
     str =str.replace(/\,\]/g,']');
-    moca.menuObjs = JSON.parse(str);
-    if(_thisObj.value != null && $.trim(_thisObj.value) != '' && moca.menu != null){
-        for(var i=0; i < moca.menu.length; i++){
-            var o = moca.menu[i];
+    $m.menuObjs = JSON.parse(str);
+    if(_thisObj.value != null && $.trim(_thisObj.value) != '' && $m.menu != null){
+        for(var i=0; i < $m.menu.length; i++){
+            var o = $m.menu[i];
             o['open_close'] = 'open';
         }
     }else{
-        for(var i=0; i < moca.menu.length; i++){
-            var o = moca.menu[i];
+        for(var i=0; i < $m.menu.length; i++){
+            var o = $m.menu[i];
             if(i == 0){
                 o['open_close'] = 'open';
             }else{
@@ -8417,12 +8410,12 @@ Moca.prototype.menuSearch = function(_thisObj) {
             
         }
     }
-    moca.tree_mt("tree1",moca.menu,moca.menuObjs);
+    $m.tree_mt("tree1",$m.menu,$m.menuObjs);
 }
 
 Moca.prototype.getParameter = function(arguments) {
     ['팝업파라미터구하기'];
-    return moca.data[arguments[0]];
+    return $m.data[arguments[0]];
 }
 
 
@@ -8439,17 +8432,17 @@ Moca.prototype.fileDownloadAjax = function(_opt) {
         downloadUrl = "/efms/EFL_CAFL/download.do";
     }
     var xhttp = new XMLHttpRequest();
-    //var loadingId = moca.loading2(null,null,_messageTag);
-    moca.writeMessage({srcId:_srcId,pageId:_pageId,message:"진행중",url:downloadUrl });
+    //var loadingId = $m.loading2(null,null,_messageTag);
+    $m.writeMessage({srcId:_srcId,pageId:_pageId,message:"진행중",url:downloadUrl });
     xhttp.onreadystatechange = function(){
         if(xhttp.readyState == 4 && xhttp.status == 200){
-            //moca.loading(loadingId,0);
-            moca.userLogInsert({URL:_opt.url,SRCID:_opt.id,LABEL:_opt.param.FILE_REAL_NM,MENU_NM:_opt.title});
-            moca.writeMessage({srcId:_srcId,pageId:_pageId,message:"완료",url:downloadUrl});
+            //$m.loading(loadingId,0);
+            $m.userLogInsert({URL:_opt.url,SRCID:_opt.id,LABEL:_opt.param.FILE_REAL_NM,MENU_NM:_opt.title});
+            $m.writeMessage({srcId:_srcId,pageId:_pageId,message:"완료",url:downloadUrl});
             
             var cd = xhttp.getResponseHeader('content-disposition');
             if(cd == null){
-                moca.alert(_errorMessage);
+                $m.alert(_errorMessage);
                 return;
             }
             var ar = cd.split(';');
@@ -8458,7 +8451,7 @@ Moca.prototype.fileDownloadAjax = function(_opt) {
             var fileName = ar2[1];
             var _fileName = decodeURIComponent(fileName);
             fileName = _fileName.replace(/\"/g,'');
-            if(moca.isChrome()){
+            if($m.isChrome()){
                 var a = document.createElement('a');
                 a.id = 'tmpDownload';
                 a.href = window.URL.createObjectURL(xhttp.response);
@@ -8471,7 +8464,7 @@ Moca.prototype.fileDownloadAjax = function(_opt) {
             }
 
         }else if(xhttp.readyState == 4 && xhttp.status == 500){
-            //moca.loading(loadingId,0);
+            //$m.loading(loadingId,0);
             var blob = new Blob([this.response],{type:'application/json'});
             var fileReader = new window.FileReader();
             fileReader.readAsText(blob);
@@ -8484,8 +8477,8 @@ Moca.prototype.fileDownloadAjax = function(_opt) {
         }
     };
     xhttp.onerror = function(){
-        //moca.loading(loadingId,0);
-        moca.writeMessage({srcId:_srcId,pageId:_pageId,message:"오류",url:downloadUrl});
+        //$m.loading(loadingId,0);
+        $m.writeMessage({srcId:_srcId,pageId:_pageId,message:"오류",url:downloadUrl});
         if(this.response != null){
             var blob = new Blob([this.response],{type:'application/json'});
             var fileReader = new window.FileReader();
@@ -8502,7 +8495,7 @@ Moca.prototype.fileDownloadAjax = function(_opt) {
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhttp.responseType = 'blob';
         if(typeof _parammap == 'object'){
-            xhttp.send("body="+JSON.stringify(_parammap)+"&header="+JSON.stringify({TRANID:"TRAN_"+moca.now()+moca.shuffleRandom(6)}));
+            xhttp.send("body="+JSON.stringify(_parammap)+"&header="+JSON.stringify({TRANID:"TRAN_"+$m.now()+$m.shuffleRandom(6)}));
         }else{
             xhttp.send(_parammap);
         }
@@ -8569,17 +8562,17 @@ Moca.prototype.getCORP_CD = function(){
 };
 
 Moca.prototype.getCombo = function(_id){
-    return $(moca.getObj(_id)).find('select').val();
+    return $($m.getObj(_id)).find('select').val();
 };
 Moca.prototype.getSearchCombo = function(_id){
-    var jobj = $(moca.getObj(_id));
+    var jobj = $($m.getObj(_id));
     return {value:jobj.attr("value"),text:jobj.attr("text")};
 };
 Moca.prototype.getCombo = function(_id){
-    return $(moca.getObj(_id)).find('select').val();
+    return $($m.getObj(_id)).find('select').val();
 };
 Moca.prototype.getComboLabel = function(_id){
-    var o = $(moca.getObj(_id)).find('select');
+    var o = $($m.getObj(_id)).find('select');
     var v = o.val();
     var l = o.find('option[value='+v+']').text();
     return l;
@@ -8587,8 +8580,8 @@ Moca.prototype.getComboLabel = function(_id){
 
 Moca.prototype.getCheckbox = function(_id){
     var obj = {};
-    obj.label = $(moca.getObj(_id)).find('input[type=checkbox]').next().text();
-    obj.checked = $(moca.getObj(_id)).find('input[type=checkbox]').is(':checked');
+    obj.label = $($m.getObj(_id)).find('input[type=checkbox]').next().text();
+    obj.checked = $($m.getObj(_id)).find('input[type=checkbox]').is(':checked');
     if(obj.checked){
         obj.value = 1;
     }else{
@@ -8599,32 +8592,32 @@ Moca.prototype.getCheckbox = function(_id){
 
 
 Moca.prototype.getInput = function(_id){
-    return moca.getObj(_id,"input").value;
+    return $m.getObj(_id,"input").value;
 };
 
 Moca.prototype.getFrom = function(_id){
-    return $(moca.getObj(_id)).find('input')[0].value;
+    return $($m.getObj(_id)).find('input')[0].value;
 };
 Moca.prototype.getTo = function(_id){
-    return $(moca.getObj(_id)).find('input')[1].value;
+    return $($m.getObj(_id)).find('input')[1].value;
 };
 
 Moca.prototype.setFrom = function(_id,_val){
-    $(moca.getObj(_id)).find('input')[0].value = _val;
+    $($m.getObj(_id)).find('input')[0].value = _val;
 };
 Moca.prototype.setTo = function(_id,_val){
-    $(moca.getObj(_id)).find('input')[1].value = _val;
+    $($m.getObj(_id)).find('input')[1].value = _val;
 };
 
 Moca.prototype.setFromToByMenuId = function(_id,_menuId,_srcId){
     var o = $('#'+_menuId);
-    var calObj = moca[_srcId].getObj(_id);
+    var calObj = $m[_srcId].getObj(_id);
     if(o.length > 0 && calObj != null){ 
         var node = o.find('SPAN')[0];
         var _toDate = $.trim(node.getAttribute("toDate"));
-        if(moca.trim(_toDate) != '' && moca.trim(_toDate) != 'undefined'){
+        if($m.trim(_toDate) != '' && $m.trim(_toDate) != 'undefined'){
             if(isNaN(_toDate.replace(/-/g,''))){
-                var _toObj = moca.getFromToByOption(_toDate);
+                var _toObj = $m.getFromToByOption(_toDate);
                 if(!isNaN(_toObj.to.replace(/-/g,''))){
                     _toDate = _toObj.to;
                 }else{
@@ -8639,9 +8632,9 @@ Moca.prototype.setFromToByMenuId = function(_id,_menuId,_srcId){
         }
         
         var _fromDate = $.trim(node.getAttribute("fromDate"));
-        if(moca.trim(_fromDate) != '' && moca.trim(_fromDate) != 'undefined'){
+        if($m.trim(_fromDate) != '' && $m.trim(_fromDate) != 'undefined'){
             if(isNaN(_fromDate.replace(/-/g,''))){
-                var _fromObj = moca.getFromToByOption(_fromDate,_toDate);
+                var _fromObj = $m.getFromToByOption(_fromDate,_toDate);
                 
                 if(!isNaN(_fromObj.from.replace(/-/g,''))){
                     _fromDate = _fromObj.from;
@@ -8651,7 +8644,7 @@ Moca.prototype.setFromToByMenuId = function(_id,_menuId,_srcId){
             }
             
             if(calObj != null){
-                $(calObj).find('input')[0].value = moca.getDisplayFormat_value(calObj,_fromDate);
+                $(calObj).find('input')[0].value = $m.getDisplayFormat_value(calObj,_fromDate);
             }
         }
     }
@@ -8681,20 +8674,20 @@ Moca.prototype.default_keyup = function(_thisInputObj){
 };
 
 Moca.prototype.bindCombo = function(compId,codeOpt,_list){ 
-    var compObj = moca.getObj(compId);
+    var compObj = $m.getObj(compId);
     compObj['list'] = _list;
     compObj['codeOpt'] = codeOpt;
-    moca.renderCombo(compObj,null,'normal');
+    $m.renderCombo(compObj,null,'normal');
 };
 
 Moca.prototype.bindCell = function(grdId,cellId,codeOpt,_list){ 
-    var g_obj = moca.getObj(grdId);
+    var g_obj = $m.getObj(grdId);
     if(g_obj[cellId] == undefined){
         g_obj[cellId] = {};
         g_obj[cellId]['codeOpt'] = codeOpt;
     } 
     g_obj[cellId]['list'] = _list;
-    g_obj[cellId]['map'] = moca.listToMap(g_obj[cellId]['list'],g_obj[cellId]['codeOpt']);
+    g_obj[cellId]['map'] = $m.listToMap(g_obj[cellId]['list'],g_obj[cellId]['codeOpt']);
 };
 Moca.prototype.comma = function(__num){ 
     var _num = '';
@@ -8753,8 +8746,8 @@ Moca.prototype.closePopup = function(_thisObj){
     }
     if(popupObj != null && $(popupObj).length > 0){
         if(popupObj.option.scopeId != null){
-            moca.pageId = popupObj.option.scopeId;
-            moca.srcId = $('div[pageid='+moca.pageId+'].moca_tab_panel').attr('srcid');
+            $m.pageId = popupObj.option.scopeId;
+            $m.srcId = $('div[pageid='+$m.pageId+'].moca_tab_panel').attr('srcid');
             popupObj.option.mdiObj.removeChild(popupObj); 
         }else{
             document.body.removeChild(popupObj);
@@ -8807,14 +8800,14 @@ Moca.prototype.popupMove = function(e){
 /*
         if(_x > _x_max+2){
             _x = _x_max;
-            document.removeEventListener('mousemove',moca.popupMove,false);
+            document.removeEventListener('mousemove',$m.popupMove,false);
             thisObj.gepX = null;
             thisObj.gepY = null;
         }else if(_x > _x_max){
             _x = _x_max;
         }else if(_x < -2+$('body').scrollLeft()){
             _x = 0+$('body').scrollLeft();
-            document.removeEventListener('mousemove',moca.popupMove,false);
+            document.removeEventListener('mousemove',$m.popupMove,false);
             thisObj.gepX = null;
             thisObj.gepY = null;
         }else if(_x < 0+$('body').scrollLeft()){
@@ -8840,14 +8833,14 @@ Moca.prototype.popupMove = function(e){
 /*
         if(_y > _y_max+2){
             _y = _y_max;
-            document.removeEventListener('mousemove',moca.popupMove,false);
+            document.removeEventListener('mousemove',$m.popupMove,false);
             thisObj.gepX = null;
             thisObj.gepY = null;    
         }else if(_y > _y_max){
             _y = _y_max;
         }else if(_y < -2){
             _y = 0;
-            document.removeEventListener('mousemove',moca.popupMove,false);
+            document.removeEventListener('mousemove',$m.popupMove,false);
             thisObj.gepX = null;
             thisObj.gepY = null;
         }else if(_y < 0){
@@ -8870,7 +8863,7 @@ Moca.prototype.popupMove = function(e){
 
 
 Moca.prototype.https = function(_path,_pass,_domain,_port){ 
-    ['make keystore 실행예제 : moca.https("C:/Temp/","test","localhost","8445");'];
+    ['make keystore 실행예제 : $m.https("C:/Temp/","test","localhost","8445");'];
     var returnStr = '';
     returnStr += '\n';
     returnStr += '1단계 개인키생성' + '\n';
@@ -8922,12 +8915,12 @@ Moca.prototype.https = function(_path,_pass,_domain,_port){
 
 Moca.prototype.fn_display_rownum = function(_value,_grd,_rowIndex){ 
     ['순번 ']
-    return moca.comma(Number(_rowIndex)+1)+"";
+    return $m.comma(Number(_rowIndex)+1)+"";
 };
 Moca.prototype.setter_pageId = function(_pageId,_srcId,_functionName,thisObj){ 
     ['순번 ']
-    moca.pageId = _pageId;
-    moca.srcId = _srcId;
+    $m.pageId = _pageId;
+    $m.srcId = _srcId;
     eval(_functionName)(thisObj);
 };
 Moca.prototype.getNumber = function(_value){ 
@@ -8975,11 +8968,11 @@ Moca.prototype.sortObjectNumString = function(o){
 
 Moca.prototype.filterRemoveAllConfirm = function(_thisObj){
     ['현재 그리드의 모든 필터를 제거를 물어봅니다.']
-    moca.confirm('현재 그리드의 모든 필터를 제거하시겠습니까?',function(result){
+    $m.confirm('현재 그리드의 모든 필터를 제거하시겠습니까?',function(result){
         if(result == 'Y'){
             var grd = $(_thisObj).closest('div[type=grid]');
-            moca.filterRemoveAll(grd);
-            moca.drawGrid(grd[0].id, grd[0].ori_list);
+            $m.filterRemoveAll(grd);
+            $m.drawGrid(grd[0].id, grd[0].ori_list);
         }
     });
 };
@@ -9050,41 +9043,41 @@ Moca.prototype.writeMessage = function(_obj) {
     if(_obj != null){
     	_obj.url = _obj.url.replace(/http[s]*\:\/\/([^/])*\:?[0-9]*/g,'');
         if(_obj.url.indexOf(mocaConfig.userLogUrl) == -1){
-            if(moca.messages.length > 20){
-                moca.messages.splice(0, 10);
+            if($m.messages.length > 20){
+                $m.messages.splice(0, 10);
             }
             
-            for(var i=0; i < moca.messages.length; i++){
-                var o = moca.messages[i];
+            for(var i=0; i < $m.messages.length; i++){
+                var o = $m.messages[i];
                 if(_obj.srcId+'__'+_obj.url == o.srcId+'__'+o.url){
-                    moca.messages.splice(i, 1);
+                    $m.messages.splice(i, 1);
                 }
             }
             
             /*
-            if(moca.messages.length > 2){
-                for(var i=0; i < moca.messages.length; i++){
-                    var o = moca.messages[i];
+            if($m.messages.length > 2){
+                for(var i=0; i < $m.messages.length; i++){
+                    var o = $m.messages[i];
                     if(o.message == '완료'){
-                        moca.messages.splice(i, 1);
+                        $m.messages.splice(i, 1);
                         break;
                     }
-                    if(i == moca.messages.length -1){
-                        moca.messages.splice(i, 1);
+                    if(i == $m.messages.length -1){
+                        $m.messages.splice(i, 1);
                     }
                 }
                 
             }
             */
-            moca.messages.push(_obj);
-            //moca.messagesMap[_obj.srcId+'__'+_obj.url+'__'+_obj.message] = _obj;
+            $m.messages.push(_obj);
+            //$m.messagesMap[_obj.srcId+'__'+_obj.url+'__'+_obj.message] = _obj;
         }
         
         var ta = $('.toast_msg > .toast_area');
         ta.html('');
-        var leng = moca.messages.length;
+        var leng = $m.messages.length;
         for(var i=leng-1; i > -1; i--){
-            var o = moca.messages[i];
+            var o = $m.messages[i];
             var tag = '';
             if(o.message == '진행중'){
                 tag = "<i class='fas ico_progress blinking ml10'>"+o.message+"</i>"+"["+o.srcId+":"+o.url+"]";
@@ -9103,7 +9096,7 @@ Moca.prototype.writeMessage = function(_obj) {
 
 Moca.prototype.createColGroup = function(_thisObj) {
     ['컬럼그룹추가'];
-    var _type = moca.getType(_thisObj); 
+    var _type = $m.getType(_thisObj); 
     var td = $(_thisObj).closest('td').prev();
     var ipt = td.find('.moca_input');
     var groupNm = ipt.val();
@@ -9123,16 +9116,16 @@ Moca.prototype.createColGroup = function(_thisObj) {
     var g_jq = $(_thisObj).closest("div[type="+_type+"]");
     var _srcId =g_jq.attr('srcId');
     var _compId =g_jq.attr('id');
-    var colGroupObj = moca.getLocalStorage(_srcId,_compId,'colGroup');
+    var colGroupObj = $m.getLocalStorage(_srcId,_compId,'colGroup');
     if(colGroupObj == null) colGroupObj = {};
     colGroupObj[groupNm] = {colorCd:colorCd};
-    moca.setLocalStorage(_srcId,_compId,'colGroup',colGroupObj);
-    moca.listColGroup(_thisObj);
+    $m.setLocalStorage(_srcId,_compId,'colGroup',colGroupObj);
+    $m.listColGroup(_thisObj);
 }
 
 Moca.prototype.listColGroup = function(_thisObj) {
     ['컬럼그룹리스트'];
-    var _type = moca.getType(_thisObj); 
+    var _type = $m.getType(_thisObj); 
     var td = $(_thisObj).closest('td').prev();
     var groupNm = td.find('.moca_input').val();
     var colorCd = td.find('.moca_input_color').val();
@@ -9140,7 +9133,7 @@ Moca.prototype.listColGroup = function(_thisObj) {
     var _srcId =g_jq.attr('srcId');
     var _compId =g_jq.attr('id');
     var colCheckList = g_jq.find(".groupColList");
-    var colGroupObj = moca.getLocalStorage(_srcId,_compId,'colGroup');
+    var colGroupObj = $m.getLocalStorage(_srcId,_compId,'colGroup');
     var nogroup = colGroupObj["그룹없음"];
     delete colGroupObj["그룹없음"];
     
@@ -9155,7 +9148,7 @@ Moca.prototype.listColGroup = function(_thisObj) {
             valueObj = nogroup;
         }
         _html +='                   <tr>';
-        _html +='                       <td onclick="moca._col_groupSelected(this)">';
+        _html +='                       <td onclick="$m._col_groupSelected(this)">';
         _html +='                           <span class="color" style="background-color:'+valueObj.colorCd+'"></span>';
         _html +='                           <a class="title fl">'+key+'</a>';
         if(key != '그룹없음'){
@@ -9163,18 +9156,18 @@ Moca.prototype.listColGroup = function(_thisObj) {
             _html +='                           <div class="fr">';
             _html +='                               <div class="moca_radio mr5">';
             if(valueObj.showHide != '0'){
-                _html +='                                   <input type="radio" name="radio_'+key+'" id="radio_'+key+'_1" checked  value="1"  onclick="moca.grpRadioClick(this)" >';
+                _html +='                                   <input type="radio" name="radio_'+key+'" id="radio_'+key+'_1" checked  value="1"  onclick="$m.grpRadioClick(this)" >';
                 _html +='                                   <label for="radio_'+key+'_1">보이기</label>';
-                _html +='                                   <input type="radio" name="radio_'+key+'" id="radio_'+key+'_2"  value="0"  onclick="moca.grpRadioClick(this)" >';
+                _html +='                                   <input type="radio" name="radio_'+key+'" id="radio_'+key+'_2"  value="0"  onclick="$m.grpRadioClick(this)" >';
                 _html +='                                   <label for="radio_'+key+'_2">숨기기</label>';
             }else{
-                _html +='                                   <input type="radio" name="radio_'+key+'" id="radio_'+key+'_1"   value="1"  onclick="moca.grpRadioClick(this)" >';
+                _html +='                                   <input type="radio" name="radio_'+key+'" id="radio_'+key+'_1"   value="1"  onclick="$m.grpRadioClick(this)" >';
                 _html +='                                   <label for="radio_'+key+'_1">보이기</label>';
-                _html +='                                   <input type="radio" name="radio_'+key+'" id="radio_'+key+'_2" checked  value="0"  onclick="moca.grpRadioClick(this)" >';
+                _html +='                                   <input type="radio" name="radio_'+key+'" id="radio_'+key+'_2" checked  value="0"  onclick="$m.grpRadioClick(this)" >';
                 _html +='                                   <label for="radio_'+key+'_2">숨기기</label>';  
             }
             _html +='                               </div>';
-            _html +='                               <button type="button" class="button btn_close2" style="" title="" onclick="moca._col_groupClose(this,\''+_srcId+'\',\''+_compId+'\',\''+key+'\')"></button>';
+            _html +='                               <button type="button" class="button btn_close2" style="" title="" onclick="$m._col_groupClose(this,\''+_srcId+'\',\''+_compId+'\',\''+key+'\')"></button>';
             _html +='                           </div>';    
         }
         _html +='                       </td>';
@@ -9184,7 +9177,7 @@ Moca.prototype.listColGroup = function(_thisObj) {
             var arr = Object.keys(valueObj.checkList);
             if(arr != null){
                 for(var k=0; k < arr.length; k++){
-                    if(moca.trim(arr[k]) != ''){
+                    if($m.trim(arr[k]) != ''){
                         var aCheck = colCheckList.find('[type=checkbox][columnId='+arr[k]+']');
                         aCheck.attr('groupId',key);
                         if(key != '그룹없음'){
@@ -9200,7 +9193,7 @@ Moca.prototype.listColGroup = function(_thisObj) {
     }
     $(_thisObj).closest('table').next().html(_html);
     var grpList = g_jq.find(".groupList");
-    moca._col_groupSelected(grpList.find('td:first'));
+    $m._col_groupSelected(grpList.find('td:first'));
     
     
     var groupListon = grpList.find('.on');
@@ -9220,14 +9213,14 @@ Moca.prototype.listColGroup = function(_thisObj) {
 
 
 Moca.prototype.setLocalStorage = function(_srcId,_compId,_groupKey,_Obj){
-    var sessionKey = moca.getCORP_CD()+'/'+moca.getSession("USER_ID");
+    var sessionKey = $m.getCORP_CD()+'/'+$m.getSession("USER_ID");
     var compKey = _srcId+'/'+_compId;
     var st_key = sessionKey+'___'+compKey+'___'+_groupKey;
     localStorage[st_key] = JSON.stringify(_Obj);
 };
 
 Moca.prototype.getLocalStorage = function(_srcId,_compId,_groupKey,_key){
-    var sessionKey = moca.getCORP_CD()+'/'+moca.getSession("USER_ID");
+    var sessionKey = $m.getCORP_CD()+'/'+$m.getSession("USER_ID");
     var compKey = _srcId+'/'+_compId;
     var st_key = sessionKey+'___'+compKey+'___'+_groupKey;
     var compOption = localStorage[st_key];
@@ -9244,34 +9237,34 @@ Moca.prototype.getLocalStorage = function(_srcId,_compId,_groupKey,_key){
 };
 
 Moca.prototype.removeLocalStorage = function(_srcId,_compId,_groupKey,_key){
-    var sessionKey = moca.getCORP_CD()+'/'+moca.getSession("USER_ID");
+    var sessionKey = $m.getCORP_CD()+'/'+$m.getSession("USER_ID");
     var compKey = _srcId+'/'+_compId;
     var st_key = sessionKey+'___'+compKey+'___'+_groupKey;
     delete localStorage[st_key];
 };
 
 Moca.prototype._col_groupClose = function(_thisObj,_srcId,_compId,key) {
-    var _type = moca.getType(_thisObj); 
+    var _type = $m.getType(_thisObj); 
     var _groupKey = 'colGroup';
-    var _Obj = moca.getLocalStorage(_srcId,_compId,'colGroup');
+    var _Obj = $m.getLocalStorage(_srcId,_compId,'colGroup');
     delete _Obj[key];
-    moca.setLocalStorage(_srcId,_compId,_groupKey,_Obj);
-    moca.listColGroup(moca.getTypeObj(_thisObj).find('.btn_plus')[0]);
+    $m.setLocalStorage(_srcId,_compId,_groupKey,_Obj);
+    $m.listColGroup($m.getTypeObj(_thisObj).find('.btn_plus')[0]);
 };
 
 Moca.prototype._col_groupSelected = function(_thisObj) {
-    var _type = moca.getType(_thisObj); 
+    var _type = $m.getType(_thisObj); 
     var t = $(_thisObj).closest('table');
     if(t != null){
         t.find('.on').removeClass('on');
     }
     $(_thisObj).addClass('on');
     var name = $(_thisObj).find('a').html();
-    var g_jq = moca.getTypeObj(_thisObj);
+    var g_jq = $m.getTypeObj(_thisObj);
     var _srcId =g_jq.attr('srcId');
     var _compId =g_jq.attr('id');
     var colCheckList = g_jq.find(".groupColList");
-    var _Obj = moca.getLocalStorage(_srcId,_compId,'colGroup');
+    var _Obj = $m.getLocalStorage(_srcId,_compId,'colGroup');
     
     if(name == '그룹없음'){
         colCheckList.find('[type=checkbox][groupid!="그룹없음"]').closest('li').css('display','none');
@@ -9296,7 +9289,7 @@ Moca.prototype._col_groupSelected = function(_thisObj) {
                     checkList[key] = showHide;
                 }
             }
-            moca.setLocalStorage(_srcId,_compId,'colGroup',_Obj);
+            $m.setLocalStorage(_srcId,_compId,'colGroup',_Obj);
         }
     }
 };
@@ -9304,8 +9297,8 @@ Moca.prototype._col_groupSelected = function(_thisObj) {
 Moca.prototype.grpCheckboxClick = function(_thisObj) {
     //var chkObj = $(_thisObj).next().next().find('[type=radio]')[0];
     //var showHide = chkObj.value;//1 or 0
-    var _type = moca.getType(_thisObj); 
-    var g_jq = moca.getTypeObj(_thisObj);
+    var _type = $m.getType(_thisObj); 
+    var g_jq = $m.getTypeObj(_thisObj);
     var _srcId =g_jq.attr('srcId');
     var _compId =g_jq.attr('id');
     var groupListon = $(_thisObj).closest("#col_showhide").find('.groupList').find('.on');
@@ -9318,17 +9311,17 @@ Moca.prototype.grpCheckboxClick = function(_thisObj) {
         $(_thisObj).closest('li').find('.cbx').css('background-color',color).css('background-position', '2px -14px');
         $(_thisObj).attr('groupId',name);
         //var checkedArray = $(_thisObj).closest(".groupColList").find('[type=checkbox][groupId=\''+name+'\']:checked');
-        var colGroupObj = moca.getLocalStorage(_srcId,_compId,'colGroup');
+        var colGroupObj = $m.getLocalStorage(_srcId,_compId,'colGroup');
         if(colGroupObj[name].checkList == null){
             colGroupObj[name].checkList = {};
         }
         colGroupObj[name].checkList[columnId] = showHide;
-        moca.setLocalStorage(_srcId,_compId,'colGroup',colGroupObj);
+        $m.setLocalStorage(_srcId,_compId,'colGroup',colGroupObj);
     }else{
         var name = _thisObj.getAttribute('groupId');
-        var colGroupObj = moca.getLocalStorage(_srcId,_compId,'colGroup');
+        var colGroupObj = $m.getLocalStorage(_srcId,_compId,'colGroup');
         delete colGroupObj[name].checkList[columnId];
-        moca.setLocalStorage(_srcId,_compId,'colGroup',colGroupObj);
+        $m.setLocalStorage(_srcId,_compId,'colGroup',colGroupObj);
         
         $(_thisObj).closest('li').find('.cbx').css('background-color','').css('background-position', '3px 2px');
         $(_thisObj).attr('groupId','그룹없음');
@@ -9336,38 +9329,38 @@ Moca.prototype.grpCheckboxClick = function(_thisObj) {
 };
 
 Moca.prototype.grpRadioClick = function(_thisObj) {
-    var _type = moca.getTypeObj(_thisObj); 
+    var _type = $m.getTypeObj(_thisObj); 
     var showHide = _thisObj.value;//1 or 0
-    var g_jq = moca.getTypeObj(_thisObj);
+    var g_jq = $m.getTypeObj(_thisObj);
     var _srcId =g_jq.attr('srcId');
     var _compId =g_jq.attr('id');
     var name = $(_thisObj).closest("td").find('a').text();
-    var colGroupObj = moca.getLocalStorage(_srcId,_compId,'colGroup');
+    var colGroupObj = $m.getLocalStorage(_srcId,_compId,'colGroup');
     colGroupObj[name].showHide = showHide;
-    moca.setLocalStorage(_srcId,_compId,'colGroup',colGroupObj);
+    $m.setLocalStorage(_srcId,_compId,'colGroup',colGroupObj);
 };
 
 Moca.prototype.columnShowHideRadioClick = function(_thisObj) {
-    var _type = moca.getType(_thisObj); 
+    var _type = $m.getType(_thisObj); 
     var showHide = _thisObj.value;//1 or 0
-    var g_jq = moca.getTypeObj(_thisObj); 
+    var g_jq = $m.getTypeObj(_thisObj); 
     var _srcId =g_jq.attr('srcId');
     var _compId =g_jq.attr('id');
     var groupListon = $(_thisObj).closest("#col_showhide").find('.groupList').find('.on');
     var chkObj = $(_thisObj).closest("li").find('[type=checkbox]')[0];
     var name = $(chkObj).attr('groupId');
     var columnid = $(chkObj).attr('columnid');
-    var colGroupObj = moca.getLocalStorage(_srcId,_compId,'colGroup');
+    var colGroupObj = $m.getLocalStorage(_srcId,_compId,'colGroup');
     colGroupObj[name].checkList[columnid] = showHide;
     
-    moca.setLocalStorage(_srcId,_compId,'colGroup',colGroupObj);
+    $m.setLocalStorage(_srcId,_compId,'colGroup',colGroupObj);
 };
 
 Moca.prototype._col_showhideApply = function(_thisObj) {
-    var _type = moca.getType(_thisObj); 
-    var _gridOrTable = moca.getTypeObj(_thisObj)[0];
-    moca._col_showhideExe(_gridOrTable);
-    moca._col_showhideClose(_thisObj);
+    var _type = $m.getType(_thisObj); 
+    var _gridOrTable = $m.getTypeObj(_thisObj)[0];
+    $m._col_showhideExe(_gridOrTable);
+    $m._col_showhideClose(_thisObj);
 }
 
 Moca.prototype._col_showhideExe = function(_grid) {
@@ -9378,7 +9371,7 @@ Moca.prototype._col_showhideExe = function(_grid) {
     var _compId =_grid_j.attr('id');
     
     var name = "그룹없음";
-    var colGroupObj = moca.getLocalStorage(_srcId,_compId,'colGroup');
+    var colGroupObj = $m.getLocalStorage(_srcId,_compId,'colGroup');
     if(colGroupObj[name] == null){
         colGroupObj[name] = {colorCd:"#ced7dc"};
         colGroupObj[name].checkList = {};
@@ -9388,11 +9381,11 @@ Moca.prototype._col_showhideExe = function(_grid) {
             var k = keyArray[i];
             colGroupObj[name].checkList[k] = '1';
         }
-        moca.setLocalStorage(_srcId,_compId,'colGroup',colGroupObj);
+        $m.setLocalStorage(_srcId,_compId,'colGroup',colGroupObj);
     }
     _grid_j.find('th .groupbar').css('background-color','');//td 그룹색 초기화.
     
-    var colGroupObj = moca.getLocalStorage(_srcId,_compId,'colGroup');
+    var colGroupObj = $m.getLocalStorage(_srcId,_compId,'colGroup');
     var nogroup = colGroupObj["그룹없음"];
     delete colGroupObj["그룹없음"]; 
     var groupArray = Object.keys(colGroupObj);
@@ -9429,15 +9422,15 @@ Moca.prototype._col_showhideExe = function(_grid) {
                             }
                         }   
                     }catch(e){
-                        moca.removeLocalStorage(_srcId,_compId,'colGroup');
+                        $m.removeLocalStorage(_srcId,_compId,'colGroup');
                     }
     
                 }else if(_type == 'table'){
                     var targetCol = allCol;
                     if(showHide == "0"){
-                        moca.columnHide(_compId,targetCol,aColName);
+                        $m.columnHide(_compId,targetCol,aColName);
                     }else{
-                        moca.columnShow(_compId,targetCol,aColName);
+                        $m.columnShow(_compId,targetCol,aColName);
                     }   
                 }
 
@@ -9495,10 +9488,10 @@ Moca.prototype.columnShow = function(_compId,targetCol,aColId) {
     if(o.map == null){
         o.map = {};
     }
-    if(moca.trim($(targetCol).attr('ori_width')) != ''){
+    if($m.trim($(targetCol).attr('ori_width')) != ''){
         $(targetCol).css('width',$(targetCol).attr('ori_width'));
     }
-    if(moca.trim(aColId) != ''){
+    if($m.trim(aColId) != ''){
         var arr = $('#'+_compId+' .moca_table_cont').find("[hid="+aColId+"]");
         for(var i=0; i < arr.length; i++){
             var aTd = arr[i];
@@ -9520,7 +9513,7 @@ Moca.prototype.renderGridToolbarCheckbox = function(x1Obj) {
         x1Obj.checkedStr = '';
     }
     if(x1Obj.onclick != null && x1Obj.onclick != ''){
-        x1Obj.onclickStr = 'onclick="moca.setter_pageId(\''+moca.pageId+'\',\''+moca.srcId+'\',\''+x1Obj.onclick+'\',this)"'; 
+        x1Obj.onclickStr = 'onclick="$m.setter_pageId(\''+$m.pageId+'\',\''+$m.srcId+'\',\''+x1Obj.onclick+'\',this)"'; 
     }else{
         x1Obj.onclickStr = '';
     }
@@ -9569,14 +9562,14 @@ Moca.prototype.renderGridToolbarButton = function(x1Obj,_id) {
     var tmp_disabled_style = '';
     var _btnid = '';
     tmp_disabled = x1Obj.innerDisabled;
-    if(moca.isTrue(tmp_disabled)){
+    if($m.isTrue(tmp_disabled)){
         _disabled = "disabled";
         _innerStyle += ";background:#aaa;";
     }
     if(x1Obj.id != null){
        _btnid = x1Obj.id;
     }
-    if(moca.getDevice() != 'pc' && x1Obj.mobileHide == "true"){
+    if($m.getDevice() != 'pc' && x1Obj.mobileHide == "true"){
     	_html += '<div class="grid_btn '+x1Obj.addClassStr+'" grdkey="'+_id+'" style="display:none">';
     }else{
     	_html += '<div class="grid_btn '+x1Obj.addClassStr+'" grdkey="'+_id+'">';
@@ -9596,7 +9589,7 @@ Moca.prototype.renderGridToolbarLabelSpan = function(x1Obj) {
         x1Obj.checkedStr = '';
     }
     //if(x1Obj.onclick != null && x1Obj.onclick != ''){
-        //x1Obj.onclickStr = 'onclick="moca.setter_pageId(\''+moca.pageId+'\',\''+moca.srcId+'\',\''+x1Obj.onclick+'\',this)"'; 
+        //x1Obj.onclickStr = 'onclick="$m.setter_pageId(\''+$m.pageId+'\',\''+$m.srcId+'\',\''+x1Obj.onclick+'\',this)"'; 
     //}else{
         x1Obj.onclickStr = '';
     //}
@@ -9627,7 +9620,7 @@ Moca.prototype.renderGridToolbarLabelSpan = function(x1Obj) {
     }else{
     	 x1Obj.expressionStr = eval(x1Obj.expression);
     }*/
-    if(moca.getDevice() != 'pc' && x1Obj.mobileHide == "true"){
+    if($m.getDevice() != 'pc' && x1Obj.mobileHide == "true"){
     	_html += '<div class="grid_label_span'+x1Obj.addClassStr+'" style="display:none">';
     }else{
     	_html += '<div class="grid_label_span '+x1Obj.addClassStr+'" grdkey="'+x1Obj.id+'">';
@@ -9648,7 +9641,7 @@ Moca.prototype.renderGridToolbarLabel = function(x1Obj) {
         x1Obj.checkedStr = '';
     }
     //if(x1Obj.onclick != null && x1Obj.onclick != ''){
-        //x1Obj.onclickStr = 'onclick="moca.setter_pageId(\''+moca.pageId+'\',\''+moca.srcId+'\',\''+x1Obj.onclick+'\',this)"'; 
+        //x1Obj.onclickStr = 'onclick="$m.setter_pageId(\''+$m.pageId+'\',\''+$m.srcId+'\',\''+x1Obj.onclick+'\',this)"'; 
     //}else{
         x1Obj.onclickStr = '';
     //}
@@ -9673,7 +9666,7 @@ Moca.prototype.renderGridToolbarLabelInput = function(x1Obj) {
         x1Obj.checkedStr = '';
     }
     //if(x1Obj.onclick != null && x1Obj.onclick != ''){
-        //x1Obj.onclickStr = 'onclick="moca.setter_pageId(\''+moca.pageId+'\',\''+moca.srcId+'\',\''+x1Obj.onclick+'\',this)"'; 
+        //x1Obj.onclickStr = 'onclick="$m.setter_pageId(\''+$m.pageId+'\',\''+$m.srcId+'\',\''+x1Obj.onclick+'\',this)"'; 
     //}else{
         x1Obj.onclickStr = '';
     //}
@@ -9699,7 +9692,7 @@ Moca.prototype.renderGridToolbarCombo = function(x1Obj,_id) {
         x1Obj.checkedStr = '';
     }
     //if(x1Obj.onclick != null && x1Obj.onclick != ''){
-        //x1Obj.onclickStr = 'onclick="moca.setter_pageId(\''+moca.pageId+'\',\''+moca.srcId+'\',\''+x1Obj.onclick+'\',this)"'; 
+        //x1Obj.onclickStr = 'onclick="$m.setter_pageId(\''+$m.pageId+'\',\''+$m.srcId+'\',\''+x1Obj.onclick+'\',this)"'; 
     //}else{
         x1Obj.onclickStr = '';
     //}
@@ -9736,7 +9729,7 @@ Moca.prototype.renderGridToolbarLabelCombo = function(x1Obj,_id) {
         x1Obj.checkedStr = '';
     }
     //if(x1Obj.onclick != null && x1Obj.onclick != ''){
-        //x1Obj.onclickStr = 'onclick="moca.setter_pageId(\''+moca.pageId+'\',\''+moca.srcId+'\',\''+x1Obj.onclick+'\',this)"'; 
+        //x1Obj.onclickStr = 'onclick="$m.setter_pageId(\''+$m.pageId+'\',\''+$m.srcId+'\',\''+x1Obj.onclick+'\',this)"'; 
     //}else{
         x1Obj.onclickStr = '';
     //}
@@ -9766,7 +9759,7 @@ Moca.prototype.renderGridToolbarRadio = function(x1Obj,_id) {
     var _html = '';
 
     if(x1Obj.onclick != null && x1Obj.onclick != ''){
-        x1Obj.onclickStr = 'onclick="'+x1Obj.onclick+'(\''+moca.pageId+'\',\''+moca.srcId+'\',this)"'; 
+        x1Obj.onclickStr = 'onclick="'+x1Obj.onclick+'(\''+$m.pageId+'\',\''+$m.srcId+'\',this)"'; 
     }else{
         x1Obj.onclickStr = '';
     }
@@ -9818,7 +9811,7 @@ Moca.prototype.renderTable = function(_divObj) {
     var _type = _divObj.getAttribute('type');
     var pageid = _divObj.getAttribute("pageid");
     var srcid = _divObj.getAttribute("srcid");
-    moca.getObj(_id,null,pageid,srcid);//id중복체크
+    $m.getObj(_id,null,pageid,srcid);//id중복체크
     
     var _default_cell_height = _divObj.getAttribute("default_cell_height");
     var _label = _divObj.getAttribute("label");
@@ -9864,23 +9857,23 @@ Moca.prototype.renderTable = function(_divObj) {
                     var x1Obj = JSON.parse(attValue);
                     if(x1Obj.position == 'left'){
                         if(attrName.indexOf('toolbar_grid_checkbox') > -1){
-                            _html += moca.renderGridToolbarCheckbox(x1Obj);
+                            _html += $m.renderGridToolbarCheckbox(x1Obj);
                         }else if(attrName.indexOf('toolbar_grid_input') > -1){
-                            _html += moca.renderGridToolbarInput(x1Obj);
+                            _html += $m.renderGridToolbarInput(x1Obj);
                         }else if(attrName.indexOf('toolbar_grid_button') > -1){
-                            _html += moca.renderGridToolbarButton(x1Obj,_divObj.id);
+                            _html += $m.renderGridToolbarButton(x1Obj,_divObj.id);
                         }else if(attrName.indexOf('toolbar_grid_label_span') > -1){
-                            _html += moca.renderGridToolbarLabelSpan(x1Obj);
+                            _html += $m.renderGridToolbarLabelSpan(x1Obj);
                         }else if(attrName.indexOf('toolbar_grid_label_input') > -1){
-                            _html += moca.renderGridToolbarLabelInput(x1Obj);
+                            _html += $m.renderGridToolbarLabelInput(x1Obj);
                         }else if(attrName.indexOf('toolbar_grid_label_combo') > -1){
-                            _html += moca.renderGridToolbarLabelCombo(x1Obj,_divObj.id);
+                            _html += $m.renderGridToolbarLabelCombo(x1Obj,_divObj.id);
                         }else if(attrName.indexOf('toolbar_grid_combo') > -1){
-                            _html += moca.renderGridToolbarCombo(x1Obj,_divObj.id);
+                            _html += $m.renderGridToolbarCombo(x1Obj,_divObj.id);
                         }else if(attrName.indexOf('toolbar_grid_label') > -1){
-                            _html += moca.renderGridToolbarLabel(x1Obj);
+                            _html += $m.renderGridToolbarLabel(x1Obj);
                         }else if(attrName.indexOf('toolbar_grid_radio') > -1){
-                            _html += moca.renderGridToolbarRadio(x1Obj);
+                            _html += $m.renderGridToolbarRadio(x1Obj);
                         }
                     }
                 }catch(e){
@@ -9903,13 +9896,13 @@ Moca.prototype.renderTable = function(_divObj) {
     
         _html += '<div class="rta" grdkey="'+_id+'">';
 
-        if(toolbar_col_showhide == "true") _html += '<button type="button" id="'+_id+'_col_showhide" class="button col_showhide" title="컬럼숨기기" grdkey="'+_id+'" onclick="moca._col_showhide(this)" renderType="'+_type+'"></button>';
-        if(toolbar_detail == "true") _html += '<button type="button" id="'+_id+'_btn_detail" class="button grid_detail" title="디테일뷰" grdkey="'+_id+'" onclick="moca._detailview(this)" renderType="'+_type+'"></button>';
-        if(toolbar_exup == "true") _html += '<button type="button" id="'+_id+'_btn_exup" class="button excel_up" title="엑셀업로드" grdkey="'+_id+'" onclick="moca._excel_up(this)" renderType="'+_type+'"></button>';
-        if(toolbar_exdn == "true") _html += '<button type="button" id="'+_id+'_btn_exdn" class="button excel_dn" title="엑셀다운로드" grdkey="'+_id+'" onclick="moca._excel_down(this)" renderType="'+_type+'"></button>';
-        if(toolbar_nextbtn == "true") _html += '<button type="button" id="'+_id+'_btn_nextbtn" class="button read_next" title="다음" grdkey="'+_id+'" onclick="moca._next(this)" renderType="'+_type+'"></button>';
-        if(toolbar_full == "true") _html += '<button type="button" id="'+_id+'_btn_full" class="button grid_full" title="그리드 전체화면"  grdkey="'+_id+'" onclick="moca._fullScreenGrid(this)" renderType="'+_type+'"></button>';
-        if(toolbar_fold == "true") _html += '<button type="button"id="'+_id+'_btn_fold" class="button grid_fold" title="그리드 접기"  grdkey="'+_id+'" onclick="moca._foldGrid(this)" renderType="'+_type+'"></button>';
+        if(toolbar_col_showhide == "true") _html += '<button type="button" id="'+_id+'_col_showhide" class="button col_showhide" title="컬럼숨기기" grdkey="'+_id+'" onclick="$m._col_showhide(this)" renderType="'+_type+'"></button>';
+        if(toolbar_detail == "true") _html += '<button type="button" id="'+_id+'_btn_detail" class="button grid_detail" title="디테일뷰" grdkey="'+_id+'" onclick="$m._detailview(this)" renderType="'+_type+'"></button>';
+        if(toolbar_exup == "true") _html += '<button type="button" id="'+_id+'_btn_exup" class="button excel_up" title="엑셀업로드" grdkey="'+_id+'" onclick="$m._excel_up(this)" renderType="'+_type+'"></button>';
+        if(toolbar_exdn == "true") _html += '<button type="button" id="'+_id+'_btn_exdn" class="button excel_dn" title="엑셀다운로드" grdkey="'+_id+'" onclick="$m._excel_down(this)" renderType="'+_type+'"></button>';
+        if(toolbar_nextbtn == "true") _html += '<button type="button" id="'+_id+'_btn_nextbtn" class="button read_next" title="다음" grdkey="'+_id+'" onclick="$m._next(this)" renderType="'+_type+'"></button>';
+        if(toolbar_full == "true") _html += '<button type="button" id="'+_id+'_btn_full" class="button grid_full" title="그리드 전체화면"  grdkey="'+_id+'" onclick="$m._fullScreenGrid(this)" renderType="'+_type+'"></button>';
+        if(toolbar_fold == "true") _html += '<button type="button"id="'+_id+'_btn_fold" class="button grid_fold" title="그리드 접기"  grdkey="'+_id+'" onclick="$m._foldGrid(this)" renderType="'+_type+'"></button>';
         
         
         for(var k=0; k <attArray.length; k++){
@@ -9920,23 +9913,23 @@ Moca.prototype.renderTable = function(_divObj) {
                     var x1Obj = JSON.parse(attValue);
                     if(x1Obj.position == 'right'){
                         if(attrName.indexOf('toolbar_grid_checkbox') > -1){
-                            _html += moca.renderGridToolbarCheckbox(x1Obj);
+                            _html += $m.renderGridToolbarCheckbox(x1Obj);
                         }else if(attrName.indexOf('toolbar_grid_input') > -1){
-                            _html += moca.renderGridToolbarInput(x1Obj);
+                            _html += $m.renderGridToolbarInput(x1Obj);
                         }else if(attrName.indexOf('toolbar_grid_button') > -1){
-                            _html += moca.renderGridToolbarButton(x1Obj,_divObj.id);
+                            _html += $m.renderGridToolbarButton(x1Obj,_divObj.id);
                         }else if(attrName.indexOf('toolbar_grid_label_span') > -1){
-                            _html += moca.renderGridToolbarLabelSpan(x1Obj);
+                            _html += $m.renderGridToolbarLabelSpan(x1Obj);
                         }else if(attrName.indexOf('toolbar_grid_label_input') > -1){
-                            _html += moca.renderGridToolbarLabelInput(x1Obj);
+                            _html += $m.renderGridToolbarLabelInput(x1Obj);
                         }else if(attrName.indexOf('toolbar_grid_label_combo') > -1){
-                            _html += moca.renderGridToolbarLabelCombo(x1Obj,_divObj.id);
+                            _html += $m.renderGridToolbarLabelCombo(x1Obj,_divObj.id);
                         }else if(attrName.indexOf('toolbar_grid_combo') > -1){
-                            _html += moca.renderGridToolbarCombo(x1Obj,_divObj.id);
+                            _html += $m.renderGridToolbarCombo(x1Obj,_divObj.id);
                         }else if(attrName.indexOf('toolbar_grid_label') > -1){
-                            _html += moca.renderGridToolbarLabel(x1Obj);
+                            _html += $m.renderGridToolbarLabel(x1Obj);
                         }else if(attrName.indexOf('toolbar_grid_radio') > -1){
-                            _html += moca.renderGridToolbarRadio(x1Obj);
+                            _html += $m.renderGridToolbarRadio(x1Obj);
                         }
                     }
                 }catch(e){
@@ -9984,10 +9977,10 @@ Moca.prototype.renderTable = function(_divObj) {
         _html +='   <div class="gridDetail_body" style="display:none" grdkey="'+_id+'"> ';
         _html +='       <div class="moca_grid_toolbar_detail"> ';
         _html +='           <div class="rta"> ';
-        _html +='               <button type="button" id="btn_colTh1" class="button colTh1" style="" title="그리드th1단"  onclick="moca._detailView1(this)"></button> ';
-        _html +='               <button type="button" id="btn_colTh2" class="button colTh2" style="" title="그리드th2단"  onclick="moca._detailView2(this)"></button> ';
-        _html +='               <button type="button" id="btn_colTh3" class="button colTh3" style="" title="그리드th3단"  onclick="moca._detailView3(this)"></button>'; 
-        _html +='               <button type="button" id="" class="button grid_detail_close" style="" title="" onclick="moca._detailViewClose(this)"></button>';
+        _html +='               <button type="button" id="btn_colTh1" class="button colTh1" style="" title="그리드th1단"  onclick="$m._detailView1(this)"></button> ';
+        _html +='               <button type="button" id="btn_colTh2" class="button colTh2" style="" title="그리드th2단"  onclick="$m._detailView2(this)"></button> ';
+        _html +='               <button type="button" id="btn_colTh3" class="button colTh3" style="" title="그리드th3단"  onclick="$m._detailView3(this)"></button>'; 
+        _html +='               <button type="button" id="" class="button grid_detail_close" style="" title="" onclick="$m._detailViewClose(this)"></button>';
         _html +='           </div> ';   
         _html +='       </div> ';
         _html +='       <table class="gridDetail mb5" id="gridDetail1"> ';
@@ -10040,11 +10033,11 @@ Moca.prototype.renderTable = function(_divObj) {
         
         
         
-        _html +='   <div id="col_showhide" class="PopColgroup p5" style="display:none" onclick="moca.preven(this)">';
+        _html +='   <div id="col_showhide" class="PopColgroup p5" style="display:none" onclick="$m.preven(this)">';
         _html +='       <div class="groupListHeader">';
         _html +='           <div class="fr">';
-        _html +='               <button type="button" class="button btn_save"  onclick="moca._col_showhideApply(this)"><span>적용</span></button>';
-        _html +='               <button type="button" class="button btn_close" style="" title="" onclick="moca._col_showhideClose(this)"></button>';
+        _html +='               <button type="button" class="button btn_save"  onclick="$m._col_showhideApply(this)"><span>적용</span></button>';
+        _html +='               <button type="button" class="button btn_close" style="" title="" onclick="$m._col_showhideClose(this)"></button>';
         _html +='           </div>';
         _html +='       </div>';    
         _html +='       <div class="ly_column col_2">';
@@ -10056,7 +10049,7 @@ Moca.prototype.renderTable = function(_divObj) {
         _html +='                   </colgroup>';
         _html +='                   <tr>';
         _html +='                       <td><div class="moca_ibn"><input type="text" class="moca_input" style="" id="grpNm_'+_id+'" placeholder="그룹명을 입력해주세요"><input type="color" class="moca_input_color"></div></td>';
-        _html +='                       <td><button type="button" class="button btn_plus" onclick="moca.createColGroup(this)"><i class="fas fa-plus"></i></button></td>';
+        _html +='                       <td><button type="button" class="button btn_plus" onclick="$m.createColGroup(this)"><i class="fas fa-plus"></i></button></td>';
         _html +='                   </tr>';
         _html +='               </table>';
         _html +='               <table class="groupList mb5">';
@@ -10075,9 +10068,9 @@ Moca.prototype.renderTable = function(_divObj) {
         _html +='   </div>';
 
         
-        _html = moca.addPageId(_html,pageid,srcid);
+        _html = $m.addPageId(_html,pageid,srcid);
         _divObj.innerHTML = _html;
-        moca.genTableRows(_divObj);
+        $m.genTableRows(_divObj);
     
     }
     
@@ -10165,7 +10158,7 @@ Moca.prototype.genTableRows = function(_divObj) {
                 }
                 _divObj.cellInfo = _cellMap;
                 _divObj.cellIndex = _cellIndex;
-                moca._col_showhideExe(_divObj);
+                $m._col_showhideExe(_divObj);
             }
         }
     }catch(e){
@@ -10181,16 +10174,16 @@ Moca.prototype.renderForm = function(_divObj) {
     var _oncellclick = _divObj.getAttribute("oncellclick");
     var _showRowSelection = _divObj.getAttribute("showRowSelection");
     if(_showRowSelection != 'false'){
-        if(moca.trim(_oncellclick) != ''){
+        if($m.trim(_oncellclick) != ''){
             $(_divObj).bind('click',eval(_oncellclick));
         }else{
-            $(_divObj).bind('click',moca.onRowClick);
+            $(_divObj).bind('click',$m.onRowClick);
         }
     }
     
     var _pageId = _divObj.getAttribute("pageid");
     var _srcId = _divObj.getAttribute("srcid");
-    moca.getObj(_id,null,_pageId,_srcId);//id중복체크
+    $m.getObj(_id,null,_pageId,_srcId);//id중복체크
     var _header_body = _divObj.innerHTML;
     var _html = '';
     
@@ -10217,10 +10210,10 @@ Moca.prototype.renderForm = function(_divObj) {
         _html += '</div>';
         _html += _header_body;
 
-        _html = moca.addPageId(_html,_pageId,_srcId);
+        _html = $m.addPageId(_html,_pageId,_srcId);
         _divObj.innerHTML = _html;
-        moca.genFormRows(_divObj);
-        moca.setAdditionTag(_divObj);
+        $m.genFormRows(_divObj);
+        $m.setAdditionTag(_divObj);
     }
     _divObj.setLabel = function(_label){
         $(_divObj).find('.moca_table_title>span').html(_label);
@@ -10248,9 +10241,9 @@ Moca.prototype.genFormRows = function(_divObj) {
     
     <div class="moca_radio mt5 " id="radio1">
     <input type="radio" class="moca_radio_input" name="radio_radio1" id="radio_radio1_0" 
-    onclick="moca.NP_REPORT.fn_research('MDI_202001092100525082050406020103','BA_12',this)" value="1" checked="">
+    onclick="$m.NP_REPORT.fn_research('MDI_202001092100525082050406020103','BA_12',this)" value="1" checked="">
     <label class="moca_radio_label mr4" for="radio_radio1_0">보기</label>
-    <input type="radio" class="moca_radio_input" name="radio_radio1" id="radio_radio1_1" onclick="moca.NP_REPORT.fn_research('MDI_202001092100525082050406020103','BA_12',this)" value="0">
+    <input type="radio" class="moca_radio_input" name="radio_radio1" id="radio_radio1_1" onclick="$m.NP_REPORT.fn_research('MDI_202001092100525082050406020103','BA_12',this)" value="0">
     <label class="moca_radio_label mr4" for="radio_radio1_1">안보기</label>
     </div>
     */
@@ -10317,9 +10310,9 @@ Moca.prototype.renderCheckboxGroup = function(_divObj,_val,_gubun,_metaObj,_chec
           obj.label = obj[_metaObj.label];
           obj.value = obj[_metaObj.value];
         }
-        if(_checkedInfo != null && moca.trim(_checkedInfo[obj.value]) == 'checked'){
+        if(_checkedInfo != null && $m.trim(_checkedInfo[obj.value]) == 'checked'){
           checkedStr = 'checked';
-        }else if(_checkedInfo != null && moca.trim(_checkedInfo[obj.value]) == 'unchecked'){
+        }else if(_checkedInfo != null && $m.trim(_checkedInfo[obj.value]) == 'unchecked'){
           checkedStr = '';
         }   
         
@@ -10339,9 +10332,9 @@ Moca.prototype.rendering = function(o,_aTag) {
     if(htmlContents == null){
         htmlContents = o.data;
     }
-    var _tabId = o.type+"_"+moca.now()+moca.shuffleRandom(6);
-    if(o.type == 'MDI' && moca.trim(_label) != ''){
-           moca.tree_addTab(_label,_tabId,_url,_mdiId);  
+    var _tabId = o.type+"_"+$m.now()+$m.shuffleRandom(6);
+    if(o.type == 'MDI' && $m.trim(_label) != ''){
+           $m.tree_addTab(_label,_tabId,_url,_mdiId);  
     }else{
         //$('#__popup').html('<div id="'+o.popupId+'" pageid="'+_tabId+'" srcid="'+_srcId+'" class="moca_tab moca_mdi">');
         
@@ -10351,17 +10344,17 @@ Moca.prototype.rendering = function(o,_aTag) {
     htmlContents = htmlContents.replace(/<html(.*?)>|<\/html>|<body(.*?)>|<\/body>|<head(.*?)>|<\/head>/gi,'');
     htmlContents = htmlContents.replace(/<script(.*?)><\/script>/g,'');
     htmlContents = htmlContents.replace(/<title(.*?)>(.*?)<\/title>/gi,'');
-	if(moca.trim(o.popupId) != ''){
+	if($m.trim(o.popupId) != ''){
 		_tabId = o.popupId;
 	}
-    moca.pageId = _tabId;
-    moca.srcId = _srcId;
-    if(moca.trim(_clickedMenuId) != ''){
-        moca.menuId = _clickedMenuId;
+    $m.pageId = _tabId;
+    $m.srcId = _srcId;
+    if($m.trim(_clickedMenuId) != ''){
+        $m.menuId = _clickedMenuId;
     }
     
-    htmlContents = moca.addPageId(htmlContents,_tabId,_srcId);
-    htmlContents = moca.injectionPageObj(htmlContents,_tabId,_srcId);
+    htmlContents = $m.addPageId(htmlContents,_tabId,_srcId);
+    htmlContents = $m.injectionPageObj(htmlContents,_tabId,_srcId);
     var contDiv = document.createElement("div");
     contDiv.data = o.data;
     if(o.type == 'MDI'){
@@ -10395,14 +10388,14 @@ Moca.prototype.rendering = function(o,_aTag) {
         
         $(_aTag).append(contDiv);
     }else if(o.type == 'POPUP' || o.type == 'POP'){
-        moca.callbacks[_tabId] = o.callback;
+        $m.callbacks[_tabId] = o.callback;
         var cont = '';
         if(o.modal != false && o.modal != 'false'){
             cont += '<div id="modal" class="moca_popup_modal" style="display:block"></div>';
             $('body').css('overflow','hidden');
         }
         var _pid = '';
-        if(moca.trim(o.id) != '' ){
+        if($m.trim(o.id) != '' ){
             _pid = o.id;
         }else{
             _pid = _tabId;
@@ -10410,12 +10403,12 @@ Moca.prototype.rendering = function(o,_aTag) {
         var ow = o.width;if(String(ow).indexOf('%') == -1){ow += 'px';};
         var oh = o.height;if(String(oh).indexOf('%') == -1){oh += 'px';};
         var dodotop = o.top;
-        cont += '<div id="'+_pid+'" pageid="'+_tabId+'" srcid="'+moca.srcId+'" class="moca_popup '+o.type+'" style="left:'+o.left+'px;top:'+o.top+'px;width:'+ow+';height:'+oh+'">';
+        cont += '<div id="'+_pid+'" pageid="'+_tabId+'" srcid="'+$m.srcId+'" class="moca_popup '+o.type+'" style="left:'+o.left+'px;top:'+o.top+'px;width:'+ow+';height:'+oh+'">';
         cont += '   <div class="moca_popup_header">';
-        cont += '       <h2 class="moca_popup_title">'+o.title+'('+moca.srcId+')'+'</h2>';
+        cont += '       <h2 class="moca_popup_title">'+o.title+'('+$m.srcId+')'+'</h2>';
         cont += '       <div class="moca_popup_control"><button type="button" id="btn_popChange" class="moca_popup_btn_change" ';
-        cont += ' onclick="moca.popChange(\''+_tabId+'\');"';
-        cont += '>변경</button><button type="button" id="btn_popClose" class="moca_popup_btn_close" onclick="moca.popClose(\''+_tabId+'\');">닫기</button></div>';
+        cont += ' onclick="$m.popChange(\''+_tabId+'\');"';
+        cont += '>변경</button><button type="button" id="btn_popClose" class="moca_popup_btn_close" onclick="$m.popClose(\''+_tabId+'\');">닫기</button></div>';
         cont += '   </div>';
         cont += '   <div class="moca_popup_body">';
         cont += '       <div class="moca_popup_content">';
@@ -10458,7 +10451,7 @@ Moca.prototype.rendering = function(o,_aTag) {
         	if(document.body.clientWidth <  width){
         		width = document.body.clientWidth;
         	}           
-        	if(moca.getDevice() != 'pc'){
+        	if($m.getDevice() != 'pc'){
         		height = document.body.clientHeight;
         	}
 
@@ -10488,10 +10481,10 @@ Moca.prototype.rendering = function(o,_aTag) {
             }
             if($(e.srcElement).hasClass('moca_popup') || $(e.srcElement).hasClass('moca_popup_header') || $(".moca_popup_header").find($(e.srcElement)).length > 0){
                 //if(_option.scope == 'mdi'){
-                //  mdiObj.addEventListener('mousemove',moca.popupMove,false);
+                //  mdiObj.addEventListener('mousemove',$m.popupMove,false);
                 //}else{
                 if(!$(document.nowPopup).hasClass('max')){
-                    document.addEventListener('mousemove',moca.popupMove,false);
+                    document.addEventListener('mousemove',$m.popupMove,false);
                 }
                     
                 //}
@@ -10527,7 +10520,7 @@ Moca.prototype.rendering = function(o,_aTag) {
                     $(thisObj).css('left','0');
                     $(thisObj).css('width','100%');
                     $(thisObj).css('height','100%');
-                    document.removeEventListener('mousemove',moca.popupMove,false);
+                    document.removeEventListener('mousemove',$m.popupMove,false);
                     this.gepX = null;
                     this.getY = null;
                     this.move = 0;
@@ -10544,7 +10537,7 @@ Moca.prototype.rendering = function(o,_aTag) {
         });
         moca_popup.addEventListener('mouseup', function (e) {
             //if($(e.srcElement).hasClass('moca_popup') || $(e.srcElement).hasClass('moca_popup_header') || $(".moca_popup_header").find($(e.srcElement)).length > 0){
-                document.removeEventListener('mousemove',moca.popupMove,false);
+                document.removeEventListener('mousemove',$m.popupMove,false);
                 this.gepX = null;
                 this.getY = null;
                 this.move = 0;
@@ -10563,13 +10556,13 @@ Moca.prototype.rendering = function(o,_aTag) {
         
     }
     
-    if(moca[_srcId] == null){
+    if($m[_srcId] == null){
         return;
     }
-    //console.log(_srcId,'rendering moca[_srcId]-',moca[_srcId]);
-    moca[_srcId].pageId = _tabId;
-    moca[_srcId].srcId = _srcId;
-    moca[_srcId].getObj = function(_objId,_tag,__pageId,__srcId){
+    //console.log(_srcId,'rendering $m[_srcId]-',$m[_srcId]);
+    $m[_srcId].pageId = _tabId;
+    $m[_srcId].srcId = _srcId;
+    $m[_srcId].getObj = function(_objId,_tag,__pageId,__srcId){
             ['고유한 obj찾기'];
             var _pageId;
             var _srcId;
@@ -10595,8 +10588,8 @@ Moca.prototype.rendering = function(o,_aTag) {
                             re = $('[pageId='+_pageId+']').find('[id='+_objId+']');
                         }
                     }
-                }else if(moca.pageId != null){
-                        re = $('div[id='+_objId+']').filter('[pageId="'+moca.pageId+'"][srcId="'+moca.srcId+'"]');
+                }else if($m.pageId != null){
+                        re = $('div[id='+_objId+']').filter('[pageId="'+$m.pageId+'"][srcId="'+$m.srcId+'"]');
                 }else{
                     re = $('div[id='+_objId+']');
                 }
@@ -10606,8 +10599,8 @@ Moca.prototype.rendering = function(o,_aTag) {
                     if(re.length == 0){
                         re = $('[pageId='+_pageId+']').find('[id='+_objId+']');
                     }
-                }else if(moca.pageId != null){
-                    re = $(_tag+'[id='+_objId+']').filter('[pageId="'+moca.pageId+'"][srcId="'+moca.srcId+'"]');
+                }else if($m.pageId != null){
+                    re = $(_tag+'[id='+_objId+']').filter('[pageId="'+$m.pageId+'"][srcId="'+$m.srcId+'"]');
                 }else{
                     re = $(_tag+'[id='+_objId+']');
                 }       
@@ -10634,39 +10627,39 @@ Moca.prototype.rendering = function(o,_aTag) {
         };
     
         
-    moca[_srcId].getInput = function(_id){
-    	return moca.getObj(_id,"input",this.pageId,this.srcId).value;
+    $m[_srcId].getInput = function(_id){
+    	return $m.getObj(_id,"input",this.pageId,this.srcId).value;
     };
     
-    moca[_srcId].getFromTo = function(selecterItem,_to_date){
-        return moca.getFromToByOption(selecterItem,_to_date,this.pageId,this.srcId);
+    $m[_srcId].getFromTo = function(selecterItem,_to_date){
+        return $m.getFromToByOption(selecterItem,_to_date,this.pageId,this.srcId);
     };
     
     
-    moca[_srcId].getFrom = function(_id){
+    $m[_srcId].getFrom = function(_id){
         //console.log(_id,null,this._pageId,this._srcId,'input');
-        return $(moca.getObj(_id,null,this.pageId,this.srcId)).find('input')[0].value;
+        return $($m.getObj(_id,null,this.pageId,this.srcId)).find('input')[0].value;
     };
-    moca[_srcId].getTo = function(_id){
-        return $(moca.getObj(_id,null,this.pageId,this.srcId)).find('input')[1].value;
+    $m[_srcId].getTo = function(_id){
+        return $($m.getObj(_id,null,this.pageId,this.srcId)).find('input')[1].value;
     };
-    moca[_srcId].setFrom = function(_id,_val){
-    	var _maxlength = $(moca.getObj(_id,null,this.pageId,this.srcId)).find('input').attr('maxlength');
-    	if(moca.trim(_maxlength) != ''){
+    $m[_srcId].setFrom = function(_id,_val){
+    	var _maxlength = $($m.getObj(_id,null,this.pageId,this.srcId)).find('input').attr('maxlength');
+    	if($m.trim(_maxlength) != ''){
     		_val = _val.substring(0,_maxlength);
     	}
-        $(moca.getObj(_id,null,this.pageId,this.srcId)).find('input')[0].value = _val;
+        $($m.getObj(_id,null,this.pageId,this.srcId)).find('input')[0].value = _val;
     };
-    moca[_srcId].setTo = function(_id,_val){
-    	var _maxlength = $(moca.getObj(_id,null,this.pageId,this.srcId)).find('input').attr('maxlength');
-    	if(moca.trim(_maxlength) != ''){
+    $m[_srcId].setTo = function(_id,_val){
+    	var _maxlength = $($m.getObj(_id,null,this.pageId,this.srcId)).find('input').attr('maxlength');
+    	if($m.trim(_maxlength) != ''){
     		_val = _val.substring(0,_maxlength);
     	}
-        $(moca.getObj(_id,null,this.pageId,this.srcId)).find('input')[1].value = _val;
+        $($m.getObj(_id,null,this.pageId,this.srcId)).find('input')[1].value = _val;
     };
     
-    moca[_srcId].getCombo = function(_id){
-    	var o = $(moca.getObj(_id,null,this.pageId,this.srcId));
+    $m[_srcId].getCombo = function(_id){
+    	var o = $($m.getObj(_id,null,this.pageId,this.srcId));
 		if(o.attr('readonly')){
 			return o.attr('code');
 		}else{
@@ -10674,19 +10667,19 @@ Moca.prototype.rendering = function(o,_aTag) {
 			return o.val();
 		}
     };
-    moca[_srcId].getSearchCombo = function(_id){
-        var jobj = $(moca.getObj(_id,null,this.pageId,this.srcId));
+    $m[_srcId].getSearchCombo = function(_id){
+        var jobj = $($m.getObj(_id,null,this.pageId,this.srcId));
         return {value:jobj.attr("value"),text:jobj.attr("text")};
     };
-    moca[_srcId].setSearchCombo = function(_id,_value){
-        var thisObj = moca.getObj(_id,null,this.pageId,this.srcId);
+    $m[_srcId].setSearchCombo = function(_id,_value){
+        var thisObj = $m.getObj(_id,null,this.pageId,this.srcId);
         var o = $(thisObj);
         o.attr('value',_value);
-        moca.searchComboSetter(thisObj);
+        $m.searchComboSetter(thisObj);
         return o;
     };
-    moca[_srcId].getComboLabel = function(_id){
-    	var o = $(moca.getObj(_id,null,this.pageId,this.srcId));
+    $m[_srcId].getComboLabel = function(_id){
+    	var o = $($m.getObj(_id,null,this.pageId,this.srcId));
 		if(o.attr('readonly') && o.find('input').length > 0){
 			var l = o.attr('label');
 		}else{
@@ -10696,8 +10689,8 @@ Moca.prototype.rendering = function(o,_aTag) {
 		}
 		return l;
 		/*
-        if(moca.getObj(_id,null,this.pageId,this.srcId) != null){
-            var o = $(moca.getObj(_id,null,this.pageId,this.srcId)).find('select');
+        if($m.getObj(_id,null,this.pageId,this.srcId) != null){
+            var o = $($m.getObj(_id,null,this.pageId,this.srcId)).find('select');
             var v = o.val();
             var l = o.find('option[value='+v+']').text();
             return l;
@@ -10708,10 +10701,10 @@ Moca.prototype.rendering = function(o,_aTag) {
         */
     };
     
-    moca[_srcId].getCheckbox = function(_id){
+    $m[_srcId].getCheckbox = function(_id){
         var obj = {};
-        obj.label = $(moca.getObj(_id,null,this.pageId,this.srcId)).find('input[type=checkbox]').next().text();
-        obj.checked = $(moca.getObj(_id,null,this.pageId,this.srcId)).find('input[type=checkbox]').is(':checked');
+        obj.label = $($m.getObj(_id,null,this.pageId,this.srcId)).find('input[type=checkbox]').next().text();
+        obj.checked = $($m.getObj(_id,null,this.pageId,this.srcId)).find('input[type=checkbox]').is(':checked');
         if(obj.checked){
             obj.value = 1;
         }else{
@@ -10719,20 +10712,20 @@ Moca.prototype.rendering = function(o,_aTag) {
         }
         return obj;
     };
-    moca[_srcId].drawGrid = function(_grdId,_list,_response){
-        moca.drawGrid_inside(_grdId,_list,_list,this.pageId,this.srcId,_response);
+    $m[_srcId].drawGrid = function(_grdId,_list,_response){
+        $m.drawGrid_inside(_grdId,_list,_list,this.pageId,this.srcId,_response);
         if(typeof _grdId == 'object'){
-            moca.getObj(_grdId.id+"_moca_scroll_y",null,this.pageId,this.srcId).scrollTop = 0; 
+            $m.getObj(_grdId.id+"_moca_scroll_y",null,this.pageId,this.srcId).scrollTop = 0; 
         }else{
-            moca.getObj(_grdId+"_moca_scroll_y",null,this.pageId,this.srcId).scrollTop = 0; 
+            $m.getObj(_grdId+"_moca_scroll_y",null,this.pageId,this.srcId).scrollTop = 0; 
         }
         
     };
-    moca[_srcId].bindCombo = function(compId,codeOpt,_list){
+    $m[_srcId].bindCombo = function(compId,codeOpt,_list){
         var compObj;
         if(compId.indexOf('.') > 0){
             var arr = compId.split('.');
-            var g_obj = moca[this.srcId].getObj(arr[0]);
+            var g_obj = $m[this.srcId].getObj(arr[0]);
             if(g_obj[arr[1]] == null){
                 g_obj[arr[1]] = {};
             }
@@ -10740,126 +10733,126 @@ Moca.prototype.rendering = function(o,_aTag) {
             compObj['list'] = _list;
             compObj['codeOpt'] = codeOpt;
         }else{
-            compObj = moca[this.srcId].getObj(compId,null,this.pageId,this.srcId);
+            compObj = $m[this.srcId].getObj(compId,null,this.pageId,this.srcId);
             compObj['list'] = _list;
             compObj['codeOpt'] = codeOpt;
-            moca.renderCombo(compObj,null,'normal');
+            $m.renderCombo(compObj,null,'normal');
         }
     };
 
-    moca[_srcId].bindCell = function(grdId,cellId,codeOpt,_list){ 
-        var g_obj = moca.getObj(grdId,null,this.pageId,this.srcId);
+    $m[_srcId].bindCell = function(grdId,cellId,codeOpt,_list){ 
+        var g_obj = $m.getObj(grdId,null,this.pageId,this.srcId);
         if(g_obj[cellId] == undefined){
             g_obj[cellId] = {};
             g_obj[cellId]['codeOpt'] = codeOpt;
         } 
         g_obj[cellId]['list'] = _list;
-        g_obj[cellId]['map'] = moca.listToMap(g_obj[cellId]['list'],g_obj[cellId]['codeOpt']);
+        g_obj[cellId]['map'] = $m.listToMap(g_obj[cellId]['list'],g_obj[cellId]['codeOpt']);
     };
     
-    moca[_srcId].exe = function(_sObj) {
-        moca.exe(_sObj,this);
+    $m[_srcId].exe = function(_sObj) {
+        $m.exe(_sObj,this);
     };
     
-    moca[_srcId].fileDownloadAjax = function(_sObj) {
+    $m[_srcId].fileDownloadAjax = function(_sObj) {
         _sObj.pageId = this.pageId;
         _sObj.srcId = this.srcId;
-        moca.fileDownloadAjax(_sObj);
+        $m.fileDownloadAjax(_sObj);
     };  
     
-    moca[_srcId].openPdfViewer = function(_sObj) {
+    $m[_srcId].openPdfViewer = function(_sObj) {
         _sObj.pageId = this.pageId;
         _sObj.srcId = this.srcId;
-        moca.openPdfViewer(_sObj);
+        $m.openPdfViewer(_sObj);
     };  
     
-    moca[_srcId].code = function(_config,_callback,_url) {
-        moca.code(_config,_callback,_url,this.pageId,this.srcId);
+    $m[_srcId].code = function(_config,_callback,_url) {
+        $m.code(_config,_callback,_url,this.pageId,this.srcId);
     };  
     
-    moca[_srcId].validate = function(__grdId,_key,_val) {
-        return moca.validate(__grdId,_key,_val,this.pageId,this.srcId);
+    $m[_srcId].validate = function(__grdId,_key,_val) {
+        return $m.validate(__grdId,_key,_val,this.pageId,this.srcId);
     };  
         
     
-    moca[_srcId].getFilteredList = function(_grdId,key,_val,isNot){
-        return moca.getFilteredList(_grdId,key,_val,isNot,this.pageId,this.srcId);  
+    $m[_srcId].getFilteredList = function(_grdId,key,_val,isNot){
+        return $m.getFilteredList(_grdId,key,_val,isNot,this.pageId,this.srcId);  
     }
     
-    moca[_srcId].getResList = function(_response,_list,_status){
-        return moca.getResList(_response,_list,_status,this.pageId,this.srcId); 
+    $m[_srcId].getResList = function(_response,_list,_status){
+        return $m.getResList(_response,_list,_status,this.pageId,this.srcId); 
     }
 
-    moca[_srcId].setCellData = function(_grd,_realRowIndex,_colId,_data){
-        return moca.setCellData(_grd,_realRowIndex,_colId,_data,this.pageId,this.srcId);    
+    $m[_srcId].setCellData = function(_grd,_realRowIndex,_colId,_data){
+        return $m.setCellData(_grd,_realRowIndex,_colId,_data,this.pageId,this.srcId);    
     }
     
-    moca[_srcId].getCellData = function(grd,rowIndex,colid){
-        return moca.getCellData(grd,rowIndex,colid,this.pageId,this.srcId); 
+    $m[_srcId].getCellData = function(grd,rowIndex,colid){
+        return $m.getCellData(grd,rowIndex,colid,this.pageId,this.srcId); 
     }
-    moca[_srcId].getCellViewData = function(grd,rowIndex,colid){
-        return moca.getCellViewData(grd,rowIndex,colid,this.pageId,this.srcId); 
+    $m[_srcId].getCellViewData = function(grd,rowIndex,colid){
+        return $m.getCellViewData(grd,rowIndex,colid,this.pageId,this.srcId); 
     }
     
-    moca[_srcId].renderCombo = function(_divObj,_val,_gubun){
-        return moca.renderCombo(_divObj,_val,_gubun,this.pageId,this.srcId);    
+    $m[_srcId].renderCombo = function(_divObj,_val,_gubun){
+        return $m.renderCombo(_divObj,_val,_gubun,this.pageId,this.srcId);    
     }    
     
-    moca[_srcId].getSelectedRowJson = function(_gridId){
-        return moca.getSelectedRowJson(_gridId,this.pageId,this.srcId); 
+    $m[_srcId].getSelectedRowJson = function(_gridId){
+        return $m.getSelectedRowJson(_gridId,this.pageId,this.srcId); 
     }   
     
-    moca[_srcId].alert = function(_message,_callback){
-        return moca.alert(_message,_callback,this.pageId,this.srcId);   
+    $m[_srcId].alert = function(_message,_callback){
+        return $m.alert(_message,_callback,this.pageId,this.srcId);   
     }
     
-    moca[_srcId].confirm = function(_message,_callback){
-        return moca.confirm(_message,_callback,this.pageId,this.srcId); 
+    $m[_srcId].confirm = function(_message,_callback){
+        return $m.confirm(_message,_callback,this.pageId,this.srcId); 
     }
     
-    moca[_srcId].filterRemoveAll = function(grd){
-        return moca.filterRemoveAll(grd,this.pageId,this.srcId);    
+    $m[_srcId].filterRemoveAll = function(grd){
+        return $m.filterRemoveAll(grd,this.pageId,this.srcId);    
     }
     
-    moca[_srcId].redrawGrid = function(grd){
-        return moca.redrawGrid(grd,this.pageId,this.srcId); 
+    $m[_srcId].redrawGrid = function(grd){
+        return $m.redrawGrid(grd,this.pageId,this.srcId); 
     }
     
-    moca[_srcId].closePopup = function(_thisObj){
-        return moca.closePopup(_thisObj,this.pageId,this.srcId);    
+    $m[_srcId].closePopup = function(_thisObj){
+        return $m.closePopup(_thisObj,this.pageId,this.srcId);    
     }
     
-    moca[_srcId].setTotalCnt = function(_grd,cnt){
+    $m[_srcId].setTotalCnt = function(_grd,cnt){
         var grd;
         if(typeof _grd == 'string'){
-            grd = moca.getObj(_grd,null,this.pageId,this.srcId);
+            grd = $m.getObj(_grd,null,this.pageId,this.srcId);
         }else{
             grd = _grd;
         }
         grd.totalCnt = cnt;
-        if(moca.getAttrObj(grd,'paging').type == 'numberList'){
-        	moca[_srcId].setNumberListCnt(grd,cnt);
+        if($m.getAttrObj(grd,'paging').type == 'numberList'){
+        	$m[_srcId].setNumberListCnt(grd,cnt);
         }
-        return $(grd).find('.grid_total .txt_blue').html(moca.comma(cnt));
+        return $(grd).find('.grid_total .txt_blue').html($m.comma(cnt));
         
     }
     
-    moca[_srcId].getTotalCnt = function(_grd){
+    $m[_srcId].getTotalCnt = function(_grd){
         var grd;
         if(typeof _grd == 'string'){
-            grd = moca.getObj(_grd,null,this.pageId,this.srcId);
+            grd = $m.getObj(_grd,null,this.pageId,this.srcId);
         }else{
             grd = _grd;
         }
         return $(grd).find('.grid_total .txt_blue').text().replace(/,/g,'');
     };
     
-    moca.getAttrObj = function(_grdObj,_attr){
+    $m.getAttrObj = function(_grdObj,_attr){
     	var attrObj = (_grdObj.getAttribute(_attr) != null)? JSON.parse(_grdObj.getAttribute(_attr)):{};
     	return attrObj;
     };
     
-    moca.currentPage = function(_pageButtonOrGridObj){
+    $m.currentPage = function(_pageButtonOrGridObj){
     	if(_pageButtonOrGridObj == null || _pageButtonOrGridObj.currentPage == null){
     		return 1;
     	}else{
@@ -10867,19 +10860,19 @@ Moca.prototype.rendering = function(o,_aTag) {
     	}
     };
 
-    moca.pagingFirst =  function(_pageButtonObj){
+    $m.pagingFirst =  function(_pageButtonObj){
     	var grd = $(_pageButtonObj).closest('[type=grid]')[0];
-    	var lastPage = moca.getNumListCnt(grd);
+    	var lastPage = $m.getNumListCnt(grd);
     	var _prevP = Number($(grd).find('.moca_grid_paging > .num > button.on').text());
 		if(_prevP == 1){
 			return;
 		}else{
-			var _onPageClick = moca.getAttrObj(grd,'paging').onPageClick;
-			moca.onPageClick(_pageButtonObj,1,_onPageClick);
+			var _onPageClick = $m.getAttrObj(grd,'paging').onPageClick;
+			$m.onPageClick(_pageButtonObj,1,_onPageClick);
 		}
     }
     
-    moca.pagingPrev =  function(_pageButtonObj){
+    $m.pagingPrev =  function(_pageButtonObj){
     	var grd = $(_pageButtonObj).closest('[type=grid]')[0];
 		var _prevP = Number($(grd).find('.moca_grid_paging > .num > button.on').text());
 		
@@ -10888,14 +10881,14 @@ Moca.prototype.rendering = function(o,_aTag) {
 		}else{
 			var _currentP = _prevP-1;
 			grd.currentPage = _currentP;
-			var _onPageClick = moca.getAttrObj(grd,'paging').onPageClick;
-			moca.onPageClick(_pageButtonObj,grd.currentPage,_onPageClick);
+			var _onPageClick = $m.getAttrObj(grd,'paging').onPageClick;
+			$m.onPageClick(_pageButtonObj,grd.currentPage,_onPageClick);
 		}
     }
     
-    moca.pagingNext =  function(_pageButtonObj){
+    $m.pagingNext =  function(_pageButtonObj){
     	var grd = $(_pageButtonObj).closest('[type=grid]')[0];
-    	var lastPage = moca.getNumListCnt(grd);
+    	var lastPage = $m.getNumListCnt(grd);
 		var _prevP = Number($(grd).find('.moca_grid_paging > .num > button.on').text());
 		
 		if(_prevP == lastPage){
@@ -10903,39 +10896,39 @@ Moca.prototype.rendering = function(o,_aTag) {
 		}else{
 			var _currentP = _prevP+1;
 			grd.currentPage = _currentP;
-			var _onPageClick = moca.getAttrObj(grd,'paging').onPageClick;
-			moca.onPageClick(_pageButtonObj,grd.currentPage,_onPageClick);
+			var _onPageClick = $m.getAttrObj(grd,'paging').onPageClick;
+			$m.onPageClick(_pageButtonObj,grd.currentPage,_onPageClick);
 		}
     }
-    moca.pagingLast =  function(_pageButtonObj){
+    $m.pagingLast =  function(_pageButtonObj){
     	var grd = $(_pageButtonObj).closest('[type=grid]')[0];
-    	var lastPage = moca.getNumListCnt(grd);
+    	var lastPage = $m.getNumListCnt(grd);
     	var _prevP = Number($(grd).find('.moca_grid_paging > .num > button.on').text());
 		if(_prevP == lastPage){
 			return;
 		}else{
-			var _onPageClick = moca.getAttrObj(grd,'paging').onPageClick;
-			moca.onPageClick(_pageButtonObj,lastPage,_onPageClick);
+			var _onPageClick = $m.getAttrObj(grd,'paging').onPageClick;
+			$m.onPageClick(_pageButtonObj,lastPage,_onPageClick);
 		}
     }
-    moca.getLimitFrom = function(_grd){
-    	return String((moca.currentPage(_grd)-1)*parseInt(moca.getAttrObj(_grd,'paging').listCntPerPage));
+    $m.getLimitFrom = function(_grd){
+    	return String(($m.currentPage(_grd)-1)*parseInt($m.getAttrObj(_grd,'paging').listCntPerPage));
     }
     
-    moca.getLimitPerPage = function(_grd){
-    	return moca.getAttrObj(_grd,'paging').listCntPerPage;
+    $m.getLimitPerPage = function(_grd){
+    	return $m.getAttrObj(_grd,'paging').listCntPerPage;
     }
     
-    moca[_srcId].setNumberListCnt = function(_grd,cnt){
+    $m[_srcId].setNumberListCnt = function(_grd,cnt){
         var grd;
         if(typeof _grd == 'string'){
-            grd = moca.getObj(_grd,null,this.pageId,this.srcId);
+            grd = $m.getObj(_grd,null,this.pageId,this.srcId);
         }else{
             grd = _grd;
         }
-        var numListCnt = moca.getNumListCnt(grd); //3 
-        var _onPageClick = moca.getAttrObj(grd,'paging').onPageClick;
-        var _pageGroupItemMax = Number(moca.getAttrObj(grd,'paging').pageGroupItemMax);
+        var numListCnt = $m.getNumListCnt(grd); //3 
+        var _onPageClick = $m.getAttrObj(grd,'paging').onPageClick;
+        var _pageGroupItemMax = Number($m.getAttrObj(grd,'paging').pageGroupItemMax);
         var _showItemCnt;
         if(_pageGroupItemMax < numListCnt){
         	//총리스트목록 - 보여질목록아이템갯수 0보다 크면 보여질아이템갯수로 보여주고 아닐경우 총리스트목록을보여준다.
@@ -10946,7 +10939,7 @@ Moca.prototype.rendering = function(o,_aTag) {
         }
         var a = $(_grd).find('.moca_grid_paging > .num');
         var aTag = '';
-        var currentPage  = moca.currentPage(_grd);
+        var currentPage  = $m.currentPage(_grd);
         
         if(currentPage == null){
     		currentPage = 1;
@@ -10959,13 +10952,13 @@ Moca.prototype.rendering = function(o,_aTag) {
         	startPage = parseInt(currentPage/_showItemCnt)*_showItemCnt+1;
         }
         
-        var lastPage = moca.getNumListCnt(grd);
+        var lastPage = $m.getNumListCnt(grd);
 		for(var i=startPage; i < startPage+_showItemCnt; i++){ 
         	var classon = '';
         	if(currentPage == i){
         		classon = 'class="on" title="현재위치"';
         	}
-        	aTag += '<button type=\"button\" '+classon+' onclick=\"moca.onPageClick(this,'+i+','+_onPageClick+')\" >'+i+'</button>';
+        	aTag += '<button type=\"button\" '+classon+' onclick=\"$m.onPageClick(this,'+i+','+_onPageClick+')\" >'+i+'</button>';
         	if(i == lastPage){
          		break;
          	}
@@ -10974,17 +10967,17 @@ Moca.prototype.rendering = function(o,_aTag) {
         return a.html(aTag);
     }
     
-    moca.getNumListCnt = function(grd){
-    	var numListCnt = Math.ceil(grd.totalCnt/moca.getAttrObj(grd,'paging').listCntPerPage);
+    $m.getNumListCnt = function(grd){
+    	var numListCnt = Math.ceil(grd.totalCnt/$m.getAttrObj(grd,'paging').listCntPerPage);
     	return numListCnt;
     };    
     
-    moca.onPageClick = function(_thisPageBtnObj,pageNum,onPageClickFunctionStr){
+    $m.onPageClick = function(_thisPageBtnObj,pageNum,onPageClickFunctionStr){
     	/*
-		moca.eTarget = event.target;
-		moca.pageBefore = moca.currentPage(_thisPageBtnObj);
+		$m.eTarget = event.target;
+		$m.pageBefore = $m.currentPage(_thisPageBtnObj);
         */	
-    	var beforePage = moca.currentPage(_thisPageBtnObj);
+    	var beforePage = $m.currentPage(_thisPageBtnObj);
     	var currentPage = pageNum;
     	var grd = $(_thisPageBtnObj).closest("[type=grid]")[0];
     	grd.currentPage = currentPage;
@@ -10999,24 +10992,24 @@ Moca.prototype.rendering = function(o,_aTag) {
     	}
     };
     
-    moca[_srcId].getRadio = function(_id){
-        var c = $(moca.getObj(_id,null,this.pageId,this.srcId)).find('input[type=radio]:checked');
+    $m[_srcId].getRadio = function(_id){
+        var c = $($m.getObj(_id,null,this.pageId,this.srcId)).find('input[type=radio]:checked');
         var obj = {};
         obj.label = c.next().text();
         obj.value = c.val();
         return obj;
     };
     
-    moca[_srcId].setFormValue = function(_formId,_targetId,_value){
+    $m[_srcId].setFormValue = function(_formId,_targetId,_value){
         //var o = $('#'+_formId+' td[ID="'+_targetId+'"]');
         var o = $('#'+_formId+' [ID="'+_targetId+'"]');
         if(o != null && o.length > 0){
             if(o[0].tagName == "SPAN"){
                 o.html(_value);
             }else if(o[0].tagName == 'TD'){
-                moca.setValue(o.children().first(),_value);
+                $m.setValue(o.children().first(),_value);
             }else{
-                moca.setValue(o,_value);
+                $m.setValue(o,_value);
             }
         }else{
             
@@ -11024,7 +11017,7 @@ Moca.prototype.rendering = function(o,_aTag) {
         }
 
     };
-    moca[_srcId].setTableCellValue = function(_tableId,_id,_index,_value){
+    $m[_srcId].setTableCellValue = function(_tableId,_id,_index,_value){
         var __comp = $($('table[id='+_tableId+'][pageid='+this.pageId+'] div[id='+_id+']')[_index]);
         var _comp;
         if(__comp.find){
@@ -11033,10 +11026,10 @@ Moca.prototype.rendering = function(o,_aTag) {
             _comp = __comp;
         }
         if('inputCalendar' == $(_comp).attr('type')){
-            var v = moca.getDisplayFormat_value(_comp,_value);
+            var v = $m.getDisplayFormat_value(_comp,_value);
             $(_comp).find('input[type=text]').val(v);
         }else if('combo' == $(_comp).attr('type')){
-            var v = moca.getDisplayFormat_value(_comp,_value);
+            var v = $m.getDisplayFormat_value(_comp,_value);
             $(_comp).find('select>option[value='+_value+']').prop("selected",true);
         }else{
             $(_comp).find('input[type=text]').val(_value);
@@ -11047,7 +11040,7 @@ Moca.prototype.rendering = function(o,_aTag) {
             $(_comp).find('input[type=text]').val(reValue);
         }
     };
-    moca[_srcId].setTableCellAttribute = function(_tableId,_id,_index,_attrKey,_value){
+    $m[_srcId].setTableCellAttribute = function(_tableId,_id,_index,_attrKey,_value){
         var __comp = $($('table[id='+_tableId+'][pageid='+this.pageId+'] div[id='+_id+']')[_index]);
         var _comp;
         if(__comp.find){
@@ -11057,26 +11050,26 @@ Moca.prototype.rendering = function(o,_aTag) {
         }
         $(_comp).attr(_attrKey,_value);
     };
-    moca[_srcId].show = function(_id){
+    $m[_srcId].show = function(_id){
         $('[id='+_id+'][pageid='+this.pageId+']').css("visibility","visible");
     };
 
-    moca[_srcId].show = function(_id){
+    $m[_srcId].show = function(_id){
         $('[id='+_id+'][pageid='+this.pageId+']').css("visibility","visible");
     };
     
-    moca[_srcId].radioRedraw = function(_radioCompId,arrString){
+    $m[_srcId].radioRedraw = function(_radioCompId,arrString){
         var rdoComp_jq = $('[id='+_radioCompId+'][pageid='+this.pageId+']');
         rdoComp_jq.attr('itemset',arrString);
-        moca.renderRadio(rdoComp_jq[0]);
+        $m.renderRadio(rdoComp_jq[0]);
         return rdoComp_jq.find('input:checked').val();
     };
     
     
-    if(o.type == 'MDI' && moca.trim(_label) != ''){
+    if(o.type == 'MDI' && $m.trim(_label) != ''){
         $('li[tab_id='+_tabId+']').click();
     }
-    moca.init(_tabId,_srcId);
+    $m.init(_tabId,_srcId);
     return contDiv;
 };
 
@@ -11110,20 +11103,20 @@ Moca.prototype.renderinclude = function(aTag) {
     var _url = $(aTag).attr('src');
     $.ajax({
            type:"GET",
-           url:moca._contextRoot+_url+"?"+new Date().getTime(),
+           url:$m._contextRoot+_url+"?"+new Date().getTime(),
            async: false,
            dataType : "text",
            data : {
-               "header" : moca.header,
+               "header" : $m.header,
                "body" : {},
                "message" : {}
            },
            success : function(data) {
                if(aTag.id == '__popup'){
-                   moca.getContents(data,_url,"POP",aTag.getAttribute("popupid"),aTag.getAttribute("popuptitle"));
+                   $m.getContents(data,_url,"POP",aTag.getAttribute("popupid"),aTag.getAttribute("popuptitle"));
                }else{
-                   $(aTag).html(moca.getContents(data,_url,"CMN",null,null,aTag));
-                   moca.callReady(aTag);
+                   $(aTag).html($m.getContents(data,_url,"CMN",null,null,aTag));
+                   $m.callReady(aTag);
                }
            },
            complete : function(data) {
@@ -11142,7 +11135,7 @@ Moca.prototype.setPageHeader = function(aTag,_label) {
 		var _parentMenu = $(parent.document).find('#tree1 .moca_tree_tbx[label="'+_label+'"]').closest('.moca_tree_open').find('.moca_tree_tbx').attr('label');
 		
 		aTagObj['sreenNm'] = _label;
-		if(moca.trim(_parentMenu) != ''){
+		if($m.trim(_parentMenu) != ''){
 			aTagObj['sreenPath'] = _parentMenu+','+_label;
 		}else{
 			aTagObj['sreenPath'] = _label;
@@ -11151,7 +11144,7 @@ Moca.prototype.setPageHeader = function(aTag,_label) {
 		$(aTag).attr('data',JSON.stringify(aTagObj));
 	}
 	
-	moca.renderinclude(aTag);
+	$m.renderinclude(aTag);
 	
 }
 
@@ -11167,7 +11160,7 @@ Moca.prototype.callReady = function(aTag) {
            return;
        }
        var _url = aTag.getAttribute("src");
-       var _fileName = moca.getFileNameFromUrl(_url);
+       var _fileName = $m.getFileNameFromUrl(_url);
        var _srcId = _fileName.substring(0,_fileName.indexOf('.'));
        var _argsObj = {};
        if(aTag.parent == null){
@@ -11178,36 +11171,37 @@ Moca.prototype.callReady = function(aTag) {
        if($(aTag).attr('tab_id') != null && !$(aTag).attr('tab_id').startsWith('POPUP') && aTag.id != "moca_main"){//single page case
     	   if(opener){
 	   		    var srcid = $('#'+$(aTag).attr('tab_id')+'_dv',opener.document).find('[srcid]').attr('srcid');
-	          		moca[srcid].args = JSON.parse(JSON.stringify(opener.moca[srcid].args));
-	          		_argsObj = moca[srcid].args;
+	          		$m[srcid].args = JSON.parse(JSON.stringify(opener.$m[srcid].args));
+	          		_argsObj = $m[srcid].args;
 	   	   }
 	    	   
-    	   moca[_srcId].args = _argsObj;
-           moca[_srcId].___ready(_argsObj);
-           var _pageId = moca[_srcId].pageId;
-           moca[_pageId] =  moca[_srcId];
+    	   $m[_srcId].args = _argsObj;
+           $m[_srcId].___ready(_argsObj);
+           var _pageId = $m[_srcId].pageId;
+           $m[_pageId] =  $m[_srcId];
        }else if($(aTag).attr('tab_id') != null && $(aTag).attr('tab_id').startsWith('POPUP')){//popup case
-    	   if(opener && parent.name == moca[_srcId].pageId){
+    	   if(opener && parent.name == $m[_srcId].pageId){
     		    var srcid = $('#'+$(aTag).attr('tab_id'),opener.document).find('[srcid]').attr('srcid');
-           		moca[srcid].args = JSON.parse(JSON.stringify(opener.moca[srcid].args));
-           		_argsObj = moca[srcid].args;
+           		$m[srcid].args = JSON.parse(JSON.stringify(opener.$m[srcid].args));
+           		_argsObj = $m[srcid].args;
     	   }
-    	   moca[_srcId].args = _argsObj;	
-           moca[_srcId].___ready(_argsObj);
-           var _pageId = moca[_srcId].pageId;
-           moca[_pageId] =  moca[_srcId];
+    	   $m[_srcId].args = _argsObj;	
+           $m[_srcId].___ready(_argsObj);
+           var _pageId = $m[_srcId].pageId;
+           $m[_pageId] =  $m[_srcId];
        }else if($(aTag).attr('tab_id') == null && aTag.id != "moca_main"){//popup case
-    	   moca[_srcId].args = _argsObj;
-           moca[_srcId].___ready(_argsObj);
+    	   $m[_srcId].args = _argsObj;
+           $m[_srcId].___ready(_argsObj);
        }
 };
 
 Moca.prototype.injectionPageObj = function(data,_pageId,_srcId,_mode) { 
     if(_mode == '혼합모드'){
         data =data.replace(/.*new Moca().*/g,''); 
-        return data = data.replace(/<script>/gi,'<script>var moca = new Moca();'+'moca.'+_srcId+'={"pageId":"'+_pageId+'","srcId":"'+_srcId+'"};'); 
+       
+        return data = data.replace(/<script>/gi,'<script>var $m = new Moca();'+'$m.'+_srcId+'={"pageId":"'+_pageId+'","srcId":"'+_srcId+'"};'); 
     }else{
-        return data = data.replace(/<script(.*?)>/gi,'<script>'+'moca.'+_srcId+'={"pageId":"'+_pageId+'","srcId":"'+_srcId+'"};'); 
+        return data = data.replace(/<script(.*?)>/gi,'<script>'+'$m.'+_srcId+'={"pageId":"'+_pageId+'","srcId":"'+_srcId+'"};'); 
     }
     
 };
@@ -11217,21 +11211,21 @@ Moca.prototype.getIncludeScope = function(includeObj,thisObj) {
 };
 
 /*
-    moca.userLogInsert({URL:_url,SRCID:_srcId,LABEL:_label,MENU_NM:_label});
+    $m.userLogInsert({URL:_url,SRCID:_srcId,LABEL:_label,MENU_NM:_label});
  */
 Moca.prototype.userLogInsert = function(_info) { 
     if(mocaConfig.userLogInsert != false){
-        if(moca.trim(_info.LABEL) == ''){
+        if($m.trim(_info.LABEL) == ''){
             _info.LABEL = _info.URL;
         }
-        moca.exe({
-            url : moca._domain+mocaConfig.userLogUrl,
+        $m.exe({
+            url : $m._domain+mocaConfig.userLogUrl,
             loadingbar:false,
             data : {
-                "header" : moca.header,
+                "header" : $m.header,
                 "body" : {
-                    "CORP_CD":moca.getCORP_CD(),
-                    "USER_ID":moca.getSession("USER_ID"),
+                    "CORP_CD":$m.getCORP_CD(),
+                    "USER_ID":$m.getSession("USER_ID"),
                     "URL":_info.URL,
                     "SRCID":_info.SRCID,
                     "LABEL":_info.LABEL,
@@ -11517,7 +11511,7 @@ Moca.prototype.tabSubClick = function(_funcStr,_rowIndex,_thisObj) {
 
 Moca.prototype.renderTab = function(aTag) { 
     var listStr = aTag.getAttribute("list");
-    aTag.addEventListener('click', moca.tabClick);
+    aTag.addEventListener('click', $m.tabClick);
         
     var onTabHeaderclickFunctionStr = aTag.getAttribute("onTabHeaderclick");
     
@@ -11537,7 +11531,7 @@ Moca.prototype.renderTab = function(aTag) {
             active = 'active';
             activeIndex = (i+1);
         }
-        //onclick="moca.tabSubClick(\''+onTabHeaderclickFunctionStr+'\',\''+(i+1)+'\',this)"
+        //onclick="$m.tabSubClick(\''+onTabHeaderclickFunctionStr+'\',\''+(i+1)+'\',this)"
         tabConts +='<li class="moca_layer_tab_list '+active+'" id="'+row.id+'" index="'+(i+1)+'"  >\n';
         tabConts +=' <button type="button" role="tab" aria-controls="moca_tab_bridge1">'+row.label+'<br><i class="tab_badge" ></i></button>\n';
         tabConts +='</li>\n';
@@ -11562,7 +11556,7 @@ Moca.prototype.renderTab = function(aTag) {
     $(aTag).html(tabConts);
     
     var tabComp = aTag;
-    moca.showTabContent(tabComp,activeIndex);
+    $m.showTabContent(tabComp,activeIndex);
     return aTag;
 };
 Moca.prototype.tabClick = function(thisObj) {
@@ -11574,9 +11568,9 @@ Moca.prototype.tabClick = function(thisObj) {
         $(o).closest('li').addClass('active');
         var activeIndex = $(o).closest('li').attr('index');
         if(tabCompDiv.getAttribute("onTabHeaderclick")){
-            moca.showTabContent(tabCompDiv,activeIndex,true);
+            $m.showTabContent(tabCompDiv,activeIndex,true);
         }else{
-            moca.showTabContent(tabCompDiv,activeIndex);
+            $m.showTabContent(tabCompDiv,activeIndex);
         }
         
     }
@@ -11595,7 +11589,7 @@ Moca.prototype.showTabContent = function(_tabCompDiv,activeIndex,_isEventExe) {
             var pro = Promise.resolve();
             pro = pro.then(function(){
                 return new Promise(function(resolve,reject){
-                    moca.getTabContents(cTag,resolve);
+                    $m.getTabContents(cTag,resolve);
                 });
             });
             pro = pro.then(function(){
@@ -11603,7 +11597,7 @@ Moca.prototype.showTabContent = function(_tabCompDiv,activeIndex,_isEventExe) {
             });
             return pro;
         }else{
-            moca.getTabContents(cTag);
+            $m.getTabContents(cTag);
         }
     }
 };
@@ -11613,23 +11607,23 @@ Moca.prototype.getTabContents = function(_aTag,_resolve){
     var _url = $(aTag).attr('src');
     $.ajax({
        type:"GET",
-       url:moca._contextRoot+_url,
+       url:$m._contextRoot+_url,
        async: false,
        dataType : "text",
        data : {
-           "header" : moca.header,
+           "header" : $m.header,
            "body" : {},
            "message" : {}
        },
        success : function(data) {
-            data = moca.getContents(data,_url,"CMN",aTag);
+            data = $m.getContents(data,_url,"CMN",aTag);
             var o = {type:"TAB"};
             o.url = _url;
-            o.srcId = moca.url_to_srcId(_url);
+            o.srcId = $m.url_to_srcId(_url);
             o.label = o.srcId;
             o.data = data;
-            var mdiObj = moca.rendering(o,aTag);
-            moca.callReady(mdiObj);
+            var mdiObj = $m.rendering(o,aTag);
+            $m.callReady(mdiObj);
             
             if(_resolve){
                 _resolve();
@@ -11650,24 +11644,24 @@ Moca.prototype.popup = function(_option,thisObj) {
     }
     if(self !== top){
     	//iframe
-    	_option.scopeId = parent.moca.pageId;
-    	parent.moca.popup(_option,thisObj);
+    	_option.scopeId = parent.$m.pageId;
+    	parent.$m.popup(_option,thisObj);
     	return;
 	}
     $.ajax({
            type:"GET",
-           url:moca._contextRoot+_option.url,
+           url:$m._contextRoot+_option.url,
            async: false,               
            dataType : "html",
            data : {
-               "header" : moca.header,
+               "header" : $m.header,
                "body" : _option.data,
                "message" : {}
            },
            success : function(_htmlContents) {
-                //var popupId = "POPUP_"+moca.now()+moca.shuffleRandom(6);
-                //moca.callbacks[popupId] = _option.callback;
-                //moca.data[popupId] = _option.data;
+                //var popupId = "POPUP_"+$m.now()+$m.shuffleRandom(6);
+                //$m.callbacks[popupId] = _option.callback;
+                //$m.data[popupId] = _option.data;
                 var pattern = /<head.*?meta_width=(.*).*?meta_height=(.*).*?\\?>/gi;
                 var width= 0;
                 var height = 0;
@@ -11689,7 +11683,7 @@ Moca.prototype.popup = function(_option,thisObj) {
                 if(document.body.clientWidth <  width){
                     width = document.body.clientWidth;
                 }           
-                if(moca.getDevice() != 'pc'){
+                if($m.getDevice() != 'pc'){
                 	height = document.body.clientHeight;
                 }
                 
@@ -11740,26 +11734,26 @@ Moca.prototype.popup = function(_option,thisObj) {
                 //left = left.replace(/\"|\'|(px)|\s/gi,'');
                 
                 var o = _option;
-                o.srcId = moca.url_to_srcId(_option.url);
+                o.srcId = $m.url_to_srcId(_option.url);
                 o.htmlContents = _htmlContents;
                 o.top = top;
                 o.left = left;
                 o.width = width;
                 o.height = height;
                 o.scopeId = _option.scopeId;
-                var popObj = moca.rendering(o);
+                var popObj = $m.rendering(o);
                 
                 $('.moca_input:first').focus();
                 $('.moca_input:first').blur();
                 
                 var _pageid = $(popObj).attr('tab_id');
                 if($('div[pageid="'+_pageid+'"].moca_titbox').length > 0){
-                	moca.setPageHeader($('div[pageid="'+_pageid+'"].moca_titbox'), o.title);
+                	$m.setPageHeader($('div[pageid="'+_pageid+'"].moca_titbox'), o.title);
                 }
-                moca.callReady(popObj);
+                $m.callReady(popObj);
            },
            complete : function(data) {
-              // moca.loading(loadingId);
+              // $m.loading(loadingId);
            },
            error : function(xhr, status, error) {
                console.log(xhr, status, error);
@@ -11806,18 +11800,18 @@ Moca.prototype.openWindowPopup = function(_opt){
     if(_opt.method == 'post'){
     	params["__title"] = _opt.title;
     	params["__popid"] = _opt.id;
-    	params["user_id"] = moca.getSession("USER_ID");
+    	params["user_id"] = $m.getSession("USER_ID");
     }
     var paramArray = Object.keys(params);
     var re_params = '';
     for(var i=0; i < paramArray.length; i++){
         var key = paramArray[i];
         var val = params[key];
-        re_params = re_params + key+'='+moca.encode(val);
+        re_params = re_params + key+'='+$m.encode(val);
         if(i != paramArray.length-1){
             re_params = re_params +"&";
         }else{
-            re_params = re_params +"&user_id="+moca.getSession("USER_ID");
+            re_params = re_params +"&user_id="+$m.getSession("USER_ID");
         }
     }
     var addFlag = '';
@@ -11826,12 +11820,12 @@ Moca.prototype.openWindowPopup = function(_opt){
     }else{
     	addFlag = '?';
     }
-    var _url = _opt.url+addFlag+"__popid="+_opt.id+"&__title="+moca.encode(_opt.title)+"&"+re_params;
+    var _url = _opt.url+addFlag+"__popid="+_opt.id+"&__title="+$m.encode(_opt.title)+"&"+re_params;
     var reid = '';
     try{
 	    if(_opt.method == 'post'){
 	    	reid = window.open('',_opt.id,"width="+w+",height="+h+",toolbar=no,status=yes,"+"left="+left+",top="+top);
-	    	moca.submit(_url,params,_opt.id);
+	    	$m.submit(_url,params,_opt.id);
 	    }else{
 	    	reid = window.open(_url,_opt.id,"width="+w+",height="+h+",toolbar=no,status=yes,"+"left="+left+",top="+top);
 	    }
@@ -11851,7 +11845,7 @@ Moca.prototype.setAdditionTag = function(_p) {
             p = $(_p);
         }   
         var addition = JSON.parse(p.attr("addition"));
-        var additionObj = moca.getAdditionTag(addition,p.attr('pageid'),p.attr('srcid'));
+        var additionObj = $m.getAdditionTag(addition,p.attr('pageid'),p.attr('srcid'));
         p.find('.moca_addtion_area>.lta').html(additionObj.left);
         p.find('.moca_addtion_area>.rta').html(additionObj.right);
     }catch(e){
@@ -11866,13 +11860,13 @@ Moca.prototype.getAdditionTag = function(_additionArr,pageid,srcid) {
         var aAddition = _additionArr[i];
         var aTag_html = '';
         if(aAddition.type == 'button'){
-            aTag_html = moca.renderMocaButton(aAddition);
+            aTag_html = $m.renderMocaButton(aAddition);
         }else if(aAddition.type == 'label'){
-            aTag_html = moca.renderMocaLabel(aAddition);
+            aTag_html = $m.renderMocaLabel(aAddition);
         }else if(aAddition.type == 'input'){
-            aTag_html = moca.renderMocaInput(aAddition);
+            aTag_html = $m.renderMocaInput(aAddition);
         }else if(aAddition.type == 'combo'){
-            aTag_html = moca.renderMocaCombo(aAddition,pageid,srcid);
+            aTag_html = $m.renderMocaCombo(aAddition,pageid,srcid);
         }
         
         if(aAddition.position == 'left'){
@@ -11895,50 +11889,50 @@ Moca.prototype.renderMocaButton = function(o) {
     var _label = '';
     var _disabled = '';
     if(o.tagName == 'DIV'){
-        _value = moca.nul(o.getAttribute("value"));
-        _label = moca.nul(o.getAttribute("label"));
-        _id = moca.nul(o.getAttribute("id"));
-        _innerStyle = moca.nul(o.getAttribute("innerStyle"));
-        _innerClass = moca.nul(o.getAttribute("innerClass"));
-        var tmp_disabled = moca.nul(o.getAttribute("innerDisabled"));
-        if(moca.isTrue(tmp_disabled)){
+        _value = $m.nul(o.getAttribute("value"));
+        _label = $m.nul(o.getAttribute("label"));
+        _id = $m.nul(o.getAttribute("id"));
+        _innerStyle = $m.nul(o.getAttribute("innerStyle"));
+        _innerClass = $m.nul(o.getAttribute("innerClass"));
+        var tmp_disabled = $m.nul(o.getAttribute("innerDisabled"));
+        if($m.isTrue(tmp_disabled)){
             _disabled = "disabled";
             _innerStyle += ";background:#aaa;";
         }
         
-        var _tmp = moca.nul(o.getAttribute("readonly"));
-        if(moca.isTrue(_tmp)){
+        var _tmp = $m.nul(o.getAttribute("readonly"));
+        if($m.isTrue(_tmp)){
             _readonly = "readonly";
         }else{
             _readonly = "";
         }
         
         var _html = '';
-        _html += '<button id="button_'+moca.nul(_id)+'"  style="'+_innerStyle+'" class="'+_innerClass+'" '+_disabled+' >'+moca.nul(_label)+'</button>';
+        _html += '<button id="button_'+$m.nul(_id)+'"  style="'+_innerStyle+'" class="'+_innerClass+'" '+_disabled+' >'+$m.nul(_label)+'</button>';
         o.innerHTML = _html;
     }else{
-        _value = moca.nul(o.value); 
-        _label = moca.nul(o.label);
-        _id = moca.nul(o.id);
-        _innerStyle = moca.nul(o.innerStyle);
-        _innerClass = moca.nul(o.innerClass);
-        var tmp_disabled = moca.nul(o.innerDisabled);
-        if(moca.isTrue(tmp_disabled)){
+        _value = $m.nul(o.value); 
+        _label = $m.nul(o.label);
+        _id = $m.nul(o.id);
+        _innerStyle = $m.nul(o.innerStyle);
+        _innerClass = $m.nul(o.innerClass);
+        var tmp_disabled = $m.nul(o.innerDisabled);
+        if($m.isTrue(tmp_disabled)){
             _disabled = "disabled";
             _innerStyle += ";background:#aaa;";
         }
         
         
-        var _tmp = moca.nul(o.readonly);    
-        if(moca.isTrue(_tmp)){
+        var _tmp = $m.nul(o.readonly);    
+        if($m.isTrue(_tmp)){
             _readonly = "readonly";
         }else{
             _readonly = "";
         }
         
         var _html = '';
-        _html += '<div id="'+moca.nul(o.id)+'"  class="mocaButton '+moca.nul(o.addClass)+'" onclick="'+moca.nul(o.onclick)+'(this)" style="'+moca.nul(o.style)+'">';
-        _html += '<button id="button_'+moca.nul(o.id)+'"  style="'+_innerStyle+'" class="'+_innerClass+'" '+_disabled+' >'+moca.nul(o.label)+'</button>';
+        _html += '<div id="'+$m.nul(o.id)+'"  class="mocaButton '+$m.nul(o.addClass)+'" onclick="'+$m.nul(o.onclick)+'(this)" style="'+$m.nul(o.style)+'">';
+        _html += '<button id="button_'+$m.nul(o.id)+'"  style="'+_innerStyle+'" class="'+_innerClass+'" '+_disabled+' >'+$m.nul(o.label)+'</button>';
         _html += '</div>';
         
         return _html;
@@ -11951,7 +11945,7 @@ Moca.prototype.renderMocaDiv = function(o) {
     ['Div숨기기'];
     var _mobileHide = '';
     if(o.tagName == 'DIV'){
-        _mobileHide = moca.nul(o.getAttribute("mobileHide"));
+        _mobileHide = $m.nul(o.getAttribute("mobileHide"));
         o.style.display = 'none';
     }
 };
@@ -11965,7 +11959,7 @@ Moca.prototype.setDisabled = function(o,_value) {
                 o = tmp[0];
             }
         }
-        if(moca.isTrue(_value)){
+        if($m.isTrue(_value)){
         	o.setAttribute("disabled",true);
             $(o).css('background','#aaa');
             if($(o).parent().attr('type') == 'button'){
@@ -12005,8 +11999,8 @@ Moca.prototype.isTrue = function(_value) {
 Moca.prototype.renderMocaLabel = function(o) {
     ['MocaLabel만들기'];
     var _html = '';
-    _html += '<div class="mocaLabel '+moca.nul(o.addClass)+'" onclick="'+moca.nul(o.onclick)+'(this)" style="'+moca.nul(o.style)+'">';
-    _html += '<span class="label">'+moca.nul(o.value)+'</span>';
+    _html += '<div class="mocaLabel '+$m.nul(o.addClass)+'" onclick="'+$m.nul(o.onclick)+'(this)" style="'+$m.nul(o.style)+'">';
+    _html += '<span class="label">'+$m.nul(o.value)+'</span>';
     _html += '</div>';
     return _html;
 };
@@ -12028,27 +12022,27 @@ Moca.prototype.renderMocaInput = function(o) {
     var _mobileHide = '';
     
     if(o.tagName == 'DIV'){
-        _value = moca.nul(o.getAttribute("value"));
-        _id = moca.nul(o.getAttribute("id"));
-        _innerStyle = moca.nul(o.getAttribute("innerStyle"));
-        _innerClass = moca.nul(o.getAttribute("innerClass"));
-        _onInnerClick = moca.nul(o.getAttribute("onInnerClick"));
-        _innerDisabled = moca.nul(o.getAttribute("innerDisabled"));
-        _innerOnblur = moca.nul(o.getAttribute("innerOnblur"));
-        _displayFunction = moca.nul(o.getAttribute("displayFunction"));
-        _keyMask = moca.nul(o.getAttribute("keyMask"));
-        _maxLength = moca.nul(o.getAttribute("maxLength"));
-        _mobileHide = moca.nul(o.getAttribute("mobileHide"));
+        _value = $m.nul(o.getAttribute("value"));
+        _id = $m.nul(o.getAttribute("id"));
+        _innerStyle = $m.nul(o.getAttribute("innerStyle"));
+        _innerClass = $m.nul(o.getAttribute("innerClass"));
+        _onInnerClick = $m.nul(o.getAttribute("onInnerClick"));
+        _innerDisabled = $m.nul(o.getAttribute("innerDisabled"));
+        _innerOnblur = $m.nul(o.getAttribute("innerOnblur"));
+        _displayFunction = $m.nul(o.getAttribute("displayFunction"));
+        _keyMask = $m.nul(o.getAttribute("keyMask"));
+        _maxLength = $m.nul(o.getAttribute("maxLength"));
+        _mobileHide = $m.nul(o.getAttribute("mobileHide"));
         
         var _keyMaskStr = '';
-        if(moca.trim(_keyMask) != ''){
+        if($m.trim(_keyMask) != ''){
             _keyMaskStr = _keyMask;
         }
         var _maxLengthStr = '';
-        if(moca.trim(_maxLength) != ''){
+        if($m.trim(_maxLength) != ''){
             _maxLengthStr = " maxlength=\""+_maxLength+"\" ";
         }       
-        var _tmp = moca.nul(o.getAttribute("readonly"));
+        var _tmp = $m.nul(o.getAttribute("readonly"));
         if(_tmp == "true"){
             _readonly = "readonly";
         }else{
@@ -12060,14 +12054,14 @@ Moca.prototype.renderMocaInput = function(o) {
             _disabled = "";
         }
         var _html = '';
-        _html += '<input type="text" '+_maxLengthStr+' onblur="moca.setValue(this,this.value,\''+_keyMaskStr+'\');'+_innerOnblur+'"  onkeydown="moca.keydown(this,this.value,\''+_keyMaskStr+'\');" style="'+_innerStyle+'" class="'+_innerClass+'" id="input_'+_id+'" displayFunction="'+_displayFunction+'"  autocomplete="off" value="'+_value+'" '+_readonly+' onclick="'+_onInnerClick+'"  '+_disabled+'>';
+        _html += '<input type="text" '+_maxLengthStr+' onblur="$m.setValue(this,this.value,\''+_keyMaskStr+'\');'+_innerOnblur+'"  onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" style="'+_innerStyle+'" class="'+_innerClass+'" id="input_'+_id+'" displayFunction="'+_displayFunction+'"  autocomplete="off" value="'+_value+'" '+_readonly+' onclick="'+_onInnerClick+'"  '+_disabled+'>';
         o.innerHTML = _html;
     }else{
-        _value = moca.nul(o.value); 
-        _id = moca.nul(o.id);
-        _innerStyle = moca.nul(o.innerStyle);
-        _innerClass = moca.nul(o.innerClass);
-        var _tmp = moca.nul(o.readonly);    
+        _value = $m.nul(o.value); 
+        _id = $m.nul(o.id);
+        _innerStyle = $m.nul(o.innerStyle);
+        _innerClass = $m.nul(o.innerClass);
+        var _tmp = $m.nul(o.readonly);    
         if(_tmp == "true"){
             _readonly = "readonly";
         }else{
@@ -12075,8 +12069,8 @@ Moca.prototype.renderMocaInput = function(o) {
         }
         
         var _html = '';
-        _html += '<div id="'+moca.nul(o.id)+'" class="mocaInput '+moca.nul(o.addClass)+'" onclick="'+moca.nul(o.onclick)+'(this)" style="'+moca.nul(o.style)+'">';
-        _html += '<input type="text"  style="'+_innerStyle+'" class="'+_innerClass+'"  id="input_'+moca.nul(o.id)+'" autocomplete="off" value="'+_value+'" '+_readonly+'>';
+        _html += '<div id="'+$m.nul(o.id)+'" class="mocaInput '+$m.nul(o.addClass)+'" onclick="'+$m.nul(o.onclick)+'(this)" style="'+$m.nul(o.style)+'">';
+        _html += '<input type="text"  style="'+_innerStyle+'" class="'+_innerClass+'"  id="input_'+$m.nul(o.id)+'" autocomplete="off" value="'+_value+'" '+_readonly+'>';
         _html += '</div>';
         return _html;
     }
@@ -12093,14 +12087,14 @@ Moca.prototype.renderMocaInputButton = function(o) {
     var _innerStyle = '';
     var _innerClass = '';
     if(o.tagName == 'DIV'){
-        _value = moca.nul(o.getAttribute("value"));
-        _id = moca.nul(o.getAttribute("id"));
-        _required = moca.nul(o.getAttribute("required"));
-        _style = moca.nul(o.getAttribute("style"));
-        _callFunction = moca.nul(o.getAttribute("callFunction"));
-        _innerStyle = moca.nul(o.getAttribute("innerStyle"));
-        _innerClass = moca.nul(o.getAttribute("innerClass"));
-        var _tmp = moca.nul(o.getAttribute("readonly"));
+        _value = $m.nul(o.getAttribute("value"));
+        _id = $m.nul(o.getAttribute("id"));
+        _required = $m.nul(o.getAttribute("required"));
+        _style = $m.nul(o.getAttribute("style"));
+        _callFunction = $m.nul(o.getAttribute("callFunction"));
+        _innerStyle = $m.nul(o.getAttribute("innerStyle"));
+        _innerClass = $m.nul(o.getAttribute("innerClass"));
+        var _tmp = $m.nul(o.getAttribute("readonly"));
         if(_tmp == "true"){
             _readonly = "readonly";
         }else{
@@ -12113,17 +12107,17 @@ Moca.prototype.renderMocaInputButton = function(o) {
             $(o).addClass("req");
         }
         _html += '<input type="text" style="'+_innerStyle+'" class="'+_innerClass+'"  id="input_'+_id+'" autocomplete="off" value="'+_value+'" '+_readonly+'>';
-        if(moca.trim(_callFunction) != ''){
+        if($m.trim(_callFunction) != ''){
             _html += '<button type="button" onclick="'+_callFunction+'(this)">검색</button>';
         }
         o.innerHTML = _html;
     }else{
-        _value = moca.nul(o.value); 
-        _id = moca.nul(o.id);
-        _required = moca.nul(o.required);
-        _style = moca.nul(o.style);
-        _callFunction = moca.nul(o.callFunction);
-        var _tmp = moca.nul(o.readonly);    
+        _value = $m.nul(o.value); 
+        _id = $m.nul(o.id);
+        _required = $m.nul(o.required);
+        _style = $m.nul(o.style);
+        _callFunction = $m.nul(o.callFunction);
+        var _tmp = $m.nul(o.readonly);    
         if(_tmp == "true"){
             _readonly = "readonly";
         }else{
@@ -12131,9 +12125,9 @@ Moca.prototype.renderMocaInputButton = function(o) {
         }
         
         var _html = '';
-        _html += '<div id="'+_id+'" class="mocaInputButton '+moca.nul(o.addClass)+'" onclick="'+moca.nul(o.onclick)+'(this)" style="'+_style+'">';
+        _html += '<div id="'+_id+'" class="mocaInputButton '+$m.nul(o.addClass)+'" onclick="'+$m.nul(o.onclick)+'(this)" style="'+_style+'">';
         _html += '<input type="text" style="'+_innerStyle+'" class="'+_innerClass+'"  id="input_'+_id+'" autocomplete="off" value="'+_value+'" '+_readonly+'>';
-        if(moca.trim(_callFunction) != ''){
+        if($m.trim(_callFunction) != ''){
             _html += '<button type="button" onclick="'+_callFunction+'(this)">검색</button>';
         }
         _html += '</div>';
@@ -12163,37 +12157,37 @@ Moca.prototype.renderMocaCombo = function(o,pageid,srcid) {
     var _width = '';
     var _innerOnchange = '';
     try{
-        _value = moca.nul(o.value);
-        _id = moca.nul(o.id);
-        _required = moca.nul(o.required);
-        _style = moca.nul(o.style);
-        _callFunction = moca.nul(o.callFunction);
-        _innerStyle = moca.nul(o.innerStyle);
-        _innerClass = moca.nul(o.innerClass);
-        _innerOnchange = moca.nul(o.inneronchange);
+        _value = $m.nul(o.value);
+        _id = $m.nul(o.id);
+        _required = $m.nul(o.required);
+        _style = $m.nul(o.style);
+        _callFunction = $m.nul(o.callFunction);
+        _innerStyle = $m.nul(o.innerStyle);
+        _innerClass = $m.nul(o.innerClass);
+        _innerOnchange = $m.nul(o.inneronchange);
         
-        _itemset = moca.nul(o.itemset);
+        _itemset = $m.nul(o.itemset);
         
-        if(moca.nul(_itemset) != ''){
+        if($m.nul(_itemset) != ''){
             _list = JSON.parse(_itemset);
         }       
         
-        _cdField = moca.nul(o.cdField);
-        _nmField = moca.nul(o.nmField);
-        var _tmp = moca.nul(o.readonly);
+        _cdField = $m.nul(o.cdField);
+        _nmField = $m.nul(o.nmField);
+        var _tmp = $m.nul(o.readonly);
         if(_tmp == "true"){
             _readonly = "readonly";
         }else{
             _readonly = "";
         }
-        _width = moca.nul(o.width);
-        _displayFormat = moca.nul(o.displayFormat);
-        _onchange = moca.nul(o.onchange);
-        _allOption = moca.nul(o.allOption);
-        if(moca.nul(_allOption) != ''){
+        _width = $m.nul(o.width);
+        _displayFormat = $m.nul(o.displayFormat);
+        _onchange = $m.nul(o.onchange);
+        _allOption = $m.nul(o.allOption);
+        if($m.nul(_allOption) != ''){
             _allOpt = JSON.parse(_allOption);
         }
-        _value = moca.nul(o.value);
+        _value = $m.nul(o.value);
         var _codeOpt= o;
         if(_codeOpt == null){
             _codeOpt = {};
@@ -12210,7 +12204,7 @@ Moca.prototype.renderMocaCombo = function(o,pageid,srcid) {
             _onchange_str = 'onchange="'+_onchange+'(this)"';
         }
         
-        if(moca.trim(_innerOnchange) != ''){
+        if($m.trim(_innerOnchange) != ''){
             _onchange_str = 'onchange="'+_innerOnchange+'"';
         }
         _html += '<select name="sel_tree1" id="'+('sub_'+_id)+'" class="moca_select" '+_onchange_str+' >';
@@ -12372,12 +12366,12 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
         _comp = __comp;
     }
     if(__comp != null && __value == null){ 
-        _value = moca.trim(__comp.value);
+        _value = $m.trim(__comp.value);
     }else{
         _value = __value;   
     }
     if('inputCalendar' == $(_comp).attr('type') || 'inputCalendar' == $(_comp).attr('compType')){
-        var v = moca.getDisplayFormat_value(_comp,_value);
+        var v = $m.getDisplayFormat_value(_comp,_value);
         
         if(_comp != null && _comp.tagName == 'INPUT'){
             $(_comp).val(v);
@@ -12400,10 +12394,10 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
             }
         }
     }else if('combo' == $(_comp).attr('type') || 'combo' == $(_comp).attr('compType')){
-        var v = moca.getDisplayFormat_value(_comp,_value);
+        var v = $m.getDisplayFormat_value(_comp,_value);
         try{
 	        if($(_comp).attr('readonly')){
-	        	if(moca.trim(v) != '' && _comp.codeToDispLabelMap[v] != null &&_comp.codeToDispLabelMap[v].length > 0){
+	        	if($m.trim(v) != '' && _comp.codeToDispLabelMap[v] != null &&_comp.codeToDispLabelMap[v].length > 0){
 	        		$(_comp).attr('code',v);
 	        		$(_comp).attr('label',_comp.codeToLabelMap[v]);
 	        		$(_comp).find('input[type=text]').val(_comp.codeToDispLabelMap[v]);
@@ -12425,7 +12419,7 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
             console.log(e);
         }       
     }else if('radio' == $(_comp).attr('type') || 'radio' == $(_comp).attr('compType')){
-        __value = moca.trim(__value);
+        __value = $m.trim(__value);
         $(_comp).find('input[value='+__value+']').prop('checked', true); 
     }else if('color' == $(_comp).attr('type') || 'color' == $(_comp).attr('compType')){
     	_value = String(_value);
@@ -12472,9 +12466,9 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
         }
         if(_comp != null && _comp.tagName == 'INPUT'){
         	if($(_comp).parent() != null && $(_comp).parent().length > 0){
-        		$(_comp).parent()[0].originalValue = moca.trim(_value);
+        		$(_comp).parent()[0].originalValue = $m.trim(_value);
         	}
-            $(_comp).val(moca.displayKeyMask(reValue,_keyMask));
+            $(_comp).val($m.displayKeyMask(reValue,_keyMask));
         }else{
             $(_comp).find('input[type=text]').val(reValue);
         }
@@ -12484,7 +12478,7 @@ Moca.prototype.dateFormat =  function(_date){
     return _date.replace(/(\d{4})(\d{2})(\d{2})/g,'$1-$2-$3');
 }
 Moca.prototype.setFocus =  function(__comp){
-    return moca.getValue(__comp,null,null,null,true);
+    return $m.getValue(__comp,null,null,null,true);
 }
 Moca.prototype.getValue =  function(__comp,_id,_index,_data,_isFocus){
     var _comp;
@@ -12504,10 +12498,10 @@ Moca.prototype.getValue =  function(__comp,_id,_index,_data,_isFocus){
             return $(_comp).find('input[type=text]').val();
         }
         
-        //var v = moca.getDisplayFormat_value(_comp,_value);
+        //var v = $m.getDisplayFormat_value(_comp,_value);
         //$(_comp).find('input[type=text]').val(v);
     }else if('combo' == $(_comp).attr('type')){
-        //var v = moca.getDisplayFormat_value(_comp,_value);
+        //var v = $m.getDisplayFormat_value(_comp,_value);
         //try{
         //  $(_comp).find('select>option[value="'+_value+'"]').prop("selected",true);
         //}catch(e){
@@ -12530,9 +12524,9 @@ Moca.prototype.getValue =  function(__comp,_id,_index,_data,_isFocus){
         if(_isFocus){
             return $(_comp).find('input[type=text]').focus();
       	}else{
-            if(moca.trim($(_comp).find('input[type=text]').val()) != ''){
-            	if(moca.trim(_comp.originalValue) == ''){
-            		_comp.originalValue = moca.trim($(_comp).find('input[type=text]').val());
+            if($m.trim($(_comp).find('input[type=text]').val()) != ''){
+            	if($m.trim(_comp.originalValue) == ''){
+            		_comp.originalValue = $m.trim($(_comp).find('input[type=text]').val());
             	}
                 return _comp.originalValue;
             }else{
@@ -12579,11 +12573,11 @@ Moca.prototype.show = function(_id){
 };
 
 Moca.prototype.setAs = function(_key,_val){
-    moca.setLs(_key,_val);
-    moca.setSs(_key,_val);
+    $m.setLs(_key,_val);
+    $m.setSs(_key,_val);
 };
 Moca.prototype.setSs = function(_key,_val){
-    if(moca.trim(_val) == ''){
+    if($m.trim(_val) == ''){
         _val = '';
     }
     if(typeof _val == 'object'){
@@ -12617,7 +12611,7 @@ Moca.prototype.removeSs = function(_key){
 
 
 Moca.prototype.setLs = function(_key,_val){
-    if(moca.trim(_val) == ''){
+    if($m.trim(_val) == ''){
         _val = '';
     }
     if(typeof _val == 'object'){
@@ -12659,7 +12653,7 @@ Moca.prototype.clearSs = function(){
     sessionStorage.clear();
 };
 Moca.prototype.percent = function(_value){
-    var _val = moca.trim(_value);
+    var _val = $m.trim(_value);
     if(_val != ''){
         _val = _val.replace(/%/g,'');
         _val = _val.replace(/(\d+)(\.+)(\d+$)/g,'$1___$3');
@@ -12668,7 +12662,7 @@ Moca.prototype.percent = function(_value){
         if(_val.endsWith('%')){
             _val = _val.replace(/%/,'');
         }
-        _val = moca.trim(_val);
+        _val = $m.trim(_val);
         if(_val != ''){
             _val = _val+'%';
         }
@@ -12678,13 +12672,13 @@ Moca.prototype.percent = function(_value){
     }
 };
 Moca.prototype.float = function(_value){
-    var _val = moca.trim(_value);
+    var _val = $m.trim(_value);
     if(_val != ''){
         _val = _val.replace(/%/g,'');
         _val = _val.replace(/(\d+)(\.+)(\d+$)/g,'$1___$3');
         _val = _val.replace(/\./g,'');
         _val = _val.replace(/___/g,'.');
-        _val = moca.trim(_val);
+        _val = $m.trim(_val);
         return _val;
     }else{
         return _val;
@@ -12733,7 +12727,7 @@ Moca.prototype.getParameter = function(_key){
         var keyAndVal = arr[i];
         var arr2 = keyAndVal.split('=');
         if(arr2 != null && arr2.length == 2){
-            obj[moca.trim(arr2[0])] = moca.trim(arr2[1]);
+            obj[$m.trim(arr2[0])] = $m.trim(arr2[1]);
         }
     }
     return obj[_key];
@@ -12770,11 +12764,11 @@ Moca.prototype.displayKeyMask = function(_value,_keyMask){
 
 //addEvent="enterSearchEvt|onlyMoneyEvt"
 Moca.prototype.keydown = function(_comp,_value,_keyMask){
-    var keyMask = moca.trim(_keyMask);
+    var keyMask = $m.trim(_keyMask);
     if(event.key == 'Enter'){
-    	moca.setValue(_comp,_value);
+    	$m.setValue(_comp,_value);
         if(keyMask.indexOf('enterSearch') > -1){
-            moca.default_keyup(event.srcElement);
+            $m.default_keyup(event.srcElement);
         }else{
             _comp.blur();
             if($(_comp).closest('td').next().length > 0){
@@ -12786,7 +12780,7 @@ Moca.prototype.keydown = function(_comp,_value,_keyMask){
     }else{
         //자연수
         if(keyMask.indexOf('onlyNumber') > -1){
-            if(moca.isBasisKey(event.keyCode)){
+            if($m.isBasisKey(event.keyCode)){
                 return true;
             }else if(event.keyCode == 188){ 
                 //(,)쉼표차단
@@ -12834,7 +12828,7 @@ Moca.prototype.keydown = function(_comp,_value,_keyMask){
                 return false;
             }
         }else if(keyMask.indexOf('onlyMoney') > -1){
-            if(moca.isBasisKey(event.keyCode)){
+            if($m.isBasisKey(event.keyCode)){
                 //편집을 위한 기본적인 허용키
                 return true;
             }else if(event.keyCode == 188){ 
@@ -12880,7 +12874,7 @@ Moca.prototype.keydown = function(_comp,_value,_keyMask){
                 return false;
             }
         }else if(keyMask.indexOf('onlyPhone') > -1){
-            if(moca.isBasisKey(event.keyCode)){
+            if($m.isBasisKey(event.keyCode)){
                 //편집을 위한 기본적인 허용키
                 return true;
             }else if(event.keyCode == 188){ 
@@ -12927,7 +12921,7 @@ Moca.prototype.keydown = function(_comp,_value,_keyMask){
                 return false;
             }
         }else if(keyMask.indexOf('onlyFloat') > -1){
-            if(moca.isBasisKey(event.keyCode)){
+            if($m.isBasisKey(event.keyCode)){
                 //편집을 위한 기본적인 허용키
                 return true;
             }else if(event.keyCode == 188){ 
@@ -12981,7 +12975,7 @@ Moca.prototype.keydown = function(_comp,_value,_keyMask){
             }
         }else if(keyMask.indexOf('onlyPercent') > -1){
             console.log(event.keyCode);
-            if(moca.isBasisKey(event.keyCode)){
+            if($m.isBasisKey(event.keyCode)){
                 //편집을 위한 기본적인 허용키
                 return true;
             }else if(event.keyCode == 188){ 
@@ -13199,171 +13193,171 @@ Moca.prototype.isAllCheckedByClass = function(){
     }
 };
 Moca.prototype.setHistory = function(_pageKey,_obj){
-    moca.setLs(_pageKey,_obj);
+    $m.setLs(_pageKey,_obj);
     if(_pageKey == 'TOM_40'){
-        moca.removeAs('TOM_42');moca.removeAs('TOM_47');moca.removeAs('TOM_52');moca.removeAs('TOM_61');moca.removeAs('TOM_63');moca.removeAs('TOM_64');moca.removeAs('TOM_67');
-        moca.removeAs('TOM_63');moca.removeAs('TOM_64');moca.removeAs('TOM_67');moca.removeAs('TOM_69');moca.removeAs('TOM_75');moca.removeAs('TOM_80');
-        moca.removeAs('TOM_81');moca.removeAs('TOM_82');moca.removeAs('TOM_83');
+        $m.removeAs('TOM_42');$m.removeAs('TOM_47');$m.removeAs('TOM_52');$m.removeAs('TOM_61');$m.removeAs('TOM_63');$m.removeAs('TOM_64');$m.removeAs('TOM_67');
+        $m.removeAs('TOM_63');$m.removeAs('TOM_64');$m.removeAs('TOM_67');$m.removeAs('TOM_69');$m.removeAs('TOM_75');$m.removeAs('TOM_80');
+        $m.removeAs('TOM_81');$m.removeAs('TOM_82');$m.removeAs('TOM_83');
     }else if(_pageKey == 'TOM_42'){
-        moca.removeAs('TOM_47');moca.removeAs('TOM_52');moca.removeAs('TOM_61');moca.removeAs('TOM_63');moca.removeAs('TOM_64');moca.removeAs('TOM_67');
-        moca.removeAs('TOM_63');moca.removeAs('TOM_64');moca.removeAs('TOM_67');moca.removeAs('TOM_69');moca.removeAs('TOM_75');moca.removeAs('TOM_80');
-        moca.removeAs('TOM_81');moca.removeAs('TOM_82');moca.removeAs('TOM_83');
+        $m.removeAs('TOM_47');$m.removeAs('TOM_52');$m.removeAs('TOM_61');$m.removeAs('TOM_63');$m.removeAs('TOM_64');$m.removeAs('TOM_67');
+        $m.removeAs('TOM_63');$m.removeAs('TOM_64');$m.removeAs('TOM_67');$m.removeAs('TOM_69');$m.removeAs('TOM_75');$m.removeAs('TOM_80');
+        $m.removeAs('TOM_81');$m.removeAs('TOM_82');$m.removeAs('TOM_83');
     }else if(_pageKey == 'TOM_47'){
-        moca.removeAs('TOM_52');moca.removeAs('TOM_61');moca.removeAs('TOM_63');moca.removeAs('TOM_64');moca.removeAs('TOM_67');
-        moca.removeAs('TOM_63');moca.removeAs('TOM_64');moca.removeAs('TOM_67');moca.removeAs('TOM_69');moca.removeAs('TOM_75');moca.removeAs('TOM_80');
-        moca.removeAs('TOM_81');moca.removeAs('TOM_82');moca.removeAs('TOM_83');
+        $m.removeAs('TOM_52');$m.removeAs('TOM_61');$m.removeAs('TOM_63');$m.removeAs('TOM_64');$m.removeAs('TOM_67');
+        $m.removeAs('TOM_63');$m.removeAs('TOM_64');$m.removeAs('TOM_67');$m.removeAs('TOM_69');$m.removeAs('TOM_75');$m.removeAs('TOM_80');
+        $m.removeAs('TOM_81');$m.removeAs('TOM_82');$m.removeAs('TOM_83');
     }else if(_pageKey == 'TOM_52'){
-        moca.removeAs('TOM_61');moca.removeAs('TOM_63');moca.removeAs('TOM_64');moca.removeAs('TOM_67');
-        moca.removeAs('TOM_63');moca.removeAs('TOM_64');moca.removeAs('TOM_67');moca.removeAs('TOM_69');moca.removeAs('TOM_75');moca.removeAs('TOM_80');
-        moca.removeAs('TOM_81');moca.removeAs('TOM_82');moca.removeAs('TOM_83');
+        $m.removeAs('TOM_61');$m.removeAs('TOM_63');$m.removeAs('TOM_64');$m.removeAs('TOM_67');
+        $m.removeAs('TOM_63');$m.removeAs('TOM_64');$m.removeAs('TOM_67');$m.removeAs('TOM_69');$m.removeAs('TOM_75');$m.removeAs('TOM_80');
+        $m.removeAs('TOM_81');$m.removeAs('TOM_82');$m.removeAs('TOM_83');
     }else if(_pageKey == 'TOM_61'){//이전비계산
-        moca.removeAs('TOM_63');moca.removeAs('TOM_64');moca.removeAs('TOM_67');moca.removeAs('TOM_69');moca.removeAs('TOM_75');moca.removeAs('TOM_80');
+        $m.removeAs('TOM_63');$m.removeAs('TOM_64');$m.removeAs('TOM_67');$m.removeAs('TOM_69');$m.removeAs('TOM_75');$m.removeAs('TOM_80');
                                                                     }else if(_pageKey == 'TOM_63'){//계좌등록등록계좌없어등록안내
-                                                                        moca.removeAs('TOM_64');moca.removeAs('TOM_67');moca.removeAs('TOM_69');moca.removeAs('TOM_75');moca.removeAs('TOM_80');
+                                                                        $m.removeAs('TOM_64');$m.removeAs('TOM_67');$m.removeAs('TOM_69');$m.removeAs('TOM_75');$m.removeAs('TOM_80');
                                                                     }else if(_pageKey == 'TOM_64'){//계좌등록결제비밀번호설정
-                                                                        moca.removeAs('TOM_67');moca.removeAs('TOM_69');moca.removeAs('TOM_75');moca.removeAs('TOM_80');
-                                                                        moca.removeAs('TOM_81');moca.removeAs('TOM_82');moca.removeAs('TOM_83');
+                                                                        $m.removeAs('TOM_67');$m.removeAs('TOM_69');$m.removeAs('TOM_75');$m.removeAs('TOM_80');
+                                                                        $m.removeAs('TOM_81');$m.removeAs('TOM_82');$m.removeAs('TOM_83');
                                                                     }else if(_pageKey == 'TOM_67'){//계좌등록은행선택
-                                                                        moca.removeAs('TOM_69');moca.removeAs('TOM_75');moca.removeAs('TOM_80');
-                                                                        moca.removeAs('TOM_81');moca.removeAs('TOM_82');moca.removeAs('TOM_83');
+                                                                        $m.removeAs('TOM_69');$m.removeAs('TOM_75');$m.removeAs('TOM_80');
+                                                                        $m.removeAs('TOM_81');$m.removeAs('TOM_82');$m.removeAs('TOM_83');
                                                                     }else if(_pageKey == 'TOM_69'){//계좌등록정보입력
-                                                                        moca.removeAs('TOM_75');moca.removeAs('TOM_80');
-                                                                        moca.removeAs('TOM_81');moca.removeAs('TOM_82');moca.removeAs('TOM_83');
+                                                                        $m.removeAs('TOM_75');$m.removeAs('TOM_80');
+                                                                        $m.removeAs('TOM_81');$m.removeAs('TOM_82');$m.removeAs('TOM_83');
                                                                     }else if(_pageKey == 'TOM_75'){//계좌등록본인인증
-                                                                        moca.removeAs('TOM_80');
-                                                                        moca.removeAs('TOM_81');moca.removeAs('TOM_82');moca.removeAs('TOM_83');
+                                                                        $m.removeAs('TOM_80');
+                                                                        $m.removeAs('TOM_81');$m.removeAs('TOM_82');$m.removeAs('TOM_83');
                                                                     }else if(_pageKey == 'TOM_80'){//계좌등록전화인증
 
     }else if(_pageKey == 'TOM_81'){//결제계좌선택
-        moca.removeAs('TOM_63');moca.removeAs('TOM_64');moca.removeAs('TOM_67');moca.removeAs('TOM_69');moca.removeAs('TOM_75');moca.removeAs('TOM_80');
-        moca.removeAs('TOM_82');moca.removeAs('TOM_83');
+        $m.removeAs('TOM_63');$m.removeAs('TOM_64');$m.removeAs('TOM_67');$m.removeAs('TOM_69');$m.removeAs('TOM_75');$m.removeAs('TOM_80');
+        $m.removeAs('TOM_82');$m.removeAs('TOM_83');
     }else if(_pageKey == 'TOM_82'){//결제금액확인
-        moca.removeAs('TOM_63');moca.removeAs('TOM_64');moca.removeAs('TOM_67');moca.removeAs('TOM_69');moca.removeAs('TOM_75');moca.removeAs('TOM_80');
-        moca.removeAs('TOM_83');
+        $m.removeAs('TOM_63');$m.removeAs('TOM_64');$m.removeAs('TOM_67');$m.removeAs('TOM_69');$m.removeAs('TOM_75');$m.removeAs('TOM_80');
+        $m.removeAs('TOM_83');
     }else if(_pageKey == 'TOM_83'){//결제비밀번호입력
-        moca.removeAs('TOM_63');moca.removeAs('TOM_64');moca.removeAs('TOM_67');moca.removeAs('TOM_69');moca.removeAs('TOM_75');moca.removeAs('TOM_80');
+        $m.removeAs('TOM_63');$m.removeAs('TOM_64');$m.removeAs('TOM_67');$m.removeAs('TOM_69');$m.removeAs('TOM_75');$m.removeAs('TOM_80');
     }
 };
 
 Moca.prototype.getStep = function(){
     var obj = {moveStep:"",moveTitle:""};
     
-    var TOM_40 = moca.getLs('TOM_40');//////////////////////////////////////////////////////////////40
+    var TOM_40 = $m.getLs('TOM_40');//////////////////////////////////////////////////////////////40
     if(TOM_40 != null) {
         obj.moveStep = 'TOM_40.html';
         obj.moveTitle = TOM_40.title;
-        var carDetailInfo = moca.getLs("carDetailInfo");
-        moca.setSs("carDetailInfo",carDetailInfo);
-        moca.setSs("coocon_data_REGNO1",moca.getLs("coocon_data_REGNO1"));
-        moca.setSs("coocon_data_REGNO2",moca.getLs("coocon_data_REGNO2"));
-        moca.setSs("coocon_data",moca.getLs("coocon_data"));
-        moca.setSs("coocon_data_LAST_OWNER",moca.getLs("coocon_data_LAST_OWNER"));
+        var carDetailInfo = $m.getLs("carDetailInfo");
+        $m.setSs("carDetailInfo",carDetailInfo);
+        $m.setSs("coocon_data_REGNO1",$m.getLs("coocon_data_REGNO1"));
+        $m.setSs("coocon_data_REGNO2",$m.getLs("coocon_data_REGNO2"));
+        $m.setSs("coocon_data",$m.getLs("coocon_data"));
+        $m.setSs("coocon_data_LAST_OWNER",$m.getLs("coocon_data_LAST_OWNER"));
     }else{
         return obj;
     }
     
-    var TOM_42 = moca.getLs('TOM_42');//////////////////////////////////////////////////////////////42
+    var TOM_42 = $m.getLs('TOM_42');//////////////////////////////////////////////////////////////42
     if(TOM_42 != null) {
         obj.moveStep = 'TOM_42.html';
         obj.moveTitle = TOM_42.title;
-        var won = moca.getLs("won");
-        moca.setSs("won",won);
+        var won = $m.getLs("won");
+        $m.setSs("won",won);
     }else{
         return obj;
     }
     
-    var TOM_47 = moca.getLs('TOM_47');//////////////////////////////////////////////////////////////47
+    var TOM_47 = $m.getLs('TOM_47');//////////////////////////////////////////////////////////////47
     if(TOM_47 != null) {
         obj.moveStep = 'TOM_47.html';
         obj.moveTitle = TOM_47.title;
-        var ysInfo = moca.getLs("ysInfo");
-        moca.setSs("ysInfo",ysInfo);
+        var ysInfo = $m.getLs("ysInfo");
+        $m.setSs("ysInfo",ysInfo);
     }else{
         return obj;
     }
     
-    var TOM_52 = moca.getLs('TOM_52');//////////////////////////////////////////////////////////////52
+    var TOM_52 = $m.getLs('TOM_52');//////////////////////////////////////////////////////////////52
     if(TOM_52 != null) {
         obj.moveStep = 'TOM_52.html';
         obj.moveTitle = TOM_52.title;
-        var tx_id_ys = moca.getLs("response.data.tx_id_ys");
-        var tx_id_yd = moca.getLs("response.data.tx_id_yd");
-        var certStartTime = moca.getLs("certStartTime");
-        var transferownerId = moca.getLs("transferownerId");
-        var verify_ys_done = moca.getLs("verify_ys_done");
-        var verify_yd_done = moca.getLs("verify_yd_done");
+        var tx_id_ys = $m.getLs("response.data.tx_id_ys");
+        var tx_id_yd = $m.getLs("response.data.tx_id_yd");
+        var certStartTime = $m.getLs("certStartTime");
+        var transferownerId = $m.getLs("transferownerId");
+        var verify_ys_done = $m.getLs("verify_ys_done");
+        var verify_yd_done = $m.getLs("verify_yd_done");
         
-        moca.setSs("response.data.tx_id_ys",tx_id_ys);
-        moca.setSs("response.data.tx_id_yd",tx_id_yd);
-        moca.setSs("certStartTime",certStartTime);
-        moca.setSs("transferownerId",transferownerId);
-        if(verify_ys_done != null) moca.setSs("verify_ys_done",verify_ys_done);
-        if(verify_yd_done != null) moca.setSs("verify_yd_done",verify_yd_done);
+        $m.setSs("response.data.tx_id_ys",tx_id_ys);
+        $m.setSs("response.data.tx_id_yd",tx_id_yd);
+        $m.setSs("certStartTime",certStartTime);
+        $m.setSs("transferownerId",transferownerId);
+        if(verify_ys_done != null) $m.setSs("verify_ys_done",verify_ys_done);
+        if(verify_yd_done != null) $m.setSs("verify_yd_done",verify_yd_done);
     }else{
         return obj;
     }   
     
-    var TOM_61 = moca.getLs('TOM_61');//////////////////////////////////////////////////////////////61
+    var TOM_61 = $m.getLs('TOM_61');//////////////////////////////////////////////////////////////61
     if(TOM_61 != null) {
         obj.moveStep = 'TOM_61.html';
         obj.moveTitle = TOM_61.title;
-        var total_TransferOwner_Price = moca.getLs("total_TransferOwner_Price");
-        if(total_TransferOwner_Price != null) moca.setSs("total_TransferOwner_Price",total_TransferOwner_Price);
+        var total_TransferOwner_Price = $m.getLs("total_TransferOwner_Price");
+        if(total_TransferOwner_Price != null) $m.setSs("total_TransferOwner_Price",total_TransferOwner_Price);
     }else{
         return obj;
     }   
                                             
-                                            var TOM_81 = moca.getLs('TOM_81');//////////////////////////////////////////////////////////////81
-                                            var TOM_67 = moca.getLs('TOM_67');//////////////////////////////////////////////////////////////67
+                                            var TOM_81 = $m.getLs('TOM_81');//////////////////////////////////////////////////////////////81
+                                            var TOM_67 = $m.getLs('TOM_67');//////////////////////////////////////////////////////////////67
                                             
                                             
                                             if(TOM_81 != null && TOM_67 == null) {
                                                 obj.moveStep = 'TOM_81.html';
                                                 obj.moveTitle = TOM_81.title;
-                                                var total_TransferOwner_Price = moca.getLs("total_TransferOwner_Price");
-                                                if(total_TransferOwner_Price != null) moca.setSs("total_TransferOwner_Price",total_TransferOwner_Price);
+                                                var total_TransferOwner_Price = $m.getLs("total_TransferOwner_Price");
+                                                if(total_TransferOwner_Price != null) $m.setSs("total_TransferOwner_Price",total_TransferOwner_Price);
                                             }else if(TOM_67 != null) {
                                                 obj.moveStep = 'TOM_67.html';
                                                 obj.moveTitle = TOM_67.title;
-                                                var Pay_Password_Re = moca.getLs('Pay_Password_Re');
-                                                if(Pay_Password_Re != null) moca.setSs("Pay_Password_Re",Pay_Password_Re);
+                                                var Pay_Password_Re = $m.getLs('Pay_Password_Re');
+                                                if(Pay_Password_Re != null) $m.setSs("Pay_Password_Re",Pay_Password_Re);
                                                 
                                                 
-                                                var TOM_69 = moca.getLs('TOM_69');//////////////////////////////////////////////////////////////69
+                                                var TOM_69 = $m.getLs('TOM_69');//////////////////////////////////////////////////////////////69
                                                 if(TOM_69 != null) {
                                                     obj.moveStep = 'TOM_69.html';
                                                     obj.moveTitle = TOM_69.title;
                                                     
-                                                    var BankNm = moca.getLs('BankNm');
-                                                    if(BankNm != null) moca.setSs("BankNm",BankNm);
-                                                    var BankCd = moca.getLs('BankCd');
-                                                    if(BankCd != null) moca.setSs("BankCd",BankCd);                                         
+                                                    var BankNm = $m.getLs('BankNm');
+                                                    if(BankNm != null) $m.setSs("BankNm",BankNm);
+                                                    var BankCd = $m.getLs('BankCd');
+                                                    if(BankCd != null) $m.setSs("BankCd",BankCd);                                         
                                                 }else{
                                                     return obj;
                                                 }
-                                                var TOM_75 = moca.getLs('TOM_75');//////////////////////////////////////////////////////////////75본인인증
+                                                var TOM_75 = $m.getLs('TOM_75');//////////////////////////////////////////////////////////////75본인인증
                                                 if(TOM_75 != null) {
                                                     obj.moveStep = 'TOM_75.html';
                                                     obj.moveTitle = TOM_75.title;
                                                     
-                                                    var acct_no = moca.getLs('acct_no');
-                                                    if(acct_no != null) moca.setSs("acct_no",acct_no);
-                                                    var bankOwner = moca.getLs('bankOwner');
-                                                    if(bankOwner != null) moca.setSs("bankOwner",bankOwner);                                            
+                                                    var acct_no = $m.getLs('acct_no');
+                                                    if(acct_no != null) $m.setSs("acct_no",acct_no);
+                                                    var bankOwner = $m.getLs('bankOwner');
+                                                    if(bankOwner != null) $m.setSs("bankOwner",bankOwner);                                            
                                                 }else{
                                                     return obj;
                                                 }
-                                                var TOM_80 = moca.getLs('TOM_80');//////////////////////////////////////////////////////////////80,전화인증
+                                                var TOM_80 = $m.getLs('TOM_80');//////////////////////////////////////////////////////////////80,전화인증
                                                 if(TOM_80 != null) {
                                                     obj.moveStep = 'TOM_80.html';
                                                     obj.moveTitle = TOM_80.title;
                                                     
-                                                    var userPayInfo = moca.getLs('userPayInfo');
-                                                    if(userPayInfo != null) moca.setSs("userPayInfo",userPayInfo);
-                                                    var verifyResMap = moca.getLs('verifyResMap');
-                                                    if(verifyResMap != null) moca.setSs("verifyResMap",verifyResMap);
-                                                    var arsResmap = moca.getLs('arsResmap');
-                                                    if(arsResmap != null) moca.setSs("arsResmap",arsResmap);
+                                                    var userPayInfo = $m.getLs('userPayInfo');
+                                                    if(userPayInfo != null) $m.setSs("userPayInfo",userPayInfo);
+                                                    var verifyResMap = $m.getLs('verifyResMap');
+                                                    if(verifyResMap != null) $m.setSs("verifyResMap",verifyResMap);
+                                                    var arsResmap = $m.getLs('arsResmap');
+                                                    if(arsResmap != null) $m.setSs("arsResmap",arsResmap);
                                                     
                                                 }else{
                                                     return obj;
@@ -13376,37 +13370,37 @@ Moca.prototype.getStep = function(){
     
 
     
-    var TOM_81 = moca.getLs('TOM_81');//////////////////////////////////////////////////////////////81
+    var TOM_81 = $m.getLs('TOM_81');//////////////////////////////////////////////////////////////81
     if(TOM_81 != null) {
         obj.moveStep = 'TOM_81.html';
         obj.moveTitle = TOM_81.title;
-        var total_TransferOwner_Price = moca.getLs("total_TransferOwner_Price");
-        if(total_TransferOwner_Price != null) moca.setSs("total_TransferOwner_Price",total_TransferOwner_Price);
+        var total_TransferOwner_Price = $m.getLs("total_TransferOwner_Price");
+        if(total_TransferOwner_Price != null) $m.setSs("total_TransferOwner_Price",total_TransferOwner_Price);
     }else{
         return obj;
     }   
     
-    var TOM_82 = moca.getLs('TOM_82');//////////////////////////////////////////////////////////////82
+    var TOM_82 = $m.getLs('TOM_82');//////////////////////////////////////////////////////////////82
     if(TOM_82 != null) {
         obj.moveStep = 'TOM_82.html';
         obj.moveTitle = TOM_82.title;
-        var userPayInfo = moca.getLs("userPayInfo");
-        if(userPayInfo != null) moca.setSs("userPayInfo",userPayInfo);
-        var TOM_81 = moca.getLs("TOM_81");
-        if(TOM_81 != null) moca.setSs("TOM_81",TOM_81);     
+        var userPayInfo = $m.getLs("userPayInfo");
+        if(userPayInfo != null) $m.setSs("userPayInfo",userPayInfo);
+        var TOM_81 = $m.getLs("TOM_81");
+        if(TOM_81 != null) $m.setSs("TOM_81",TOM_81);     
     }else{
         return obj;
     }   
     
-    var TOM_83 = moca.getLs('TOM_83');//////////////////////////////////////////////////////////////83
+    var TOM_83 = $m.getLs('TOM_83');//////////////////////////////////////////////////////////////83
     if(TOM_83 != null) {
         obj.moveStep = 'TOM_83.html';
         obj.moveTitle = TOM_83.title;
         
-        var requestPay = moca.getLs("requestPay");
-        if(requestPay != null) moca.setSs("requestPay",requestPay);
-        var transferComDate = moca.getLs("transferComDate");
-        if(transferComDate != null) moca.setSs("transferComDate",transferComDate);
+        var requestPay = $m.getLs("requestPay");
+        if(requestPay != null) $m.setSs("requestPay",requestPay);
+        var transferComDate = $m.getLs("transferComDate");
+        if(transferComDate != null) $m.setSs("transferComDate",transferComDate);
     }else{
         return obj;
     }   
@@ -13447,7 +13441,7 @@ Moca.prototype.priceConvertKorean = function(num){
     return result; 
 };
 
-//onkeyup="moca.phoneWithDash(this)" onblur="moca.phoneWithDash(this)" maxLength="13"
+//onkeyup="$m.phoneWithDash(this)" onblur="$m.phoneWithDash(this)" maxLength="13"
 Moca.prototype.phoneWithDash = function(_this){
   var x = _this.value;
   x = x.replace(/[^0-9]/g,'');   // 입력값이 숫자가 아니면 공백
@@ -13518,12 +13512,12 @@ Moca.prototype.rpad = function(_this,padLen, padStr) {
 Moca.prototype.setReadOnly = function(_mocaInputObj,_trueFalse){
     if($(_mocaInputObj).attr('type') == 'searchCombo'){
         $(_mocaInputObj).attr('readOnly',_trueFalse);
-        moca.renderSearchCombo(_mocaInputObj,null,'normal',_mocaInputObj.getAttribute("pageid"),_mocaInputObj.getAttribute("srcId"));
-        moca.setValue(_mocaInputObj,$(_mocaInputObj).attr("value"));
+        $m.renderSearchCombo(_mocaInputObj,null,'normal',_mocaInputObj.getAttribute("pageid"),_mocaInputObj.getAttribute("srcId"));
+        $m.setValue(_mocaInputObj,$(_mocaInputObj).attr("value"));
     }else if($(_mocaInputObj).attr('type') == 'combo'){
         $(_mocaInputObj).attr('readOnly',_trueFalse);
-        moca.renderCombo(_mocaInputObj,null,'normal',_mocaInputObj.getAttribute("pageid"),_mocaInputObj.getAttribute("srcId"));
-        moca.setValue(_mocaInputObj,$(_mocaInputObj).attr("value"));
+        $m.renderCombo(_mocaInputObj,null,'normal',_mocaInputObj.getAttribute("pageid"),_mocaInputObj.getAttribute("srcId"));
+        $m.setValue(_mocaInputObj,$(_mocaInputObj).attr("value"));
     }else{
         var _mocaObj ;
         if($(_mocaInputObj).attr('type') == 'input' || $(_mocaInputObj).attr('celltype') == 'input' ){
@@ -13592,12 +13586,12 @@ Moca.prototype.cellAllCheck = function(_thisObj){
            }
        }
    }
-   moca[$(grd).attr("srcid")].redrawGrid(grd);
+   $m[$(grd).attr("srcid")].redrawGrid(grd);
 };
 
 Moca.prototype.setCheckboxGroupList = function(obj,_checkGroupList,metaObj,checkedInfo){
     obj.setAttribute('itemset',JSON.stringify(_checkGroupList));
-    moca.renderCheckboxGroup(obj,null,null,metaObj,checkedInfo);
+    $m.renderCheckboxGroup(obj,null,null,metaObj,checkedInfo);
 };
 
 
@@ -13658,13 +13652,13 @@ Moca.prototype.defaultCellClick = function(_thisObj){
         return  ;
     }
     var grd = $(_thisObj).closest('div[type=grid]')[0];
-    moca.nowGrd = grd;
+    $m.nowGrd = grd;
     
-    var selectedRealRowIndex = moca.nowGrd.getAttribute("selectedRealRowIndex");
+    var selectedRealRowIndex = $m.nowGrd.getAttribute("selectedRealRowIndex");
     
     var _thisTd = $(_thisObj).closest('td');
     var colId = $(_thisObj).closest('td')[0].id;
-	moca.nowColId = colId;
+	$m.nowColId = colId;
     var _tbody = $(_thisObj).closest('tbody');
     var _thisTr = $(_thisObj).closest('tr');
     var realRowIndex = Number(_thisTr.attr("realrowindex"));
@@ -13679,7 +13673,7 @@ Moca.prototype.defaultCellClick = function(_thisObj){
         });
     }
     pro = pro.then(function(re){
-        return moca._uptData(_thisObj);
+        return $m._uptData(_thisObj);
     });
     if(onAfterClickStr != "" && onAfterClickStr != null){
         pro = pro.then(function(re){
@@ -13708,7 +13702,7 @@ Moca.prototype.setCellReadOnly = function(_grd,_realRowIndex,_colId,_trueFalse){
     _grd.list[_realRowIndex]["_system"][_colId]['readonly'] = _trueFalse;
     var _reLabel = '';
     if(_celltype == 'input'){
-    	var _cellData = moca.getCellData(_grd,_realRowIndex,_colId);
+    	var _cellData = $m.getCellData(_grd,_realRowIndex,_colId);
         try{
             if(_displayFunction != null && eval(_displayFunction) != null){
                 _reLabel = eval(_displayFunction)(_cellData,_grd,_realRowIndex);        
@@ -13724,9 +13718,9 @@ Moca.prototype.setCellReadOnly = function(_grd,_realRowIndex,_colId,_trueFalse){
         }else{
             
             if(_required == 'true'){
-                _inTag = '<input type="text" onblur="moca.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="moca.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  class="moca_input req" style="'+_style+'" value="'+_reLabel+'" onkeyup="moca._uptData(this)" onfocus="moca._evt_selectFocus(this)">';
+                _inTag = '<input type="text" onblur="$m.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  class="moca_input req" style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">';
             }else{
-                _inTag = '<input type="text" onblur="moca.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="moca.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  class="moca_input" style="'+_style+'" value="'+_reLabel+'" onkeyup="moca._uptData(this)" onfocus="moca._evt_selectFocus(this)">';
+                _inTag = '<input type="text" onblur="$m.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  class="moca_input" style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">';
             }
         }
     }else if(_celltype == 'select'){
@@ -13756,8 +13750,8 @@ Moca.prototype.setCellReadOnly = function(_grd,_realRowIndex,_colId,_trueFalse){
             cd = _grd.list[_realRowIndex][_colId];
             nm = _grd[_colId].map[_grd.list[_realRowIndex][_colId]];
             label = _displayFormat.replace('[value]',_cd).replace('[label]',_nm);
-            _inTag = moca.getSelectDivTagForCombo(label,_required,cd,nm,ch);
-            _inTag += moca.getInputSelectTag(label,_required);
+            _inTag = $m.getSelectDivTagForCombo(label,_required,cd,nm,ch);
+            _inTag += $m.getInputSelectTag(label,_required);
             _inTag += "</div>";
             
         }
@@ -13830,7 +13824,7 @@ Moca.prototype.resizeContsImg = function(_contents){
 			var aWidth = arr[i];
 			var arr2 = aWidth.split(':');
 			var v = arr2[1];
-			v = moca.trim(v);
+			v = $m.trim(v);
 			v = v.replace(/px/g,'');
 			if(Number(v) > 1600){
 				//강제사이즈조정 width:100%,height제거
@@ -13916,7 +13910,7 @@ $(document).ready(function() {
                async: false,
                dataType : "text",
                data : {
-                   "header" : moca.header,
+                   "header" : $m.header,
                    "body" : {},
                    "message" : {}
                },
@@ -13925,22 +13919,22 @@ $(document).ready(function() {
                    var data;
                    if(aTag.id == '__popup'){
                        //console.log("(__popup)include1"+aTag.id);
-                       moca.getContents(data,_url,"POP",aTag.getAttribute("popupid"),aTag.getAttribute("popuptitle"));
+                       $m.getContents(data,_url,"POP",aTag.getAttribute("popupid"),aTag.getAttribute("popuptitle"));
                    }else if(aTag.id == '__body'){
                        //console.log("(__body)include2-1"+aTag.id);
-                       data = moca.getContents(data,_url,"HTML",aTag);
+                       data = $m.getContents(data,_url,"HTML",aTag);
                        //$(aTag).html(data);
                        //console.log("(__body)include2-2"+aTag.id);
-                       moca.callReady(aTag);
+                       $m.callReady(aTag);
                        //console.log("(__body)include2-3"+aTag.id);
                    }else if(aTag.id == '__iframe'){
                        //console.log("(else)include3"+aTag.id);
-                       data = moca.getContents(data,_url,"IFRAME",aTag);
+                       data = $m.getContents(data,_url,"IFRAME",aTag);
                        $(aTag).html(data);
                        //console.log("(else)include3-1"+aTag.id);
                    }else{
                        //console.log("(else)include3"+aTag.id);
-                       data = moca.getContents(data,_url,"CMN",aTag);
+                       data = $m.getContents(data,_url,"CMN",aTag);
                        $(aTag).html(data);
                        //console.log("(else)include3-1"+aTag.id);
                    }

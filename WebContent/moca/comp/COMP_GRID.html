@@ -13,37 +13,37 @@
 <script language="JavaScript" src="./js/moca.js"></script>
 <script language="JavaScript" src="testCalendar.js"></script>
 <script>
-	moca.COMP_GRID = {};
+	$m.COMP_GRID = {};
 	$(document).ready(function() {
-		moca.init(function(){
-			moca.code({
+		$m.init(function(){
+			$m.code({
 				"grd_1.age":{code:'age',allOption:{label:"-선택-",value:""}},
 				"grd_1.nation":{code:'nation',allOption:{label:"*",value:""}},
 				"cmb_1":{code:'nation',allOption:{label:"전체",value:""}}
 			},function(){
-				moca.COMP_GRID.fn_search();
+				$m.COMP_GRID.fn_search();
 			});
 		});
 	});
-	moca.COMP_GRID.fn_search = function(){
-		moca.exe({
-			url : moca._domain+"/grid_data.json",
+	$m.COMP_GRID.fn_search = function(){
+		$m.exe({
+			url : $m._domain+"/grid_data.json",
             data : {
-            	"header" : moca.header,
+            	"header" : $m.header,
             	"body" : {aaa:'111',bbb:'222'}
             },			
 			callback : function(response){
-				moca.drawGrid('grd_1', moca.getRes(response).list);
+				$m.drawGrid('grd_1', $m.getRes(response).list);
 			}
 		});
 	};
-	moca.COMP_GRID.fn_save = function(){
-		moca.confirm('저장하시겠습니까?',function(result){
+	$m.COMP_GRID.fn_save = function(){
+		$m.confirm('저장하시겠습니까?',function(result){
 			if(result == 'Y'){
-				moca.exe({
-					url : moca._domain+"/grid_data.json",
+				$m.exe({
+					url : $m._domain+"/grid_data.json",
 					callback : function(){
-		        	   moca.alert('성공적으로 저장되었습니다!',function(){
+						$m.alert('성공적으로 저장되었습니다!',function(){
 		        	   	   return;
 		        	   });	
 					}
@@ -103,7 +103,7 @@
 								<td class="tb_td">
 									<div class="moca_ibn" style="width:150px">
 										<input type="text" class="moca_input" value="">
-										<button type="button" class="moca_ibn_btn" onclick="moca.popup('./comp/COMP_POPU.html',{title:'취미검색'})">검색</button>
+										<button type="button" class="moca_ibn_btn" onclick="$m.popup('./comp/COMP_POPU.html',{title:'취미검색'})">검색</button>
 									</div>
 								</td>
 							</tr>
@@ -111,7 +111,7 @@
 					</table>
 				</div>
 				<div class="btn_shbox">
-					<button type="button" class="button btn_sc" onclick="moca.COMP_GRID.fn_search(this)"><span>조회</span></button>
+					<button type="button" class="button btn_sc" onclick="$m.COMP_GRID.fn_search(this)"><span>조회</span></button>
 				</div>
 			</div>
 			

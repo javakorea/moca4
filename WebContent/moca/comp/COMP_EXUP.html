@@ -2,40 +2,40 @@
 <html lang="ko">
 <head meta_width="700px" meta_height="130px">
 <script>
-	moca.COMP_EXUP.___ready = function(args){
-		var mfile = moca.COMP_EXUP.getObj("mfile");
+	$m.COMP_EXUP.___ready = function(args){
+		var mfile = $m.COMP_EXUP.getObj("mfile");
 		$(mfile).change(function(e){
-			var btns = moca.COMP_EXUP.getObj("btns");
+			var btns = $m.COMP_EXUP.getObj("btns");
 			$(btns).show();
 		});
 		  
 		if(args != null){
-			moca.COMP_EXUP.data = args;
+			$m.COMP_EXUP.data = args;
 			if(Object.keys(args.parent.data.mapper).length < 1){
-				moca.error('GRID의TD항목들에게<br>[excelIndex="순번"]속성을 설정해야 <br>엑셀업로드를 진행할수있습니다. ');
+				$m.error('GRID의TD항목들에게<br>[excelIndex="순번"]속성을 설정해야 <br>엑셀업로드를 진행할수있습니다. ');
 				return;
 			}
 		}
 	};
 	  
 
-	moca.COMP_EXUP.fn_upload_prev = function(_uploadType){
-		var mfile = moca.COMP_EXUP.getObj("mfile");
-		if(moca.trim($(mfile).val()) == ''){
+	$m.COMP_EXUP.fn_upload_prev = function(_uploadType){
+		var mfile = $m.COMP_EXUP.getObj("mfile");
+		if($m.trim($(mfile).val()) == ''){
 			alert('업로드할 파일을 선택하세요.');
 			return;
 		}
 		
 		if(_uploadType == "1"){
-			moca.confirm('기존데이터를 삭제하지않고 추가로 업로드합니다.<br>(예상시간 10초~20초)<br>진행하시겠습니까?',function(result){
+			$m.confirm('기존데이터를 삭제하지않고 추가로 업로드합니다.<br>(예상시간 10초~20초)<br>진행하시겠습니까?',function(result){
 				if(result == 'Y'){
-					moca.COMP_EXUP.fn_upload(_uploadType);
+					$m.COMP_EXUP.fn_upload(_uploadType);
 				}
 			},'시작','취소');
 		}else if(_uploadType == "2"){
-			moca.confirm('[주의]기존데이터를 모두삭제합니다.<br>삭제후 해당파일을 업로드합니다.<br>(예상시간 10초~20초)<br>진행하시겠습니까?',function(result){
+			$m.confirm('[주의]기존데이터를 모두삭제합니다.<br>삭제후 해당파일을 업로드합니다.<br>(예상시간 10초~20초)<br>진행하시겠습니까?',function(result){
 				if(result == 'Y'){
-					moca.COMP_EXUP.fn_upload(_uploadType);
+					$m.COMP_EXUP.fn_upload(_uploadType);
 				}
 			},'시작','취소');	
 		}
@@ -43,8 +43,8 @@
 		
 	};
 	
-	moca.COMP_EXUP.fn_upload = function(_uploadType){
-		moca.COMP_EXUP.data.parent.data.uploadType = _uploadType;
+	$m.COMP_EXUP.fn_upload = function(_uploadType){
+		$m.COMP_EXUP.data.parent.data.uploadType = _uploadType;
 		var _form = document.createElement('FORM');
 		_form.setAttribute("encoding","multipart/form-data");
 		_form.setAttribute("enctype","multipart/form-data");
@@ -52,10 +52,10 @@
 		document.body.appendChild(_form);
 		var formData = new FormData(_form);
 		formData.append("file", $("#mfile")[0].files[0]);
-		formData.append("data", JSON.stringify(moca.COMP_EXUP.data));
-		var loadingId = moca.loading(null,null,moca.COMP_EXUP.data.parent,{loadingbar:true});
+		formData.append("data", JSON.stringify($m.COMP_EXUP.data));
+		var loadingId = $m.loading(null,null,$m.COMP_EXUP.data.parent,{loadingbar:true});
 		$.ajax({
-			url: moca._contextRoot+'/efms/exup.do',
+			url: $m._contextRoot+'/efms/exup.do',
 			processData: false,
 			contentType: false,
 			data: formData,
@@ -64,12 +64,12 @@
 	    		var compId = result.grdId;
 	    		var pageId = result.pageId;
 	    		var srcId = result.srcId;
-	    		moca.pageId =pageId;
-	    		moca.srcId =srcId;
+	    		$m.pageId =pageId;
+	    		$m.srcId =srcId;
 	    		
-	    		moca.loading(loadingId,0,moca.COMP_EXUP.data.parent);
+	    		$m.loading(loadingId,0,$m.COMP_EXUP.data.parent);
 	    		//moca.TO_007.sendParam(null,1);
-	    		moca.popClose(moca.COMP_EXUP.pageId,{gridId:compId});
+	    		$m.popClose($m.COMP_EXUP.pageId,{gridId:compId});
 			}
 	    });
 	};
@@ -82,8 +82,8 @@
 				<input type="file" multiple="multiple" title="파일 추가" id="mfile">
 			</div>
 			<div class="btn_shbox" id="btns" style='display:none'>
-				<button type="button" class="button btn_sc" onclick="moca.COMP_EXUP.fn_upload_prev('1')"><i class="fas fa-plus"></i><span>추가업로드</span></button>
-				<button type="button" class="button btn_sc" onclick="moca.COMP_EXUP.fn_upload_prev('2')"><i class="fas fa-exchange-alt"></i><span>교체업로드</span></button>
+				<button type="button" class="button btn_sc" onclick="$m.COMP_EXUP.fn_upload_prev('1')"><i class="fas fa-plus"></i><span>추가업로드</span></button>
+				<button type="button" class="button btn_sc" onclick="$m.COMP_EXUP.fn_upload_prev('2')"><i class="fas fa-exchange-alt"></i><span>교체업로드</span></button>
 			</div>
 		</div>
 	</div>	

@@ -2,79 +2,79 @@
 <html lang="ko">
 <head meta_width="807px" meta_height="600px">
 <script>
-moca.EFC_SCHEDULER_POP.start;
-moca.EFC_SCHEDULER_POP.end;
-moca.EFC_SCHEDULER_POP.allDay;
-moca.EFC_SCHEDULER_POP.schIdx;
-moca.EFC_SCHEDULER_POP.___ready = function(args){
-	if(moca.getDevice() == "mobile"){
-		moca.hide(moca.EFC_SCHEDULER_POP.getObj("schTitle"));
+$m.EFC_SCHEDULER_POP.start;
+$m.EFC_SCHEDULER_POP.end;
+$m.EFC_SCHEDULER_POP.allDay;
+$m.EFC_SCHEDULER_POP.schIdx;
+$m.EFC_SCHEDULER_POP.___ready = function(args){
+	if($m.getDevice() == "mobile"){
+		$m.hide($m.EFC_SCHEDULER_POP.getObj("schTitle"));
 		//$('#form_schedule').css('height','57px');
-		$(moca.EFC_SCHEDULER_POP.getObj("wtitle")).css('width','calc(100% - 45px)');
+		$($m.EFC_SCHEDULER_POP.getObj("wtitle")).css('width','calc(100% - 45px)');
 	}
-	moca.hide(moca.EFC_SCHEDULER_POP.getObj("form_schedule"));
-	moca.hide(moca.EFC_SCHEDULER_POP.getObj("btn_update"));
-	moca.hide(moca.EFC_SCHEDULER_POP.getObj("btn_save"));
-	moca.hide(moca.EFC_SCHEDULER_POP.getObj("btn_del"));
-	moca.hide(moca.EFC_SCHEDULER_POP.getObj("wcolor"));
-	//$(moca.EFC_SCHEDULER_POP.getObj("form_schedule")).find("#createInfo").hide();
+	$m.hide($m.EFC_SCHEDULER_POP.getObj("form_schedule"));
+	$m.hide($m.EFC_SCHEDULER_POP.getObj("btn_update"));
+	$m.hide($m.EFC_SCHEDULER_POP.getObj("btn_save"));
+	$m.hide($m.EFC_SCHEDULER_POP.getObj("btn_del"));
+	$m.hide($m.EFC_SCHEDULER_POP.getObj("wcolor"));
+	//$($m.EFC_SCHEDULER_POP.getObj("form_schedule")).find("#createInfo").hide();
     if(args != null){
-    	moca.EFC_SCHEDULER_POP.args = args;
-        moca.EFC_SCHEDULER_POP.start = args.parent.data.start;
-        moca.EFC_SCHEDULER_POP.end = args.parent.data.end;
-        moca.EFC_SCHEDULER_POP.setFrom('schDate',args.parent.data.start);
-        moca.EFC_SCHEDULER_POP.setTo('schDate',args.parent.data.end);
-        moca.EFC_SCHEDULER_POP.schIdx = args.parent.data.schIdx;
-        moca.EFC_SCHEDULER_POP.viewType = args.parent.data.viewType;
-        moca.EFC_SCHEDULER_POP.bgcolor =  args.parent.data.bgcolor;
+    	$m.EFC_SCHEDULER_POP.args = args;
+        $m.EFC_SCHEDULER_POP.start = args.parent.data.start;
+        $m.EFC_SCHEDULER_POP.end = args.parent.data.end;
+        $m.EFC_SCHEDULER_POP.setFrom('schDate',args.parent.data.start);
+        $m.EFC_SCHEDULER_POP.setTo('schDate',args.parent.data.end);
+        $m.EFC_SCHEDULER_POP.schIdx = args.parent.data.schIdx;
+        $m.EFC_SCHEDULER_POP.viewType = args.parent.data.viewType;
+        $m.EFC_SCHEDULER_POP.bgcolor =  args.parent.data.bgcolor;
 	}
     CKEDITOR.replace( 'editor',{uiColor:'#deecea',on:{
         'instanceReady':function(ev){
-        	moca.EFC_SCHEDULER_POP.editor = ev.editor;
-        	if(moca.trim(moca.EFC_SCHEDULER_POP.schIdx) != ''){
-        		moca.EFC_SCHEDULER_POP.editor.setReadOnly(true);
-        		$(moca.EFC_SCHEDULER_POP.getObj("cke_editor")).find("[id$='_top']").hide();
-        		moca.setReadOnly(moca.EFC_SCHEDULER_POP.getObj("wtitle"),true);
-        		moca.setReadOnly(moca.EFC_SCHEDULER_POP.getObj("schDate"),true);
-        		moca.show(moca.EFC_SCHEDULER_POP.getObj("btn_update"));
-        		//$(moca.EFC_SCHEDULER_POP.getObj("form_schedule")).find("#createInfo").show();
-        		moca.show(moca.EFC_SCHEDULER_POP.getObj("form_schedule"));
-        		moca.show(moca.EFC_SCHEDULER_POP.getObj("btn_del"));
-        		moca.EFC_SCHEDULER_POP.fn_search();
-        		moca.setValue(moca.EFC_SCHEDULER_POP.getObj('wcolor'),moca.EFC_SCHEDULER_POP.bgcolor);
+        	$m.EFC_SCHEDULER_POP.editor = ev.editor;
+        	if($m.trim($m.EFC_SCHEDULER_POP.schIdx) != ''){
+        		$m.EFC_SCHEDULER_POP.editor.setReadOnly(true);
+        		$($m.EFC_SCHEDULER_POP.getObj("cke_editor")).find("[id$='_top']").hide();
+        		$m.setReadOnly($m.EFC_SCHEDULER_POP.getObj("wtitle"),true);
+        		$m.setReadOnly($m.EFC_SCHEDULER_POP.getObj("schDate"),true);
+        		$m.show($m.EFC_SCHEDULER_POP.getObj("btn_update"));
+        		//$($m.EFC_SCHEDULER_POP.getObj("form_schedule")).find("#createInfo").show();
+        		$m.show($m.EFC_SCHEDULER_POP.getObj("form_schedule"));
+        		$m.show($m.EFC_SCHEDULER_POP.getObj("btn_del"));
+        		$m.EFC_SCHEDULER_POP.fn_search();
+        		$m.setValue($m.EFC_SCHEDULER_POP.getObj('wcolor'),$m.EFC_SCHEDULER_POP.bgcolor);
         	}else{
-        		moca.show(moca.EFC_SCHEDULER_POP.getObj("btn_save"));
-        		moca.show(moca.EFC_SCHEDULER_POP.getObj("form_schedule"));
-        		moca.show(moca.EFC_SCHEDULER_POP.getObj("wcolor"));
+        		$m.show($m.EFC_SCHEDULER_POP.getObj("btn_save"));
+        		$m.show($m.EFC_SCHEDULER_POP.getObj("form_schedule"));
+        		$m.show($m.EFC_SCHEDULER_POP.getObj("wcolor"));
         		var _today = new Date();
-        		var _todayStr = moca.dateToString(_today).fullFormat;
-        		moca.setValue(moca.EFC_SCHEDULER_POP.getObj("createDate"),_todayStr);
-				moca.setValue(moca.EFC_SCHEDULER_POP.getObj("wid"),moca.getSs("USER_ID"));
+        		var _todayStr = $m.dateToString(_today).fullFormat;
+        		$m.setValue($m.EFC_SCHEDULER_POP.getObj("createDate"),_todayStr);
+				$m.setValue($m.EFC_SCHEDULER_POP.getObj("wid"),$m.getSs("USER_ID"));
         	}
         	
     }}} );
 };
 
-moca.EFC_SCHEDULER_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
-	moca.EFC_SCHEDULER_POP.exe({
-		url : moca._domain+moca._contextRoot+"/EFC_SCHEDULER/selectScheduleInfo.do",
+$m.EFC_SCHEDULER_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
+	$m.EFC_SCHEDULER_POP.exe({
+		url : $m._domain+$m._contextRoot+"/EFC_SCHEDULER/selectScheduleInfo.do",
 		loadingbar:true,
 		data : {
-			"header" : moca.header,
+			"header" : $m.header,
 			"body" : {
-				"SCH_IDX":moca.EFC_SCHEDULER_POP.schIdx,
-				"CORP_CD":moca.getSs("CORP_CD")
+				"SCH_IDX":$m.EFC_SCHEDULER_POP.schIdx,
+				"CORP_CD":$m.getSs("CORP_CD")
 				}
 		},			
 		callback : function(response){
 			if(response.selectScheduleInfo != null){
 				var data = response.selectScheduleInfo;
 				CKEDITOR.instances.editor.setData(data.SCH_CONT);
-				moca.setValue(moca.EFC_SCHEDULER_POP.getObj("wtitle"),data.SCH_TITLE);
-				moca.setValue(moca.EFC_SCHEDULER_POP.getObj("createDate"),data.SCH_CREATE_DTTM);
-				moca.setValue(moca.EFC_SCHEDULER_POP.getObj("wid"),data.SCH_WRITER);
+				$m.setValue($m.EFC_SCHEDULER_POP.getObj("wtitle"),data.SCH_TITLE);
+				$m.setValue($m.EFC_SCHEDULER_POP.getObj("createDate"),data.SCH_CREATE_DTTM);
+				$m.setValue($m.EFC_SCHEDULER_POP.getObj("wid"),data.SCH_WRITER);
 			}else{
-				moca.error(response.error);
+				$m.error(response.error);
 			}
 		}
 	});
@@ -82,73 +82,73 @@ moca.EFC_SCHEDULER_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 
 
 
-moca.EFC_SCHEDULER_POP.fn_update = function(_thisObj){
-	moca.show(moca.EFC_SCHEDULER_POP.getObj("btn_save"));
-	moca.hide(moca.EFC_SCHEDULER_POP.getObj("btn_update"));
-	moca.show(moca.EFC_SCHEDULER_POP.getObj("wcolor"));
-	moca.EFC_SCHEDULER_POP.editor.setReadOnly(false);
-	$(moca.EFC_SCHEDULER_POP.getObj("cke_editor")).find("[id$='_top']").show();
-	moca.setReadOnly(moca.EFC_SCHEDULER_POP.getObj("wtitle"),false);
-	moca.setReadOnly(moca.EFC_SCHEDULER_POP.getObj("schDate"),false);
+$m.EFC_SCHEDULER_POP.fn_update = function(_thisObj){
+	$m.show($m.EFC_SCHEDULER_POP.getObj("btn_save"));
+	$m.hide($m.EFC_SCHEDULER_POP.getObj("btn_update"));
+	$m.show($m.EFC_SCHEDULER_POP.getObj("wcolor"));
+	$m.EFC_SCHEDULER_POP.editor.setReadOnly(false);
+	$($m.EFC_SCHEDULER_POP.getObj("cke_editor")).find("[id$='_top']").show();
+	$m.setReadOnly($m.EFC_SCHEDULER_POP.getObj("wtitle"),false);
+	$m.setReadOnly($m.EFC_SCHEDULER_POP.getObj("schDate"),false);
 
 }
-moca.EFC_SCHEDULER_POP.fn_save = function(_thisObj){
+$m.EFC_SCHEDULER_POP.fn_save = function(_thisObj){
 	if(_thisObj.id == 'btn_save'){
-		moca.confirm('저장하시겠습니까?',function(result){
+		$m.confirm('저장하시겠습니까?',function(result){
 	        if(result == 'Y'){
-	        	var wtitle = moca.getValue(moca.EFC_SCHEDULER_POP.getObj("wtitle"));
+	        	var wtitle = $m.getValue($m.EFC_SCHEDULER_POP.getObj("wtitle"));
             	if(wtitle == ''){
             		wtitle = $('#'+CKEDITOR.instances.editor.id+'_contents iframe').contents().find('body').text().substring(0,20);
             	}
             	
-            	if(moca.trim(moca.EFC_SCHEDULER_POP.schIdx) == ''){
+            	if($m.trim($m.EFC_SCHEDULER_POP.schIdx) == ''){
             		//스케줄등록
-    	        	moca.EFC_SCHEDULER_POP.exe({
-    	        	    url : moca._domain+moca._contextRoot+"/EFC_SCHEDULER/insertSchedule.do",
+    	        	$m.EFC_SCHEDULER_POP.exe({
+    	        	    url : $m._domain+$m._contextRoot+"/EFC_SCHEDULER/insertSchedule.do",
     	        	    loadingbar:true,
     	        	    data : {
-    	        	        "header" : moca.header,
+    	        	        "header" : $m.header,
     	        	        "body" : {
     	        	        	"SCH_CATEGORY":"PRIVATE",
-    	        	        	"SCH_WRITER":moca.getSs("USER_ID"),
+    	        	        	"SCH_WRITER":$m.getSs("USER_ID"),
     	        	        	"SCH_TITLE":wtitle,
     	        	            "SCH_CONT":CKEDITOR.instances.editor.getData(),
-    	        	            "SCH_CREATE_DTTM":moca.getValue(moca.EFC_SCHEDULER_POP.getObj("createDate")),
-    	        	            "SCH_CURRENTMONTH":moca.EFC_SCHEDULER_POP.getFrom('schDate').substr(5,2),
-    	        	        	"SCH_START":moca.EFC_SCHEDULER_POP.getFrom('schDate'),
-    	        	        	"SCH_END":moca.EFC_SCHEDULER_POP.getTo('schDate'),
-    	        	        	"SCH_COLOR":moca.getValue(moca.EFC_SCHEDULER_POP.getObj('wcolor')),
-    	        	        	"CORP_CD":moca.getSs("CORP_CD")
+    	        	            "SCH_CREATE_DTTM":$m.getValue($m.EFC_SCHEDULER_POP.getObj("createDate")),
+    	        	            "SCH_CURRENTMONTH":$m.EFC_SCHEDULER_POP.getFrom('schDate').substr(5,2),
+    	        	        	"SCH_START":$m.EFC_SCHEDULER_POP.getFrom('schDate'),
+    	        	        	"SCH_END":$m.EFC_SCHEDULER_POP.getTo('schDate'),
+    	        	        	"SCH_COLOR":$m.getValue($m.EFC_SCHEDULER_POP.getObj('wcolor')),
+    	        	        	"CORP_CD":$m.getSs("CORP_CD")
     	        	        }
     	        	    },          
     	        	    callback : function(response){
     	        	        if(response.cnt > 0){
-    	        	            moca.popClose(moca.EFC_SCHEDULER_POP.pageId,{callback:"true",message:"성공적으로 저장하였습니다.",viewType:moca.EFC_SCHEDULER_POP.viewType,startDt:moca.EFC_SCHEDULER_POP.getFrom('schDate')});
+    	        	            $m.popClose($m.EFC_SCHEDULER_POP.pageId,{callback:"true",message:"성공적으로 저장하였습니다.",viewType:$m.EFC_SCHEDULER_POP.viewType,startDt:$m.EFC_SCHEDULER_POP.getFrom('schDate')});
     	        	        }
     	        	    }
     	        	});
             	}else{
             		//스케줄수정
-    	        	moca.EFC_SCHEDULER_POP.exe({
-    	        	    url : moca._domain+moca._contextRoot+"/EFC_SCHEDULER/updateScheduleInfo.do",
+    	        	$m.EFC_SCHEDULER_POP.exe({
+    	        	    url : $m._domain+$m._contextRoot+"/EFC_SCHEDULER/updateScheduleInfo.do",
     	        	    loadingbar:true,
     	        	    data : {
-    	        	        "header" : moca.header,
+    	        	        "header" : $m.header,
     	        	        "body" : {
-    	        	        	"SCH_IDX":moca.EFC_SCHEDULER_POP.schIdx,
+    	        	        	"SCH_IDX":$m.EFC_SCHEDULER_POP.schIdx,
     	        	        	"SCH_CATEGORY":"PRIVATE",
-    	        	        	"SCH_WRITER":moca.getSs("USER_ID"),
+    	        	        	"SCH_WRITER":$m.getSs("USER_ID"),
     	        	        	"SCH_TITLE":wtitle,
     	        	            "SCH_CONT":CKEDITOR.instances.editor.getData(),
-    	        	        	"SCH_START":moca.EFC_SCHEDULER_POP.getFrom('schDate'),
-    	        	        	"SCH_END":moca.EFC_SCHEDULER_POP.getTo('schDate'),
+    	        	        	"SCH_START":$m.EFC_SCHEDULER_POP.getFrom('schDate'),
+    	        	        	"SCH_END":$m.EFC_SCHEDULER_POP.getTo('schDate'),
     	        	        	"SCH_DELYN":"N",
-    	        	        	"SCH_COLOR":moca.getValue(moca.EFC_SCHEDULER_POP.getObj('wcolor'))
+    	        	        	"SCH_COLOR":$m.getValue($m.EFC_SCHEDULER_POP.getObj('wcolor'))
     	        	        }
     	        	    },          
     	        	    callback : function(response){
     	        	        if(response.cnt > 0){
-    	        	            moca.popClose(moca.EFC_SCHEDULER_POP.pageId,{callback:"true",message:"성공적으로 저장하였습니다.",viewType:moca.EFC_SCHEDULER_POP.viewType,startDt:moca.EFC_SCHEDULER_POP.getFrom('schDate')});
+    	        	            $m.popClose($m.EFC_SCHEDULER_POP.pageId,{callback:"true",message:"성공적으로 저장하였습니다.",viewType:$m.EFC_SCHEDULER_POP.viewType,startDt:$m.EFC_SCHEDULER_POP.getFrom('schDate')});
     	        	        }
     	        	    }
     	        	});
@@ -157,23 +157,23 @@ moca.EFC_SCHEDULER_POP.fn_save = function(_thisObj){
 		})
 	}
 };
-moca.EFC_SCHEDULER_POP.fn_del = function(_thisObj){
+$m.EFC_SCHEDULER_POP.fn_del = function(_thisObj){
 	['스케줄러논리삭제 delYN :Y']
-	 moca.confirm('삭제하시겠습니까?',function(result){
+	 $m.confirm('삭제하시겠습니까?',function(result){
         if(result == 'Y'){
         	//게시글삭제
-         	moca.EFC_SCHEDULER_POP.exe({
-                 url : moca._domain+moca._contextRoot+"/EFC_SCHEDULER/deleteScheduleInfo.do",
+         	$m.EFC_SCHEDULER_POP.exe({
+                 url : $m._domain+$m._contextRoot+"/EFC_SCHEDULER/deleteScheduleInfo.do",
                  loadingbar:true,
                  data : {
-                     "header" : moca.header,
+                     "header" : $m.header,
                      "body" : {
-                    	 "SCH_IDX":moca.EFC_SCHEDULER_POP.schIdx,
+                    	 "SCH_IDX":$m.EFC_SCHEDULER_POP.schIdx,
                          }
                  },          
                  callback : function(response){
                      if(response.cnt > 0){
-                        moca.popClose(moca.EFC_SCHEDULER_POP.pageId,{callback:"true",message:"삭제가 완료되었습니다."});
+                        $m.popClose($m.EFC_SCHEDULER_POP.pageId,{callback:"true",message:"삭제가 완료되었습니다."});
                      }
                  }
              });
@@ -193,9 +193,9 @@ moca.EFC_SCHEDULER_POP.fn_del = function(_thisObj){
 							label=""
 							showRowSelection="false"
 							addition='[
-								{"type":"button","position":"right","id":"btn_save","label":"저장","onclick":"moca.EFC_SCHEDULER_POP.fn_save","innerStyle":"background:#97a2ba"},
-								{"type":"button","position":"right","id":"btn_update","label":"수정","onclick":"moca.EFC_SCHEDULER_POP.fn_update","innerStyle":"background:#97a2ba"},
-								{"type":"button","position":"right","id":"btn_del","label":"삭제","onclick":"moca.EFC_SCHEDULER_POP.fn_del","innerStyle":"background:#6d7993"}
+								{"type":"button","position":"right","id":"btn_save","label":"저장","onclick":"$m.EFC_SCHEDULER_POP.fn_save","innerStyle":"background:#97a2ba"},
+								{"type":"button","position":"right","id":"btn_update","label":"수정","onclick":"$m.EFC_SCHEDULER_POP.fn_update","innerStyle":"background:#97a2ba"},
+								{"type":"button","position":"right","id":"btn_del","label":"삭제","onclick":"$m.EFC_SCHEDULER_POP.fn_del","innerStyle":"background:#6d7993"}
 							]'
 					 >
 						

@@ -12,33 +12,33 @@
 <script language="JavaScript" src="./js/list2000.js"></script>
 <script language="JavaScript" src="./js/moca.js"></script>
 <script>
-	moca._func_header = {};
-	moca._func_header.fn_logout = function(){
-		moca.confirm('로그아웃하시겠습니까?',function(result){
+	$m._func_header = {};
+	$m._func_header.fn_logout = function(){
+		$m.confirm('로그아웃하시겠습니까?',function(result){
 			if(result == 'Y'){
-				top.location.href = moca._contextRoot+'/uat/uia/actionLogout.do';
+				top.location.href = $m._contextRoot+'/uat/uia/actionLogout.do';
 			}
 		});		
 	};
 
 	$(document).ready(function() {
-		var CORP_NM = moca.getSession("CORP_NM");
-		var CORP_CD = moca.getSession("CORP_CD");
-		var USER_ID = moca.getSession("USER_ID");
-		var LOGINDT = moca.getSession("LOGINDT");
+		var CORP_NM = $m.getSession("CORP_NM");
+		var CORP_CD = $m.getSession("CORP_CD");
+		var USER_ID = $m.getSession("USER_ID");
+		var LOGINDT = $m.getSession("LOGINDT");
 		if(USER_ID == null){
-			top.location.href = moca._contextRoot+'/uat/uia/egovLoginUsr.do';
+			top.location.href = $m._contextRoot+'/uat/uia/egovLoginUsr.do';
 		}
 		$('#session0').html(LOGINDT);
 		$('#session1').html("법인명 : "+CORP_NM);
 		$('#session2').html("사용자 : "+USER_ID);
-		moca.openMdi(mocaConfig._contextRoot+"/moca/comm/main.html","main","");
+		$m.openMdi(mocaConfig._contextRoot+"/moca/comm/main.html","main","");
 		
 		var menu_html = '';
-		if(moca.menu != null && moca.menu.length > 0){
-			for(var i=0; i < moca.menu.length ; i++){
-				var mmo = moca.menu[i];
-				menu_html += '<li menucd="'+mmo.cd+'"><button type="button" onclick="moca._func_header.gomenu(\''+mmo.cd+'\')">'+mmo.nm+'</button></li>';
+		if($m.menu != null && $m.menu.length > 0){
+			for(var i=0; i < $m.menu.length ; i++){
+				var mmo = $m.menu[i];
+				menu_html += '<li menucd="'+mmo.cd+'"><button type="button" onclick="$m._func_header.gomenu(\''+mmo.cd+'\')">'+mmo.nm+'</button></li>';
 			}
 		}
 		$('#gen_topmenu').html(menu_html);
@@ -46,11 +46,11 @@
 		
 	});
 
-	moca._func_header.gomenu = function(_topid){
-		moca.tree_mt("tree1",moca.menu,moca.menuObjs);	
-		if(moca.menu != null && moca.menu.length > 0){
-			for(var i=0; i < moca.menu.length ; i++){
-				var mmo = moca.menu[i];
+	$m._func_header.gomenu = function(_topid){
+		$m.tree_mt("tree1",$m.menu,$m.menuObjs);	
+		if($m.menu != null && $m.menu.length > 0){
+			for(var i=0; i < $m.menu.length ; i++){
+				var mmo = $m.menu[i];
 				if(mmo.cd == _topid){
 					mmo['open_close'] = 'open';
 					if($('#li'+_topid).find('ul').length != 0){
@@ -76,7 +76,7 @@
 				}
 			}
 		}
-		moca.tree_click('li'+_topid);
+		$m.tree_click('li'+_topid);
 	}
 </script>	
 </head>
@@ -85,11 +85,11 @@
 			<div class="gnb">
 				<ul class="info">
 					<li><i class="fas fa-user-circle info_photo mr5"></i><span class="mr10 bar" style="font-size:11.5px;" id="session0" ></span><span class="mr10 bar" style="font-size:11.5px;" id="session1" ></span><span style="font-size:11.5px;" id="session2"></span></li>
-					<li><button type="button" class="btn_logout ml10" style="font-size:11.5px" onclick="moca._func_header.fn_logout();">Logout</button></li>
+					<li><button type="button" class="btn_logout ml10" style="font-size:11.5px" onclick="$m._func_header.fn_logout();">Logout</button></li>
 				</ul>
 			</div>
 			<div class="moca_nav">
-				<h1 id="moca_main" ><!-- <h1 onclick="moca.goMain();" id="moca_main" > -->
+				<h1 id="moca_main" ><!-- <h1 onclick="$m.goMain();" id="moca_main" > -->
 					<img alt="logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAAAkCAYAAAAJgC2zAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6Nzk1QzE5NzIzNTY4MTFFQ0IzMUM5RjExMzk1NjI2NjMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6Nzk1QzE5NzMzNTY4MTFFQ0IzMUM5RjExMzk1NjI2NjMiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo3OTVDMTk3MDM1NjgxMUVDQjMxQzlGMTEzOTU2MjY2MyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo3OTVDMTk3MTM1NjgxMUVDQjMxQzlGMTEzOTU2MjY2MyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pjh5fpEAAAfiSURBVHja7FprbBRV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" />
 				</h1>
 				<nav>

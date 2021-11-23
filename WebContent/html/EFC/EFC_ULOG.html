@@ -2,61 +2,61 @@
 <html lang="ko">
 <head>
 <script>
-	moca.EFC_ULOG.___ready = function(){
-		moca.EFC_ULOG.code({},function(){
-			moca.EFC_ULOG.exe({
-				url : moca._domain+moca._contextRoot+"/efms/EFC_CORP/list_json.do",
+	$m.EFC_ULOG.___ready = function(){
+		$m.EFC_ULOG.code({},function(){
+			$m.EFC_ULOG.exe({
+				url : $m._domain+$m._contextRoot+"/efms/EFC_CORP/list_json.do",
 				loadingbar:true,
 	            data : {
-	            	"header" : moca.header,
+	            	"header" : $m.header,
 	            	"body" : {aaa:'111',bbb:'222'}
 	            },			
 				callback : function(response){
-					var g_obj = moca.EFC_ULOG.getObj('grd_1');
+					var g_obj = $m.EFC_ULOG.getObj('grd_1');
 					if(g_obj['CORP_CD'] == undefined){
 						g_obj['CORP_CD'] = {};
 						g_obj['CORP_CD']['codeOpt'] = {allOption:{label:'-선택-',value:''},metaInfo:{codeCd:"CORP_CD",codeNm:"CORP_NM"}};
 					} 
 					g_obj['CORP_CD']['list'] = response.list;
-					moca.EFC_ULOG.fn_search();
+					$m.EFC_ULOG.fn_search();
 				}
 			});	
 		});
 	};
 	
-	moca.EFC_ULOG.fn_search = function(_pageNum){
-		moca.EFC_ULOG.exe({
-			url : moca._domain+moca._contextRoot+"/efms/EFC_ULOG/list_json.do",
+	$m.EFC_ULOG.fn_search = function(_pageNum){
+		$m.EFC_ULOG.exe({
+			url : $m._domain+$m._contextRoot+"/efms/EFC_ULOG/list_json.do",
             data : {
-            	"header" : moca.header,
+            	"header" : $m.header,
             	"body" : {
-            		"limitFrom" : moca.getLimitFrom(moca.EFC_ULOG.getObj('grd_1')),
-	        		"limitPerPage" : moca.getLimitPerPage(moca.EFC_ULOG.getObj('grd_1')),
-            		USER_ID:moca.getValue(moca.EFC_ULOG.getObj( "USER_ID")),
-            		FROM:moca.EFC_ULOG.getFrom("ipc_3"),
-            		TO:moca.EFC_ULOG.getTo("ipc_3"),
+            		"limitFrom" : $m.getLimitFrom($m.EFC_ULOG.getObj('grd_1')),
+	        		"limitPerPage" : $m.getLimitPerPage($m.EFC_ULOG.getObj('grd_1')),
+            		USER_ID:$m.getValue($m.EFC_ULOG.getObj( "USER_ID")),
+            		FROM:$m.EFC_ULOG.getFrom("ipc_3"),
+            		TO:$m.EFC_ULOG.getTo("ipc_3"),
             	}
             },			
 			callback : function(response){
-				moca.EFC_ULOG.drawGrid('grd_1', moca.EFC_ULOG.getResList(response,"list"),response);
+				$m.EFC_ULOG.drawGrid('grd_1', $m.EFC_ULOG.getResList(response,"list"),response);
 			}
 		});
 	};
-	moca.EFC_ULOG.fn_exe = function(){
-		if(moca.EFC_ULOG.validate("grd_1","status","C,U,D")){
-			moca.confirm('저장하시겠습니까?',function(result){
+	$m.EFC_ULOG.fn_exe = function(){
+		if($m.EFC_ULOG.validate("grd_1","status","C,U,D")){
+			$m.confirm('저장하시겠습니까?',function(result){
 				if(result == 'Y'){
-					moca.EFC_ULOG.exe({
-						url : moca._domain+moca._contextRoot+"/efms/EFGPROP/modify_json.do",
+					$m.EFC_ULOG.exe({
+						url : $m._domain+$m._contextRoot+"/efms/EFGPROP/modify_json.do",
 			            data : {
-			            	"header" : moca.header,
+			            	"header" : $m.header,
 			            	"body" : {
-			            		paramList:moca.EFC_ULOG.getFilteredList("grd_1","status","C,U,D")
+			            		paramList:$m.EFC_ULOG.getFilteredList("grd_1","status","C,U,D")
 			            	}
 			            },		
 						callback : function(){
-			        	   moca.alert('성공적으로 저장되었습니다!',function(){
-			        		   moca.EFC_ULOG.fn_search();
+			        	   $m.alert('성공적으로 저장되었습니다!',function(){
+			        		   $m.EFC_ULOG.fn_search();
 			        	   	   return;
 			        	   });	
 						}
@@ -99,7 +99,7 @@
 					</div>
 				</div>
 				<div class="btn_shbox">
-					<button type="button" class="button btn_sc" onclick="moca.EFC_ULOG.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+					<button type="button" class="button btn_sc" onclick="$m.EFC_ULOG.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
 				</div>
 			</div>
 			
@@ -116,7 +116,7 @@
 								toolbar_full="true"
 								
 								label="사용로그목록"
-								paging='{"type":"numberList","listCntPerPage":"27","totalCntKey":"selectTotalCnt_EFGULOG","onPageClick":"moca.EFC_ULOG.fn_search", "pageGroupItemMax":"10"}'
+								paging='{"type":"numberList","listCntPerPage":"27","totalCntKey":"selectTotalCnt_EFGULOG","onPageClick":"$m.EFC_ULOG.fn_search", "pageGroupItemMax":"10"}'
 								
 			>
 					<table style="width: 100%">
@@ -136,7 +136,7 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td id="LAST_UPDT_PNTTM" celltype="input" style="" readOnly="true" name="사용일시" displayFunction="moca.longToDate"></td>
+								<td id="LAST_UPDT_PNTTM" celltype="input" style="" readOnly="true" name="사용일시" displayFunction="$m.longToDate"></td>
 								<td id="USER_ID" celltype="input" style="" readOnly="true" name="사용자"></td>
 								<td id="MENU_NM" celltype="input" style="text-align:left" readOnly="true" name="메뉴명"></td>
 								<td id="LABEL" celltype="input" style="text-align:left" readOnly="true" name="LABEL" tooltip="true"></td>

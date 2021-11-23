@@ -35,7 +35,7 @@
 <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="/fullcalendar/lib/fullcalendar.js"></script>
 <script>
-var moca = new Moca();
+var $m = new Moca();
 var param = {};
 
 <%
@@ -60,7 +60,7 @@ var param = {};
 %> 
 
 $(document).ready(function(args) {
-	//moca.popClose($('#'+param['__popid'],opener.document));
+	//$m.popClose($('#'+param['__popid'],opener.document));
 	$('#'+param['__popid'],opener.document).hide();
 	
 	/*
@@ -75,7 +75,7 @@ $(document).ready(function(args) {
 	}
 	
 	var srcid = $('#'+param['__popid'],opener.document).find('[srcid]').attr('srcid');
-	moca[srcid].args = opener.moca[srcid].args;
+	$m[srcid].args = opener.$m[srcid].args;
 	alert();debugger;
 	var targetObj = $('#'+param['__popid'],opener.document).clone();
 	var scriptContents = targetObj.find('script').html();
@@ -88,7 +88,7 @@ $(document).ready(function(args) {
 	.button.esc:hover{opacity:1}
 </style>
 </head>
-	<body onunload="moca.popUnload();">
+	<body onunload="$m.popUnload();">
 		<div>
 			<div type="include"  id="__popup" tag="moca:body" src="<%=mcsrc2%>" 
 			popupId="<%=paramMap.get("__popid")%>"  

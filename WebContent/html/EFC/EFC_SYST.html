@@ -2,58 +2,58 @@
 <html lang="ko">
 <head>
 <script>
-	moca.EFC_SYST.___ready = function(args){
-		moca.EFC_SYST.code({
+	$m.EFC_SYST.___ready = function(args){
+		$m.EFC_SYST.code({
 		},function(){
-			moca.EFC_SYST.exe({
-				url : moca._domain+moca._contextRoot+"/efms/EFC_CORP/list_json.do",
+			$m.EFC_SYST.exe({
+				url : $m._domain+$m._contextRoot+"/efms/EFC_CORP/list_json.do",
 				loadingbar:true,
 	            data : {
-	            	"header" : moca.header,
+	            	"header" : $m.header,
 	            	"body" : {aaa:'111',bbb:'222'}
 	            },			
 				callback : function(response){
-					var g_obj = moca.EFC_SYST.getObj('grd_1');
+					var g_obj = $m.EFC_SYST.getObj('grd_1');
 					if(g_obj['CORP_CD'] == undefined){
 						g_obj['CORP_CD'] = {};
 						g_obj['CORP_CD']['codeOpt'] = {allOption:{label:'-선택-',value:''},metaInfo:{codeCd:"CORP_CD",codeNm:"CORP_NM"}};
 					} 
 					g_obj['CORP_CD']['list'] = response.list;
-					moca.EFC_SYST.fn_search();
+					$m.EFC_SYST.fn_search();
 				}
 			});
 		});
 	};
 	
-	moca.EFC_SYST.fn_search = function(){
-		moca.EFC_SYST.exe({
-			url : moca._domain+moca._contextRoot+"/efms/EFC_SYST/list_json.do",
+	$m.EFC_SYST.fn_search = function(){
+		$m.EFC_SYST.exe({
+			url : $m._domain+$m._contextRoot+"/efms/EFC_SYST/list_json.do",
 			loadingbar:true,
             data : {
-            	"header" : moca.header,
-            	"body" : {SYS_NM:moca.getValue(moca.EFC_SYST.getObj( "SYS_NM"))}
+            	"header" : $m.header,
+            	"body" : {SYS_NM:$m.getValue($m.EFC_SYST.getObj( "SYS_NM"))}
             },			
 			callback : function(response){
-				var list = moca.EFC_SYST.getResList(response,"list");
-				moca.EFC_SYST.drawGrid('grd_1', list);
+				var list = $m.EFC_SYST.getResList(response,"list");
+				$m.EFC_SYST.drawGrid('grd_1', list);
 			}
 		});
 	};
-	moca.EFC_SYST.fn_exe = function(){
-		if(moca.EFC_SYST.validate("grd_1","status","C,U,D")){
-			moca.confirm('저장하시겠습니까?',function(result){
+	$m.EFC_SYST.fn_exe = function(){
+		if($m.EFC_SYST.validate("grd_1","status","C,U,D")){
+			$m.confirm('저장하시겠습니까?',function(result){
 				if(result == 'Y'){
-					moca.EFC_SYST.exe({
-						url : moca._domain+moca._contextRoot+"/efms/EFC_SYST/modify_json.do",
+					$m.EFC_SYST.exe({
+						url : $m._domain+$m._contextRoot+"/efms/EFC_SYST/modify_json.do",
 			            data : {
-			            	"header" : moca.header,
+			            	"header" : $m.header,
 			            	"body" : {
-			            		paramList:moca.EFC_SYST.getFilteredList("grd_1","status","C,U,D")
+			            		paramList:$m.EFC_SYST.getFilteredList("grd_1","status","C,U,D")
 			            	}
 			            },		
 						callback : function(){
-			        	   moca.alert('성공적으로 저장되었습니다!',function(){
-			        		   moca.EFC_SYST.fn_search();
+			        	   $m.alert('성공적으로 저장되었습니다!',function(){
+			        		   $m.EFC_SYST.fn_search();
 			        	   	   return;
 			        	   });	
 						}
@@ -86,7 +86,7 @@
 					</div>
 				</div>
 				<div class="btn_shbox">
-					<button type="button" class="button btn_sc" onclick="moca.EFC_SYST.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+					<button type="button" class="button btn_sc" onclick="$m.EFC_SYST.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
 				</div>
 			</div>
 			
@@ -99,7 +99,7 @@
 								toolbar_delrow="true"
 								toolbar_nextbtn="false"
 								toolbar_full="true"
-								toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"moca.EFC_SYST.fn_exe","addClass":""}'
+								toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"$m.EFC_SYST.fn_exe","addClass":""}'
 										
 								label="시스템목록"	
 			

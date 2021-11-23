@@ -42,8 +42,8 @@ var mocaConfig = {
 		}
 	},
 	callback_alowLeaveMember : function(){
-		moca.malert('탈퇴회원은 접근할수없습니다','',function(){
-			location.href = moca._contextRoot;
+		$m.malert('탈퇴회원은 접근할수없습니다','',function(){
+			location.href = $m._contextRoot;
 		});
 	},
 	url_ts_cost: function(){

@@ -18,18 +18,18 @@
 <script language="JavaScript" src="/moca/js/moca.js"></script>
 <script type="text/javascript" src="/moca/js/moca_ui.js"></script>
 <script type="text/javascript">
-var moca = new Moca();
-moca.EFC_CORP = {};
-moca.EFC_CORP.fn_search = function(){
-	moca.exe({
-		url : moca._domain+moca._contextRoot+"/efms/EFC_CORP/list_nosess_json.do",
+var $m = new Moca();
+$m.EFC_CORP = {};
+$m.EFC_CORP.fn_search = function(){
+	$m.exe({
+		url : $m._domain+$m._contextRoot+"/efms/EFC_CORP/list_nosess_json.do",
 		loadingbar:true,
         data : {
-        	"header" : moca.header,
+        	"header" : $m.header,
         	"body" : {}
         },			
 		callback : function(response){
-			var _list = moca.getResList(response,"list");
+			var _list = $m.getResList(response,"list");
 			var _html = '';
 			for(var i=0; i < _list.length; i++){
 				var row = _list[i];
@@ -58,9 +58,9 @@ function actionLogin() {
     	sessionStorage['CORP_CD'] = document.loginForm.CORP_CD.value;
     	sessionStorage['CORP_NM'] = $(document.loginForm).find('option:selected').text();
     	sessionStorage['USER_ID'] = document.loginForm.id.value;
-    	var _dt = moca.dateFormat(moca.now()).substring(0,10);
-    	var _time = moca.dateFormat(moca.now()).substring(11,16);
-    	var _weekday = dateLib.getDay(moca.now().charAt(moca.now().length-1),'han').replace(/요일/g,'');
+    	var _dt = $m.dateFormat($m.now()).substring(0,10);
+    	var _time = $m.dateFormat($m.now()).substring(11,16);
+    	var _weekday = dateLib.getDay($m.now().charAt($m.now().length-1),'han').replace(/요일/g,'');
     	sessionStorage['LOGINDT'] = _dt+'('+_weekday+') '+_time;
         document.loginForm.action="<c:url value='/uat/uia/actionSecurityLogin.do'/>";
         //document.loginForm.j_username.value = document.loginForm.userSe.value + document.loginForm.username.value;
@@ -105,7 +105,7 @@ function getid(form) {
 }
 
 function fnInit() {
-	moca.EFC_CORP.fn_search();
+	$m.EFC_CORP.fn_search();
     var message = document.loginForm.message.value;
     if (message != "") {
         alert(message);

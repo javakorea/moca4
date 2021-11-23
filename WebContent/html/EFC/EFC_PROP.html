@@ -3,58 +3,58 @@
 <head>
 <script>
 	
-	moca.EFC_PROP.___ready = function(){
-		moca.EFC_PROP.code({
+	$m.EFC_PROP.___ready = function(){
+		$m.EFC_PROP.code({
 			"grd_1.useAt":{code:'EFC001'},
 			"cmb_1":{code:'boardStatus'}
 		},function(){
-			moca.EFC_PROP.exe({
-				url : moca._domain+moca._contextRoot+"/efms/EFC_CORP/list_json.do",
+			$m.EFC_PROP.exe({
+				url : $m._domain+$m._contextRoot+"/efms/EFC_CORP/list_json.do",
 				loadingbar:true,
 	            data : {
-	            	"header" : moca.header,
+	            	"header" : $m.header,
 	            	"body" : {aaa:'111',bbb:'222'}
 	            },			
 				callback : function(response){
-					var g_obj = moca.EFC_PROP.getObj('grd_1');
+					var g_obj = $m.EFC_PROP.getObj('grd_1');
 					if(g_obj['CORP_CD'] == undefined){
 						g_obj['CORP_CD'] = {};
 						g_obj['CORP_CD']['codeOpt'] = {allOption:{label:'-선택-',value:''},metaInfo:{codeCd:"CORP_CD",codeNm:"CORP_NM"}};
 					} 
 					g_obj['CORP_CD']['list'] = response.list;
-					moca.EFC_PROP.fn_search();
+					$m.EFC_PROP.fn_search();
 				}
 			});				
 		});
 	};
 	
-	moca.EFC_PROP.fn_search = function(){
-		moca.EFC_PROP.exe({
-			url : moca._domain+moca._contextRoot+"/efms/EFGPROP/list_json.do",
+	$m.EFC_PROP.fn_search = function(){
+		$m.EFC_PROP.exe({
+			url : $m._domain+$m._contextRoot+"/efms/EFGPROP/list_json.do",
             data : {
-            	"header" : moca.header,
-            	"body" : {PROP_KEY:moca.getValue(moca.EFC_PROP.getObj( "PROP_KEY"))}
+            	"header" : $m.header,
+            	"body" : {PROP_KEY:$m.getValue($m.EFC_PROP.getObj( "PROP_KEY"))}
             },			
 			callback : function(response){
-				moca.EFC_PROP.drawGrid('grd_1', moca.EFC_PROP.getResList(response,"list"));
+				$m.EFC_PROP.drawGrid('grd_1', $m.EFC_PROP.getResList(response,"list"));
 			}
 		});
 	};
-	moca.EFC_PROP.fn_exe = function(){
-		if(moca.EFC_PROP.validate("grd_1","status","C,U,D")){
-			moca.confirm('저장하시겠습니까?',function(result){
+	$m.EFC_PROP.fn_exe = function(){
+		if($m.EFC_PROP.validate("grd_1","status","C,U,D")){
+			$m.confirm('저장하시겠습니까?',function(result){
 				if(result == 'Y'){
-					moca.EFC_PROP.exe({
-						url : moca._domain+moca._contextRoot+"/efms/EFGPROP/modify_json.do",
+					$m.EFC_PROP.exe({
+						url : $m._domain+$m._contextRoot+"/efms/EFGPROP/modify_json.do",
 			            data : {
-			            	"header" : moca.header,
+			            	"header" : $m.header,
 			            	"body" : {
-			            		paramList:moca.EFC_PROP.getFilteredList("grd_1","status","C,U,D")
+			            		paramList:$m.EFC_PROP.getFilteredList("grd_1","status","C,U,D")
 			            	}
 			            },		
 						callback : function(){
-			        	   moca.alert('성공적으로 저장되었습니다!',function(){
-			        		   moca.EFC_PROP.fn_search();
+			        	   $m.alert('성공적으로 저장되었습니다!',function(){
+			        		   $m.EFC_PROP.fn_search();
 			        	   	   return;
 			        	   });	
 						}
@@ -70,8 +70,8 @@
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	moca.EFC_PROP._openFileUpload = function() {
-		moca.popup({
+	$m.EFC_PROP._openFileUpload = function() {
+		$m.popup({
 			type:"POPUP",
 			modal:"false",
 			url:'/moca/comp/COMP_UPLD.html',
@@ -87,16 +87,16 @@
 			},
 			data:{
 				subDir:"EFC_PROP",
-				onFileSelected:"moca.EFC_PROP.onFileSelected"
+				onFileSelected:"$m.EFC_PROP.onFileSelected"
 			}
 		});
 	};
-	moca.EFC_PROP.onFileSelected = function(filename,filesize,_e,_this) {
+	$m.EFC_PROP.onFileSelected = function(filename,filesize,_e,_this) {
 		return true;//or false
 	};	
 
 	
-	moca.EFC_PROP.selectSetter = function(prev_v,prev_t,after_v,after_t) {
+	$m.EFC_PROP.selectSetter = function(prev_v,prev_t,after_v,after_t) {
 
 	};	
 	
@@ -143,7 +143,7 @@
 								<div type="searchCombo" 
 									id="scmb_1" 
 									class="moca_searchCombo" 
-									inneronchange="moca.EFC_PROP.selectSetter(this)" 
+									inneronchange="$m.EFC_PROP.selectSetter(this)" 
 									style="width:165px" 
 									readOnly="false"
 									displayFormat="[label]" 
@@ -156,8 +156,8 @@
 					</div>
 				</div>
 				<div class="btn_shbox">
-					<button type="button" class="button btn_sc" onclick="moca.EFC_PROP.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
-					<button type="button" class="button btn_sc" style="display:none" onclick="moca.EFC_PROP._openFileUpload(this)"><i class="fas fa-search"></i><span>파일첨부</span></button>
+					<button type="button" class="button btn_sc" onclick="$m.EFC_PROP.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+					<button type="button" class="button btn_sc" style="display:none" onclick="$m.EFC_PROP._openFileUpload(this)"><i class="fas fa-search"></i><span>파일첨부</span></button>
 				</div>
 			</div>
 			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
@@ -171,7 +171,7 @@
 								toolbar_nextbtn="false"
 								toolbar_full="true"
 								
-								toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"moca.EFC_PROP.fn_exe","addClass":"","innerDisabled":"false"}'
+								toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"$m.EFC_PROP.fn_exe","addClass":"","innerDisabled":"false"}'
 
 								label="시스템설정목록"
 			

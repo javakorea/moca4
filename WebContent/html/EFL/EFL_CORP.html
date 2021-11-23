@@ -3,8 +3,8 @@
 <head>
 <script>
 	$(document).ready(function() {
-		moca.init(function() {
-			moca.EFL_CORP.code({
+		$m.init(function() {
+			$m.EFL_CORP.code({
 				"grd_1.sttus" : {
 					code : 'COM013',
 					allOption : {
@@ -13,43 +13,43 @@
 					}
 				}
 			}, function() {
-				moca.EFL_CORP.fn_search();
+				$m.EFL_CORP.fn_search();
 			});
 		});
 	});
 
-	moca.EFL_CORP.fn_search = function() {
-		moca.EFL_CORP.exe({
-			url : moca._domain +moca._contextRoot+ "/uss/umt/user/EgovUserManage_json.do",
+	$m.EFL_CORP.fn_search = function() {
+		$m.EFL_CORP.exe({
+			url : $m._domain +$m._contextRoot+ "/uss/umt/user/EgovUserManage_json.do",
 			data : {
-				"header" : moca.header,
+				"header" : $m.header,
 				"body" : {
 					aaa : '111',
 					bbb : '222'
 				}
 			},
 			callback : function(response) {
-				moca.EFL_CORP.drawGrid('grd_1', moca.getResList(response, "list"));
+				$m.EFL_CORP.drawGrid('grd_1', $m.getResList(response, "list"));
 			}
 		});
 	};
-	moca.EFL_CORP.fn_exe = function() {
-		if (moca.EFL_CORP.validate("grd_1", "status", "C,U,D")) {
-			moca.confirm('저장하시겠습니까?', function(result) {
+	$m.EFL_CORP.fn_exe = function() {
+		if ($m.EFL_CORP.validate("grd_1", "status", "C,U,D")) {
+			$m.confirm('저장하시겠습니까?', function(result) {
 				if (result == 'Y') {
-					moca.EFL_CORP.exe({
-						url : moca._domain
-								+ moca._contextRoot+"/uss/umt/user/EgovUserModify_json.do",
+					$m.EFL_CORP.exe({
+						url : $m._domain
+								+ $m._contextRoot+"/uss/umt/user/EgovUserModify_json.do",
 						data : {
-							"header" : moca.header,
+							"header" : $m.header,
 							"body" : {
-								paramList : moca.getFilteredList("grd_1",
+								paramList : $m.getFilteredList("grd_1",
 										"status", "C,U,D")
 							}
 						},
 						callback : function() {
-							moca.alert('성공적으로 저장되었습니다!', function() {
-								moca.EFL_CORP.fn_search();
+							$m.alert('성공적으로 저장되었습니다!', function() {
+								$m.EFL_CORP.fn_search();
 								return;
 							});
 						}
@@ -190,7 +190,7 @@
 								<td id="sttus" celltype="select" style=""
 									displayFormat="[value] [label]" required="true"></td>
 								<td id="sbscrbDe" celltype="input" style="" readOnly="true"
-									displayFunction="moca.toMillDate" addRowEditable="false"></td>
+									displayFunction="$m.toMillDate" addRowEditable="false"></td>
 
 								<td id="moblphonNo" celltype="input" style="" readOnly="true"
 									required="true"></td>

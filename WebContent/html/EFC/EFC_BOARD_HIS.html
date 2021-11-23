@@ -2,57 +2,57 @@
 <html lang="ko">
 <head>
 <script>
-	moca.EFC_BOARD_HIS.___ready = function(args){
-		moca.EFC_BOARD_HIS.code({
+	$m.EFC_BOARD_HIS.___ready = function(args){
+		$m.EFC_BOARD_HIS.code({
             "grd_1.BOARDHIS_STATUS":{code:'crud'},
             "grd_1.BOARD_TYPE":{code:'boardType'},
             "grd_1.BOARD_SUPPORT":{code:'boardStatus'},
         },function(result){
         	var list = result['grd_1.BOARDHIS_STATUS'];
-        	moca.setCheckboxGroupList(moca.EFC_BOARD_HIS.getObj('chkg_1'),list,{label:"codeNm",value:"code",checked:true});
-        	moca.EFC_BOARD_HIS.fn_search();
+        	$m.setCheckboxGroupList($m.EFC_BOARD_HIS.getObj('chkg_1'),list,{label:"codeNm",value:"code",checked:true});
+        	$m.EFC_BOARD_HIS.fn_search();
         });
 	};
 	
-	moca.EFC_BOARD_HIS.fn_search = function(){
-	    moca.EFC_BOARD_HIS.exe({
-	        url : moca._domain+moca._contextRoot+"/EFC_BOARD_HIS/selectBoardHisList.do",
+	$m.EFC_BOARD_HIS.fn_search = function(){
+		$m.EFC_BOARD_HIS.exe({
+	        url : $m._domain+$m._contextRoot+"/EFC_BOARD_HIS/selectBoardHisList.do",
 	        loadingbar:true,
 	        data : {
-	            "header" : moca.header,
+	            "header" : $m.header,
 	            "body" : {
-	            	"BOARD_WRITER":moca.getValue(moca.EFC_BOARD_HIS.getObj( "ipt_WRITER")),
-	            	"BOARD_TITLE":moca.getValue(moca.EFC_BOARD_HIS.getObj( "ipt_TITLE")),
-	            	"BOARD_IDX":moca.getValue(moca.EFC_BOARD_HIS.getObj( "ipt_BOARDIDX")),
-	            	"FROM":moca.EFC_BOARD_HIS.getFrom("CREATE_DTTM").replace(/-/g,''),
-                    "TO":moca.EFC_BOARD_HIS.getTo("CREATE_DTTM").replace(/-/g,''),
-                    "statusList":moca.getCheckboxGroupCheckedList(moca.EFC_BOARD_HIS.getObj('chkg_1'))
+	            	"BOARD_WRITER":$m.getValue($m.EFC_BOARD_HIS.getObj( "ipt_WRITER")),
+	            	"BOARD_TITLE":$m.getValue($m.EFC_BOARD_HIS.getObj( "ipt_TITLE")),
+	            	"BOARD_IDX":$m.getValue($m.EFC_BOARD_HIS.getObj( "ipt_BOARDIDX")),
+	            	"FROM":$m.EFC_BOARD_HIS.getFrom("CREATE_DTTM").replace(/-/g,''),
+                    "TO":$m.EFC_BOARD_HIS.getTo("CREATE_DTTM").replace(/-/g,''),
+                    "statusList":$m.getCheckboxGroupCheckedList($m.EFC_BOARD_HIS.getObj('chkg_1'))
 	            }
 	        },          
 	        callback : function(response){
-	            moca.EFC_BOARD_HIS.drawGrid('grd_1',moca.getResList(response,"selectBoardHisList"));
+	        	$m.EFC_BOARD_HIS.drawGrid('grd_1',$m.getResList(response,"selectBoardHisList"));
 	        }
 	    });
 	};
 	
-	moca.EFC_BOARD_HIS.popId = "EFC_BOARD_POP";
-	moca.EFC_BOARD_HIS.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
+	$m.EFC_BOARD_HIS.popId = "EFC_BOARD_POP";
+	$m.EFC_BOARD_HIS.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 	    ['게시판이력상세']
 	    var _BoardTitle = _grd.list[rowIndex].BOARD_TITLE;
-	    var _BoardIdx = moca.getCellData(_grd,rowIndex,'BOARD_IDX');
-	    var _BoardHisIdx = moca.getCellData(_grd,rowIndex,'BOARDHIS_IDX');
-	    var _BoardHisStatus = moca.getCellViewData(_grd,rowIndex,'BOARDHIS_STATUS');
+	    var _BoardIdx = $m.getCellData(_grd,rowIndex,'BOARD_IDX');
+	    var _BoardHisIdx = $m.getCellData(_grd,rowIndex,'BOARDHIS_IDX');
+	    var _BoardHisStatus = $m.getCellViewData(_grd,rowIndex,'BOARDHIS_STATUS');
 	    
 	    var o = {};
-	    o.id = moca.EFC_BOARD_HIS.popId;
+	    o.id = $m.EFC_BOARD_HIS.popId;
 	    o.url = '/html/EFC/EFC_BOARD_HIS_POP.html';
 	    o.type = "POPUP";
 	    o.modal = "false";
 	    o.title = '게시판이력상세';
-	    o.callback = moca.EFC_BOARD_HIS.fn_pop_callback;
-	    o.scopeId = moca.EFC_BOARD_HIS.pageId;
+	    o.callback = $m.EFC_BOARD_HIS.fn_pop_callback;
+	    o.scopeId = $m.EFC_BOARD_HIS.pageId;
 	    o.data = {"BOARD_IDX":_BoardIdx+'',"BOARDHIS_IDX":_BoardHisIdx+'',"BOARD_TITLE":_BoardTitle,"BOARDHIS_STATUS":_BoardHisStatus};
-	    moca.popup(o,_grd);
+	    $m.popup(o,_grd);
 	};
 </script>
 
@@ -114,7 +114,7 @@
 					</div>
 				</div>
 				<div class="btn_shbox">
-					<button type="button" class="button btn_sc" onclick="moca.EFC_BOARD_HIS.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+					<button type="button" class="button btn_sc" onclick="$m.EFC_BOARD_HIS.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
 				</div>
 			</div>
 			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
@@ -128,7 +128,7 @@
 								toolbar_nextbtn="false"
 								toolbar_full="true"
 
-                                onDblClick = "moca.EFC_BOARD_HIS.grd_1__onDblClick"
+                                onDblClick = "$m.EFC_BOARD_HIS.grd_1__onDblClick"
 								label="게시물"
 			
 			>
@@ -158,7 +158,7 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td id="BOARDHIS_DATE" celltype="input" style="" name="작성일시" readOnly="true" displayFunction="moca.longToDate"></td>
+								<td id="BOARDHIS_DATE" celltype="input" style="" name="작성일시" readOnly="true" displayFunction="$m.longToDate"></td>
 								<td id="BOARD_TYPE" celltype="select" style="text-align:left" readOnly="true"  displayFormat="[value] [label]"  name="게시판유형"></td>
 								<td id="BOARD_SUPPORT" celltype="select" style="text-align:left" readOnly="true"  displayFormat="[value] [label]"  name="이력상태"></td>
 								<td id="BOARDHIS_IDX" celltype="input" style="" readOnly="true" name="이력ID"></td>

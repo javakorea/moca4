@@ -2,43 +2,43 @@
 <html lang="ko">
 <head>
 <script>
-	moca.EFC_MENU.___ready = function(args){
-		moca.EFC_MENU.code({
+	$m.EFC_MENU.___ready = function(args){
+		$m.EFC_MENU.code({
 			"grd_1.depth":{code:'EFC003'}
 		},function(){
-			moca.EFC_MENU.fn_search();
+			$m.EFC_MENU.fn_search();
 		});
 	};
 	
-	moca.EFC_MENU.fn_search = function(){
-		moca.EFC_MENU.exe({
-			url : moca._domain+moca._contextRoot+"/sym/mnu/mpm/EgovMenuManageSelect_json.do",
+	$m.EFC_MENU.fn_search = function(){
+		$m.EFC_MENU.exe({
+			url : $m._domain+$m._contextRoot+"/sym/mnu/mpm/EgovMenuManageSelect_json.do",
 			loadingbar:true,
             data : {
-            	"header" : moca.header,
+            	"header" : $m.header,
             	"body" : {aaa:'111',bbb:'222'}
             },			
 			callback : function(response){
-				var list = moca.EFC_MENU.getResList(response,"list");
-				moca.EFC_MENU.drawGrid('grd_1', list);
+				var list = $m.EFC_MENU.getResList(response,"list");
+				$m.EFC_MENU.drawGrid('grd_1', list);
 			}
 		});
 	};
-	moca.EFC_MENU.fn_exe = function(){
-		if(moca.EFC_MENU.validate("grd_1","status","C,U,D")){
-			moca.confirm('저장하시겠습니까?',function(result){
+	$m.EFC_MENU.fn_exe = function(){
+		if($m.EFC_MENU.validate("grd_1","status","C,U,D")){
+			$m.confirm('저장하시겠습니까?',function(result){
 				if(result == 'Y'){
-					moca.EFC_MENU.exe({
-						url : moca._domain+moca._contextRoot+"/sym/mnu/mpm/EgovMenuManageListModify_json.do",
+					$m.EFC_MENU.exe({
+						url : $m._domain+$m._contextRoot+"/sym/mnu/mpm/EgovMenuManageListModify_json.do",
 			            data : {
-			            	"header" : moca.header,
+			            	"header" : $m.header,
 			            	"body" : {
-			            		paramList:moca.EFC_MENU.getFilteredList("grd_1","status","C,U,D")
+			            		paramList:$m.EFC_MENU.getFilteredList("grd_1","status","C,U,D")
 			            	}
 			            },		
 						callback : function(){
-			        	   moca.alert('성공적으로 저장되었습니다!',function(){
-			        		   moca.EFC_MENU.fn_search();
+			        	   $m.alert('성공적으로 저장되었습니다!',function(){
+			        		   $m.EFC_MENU.fn_search();
 			        	   	   return;
 			        	   });	
 						}
@@ -48,26 +48,26 @@
 		}
 	};
 
-	moca.EFC_MENU.fn_callback = function(_json){
+	$m.EFC_MENU.fn_callback = function(_json){
 		if(_json != null){
 			var progrmFileNm = _json["progrmFileNm"];
-			var _grd = moca.EFC_MENU.getObj("grd_1");
-			moca.EFC_MENU.setCellData(_grd,_grd.getAttribute("selectedRealRowIndex"),"progrmFileNm",progrmFileNm);	
+			var _grd = $m.EFC_MENU.getObj("grd_1");
+			$m.EFC_MENU.setCellData(_grd,_grd.getAttribute("selectedRealRowIndex"),"progrmFileNm",progrmFileNm);	
 		}
 	};
-	moca.EFC_MENU.program_popId = 'EFC_PROG_POP';
-	moca.EFC_MENU.fn_searchProgram	 = function(_thisObj){
+	$m.EFC_MENU.program_popId = 'EFC_PROG_POP';
+	$m.EFC_MENU.fn_searchProgram	 = function(_thisObj){
 		var o = {};
-		o.id = moca.EFC_MENU.program_popId;
+		o.id = $m.EFC_MENU.program_popId;
 		o.url = "/html/EFC/EFC_PROG_POP.html";
 		o.type = "POPUP";
 		o.modal = "false";
 		o.title = '프로그램검색';
-		o.callback = moca.EFC_MENU.fn_callback;
-		o.scopeId = moca.EFC_MENU.pageId;
+		o.callback = $m.EFC_MENU.fn_callback;
+		o.scopeId = $m.EFC_MENU.pageId;
 		o.data = {};
 		
-		moca.popup(o,_thisObj);
+		$m.popup(o,_thisObj);
 		
 	};
 	
@@ -94,7 +94,7 @@
 					</div>
 				</div>
 				<div class="btn_shbox">
-					<button type="button" class="button btn_sc" onclick="moca.EFC_MENU.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+					<button type="button" class="button btn_sc" onclick="$m.EFC_MENU.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
 				</div>
 			</div>
 			 -->
@@ -107,7 +107,7 @@
 						toolbar_delrow="true"
 						toolbar_nextbtn="false"
 						toolbar_full="true"
-						toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"moca.EFC_MENU.fn_exe","addClass":""}'
+						toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"$m.EFC_MENU.fn_exe","addClass":""}'
 						
 						label="메뉴목록"
 			>
@@ -151,7 +151,7 @@
 								<td id="menuNo" celltype="input" style="" readOnly="true"  required="true" name="메뉴번호"></td>
 								<td id="menuNm" celltype="input" style="text-align:left" required="true" name="메뉴명"></td>
 								<td id="menuOrdr" celltype="input" style="text-align:center"  required="true" name="순서"></td>
-								<td id="progrmFileNm" celltype="inputButton" style="" required="true" callFunction="moca.EFC_MENU.fn_searchProgram" name="프로그램파일명"></td>
+								<td id="progrmFileNm" celltype="inputButton" style="" required="true" callFunction="$m.EFC_MENU.fn_searchProgram" name="프로그램파일명"></td>
 								<td id="menuDc" celltype="input" style="" name="설명"></td>
 								<td id="fromDate" celltype="input" style="" name="일자시작조건"></td>
 								<td id="toDate" celltype="input" style="" name="일자끝조건"></td>

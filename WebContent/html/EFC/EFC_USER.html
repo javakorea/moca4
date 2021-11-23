@@ -3,40 +3,40 @@
 <head>
 <script>
 	
-	moca.EFC_USER.___ready = function(args){
-		moca.EFC_USER.code({
+	$m.EFC_USER.___ready = function(args){
+		$m.EFC_USER.code({
 			"grd_1.sttus":{code:'COM013',allOption:{label:'-선택-',value:''}},
 			"grd_1.passwordHint":{code:'COM022',allOption:{label:'-선택-',value:''}}
 		},function(){
-			moca.EFC_USER.fn_codes();
+			$m.EFC_USER.fn_codes();
 		});			
 	};
 	
-	moca.EFC_USER.fn_codes = function(){
-		moca.EFC_USER.exe({
-			url : moca._domain+moca._contextRoot+"/uss/umt/user/selectGroupIdDetail.do",
+	$m.EFC_USER.fn_codes = function(){
+		$m.EFC_USER.exe({
+			url : $m._domain+$m._contextRoot+"/uss/umt/user/selectGroupIdDetail.do",
 			loadingbar:false,
             data : {
-            	"header" : moca.header,
+            	"header" : $m.header,
             	"body" : {}
             },			
 			callback : function(response){
-				var g_obj = moca.EFC_USER.getObj('grd_1');
+				var g_obj = $m.EFC_USER.getObj('grd_1');
 				if(g_obj['groupId'] == undefined){
 					g_obj['groupId'] = {};
 					g_obj['groupId']['codeOpt'] = {allOption:{label:'-선택-',value:''}};
 				} 
 				g_obj['groupId']['list'] = response.list;
 				
-				moca.EFC_USER.exe({
-					url : moca._domain+moca._contextRoot+"/uss/umt/user/selectOgrnztIdDetail.do",
+				$m.EFC_USER.exe({
+					url : $m._domain+$m._contextRoot+"/uss/umt/user/selectOgrnztIdDetail.do",
 					loadingbar:false,
 		            data : {
-		            	"header" : moca.header,
+		            	"header" : $m.header,
 		            	"body" : {}
 		            },			
 					callback : function(response2){
-						var g_obj = moca.EFC_USER.getObj('grd_1');
+						var g_obj = $m.EFC_USER.getObj('grd_1');
 						if(g_obj['orgnztId'] == undefined){
 							g_obj['orgnztId'] = {};
 							g_obj['orgnztId']['codeOpt'] = {allOption:{label:'-선택-',value:''}};
@@ -47,7 +47,7 @@
 							g_obj['orgnztId']['list'] = response2.list;
 						}
 						
-						moca.EFC_USER.fn_search();
+						$m.EFC_USER.fn_search();
 					}
 				});
 			}
@@ -55,45 +55,45 @@
 	};
 		
 		
-	moca.EFC_USER.fn_search = function(){
-		moca.EFC_USER.exe({
-			url : moca._domain+moca._contextRoot+"/uss/umt/user/EgovUserManage_json.do",
+	$m.EFC_USER.fn_search = function(){
+		$m.EFC_USER.exe({
+			url : $m._domain+$m._contextRoot+"/uss/umt/user/EgovUserManage_json.do",
 			loadingbar:true,
             data : {
-            	"header" : moca.header,
+            	"header" : $m.header,
             	"body" : {
-            		userId:moca.getValue(moca.EFC_USER.getObj("userId")),
-            		userNm:moca.getValue(moca.EFC_USER.getObj("userNm"))
+            		userId:$m.getValue($m.EFC_USER.getObj("userId")),
+            		userNm:$m.getValue($m.EFC_USER.getObj("userNm"))
             	}
             },			
 			callback : function(response){
-				var authorManageList = moca.EFC_USER.getResList(response,"authorManageList");
-				var g_obj = moca.EFC_USER.getObj('grd_1');
+				var authorManageList = $m.EFC_USER.getResList(response,"authorManageList");
+				var g_obj = $m.EFC_USER.getObj('grd_1');
 				if(g_obj['authorCode'] == undefined){
 					g_obj['authorCode'] = {};
 					g_obj['authorCode']['codeOpt'] = {allOption:{label:'-선택-',value:''},metaInfo:{codeCd:"authorCode",codeNm:"authorNm"}};
 				} 
 				g_obj['authorCode']['list'] = authorManageList;
-				var list = moca.EFC_USER.getResList(response,"list");
-				moca.EFC_USER.drawGrid('grd_1', list);
+				var list = $m.EFC_USER.getResList(response,"list");
+				$m.EFC_USER.drawGrid('grd_1', list);
 			}
 		});
 	};
-	moca.EFC_USER.fn_exe = function(){
-		if(moca.EFC_USER.validate("grd_1","status","C,U,D")){
-			moca.confirm('저장하시겠습니까?',function(result){
+	$m.EFC_USER.fn_exe = function(){
+		if($m.EFC_USER.validate("grd_1","status","C,U,D")){
+			$m.confirm('저장하시겠습니까?',function(result){
 				if(result == 'Y'){
-					moca.EFC_USER.exe({
-						url : moca._domain+moca._contextRoot+"/uss/umt/user/EgovUserModify_json.do",
+					$m.EFC_USER.exe({
+						url : $m._domain+$m._contextRoot+"/uss/umt/user/EgovUserModify_json.do",
 			            data : {
-			            	"header" : moca.header,
+			            	"header" : $m.header,
 			            	"body" : {
-			            		paramList:moca.EFC_USER.getFilteredList("grd_1","status","C,U,D")
+			            		paramList:$m.EFC_USER.getFilteredList("grd_1","status","C,U,D")
 			            	}
 			            },		
 						callback : function(){
-			        	   moca.alert('성공적으로 저장되었습니다!',function(){
-			        		   moca.EFC_USER.fn_search();
+			        	   $m.alert('성공적으로 저장되었습니다!',function(){
+			        		   $m.EFC_USER.fn_search();
 			        	   	   return;
 			        	   });	
 						}
@@ -104,9 +104,9 @@
 	};
 	
 	
-	moca.EFC_USER.selectChanged = function(row,col,beforeCode,beforeText,afterCode,afterText){
-		var grd = moca.EFC_USER.getObj('grd_1');
-		moca.setCellData(grd,row,'etc',beforeText+' to '+afterText);
+	$m.EFC_USER.selectChanged = function(row,col,beforeCode,beforeText,afterCode,afterText){
+		var grd = $m.EFC_USER.getObj('grd_1');
+		$m.setCellData(grd,row,'etc',beforeText+' to '+afterText);
 	};
 </script>
 
@@ -137,7 +137,7 @@
 					</div>
 				</div>
 				<div class="btn_shbox">
-					<button type="button" class="button btn_sc" onclick="moca.EFC_USER.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+					<button type="button" class="button btn_sc" onclick="$m.EFC_USER.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
 				</div>
 			</div>
 			
@@ -150,8 +150,8 @@
 								toolbar_delrow="true"
 								toolbar_nextbtn="false"
 								toolbar_full="true"
-								toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"moca.EFC_USER.fn_exe","addClass":""}'
-								onSelectChanged="moca.EFC_USER.selectChanged"
+								toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"$m.EFC_USER.fn_exe","addClass":""}'
+								onSelectChanged="$m.EFC_USER.selectChanged"
 								label="사용자목록"
 
 			>
@@ -192,11 +192,11 @@
 								<td id="authorCode" celltype="select" style="" name="권한" required="true" ></td>
 								<td id="orgnztId" celltype="select" style=""  required="true" name="법인코드"></td>
 								<td id="password" celltype="input" style="" required="true" name="비밀번호" ></td>
-								<td id="sbscrbDe" celltype="input" style="" readOnly="true"	displayFunction="moca.longToDate" addRowEditable="false" name="등록일"></td>
+								<td id="sbscrbDe" celltype="input" style="" readOnly="true"	displayFunction="$m.longToDate" addRowEditable="false" name="등록일"></td>
 								<td id="moblphonNo" 
 									celltype="input" 
 									keyMask="onlyPhone" style="text-align:left" name="핸드폰번호" readOnly="false"
-									displayFunction="moca.cellPhone" 
+									displayFunction="$m.cellPhone" 
 									displayFunctionApply="realtime"
 									maxLength="13"
 								></td>

@@ -4,42 +4,42 @@
 <script>
 	
 	$(document).ready(function() {
-		moca.init(function(){
-			moca.EFC_PREF.code({
+		$m.init(function(){
+			$m.EFC_PREF.code({
 				"grd_1.useAt":{code:'EFC001'}
 			},function(){
-				moca.EFC_PREF.fn_search();
+				$m.EFC_PREF.fn_search();
 			});
 		});
 	});
 	
-	moca.EFC_PREF.fn_search = function(){
-		moca.EFC_PREF.exe({
-			url : moca._domain+moca._contextRoot+"/sym/ccm/cca/EgovCcmCmmnCodeList_json.do",
+	$m.EFC_PREF.fn_search = function(){
+		$m.EFC_PREF.exe({
+			url : $m._domain+$m._contextRoot+"/sym/ccm/cca/EgovCcmCmmnCodeList_json.do",
             data : {
-            	"header" : moca.header,
+            	"header" : $m.header,
             	"body" : {aaa:'111',bbb:'222'}
             },			
 			callback : function(response){
-				moca.drawGrid('grd_1', moca.EFC_PREF.getResList(response,"list"));
+				$m.drawGrid('grd_1', $m.EFC_PREF.getResList(response,"list"));
 			}
 		});
 	};
-	moca.EFC_PREF.fn_exe = function(){
-		if(moca.EFC_PREF.validate("grd_1","status","C,U,D")){
-			moca.EFC_PREF.confirm('저장하시겠습니까?',function(result){
+	$m.EFC_PREF.fn_exe = function(){
+		if($m.EFC_PREF.validate("grd_1","status","C,U,D")){
+			$m.EFC_PREF.confirm('저장하시겠습니까?',function(result){
 				if(result == 'Y'){
-					moca.EFC_PREF.exe({
-						url : moca._domain+moca._contextRoot+"/sym/ccm/cca/EgovCcmCmmnCodeModify_json.do",
+					$m.EFC_PREF.exe({
+						url : $m._domain+$m._contextRoot+"/sym/ccm/cca/EgovCcmCmmnCodeModify_json.do",
 			            data : {
-			            	"header" : moca.header,
+			            	"header" : $m.header,
 			            	"body" : {
-			            		paramList:moca.EFC_PREF.getFilteredList("grd_1","status","C,U,D")
+			            		paramList:$m.EFC_PREF.getFilteredList("grd_1","status","C,U,D")
 			            	}
 			            },		
 						callback : function(){
-			        	   moca.alert('성공적으로 저장되었습니다!',function(){
-			        		   moca.EFC_PREF.fn_search();
+			        	   $m.alert('성공적으로 저장되었습니다!',function(){
+			        		   $m.EFC_PREF.fn_search();
 			        	   	   return;
 			        	   });	
 						}
@@ -69,7 +69,7 @@
 				</div>
 				<div class="btns_wrap">
 					<div class="grp_funcbtns">
-						<a class="btn" href="javascript:void(0)" onclick="moca.EFC_PREF.fn_exe()">처리</a>
+						<a class="btn" href="javascript:void(0)" onclick="$m.EFC_PREF.fn_exe()">처리</a>
 					</div>
 					<div class="grp_combtns">
 						<a class="btn reset">화면지움</a>
@@ -90,7 +90,7 @@
 					</table>
 				</div>
 				<div class="btn_shbox">
-					<button type="button" class="button btn_sc" onclick="moca.EFC_PREF.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+					<button type="button" class="button btn_sc" onclick="$m.EFC_PREF.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
 				</div>
 			</div>
 			

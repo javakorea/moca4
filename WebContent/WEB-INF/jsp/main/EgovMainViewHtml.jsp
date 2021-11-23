@@ -81,15 +81,15 @@ if(userAgent.indexOf("MOBI") > -1 || userAgent.indexOf("IPHONE") > -1   || userA
 			
 %>
 <script>
-var moca = new Moca();
-moca.menuObjs_ori = {};
-moca.menuObjs = {};
-moca.menu = [];
-moca.shortcut = [];
-moca.shortcut2 = [];
-moca.keyboard = {};
+var $m = new Moca();
+$m.menuObjs_ori = {};
+$m.menuObjs = {};
+$m.menu = [];
+$m.shortcut = [];
+$m.shortcut2 = [];
+$m.keyboard = {};
 
-moca.setSession("authorCode",'<%=authorCodeString%>');
+$m.setSession("authorCode",'<%=authorCodeString%>');
 $(document).ready(function() {
 	$('body').attr("spellcheck",false);
 	<%
@@ -104,8 +104,8 @@ $(document).ready(function() {
 					open_close = "open";
 				}
 	%>
-				moca.menu.push({cd: "<%=row.get("menuNo").toString()%>", nm: "<%=row.get("menuNm").toString()%>", level:<%=row.get("depth").toString()%>,open_close:"<%=open_close%>", shortCut:"<%=row.get("shortcut")%>", url:"<%=row.get("progrmStrePath").toString()%>"});
-				moca.menuObjs["<%=row.get("menuNo").toString()%>"] = [];			
+				$m.menu.push({cd: "<%=row.get("menuNo").toString()%>", nm: "<%=row.get("menuNm").toString()%>", level:<%=row.get("depth").toString()%>,open_close:"<%=open_close%>", shortCut:"<%=row.get("shortcut")%>", url:"<%=row.get("progrmStrePath").toString()%>"});
+				$m.menuObjs["<%=row.get("menuNo").toString()%>"] = [];			
 				<%-- ////depth1 단축키///
 				var a = '<%=row.get("shortcut")%>';
 				var array = a.split("+");
@@ -116,12 +116,12 @@ $(document).ready(function() {
 				}else if(array[0] != null && a != 'null' && a != ''){
 					c = '<span class="shortcut"><i>'+array[0].replace(/\s/g,'')+'</i></span>';		
 				};
-				moca.shortcut2.push({key: '<%=row.get("menuNm").toString()%>',val:c});
+				$m.shortcut2.push({key: '<%=row.get("menuNm").toString()%>',val:c});
 				///////////////////// --%>
 	<%			
 			}else{
 	%>
-				moca.menuObjs["<%=row.get("upperMenuNo").toString()%>"].push({cd: "<%=row.get("menuNo").toString()%>", nm: "<%=row.get("menuNm").toString()%>", level: <%=row.get("depth").toString()%>, url:"<%=row.get("progrmStrePath").toString()%>", fromDate:"<%=row.get("fromdate")%>", toDate:"<%=row.get("todate")%>", shortCut:"<%=row.get("shortcut")%>"});			
+				$m.menuObjs["<%=row.get("upperMenuNo").toString()%>"].push({cd: "<%=row.get("menuNo").toString()%>", nm: "<%=row.get("menuNm").toString()%>", level: <%=row.get("depth").toString()%>, url:"<%=row.get("progrmStrePath").toString()%>", fromDate:"<%=row.get("fromdate")%>", toDate:"<%=row.get("todate")%>", shortCut:"<%=row.get("shortcut")%>"});			
 				//단축키데이터객체만들기//////////////////////////////////////////////////////////////////////////
 				var a = '<%=row.get("shortcut")%>';
 				var array = a.split("+");
@@ -132,8 +132,8 @@ $(document).ready(function() {
 				}else if(array[0] != null && a != 'null' && a != ''){
 					c = '<span class="shortcut"><i>'+array[0].replace(/\s/g,'').toUpperCase()+'</i></span>';		
 				}
-				moca.shortcut.push({key: 'li<%=row.get("menuNo").toString()%>',val:c});
-				moca.keyboard[a.toUpperCase().replace(/\s/g,'')] = 'li<%=row.get("menuNo").toString()%>';
+				$m.shortcut.push({key: 'li<%=row.get("menuNo").toString()%>',val:c});
+				$m.keyboard[a.toUpperCase().replace(/\s/g,'')] = 'li<%=row.get("menuNo").toString()%>';
 	
 	
 	////////////////////////////////////////////////////////////////////////////////////////////
@@ -143,22 +143,22 @@ $(document).ready(function() {
 	%>
 
 
-	moca.menuObjs_ori = JSON.parse( JSON.stringify( moca.menuObjs ) );
+	$m.menuObjs_ori = JSON.parse( JSON.stringify( $m.menuObjs ) );
 	
     window.addEventListener("keydown",function(event){
         event.stopPropagation();
     })
 	$(document).keydown(function(e) {
 		if(event.srcElement.tagName != 'INPUT'){
-			if(moca.nowGrd != null){
+			if($m.nowGrd != null){
 				//그리드 위아래 키 이벤트
-				var selectedRealRowIndex = moca.nowGrd.getAttribute("selectedRealRowIndex");
+				var selectedRealRowIndex = $m.nowGrd.getAttribute("selectedRealRowIndex");
 				var reIndex = 0;
 				if(event.which == '40' || event.which == '38' ){
 					if(event.which == '40'){ //up키
 						reIndex = Number(selectedRealRowIndex)+1;
-						if(reIndex > moca.nowGrd.list.length-1){
-							reIndex = moca.nowGrd.list.length-1;
+						if(reIndex > $m.nowGrd.list.length-1){
+							reIndex = $m.nowGrd.list.length-1;
 						}
 					}else if(event.which == '38'){ //down키
 						reIndex = Number(selectedRealRowIndex)-1;
@@ -166,18 +166,18 @@ $(document).ready(function() {
 							reIndex = 0;
 						}
 					}
-					moca.nowGrd.setAttribute("selectedRealRowIndex",reIndex);
-					moca._setRowSelection(moca.nowGrd);
-					if($(moca.nowGrd).attr('onrowselected')){
-						var nowColTd = $(moca.nowGrd).find('td[id='+moca.nowColId+']')[selectedRealRowIndex];
-						eval($(moca.nowGrd).attr('onrowselected'))(moca.nowGrd,selectedRealRowIndex,nowColTd,moca.nowGrd);
+					$m.nowGrd.setAttribute("selectedRealRowIndex",reIndex);
+					$m._setRowSelection($m.nowGrd);
+					if($($m.nowGrd).attr('onrowselected')){
+						var nowColTd = $($m.nowGrd).find('td[id='+$m.nowColId+']')[selectedRealRowIndex];
+						eval($($m.nowGrd).attr('onrowselected'))($m.nowGrd,selectedRealRowIndex,nowColTd,$m.nowGrd);
 					}
 					
 				}
 				if(event.which == '13'){ //enter
-					if($(moca.nowGrd).attr('ondblclick')){
-						var nowColTd = $(moca.nowGrd).find('td[id='+moca.nowColId+']')[selectedRealRowIndex];
-						eval($(moca.nowGrd).attr('ondblclick'))(moca.nowGrd,selectedRealRowIndex,nowColTd,moca.nowGrd);
+					if($($m.nowGrd).attr('ondblclick')){
+						var nowColTd = $($m.nowGrd).find('td[id='+$m.nowColId+']')[selectedRealRowIndex];
+						eval($($m.nowGrd).attr('ondblclick'))($m.nowGrd,selectedRealRowIndex,nowColTd,$m.nowGrd);
 					}
 				}
 			}
@@ -188,9 +188,9 @@ $(document).ready(function() {
 			event.stopImmediatePropagation();
 			if(111 < event.which && event.which < 124 && event.which != 116){//Function Key일경우
 				e.preventDefault();
-				menuId = moca.keyboard['F'+ (event.which-111)];
+				menuId = $m.keyboard['F'+ (event.which-111)];
 				$('.leaf.active').removeClass('active');
-				moca.tree_click(menuId);
+				$m.tree_click(menuId);
 				$('.leaf.active').parent().parent().addClass('moca_tree_open');
 			}else{
 			    if(event.which != 16 && event.which != 17 && event.which != 18){
@@ -199,25 +199,25 @@ $(document).ready(function() {
 			    		return;
 			    	}else if( event.shiftKey ) {
 			        	e.preventDefault();
-			        	menuId = moca.keyboard[("SHIFT+"+String.fromCharCode(event.which)).toUpperCase()];
+			        	menuId = $m.keyboard[("SHIFT+"+String.fromCharCode(event.which)).toUpperCase()];
 			        }else if( event.ctrlKey ) {
 			        	var c = String.fromCharCode(event.which).toUpperCase();
 			        	if(c == "C" || c == "V"){
 			        		return;
 			        	}else{
 				        	e.preventDefault();
-				        	menuId = moca.keyboard[("CTRL+"+ c)];		        		
+				        	menuId = $m.keyboard[("CTRL+"+ c)];		        		
 			        	}
 			        }else if( event.altKey ) {
 			        	e.preventDefault();
-			        	menuId = moca.keyboard[("ALT+"+String.fromCharCode(event.which)).toUpperCase()];
+			        	menuId = $m.keyboard[("ALT+"+String.fromCharCode(event.which)).toUpperCase()];
 			        }else if(!event.shiftKey && !event.ctrlKey && !event.altKey){
-			        	menuId = moca.keyboard[String.fromCharCode(event.which)];
+			        	menuId = $m.keyboard[String.fromCharCode(event.which)];
 			        }  
 			    	
 			        if(menuId != null){
 			        	$('.leaf.active').removeClass('active');
-			        	moca.tree_click(menuId);
+			        	$m.tree_click(menuId);
 			        	$('.leaf.active').parent().parent().addClass('moca_tree_open');
 			        }
 			    }

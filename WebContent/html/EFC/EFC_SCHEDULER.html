@@ -4,35 +4,35 @@
 <link href='/fullcalendar/lib/main.css' rel='stylesheet' />
 <script src='/fullcalendar/lib/main.js'></script>
 <script>
-moca.EFC_SCHEDULER.calendar;
-moca.EFC_SCHEDULER.___ready = function(){
-	moca.EFC_SCHEDULER.fn_search();
+$m.EFC_SCHEDULER.calendar;
+$m.EFC_SCHEDULER.___ready = function(){
+	$m.EFC_SCHEDULER.fn_search();
 };
 
 
-moca.EFC_SCHEDULER.fn_search = function(_callbackJson){
-	var _showMonth = moca.dateToString(new Date()).월;
+$m.EFC_SCHEDULER.fn_search = function(_callbackJson){
+	var _showMonth = $m.dateToString(new Date()).월;
 	if(_callbackJson != null){
-		_showMonth = moca.dateToString(new Date(_callbackJson.startDt)).월
+		_showMonth = $m.dateToString(new Date(_callbackJson.startDt)).월
 	}
-    moca.EFC_SCHEDULER.exe({
-        url : moca._domain+moca._contextRoot+"/EFC_SCHEDULER/selectScheduleList.do",
+    $m.EFC_SCHEDULER.exe({
+        url : $m._domain+$m._contextRoot+"/EFC_SCHEDULER/selectScheduleList.do",
         loadingbar:true,
         data : {
-            "header" : moca.header,
+            "header" : $m.header,
             "body" : {
             	"SCH_CURRENTMONTH":_showMonth,
-            	"CORP_CD":moca.getSs("CORP_CD")
+            	"CORP_CD":$m.getSs("CORP_CD")
             }
         },          
         callback : function(response){
-        	moca.EFC_SCHEDULER.fn_setSchedule(response,_callbackJson);
+        	$m.EFC_SCHEDULER.fn_setSchedule(response,_callbackJson);
         }
     });
 	
 };
 
-moca.EFC_SCHEDULER.fn_setSchedule = function(response,_callbackJson){
+$m.EFC_SCHEDULER.fn_setSchedule = function(response,_callbackJson){
 	['캘린더세팅']
 	var _defaultView = 'dayGridMonth';
 	var _defaultDate;
@@ -52,7 +52,7 @@ moca.EFC_SCHEDULER.fn_setSchedule = function(response,_callbackJson){
 				'groupId':_schOriArray[i].SCH_IDX,
 		}
 	}
-	var calendarEl = moca.EFC_SCHEDULER.getObj('calendar');
+	var calendarEl = $m.EFC_SCHEDULER.getObj('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
     	headerToolbar: {
             left: 'prevBtn,nextBtn todayBtn',
@@ -63,28 +63,28 @@ moca.EFC_SCHEDULER.fn_setSchedule = function(response,_callbackJson){
         	prevBtn:{
         		text:'<',
         		click: function(info){
-        			moca.EFC_SCHEDULER.calendar.prev();
-        			var _startDt = moca.EFC_SCHEDULER.calendar.getDate();
-        			var _callbackJson = {"startDt":_startDt,"viewType":moca.EFC_SCHEDULER.calendar.currentData.currentViewType};
-        			moca.EFC_SCHEDULER.fn_search(_callbackJson);
+        			$m.EFC_SCHEDULER.calendar.prev();
+        			var _startDt = $m.EFC_SCHEDULER.calendar.getDate();
+        			var _callbackJson = {"startDt":_startDt,"viewType":$m.EFC_SCHEDULER.calendar.currentData.currentViewType};
+        			$m.EFC_SCHEDULER.fn_search(_callbackJson);
         		}
         	},
         	nextBtn:{
         		text:'>',
         		click: function(info){
-        			moca.EFC_SCHEDULER.calendar.next();
-        			var _startDt = moca.EFC_SCHEDULER.calendar.getDate();
-        			var _callbackJson = {"startDt":_startDt,"viewType":moca.EFC_SCHEDULER.calendar.currentData.currentViewType};
-        			moca.EFC_SCHEDULER.fn_search(_callbackJson);
+        			$m.EFC_SCHEDULER.calendar.next();
+        			var _startDt = $m.EFC_SCHEDULER.calendar.getDate();
+        			var _callbackJson = {"startDt":_startDt,"viewType":$m.EFC_SCHEDULER.calendar.currentData.currentViewType};
+        			$m.EFC_SCHEDULER.fn_search(_callbackJson);
         		}
         	},
         	todayBtn:{
         		text:'오늘',
         		click: function(info){
-        			moca.EFC_SCHEDULER.calendar.today();
-        			var _startDt = moca.EFC_SCHEDULER.calendar.getDate();
-        			var _callbackJson = {"startDt":_startDt,"viewType":moca.EFC_SCHEDULER.calendar.currentData.currentViewType};
-        			moca.EFC_SCHEDULER.fn_search(_callbackJson);
+        			$m.EFC_SCHEDULER.calendar.today();
+        			var _startDt = $m.EFC_SCHEDULER.calendar.getDate();
+        			var _callbackJson = {"startDt":_startDt,"viewType":$m.EFC_SCHEDULER.calendar.currentData.currentViewType};
+        			$m.EFC_SCHEDULER.fn_search(_callbackJson);
         		}
         	}
         },
@@ -100,13 +100,13 @@ moca.EFC_SCHEDULER.fn_setSchedule = function(response,_callbackJson){
         dayHeaderContent: function (date) {
         	let weekList = ["일", "월", "화", "수", "목", "금", "토"];
         	if(date.view.type == 'timeGridWeek'){
-        		var _dateObj = moca.dateToString(date.date);
+        		var _dateObj = $m.dateToString(date.date);
         		var _dateStr = _dateObj.월+"/"+_dateObj.일;
         		for(var i=0; i < weekList.length ; i++ ){
         			weekList[i] = _dateStr+" "+ weekList[i]
         		}
         	}else if(date.view.type == 'timeGridDay'){
-        		var _dateObj = moca.dateToString(date.date);
+        		var _dateObj = $m.dateToString(date.date);
         		var _dateStr = _dateObj.월+"/"+_dateObj.일;
         		for(var i=0; i < weekList.length ; i++ ){
         			weekList[i] = _dateStr+" "+ weekList[i];
@@ -127,21 +127,21 @@ moca.EFC_SCHEDULER.fn_setSchedule = function(response,_callbackJson){
       	initialView: _defaultView,
       	selectable: true,
       	select: function(info){
-      		moca.EFC_SCHEDULER.fn_addSchedule(info,'C');
+      		$m.EFC_SCHEDULER.fn_addSchedule(info,'C');
       	},
       	events: _schArray,
       	eventClick:function(info) {
-      		moca.EFC_SCHEDULER.fn_addSchedule(info,'R');
+      		$m.EFC_SCHEDULER.fn_addSchedule(info,'R');
         },
         longPressDelay:10
     });
     calendar.render();
-    moca.EFC_SCHEDULER.calendar = calendar;
+    $m.EFC_SCHEDULER.calendar = calendar;
    
 }
 
-moca.EFC_SCHEDULER.popId = "EFC_SCHEDULER_POP";
-moca.EFC_SCHEDULER.fn_addSchedule = function(_valueObj,_status){
+$m.EFC_SCHEDULER.popId = "EFC_SCHEDULER_POP";
+$m.EFC_SCHEDULER.fn_addSchedule = function(_valueObj,_status){
 	['일정등록 팝업']
 	var _title = '';
 	var _start = '';
@@ -152,11 +152,11 @@ moca.EFC_SCHEDULER.fn_addSchedule = function(_valueObj,_status){
 	var _bgcolor = '';
     if(_status == 'C'){
     	_title = '일정등록';
-    	_start = moca.dateToString(_valueObj.start).fullFormat;
+    	_start = $m.dateToString(_valueObj.start).fullFormat;
     	if(_valueObj.view.type == 'dayGridMonth'){
-    		_end = moca.fullToMocaDT(moca.dateToString(_valueObj.end).fullFormat);
+    		_end = $m.fullToMocaDT($m.dateToString(_valueObj.end).fullFormat);
     	}else{
-    		_end = moca.dateToString(_valueObj.end).fullFormat;
+    		_end = $m.dateToString(_valueObj.end).fullFormat;
     	}
     }else{
     	_title = '일정상세';
@@ -165,8 +165,8 @@ moca.EFC_SCHEDULER.fn_addSchedule = function(_valueObj,_status){
     	var _startDate = new Date(oriStartDate.setHours(oriStartDate.getHours() - 9));
     	var _endDate = new Date(oriEndDate.setHours(oriEndDate.getHours() - 9));
     	
-    	_start = moca.dateToString(_startDate).fullFormat;
-    	_end = moca.dateToString(_endDate).fullFormat;
+    	_start = $m.dateToString(_startDate).fullFormat;
+    	_end = $m.dateToString(_endDate).fullFormat;
     	_schTitle = _valueObj.event._def.title;
     	_schIdx = _valueObj.event._def.groupId;
     	_bgcolor = _valueObj.event.backgroundColor;
@@ -174,13 +174,13 @@ moca.EFC_SCHEDULER.fn_addSchedule = function(_valueObj,_status){
     
     
     var o = {};
-    o.id = moca.EFC_SCHEDULER.popId;
+    o.id = $m.EFC_SCHEDULER.popId;
     o.url = '/html/EFC/EFC_SCHEDULER_POP.html';
     o.type = "POPUP";
     o.modal = "true";
     o.title = _title;
-    o.callback = moca.EFC_SCHEDULER.fn_pop_callback;
-    o.scopeId = moca.EFC_SCHEDULER.pageId;
+    o.callback = $m.EFC_SCHEDULER.fn_pop_callback;
+    o.scopeId = $m.EFC_SCHEDULER.pageId;
     o.data = {
  		'start' : _start,
  		'end'   : _end,
@@ -190,19 +190,19 @@ moca.EFC_SCHEDULER.fn_addSchedule = function(_valueObj,_status){
  		'viewType':_valueObj.view.type,
  		'bgcolor':_bgcolor
     }
-    var _thisObj = moca.EFC_SCHEDULER.getObj('calendar');
-    moca.popup(o,_thisObj);
+    var _thisObj = $m.EFC_SCHEDULER.getObj('calendar');
+    $m.popup(o,_thisObj);
 }
 
-moca.EFC_SCHEDULER.fn_pop_callback = function(_json){
+$m.EFC_SCHEDULER.fn_pop_callback = function(_json){
 	if(_json != null && _json.message){
-		moca.alert(_json.message);
+		$m.alert(_json.message);
 	}
 	if(_json != null && _json.callback == 'true' && _json.viewType && _json.startDt){
 		var _callbackJson = {};
 		_callbackJson.viewType = _json.viewType;
 		_callbackJson.startDt = _json.startDt;
-		moca.EFC_SCHEDULER.fn_search(_callbackJson);
+		$m.EFC_SCHEDULER.fn_search(_callbackJson);
 	}
 }
 

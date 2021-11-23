@@ -2,23 +2,23 @@
 <html lang="ko">
 <head>
 <script>
-moca.titlebox.___ready = function(args){
+$m.titlebox.___ready = function(args){
 	var _mdiId = $(args.parent).attr('pageid');
-	$(args.parent).find('.grp_combtns > .winpop').attr('onclick',"moca.mdiChange('"+_mdiId+"')");
+	$(args.parent).find('.grp_combtns > .winpop').attr('onclick',"$m.mdiChange('"+_mdiId+"')");
 	var p = $(args.parent);
-	var is = moca.getIncludeScope(p,this);
+	var is = $m.getIncludeScope(p,this);
 	var data = JSON.parse(p.attr("data"));
 	
 	if(opener){
 		data = JSON.parse($('#'+'titbox',opener.document).attr('data'));
-		moca.hide($('.grp_combtns'));
+		$m.hide($('.grp_combtns'));
 	}
 	is.find('#sreenCd').html(data.sreenCd);
 	is.find('#sreenNm').html(data.sreenNm);
-	if(moca.trim(data.sreenPath) != ''){
-		var arr = moca.trim(data.sreenPath).split(',');
+	if($m.trim(data.sreenPath) != ''){
+		var arr = $m.trim(data.sreenPath).split(',');
 		if(arr != null && arr.length > 0){
-			var str = '<em class="mr7"><i class="fas fa-grip-lines-vertical"></i></em><img src="'+moca._contextRoot+'/images/ico_home.png" class="mr7">';
+			var str = '<em class="mr7"><i class="fas fa-grip-lines-vertical"></i></em><img src="'+$m._contextRoot+'/images/ico_home.png" class="mr7">';
 			for(var i=0; i < arr.length; i++){
 				str += '<em class="mr7"><i class="fas fa-angle-right"></i></em><span class="mr7">'+arr[i]+'</span>';
 			}
@@ -27,7 +27,7 @@ moca.titlebox.___ready = function(args){
 	}
 	try{
 		var addition = JSON.parse(p.attr("addition"));
-		var additionObj = moca.getAdditionTag(addition);
+		var additionObj = $m.getAdditionTag(addition);
 		var basis = p.closest('[tab_id]');
 		basis.find('.moca_addtion_area>.lta').html(additionObj.left);
 		basis.find('.moca_addtion_area>.rta').html(additionObj.right);
@@ -49,7 +49,7 @@ moca.titlebox.___ready = function(args){
 		</div>
 		<div class="grp_combtns fr">
 			<a class="btn winpop" onclick="" style="">윈도우팝업</a>
-			<a class="btn close" onclick="moca.tabClose(this)" style="margin-left:10px">화면닫기</a>
+			<a class="btn close" onclick="$m.tabClose(this)" style="margin-left:10px">화면닫기</a>
 		</div>
 		<div class="moca_addtion_area">
 			<div class="lta">

@@ -13,7 +13,7 @@
 <script language="JavaScript" src="./js/moca.js"></script>
 <script>
 $(document).ready(function() {
-	//moca.openMdi("../../moca/comm/main.html","main","");
+	//$m.openMdi("../../moca/comm/main.html","main","");
 	
 });
 </script>
@@ -24,9 +24,9 @@ $(document).ready(function() {
 				<div class="ly_column col_5">
 					<div id="mdi_1" class="moca_tab moca_mdi">
 						<div class="moca_tab_head">
-							<!-- <div class="moca_tab_home" onclick="moca.goMain();" id="moca_main" style="cursor:pointer"></div> -->
+							<!-- <div class="moca_tab_home" onclick="$m.goMain();" id="moca_main" style="cursor:pointer"></div> -->
 						<!-- <button type="button" class="moca_tab_left" title="왼쪽으로스크롤">왼쪽으로 스크롤</button> -->
-							<div class="moca_tab_listarea" droppable="true" ondrop="moca.drop_mdi(this)" ondragover="moca.dragOver_mdi(this)">
+							<div class="moca_tab_listarea" droppable="true" ondrop="$m.drop_mdi(this)" ondragover="$m.dragOver_mdi(this)">
 								<div class="moca_tab_scroll">
 									<ul role="tablist" class="moca_tab_ul" id="mdi_1_ul">
 									</ul>
@@ -35,20 +35,20 @@ $(document).ready(function() {
 						<!-- <button type="button" class="moca_tab_right" title="오른쪽으로스크롤">오른쪽으로 스크롤</button> -->
 							<div class="moca_tab_control">
 							<!-- <button type="button" class="moca_tab_menulist" style="">탭메뉴리스트</button> -->
-								<button type="button" class="moca_tab_division" onclick="moca.changeMdi(this);" title="mdi분할" id="btn_division">mdi분할</button>
-								<button type="button" class="moca_tab_allclose" onclick="moca.all_tab_close(this);" title="전체닫기" id="btn_close_mdi_1">전체닫기</button>
+								<button type="button" class="moca_tab_division" onclick="$m.changeMdi(this);" title="mdi분할" id="btn_division">mdi분할</button>
+								<button type="button" class="moca_tab_allclose" onclick="$m.all_tab_close(this);" title="전체닫기" id="btn_close_mdi_1">전체닫기</button>
 							</div> 
 						</div>
 					</div>
 				</div>
 				<!-- 2021-07-26 MDI 분할작업 임시 (2단할경우 display:none 해제) -->
-				<div class="resizingbar"  style="display:none" onmousedown="moca.resizingbar_down(this)"><span id="__selectableArea"></span></div>
+				<div class="resizingbar"  style="display:none" onmousedown="$m.resizingbar_down(this)"><span id="__selectableArea"></span></div>
 				<div class="ly_column col_5" style="display:none"">
 					<div id="mdi_2" class="moca_tab moca_mdi">
 						<div class="moca_tab_head">
-							<!-- <div class="moca_tab_home" onclick="moca.goMain();" id="moca_main" style="cursor:pointer"></div> -->
+							<!-- <div class="moca_tab_home" onclick="$m.goMain();" id="moca_main" style="cursor:pointer"></div> -->
 						<!-- <button type="button" class="moca_tab_left" title="왼쪽으로스크롤">왼쪽으로 스크롤</button> -->
-							<div class="moca_tab_listarea" droppable="true" ondrop="moca.drop_mdi(this)" ondragover="moca.dragOver_mdi(this)">
+							<div class="moca_tab_listarea" droppable="true" ondrop="$m.drop_mdi(this)" ondragover="$m.dragOver_mdi(this)">
 								<div class="moca_tab_scroll">
 									<ul role="tablist" class="moca_tab_ul" id="mdi_2_ul">
 									</ul>
@@ -57,7 +57,7 @@ $(document).ready(function() {
 						<!-- <button type="button" class="moca_tab_right" title="오른쪽으로스크롤">오른쪽으로 스크롤</button> -->
 							<div class="moca_tab_control" style="width:42px" >
 							<!-- <button type="button" class="moca_tab_menulist" style="">탭메뉴리스트</button> -->
-								<button type="button" class="moca_tab_allclose" onclick="moca.all_tab_close(this);" title="전체닫기" id="btn_close_mdi_2">전체닫기</button>
+								<button type="button" class="moca_tab_allclose" onclick="$m.all_tab_close(this);" title="전체닫기" id="btn_close_mdi_2">전체닫기</button>
 							</div> 
 						</div>
 					</div>	

@@ -2,40 +2,40 @@
 <html lang="ko">
 <head>
 <script>
-	moca.EFC_PROG.___ready = function(args){
-		moca.EFC_PROG.fn_search();		
+	$m.EFC_PROG.___ready = function(args){
+		$m.EFC_PROG.fn_search();		
 	};
 	
-	moca.EFC_PROG.fn_search = function(){
-		moca.EFC_PROG.exe({
-			url : moca._domain+moca._contextRoot+"/sym/prm/EgovProgramListManageSelect_json.do",
+	$m.EFC_PROG.fn_search = function(){
+		$m.EFC_PROG.exe({
+			url : $m._domain+$m._contextRoot+"/sym/prm/EgovProgramListManageSelect_json.do",
 			loadingbar:true,
             data : {
-            	"header" : moca.header,
-            	"body" : {searchKeyword:moca.getValue(moca.EFC_PROG.getObj( "searchKeyword"))}
+            	"header" : $m.header,
+            	"body" : {searchKeyword:$m.getValue($m.EFC_PROG.getObj( "searchKeyword"))}
             },			
 			callback : function(response){
-				var list = moca.EFC_PROG.getResList(response,"list");
-				moca.EFC_PROG.drawGrid('grd_1', list);
+				var list = $m.EFC_PROG.getResList(response,"list");
+				$m.EFC_PROG.drawGrid('grd_1', list);
 			}
 		});
 	};
 	
-	moca.EFC_PROG.fn_exe = function(){
-		if(moca.EFC_PROG.validate("grd_1","status","C,U,D")){
-			moca.confirm('저장하시겠습니까?',function(result){
+	$m.EFC_PROG.fn_exe = function(){
+		if($m.EFC_PROG.validate("grd_1","status","C,U,D")){
+			$m.confirm('저장하시겠습니까?',function(result){
 				if(result == 'Y'){
-					moca.EFC_PROG.exe({
-						url : moca._domain+moca._contextRoot+"/sym/prm/EgovProgrmManageListModify_json.do",
+					$m.EFC_PROG.exe({
+						url : $m._domain+$m._contextRoot+"/sym/prm/EgovProgrmManageListModify_json.do",
 			            data : {
-			            	"header" : moca.header,
+			            	"header" : $m.header,
 			            	"body" : {
-			            		paramList:moca.EFC_PROG.getFilteredList("grd_1","status","C,U,D")
+			            		paramList:$m.EFC_PROG.getFilteredList("grd_1","status","C,U,D")
 			            	}
 			            },		
 						callback : function(){
-			        	   moca.alert('성공적으로 저장되었습니다!',function(){
-			        		   moca.EFC_PROG.fn_search();
+			        	   $m.alert('성공적으로 저장되었습니다!',function(){
+			        		   $m.EFC_PROG.fn_search();
 			        	   	   return;
 			        	   });	
 						}
@@ -68,7 +68,7 @@
 					</div>
 				</div>
 				<div class="btn_shbox">
-					<button type="button" class="button btn_sc" onclick="moca.EFC_PROG.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+					<button type="button" class="button btn_sc" onclick="$m.EFC_PROG.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
 				</div>
 			</div>
 			
@@ -82,7 +82,7 @@
 						toolbar_delrow="true"
 						toolbar_nextbtn="false"
 						toolbar_full="true"
-						toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"moca.EFC_PROG.fn_exe","addClass":""}'
+						toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"$m.EFC_PROG.fn_exe","addClass":""}'
 
 						label="프로그램목록"
 			

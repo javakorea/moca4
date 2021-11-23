@@ -15,22 +15,22 @@
 	$(document).ready(function() {
 		
 		/*
-		menu = moca.tree_mm(menu,1,18,"000");
+		menu = $m.tree_mm(menu,1,18,"000");
 		
 		var menu_000_1_4 = [];
-		menu_000_1_4 = moca.tree_mm(menu_000_1_4,2,4,"000_1_4");
+		menu_000_1_4 = $m.tree_mm(menu_000_1_4,2,4,"000_1_4");
 		menuObjs["000_1_4"] = menu_000_1_4;
 
 		var menu_000_1_4_2_1 = [];
-		menu_000_1_4_2_1 = moca.tree_mm(menu_000_1_4_2_1,3,2,"000_1_4_2_1");
+		menu_000_1_4_2_1 = $m.tree_mm(menu_000_1_4_2_1,3,2,"000_1_4_2_1");
 		menuObjs["000_1_4_2_1"] = menu_000_1_4_2_1;
 		
 		var menu_000_1_11 = [];
-		menu_000_1_11 = moca.tree_mm(menu_000_1_11,2,1,"000_1_11");
+		menu_000_1_11 = $m.tree_mm(menu_000_1_11,2,1,"000_1_11");
 		menuObjs["000_1_11"] = menu_000_1_11;
 		*/
 		
-		moca.tree_mt("tree1",moca.menu,moca.menuObjs);	
+		$m.tree_mt("tree1",$m.menu,$m.menuObjs);	
 	});
 </script>
 </head>
@@ -43,7 +43,7 @@
 					</div> -->
 					<div class="moca_lnb_head">
 						<div class="moca_lnb_autocomp">
-							<input type="text" class="moca_input" title="메뉴명을 입력하세요" placeholder="메뉴명을 입력하세요" onkeyup="moca.menuSearch(this)">
+							<input type="text" class="moca_input" title="메뉴명을 입력하세요" placeholder="메뉴명을 입력하세요" onkeyup="$m.menuSearch(this)">
 						</div>
 					</div>			
 					<div id="tree1" class="moca_tree workmenu"></div>

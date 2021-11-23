@@ -2,58 +2,58 @@
 <html lang="ko">
 <head>
 <script>
-	moca.EFC_CODE.___ready = function(args){
-		moca.EFC_CODE.code({
+	$m.EFC_CODE.___ready = function(args){
+		$m.EFC_CODE.code({
 			"grd_1.useAt":{code:'EFC001'},
 			"grd_2.useAt":{code:'EFC001'}
 		},function(){
-			moca.EFC_CODE.fn_search();
+			$m.EFC_CODE.fn_search();
 		});
 	};
 	
-	moca.EFC_CODE.fn_search = function(){
-		moca.EFC_CODE.exe({
-			url : moca._domain+moca._contextRoot+"/sym/ccm/cca/EgovCcmCmmnCodeList_json.do",
+	$m.EFC_CODE.fn_search = function(){
+		$m.EFC_CODE.exe({
+			url : $m._domain+$m._contextRoot+"/sym/ccm/cca/EgovCcmCmmnCodeList_json.do",
             data : {
-            	"header" : moca.header,
-            	"body" : {searchKeyword:moca.getValue(moca.EFC_CODE.getObj( "searchKeyword"))}
+            	"header" : $m.header,
+            	"body" : {searchKeyword:$m.getValue($m.EFC_CODE.getObj( "searchKeyword"))}
             },			
 			callback : function(response){
-				moca.EFC_CODE.drawGrid('grd_1', moca.EFC_CODE.getResList(response,"list"));
-				moca.EFC_CODE.fn_detail_search();
+				$m.EFC_CODE.drawGrid('grd_1', $m.EFC_CODE.getResList(response,"list"));
+				$m.EFC_CODE.fn_detail_search();
 			}
 		});
 	};
-	moca.EFC_CODE.fn_detail_search = function(codeGrpId){
-		moca.EFC_CODE.exe({
-			url : moca._domain+moca._contextRoot+"/sym/ccm/cde/EgovCcmCmmnDetailCodeList_json.do",
+	$m.EFC_CODE.fn_detail_search = function(codeGrpId){
+		$m.EFC_CODE.exe({
+			url : $m._domain+$m._contextRoot+"/sym/ccm/cde/EgovCcmCmmnDetailCodeList_json.do",
 			loadingbar : false,
             data : {
-            	"header" : moca.header,
+            	"header" : $m.header,
             	"body" : {"codeGrpId":codeGrpId}
             },			
 			callback : function(response){
-				moca.EFC_CODE.drawGrid('grd_2', moca.EFC_CODE.getResList(response,"list"));
+				$m.EFC_CODE.drawGrid('grd_2', $m.EFC_CODE.getResList(response,"list"));
 			}
 		});
 	};
 	
 		
-	moca.EFC_CODE.fn_exe = function(codeGrpId){
-		if(moca.EFC_CODE.validate("grd_1","status","C,U,D")){
-			moca.confirm('저장하시겠습니까?',function(result){
+	$m.EFC_CODE.fn_exe = function(codeGrpId){
+		if($m.EFC_CODE.validate("grd_1","status","C,U,D")){
+			$m.confirm('저장하시겠습니까?',function(result){
 				if(result == 'Y'){
-					moca.EFC_CODE.exe({
-						url : moca._domain+moca._contextRoot+"/sym/ccm/cca/EgovCcmCmmnCodeMModify_json.do",
+					$m.EFC_CODE.exe({
+						url : $m._domain+$m._contextRoot+"/sym/ccm/cca/EgovCcmCmmnCodeMModify_json.do",
 			            data : {
-			            	"header" : moca.header,
+			            	"header" : $m.header,
 			            	"body" : {
-			            		paramList:moca.EFC_CODE.getFilteredList("grd_1","status","C,U,D")
+			            		paramList:$m.EFC_CODE.getFilteredList("grd_1","status","C,U,D")
 			            	}
 			            },		
 						callback : function(){
-			        	   moca.alert('성공적으로 저장되었습니다!',function(){
-			        		   moca.EFC_CODE.fn_search();
+			        	   $m.alert('성공적으로 저장되었습니다!',function(){
+			        		   $m.EFC_CODE.fn_search();
 			        	   	   return;
 			        	   });	
 						}
@@ -64,35 +64,35 @@
 
 	};
 	
-	moca.EFC_CODE.fn_detail_exe = function(codeGrpId){
+	$m.EFC_CODE.fn_detail_exe = function(codeGrpId){
 		var codeId;
-		var grd = moca.EFC_CODE.getObj("grd_1");
+		var grd = $m.EFC_CODE.getObj("grd_1");
 		var selectedRowIndex = grd.getAttribute('selectedRealRowIndex');
 		if(selectedRowIndex != undefined){
-			codeId = moca.EFC_CODE.getCellData(grd,selectedRowIndex,'codeId');
+			codeId = $m.EFC_CODE.getCellData(grd,selectedRowIndex,'codeId');
 		}
 		
-		if(moca.EFC_CODE.validate("grd_2","status","C,U,D")){
-			moca.confirm('저장하시겠습니까?',function(result){
+		if($m.EFC_CODE.validate("grd_2","status","C,U,D")){
+			$m.confirm('저장하시겠습니까?',function(result){
 				if(result == 'Y'){
-					moca.EFC_CODE.exe({
-						url : moca._domain+moca._contextRoot+"/sym/ccm/cca/EgovCcmCmmnCodeDModify_json.do",
+					$m.EFC_CODE.exe({
+						url : $m._domain+$m._contextRoot+"/sym/ccm/cca/EgovCcmCmmnCodeDModify_json.do",
 			            data : {
-			            	"header" : moca.header,
+			            	"header" : $m.header,
 			            	"body" : {
-			            		paramList_D:moca.EFC_CODE.getFilteredList("grd_2","status","C,U,D"),
+			            		paramList_D:$m.EFC_CODE.getFilteredList("grd_2","status","C,U,D"),
 			            		"codeId":codeId
 			            	}
 			            },		
 						callback : function(){
-			        	   moca.alert('성공적으로 저장되었습니다!',function(){
+			        	   $m.alert('성공적으로 저장되었습니다!',function(){
 			        			var codeGrpId;
-			        			var grd = moca.EFC_CODE.getObj("grd_1");
+			        			var grd = $m.EFC_CODE.getObj("grd_1");
 			        			var selectedRowIndex = grd.getAttribute('selectedRealRowIndex');
 			        			if(selectedRowIndex != undefined){
-			        				codeGrpId = moca.EFC_CODE.getCellData(grd,selectedRowIndex,'codeId');
+			        				codeGrpId = $m.EFC_CODE.getCellData(grd,selectedRowIndex,'codeId');
 			        			}
-			        			moca.EFC_CODE.fn_detail_search(codeGrpId);
+			        			$m.EFC_CODE.fn_detail_search(codeGrpId);
 			        	   	   return;
 			        	   });	
 						}
@@ -107,9 +107,9 @@
 	
 	
 	
-	moca.EFC_CODE.fn_codeGrpSelect = function(_grd,_idx){
-		var codeGrpId = moca.EFC_CODE.getCellData(_grd,_idx,'codeId');
-		moca.EFC_CODE.fn_detail_search(codeGrpId);
+	$m.EFC_CODE.fn_codeGrpSelect = function(_grd,_idx){
+		var codeGrpId = $m.EFC_CODE.getCellData(_grd,_idx,'codeId');
+		$m.EFC_CODE.fn_detail_search(codeGrpId);
 	};
 	
 	
@@ -140,14 +140,14 @@
 					</div>
 				</div>
 				<div class="btn_shbox">
-					<button type="button" class="button btn_sc" onclick="moca.EFC_CODE.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+					<button type="button" class="button btn_sc" onclick="$m.EFC_CODE.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
 				</div>
 			</div>
 			
 			<div class="lybox fauto mt12">
 				<div class="ly_column col_5">
 					<div class="ly_col_cont pr7_5">
-						<div type="grid" class="moca_grid toolbar" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f" onRowSelected="moca.EFC_CODE.fn_codeGrpSelect"
+						<div type="grid" class="moca_grid toolbar" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f" onRowSelected="$m.EFC_CODE.fn_codeGrpSelect"
 									toolbar_search_size="false"
 									toolbar_detail="false"
 									toolbar_exup="false"
@@ -156,7 +156,7 @@
 									toolbar_delrow="true"
 									toolbar_nextbtn="false"
 									toolbar_full="true"
-									toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"moca.EFC_CODE.fn_exe","addClass":""}'
+									toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"$m.EFC_CODE.fn_exe","addClass":""}'
 									
 									label="코드그룹"
 						>
@@ -197,7 +197,7 @@
 									toolbar_delrow="true"
 									toolbar_nextbtn="false"
 									toolbar_full="true"
-									toolbar_grid_button1='{"position":"right","id":"btn_save2","label":"저장","onclick":"moca.EFC_CODE.fn_detail_exe","addClass":""}'
+									toolbar_grid_button1='{"position":"right","id":"btn_save2","label":"저장","onclick":"$m.EFC_CODE.fn_detail_exe","addClass":""}'
 									
 									label="코드목록"
 						>

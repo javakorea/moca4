@@ -24,7 +24,7 @@ function fn_help(){
 function fn_shortcut(){
 
 	if($('.shortcut').length == 0){
-		var _li = moca.shortcut;//단축키객체를 불어와서 연결
+		var _li = $m.shortcut;//단축키객체를 불어와서 연결
 		var _size = _li.length;
 		for(i=0; i<_size; i++){
 			var _id = _li[i].key;

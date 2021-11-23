@@ -2,59 +2,59 @@
 <html lang="ko">
 <head>
 <script>
-	moca.EFC_AUTH.___ready = function(args){
-		moca.EFC_AUTH.code({
+	$m.EFC_AUTH.___ready = function(args){
+		$m.EFC_AUTH.code({
 			"grd_3.depth":{code:'EFC003'}
 		},function(){
-			moca.EFC_AUTH.fn_search();
+			$m.EFC_AUTH.fn_search();
 		});
 	};
 
-	moca.EFC_AUTH.fn_search = function(){
-		moca.EFC_AUTH.exe({
-			url : moca._domain+moca._contextRoot+"/sec/ram/EgovAuthorList_json.do",
+	$m.EFC_AUTH.fn_search = function(){
+		$m.EFC_AUTH.exe({
+			url : $m._domain+$m._contextRoot+"/sec/ram/EgovAuthorList_json.do",
             data : {
-            	"header" : moca.header,
-            	"body" : {authorNm:moca.getValue(moca.EFC_AUTH.getObj("authorNm"))}
+            	"header" : $m.header,
+            	"body" : {authorNm:$m.getValue($m.EFC_AUTH.getObj("authorNm"))}
             },			
 			callback : function(response){
-				moca.EFC_AUTH.drawGrid('grd_3',[]);
-				moca.EFC_AUTH.drawGrid('grd_1', moca.EFC_AUTH.getResList(response,"list"));
+				$m.EFC_AUTH.drawGrid('grd_3',[]);
+				$m.EFC_AUTH.drawGrid('grd_1', $m.EFC_AUTH.getResList(response,"list"));
 			}
 		});
 	};
 	
-	moca.EFC_AUTH.fn_menu_search = function(authorCode){
-		moca.EFC_AUTH.exe({
-			url : moca._domain+moca._contextRoot+"/sym/mnu/mcm/EgovMenuCreatSelect_json.do",
+	$m.EFC_AUTH.fn_menu_search = function(authorCode){
+		$m.EFC_AUTH.exe({
+			url : $m._domain+$m._contextRoot+"/sym/mnu/mcm/EgovMenuCreatSelect_json.do",
 			loadingbar:true,
             data : {
-            	"header" : moca.header,
+            	"header" : $m.header,
             	"body" : {"authorCode":authorCode}
             },			
 			callback : function(response){
-				var list = moca.EFC_AUTH.getResList(response,"list");
-				moca.EFC_AUTH.drawGrid('grd_3', list);
+				var list = $m.EFC_AUTH.getResList(response,"list");
+				$m.EFC_AUTH.drawGrid('grd_3', list);
 			}
 		});
 	};
 	
 	
-	moca.EFC_AUTH.fn_grd1_add = function(){
-		if(moca.EFC_AUTH.validate("grd_1","status","C,U,D")){
-			moca.confirm('저장하시겠습니까?',function(result){
+	$m.EFC_AUTH.fn_grd1_add = function(){
+		if($m.EFC_AUTH.validate("grd_1","status","C,U,D")){
+			$m.confirm('저장하시겠습니까?',function(result){
 				if(result == 'Y'){
-					moca.EFC_AUTH.exe({
-						url : moca._domain+moca._contextRoot+"/sec/ram/EgovAuthorModify_json.do",
+					$m.EFC_AUTH.exe({
+						url : $m._domain+$m._contextRoot+"/sec/ram/EgovAuthorModify_json.do",
 			            data : {
-			            	"header" : moca.header,
+			            	"header" : $m.header,
 			            	"body" : {
-			            		paramList:moca.EFC_AUTH.getFilteredList("grd_1","status","C,U,D")
+			            		paramList:$m.EFC_AUTH.getFilteredList("grd_1","status","C,U,D")
 			            	}
 			            },		
 						callback : function(){
-			        	   moca.alert('성공적으로 저장되었습니다!',function(){
-			        		   moca.EFC_AUTH.fn_search();
+							$m.alert('성공적으로 저장되었습니다!',function(){
+								$m.EFC_AUTH.fn_search();
 			        	   	   return;
 			        	   });	
 						}
@@ -64,21 +64,21 @@
 		}
 	};
 	
-	moca.EFC_AUTH.fn_add = function(){
-		if(moca.EFC_AUTH.validate("grd_1","status","C,U,D")){
-			moca.confirm('저장하시겠습니까?',function(result){
+	$m.EFC_AUTH.fn_add = function(){
+		if($m.EFC_AUTH.validate("grd_1","status","C,U,D")){
+			$m.confirm('저장하시겠습니까?',function(result){
 				if(result == 'Y'){
-					moca.EFC_AUTH.exe({
-						url : moca._domain+moca._contextRoot+"/sec/ram/EgovAuthorModify_json.do",
+					$m.EFC_AUTH.exe({
+						url : $m._domain+$m._contextRoot+"/sec/ram/EgovAuthorModify_json.do",
 			            data : {
-			            	"header" : moca.header,
+			            	"header" : $m.header,
 			            	"body" : {
-			            		paramList:moca.EFC_AUTH.getFilteredList("grd_1","status","C,U,D")
+			            		paramList:$m.EFC_AUTH.getFilteredList("grd_1","status","C,U,D")
 			            	}
 			            },		
 						callback : function(){
-			        	   moca.alert('성공적으로 저장되었습니다!',function(){
-			        		   moca.EFC_AUTH.fn_search();
+							$m.alert('성공적으로 저장되었습니다!',function(){
+								$m.EFC_AUTH.fn_search();
 			        	   	   return;
 			        	   });	
 						}
@@ -88,24 +88,24 @@
 		}
 	};
 	
-	moca.EFC_AUTH.fn_grd3_add = function(){
-		if(moca.EFC_AUTH.validate("grd_3","status","C,U,D")){
-			moca.confirm('저장하시겠습니까?',function(result){
+	$m.EFC_AUTH.fn_grd3_add = function(){
+		if($m.EFC_AUTH.validate("grd_3","status","C,U,D")){
+			$m.confirm('저장하시겠습니까?',function(result){
 				if(result == 'Y'){
-					moca.EFC_AUTH.exe({
-						url : moca._domain+moca._contextRoot+"/sym/mnu/mcm/EgovMenuCreatInsert_json.do",
+					$m.EFC_AUTH.exe({
+						url : $m._domain+$m._contextRoot+"/sym/mnu/mcm/EgovMenuCreatInsert_json.do",
 			            data : {
-			            	"header" : moca.header,
+			            	"header" : $m.header,
 			            	"body" : {
-			            		"authorCode":moca.EFC_AUTH.getSelectedRowJson("grd_1")['authorCode'],
+			            		"authorCode":$m.EFC_AUTH.getSelectedRowJson("grd_1")['authorCode'],
 			            		paramList:grd_3.list
 			            	}
 			            },		
 						callback : function(){
-			        	   moca.alert('성공적으로 저장되었습니다!',function(){
-								moca.EFC_AUTH.drawGrid('grd_3', []);
-			        			var authorCode = moca.EFC_AUTH.getSelectedRowJson("grd_1")['authorCode'];
-			        			moca.EFC_AUTH.fn_menu_search(authorCode);
+							$m.alert('성공적으로 저장되었습니다!',function(){
+								$m.EFC_AUTH.drawGrid('grd_3', []);
+			        			var authorCode = $m.EFC_AUTH.getSelectedRowJson("grd_1")['authorCode'];
+			        			$m.EFC_AUTH.fn_menu_search(authorCode);
 			        	   		return;
 			        	   });	
 						}
@@ -117,22 +117,22 @@
 	
 	
 	
-	moca.EFC_AUTH.fn_codeGrpSelect = function(_grd,_idx){
-		var authorCode = moca.getCellData(_grd,_idx,'authorCode');
-		//moca.EFC_AUTH.fn_detail_search(authorCode);
-		moca.EFC_AUTH.fn_menu_search(authorCode);
+	$m.EFC_AUTH.fn_codeGrpSelect = function(_grd,_idx){
+		var authorCode = $m.getCellData(_grd,_idx,'authorCode');
+		//$m.EFC_AUTH.fn_detail_search(authorCode);
+		$m.EFC_AUTH.fn_menu_search(authorCode);
 	};
 	
-	moca.EFC_AUTH.fn_detail_search = function(authorCode){
-		moca.EFC_AUTH.exe({
-			url : moca._domain+moca._contextRoot+"/sec/ram/EgovAuthorRoleList_json.do",
+	$m.EFC_AUTH.fn_detail_search = function(authorCode){
+		$m.EFC_AUTH.exe({
+			url : $m._domain+$m._contextRoot+"/sec/ram/EgovAuthorRoleList_json.do",
 			loadingbar : false,
             data : {
-            	"header" : moca.header,
+            	"header" : $m.header,
             	"body" : {"searchKeyword":authorCode}
             },			
 			callback : function(response){
-				moca.EFC_AUTH.drawGrid('grd_2', moca.EFC_AUTH.getResList(response,"list"));
+				$m.EFC_AUTH.drawGrid('grd_2', $m.EFC_AUTH.getResList(response,"list"));
 			}
 		});
 	};
@@ -163,14 +163,14 @@
 					</div>
 				</div>
 				<div class="btn_shbox">
-					<button type="button" class="button btn_sc" onclick="moca.EFC_AUTH.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+					<button type="button" class="button btn_sc" onclick="$m.EFC_AUTH.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
 				</div>
 			</div>
 			
 			<div class="lybox fauto mt12 flex fcol">
 				<div class="ly_row row_3_7_3">
 					<div class="ly_row_cont">
-						<div type="grid" class="moca_grid toolbar sc_row" default_cell_height="26px" id="grd_1"  onRowSelected="moca.EFC_AUTH.fn_codeGrpSelect"
+						<div type="grid" class="moca_grid toolbar sc_row" default_cell_height="26px" id="grd_1"  onRowSelected="$m.EFC_AUTH.fn_codeGrpSelect"
 							toolbar_search_size="false"
 							toolbar_detail="true"
 							toolbar_exup="false"
@@ -179,7 +179,7 @@
 							toolbar_delrow="true"
 							toolbar_nextbtn="false"
 							toolbar_full="true"
-							toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"moca.EFC_AUTH.fn_grd1_add","addClass":""}'
+							toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"$m.EFC_AUTH.fn_grd1_add","addClass":""}'
 									
 							label="권한목록"
 						>
@@ -224,7 +224,7 @@
 								toolbar_delrow="false"
 								toolbar_nextbtn="false"
 								toolbar_full="true"
-								toolbar_grid_button1='{"position":"right","id":"btn_save2","label":"저장","onclick":"moca.EFC_AUTH.fn_grd3_add","addClass":""}'
+								toolbar_grid_button1='{"position":"right","id":"btn_save2","label":"저장","onclick":"$m.EFC_AUTH.fn_grd3_add","addClass":""}'
 								
 								label="메뉴목록"					
 							>

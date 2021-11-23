@@ -96,19 +96,19 @@ var param = {};
 
 
 
-var moca = new Moca();
-moca.menuObjs_ori = {};
-moca.menuObjs = {};
-moca.menu = [];
-moca.shortcut = [];
-moca.shortcut2 = [];
-moca.keyboard = {};
+var $m = new Moca();
+$m.menuObjs_ori = {};
+$m.menuObjs = {};
+$m.menu = [];
+$m.shortcut = [];
+$m.shortcut2 = [];
+$m.keyboard = {};
 
 $(document).ready(function() {
-    var _fileName = moca.getFileNameFromUrl(param.mcsrc);
+    var _fileName = $m.getFileNameFromUrl(param.mcsrc);
     var _srcId = _fileName.substring(0,_fileName.indexOf('.'));
     
-    var _if_url = moca._contextRoot+param.mcsrc+"?";
+    var _if_url = $m._contextRoot+param.mcsrc+"?";
 	var params = Object.keys(param);
 	for(var i=0; i < params.length; i++){
 		var key = params[i];
@@ -118,8 +118,8 @@ $(document).ready(function() {
 		}
 	}
 	//alert(_if_url);
-    moca.openMdi(_if_url,_srcId,param.label,'',"mdi_1");
-    moca.setPageHeader($(this).find('#titbox'),param.label);
+    $m.openMdi(_if_url,_srcId,param.label,'',"mdi_1");
+    $m.setPageHeader($(this).find('#titbox'),param.label);
 });
 </script>
 </head>

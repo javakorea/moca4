@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" /> 
 <meta http-equiv="Expires" content="-1" />
 <script>
-	moca.TOM_02_SRC.___ready = function(args){
+	$m.TOM_02_SRC.___ready = function(args){
 		initKakao(mocaConfig.getSocailLoginKakaoKey());
 		initFacebook(mocaConfig.getSocailLoginFacebookKey());
 		initNaver(mocaConfig.getSocailLoginNaverKey());
@@ -107,22 +107,22 @@ function loginSetter(_type,_id,_email,_name){
 	loginInfo.id = _id;
 	loginInfo.name = _name;
 	loginInfo.email = _email;
-	moca.setSs("loginTemp0",loginInfo);
-	moca.setSs("loginType",_type);
-	moca.TOM_02_SRC.exe({
+	$m.setSs("loginTemp0",loginInfo);
+	$m.setSs("loginType",_type);
+	$m.TOM_02_SRC.exe({
 		url : mocaConfig._domain+mocaConfig._contextRoot+"/TOM_02/userInfo.do",
         data : {
-        	"header" : moca.header,
+        	"header" : $m.header,
         	"body" : {"id":loginInfo.id+"","loginType":loginInfo.loginType,"Email":loginInfo.email,"Name":loginInfo.name}
         },			
 		callback : function(response){
 			if(response.resultCd == '0002'){
-				moca.mresult("탈퇴회원입니다.","재가입하시겠습니까?",function(){
+				$m.mresult("탈퇴회원입니다.","재가입하시겠습니까?",function(){
     				signup("2");//탈퇴후 재가입 본인인증으로
 				});
 			}else if(response.userInfo != null){
 				//곧바로 진행스텝으로
-				moca.setSs("loginInfo",response.userInfo);
+				$m.setSs("loginInfo",response.userInfo);
 				location.href = mocaConfig.getSocailLoginSuccessUrl();
 			}else{
 				signup("1");//신규가입
@@ -132,13 +132,13 @@ function loginSetter(_type,_id,_email,_name){
 };
 
 function signup(inqType){
-	moca.setSs("inqType",inqType);
+	$m.setSs("inqType",inqType);
 	location.href = mocaConfig._contextRoot;
 	//location.href = mocaConfig._contextRoot+'/m/TOM_05.html';//약관
 };
 
 function loginChecker(loginType){
-	var loginObj = moca.getSs("loginInfo");
+	var loginObj = $m.getSs("loginInfo");
 	if(loginObj != null && loginObj.loginType == loginType){
 		location.href = mocaConfig.getSocailLoginSuccessUrl();
 	}
