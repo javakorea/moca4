@@ -2875,7 +2875,7 @@ Moca.prototype.getDisplayFormat_value = function(_obj,_dt) {
 };
 
 
-Moca.prototype.getContents = function(data,_url,_type,_popupid,_title,_wframeObj,_mode) {
+Moca.prototype.getContents = function(data,_url,_type,_popupid,_title,_includeObj,_mode) {
     ['getContents'];
        if(_type == 'POP'){
             var o = {type:_type};
@@ -2928,8 +2928,8 @@ Moca.prototype.getContents = function(data,_url,_type,_popupid,_title,_wframeObj
            data = moca.addPageId(data,moca.pageId,_srcId);
            data = moca.injectionPageObj(data,moca.pageId,_srcId,_mode); 
            var _json_data = '';
-           if(_wframeObj != null){
-               _json_data = _wframeObj.getAttribute("data");
+           if(_includeObj != null){
+               _json_data = _includeObj.getAttribute("data");
            }
            data = data.replace(/moca\.init\s*\(/gi,"moca.init('"+moca.pageId+"','"+moca.srcId+"','"+_url+"','"+_json_data+"', ");
        }
@@ -4108,11 +4108,11 @@ Moca.prototype.init = function(_tabId,_srcId,_url,_json_data,_callback) {
         
         
         
-        var arr = _tabObj.find('[type=wframe]');
+        var arr = _tabObj.find('[type=include]');
         var param;
         for(var i=0; i < arr.length; i++){
             var aTag = arr[i];
-            moca.renderWframe(aTag);
+            moca.renderinclude(aTag);
         };
         
 
@@ -11105,8 +11105,8 @@ Moca.prototype.getTypeObj = function(_thisObj) {
     }
     return _obj;
 };
-Moca.prototype.renderWframe = function(aTag) {
-    ['renderWframe'];
+Moca.prototype.renderinclude = function(aTag) {
+    ['renderinclude'];
     var _url = $(aTag).attr('src');
     $.ajax({
            type:"GET",
@@ -11151,7 +11151,7 @@ Moca.prototype.setPageHeader = function(aTag,_label) {
 		$(aTag).attr('data',JSON.stringify(aTagObj));
 	}
 	
-	moca.renderWframe(aTag);
+	moca.renderinclude(aTag);
 	
 }
 
@@ -11212,8 +11212,8 @@ Moca.prototype.injectionPageObj = function(data,_pageId,_srcId,_mode) {
     
 };
 
-Moca.prototype.getIncludeScope = function(wframeObj,thisObj) { 
-    return wframeObj.find('[pageId='+thisObj.pageId+'][role=includeContents]');
+Moca.prototype.getIncludeScope = function(includeObj,thisObj) { 
+    return includeObj.find('[pageId='+thisObj.pageId+'][role=includeContents]');
 };
 
 /*
@@ -13904,7 +13904,7 @@ Moca.prototype.dateToString  = function(date){
     
     
 $(document).ready(function() {
-    var arr = $('[type=wframe]');
+    var arr = $('[type=include]');
     if(arr.length > 0){
         for(var i=0; i < arr.length; i++){
             var aTag = arr[i];
@@ -13924,25 +13924,25 @@ $(document).ready(function() {
                    //console.log("_url end:"+aTag.id);
                    var data;
                    if(aTag.id == '__popup'){
-                       //console.log("(__popup)wframe1"+aTag.id);
+                       //console.log("(__popup)include1"+aTag.id);
                        moca.getContents(data,_url,"POP",aTag.getAttribute("popupid"),aTag.getAttribute("popuptitle"));
                    }else if(aTag.id == '__body'){
-                       //console.log("(__body)wframe2-1"+aTag.id);
+                       //console.log("(__body)include2-1"+aTag.id);
                        data = moca.getContents(data,_url,"HTML",aTag);
                        //$(aTag).html(data);
-                       //console.log("(__body)wframe2-2"+aTag.id);
+                       //console.log("(__body)include2-2"+aTag.id);
                        moca.callReady(aTag);
-                       //console.log("(__body)wframe2-3"+aTag.id);
+                       //console.log("(__body)include2-3"+aTag.id);
                    }else if(aTag.id == '__iframe'){
-                       //console.log("(else)wframe3"+aTag.id);
+                       //console.log("(else)include3"+aTag.id);
                        data = moca.getContents(data,_url,"IFRAME",aTag);
                        $(aTag).html(data);
-                       //console.log("(else)wframe3-1"+aTag.id);
+                       //console.log("(else)include3-1"+aTag.id);
                    }else{
-                       //console.log("(else)wframe3"+aTag.id);
+                       //console.log("(else)include3"+aTag.id);
                        data = moca.getContents(data,_url,"CMN",aTag);
                        $(aTag).html(data);
-                       //console.log("(else)wframe3-1"+aTag.id);
+                       //console.log("(else)include3-1"+aTag.id);
                    }
                },
                complete : function(data) {

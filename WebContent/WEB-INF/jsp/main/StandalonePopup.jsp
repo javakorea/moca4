@@ -90,7 +90,7 @@ $(document).ready(function(args) {
 </head>
 	<body onunload="moca.popUnload();">
 		<div>
-			<div type="wframe"  id="__popup" tag="moca:body" src="<%=mcsrc2%>" 
+			<div type="include"  id="__popup" tag="moca:body" src="<%=mcsrc2%>" 
 			popupId="<%=paramMap.get("__popid")%>"  
 			popupTitle="<%=paramMap.get("__title")%>"></div>   
 			<div class="toast_msg" style="padding:9px 15px; height:35px">

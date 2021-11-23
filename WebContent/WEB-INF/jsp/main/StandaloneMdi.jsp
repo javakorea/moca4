@@ -126,7 +126,7 @@ $(document).ready(function() {
    <body>
 	<div class="moca_wrap iframe">
 		<div class="moca_container on flex">		
-			<div type="wframe" style="position:relative" class="fauto" id="mdi" tag="moca:mdi" src="/moca/comm/iframeMdi.html"></div>
+			<div type="include" style="position:relative" class="fauto" id="mdi" tag="moca:mdi" src="/moca/comm/iframeMdi.html"></div>
 		</div>
 	</div>
 </body>

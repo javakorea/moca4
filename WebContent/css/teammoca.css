@@ -87,9 +87,9 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .footer{position:absolute; left:0; right:0; background:#434343; font-size:20px; color:#bbb}
 .footer .f_content{position: relative; padding:0 65px; max-width:1080px; margin:0 auto;overflow: hidden; box-sizing: border-box}
 .footer .f_content h2{float:left; margin-right:25px; padding:20px 0}
-.footer .f_content p{display:inline-block; float:left; position:relative; top:19px; font-size:12px;}
+.footer .f_content p{display:inline-block; float:left; position:relative; top:19px; font-size:11px;}
 .footer .f_content p > span:first-child{margin-right:10px}
-.footer .f_content div.f_tel{position:relative; float:right; padding: 24px 0 24px 20px; margin-left: 20px}
+.footer .f_content div.f_tel{position:relative; float:right; padding: 20px 0 20px 20px; margin-left: 20px}
 .footer .f_content div.f_tel img{width:40px; height:40px; float:left; margin-right:7px}
 .footer .f_content div.f_tel span{ margin:0 5px}
 .footer .f_content div.f_tel .title{font-weight:700}
@@ -217,8 +217,9 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 	.container .mocaBox .main_img2 img{width:100%; height:100%}
 	.boardArea .col5:nth-child(2){background:#f8f8f8}
 	.boardArea .col5:nth-child(1){background:#fff}
-	
 	.mocastep.step2{margin-left:0; margin-bottom:0}
+	
+	.footer .f_content div.f_tel{font-size: 14px}
 }
  
  

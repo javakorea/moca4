@@ -232,13 +232,13 @@ $(document).ready(function() {
 </head>
    <body>
 	<div class="moca_wrap">
-		<div type="wframe"  id="header" tag="moca:header" src="/moca/comm/header.html"></div>
-		<div type="wframe"  id="aside"tag="moca:aside" src="/moca/comm/aside.html"></div>
+		<div type="include"  id="header" tag="moca:header" src="/moca/comm/header.html"></div>
+		<div type="include"  id="aside"tag="moca:aside" src="/moca/comm/aside.html"></div>
 		<div class="moca_container on flex">		
-			<div type="wframe" style="width:210px" id="lnb" tag="moca:lnb" src="/moca/comm/lnb.html"></div>
-			<div type="wframe" style="position:relative" class="fauto" id="mdi" tag="moca:mdi" src="/moca/comm/mdi.html"></div>
+			<div type="include" style="width:210px" id="lnb" tag="moca:lnb" src="/moca/comm/lnb.html"></div>
+			<div type="include" style="position:relative" class="fauto" id="mdi" tag="moca:mdi" src="/moca/comm/mdi.html"></div>
 		</div>
-		<div type="wframe"  id="footer" tag="moca:footer" src="/moca/comm/footer.html"></div>
+		<div type="include"  id="footer" tag="moca:footer" src="/moca/comm/footer.html"></div>
 	</div>
 </body>
 </html>
