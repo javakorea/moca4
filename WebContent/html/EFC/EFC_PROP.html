@@ -6,7 +6,8 @@
 	$m.EFC_PROP.___ready = function(){
 		$m.EFC_PROP.code({
 			"grd_1.useAt":{code:'EFC001'},
-			"cmb_1":{code:'boardStatus'}
+			"cmb_1":{code:'boardStatus'},
+			"scmb_1":{code:'boardStatus'}
 		},function(){
 			$m.EFC_PROP.exe({
 				url : $m._domain+$m._contextRoot+"/efms/EFC_CORP/list_json.do",
@@ -148,7 +149,7 @@
 									readOnly="false"
 									displayFormat="[label]" 
 									cdField="code" 
-									nmField="name"   
+									nmField="codeNm"   
 									itemset='[{"cd":"0","nm":"해당없음 "},{"cd":"1","nm":"(%)비율"},{"cd":"2","nm":"(원)금액"},{"cd":"3","nm":"(원)금액3"},{"cd":"4","nm":"(원)금액4"},{"cd":"5","nm":"(원)금액5"},{"cd":"6","nm":"(원)금액6"},{"cd":"7","nm":"(원)금액7"},{"cd":"8","nm":"(원)금액8"},{"cd":"9","nm":"(원)금액9"},{"cd":"10","nm":"(원)금액10"},{"cd":"11","nm":"(원)금액11"},{"cd":"12","nm":"(원)금액12"}]'>
 								</div>
 							</span>

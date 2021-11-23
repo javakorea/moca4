@@ -11516,8 +11516,6 @@ Moca.prototype.renderTab = function(aTag) {
     var onTabHeaderclickFunctionStr = aTag.getAttribute("onTabHeaderclick");
     
     var list = JSON.parse(listStr);
-    
-    
     var tabConts = '';
     tabConts +='                <div class="moca_layer_tab_head" >\n';
     tabConts +='                    <div class="moca_layer_tab_listarea">\n';
@@ -11533,6 +11531,7 @@ Moca.prototype.renderTab = function(aTag) {
         }
         //onclick="$m.tabSubClick(\''+onTabHeaderclickFunctionStr+'\',\''+(i+1)+'\',this)"
         tabConts +='<li class="moca_layer_tab_list '+active+'" id="'+row.id+'" index="'+(i+1)+'"  >\n';
+        tabConts +='<div class="li_bg"></div>';
         tabConts +=' <button type="button" role="tab" aria-controls="moca_tab_bridge1">'+row.label+'<br><i class="tab_badge" ></i></button>\n';
         tabConts +='</li>\n';
     }
