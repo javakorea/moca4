@@ -3046,7 +3046,10 @@ Moca.prototype.renderCombo = function(_divObj,_val,_gubun,_pageId,_srcId) {
     if(_codeOpt == null){
         _codeOpt = {};
     }
-    
+    var __srcid = _srcId;
+    if(__srcid == null){
+    	__srcid = $(_divObj).attr('srcid');
+    }
     if(_list == null){
         var _id = _divObj.id;
         var _label = _divObj.getAttribute("label");
@@ -3144,7 +3147,7 @@ Moca.prototype.renderCombo = function(_divObj,_val,_gubun,_pageId,_srcId) {
         _divObj['codeToDispLabelMap'] = codeToDispLabelMap;
         _html += '</select>';
         $(_divObj).attr('code',$m.getValue(_divObj));
-   	 	$(_divObj).attr('label',$m[_srcId].getComboLabel(_grdId));
+   	 	$(_divObj).attr('label',$m[__srcid].getComboLabel(_grdId));
         if(_readonly){
         	_divObj.innerHTML = '<input class="moca_input" type="text" readonly value="'+_divObj['codeToDispLabelMap'][$m.getValue(_divObj)]+'">';
         	//_divObj.innerHTML = _divObj['codeToDispLabelMap'][$m.getValue(_divObj)];
@@ -8677,7 +8680,7 @@ Moca.prototype.bindCombo = function(compId,codeOpt,_list){
     var compObj = $m.getObj(compId);
     compObj['list'] = _list;
     compObj['codeOpt'] = codeOpt;
-    $m.renderCombo(compObj,null,'normal');
+    $m.renderCombo(compObj,null,'normal',null);
 };
 
 Moca.prototype.bindCell = function(grdId,cellId,codeOpt,_list){ 

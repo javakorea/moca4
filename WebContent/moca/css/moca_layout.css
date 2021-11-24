@@ -55,7 +55,7 @@ button {border:0; background:0; cursor:pointer; -moz-box-sizing:border-box; box-
 .moca_lnb .moca_tree {position:absolute; top:46px; right:0; bottom:0; left:0; border:0; }
 .lnb_split_area {display:block; position:absolute; top:0; right:-7px; z-index:50; width:7px; height:100%; font-size:0; cursor:e-resize}
 .lnb_split_area:hover:after {content:''; position:absolute; top:50%; left:1px; z-index:50; width:6px; height:100px; margin-top:-50px; border-radius:3px; background:rgba(0,0,0,0.2)}
-ul.moca_switch {position:absolute; top:0px; right:0; bottom:0; left:0}
+ul.moca_switch {position:absolute; top:56px; right:0; bottom:0; left:0; border-top:1px solid #aaa}
 ul.moca_switch > li {position:absolute; top:0px; right:0; bottom:0; left:0; height:100%; opacity:0; list-style:none}
 ul.moca_switch > li.active {z-index:2; opacity:1}
 
@@ -85,11 +85,11 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 /*단축키 Shortcut*/
 .shortcut{ position:absolute; right:10px}
 .shortcut > i{position:relative; font-family:'Spoqa Han Sans'; font-size:11px; font-style:normal; font-weight:normal; text-shadow:0 0 2px rgba(0,0,0,0.5); height:15px; line-height:15px; background: #fff; border: 2px solid #333; color:#f00; box-shadow: 0 2px 0 rgba(0,0,0,0.2); padding: 2px 3px; border-radius: 5px; }
-
 .moca_header {position:relative; background:#fff; height:70px; border-bottom:1px solid #aaa; -moz-box-sizing:border-box; box-sizing:border-box; z-index:1}
 .moca_header .moca_nav{height:47px}
 .moca_header h1{position:absolute; top:30px; left:60px; width:175px; height:32px}
 .moca_header nav {position:absolute; left:245px; height:47px; margin-left:20px}
+
 .moca_header nav ul {margin:0; padding:0; list-style-type:none; vertical-align:middle; height:100%;}
 .moca_header nav > ul > li {display:inline-block; height:100%; position:relative;}
 .moca_header nav > ul > li > button {display:inline-block; position:relative; font-weight:700; font-size:13px; margin:20px 20px 0;color:#333; background:transparent; border:0; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
@@ -113,11 +113,18 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 .moca_header .gnb .info_photo + span {margin-left:3px}
 .moca_header .gnb > ul > li{float:left}
 
+/*noheader*/
+.noheader .moca_header{height:auto}
+.noheader .moca_nav{display:none}
+.noheader ~ div .moca_aside{top:24px}
+.noheader ~ div .moca_lnb{top:24px}
+.noheader ~ div .moca_mdi{top:23px}
 /*header 위로 접었을 시*/
 .moca_header.on {height: 23px; overflow: hidden}
 .moca_aside.on{top:23px;}
 .moca_container.on .moca_lnb{top:23px}
 .moca_container.on .moca_mdi{top:23px}
+
 /*--- moca_header 팝업시 별도 css ---*/
 .moca_header.pop{height:auto}
 .moca_header.pop + .moca_tab_cont > .moca_cont_wrap {top:24px}
@@ -422,7 +429,7 @@ input[type=text].kor {-webkit-ime-mode:active; -moz-ime-mode:active; -ms-ime-mod
 /*MARGIN*/
 .mauto {margin:0 auto !important}
 .ma0 {margin:0 !important}
-
+.m10 {margin:10px !important}
 .mr0 {margin-right:0 !important}
 .mr1 {margin-right:1px !important}
 .mr2 {margin-right:2px !important}

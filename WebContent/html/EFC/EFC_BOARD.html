@@ -17,7 +17,6 @@
 			$($m.EFC_BOARD.getObj("grd_1")).find('.moca_grid_body col').css('display','');
 		}
 		if(args.parent.data != null){
-			debugger;
 			$m.EFC_BOARD.pageType = args.parent.data.PAGE_TYPE;
 			if($m.EFC_BOARD.pageType == 'home'){
 				$m.hide($m.EFC_BOARD.getObj("btn_del"));
@@ -61,13 +60,14 @@
             },			
 			callback : function(response2){
 				var list = response2.list;
+				/*
 				$m.setCheckboxGroupList(
 	        			$m.EFC_BOARD.getObj('chkg_corp'),
 	        			list,
 	        			{label:"codeNm",value:"code",checked:true},
 	        			{"Y":"unchecked"}
-	        	);
-				//$m.EFC_BOARD.bindCombo("cmb_corp",{metaInfo:{codeCd:"code",codeNm:"codeNm"}},list);
+	        	);*/
+				$m.EFC_BOARD.bindCombo("cmb_corp",{metaInfo:{codeCd:"code",codeNm:"codeNm"}},list);
 				$m.EFC_BOARD.fn_search();
 			}
 		});
@@ -78,9 +78,10 @@
 	$m.EFC_BOARD.fn_search = function(){
 		var _corpCdArr = [];
 		if($m.getSs("USER_ID") == 'superadmin'){
-			_corpCdArr = $m.getCheckboxGroupCheckedList($m.EFC_BOARD.getObj('chkg_corp'));
+			
+			_corpCdArr = $m.EFC_BOARD.getCombo("cmb_corp");
 		}else{
-			_corpCdArr.push($m.getSs("CORP_CD"));
+			_corpCdArr = $m.getSs("CORP_CD");
 		}
 	    $m.EFC_BOARD.exe({
 	        url : $m._domain+$m._contextRoot+"/EFC_BOARD/selectBoardList.do",
@@ -367,13 +368,16 @@
 						<div class="tb" id="tb_chkg_corp" style="display:none">
 							<span class="tb_th">법인</span>
 							<span class="tb_td">
-		                                	<!-- <div type="combo" id="cmb_board" class="moca_combo" readonly="true" displayFormat="[label]" cdField="code" nmField="codeNm" ></div> -->
-		                    	<!-- <div type="combo" id="cmb_corp" class="moca_combo" style="width:calc(50% - 2px); margin-right:2px" displayFormat="[label]" cdField="cd" nmField="nm" ></div> -->
-								<div type="checkboxGroup" class="fl bd" direction="vertical" id="chkg_corp" style="width:207px"
-	                                itemset='[
-	                                    {"id":"chk1","label":"완료","value":"Y","checked":"true"}
-	                                ]'>
-	                            </div>
+								<div type="combo" 
+									id="cmb_corp" 
+									class="moca_combo" 
+									style="width:100%" 
+									displayFormat="[label]" 
+									cdField="code" 
+									nmField="codeNm"   
+									itemset='[{"cd":"0","nm":"해당없음 "},{"cd":"1","nm":"(%) 비율"},{"cd":"2","nm":"(원) 금액"}]'>
+								</div>
+								
 							</span>
 						</div>
 						<div class="tb" id="tb_chkg_1">

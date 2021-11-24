@@ -232,7 +232,7 @@ $(document).ready(function() {
 </head>
    <body>
 	<div class="moca_wrap">
-		<div type="include"  id="header" tag="moca:header" src="/moca/comm/header.html"></div>
+		<div type="include"  class="noheader" id="header" tag="moca:header" src="/moca/comm/header.html"></div>
 		<div type="include"  id="aside"tag="moca:aside" src="/moca/comm/aside.html"></div>
 		<div class="moca_container on flex">		
 			<div type="include" style="width:210px" id="lnb" tag="moca:lnb" src="/moca/comm/lnb.html"></div>
