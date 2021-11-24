@@ -111,11 +111,17 @@ $m.main.fn_pop_callback  = function(_gubun){
 };
 
 $m.main.fn_tel = function(_this){
-	if($m.getDevice() != "mobile"){
-		$m.alert('<i style="display: block; font-size: 19px;" class="mb5">상담문의</i><a style="font-size:17px; ">010-9116-8072</a> <br/> 언제나 친절하게 상담해드리겠습니다.',function(result){});
-	}else{
-		$m.alert('<i style="display: block; font-size: 19px;" class="mb5">상담문의</i><a href="tel:010-9116-8072" style="font-size:17px; ">010-9116-8072</a> <br/> 언제나 친절하게 상담해드리겠습니다.',function(result){});
-	}
+		//$m.alert('<i style="display: block; font-size: 19px;" class="mb5">상담문의</i><a style="font-size:17px; ">010-9116-8072</a> <br/> 언제나 친절하게 상담해드리겠습니다.',function(result){});
+		 var o = {};
+		 var _this = ''
+		o.id = $m.main.popId;
+		o.title ="상담문의";
+	    o.url = '/checkpoint.html';
+	    o.type = "POPUP";
+	    o.modal = "true";
+	    o.callback = $m.main.fn_pop_callback;
+	    o.scopeId = $m.main.pageId;
+	    $m.popup(o,_this);
 }
 
 function initKakao(_key){
@@ -236,15 +242,18 @@ function goMoca(){
 <div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
 	<div class="wrapper">
 		<div class="wrapContent">
-			<div class="header">
-				<h1><a class="logo" href="./index.html">MOCA</a><a class="banner"></a></h1>
-				<div class="fr btn_area">
-					<button id="kakaoLogin" class="kakaoLogin fl" onclick="loginKakao()">
-					 	<i></i>
-					 	<span>Login</span>
-					 </button>
-					 <span style="display:none" class="btn_Erp fl" id="btnErp" onclick="goMoca()">ERP<i class="fas fa-location-arrow ml5"></i></span>
-					 <span style="display:none" class="loginInfo fl ml5" id="userName" onclick="$m.main.fn_logout()"><i class="fa fa-user mr5" aria-hidden="true"></i>홍길동</span>
+			
+			<div class="bg_snow">
+				<div class="header">
+					<h1><a class="logo" href="./index.html">MOCA</a><a class="banner"></a></h1>
+					<div class="fr btn_area">
+						<button id="kakaoLogin" class="kakaoLogin fl" onclick="loginKakao()">
+						 	<i></i>
+						 	<span>Login</span>
+						 </button>
+						 <span style="display:none" class="btn_Erp fl" id="btnErp" onclick="goMoca()">ERP<i class="fas fa-location-arrow ml5"></i></span>
+						 <span style="display:none" class="loginInfo fl ml5" id="userName" onclick="$m.main.fn_logout()"><i class="fa fa-user mr5" aria-hidden="true"></i>홍길동</span>
+					</div>
 				</div>
 			</div>
 			<div class="container" style="overflow: inherit">
@@ -279,7 +288,6 @@ function goMoca(){
 						<div class="fl col5">
 							<div class="main_banner">
 								<div class="banner_box">
-									<div><span class="qs">Q1</span><span class="bannerImg img1"></span></div>
 									<div>
 										<p>
 											아직도 웹화면을 <e>날코딩</e> 하시나요?
@@ -288,7 +296,6 @@ function goMoca(){
 									</div>
 								</div>
 								<div class="banner_box">
-									<div><span class="qs">Q2</span><span class="bannerImg img2"></span></div>
 									<div>
 										<p>
 											아직도 리스트를 보여주는
@@ -299,7 +306,6 @@ function goMoca(){
 									</div>
 								</div>
 								<div class="banner_box">
-									<div><span class="qs">Q3</span><span class="bannerImg img3"></span></div>
 									<div>
 										<p>
 											아직도 UI작업을 위해 <e>많은 인건비</e>를 들여
@@ -311,7 +317,6 @@ function goMoca(){
 									</div>
 								</div>
 								<div class="banner_box">
-									<div><span class="qs">Q4</span><span class="bannerImg img4"></span></div>
 									<div>
 										<p>
 											<e>프로젝트</e> 기간은 짧은데,

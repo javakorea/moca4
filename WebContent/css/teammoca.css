@@ -14,8 +14,9 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .fc_mint{color:#55c7c6 !important;}
 .fc_red{color:#e64747 !important;}
 .mr5{margin-right:5px}
-.wrapper{position:relative; height:100%; min-width:800px}
+.wrapper{position:relative; height:100%; min-width:800px;background:url(../images/home/snow_bg.gif)}
 .container{position:relative;border-top: 2px solid #6397af; overflow:inherit}
+.bg_snow {position:relative; height:80px;background:url(../images/home/snow_bg.gif)}
 .header {position:relative; height:80px; max-width: 1080px; margin: 0 auto;}
 .header h1{position:relative; top:12px; left:35px; float:left}
 .header h1 a.logo{display:block;background:url(../images/home/MOCA_CI.svg)no-repeat;  width:136px; height:43px; text-indent:-9999px; float:left}
@@ -69,47 +70,28 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .container .mocaBox a.btn:hover, .container .mocaBox > a.btn:active{opacity:1}
 .container .mocaBox .main_img2{background:url(../images/home/main_img2.png)no-repeat;}
 .container .mocaBox .main_banner {height:100%}
-.container .mocaBox .main_banner .banner_box{height:25%;font-size:14px; position:relative}
-.container .mocaBox .main_banner .banner_box:nth-child(2n-1){background:#fbf8f1; border-bottom: 1px solid #a6a5a1;}
-.container .mocaBox .main_banner .banner_box > div:nth-child(1){text-align:center;width:40%; height:100%; float:left}
-.container .mocaBox .main_banner .banner_box > div:nth-child(2){width:60%; height:100%; float:right}
-.container .mocaBox .main_banner .banner_box:nth-child(2n){background:#e9e9e1; border-bottom: 1px solid #a6a5a1;}
-.container .mocaBox .main_banner .banner_box p{width:90%; word-break:keep-all; background: #fff; color:#6d5c4e; border-radius: 15px; box-sizing: border-box; position: relative;top: 12px; padding: 20px; box-shadow:0px 0px 3px rgb(0 0 0 / 10%)}
-.container .mocaBox .main_banner .banner_box p e{font-weight:bold}
-.container .mocaBox .main_banner .banner_box .qs {
-      width: 100px;
-      height: 100px;
-      box-sizing: content-box;
-      position: relative;
-      color: #6d5c4e;
-      font-size: 13px;
-      font-weight:bold;
-      letter-spacing: 0.2em;
-      text-align: center;
-      text-transform: uppercase;
-      display:inline-block;
-      line-height:79px;
-      text-indent:5px
-    }
-    .qs:after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 0;
-      height: 0;
-      border-bottom: 26px solid #e9e9e1;
-      border-left: 55px solid transparent;
-      border-right: 55px solid transparent;
-    }
-.container .mocaBox .main_banner .banner_box:nth-child(2n) .qs{background:#fbf8f1}
-.container .mocaBox .main_banner .banner_box:nth-child(2n-1) .qs{background:#e9e9e1}   
-.container .mocaBox .main_banner .banner_box:nth-child(2n-1) .qs:after{border-bottom: 26px solid #fbf8f1;}   
+.container .mocaBox .main_banner .banner_box{height:25%;font-size:14px; position:relative; }
 
-.container .mocaBox .main_banner .banner_box .bannerImg{background:url(../images/home/main_img2.png)no-repeat; display:none; position:relative;}
+.container .mocaBox .main_banner .banner_box:nth-child(1){background-color:#af9580; border-bottom: 1px solid #a6a5a1;background-image:url(../images/home/main_bn1.png);background-repeat: no-repeat}
+.container .mocaBox .main_banner .banner_box:nth-child(2){background-color:#d6be9f; border-bottom: 1px solid #a6a5a1;background-image:url(../images/home/main_bn2.png);background-repeat: no-repeat}
+.container .mocaBox .main_banner .banner_box:nth-child(3){background-color:#c9c5c1; border-bottom: 1px solid #a6a5a1;background-image:url(../images/home/main_bn3.png); background-size: 100%; background-position: bottom;background-repeat: no-repeat}
+.container .mocaBox .main_banner .banner_box:nth-child(4){background-color:#e9e9e1; border-bottom: 1px solid #a6a5a1;background-image:url(../images/home/main_bn4.png);background-repeat: no-repeat}
+.container .mocaBox .main_banner .banner_box:nth-child(1) > div{width:80%; height:100%; float:right}
+.container .mocaBox .main_banner .banner_box:nth-child(2) > div{width:57%; height:100%; float:right}
+.container .mocaBox .main_banner .banner_box:nth-child(3) > div{width:100%; height:100%; float:right}
+.container .mocaBox .main_banner .banner_box:nth-child(4) > div{width:57%; height:100%; float:right}
+.container .mocaBox .main_banner .banner_box p{ word-break:keep-all; background: rgba(0,0,0,0.2); color:#fff; box-sizing: border-box; position: relative;top: 33%; padding: 20px;}
+.container .mocaBox .main_banner .banner_box:nth-child(1) p{top:33%}
+.container .mocaBox .main_banner .banner_box:nth-child(2) p{top:23%;background: rgba(255,255,255,0.2); color: #7a6759}
+.container .mocaBox .main_banner .banner_box:nth-child(3) p{top:0}
+.container .mocaBox .main_banner .banner_box:nth-child(4) p{top:23%;background: rgba(255,255,255,0.6); color: #7a6759}
+
+.container .mocaBox .main_banner .banner_box p e{font-weight:bold}
+
+.container .mocaBox .main_banner .banner_box .bannerImg{background:url(../images/home/main_img3.png)no-repeat; display:inline-block; position:relative;}
 .container .mocaBox .main_banner .banner_box .bannerImg.img1{width: 100px; height: 70px;background-position: -8px -6px; margin:20px 30px}
 .container .mocaBox .main_banner .banner_box .bannerImg.img2{width:100px; height:70px; background-position:-10px -80px;  margin:7%}
-.container .mocaBox .main_banner .banner_box .bannerImg.img3{width: 100%; height: 127px; background-position: right -265px; position: absolute; bottom:0}
+.container .mocaBox .main_banner .banner_box .bannerImg.img3{width: 100%; height: 127px; background-position: right -265px; position: absolute; bottom:0; right:0}
 .container .mocaBox .main_banner .banner_box .bannerImg.img4{width:142px; height:96px; background-position:0 -150px; margin:8%}
 .mocastep {width: calc(50% - 5px);  position: relative; box-sizing: border-box; border-radius: 0 10px 0px 10px; border-top: 0; height: 120px; border: 1px solid #eae7e7;}
 .mocastep:last-child{margin-right:0}
@@ -250,13 +232,10 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 	.container .mocaBox .main_img .mainSvg svg{top:22px}
 	.container .main_box{height:230px}
 	.container .main_box > .td{width:50%; padding:10px 15px; height:290px}
-	.container .mocaBox .main_banner .banner_box:nth-child(1){height:15%;}
-	.container .mocaBox .main_banner .banner_box:nth-child(2){height:27%;}
-	.container .mocaBox .main_banner .banner_box:nth-child(3){height:38%;}
-	.container .mocaBox .main_banner .banner_box:nth-child(4){height:20%;}
-	
-	.container .mocaBox .main_banner .banner_box .bannerImg.img2{display:none}
-	.container .mocaBox .main_banner .banner_box .bannerImg.img3{display:none}
+	.container .mocaBox .main_banner .banner_box:nth-child(1) > div{width:100%; text-align:center}
+	.container .mocaBox .main_banner .banner_box:nth-child(2){background-position:-25px}
+	.container .mocaBox .main_banner .banner_box:nth-child(4){background-position:-50px}
+	.container .mocaBox .main_banner .banner_box:nth-child(2) p{top:2.2em}
 	.container .mocaBox .main_banner .banner_box .bannerImg.img4{top:11%}
 	.container .main_box > .td:nth-child(1),.container .main_box > .td:nth-child(2){padding-bottom:45px}
 	.container .main_box > .td:nth-child(3),.container .main_box > .td:nth-child(4){height:273px}

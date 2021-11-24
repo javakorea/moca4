@@ -13,7 +13,7 @@ figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, su
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display: block;}
 body { line-height: 1}
-a{text-decoration:none}
+a{text-decoration:none;color:unset}
 ol, ul { list-style: none}
 blockquote, q {	quotes: none}
 blockquote:before, blockquote:after, q:before, q:after {content: ''; content: none}
