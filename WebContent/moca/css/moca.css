@@ -420,7 +420,7 @@ i.msg {text-align: center; padding:0 6px; display: inline-block; color: #fff; bo
 .grid_btn button, .mocaButton button{min-width:58px}
 .moca_table_cont td div[type="button"].mocaButton.temp button, .mocaButton.temp button{border: 1px solid #274560; color: #102539; background: #dde1ed; box-sizing: border-box; border-radius: 2px; font-weight: normal}
 .moca_table_cont td div[type="button"].mocaButton.temp button, .mocaButton.temp button:hover{background: #d6dbeb}
-.moca_layer_tab .tab_badge{background: #f2d9b8; color:#333; line-height: 16px; height: 16px; border: 2px solid #353535;}
+
 
 /*moca_gridDetail*/
 [contenteditable=true]:empty:before{

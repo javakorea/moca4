@@ -11524,6 +11524,28 @@ Moca.prototype.renderTab = function(aTag) {
     tabConts +='                    <div class="moca_layer_tab_listarea">\n';
     tabConts +='                        <div class="moca_layer_tab_scroll">\n';
     tabConts +='                            <ul role="tablist" class="moca_layer_tab_ul">\n';
+    
+    tabConts +='<svg height="0" width="0" style="position: absolute; margin-left: -100%;">';
+    tabConts +='<defs>';
+    tabConts +='<filter id="shadow">';
+    tabConts +='<feComponentTransfer in="SourceGraphic">';
+    tabConts +='<feFuncR type="discrete" tableValues="0"/>';
+    tabConts +='<feFuncG type="discrete" tableValues="0"/>';
+    tabConts +='<feFuncB type="discrete" tableValues="0"/>';
+    tabConts +='</feComponentTransfer>';
+    tabConts +='<feGaussianBlur stdDeviation="1"/>';
+    tabConts +='<feComponentTransfer><feFuncA type="linear" slope="0.2"/></feComponentTransfer>';
+    tabConts +='<feOffset dx="5" dy="1" result="shadow"/>';
+    tabConts +='<feComposite in="SourceGraphic" />';
+    tabConts +='</filter>';
+    tabConts +='<linearGradient id="tab-1-bg" x1="0%" y1="0%" x2="0%" y2="65%">';
+    tabConts +='<stop offset="0%" style="stop-color: rgba(136, 195, 229, 1.0);" />';
+    tabConts +='<stop offset="100%" style="stop-color: rgba(118, 160, 192, 1.0);" />';
+    tabConts +='</linearGradient>';
+    tabConts +='</defs>';
+    tabConts +='<path id="tab-shape" class="tab-shape" d="M116.486,29.036c-23.582-8-14.821-29-42.018-29h-62.4C5.441,0.036,0,5.376,0,12.003v28.033h122v-11H116.486z">';
+    tabConts +='</svg>';
+    
     var activeIndex = 0;
     for(var i=0; i < list.length; i++){
         var row = list[i];
@@ -11534,8 +11556,10 @@ Moca.prototype.renderTab = function(aTag) {
         }
         //onclick="$m.tabSubClick(\''+onTabHeaderclickFunctionStr+'\',\''+(i+1)+'\',this)"
         tabConts +='<li class="moca_layer_tab_list '+active+'" id="'+row.id+'" index="'+(i+1)+'"  >\n';
-        tabConts +='<div class="li_bg"></div>';
-        tabConts +=' <button type="button" role="tab" aria-controls="moca_tab_bridge1">'+row.label+'<br><i class="tab_badge" ></i></button>\n';
+        tabConts +=' <button type="button" role="tab" aria-controls="moca_tab_bridge1"><span>'+row.label+'</span><i class="tab_badge" ></i></button>\n';
+        tabConts +='<svg viewBox="0 0 122 40"><use xlink:href="#tab-shape"></use></svg>\n';
+        
+        
         tabConts +='</li>\n';
     }
     tabConts +='                            </ul>\n';

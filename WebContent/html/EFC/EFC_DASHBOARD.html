@@ -3,7 +3,57 @@
 <head>
 <script>
 	$m.EFC_DASHBOARD.___ready = function(){
+		$m.EFC_DASHBOARD.sendParam(null,1);
+	};
+	
+	$m.EFC_DASHBOARD.fn_search = function(){
+		$m.EFC_DASHBOARD.sendParam(null,$($m.EFC_DASHBOARD.getObj("tab_00")).find('li.active').attr('index'));
+	};
+	$m.EFC_DASHBOARD.sendParam = function(_tabContentId,_tabContentIndex,_tabContentObj){
+		debugger;
+		var _today = $m.dateToString(new Date());
+		var _todayStr = _today.year+_today.month+_today.day;
+		var _fromStr = String(_today.year-1)+_today.month+_today.day;
+		var _boardType = "ERP";
 		
+		if(_tabContentIndex == "1"){
+			_boardType = 'ERP';
+		}else if(_tabContentIndex == "2"){
+			_boardType = 'WS';
+		}else if(_tabContentIndex == "3"){
+			_boardType = 'NOTICE';
+		}
+		$m.EFC_DASHBOARD.exe({
+			url : $m._domain+$m._contextRoot+"/EFC_BOARD/selectBoardList.do",
+			loadingbar:true,
+			data : {
+				"header" : $m.header,
+				"body" : {
+					"BOARD_TYPE":_boardType,
+	            	"FROM":_fromStr,
+	                "TO":_todayStr,
+	                "CORP_CD": $m.getSs("CORP_CD"),
+	                "BOARD_SUPPORT": ['N', 'R', 'B']
+					}
+			},			
+			callback : function(response){
+				if(_tabContentIndex == '1'){
+					$m.EFC_BOARD.drawGrid('grd_1',$m.getResList(response,"selectBoardList"));
+				}else if(_tabContentIndex == '2'){
+					$m.EFC_BOARD.drawGrid('grd_1',$m.getResList(response,"selectBoardList"));
+				}else if(_tabContentIndex == '3'){
+					$m.EFC_BOARD.drawGrid('grd_1',$m.getResList(response,"selectBoardList"));
+				}else if(_tabContentIndex == '4'){
+					$m.EFC_BOARD.drawGrid('grd_1',$m.getResList(response,"selectBoardList"));
+				}else if(_tabContentIndex == '5'){
+					$m.EFC_BOARD.drawGrid('grd_1',$m.getResList(response,"selectBoardList"));
+				}
+				var cList = response.selectBoardList;
+				(cList[0].cnt == 0)? $($m.EFC_DASHBOARD.getObj("t1")).find('.tab_badge').css("visibility","hidden"):$($m.EFC_DASHBOARD.getObj("t1")).find('.tab_badge').css("visibility","visible").html($m.comma(cList[0].cnt));
+				(cList[1].cnt == 0)? $($m.EFC_DASHBOARD.getObj("t2")).find('.tab_badge').css("visibility","hidden"):$($m.EFC_DASHBOARD.getObj("t2")).find('.tab_badge').css("visibility","visible").html($m.comma(cList[1].cnt));
+				(cList[2].cnt == 0)? $($m.EFC_DASHBOARD.getObj("t3")).find('.tab_badge').css("visibility","hidden"):$($m.EFC_DASHBOARD.getObj("t3")).find('.tab_badge').css("visibility","visible").html($m.comma(cList[2].cnt));
+			}
+		});
 	};
 </script>
 
@@ -12,13 +62,11 @@
 <div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
 	<div class="moca_tab_cont" style="height:100%">
 		<div class="moca_cont_wrap flex fcol">
-			<div type="tab" id="tab_00" class="moca_layer_tab" style="" onTabHeaderclick="$m.tab00.sendParam"
+			<div type="tab" id="tab_00" class="moca_layer_tab" style="" onTabHeaderclick="$m.EFC_DASHBOARD.sendParam"
 			list='[
-				{"position":"left","id":"t0","label":"탭1","src":"/html/EFC/EFC_BOARD.html","active":"true"},
-				{"position":"left","id":"t1","label":"탭2","src":"/html/EFC/EFC_BOARD.htmll"},
-				{"position":"left","id":"t2","label":"탭3","src":"/html/EFC/EFC_BOARD.html"},
-				{"position":"left","id":"t3","label":"탭4","src":"/html/EFC/EFC_BOARD.html"},
-				{"position":"left","id":"t4","label":"탭5","src":"/html/EFC/EFC_BOARD.html"}
+				{"position":"left","id":"t0","label":"tab1","src":"/html/EFC/EFC_BOARD.html","active":"true"},
+				{"position":"left","id":"t1","label":"tab2","src":"/html/EFC/EFC_BOARD.html"},
+				{"position":"left","id":"t2","label":"tab3","src":"/html/EFC/EFC_BOARD.html"}
 			]'
 			 >
 			</div>

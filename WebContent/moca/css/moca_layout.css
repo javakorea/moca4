@@ -166,23 +166,24 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 
 /*화면내 탭*/
 .moca_shbox + .moca_layer_tab {position: absolute; top: 111px; right: 15px; bottom: 12px; left: 15px;}
-.moca_layer_tab{}
-.moca_layer_tab_head{height:50px}
+.moca_layer_tab{flex:auto}
+.moca_layer_tab .moca_tab_panel{flex:auto}
+.moca_layer_tab .moca_cont_wrap{padding:0}
+.moca_layer_tab_head{height:30px}
 .moca_layer_tab_listarea{}
 .moca_layer_tab_scroll{}
-.moca_layer_tab_ul{}
-.moca_layer_tab .tab_badge{background:#f00; font-size: 10px; font-weight: 700; line-height: 18px; display: inline-block; min-width: 6px; height: 18px;padding: 0 6px; vertical-align: top; letter-spacing: 0; color: #fff; border-radius: 18px; font-style: normal; font-size: 10px}
-.moca_layer_tab_list{min-width:6%; background:#e4e6e8; margin-right:5px; float:left; height:50px; border-radius:3px 3px 0 0}
-.moca_layer_tab_list > button{position: relative; width: 100%; margin: 6px auto 0; padding:0 10px; font-weight:bold}
-.moca_layer_tab_list:hover{background:#d4d9de}
-.moca_layer_tab_list.active{background:#fff; border-top:4px solid #f26e6e; border-left:1px solid #9a9ea8; border-right:1px solid #9a9ea8}
-.moca_layer_tab_list.active > button{margin-top:3px}
-.moca_layer_tab_list.active:after{content:''; display:block; position:relative; top:5px; height: 1px; background: #fff;}
-.moca_layer_tab_body{height:calc(100% - 50px); border:1px solid #9a9ea8; box-sizing:border-box}
+.moca_layer_tab_ul{height:30px; overflow:hidden}
+.moca_layer_tab .tab_badge{font-weight: 700; line-height: 18px; display: none; min-width: 6px; height: 18px;padding: 0 5px; letter-spacing: 0; color: #fff; border-radius: 18px; font-style: normal; font-size: 10px; position: absolute; right: 26px; top: 7px; line-height: 16px; height: 16px; border: 2px solid #fff;}
+.moca_layer_tab_list{width:200px;margin-right:5px; float:left; height:49px; position:relative}
+.moca_layer_tab_list{float: left; width: 150px; margin: 0 0 0 -1rem; position: relative;}
+.moca_layer_tab_list svg{width: 120%; height: 100%; position: absolute; top: 0; left: 0; pointer-events: none;fill: #c3d2d7;}
+.moca_layer_tab_list.active svg{fill:#8db0bd}
+.moca_layer_tab_list > button{color:#fff;position: relative; width: 100%; margin: 0; line-height:30px; padding:0 10px; font-weight:bold; z-index:1}
+.moca_layer_tab_list.active:after{content:''; display:block; position:relative; top:5px; height: 1px}
+.moca_layer_tab_body{height:calc(100% - 30px); border:1px solid #9a9ea8; box-sizing:border-box}
 .moca_layer_tab_cont{position: relative; height: 100%; padding: 0; overflow: auto; box-sizing: border-box; -webkit-box-sizing: border-box;}
 .moca_layer_tab_panel{display: block; visibility: visible; height: calc(100% - 20px);padding: 10px;}
-.moca_layer_tab_list{background:linear-gradient(360deg, rgba(228,230,232,1) 0%, rgba(255,255,255,1) 100%); border: 1px solid #bbb; border-bottom: 0}
-.moca_layer_tab_list:hover{background: linear-gradient(360deg, rgba(228,235,242,1) 0%, rgba(212,217,222,1) 51%, rgba(228,235,242,1) 100%)}
+.moca_layer_tab_list{}
 
 .moca_cont_wrap {position:absolute; top:0; right:0; bottom:0; left:0; padding:10px 15px 15px 15px;/* min-width:640px; */box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
 .moca_cont_wrap2 {position:relative; padding:15px;min-width:640px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
