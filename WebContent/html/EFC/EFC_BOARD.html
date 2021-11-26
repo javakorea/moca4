@@ -7,8 +7,11 @@
 	$m.EFC_BOARD.pageType;
 	$m.EFC_BOARD.popTitle;
 	$m.EFC_BOARD.___ready = function(args){
-		debugger;
-		if(!args.parent.id.startsWith("TAB")){
+		var _isTab = false;
+		if($.trim(args.parent.id) != ''){
+			_isTab = args.parent.id.startsWith("TAB");
+		}
+		if(!_isTab){
 			$m.EFC_BOARD.boardType ='ERP';
 			if(($m.getSs("loginTemp0") == null || $m.getSs("loginTemp0") == '') && $m.getSs("USER_ID") == null){
 				$m.hide($m.EFC_BOARD.getObj("btn_add"));

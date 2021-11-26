@@ -290,7 +290,7 @@ function goMoca(){
 								<div class="banner_box">
 									<div>
 										<p>
-											아직도 웹화면을 <e>날코딩</e> 하시나요?
+											아직도 웹화면을 <e>날코딩</e> 하시나요?<br/>
 											그러시면 <e>망</e>해요!
 										</p>
 									</div>
@@ -321,7 +321,7 @@ function goMoca(){
 										<p>
 											<e>프로젝트</e> 기간은 짧은데,
 											물량이 많아 걱정이시죠?
-											방법 없습니다!
+											방법 없습니다!<br/>
 											유일한 해결책은 <e>모카</e>뿐입니다.
 										</p>
 									</div>
@@ -331,11 +331,13 @@ function goMoca(){
 					</div>
 				</div>
 				<div class="mocaBox boardArea">
-					<div style="height:194px; box-sizing:border-box">
+					<div style="height:188px; box-sizing:border-box">
 						<div class="col5 fl p10">
 							<div class="boardTable" id="ws_list">
-								<span class="boardTitle"><i class="fas fa-comment-dots"></i>웹스퀘어게시판</span>
-								<button class="boardMore fr"  onclick="$m.main.fn_pop_boardMain('BD_WS')"><i class="fas fa-plus-circle"></i>더보기</button>
+								<div class="boardHeader">
+									<span class="boardTitle"><i class="fas fa-comment-dots"></i>웹스퀘어게시판</span>
+									<button class="boardMore fr"  onclick="$m.main.fn_pop_boardMain('BD_WS')"><i class="fas fa-plus-circle"></i>더보기</button>
+								</div>
 								<table class="boardList">
 									<colgroup>
 										<col style="width:395px">
@@ -354,8 +356,11 @@ function goMoca(){
 						</div>
 						<div class="col5 fr p10">
 							<div class="boardTable" id="ws_list2">
-								<span class="boardTitle"><i class="fas fa-volume-off"></i>공지사항</span>
-								<button class="boardMore fr"  onclick="$m.main.fn_pop_boardMain('BD_NOTICE')"><i class="fas fa-plus-circle"></i>더보기</button>
+								<div class="boardHeader">
+									<span class="boardTitle"><i class="fas fa-volume-off"></i>공지사항</span>
+									<button class="boardMore fr"  onclick="$m.main.fn_pop_boardMain('BD_NOTICE')"><i class="fas fa-plus-circle"></i>더보기</button>
+								</div>
+								
 								<table class="boardList">
 									<colgroup>
 										<col style="width:395px">
