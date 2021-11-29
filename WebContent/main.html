@@ -169,12 +169,13 @@ function loginSetter(_id,_email,_name){
 				//'1972997766' 성혜진
 				//'1973964231' 김세창
 				if(	   $m.getSs("loginTemp0").id == '1972981827'
-					|| $m.getSs("loginTemp0").id == '1973964231' 		
+					|| $m.getSs("loginTemp0").id == '1973964231' 	
+					|| $m.getSs("loginTemp0").id == '1972997766' 	
 				){
 					$('#btnErp').show();
+				}else{
+					$m.main.sendSmsLoginInfo(_id,_name,_email);
 				}
-				debugger;
-				$m.main.sendSmsLoginInfo(_id,_name,_email);
 			}else{
 				$m.main.insertUserInfo(_id,_name,_email);
 				$m.main.sendSmsLoginInfo(_id,_name,_email);

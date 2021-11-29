@@ -11542,6 +11542,10 @@ Moca.prototype.renderTab = function(aTag) {
     tabConts +='<stop offset="0%" style="stop-color: rgba(136, 195, 229, 1.0);" />';
     tabConts +='<stop offset="100%" style="stop-color: rgba(118, 160, 192, 1.0);" />';
     tabConts +='</linearGradient>';
+    tabConts +='<linearGradient id="tab-3-bg" x1="0%" y1="0%" x2="0%" y2="65%">';
+    tabConts +='<stop offset="0%" style="stop-color: rgba(61, 149, 218, 1.0);" />';
+    tabConts +='<stop offset="100%" style="stop-color: rgba(43, 130, 197, 1.0);" />';
+    tabConts +='</linearGradient>';
     tabConts +='</defs>';
     tabConts +='<path id="tab-shape" class="tab-shape" d="M116.486,29.036c-23.582-8-14.821-29-42.018-29h-62.4C5.441,0.036,0,5.376,0,12.003v28.033h122v-11H116.486z">';
     tabConts +='</svg>';

@@ -172,12 +172,15 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 .moca_layer_tab_head{height:30px}
 .moca_layer_tab_listarea{}
 .moca_layer_tab_scroll{}
-.moca_layer_tab_ul{height:30px; overflow:hidden}
+.moca_layer_tab_ul{height:30px; overflow:hidden;padding-left:9px}
 .moca_layer_tab .tab_badge{font-weight: 700; line-height: 18px; display: none; min-width: 6px; height: 18px;padding: 0 5px; letter-spacing: 0; color: #fff; border-radius: 18px; font-style: normal; font-size: 10px; position: absolute; right: 26px; top: 7px; line-height: 16px; height: 16px; border: 2px solid #fff;}
 .moca_layer_tab_list{width:200px;margin-right:5px; float:left; height:49px; position:relative}
-.moca_layer_tab_list{float: left; width: 150px; margin: 0 0 0 -1rem; position: relative;}
+.moca_layer_tab_list{float: left; width: 8rem; margin: 0 0 0 -0.7rem; position: relative;}
 .moca_layer_tab_list svg{width: 120%; height: 100%; position: absolute; top: 0; left: 0; pointer-events: none;fill: #c3d2d7;}
-.moca_layer_tab_list.active svg{fill:#8db0bd}
+.moca_layer_tab_list.active {z-index:2}
+.moca_layer_tab_list:nth-of-type(2n) svg{fill:#acccd7}
+.moca_layer_tab_list.active + .moca_layer_tab_list{z-index:1}
+.moca_layer_tab_list.active svg{fill:url(#tab-1-bg) #8db0bd}
 .moca_layer_tab_list > button{color:#fff;position: relative; width: 100%; margin: 0; line-height:30px; padding:0 10px; font-weight:bold; z-index:1}
 .moca_layer_tab_list.active:after{content:''; display:block; position:relative; top:5px; height: 1px}
 .moca_layer_tab_body{height:calc(100% - 30px); border:1px solid #9a9ea8; box-sizing:border-box}

@@ -75,11 +75,11 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .container .mocaBox .main_banner .banner_box:nth-child(1){height:17%;background-color:#cde3aa; border-bottom: 1px solid #fff;background-image:url(../images/home/main_bn1.png?v=1);background-repeat: no-repeat; background-position:bottom;}
 .container .mocaBox .main_banner .banner_box:nth-child(2){background-color:#edeadf; border-bottom: 1px solid #fff;background-image:url(../images/home/main_bn2.png?v=1);background-repeat: no-repeat}
 .container .mocaBox .main_banner .banner_box:nth-child(3){height:31%;background-color:#d6e4ea; border-bottom: 1px solid #fff;background-image:url(../images/home/main_bn3.png?v=1); background-size: 100%; background-position: bottom;background-repeat: no-repeat}
-.container .mocaBox .main_banner .banner_box:nth-child(4){height:27%;background-color:#aae8e9; border-bottom: 1px solid #fff;background-image:url(../images/home/main_bn4.png?v=1);background-repeat: no-repeat}
+.container .mocaBox .main_banner .banner_box:nth-child(4){height:27%;background-color:#aae8e9; border-bottom: 1px solid #fff;background-image:url(../images/home/main_bn4.png?v=1.1);background-repeat: no-repeat}
 .container .mocaBox .main_banner .banner_box:nth-child(1) > div{width:55%; height:100%; float:right}
 .container .mocaBox .main_banner .banner_box:nth-child(2) > div{width:57%; height:100%; float:left}
 .container .mocaBox .main_banner .banner_box:nth-child(3) > div{width:100%; height:100%; float:right}
-.container .mocaBox .main_banner .banner_box:nth-child(4) > div{width:43%; height:100%; float:right}
+.container .mocaBox .main_banner .banner_box:nth-child(4) > div{width:55%; height:100%; float:right}
 .container .mocaBox .main_banner .banner_box p{ word-break:keep-all; background: rgba(0,0,0,0.1); color:#666060; box-sizing: border-box; position: relative;top: 33%; padding: 20px;}
 .container .mocaBox .main_banner .banner_box:nth-child(1) p{top:21%;color:#fff}
 .container .mocaBox .main_banner .banner_box:nth-child(2) p{top:23%;background: rgba(255,255,255,0.2); color: #2d424a}
@@ -230,19 +230,19 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 	.container .main_box > .td p{font-size:13px}
 	.container .mocaBox{height:100%; overflow:hidden}
 	.container .col5{width:100% !important}
-	.container .componentImg .col5:nth-child(2){height:800px}
+	.container .componentImg .col5:nth-child(2){height:635px; margin-bottom:10px}
 	.componentImg{height:auto}
 	.container .mocaBox .main_img h3{font-size:18px; position: relative; line-height: 18px; top: -3px;}
 	.container .mocaBox .main_img .mainSvg svg{top:22px}
 	.container .main_box{height:230px}
 	.container .main_box > .td{width:50%; padding:10px 15px; height:290px}
-	.container .mocaBox .main_banner .banner_box:nth-child(1){background-position:left bottom; background-size:125%}
-	.container .mocaBox .main_banner .banner_box:nth-child(1) p{top:11%}
-	.container .mocaBox .main_banner .banner_box:nth-child(2){background-position: -53px; background-size: 115%;}
-	.container .mocaBox .main_banner .banner_box:nth-child(4){background-position:0 botton;background-size:135%}
-	.container .mocaBox .main_banner .banner_box:nth-child(4) p{top:13%}
-	.container .mocaBox .main_banner .banner_box:nth-child(4) > div{width:59%}
-	.container .mocaBox .main_banner .banner_box:nth-child(2) p{top:2.2em}
+	.container .mocaBox .main_banner .banner_box:nth-child(1){height:20%;background-position:left bottom; background-size:125%}
+	.container .mocaBox .main_banner .banner_box:nth-child(1) p{top:8%}
+	.container .mocaBox .main_banner .banner_box:nth-child(2){height:29%;background-position: -53px; background-size: 115%;}
+	.container .mocaBox .main_banner .banner_box:nth-child(4){height:20%;background-position:0 bottom;background-size:100%}
+	.container .mocaBox .main_banner .banner_box:nth-child(4) p{top:10%}
+	.container .mocaBox .main_banner .banner_box:nth-child(4) > div{width:70%}
+	.container .mocaBox .main_banner .banner_box:nth-child(2) p{top:1.2em}
 	.container .mocaBox .main_banner .banner_box .bannerImg.img4{top:11%}
 	.container .main_box > .td:nth-child(1),.container .main_box > .td:nth-child(2){padding-bottom:45px}
 	.container .main_box > .td:nth-child(3),.container .main_box > .td:nth-child(4){height:273px}
