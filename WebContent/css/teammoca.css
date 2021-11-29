@@ -239,8 +239,8 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 	.container .mocaBox .main_banner .banner_box:nth-child(1){height:20%;background-position:left bottom; background-size:125%}
 	.container .mocaBox .main_banner .banner_box:nth-child(1) p{top:8%}
 	.container .mocaBox .main_banner .banner_box:nth-child(2){height:29%;background-position: -53px; background-size: 115%;}
-	.container .mocaBox .main_banner .banner_box:nth-child(4){height:20%;background-position:0 bottom;background-size:100%}
-	.container .mocaBox .main_banner .banner_box:nth-child(4) p{top:10%}
+	.container .mocaBox .main_banner .banner_box:nth-child(4){height:20%;background-position:0 bottom;background-size:100%; min-height:128px}
+	.container .mocaBox .main_banner .banner_box:nth-child(4) p{top:8%}
 	.container .mocaBox .main_banner .banner_box:nth-child(4) > div{width:70%}
 	.container .mocaBox .main_banner .banner_box:nth-child(2) p{top:1.2em}
 	.container .mocaBox .main_banner .banner_box .bannerImg.img4{top:11%}

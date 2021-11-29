@@ -663,9 +663,10 @@ $m.EFC_BOARD_POP.fn_reply = function(_thisObj){
 $m.EFC_BOARD_POP._boardSupport ;
 $m.EFC_BOARD_POP.fn_status = function(_thisObj){
 	var _completeid;
-	var _receiptid = $m.getValue($m.EFC_BOARD_POP.getObj('wreceiptid')) != ""?$m.getValue($m.EFC_BOARD_POP.getObj('wreceiptid')):$m.getSs("USER_ID")
+	var _receiptid = $m.getValue($m.EFC_BOARD_POP.getObj('wreceiptid')) != ""?$m.getValue($m.EFC_BOARD_POP.getObj('wreceiptid')):$m.getSs("USER_ID");
 	if(_thisObj.innerText == "접수"){
 		$m.EFC_BOARD_POP._boardSupport = "R";
+		_receiptid = $m.getSs("USER_ID");
 	}else if(_thisObj.innerText == "완료"){
 		$m.EFC_BOARD_POP._boardSupport = "Y";
 		_completeid = $m.getSs("USER_ID");
@@ -690,13 +691,7 @@ $m.EFC_BOARD_POP.fn_status = function(_thisObj){
         		},			
         		callback : function(response){
         			if(response.cnt > 0){
-                        $m.alert(_thisObj.innerText+'되었습니다.');
-                        $m.EFC_BOARD_POP.fn_search();
-                        if($m.EFC_BOARD_POP._boardType == 'ERP'){
-                        	$m.EFC_BOARD.fn_search();
-                        }else{
-                        	$m.EFC_BOARD_WS.fn_search();
-                        }
+                        $m.popClose($m.EFC_BOARD_POP.pageId,{callback:"true",message:_thisObj.innerText+'되었습니다.'});
                     }else{
                     	$m.error(response.error);
                     }

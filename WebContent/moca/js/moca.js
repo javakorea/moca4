@@ -3326,7 +3326,10 @@ Moca.prototype.swaipClickScroll = function(thisObj) {
     event.target.style.display = 'none';
     var cb = document.elementFromPoint(event.x,event.y);
     cb.dispatchEvent(evt);
-    event.target.style.display = 'block';
+    if($(cb).prop('tagName') !='INPUT' ){
+    	   event.target.style.display = 'block';
+    }
+ 
     
 };
 
@@ -12458,7 +12461,15 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
     	
     }else{
     	var df =  $(_comp).attr('displayFunction');
+    	if($(_comp).prop('tagName') == 'INPUT' && $m.getDevice() == 'mobile' ){
+    		var _grd = $(_comp).closest('div[type="grid"]');
+    		var _scrollY = _grd.find('#'+_grd[0].id+'_moca_scroll_y');
+    		if(!_scrollY.is(':visible')){
+    			_scrollY.css('display','block')
+    		}
+    	}
     	if($(_comp).attr('type') == 'input'){
+    		
     		_comp = $(_comp).find('input[type=text]')[0];
     	}
         
