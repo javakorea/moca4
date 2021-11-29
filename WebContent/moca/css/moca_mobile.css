@@ -13,7 +13,7 @@
     /*.moca_scrollY_type1{display:none}*/
     .moca_aside{background:none}
     .noheader ~ div .moca_aside.on, .moca_aside.on{top:0; bottom:auto}
-    .moca_mdi .moca_tab_listarea{right:43px}
+    .moca_mdi .moca_tab_listarea{right:43px; left:37px}
     .moca_container{left:0}
    	.moca_header.on{display:none}
     .moca_container:not(.on) > div[tag="moca:mdi"]{display:none}
