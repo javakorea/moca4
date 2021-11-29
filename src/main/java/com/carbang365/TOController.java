@@ -5664,4 +5664,33 @@ public class TOController{
 		}
         return jsonview;
 	}
+	
+	//소셜로그인시 메세지
+	@RequestMapping(value = "/main/sendSmsLoginInfo.do")
+	public View sendSmsLoginInfo(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			
+			Map map = new HashMap();
+	    	map.put("PROP_KEY","업무게시판수신자");
+	    	
+	    	List EFGPRPOP_list = mocaEFLService.selectList_EFGPROP(map);
+	    	if(EFGPRPOP_list != null && EFGPRPOP_list.size() > 0){
+	    		Map phonenumber = (Map)EFGPRPOP_list.get(0);
+		    	API.sendSms(
+		    			(String)paramMap.get("USER_NAME")+"님이 소셜로그인 하셨습니다.",
+		    			phonenumber.get("PROP_VALUE").toString(),
+		    			(String)paramMap.get("USER_NAME")
+		    	);
+	    	}
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
 }

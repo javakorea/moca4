@@ -72,10 +72,10 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .container .mocaBox .main_banner {height:100%}
 .container .mocaBox .main_banner .banner_box{height:25%;font-size:14px; position:relative; }
 
-.container .mocaBox .main_banner .banner_box:nth-child(1){height:17%;background-color:#b0bba8; border-bottom: 1px solid #fff;background-image:url(../images/home/main_bn1.png);background-repeat: no-repeat; background-position:bottom;}
-.container .mocaBox .main_banner .banner_box:nth-child(2){background-color:#e6e4eb; border-bottom: 1px solid #fff;background-image:url(../images/home/main_bn2.png);background-repeat: no-repeat}
-.container .mocaBox .main_banner .banner_box:nth-child(3){height:31%;background-color:#d6e4ea; border-bottom: 1px solid #fff;background-image:url(../images/home/main_bn3.png); background-size: 100%; background-position: bottom;background-repeat: no-repeat}
-.container .mocaBox .main_banner .banner_box:nth-child(4){height:27%;background-color:#aae8e9; border-bottom: 1px solid #fff;background-image:url(../images/home/main_bn4.png);background-repeat: no-repeat}
+.container .mocaBox .main_banner .banner_box:nth-child(1){height:17%;background-color:#cde3aa; border-bottom: 1px solid #fff;background-image:url(../images/home/main_bn1.png?v=1);background-repeat: no-repeat; background-position:bottom;}
+.container .mocaBox .main_banner .banner_box:nth-child(2){background-color:#edeadf; border-bottom: 1px solid #fff;background-image:url(../images/home/main_bn2.png?v=1);background-repeat: no-repeat}
+.container .mocaBox .main_banner .banner_box:nth-child(3){height:31%;background-color:#d6e4ea; border-bottom: 1px solid #fff;background-image:url(../images/home/main_bn3.png?v=1); background-size: 100%; background-position: bottom;background-repeat: no-repeat}
+.container .mocaBox .main_banner .banner_box:nth-child(4){height:27%;background-color:#aae8e9; border-bottom: 1px solid #fff;background-image:url(../images/home/main_bn4.png?v=1);background-repeat: no-repeat}
 .container .mocaBox .main_banner .banner_box:nth-child(1) > div{width:55%; height:100%; float:right}
 .container .mocaBox .main_banner .banner_box:nth-child(2) > div{width:57%; height:100%; float:left}
 .container .mocaBox .main_banner .banner_box:nth-child(3) > div{width:100%; height:100%; float:right}
@@ -110,11 +110,11 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .container .contBox .col5.right{padding-left: 15px; box-sizing: border-box;}
 
 .footer{position:absolute; left:0; right:0; background:#434343; font-size:20px; color:#bbb}
-.footer .f_content{position: relative; padding:0 65px; max-width:1080px; margin:0 auto;overflow: hidden; box-sizing: border-box}
-.footer .f_content h2{float:left; margin-right:25px; padding:20px 0}
-.footer .f_content p{display:inline-block; float:left; position:relative; top:19px; font-size:11px;}
+.footer .f_content{position: relative; padding:0 40px; max-width:1080px; margin:0 auto;overflow: hidden; box-sizing: border-box}
+.footer .f_content h2{float:left; margin-right:15px; padding:20px 0}
+.footer .f_content p{word-break:keep-all;display:inline-block; float:left; position:relative; top:19px; font-size:11px;}
 .footer .f_content p > span:first-child{margin-right:10px}
-.footer .f_content div.f_tel{position:relative; float:right; padding: 20px 0 20px 20px; margin-left: 20px}
+.footer .f_content div.f_tel{position:relative; float:right; font-size:15px; padding: 24px 0 20px 24px; margin-left: 20px}
 .footer .f_content div.f_tel img{width:40px; height:40px; float:left; margin-right:7px}
 .footer .f_content div.f_tel span{ margin:0 5px}
 .footer .f_content div.f_tel .title{font-weight:700}
@@ -123,12 +123,12 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .f_point{color:#3fbda7 !important;}
 
 /*메인 _ 게시판*/
-.boardArea .col5:nth-child(1){margin-bottom:0; background:#f3f2f1}
-.boardArea .col5:nth-child(2){margin-bottom:0; background:#e6ebf2}
+.boardArea .col5:nth-child(1){margin-bottom:0; background:#e2f0f7}
+.boardArea .col5:nth-child(2){margin-bottom:0; background:#f7f3e2}
 
 .boardArea .boardMore{line-height:24px}
-.boardArea .col5:nth-child(1) .boardHeader{background: rgba(255,255,255,0.7); padding: 5px 10px; border-bottom: 1px solid #a59e8a; border-radius:5px}
-.boardArea .col5:nth-child(2) .boardHeader{background: rgba(255,255,255,0.7); padding: 5px 10px; border-bottom: 1px solid #95c0d5; border-radius:5px}
+.boardArea .col5:nth-child(1) .boardHeader{background: rgba(255,255,255,0.7); padding: 5px 10px; border-bottom: 1px solid #91afbf; border-radius:5px}
+.boardArea .col5:nth-child(2) .boardHeader{background: rgba(255,255,255,0.7); padding: 5px 10px; border-bottom: 1px solid #b7af8d; border-radius:5px}
 .boardArea .col5:nth-child(2) .boardTitle > i, .boardArea .col5:nth-child(2) .boardMore{}
 .boardTable table {margin-top:10px; width:100%}
 .boardTable .notice{border-top: 2px solid #5f80c7; padding:5px 10px}
@@ -238,8 +238,8 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 	.container .main_box > .td{width:50%; padding:10px 15px; height:290px}
 	.container .mocaBox .main_banner .banner_box:nth-child(1){background-position:left bottom; background-size:125%}
 	.container .mocaBox .main_banner .banner_box:nth-child(1) p{top:11%}
-	.container .mocaBox .main_banner .banner_box:nth-child(2){background-position: -63px; background-size: 130%;}
-	.container .mocaBox .main_banner .banner_box:nth-child(4){background-position:-100px;background-size:130%}
+	.container .mocaBox .main_banner .banner_box:nth-child(2){background-position: -53px; background-size: 115%;}
+	.container .mocaBox .main_banner .banner_box:nth-child(4){background-position:0 botton;background-size:135%}
 	.container .mocaBox .main_banner .banner_box:nth-child(4) p{top:13%}
 	.container .mocaBox .main_banner .banner_box:nth-child(4) > div{width:59%}
 	.container .mocaBox .main_banner .banner_box:nth-child(2) p{top:2.2em}
@@ -257,6 +257,7 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 	.mocastep.step2{margin-left:0; margin-bottom:0}
 	
 	.footer .f_content div.f_tel{font-size: 14px}
+	.f_content e{display:block}
 }
  
  

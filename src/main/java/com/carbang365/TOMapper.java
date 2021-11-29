@@ -467,6 +467,6 @@ public interface TOMapper {
 	
 	// 미가입 사용자 회원가입
     public int insertMocaUsers(Map<String, Object> map);
- // 스케줄러단건조회
+    // 홈페이지사용자조회
  	public Map <String, Object> selectMocaUserInfo(Map<String, Object> map);
 }
