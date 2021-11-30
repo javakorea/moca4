@@ -1114,7 +1114,6 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                 }
 
                 var _inTag = '';
-                
                 var _renderingDiv = $(_grd).attr('rendering_div');
                 if(_renderingDiv){
                 	if(readOnly == "true"){
@@ -1150,15 +1149,26 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                     _reLabel = cell;        
                 }
                 var _inTag = '';
+                var _renderingDiv = $(_grd).attr('rendering_div');
+                
                 if(readOnly == "true"){
                     _inTag = _reLabel;
                 }else{
                     if(_required == 'true'){
-                        _inTag = '<div class="moca_ibn req">';  
-                        _inTag += '<input type="text" class="moca_input" readonly style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">';
+                        _inTag = '<div class="moca_ibn req">';
+                        if(_renderingDiv){
+                        	_inTag += '<div type="text" class="moca_input" readonly style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">'+_reLabel+'</div>';
+                        }else{
+                        	_inTag += '<input type="text" class="moca_input" readonly style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">';
+                        }
                     }else{
                         _inTag = '<div class="moca_ibn">';
-                        _inTag += '<input type="text" class="moca_input" readonly  style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">';
+                        if(_renderingDiv){
+                        	_inTag += '<div type="text" class="moca_input" readonly  style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">'+_reLabel+'</div>';
+                        }else{
+                        	_inTag += '<input type="text" class="moca_input" readonly  style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">';
+                        }
+                        
                     }
                     if($m.trim(_callFunction) != ''){
                         _inTag += '<button type="button" class="moca_ibn_btn" onclick="'+_callFunction+'(this)" onfocus="$m._evt_selectFocus(this)">검색</button></div>';
@@ -1952,9 +1962,15 @@ Moca.prototype.tree_addTab = function(_label,_tabId,_url,_mdiId){
     var tabHtml = '<li draggable="true" ondragstart="$m.dragStart_mdi(this)" class="moca_tab_list active" tab_url="'+_url+'" tab_label="'+_label+'" tab_id="'+_tabId+'" id="'+_tabId+'_li" onclick="$m.moca_mdi_click(this);">';
    
     tabHtml += '<span class="moca_tab_mark"></span>';
+   
+
     tabHtml += '<button type="button" role="tab" aria-controls="moca_tab_bridge1" class="moca_tab_label">'+_label+'</button>';
     tabHtml += '<button type="button" class="moca_tab_close" onclick="$m.tabClose(this)">닫기</button>';
+    tabHtml += '<div class="tab_bg_area">';
+    tabHtml +='<svg viewBox="0 0 15 31" class="tab_svg"><use xlink:href="#tab-shape"></use></svg>\n';
     tabHtml += '<span class="tab_bg"></span>';
+    tabHtml +='<svg viewBox="0 0 40 31" class="tab_svg right"><use xlink:href="#tab-shape2"></use></svg>\n';
+    tabHtml += '</div>';
     tabHtml += '</li>';
     var _html = $('#'+_mdiId+' .moca_tab_ul').html();
     var _full_html = _html.replace(/active/g,'')+tabHtml;
@@ -5219,11 +5235,21 @@ Moca.prototype.setCellData = function(_grd,_realRowIndex,_colId,_data){
     }
 
     var targetRow = $(_grd).find('tbody:first>tr[realrowindex='+_realRowIndex+']');
+    var _renderingDiv = $(_grd).attr('rendering_div');
     
+            
     if(_grd.cellInfo[_colId] != null){
         var celltype = _grd.cellInfo[_colId].getAttribute('celltype');
+        debugger;
         if(celltype == 'inputButton'){
-            $(targetRow).find('td[id='+_colId+'] input').val(_grd.list[_realRowIndex][_colId]);
+        	if(_renderingDiv){
+        		$(targetRow).find('td[id='+_colId+'] div[type="text"]').attr('value',_grd.list[_realRowIndex][_colId]);
+        		$(targetRow).find('td[id='+_colId+'] div[type="text"]').html(_grd.list[_realRowIndex][_colId]);
+        		
+            }else{
+            	$(targetRow).find('td[id='+_colId+'] input').val(_grd.list[_realRowIndex][_colId]);
+            }
+            
         }else if(celltype == 'input'){
             var iptObj = $(targetRow).find('td[id='+_colId+'] input');
             if(iptObj.length > 0){
@@ -11544,31 +11570,6 @@ Moca.prototype.renderTab = function(aTag) {
     tabConts +='                        <div class="moca_layer_tab_scroll">\n';
     tabConts +='                            <ul role="tablist" class="moca_layer_tab_ul">\n';
     
-    tabConts +='<svg height="0" width="0" style="position: absolute; margin-left: -100%;">';
-    tabConts +='<defs>';
-    tabConts +='<filter id="shadow">';
-    tabConts +='<feComponentTransfer in="SourceGraphic">';
-    tabConts +='<feFuncR type="discrete" tableValues="0"/>';
-    tabConts +='<feFuncG type="discrete" tableValues="0"/>';
-    tabConts +='<feFuncB type="discrete" tableValues="0"/>';
-    tabConts +='</feComponentTransfer>';
-    tabConts +='<feGaussianBlur stdDeviation="1"/>';
-    tabConts +='<feComponentTransfer><feFuncA type="linear" slope="0.2"/></feComponentTransfer>';
-    tabConts +='<feOffset dx="5" dy="1" result="shadow"/>';
-    tabConts +='<feComposite in="SourceGraphic" />';
-    tabConts +='</filter>';
-    tabConts +='<linearGradient id="tab-1-bg" x1="0%" y1="0%" x2="0%" y2="65%">';
-    tabConts +='<stop offset="0%" style="stop-color: rgba(136, 195, 229, 1.0);" />';
-    tabConts +='<stop offset="100%" style="stop-color: rgba(118, 160, 192, 1.0);" />';
-    tabConts +='</linearGradient>';
-    tabConts +='<linearGradient id="tab-3-bg" x1="0%" y1="0%" x2="0%" y2="65%">';
-    tabConts +='<stop offset="0%" style="stop-color: rgba(61, 149, 218, 1.0);" />';
-    tabConts +='<stop offset="100%" style="stop-color: rgba(43, 130, 197, 1.0);" />';
-    tabConts +='</linearGradient>';
-    tabConts +='</defs>';
-    tabConts +='<path id="tab-shape" class="tab-shape" d="M116.486,29.036c-23.582-8-14.821-29-42.018-29h-62.4C5.441,0.036,0,5.376,0,12.003v28.033h122v-11H116.486z">';
-    tabConts +='</svg>';
-    
     var activeIndex = 0;
     for(var i=0; i < list.length; i++){
         var row = list[i];
@@ -11580,9 +11581,7 @@ Moca.prototype.renderTab = function(aTag) {
         //onclick="$m.tabSubClick(\''+onTabHeaderclickFunctionStr+'\',\''+(i+1)+'\',this)"
         tabConts +='<li class="moca_layer_tab_list '+active+'" id="'+row.id+'" index="'+(i+1)+'"  >\n';
         tabConts +=' <button type="button" role="tab" aria-controls="moca_tab_bridge1"><span>'+row.label+'</span><i class="tab_badge" ></i></button>\n';
-        tabConts +='<svg viewBox="0 0 122 40"><use xlink:href="#tab-shape"></use></svg>\n';
-        
-        
+        tabConts +=' <span class="tab_bg"></span>';
         tabConts +='</li>\n';
     }
     tabConts +='                            </ul>\n';

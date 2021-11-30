@@ -245,12 +245,21 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 @media all and (min-width:1280px) {
     .moca_tab_ul li{max-width: 150px}
 }
-.moca_tab_ul .moca_tab_list {display: table-cell; height:39px; max-width:150px;position:relative; vertical-align: top; white-space: nowrap}
+.moca_tab_ul .moca_tab_list {display: table-cell; height:31px; max-width:150px;position:relative; vertical-align: top; white-space: nowrap}
+/*
 .moca_tab_ul .moca_tab_list > .tab_bg{min-width:104px; background: #d18b77; height: 35px; position: absolute; top: 0; left: 0; right:0; border-radius: 5px 5px 0 0; box-shadow: inset 0 0 4px rgba(0,0,0,0.1); -webkit-transform: perspective(2px) rotateX(0.93deg) translateZ(0px);}
 .moca_tab_ul.tabWidth .moca_tab_list > .tab_bg{min-width:unset}
 .moca_tab_ul .moca_tab_list:hover > .tab_bg{background:#ce7d67}
 .moca_tab_ul .moca_tab_list.active > .tab_bg{background:#fff !important; box-shadow:2px -2px 7px rgba(0,0,0,0.2); z-index:1}
-.moca_tab_ul li button.moca_tab_label {width:100%; height:39px; min-width:105px; margin:0 auto; display: block; color: #fff; padding: 0 25px; text-decoration: none; text-overflow: ellipsis; overflow: hidden; z-index:2; position:relative}
+*/
+.moca_tab_ul .moca_tab_list.active{z-index:1}
+.moca_tab_ul .moca_tab_list.active svg.tab_svg{fill:#fff/*url(#tab-1-bg) #8db0bd*/}
+.tab_bg_area{width:100%;height:100%;position:absolute;top:0}
+svg.tab_svg{position: relative; top: 0; left: 0; height:100%; pointer-events: none;fill:/* #c3d2d7*/url(#tab-1-bg) #8db0bd;}
+svg.tab_svg.right{left:-5px}
+.moca_tab_ul .moca_tab_list .tab_bg{background:/*#c3d2d7*/linear-gradient( to bottom, rgba(136, 195, 229, 1.0), rgba(118, 160, 192, 1.0)); width: calc(100% - 42px); display: inline-block; height: 31px; position: relative; top:0; left: -4px;}
+.moca_tab_ul .moca_tab_list.active .tab_bg{background:#fff/*linear-gradient( to bottom, rgba(136, 195, 229, 1.0), rgba(118, 160, 192, 1.0))*/}
+.moca_tab_ul li button.moca_tab_label {width:100%; height:31px; min-width:105px; margin:0 auto; display: block; color: #fff; padding: 0 25px; text-decoration: none; text-overflow: ellipsis; overflow: hidden; z-index:2; position:relative}
 .moca_tab_ul li.active button.moca_tab_label{color: #000;}
 .moca_tab_ul .moca_tab_list:not(.active):hover {width: auto}
 .moca_tab_ul .moca_tab_list .moca_tab_close{position:absolute; z-index:2; top: 8px; right: 6px; width: 20px; height: 20px; background: url(../../images/ico_dp_close.png) no-repeat 50% -26px; text-indent: -9999px; border-radius: 100%;}
