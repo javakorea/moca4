@@ -3342,7 +3342,7 @@ Moca.prototype.swaipClickScroll = function(thisObj) {
     event.target.style.display = 'none';
     var cb = document.elementFromPoint(event.x,event.y);
     cb.dispatchEvent(evt);
-    if($(cb).prop('tagName') !='INPUT' ){
+    if($(cb).prop('tagName') !='INPUT' || $(cb).parent()[0].tagName != 'TD'){
     	   event.target.style.display = 'block';
     }
  
@@ -12416,7 +12416,6 @@ Moca.prototype.setDivTag =  function(__comp,__value,_keyMask){
 Moca.prototype.setValue =  function(__comp,__value,_keyMask){
     var _value;
     var _comp;
-    debugger;
     if(__comp instanceof $){
         _comp = __comp[0];
     }else{
