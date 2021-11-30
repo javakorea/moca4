@@ -868,7 +868,6 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
         _row["_system"]["realIndex"] = _nowIndex+"";
     }
     
-    
     var row  = "<tr realRowIndex='"+_nowIndex+"'>";
     var tdCnt = $(_grd).find('table').find('th').length;
     var ks = Object.keys(_grd.cellInfo);
@@ -1115,16 +1114,33 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                 }
 
                 var _inTag = '';
-                if(readOnly == "true"){
-                    _inTag = _reLabel;
-                }else{
-                    if(_required == 'true'){
-                        _inTag = '<input type="text" maxLength="'+$m.trim(_maxLength)+'" onblur="$m.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  displayFunctionApply=\''+_displayFunctionApply+'\' class="moca_input req" style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">';
+                
+                var _renderingDiv = $(_grd).attr('rendering_div');
+                if(_renderingDiv){
+                	if(readOnly == "true"){
+                        _inTag = '<div>'+_reLabel+'</div>';
                     }else{
-                        _inTag = '<input type="text" maxLength="'+$m.trim(_maxLength)+'" onblur="$m.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  displayFunctionApply=\''+_displayFunctionApply+'\' class="moca_input" style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">';
+                        if(_required == 'true'){
+                        	 _inTag = '<div type="text" maxLength="'+$m.trim(_maxLength)+'" onblur="$m.setDivTag(this,this.value,\''+_keyMaskStr+'\');" onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  displayFunctionApply=\''+_displayFunctionApply+'\' class="moca_input req" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">'+_reLabel+'</div>';
+                        }else{
+                        	_inTag = '<div  type="text" maxLength="'+$m.trim(_maxLength)+'" onblur="$m.setDivTag(this,this.value,\''+_keyMaskStr+'\');" onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  displayFunctionApply=\''+_displayFunctionApply+'\' class="moca_input" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">'+_reLabel+'</div>';
+                        }
+                        
                     }
-                    
+                }else{
+                	if(readOnly == "true"){
+                        _inTag = '<div>'+_reLabel+'</div>';
+                    }else{
+                        if(_required == 'true'){
+                            _inTag = '<input type="text" maxLength="'+$m.trim(_maxLength)+'" onblur="$m.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  displayFunctionApply=\''+_displayFunctionApply+'\' class="moca_input req" style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">';
+                        }else{
+                            _inTag = '<input type="text" maxLength="'+$m.trim(_maxLength)+'" onblur="$m.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  displayFunctionApply=\''+_displayFunctionApply+'\' class="moca_input" style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">';
+                        }
+                    }
                 }
+                
+                
+                
                 row += '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" onclick="$m.defaultCellClick(this)">'+_inTag+'</td>';
             }else if(_celltype == 'inputButton'){
                 var _reLabel = '';
@@ -12390,9 +12406,17 @@ Moca.prototype.getBirthDay8 =  function(__fullJumin){
     }
 };
 
+Moca.prototype.setDivTag =  function(__comp,__value,_keyMask){
+	$m.setValue(__comp,__value,_keyMask);
+	var inputTag = $(__comp).parent().html();
+	inputTag = inputTag=inputTag.replace('<input','<div');
+	inputTag += __value+'</div>';
+	$(__comp).parent().html(inputTag);
+}
 Moca.prototype.setValue =  function(__comp,__value,_keyMask){
     var _value;
     var _comp;
+    debugger;
     if(__comp instanceof $){
         _comp = __comp[0];
     }else{
@@ -12413,6 +12437,7 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
         }
         
         var df = $(_comp).attr('displayFunction');
+        
         if(df){
             var reValue='';
             try{
@@ -12472,8 +12497,10 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
     		
     		_comp = $(_comp).find('input[type=text]')[0];
     	}
-        
-        if(df){
+    	if(df =='null'){
+        	df = '';
+        }
+        if($m.trim(df)!=''){
             var reValue='';
             try{
             	if($(_comp).parent()[0].displayChar != null){
@@ -12509,6 +12536,7 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
         	if($(_comp).parent() != null && $(_comp).parent().length > 0){
         		$(_comp).parent()[0].originalValue = $m.trim(_value);
         	}
+        	$(_comp).attr('value',$m.displayKeyMask(reValue,_keyMask));
             $(_comp).val($m.displayKeyMask(reValue,_keyMask));
         }else{
             $(_comp).find('input[type=text]').val(reValue);
@@ -13692,6 +13720,10 @@ Moca.prototype.defaultCellClick = function(_thisObj){
     if($(_thisObj).attr('celltype') == 'input' && $(_thisObj).find('input').length > 0){
         return  ;
     }
+    if($(_thisObj).attr('celltype') == 'input' && $(_thisObj).find('div[type="text"]').length > 0){
+        var _input = $(_thisObj).html().split('>')[0]+'>';
+        $(_thisObj).html(_input.replace('div','input'));
+    }
     var grd = $(_thisObj).closest('div[type=grid]')[0];
     $m.nowGrd = grd;
     
@@ -13754,16 +13786,32 @@ Moca.prototype.setCellReadOnly = function(_grd,_realRowIndex,_colId,_trueFalse){
             console.log("12829:"+e);
         }
         var _inTag = '';
-        if(_trueFalse){
-            _inTag = _reLabel;
-        }else{
-            
-            if(_required == 'true'){
-                _inTag = '<input type="text" onblur="$m.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  class="moca_input req" style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">';
+        
+        var _renderingDiv = $(_grd).attr('rendering_div');
+        if(_renderingDiv){
+        	if(_trueFalse){
+                _inTag = _reLabel;
             }else{
-                _inTag = '<input type="text" onblur="$m.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  class="moca_input" style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">';
+                if(_required == 'true'){
+                    _inTag = '<div type="text" onblur="$m.setDivTag(this,this.value,\''+_keyMaskStr+'\');" onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  class="moca_input req" style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">'+_reLabel+'</div>';
+                }else{
+                    _inTag = '<div type="text" onblur="$m.setDivTag(this,this.value,\''+_keyMaskStr+'\');" onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  class="moca_input" style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">'+_reLabel+'</div>';
+                }
+            }
+        }else{
+            if(_trueFalse){
+                _inTag = _reLabel;
+            }else{
+                
+                if(_required == 'true'){
+                    _inTag = '<input type="text" onblur="$m.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  class="moca_input req" style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">';
+                }else{
+                    _inTag = '<input type="text" onblur="$m.setValue(this,this.value,\''+_keyMaskStr+'\');" onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  class="moca_input" style="'+_style+'" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">';
+                }
             }
         }
+        
+        
     }else if(_celltype == 'select'){
         var _displayFormat  = cellTd.getAttribute("displayFormat");
     	var arr = $(_grd)[0][_colId].list;

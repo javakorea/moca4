@@ -76,6 +76,7 @@
 			</div>
 			
 			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1"
+								rendering_div = "true"
 								toolbar_search_size="false"
 								toolbar_detail="true"
 								toolbar_exup="true"
@@ -125,7 +126,11 @@
 								<td id="BOSS_NM" celltype="input" style="" name="대표명" ></td>
 								<td id="BIZ_NO" celltype="input" style="" readOnly="true" name="사업자번호"></td>
 								<td id="KIND" celltype="input" style="text-align:center" name="업종코드"></td>
-								<td id="PHONE" celltype="input" style="text-align:center" name="전화번호"></td>
+								<td id="PHONE" celltype="input" 
+									keyMask="onlyPhone" style="text-align:left" name="전화번호" readOnly="false"
+									displayFunction="$m.cellPhone" 
+									displayFunctionApply="realtime"
+									maxLength="13"></td>
 								<td id="ADDR_POST" celltype="input" style="" name="우편번호"></td>
 								<td id="ADDR1" celltype="input" style="" name="주소"></td>
 								<td id="ADDR2" celltype="input" style="" name="상세주소"></td>
