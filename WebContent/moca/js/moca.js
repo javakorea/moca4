@@ -4550,8 +4550,14 @@ Moca.prototype.popChange = function(_popupId,_json){
 	    var _h = _pop.css('height').replace(/px/g,''); 
 	    var _title =_pop[0].option.title;
 	    var __srcid = _pop.attr('srcid');
+	    
 	    var __param = $m[__srcid].args.parent.data;
 	    var __url = "/uat/uia/actionMain_link.do?mcsrc="+$('#'+_popupId).attr('src');
+	    
+	    if(_json != null){
+	    	__url = _json.uri+"?mcsrc="+$('#'+_popupId).attr('src');
+	    }
+	    
 	    var _id = $m.openWindowPopup({
 	        id: _popupId,
 	        method:"post",
@@ -4565,7 +4571,6 @@ Moca.prototype.popChange = function(_popupId,_json){
 	    });
     }
 };
-
 
 Moca.prototype.mdiChange = function(_popupId,_json){
     ['모카mdi타입전환'];

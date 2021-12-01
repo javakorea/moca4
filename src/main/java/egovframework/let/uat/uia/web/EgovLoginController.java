@@ -251,7 +251,22 @@ public class EgovLoginController {
 		
 		return "forward:/cmm/main/StandalonePopup.do?mcsrc="+mcsrc;
 	}
-	
+	@RequestMapping(value = "/uat/uia/actionMain_link_zoom.do")
+	public String actionMain_link_zoom(HttpServletResponse response, HttpServletRequest request, ModelMap model) throws Exception {
+		String mcsrc = request.getParameter("mcsrc");
+		String user_id = request.getParameter("user_id");
+		/*
+		String user_password = request.getParameter("user_password");
+		response.setHeader("X-Frame-Options", "ALLOW-FROM http://220.78.29.171:8080");
+		//if("admin".equalsIgnoreCase(user_id) && "JfQ7FIatlaE5jj7rPYO8QBABX8yb7bNbQy4AKY1QIfc=".equals(user_password) ) {
+		if("JfQ7FIatlaE5jj7rPYO8QBABX8yb7bNbQy4AKY1QIfc=".equals(user_password) ) {
+			return "forward:/cmm/main/StandalonePopup.do?mcsrc="+mcsrc;
+		}else {
+			return null;
+		}*/
+		
+		return "forward:/cmm/main/StandalonePopupZoomAble.do?mcsrc="+mcsrc;
+	}
 	/**
 	 * 로그아웃한다.
 	 * @return String

@@ -10,6 +10,13 @@ $m.EFC_BOARD_POP._boardTitle;
 $m.EFC_BOARD_POP._boardStatus;
 $m.EFC_BOARD_POP._boardReplyStatus;
 $m.EFC_BOARD_POP.___ready = function(args){
+	if(window['viewMode'] != 'contentOnly'){
+		$m.show($m.EFC_BOARD_POP.getObj('form_board'));
+		$m.show($m.EFC_BOARD_POP.getObj('grd_file'));
+		$m.show($m.EFC_BOARD_POP.getObj('grd_reply_list'));
+		$m.show($m.EFC_BOARD_POP.getObj('contourBar'));
+		$($m.EFC_BOARD_POP.getObj('edit_zoomBtn')).parent().addClass('mt5');
+	}
 	$m.EFC_BOARD_POP.code({
         "cmb_board":{code:'boardStatus'}
     },function(result){
@@ -50,8 +57,8 @@ $m.EFC_BOARD_POP.___ready = function(args){
     		
     	}
     	if(Object.keys(CKEDITOR.instances).length > 0){
-    		CKEDITOR.instances.editor.destroy();
-        	CKEDITOR.instances.reply_editor.destroy();
+    		if(CKEDITOR.instances.editor != null){CKEDITOR.instances.editor.destroy()};
+    		if(CKEDITOR.instances.reply_editor != null){CKEDITOR.instances.reply_editor.destroy()};
     	}
     	
     	CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
@@ -177,6 +184,10 @@ $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 				callback : function(response){
 						if(response.selectBoardInfo != null ){
 						var data = response.selectBoardInfo;
+						
+						if(window['viewMode'] != 'contentOnly'){
+							$m.show($m.EFC_BOARD_POP.getObj('edit_zoomBtn'));
+						}
 						CKEDITOR.instances.editor.setData($m.resizeContsImg(data.BOARD_CONT));
 						$m.show($($m.EFC_BOARD_POP.getObj('form_board')).find('.rta'));
 						$m.hide($($m.EFC_BOARD_POP.getObj("cke_editor")).find("[id$='_top']"));
@@ -749,7 +760,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
         <div class="lybox flex fauto">
             <div class="ly_column col_5 fauto">
                 <div class="ly_col_cont flex fcol">
-				<div type="form" id="form_board" class="moca_table toolbar" style=""
+				<div type="form" id="form_board" class="moca_table toolbar" style="display:none"
 	                label=""
 	                showRowSelection="false"
 	                addition='[
@@ -860,10 +871,11 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 				          		</div>
 				          	</div>
                 	</div>
-			        <div class="mt5 edit fit"  style="top:0">
+			        <div class="edit fit"  style="top:0">
+			        	<a id="edit_zoomBtn" style="display:none" class="edit_zoom" onclick="$m.popChange($m.EFC_BOARD_POP.pageId,{uri:'/uat/uia/actionMain_link_zoom.do'})"></a>
 			            <div contenteditable="true" placeholder="" id="editor"></div>
 			        </div>
-			        <div type="grid" class="moca_grid toolbar sc_row1 mt10 fold" default_cell_height="26px" id="grd_file" style="top:0; height:112px" rowSelectedColor="#434e5f"
+			        <div type="grid" class="moca_grid toolbar sc_row1 mt10 fold" default_cell_height="26px" id="grd_file" style="display:none; top:0; height:112px" rowSelectedColor="#434e5f"
 			        
 			                            toolbar_search_size="false"
 			                            toolbar_detail="false"
@@ -905,8 +917,8 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 			                    </tbody>
 			                </table>                
 			        </div>
-			        <div class="contour" style="top:5px"></div>
-					<div type="grid" class="moca_grid toolbar sc_row1 mt10 fold" default_cell_height="26px" style="height:112px" id="grd_reply_list" rowSelectedColor="#434e5f"
+			        <div id="contourBar" class="contour" style="display:none;top:5px"></div>
+					<div type="grid" class="moca_grid toolbar sc_row1 mt10 fold" default_cell_height="26px" style="display:none;height:112px" id="grd_reply_list" rowSelectedColor="#434e5f"
 								toolbar_search_size="false"
 								toolbar_detail="true"
 								toolbar_exup="false"

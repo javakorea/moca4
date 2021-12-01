@@ -171,6 +171,16 @@ public class EgovMainController {
 		return "main/StandalonePopup";
 	}
 	
+	@RequestMapping(value = "/cmm/main/StandalonePopupZoomAble.do")
+	public String StandalonePopupZoomAble(HttpServletRequest request, HttpServletResponse response,ModelMap model)
+	  throws Exception{
+		
+		String mcsrc = request.getParameter("mcsrc");
+		request.setAttribute("mcsrc", mcsrc);
+		response.setHeader("X-Frame-Options", "ALLOW-FROM http://220.78.29.171:8080");
+		return "main/StandalonePopupZoomAble";
+	}
+	
 	@RequestMapping(value = "/cmm/main/StandaloneMdi.do")  
 	public String StandaloneMdi(HttpServletRequest request, HttpServletResponse response,ModelMap model)
 	  throws Exception{

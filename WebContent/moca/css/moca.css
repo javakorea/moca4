@@ -1247,6 +1247,7 @@ td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:2
 .mocaRadio input[type="radio"]:disabled:checked + label:before {background-position:0 -36px: cursor:default}
 
 /*ckeditor*/
+.cke_wysiwyg_frame, .cke_wysiwyg_div{height:calc(100% - 4px) !important}
 .edit {position: absolute; left: 0px; right:0px; bottom: 0; top: 101px;}
 .edit .cke_chrome{position: absolute; right: 0; left: 0; bottom: 0px; top: 0;}
 .edit .cke_bottom{user-select: none; position: absolute; left: 0; right: 0; bottom: 0;}
@@ -1254,7 +1255,7 @@ td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:2
 .edit > div[role=application] .cke_inner > .cke_contents{flex:auto; height:100% !important;}
 .edit > div[contenteditable=true] {height:100%; overflow-y:auto}
 .edit span[role="presentation"]{overflow:unset}
-
+.edit .edit_zoom{width: 50px; height: 50px; background:url(/moca/images/zoom.png) 50% no-repeat;position: absolute; right: 0; z-index: 1; font-size: 23px; text-align: center; color: #89a6cb; line-height: 50px;}
 .moca_shbox .mocaRadio input[type="radio"]:checked + label {font-weight:bold; color:#b32601 !important}
 .moca_shbox .mocaRadio label:last-child {margin-right:0 !important;}
 .moca_shbox .tb .tb_td > div[type="radio"]{display:inline-block; padding: 0 5px; line-height: 22px; box-sizing: border-box; border: 1px solid #bbc3ce; background: #fff; border-radius: 3px;}
