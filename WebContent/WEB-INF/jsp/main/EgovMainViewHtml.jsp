@@ -49,7 +49,7 @@ if(userAgent.indexOf("MOBI") > -1 || userAgent.indexOf("IPHONE") > -1   || userA
 <META http-equiv="Pragma" content="no-cache">
 <META http-equiv="Cache-Control" content="No-Cache">
 
-<link rel="stylesheet" type="text/css" href="/moca/css/moca.css?v=1">
+<link rel="stylesheet" type="text/css" href="/moca/css/moca.css?v=1.2">
 <link rel="stylesheet" type="text/css" href="/moca/css/fontawesome.css?v=1">
 <link rel="stylesheet" type="text/css" href="/moca/css/moca_layout.css?v=1">
 <%
