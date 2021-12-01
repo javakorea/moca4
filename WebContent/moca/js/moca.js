@@ -2233,7 +2233,37 @@ Moca.prototype.hideDashed = function(){
     $("#lin_dashed").css('display','none');
 };
 
-
+Moca.prototype.zoomInput = function(_thisObj,_grd,_message,_callback){
+    ['alert messagebox'];   
+    var messageboxId = "MESSAGE_"+this.now()+this.shuffleRandom(6);
+    this.callbacks[messageboxId] = _callback;
+    var alert_html = '';
+    var _pageId = $(_grd).attr('pageid');
+    var _srcId = $(_grd).attr('srcid');
+    //alert_html += '<div class="moca_messagebox_modal" style="display:block" id='+messageboxId+'>';
+    alert_html += '<div class="moca_messagebox zoom">';
+    alert_html += '<div class="moca_messagebox_grp">';
+    alert_html += '<h2 class="moca_messagebox_title"></h2>';
+    alert_html += '<div class="moca_message">';
+    alert_html += '<div id="zoom_'+_thisObj.id+'" contenteditable="true" class="moca_textarea">';
+    alert_html += _message;
+    alert_html += '</div>';
+    alert_html += '</div>';
+    alert_html += '<div class="moca_btnbox">';
+    alert_html += '<button type="button" class="moca_btn_confirm" onclick="$m.alertok(\''+messageboxId+'\',\''+_thisObj.id+'\',$m.'+_srcId+'.getObj(\'zoom_'+_thisObj.id+'\'),$m.'+_srcId+'.getObj(\''+_grd.id+'\'));">확인</button>';
+    alert_html += '</div>';
+    alert_html += '</div>';
+    alert_html += '</div>';
+    //alert_html += '</div>';
+    
+    var tmp = document.createElement( 'div' );
+    tmp.setAttribute("id",messageboxId);
+    tmp.setAttribute("class","moca_messagebox_modal");
+    tmp.innerHTML = alert_html;
+   // document.body.appendChild(tmp);
+    _grd.appendChild(tmp);
+    //document.body.innerHTML += alert_html;
+};
 
 
 
@@ -2672,11 +2702,19 @@ Moca.prototype.dateFormat = function(_datatimeNumber) {
 };
 
 
-Moca.prototype.alertok = function(_messageboxId) {
+Moca.prototype.alertok = function(_messageboxId,_tdId,_textAreaObj,_grd) {
     ['현재 alert창을 닫음'];
+	if($m.trim(_tdId) !=''){
+		var _srcId = $(_grd).attr('srcid');
+	    var _realRow = $(_grd).attr("selectedRealRowIndex");
+	    var _returnValue = $(_textAreaObj).html();
+		$m[_srcId].setCellData(_grd,_realRow,_tdId,_returnValue);
+	}
+	
+	
     $('#'+_messageboxId).remove();
     if(this.callbacks[_messageboxId]){
-        this.callbacks[_messageboxId]();
+        this.callbacks[_messageboxId](_returnValue);
         delete this.callbacks[_messageboxId];
     }
 };
@@ -5240,11 +5278,9 @@ Moca.prototype.setCellData = function(_grd,_realRowIndex,_colId,_data){
 
     var targetRow = $(_grd).find('tbody:first>tr[realrowindex='+_realRowIndex+']');
     var _renderingDiv = $(_grd).attr('rendering_div');
-    
             
     if(_grd.cellInfo[_colId] != null){
         var celltype = _grd.cellInfo[_colId].getAttribute('celltype');
-        debugger;
         if(celltype == 'inputButton'){
         	if(_renderingDiv){
         		$(targetRow).find('td[id='+_colId+'] div[type="text"]').attr('value',_grd.list[_realRowIndex][_colId]);
@@ -5255,12 +5291,20 @@ Moca.prototype.setCellData = function(_grd,_realRowIndex,_colId,_data){
             }
             
         }else if(celltype == 'input'){
-            var iptObj = $(targetRow).find('td[id='+_colId+'] input');
-            if(iptObj.length > 0){
-                iptObj.val(_data);
+			var iptObj = $(targetRow).find('td[id='+_colId+'] input');
+			if(_renderingDiv){
+        		iptObj = $(targetRow).find('td[id='+_colId+'] div[type="text"]');
+				iptObj.attr('value',_data);
+				iptObj.html(_data);
             }else{
-                $(targetRow).find('td[id='+_colId+']').html(_data);
-            }
+				if(iptObj.length > 0){
+	                iptObj.val(_data);
+	            }else{
+	                $(targetRow).find('td[id='+_colId+']').html(_data);
+	            }
+			}
+            
+            
         }
     }
 
@@ -13725,8 +13769,15 @@ Moca.prototype.defaultCellClick = function(_thisObj){
         return  ;
     }
     if($(_thisObj).attr('celltype') == 'input' && $(_thisObj).find('div[type="text"]').length > 0){
-        var _input = $(_thisObj).html().split('>')[0]+'>';
-        $(_thisObj).html(_input.replace('div','input'));
+    	var _divObj = $(_thisObj).find('div[type="text"]');
+    	var _value = _divObj.html();
+    	var _grd = _thisObj.closest('div[type="grid"]');
+		if($m.getDevice() == "mobile"){
+			$m.zoomInput(_thisObj,_grd,_value);
+		}else{
+			var _input = $(_thisObj).html().split('>')[0]+'>';
+	        $(_thisObj).html(_input.replace('div','input'));
+		}
     }
     var grd = $(_thisObj).closest('div[type=grid]')[0];
     $m.nowGrd = grd;

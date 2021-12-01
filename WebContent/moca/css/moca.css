@@ -1340,3 +1340,7 @@ div[type="table"].moca_table_cont{table-layout:fixed; width:100%; position: rela
 
 .li_bg{transform : perspective(5px) rotateX(0.93deg) translateZ(-1px);}
 .iframe.moca_wrap .moca_cont_wrap {padding:0}
+
+.moca_messagebox.zoom{top:22%}
+.moca_messagebox.zoom div[contenteditable].moca_textarea{text-align:left; height:140px; overflow-y:auto; line-height:1; padding:5px 0}
+.moca_messagebox.zoom .moca_btnbox .moca_btn_confirm {background:#c96f57}
