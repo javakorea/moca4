@@ -142,7 +142,7 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 
 .moca_mdi .moca_tab_list:hover {/* border-top:2px solid #188038 */}
 .moca_mdi .moca_tab_list:hover button.moca_tab_label {}
-.moca_mdi .moca_tab_list button.moca_tab_close {top:10px; right:6px; width:20px; height:20px; background:url(../images/ico_dp_close.png) no-repeat 50% -26px; border-radius:100%}
+.moca_mdi .moca_tab_list button.moca_tab_close {top:6px; right:10px; width:20px; height:20px; background:url(../images/ico_dp_close.png) no-repeat 50% -26px; border-radius:100%}
 .moca_tab .moca_tab_list.active button.moca_tab_close { background:url(../images/ico_dp_close.png) no-repeat 50% -2px;}
 .moca_mdi .moca_tab_listarea {right:60px; left:30px}
 .moca_mdi .moca_tab_control {width:60px; padding-top:8px}

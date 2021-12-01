@@ -1346,9 +1346,8 @@ Moca.prototype.drawGrid_inside = function(_grdId,_list,_orilist,_pageId,_srcId,_
     if(_grd.list != null){
     	if($m.getAttrObj(_grd,'paging').type != 'numberList'){
     		$m[_srcId].setTotalCnt(_grd,this.comma(_grd.list.length));
-    	}else{
-    		var _totalCnt =_response[$m.getAttrObj(_grd,'paging').totalCntKey];
-    		
+    	}else if(_response != null){
+			var _totalCnt =_response[$m.getAttrObj(_grd,'paging').totalCntKey];
     		$m[_srcId].setTotalCnt(_grd,_totalCnt);
     	}
         if(_orilist != null){
@@ -12486,9 +12485,11 @@ Moca.prototype.setValue =  function(__comp,__value,_keyMask){
     	var df =  $(_comp).attr('displayFunction');
     	if($(_comp).prop('tagName') == 'INPUT' && $m.getDevice() == 'mobile' ){
     		var _grd = $(_comp).closest('div[type="grid"]');
-    		var _scrollY = _grd.find('#'+_grd[0].id+'_moca_scroll_y');
-    		if(!_scrollY.is(':visible')){
-    			_scrollY.css('display','block')
+    		if(_grd.length > 0){
+    			var _scrollY = _grd.find('#'+_grd[0].id+'_moca_scroll_y');
+        		if(!_scrollY.is(':visible')){
+        			_scrollY.css('display','block')
+        		}
     		}
     	}
     	if($(_comp).attr('type') == 'input'){

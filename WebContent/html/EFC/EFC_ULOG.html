@@ -116,7 +116,7 @@
 								toolbar_full="true"
 								
 								label="사용로그목록"
-								paging='{"type":"numberList","listCntPerPage":"27","totalCntKey":"selectTotalCnt_EFGULOG","onPageClick":"$m.EFC_ULOG.fn_search", "pageGroupItemMax":"10"}'
+								paging='{"type":"numberList","listCntPerPage":"16","totalCntKey":"selectTotalCnt_EFGULOG","onPageClick":"$m.EFC_ULOG.fn_search", "pageGroupItemMax":"10"}'
 								
 			>
 					<table style="width: 100%">
@@ -129,7 +129,7 @@
 						<thead>
 							<tr>
 								<th scope="col" id="H_LAST_UPDT_PNTTM" sortable="true">사용일시</th>
-								<th scope="col" id="H_USER_ID" sortable="true">사용자</th>
+								<th scope="col" id="H_USER_ID"   filterable="true" filterableId="USER_ID">사용자</th>
 								<th scope="col" id="H_MENU_NM" sortable="true">항목</th>
 								<th scope="col" id="H_LABEL" >로그</th>
 							</tr>
