@@ -2250,11 +2250,11 @@ Moca.prototype.zoomInput = function(_thisObj,_grd,_message,_callback){
     alert_html += '</div>';
     alert_html += '<div class="moca_btnbox">';
     alert_html += '<button type="button" class="moca_btn_confirm" onclick="$m.alertok(\''+messageboxId+'\',\''+_thisObj.id+'\',$m.'+_srcId+'.getObj(\'zoom_'+_thisObj.id+'\'),$m.'+_srcId+'.getObj(\''+_grd.id+'\'));">확인</button>';
+    alert_html += '<button type="button" class="moca_btn_confirm" style="background:#929292"onclick="$m.alertesc(\''+messageboxId+'\');">취소</button>';
     alert_html += '</div>';
     alert_html += '</div>';
     alert_html += '</div>';
     //alert_html += '</div>';
-    
     var tmp = document.createElement( 'div' );
     tmp.setAttribute("id",messageboxId);
     tmp.setAttribute("class","moca_messagebox_modal");
@@ -2714,6 +2714,15 @@ Moca.prototype.alertok = function(_messageboxId,_tdId,_textAreaObj,_grd) {
     $('#'+_messageboxId).remove();
     if(this.callbacks[_messageboxId]){
         this.callbacks[_messageboxId](_returnValue);
+        delete this.callbacks[_messageboxId];
+    }
+};
+
+Moca.prototype.alertesc = function(_messageboxId,returnValue) {
+    ['현재 confirm창을 닫음'];
+    $('#'+_messageboxId).remove();
+    if(this.callbacks[_messageboxId]){
+        this.callbacks[_messageboxId](returnValue);
         delete this.callbacks[_messageboxId];
     }
 };
@@ -5282,8 +5291,8 @@ Moca.prototype.setCellData = function(_grd,_realRowIndex,_colId,_data){
         var celltype = _grd.cellInfo[_colId].getAttribute('celltype');
         if(celltype == 'inputButton'){
         	if(_renderingDiv){
-        		$(targetRow).find('td[id='+_colId+'] div[type="text"]').attr('value',_grd.list[_realRowIndex][_colId]);
-        		$(targetRow).find('td[id='+_colId+'] div[type="text"]').html(_grd.list[_realRowIndex][_colId]);
+        		$(targetRow).find('td[id='+_colId+'] div[type="input"]').attr('value',_grd.list[_realRowIndex][_colId]);
+        		$(targetRow).find('td[id='+_colId+'] div[type="input"]').html(_grd.list[_realRowIndex][_colId]);
         		
             }else{
             	$(targetRow).find('td[id='+_colId+'] input').val(_grd.list[_realRowIndex][_colId]);
@@ -5292,9 +5301,12 @@ Moca.prototype.setCellData = function(_grd,_realRowIndex,_colId,_data){
         }else if(celltype == 'input'){
 			var iptObj = $(targetRow).find('td[id='+_colId+'] input');
 			if(_renderingDiv){
-        		iptObj = $(targetRow).find('td[id='+_colId+'] div[type="text"]');
+        		iptObj = $(targetRow).find('td[id='+_colId+'] div[type="input"]');
 				iptObj.attr('value',_data);
-				iptObj.html(_data);
+				var _editormode = $(targetRow).find('td[id='+_colId+']').attr('editormode');
+				if(_editormode == 'true' || $m.getDevice() == 'mobile'){
+					iptObj.html(_data);
+				}
             }else{
 				if(iptObj.length > 0){
 	                iptObj.val(_data);
@@ -12001,9 +12013,13 @@ Moca.prototype.renderMocaButton = function(o) {
         }else{
             _readonly = "";
         }
-        
+        _onclick = $m.nul(o.getAttribute("onclick"));
         var _html = '';
-        _html += '<button id="button_'+$m.nul(_id)+'"  style="'+_innerStyle+'" class="'+_innerClass+'" '+_disabled+' >'+$m.nul(_label)+'</button>';
+        var _onclickStr ='';
+        if($m.trim(_onclick) != ''){
+        	_onclickStr = 'onclick="'+_onclick+'"';
+        }
+        _html += '<button id="button_'+$m.nul(_id)+'"  style="'+_innerStyle+'" class="'+_innerClass+'" '+_disabled+' '+_onclickStr+'>'+$m.nul(_label)+'</button>';
         o.innerHTML = _html;
     }else{
         _value = $m.nul(o.value); 
@@ -13771,20 +13787,56 @@ Moca.prototype.defaultCellClick = function(_thisObj){
 		var _keyMask ='';
 		var cellTd = _thisObj;
 		var _keyMaskStr = '';
-		var _editorMode = '';
-		_editorMode = cellTd.getAttribute('editormode');
-		_keyMask = cellTd.getAttribute("keyMask");
+		var _editorMode;
+		_editorMode =$m.trim(cellTd.getAttribute('editormode'));
+		_keyMask = $m.trim(cellTd.getAttribute("keyMask"));
 		if(_keyMask != null){
 			_keyMaskStr = _keyMask;
 		}
 		if($m.getDevice() == "mobile"){
-			$m.zoomInput(_thisObj,_grd,_value);
+			if($.trim(_editorMode) != ''){
+				//$m.zoomInput(_thisObj,_grd,_value);
+				var _thNm = $($(_grd).find('thead th')[_thisObj.cellIndex]).text();
+				$m.popup({
+			        type:"POPUP",
+			        modal:"true",
+			        url:'/moca/comp/COMP_EDIT.html',
+			        title:_thNm,
+			        //callback:$m[grd.getAttribute("srcid")]._excelCallback,
+			        data:{
+			        	value:_value,
+			            grdId:_grd.id,
+			            tdId:_thisObj.id,
+			            pageId:_grd.getAttribute("pageid"),
+			            srcId:_grd.getAttribute("srcid"),
+			            scopeId:_grd.getAttribute("pageid")
+			        }
+			    });
+			}else{
+				$m.zoomInput(_thisObj,_grd,_value);
+			}
 		}else{
 			var _value = _divObj.html();
-			if(_editorMode){
-				$m.zoomInput(_thisObj,_grd,_value);
+			if($.trim(_editorMode) != ''){
+				//$m.zoomInput(_thisObj,_grd,_value);
+				var _thNm = $($(_grd).find('thead th')[_thisObj.cellIndex]).text();
+				$m.popup({
+			        type:"POPUP",
+			        modal:"true",
+			        url:'/moca/comp/COMP_EDIT.html',
+			        title:_thNm,
+			        //callback:$m[grd.getAttribute("srcid")]._excelCallback,
+			        data:{
+			        	value:_value,
+			            grdId:_grd.id,
+			            tdId:_thisObj.id,
+			            pageId:_grd.getAttribute("pageid"),
+			            srcId:_grd.getAttribute("srcid"),
+			            scopeId:_grd.getAttribute("pageid")
+			        }
+			    });
 			}else{
-				$(_divObj).html("<input type='text' onblur=\"$m.setDivTag(this,this.value,\'"+_keyMaskStr+"\');\" value='"+_value+"'/>");
+				$(_divObj).html("<input type='text' onkeyup=\"$m._uptData(this)\" onblur=\"$m.setDivTag(this,this.value,\'"+_keyMaskStr+"\');\" value='"+_value+"'/>");
 			}
 		}
     }

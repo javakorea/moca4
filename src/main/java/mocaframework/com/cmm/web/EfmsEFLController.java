@@ -30,6 +30,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
@@ -1499,7 +1500,14 @@ public class EfmsEFLController {
 	public View EFGPROP_list_json(@RequestParam Map param, 
 			@RequestParam Map <String, Object> mocaMap,
 			ModelMap model) throws Exception {
-		if(!U.preCheck(model)) {return jsonview;}
+		
+		Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+		// 서비스 테스트용 구문 추가
+		if(MapUtils.isEmpty(paramMap)) {
+			paramMap = mocaMap;
+		}
+		
+		//if(!U.preCheck(model)) {return jsonview;}
 		
 		try {
 			Map map = U.getBody(mocaMap);

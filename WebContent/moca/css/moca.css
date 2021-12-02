@@ -756,7 +756,6 @@ to {background-position:0 0}
 .moca_messagebox .moca_btnbox .moca_btn_cancel {background:#98abc1}
 .moca_messagebox .moca_btnbox .moca_btn_cancel + .moca_btn_confirm {margin-left:5px}
 
-
 /* calendar */
 /* .moca_ica[type="inputMultiCalendar"] .moca_radio_input{position:relative !important;} */
 .moca_ica[type="inputMultiCalendar"] {width:100%}
@@ -1343,5 +1342,5 @@ div[type="table"].moca_table_cont{table-layout:fixed; width:100%; position: rela
 .iframe.moca_wrap .moca_cont_wrap {padding:0}
 
 .moca_messagebox.zoom{top:200px}
-.moca_messagebox.zoom div[contenteditable].moca_textarea{text-align:left; height:100px; overflow-y:auto; line-height:1; padding:5px 0}
+.moca_messagebox.zoom div[contenteditable].moca_textarea{font-size:15px;text-align:left; height:100px; overflow-y:auto; line-height:1; padding:5px 0}
 .moca_messagebox.zoom .moca_btnbox .moca_btn_confirm {background:#c96f57}

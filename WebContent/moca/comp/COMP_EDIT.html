@@ -1,21 +1,42 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head meta_width="700px" meta_height="130px">
+<head meta_width="700px" meta_height="400px">
 <script>
 	$m.COMP_EDIT.___ready = function(args){
+		$m.COMP_EDIT.DATA = args.parent.data;
 		CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
             'instanceReady':function(ev){
-			
+            	CKEDITOR.instances.editor.setData(args.parent.data.value);
         }}} );
 	};
+	$m.COMP_EDIT.fn_ok = function(){
+		var _messageboxId = $m.COMP_EDIT.pageId;
+		var _grdId = $m.COMP_EDIT.DATA.grdId;
+		var _grdObj = $m[$m.COMP_EDIT.DATA.srcId].getObj(_grdId);
+		var _tdId = $m.COMP_EDIT.DATA.tdId;
+		var _srcId = $(_grdObj).attr('srcid');
+	    var _realRow = $(_grdObj).attr("selectedRealRowIndex");
+	    var _returnValue = CKEDITOR.instances.editor.getData();
+		$m[_srcId].setCellData(_grdObj,_realRow,_tdId,_returnValue);
+		
+	
+	    $('#'+_messageboxId).remove();
+	}
 </script>
 </head>
 <body>
-	<div class="moca_pop_cont_wrap scroll" id="Pop_body">
+	<div class="moca_pop_cont_wrap flex fcol" id="Pop_body">
+		<div class="moca_btnbox mb5">
+			<div class="fr">
+				<div type="button" id="editorBtn" class="mocaButton" label="확인" onclick="$m.COMP_EDIT.fn_ok(this)"></div>
+			</div>
+   			
+		</div>
 		<div class="edit fit"  style="top:0">
         	<a id="edit_zoomBtn" style="display:none" class="edit_zoom" onclick="$m.popChange($m.EFC_BOARD_POP.pageId,{uri:'/uat/uia/actionMain_link_zoom.do'})"></a>
             <div contenteditable="true" placeholder="" id="editor"></div>
         </div>
+        
 	</div>	
 </body>
 </html>

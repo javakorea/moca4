@@ -250,7 +250,7 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 	.container .main_box > .td p > i{display:none}
 	.container .main_box > .td p > e{display:block}
 	.container .main_box > .td p{word-break: keep-all;}
-	.wrapper{min-width:unset}
+	.wrapper{min-width:unset;background:none}
 	.mocastep{width:100%; height:130px; margin-bottom:10px;}
 	.container .mocaBox .main_img p{width:230px; font-size:13px; top:80px}
 	.container .mocaBox .main_img2 img{width:100%; height:100%}
