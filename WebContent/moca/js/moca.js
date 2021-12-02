@@ -931,7 +931,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
             var _levelId = undefined;
             var _labelId = undefined;
             var _maxLength;
-            
+            var _editorMode = undefined;
             if(cellTd == null){
                 cell = "";
             }else if(cellTd != null){
@@ -948,7 +948,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                 _disabledFunction = cellTd.getAttribute("disabledFunction");
                 _displayFunctionApply = cellTd.getAttribute("displayFunctionApply");
                 _maxLength = cellTd.getAttribute("maxLength");
-                
+                _editorMode = cellTd.getAttribute("editorMode");
                 _addRowEditable = cellTd.getAttribute("addRowEditable");
                 _align = cellTd.getAttribute("align");
                 
@@ -1119,12 +1119,11 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                 	if(readOnly == "true"){
                         _inTag = '<div>'+_reLabel+'</div>';
                     }else{
+						var _req = '';
                         if(_required == 'true'){
-                        	 _inTag = '<div type="text" maxLength="'+$m.trim(_maxLength)+'" onblur="$m.setDivTag(this,this.value,\''+_keyMaskStr+'\');" onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  displayFunctionApply=\''+_displayFunctionApply+'\' class="moca_input req" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">'+_reLabel+'</div>';
-                        }else{
-                        	_inTag = '<div  type="text" maxLength="'+$m.trim(_maxLength)+'" onblur="$m.setDivTag(this,this.value,\''+_keyMaskStr+'\');" onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" displayFunction=\''+_displayFunction+'\'  displayFunctionApply=\''+_displayFunctionApply+'\' class="moca_input" value="'+_reLabel+'" onkeyup="$m._uptData(this)" onfocus="$m._evt_selectFocus(this)">'+_reLabel+'</div>';
+							_req = ' req';	
                         }
-                        
+                        _inTag = '<div type="input" class="moca_input'+_req+'">'+_reLabel+'</div>';
                     }
                 }else{
                 	if(readOnly == "true"){
@@ -1140,7 +1139,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                 
                 
                 
-                row += '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" style="'+_style+'"  readOnly="'+readOnly+'" onclick="$m.defaultCellClick(this)">'+_inTag+'</td>';
+                row += '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" editorMode="'+_editorMode+'" style="'+_style+'"  readOnly="'+readOnly+'" onclick="$m.defaultCellClick(this)">'+_inTag+'</td>';
             }else if(_celltype == 'inputButton'){
                 var _reLabel = '';
                 if(_displayFunction != null && eval(_displayFunction) != null){
@@ -2244,7 +2243,7 @@ Moca.prototype.zoomInput = function(_thisObj,_grd,_message,_callback){
     alert_html += '<div class="moca_messagebox zoom">';
     alert_html += '<div class="moca_messagebox_grp">';
     alert_html += '<h2 class="moca_messagebox_title"></h2>';
-    alert_html += '<div class="moca_message">';
+    alert_html += '<div class="moca_message mt0">';
     alert_html += '<div id="zoom_'+_thisObj.id+'" contenteditable="true" class="moca_textarea">';
     alert_html += _message;
     alert_html += '</div>';
@@ -12455,10 +12454,7 @@ Moca.prototype.getBirthDay8 =  function(__fullJumin){
 
 Moca.prototype.setDivTag =  function(__comp,__value,_keyMask){
 	$m.setValue(__comp,__value,_keyMask);
-	var inputTag = $(__comp).parent().html();
-	inputTag = inputTag=inputTag.replace('<input','<div');
-	inputTag += __value+'</div>';
-	$(__comp).parent().html(inputTag);
+	$(__comp).parent().html(__value);
 }
 Moca.prototype.setValue =  function(__comp,__value,_keyMask){
     var _value;
@@ -13768,15 +13764,28 @@ Moca.prototype.defaultCellClick = function(_thisObj){
     if($(_thisObj).attr('celltype') == 'input' && $(_thisObj).find('input').length > 0){
         return  ;
     }
-    if($(_thisObj).attr('celltype') == 'input' && $(_thisObj).find('div[type="text"]').length > 0){
-    	var _divObj = $(_thisObj).find('div[type="text"]');
+    if($(_thisObj).attr('celltype') == 'input' && $(_thisObj).find('div[type="input"]').length > 0){
+    	var _divObj = $(_thisObj).find('div[type="input"]');
     	var _value = _divObj.html();
     	var _grd = _thisObj.closest('div[type="grid"]');
+		var _keyMask ='';
+		var cellTd = _thisObj;
+		var _keyMaskStr = '';
+		var _editorMode = '';
+		_editorMode = cellTd.getAttribute('editormode');
+		_keyMask = cellTd.getAttribute("keyMask");
+		if(_keyMask != null){
+			_keyMaskStr = _keyMask;
+		}
 		if($m.getDevice() == "mobile"){
 			$m.zoomInput(_thisObj,_grd,_value);
 		}else{
-			var _input = $(_thisObj).html().split('>')[0]+'>';
-	        $(_thisObj).html(_input.replace('div','input'));
+			var _value = _divObj.html();
+			if(_editorMode){
+				$m.zoomInput(_thisObj,_grd,_value);
+			}else{
+				$(_divObj).html("<input type='text' onblur=\"$m.setDivTag(this,this.value,\'"+_keyMaskStr+"\');\" value='"+_value+"'/>");
+			}
 		}
     }
     var grd = $(_thisObj).closest('div[type=grid]')[0];

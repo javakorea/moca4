@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head meta_width="700px" meta_height="130px">
+<script>
+	$m.COMP_EDIT.___ready = function(args){
+		CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
+            'instanceReady':function(ev){
+			
+        }}} );
+	};
+</script>
+</head>
+<body>
+	<div class="moca_pop_cont_wrap scroll" id="Pop_body">
+		<div class="edit fit"  style="top:0">
+        	<a id="edit_zoomBtn" style="display:none" class="edit_zoom" onclick="$m.popChange($m.EFC_BOARD_POP.pageId,{uri:'/uat/uia/actionMain_link_zoom.do'})"></a>
+            <div contenteditable="true" placeholder="" id="editor"></div>
+        </div>
+	</div>	
+</body>
+</html>
