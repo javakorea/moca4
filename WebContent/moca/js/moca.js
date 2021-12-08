@@ -7122,7 +7122,7 @@ var multiCalendar ={
             //calHtml += multiCalendar.calendarLayout();
             calHtml +='                     </div>';
             calHtml +='                 </div>';
-            calHtml +='                 <input type="text" class="moca_input" title="시작일" value="" readonly>';          
+            calHtml +='                 <div class="calendar_ipt"><input type="text" class="moca_input" title="시작일" value="" readonly></div>';          
             calHtml +='             </div>';
             
             calHtml +='             <div class="moca_calendar_fl">';
@@ -7139,7 +7139,7 @@ var multiCalendar ={
             //calHtml += multiCalendar.calendarLayout();
             calHtml +='                     </div>';
             calHtml +='                 </div>';
-            calHtml +='                 <input type="text" class="moca_input" title="종료일" value="" readonly>';          
+            calHtml +='                 <div class="calendar_ipt"><input type="text" class="moca_input" title="종료일" value="" readonly></div>';          
             calHtml +='             </div>';
             
             calHtml +='         </div>';
@@ -7184,8 +7184,18 @@ var multiCalendar ={
                 
                 
             }else{
-                let tempArr = _dt1.split('-');
-                
+            	let tempArr = _dt1.split('-');
+            	if(_dt1.indexOf(':') > -1){
+            		tempArr = _dt1.split(/-| |:/);
+            		let hour = tempArr[3];
+                    let min = tempArr[4];
+                    let sec = tempArr[5];
+                    multiCalendar.calendarVariable.calArray[0].dateArray.hour = hour;
+                    multiCalendar.calendarVariable.calArray[0].dateArray.minute = min;
+                    multiCalendar.calendarVariable.calArray[0].dateArray.second = sec;
+                    $(multiCalendar.calendarVariable.calArray[0].putObj).addClass('hhmmss');
+                    
+            	}
                 let y = tempArr[0];
                 let m = tempArr[1];
                 let d = tempArr[2];
@@ -7198,7 +7208,8 @@ var multiCalendar ={
                 multiCalendar.calendarVariable.calArray[0].selectDay = _dt1;
                 
                 //달력위 input 값 입력
-                $(multiCalendar.calendarVariable.calArray[0].putObj).val(_dt1);
+                
+                $(multiCalendar.calendarVariable.calArray[0].putObj).val(y+"-"+m+"-"+d);
                 
             }
             
@@ -7215,7 +7226,17 @@ var multiCalendar ={
                 
             }else{
                 let tempArr = _dt2.split('-');
-                
+                if(_dt2.indexOf(':') > -1){
+            		tempArr = _dt2.split(/-| |:/);
+            		let hour = tempArr[3];
+                    let min = tempArr[4];
+                    let sec = tempArr[5];
+                    multiCalendar.calendarVariable.calArray[1].dateArray.hour = hour;
+                    multiCalendar.calendarVariable.calArray[1].dateArray.minute = min;
+                    multiCalendar.calendarVariable.calArray[1].dateArray.second = sec;
+                    $(multiCalendar.calendarVariable.calArray[1].putObj).addClass('hhmmss');
+                    
+            	}
                 let y = tempArr[0];
                 let m = tempArr[1];
                 let d = tempArr[2];
@@ -7226,7 +7247,7 @@ var multiCalendar ={
                 
                 multiCalendar.calendarVariable.calArray[1].selectDay = _dt2;
                 
-                $(multiCalendar.calendarVariable.calArray[1].putObj).val(_dt2);
+                $(multiCalendar.calendarVariable.calArray[1].putObj).val(y+"-"+m+"-"+d);
             }
             
             multiCalendar.dateViewSetting($(multiCalendar.calendarVariable.calArray[0].obj).find(".moca_calendar_btn_prev"), multiCalendar.calendarVariable.calArray[0],0);
