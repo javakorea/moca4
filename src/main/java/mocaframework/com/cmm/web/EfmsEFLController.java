@@ -1510,8 +1510,8 @@ public class EfmsEFLController {
 		//if(!U.preCheck(model)) {return jsonview;}
 		
 		try {
-			Map map = U.getBody(mocaMap);
-			model.addAttribute("list", mocaEFLService.selectList_EFGPROP(map));
+			//Map map = U.getBody(mocaMap);
+			model.addAttribute("list", mocaEFLService.selectList_EFGPROP(paramMap));
 			
 		}catch(Exception e) {
 			e.printStackTrace();

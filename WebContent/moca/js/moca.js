@@ -7194,7 +7194,11 @@ var multiCalendar ={
                     multiCalendar.calendarVariable.calArray[0].dateArray.minute = min;
                     multiCalendar.calendarVariable.calArray[0].dateArray.second = sec;
                     $(multiCalendar.calendarVariable.calArray[0].putObj).addClass('hhmmss');
-                    
+                    var hhmmssInputHtml = '';
+                    hhmmssInputHtml += '<input type="text" class="moca_input ipt_hhmmss hour" value="'+hour+'"><e>:</e>';
+                    hhmmssInputHtml += '<input type="text" class="moca_input ipt_hhmmss minute" value="'+min+'"><e>:</e>';
+                    hhmmssInputHtml += '<input type="text" class="moca_input ipt_hhmmss second" value="'+sec+'">';
+                    $(multiCalendar.calendarVariable.calArray[0].putObj).parent().append(hhmmssInputHtml);
             	}
                 let y = tempArr[0];
                 let m = tempArr[1];
@@ -7235,7 +7239,11 @@ var multiCalendar ={
                     multiCalendar.calendarVariable.calArray[1].dateArray.minute = min;
                     multiCalendar.calendarVariable.calArray[1].dateArray.second = sec;
                     $(multiCalendar.calendarVariable.calArray[1].putObj).addClass('hhmmss');
-                    
+                    var hhmmssInputHtml = '';
+                    hhmmssInputHtml += '<input type="text" class="moca_input ipt_hhmmss hour" value="'+hour+'"><e>:</e>';
+                    hhmmssInputHtml += '<input type="text" class="moca_input ipt_hhmmss minute" value="'+min+'"><e>:</e>';
+                    hhmmssInputHtml += '<input type="text" class="moca_input ipt_hhmmss second" value="'+sec+'">';
+                    $(multiCalendar.calendarVariable.calArray[1].putObj).parent().append(hhmmssInputHtml);
             	}
                 let y = tempArr[0];
                 let m = tempArr[1];
@@ -7482,6 +7490,7 @@ var multiCalendar ={
                 var mMonth = multiCalendar.opt.maxTermByMonth;
                 var mDay = multiCalendar.opt.maxTermByDay;
                 var mYear = multiCalendar.opt.maxTermByYear;
+                
                 if(mYear != null){
                     var sumYear = fromYear+mYear;
                     var sumFrom = sumYear+''+comLib.gfn_toTwoChar(fromMonth)+''+comLib.gfn_toTwoChar(fromDay);
@@ -7504,6 +7513,16 @@ var multiCalendar ={
                         alert('조회최대범위(일:'+mDay+')초과!');
                         return;
                     }
+                }
+                if(multiCalendar.opt.from.indexOf(':') > -1 && multiCalendar.opt.to.indexOf(':') > -1){
+                	var fromHour=$m.lpad($($("#"+calendarId).find(".moca_calendar_fl")[0]).find('input.ipt_hhmmss.hour').val(),2,0);
+                	var fromMinute=$m.lpad($($("#"+calendarId).find(".moca_calendar_fl")[0]).find('input.ipt_hhmmss.minute').val(),2,0);
+                	var fromSecond=$m.lpad($($("#"+calendarId).find(".moca_calendar_fl")[0]).find('input.ipt_hhmmss.second').val(),2,0);
+                	var toHour=$m.lpad($($("#"+calendarId).find(".moca_calendar_fl")[1]).find('input.ipt_hhmmss.hour').val(),2,0);
+                	var toMinute=$m.lpad($($("#"+calendarId).find(".moca_calendar_fl")[1]).find('input.ipt_hhmmss.minute').val(),2,0);
+                	var toSecond=$m.lpad($($("#"+calendarId).find(".moca_calendar_fl")[1]).find('input.ipt_hhmmss.second').val(),2,0);
+                	fromDt = fromDt+" "+fromHour+":"+fromMinute+":"+fromSecond;
+                	toDt = toDt+" "+toHour+":"+toMinute+":"+toSecond;
                 }
                 $(multiCalendar.calendarVariable.calViewObj).find("input").eq(0).val(fromDt);
                 $(multiCalendar.calendarVariable.calViewObj).find("input").eq(1).val(toDt);

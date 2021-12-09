@@ -837,9 +837,12 @@ button.moca_calendar_dynamic:hover {background-color:#f3a95e; color:#fff}
 .moca_calendar_row .moca_calendar_fl {float:left; width:50%; -moz-box-sizing:border-box; box-sizing:border-box}
 .moca_calendar_row .moca_calendar_fl:nth-child(1){padding-right:5px}
 .moca_calendar_row .moca_calendar_fl:nth-child(2){padding-left:5px}
-.moca_calendar_row .moca_calendar_fl .calendar_ipt{border:1px dashed #c96f57; border-left:0; border-right:0; margin:0 20px;}
-.moca_calendar_row .moca_calendar_fl .moca_input {display: block; width: auto; margin: 4px auto; text-align: center; border-radius: 0; background:none; color:#fff; }
-.moca_calendar_row .moca_calendar_fl .moca_input.hhmmss{width:150px}
+.moca_calendar_row .moca_calendar_fl .calendar_ipt{border:1px dashed #c96f57; border-left:0; border-right:0; margin:0 20px;height:25px;}
+.moca_calendar_row .moca_calendar_fl .moca_input {display: block; width: auto; text-align: center; border-radius: 0; background:none; color:#fff; }
+.moca_calendar_row .moca_calendar_fl .moca_input.hhmmss{color:#dc866f;width:100px;  float:left; line-height:17px}
+.moca_calendar_row .moca_calendar_fl .moca_input.ipt_hhmmss{min-width:unset;width:24px; margin:0 auto;float:left;color:#fff}
+.moca_calendar_row .moca_calendar_fl e{color: #fff; float: left; line-height: 25px;}
+    
 .moca_calendar_row .moca_calendar {width:100%; border:0; background:#3f424a; box-shadow:none; -moz-box-shadow:none; -moz-box-sizing:border-box; box-sizing:border-box; color:#fff}
 
 .switch {min-height:26px}
@@ -1257,7 +1260,7 @@ td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:2
 .edit > div[role=application] .cke_inner > .cke_contents{flex:auto; height:100% !important;}
 .edit > div[contenteditable=true] {height:100%; overflow-y:auto}
 .edit span[role="presentation"]{overflow:unset}
-.edit .edit_zoom{width: 50px; height: 50px; background:url(/moca/images/zoom.png) 50% no-repeat;position: absolute; right: 0; z-index: 1; font-size: 23px; text-align: center; color: #89a6cb; line-height: 50px;}
+.edit .edit_zoom{width: 18px; height: 18px; background:url(/moca/images/zoom.png) 50% no-repeat;position: absolute; right: 18px; top:18px; z-index: 1; font-size: 23px; text-align: center; color: #89a6cb; line-height: 50px;}
 .moca_shbox .mocaRadio input[type="radio"]:checked + label {font-weight:bold; color:#b32601 !important}
 .moca_shbox .mocaRadio label:last-child {margin-right:0 !important;}
 .moca_shbox .tb .tb_td > div[type="radio"]{display:inline-block; padding: 0 5px; line-height: 22px; box-sizing: border-box; border: 1px solid #bbc3ce; background: #fff; border-radius: 3px;}

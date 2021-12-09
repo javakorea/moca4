@@ -88,11 +88,18 @@
 	$m.EFC_BOARD.fn_search = function(){
 		var _corpCdArr = [];
 		if($m.getSs("USER_ID") == 'superadmin'){
-			
 			_corpCdArr = $m.EFC_BOARD.getCombo("cmb_corp");
 		}else{
 			_corpCdArr = $m.getSs("CORP_CD");
 		}
+		
+		_boardTitle = $m.getValue($m.EFC_BOARD.getObj( "ipt_TITLE")).indexOf('');
+		if($m.getValue($m.EFC_BOARD.getObj( "ipt_TITLE")).indexOf(' ')>-1){
+			_boardTitle = $m.getValue($m.EFC_BOARD.getObj( "ipt_TITLE")).split(/ /);
+		}
+		
+		
+		
 	    $m.EFC_BOARD.exe({
 	        url : $m._domain+$m._contextRoot+"/EFC_BOARD/selectBoardList.do",
 	        loadingbar:true,
@@ -101,7 +108,7 @@
 	            "body" : {
 	            	"BOARD_TYPE":$m.EFC_BOARD.boardType,
 	            	"BOARD_WRITER":$m.getValue($m.EFC_BOARD.getObj( "ipt_WRITER")),
-	            	"BOARD_TITLE":$m.getValue($m.EFC_BOARD.getObj( "ipt_TITLE")),
+	            	"BOARD_CONT":$m.getValue($m.EFC_BOARD.getObj( "ipt_TITLE")),
 	            	"FROM":$m.EFC_BOARD.getFrom("CREATE_DTTM").replace(/-/g,''),
                     "TO":$m.EFC_BOARD.getTo("CREATE_DTTM").replace(/-/g,''),
                     "BOARD_SUPPORT":$m.getCheckboxGroupCheckedList($m.EFC_BOARD.getObj('chkg_1')),
@@ -407,10 +414,9 @@
 							</span>
 						</div>
 						<div class="tb" id="tb_ipt_TITLE">
-							<span class="tb_th">제목</span>
+							<span class="tb_th">내용</span>
 							<span class="tb_td">
 								<div type="input" id="ipt_TITLE" 
-									displayFunction="$m.cellPhone" 
 									keyMask="enterSearchEvt" 
 									class="mocaInput sh"  style="width:207px"  disabled="false" readonly="false" ></div>
 							</span>
