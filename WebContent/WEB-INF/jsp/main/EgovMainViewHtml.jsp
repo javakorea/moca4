@@ -55,7 +55,7 @@ if(userAgent.indexOf("MOBI") > -1 || userAgent.indexOf("IPHONE") > -1   || userA
 <%
 if(userAgent.indexOf("MOBI") > -1 || userAgent.indexOf("IPHONE") > -1   || userAgent.indexOf("ANDROID") > -1) {
 %>
-	<link rel="stylesheet" type="text/css" href="/moca/css/moca_mobile.css?v=1.12">
+	<link rel="stylesheet" type="text/css" href="/moca/css/moca_mobile.css?v=1.13">
 <%	
 }
 %>

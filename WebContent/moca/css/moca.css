@@ -841,7 +841,7 @@ button.moca_calendar_dynamic:hover {background-color:#f3a95e; color:#fff}
 .moca_calendar_row .moca_calendar_fl .moca_input {display: block; width: auto; text-align: center; border-radius: 0; background:none; color:#fff; }
 .moca_calendar_row .moca_calendar_fl .moca_input.hhmmss{color:#dc866f;width:50%;  float:left; line-height:17px}
 .moca_calendar_row .moca_calendar_fl .hhmmss_box{height:100%; width:50%; float:right}
-.moca_calendar_row .moca_calendar_fl .cmb_hhmmss{min-width:unset;width:24px; height:100%;margin:0 auto;float:left;color:#fff; border:0; background:none; appearance:none}
+.moca_calendar_row .moca_calendar_fl .cmb_hhmmss{min-width:unset; height:100%;margin:0 auto;float:left;color:#fff; border:0; background:none;-webkit-appearance:none; appearance:none}
 .moca_calendar_row .moca_calendar_fl .cmb_hhmmss option{color:#333}
 .moca_calendar_row .moca_calendar_fl e{color: #fff; float: left; line-height: 25px;}
     
@@ -1351,3 +1351,4 @@ div[type="table"].moca_table_cont{table-layout:fixed; width:100%; position: rela
 .moca_messagebox.zoom{top:200px}
 .moca_messagebox.zoom div[contenteditable].moca_textarea{font-size:15px;text-align:left; height:100px; overflow-y:auto; line-height:1; padding:5px 0}
 .moca_messagebox.zoom .moca_btnbox .moca_btn_confirm {background:#c96f57}
+
