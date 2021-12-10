@@ -13,8 +13,29 @@
 
 
 <script>
+$m.checkpoint.checkList;
 $m.checkpoint.___ready = function(args){
-	
+	$m.checkpoint.exe({
+		url : $m._domain+$m._contextRoot+"/efms/EFGPROP/list_json.do",
+        data : {
+        	"header" : $m.header,
+        	"body" : {PROP_KEY:"checkpoint"}
+        },			
+		callback : function(response){
+			debugger;
+			if(response.list.length > 0){
+				$m.checkpoint.checkList = response.list;
+				var _listArr = $m.checkpoint.checkList[0].PROP_VALUE.split('%n%');
+				_listArr.splice(0,1);
+				var _listCnt = _listArr.length;
+				var a;
+				for(var i=0; i<_listCnt; i++){
+					a = _listArr[i].split(/%q%|%a%/);
+				}
+				
+			}
+		}
+	});
 }
 
 </script>
