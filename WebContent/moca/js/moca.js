@@ -7202,21 +7202,33 @@ var multiCalendar ={
                     $(multiCalendar.calendarVariable.calArray[0].putObj).addClass('hhmmss');
                     var hhmmssInputHtml = '';
                     hhmmssInputHtml += '<div class="hhmmss_box">'
-                    hhmmssInputHtml +='<select class="cmb_hhmmss hour tac" value="'+hour+'">';
+                    hhmmssInputHtml +='<select class="cmb_hhmmss hour tac mr3" value="'+hour+'">';
                     for(var h=0; h<24; h++){
-                    	hhmmssInputHtml +='<option value="'+$m.lpad(h,2,0)+'">'+$m.lpad(h,2,0)+'</option>';
+                    	if(h == hour){
+                    		hhmmssInputHtml +='<option value="'+$m.lpad(h,2,0)+'" selected>'+$m.lpad(h,2,0)+'시</option>';
+                    	}else{
+                    		hhmmssInputHtml +='<option value="'+$m.lpad(h,2,0)+'">'+$m.lpad(h,2,0)+'시</option>';
+                    	}
                     }
-                    hhmmssInputHtml +='</select><e>:</e>';
+                    hhmmssInputHtml +='</select>';
                     
-                    hhmmssInputHtml +='<select class="cmb_hhmmss minute tac" value="'+min+'">';
+                    hhmmssInputHtml +='<select class="cmb_hhmmss minute tac mr3" value="'+min+'">';
                     for(var h=0; h<60; h++){
-                    hhmmssInputHtml +='<option value="'+$m.lpad(h,2,0)+'">'+$m.lpad(h,2,0)+'</option>';
+                    	if(h == min){
+                    		hhmmssInputHtml +='<option value="'+$m.lpad(h,2,0)+'" selected>'+$m.lpad(h,2,0)+'분</option>';
+                    	}else{
+                    		hhmmssInputHtml +='<option value="'+$m.lpad(h,2,0)+'">'+$m.lpad(h,2,0)+'분</option>';
+                    	}
                     }
-                    hhmmssInputHtml +='</select><e>:</e>';
+                    hhmmssInputHtml +='</select>';
                     
                     hhmmssInputHtml +='<select class="cmb_hhmmss second tac" value="'+sec+'">';
                     for(var s=0; s<60; s++){
-                    	hhmmssInputHtml +='<option value="'+$m.lpad(s,2,0)+'">'+$m.lpad(s,2,0)+'</option>';
+                    	if(s == sec){
+                    		hhmmssInputHtml +='<option value="'+$m.lpad(s,2,0)+'" selected>'+$m.lpad(s,2,0)+'초</option>';
+                    	}else{
+                    		hhmmssInputHtml +='<option value="'+$m.lpad(s,2,0)+'">'+$m.lpad(s,2,0)+'초</option>';
+                    	}
                     }
                     hhmmssInputHtml +='</select>';
                     hhmmssInputHtml +='</div>';
@@ -7263,32 +7275,32 @@ var multiCalendar ={
                     multiCalendar.calendarVariable.calArray[1].dateArray.second = sec;
                     $(multiCalendar.calendarVariable.calArray[1].putObj).addClass('hhmmss');
                     var hhmmssInputHtml = '';
-                    hhmmssInputHtml +='<select class="cmb_hhmmss hour tac">';
+                    hhmmssInputHtml +='<select class="cmb_hhmmss hour tac mr3">';
                     for(var h=0; h<24; h++){
                     	if(h == hour){
-                    		hhmmssInputHtml +='<option value="'+$m.lpad(h,2,0)+'" selected>'+$m.lpad(h,2,0)+'</option>';
+                    		hhmmssInputHtml +='<option value="'+$m.lpad(h,2,0)+'" selected>'+$m.lpad(h,2,0)+'시</option>';
                     	}else{
-                    		hhmmssInputHtml +='<option value="'+$m.lpad(h,2,0)+'">'+$m.lpad(h,2,0)+'</option>';
+                    		hhmmssInputHtml +='<option value="'+$m.lpad(h,2,0)+'">'+$m.lpad(h,2,0)+'시</option>';
                     	}
                     }
-                    hhmmssInputHtml +='</select><e>:</e>';
+                    hhmmssInputHtml +='</select>';
                     
-                    hhmmssInputHtml +='<select class="cmb_hhmmss minute tac">';
+                    hhmmssInputHtml +='<select class="cmb_hhmmss minute tac mr3">';
                     for(var h=0; h<60; h++){
                     	if(h == min){
-                    		hhmmssInputHtml +='<option value="'+$m.lpad(h,2,0)+'" selected>'+$m.lpad(h,2,0)+'</option>';
+                    		hhmmssInputHtml +='<option value="'+$m.lpad(h,2,0)+'" selected>'+$m.lpad(h,2,0)+'분</option>';
                     	}else{
-                    		hhmmssInputHtml +='<option value="'+$m.lpad(h,2,0)+'">'+$m.lpad(h,2,0)+'</option>';
+                    		hhmmssInputHtml +='<option value="'+$m.lpad(h,2,0)+'">'+$m.lpad(h,2,0)+'분</option>';
                     	}
                     }
-                    hhmmssInputHtml +='</select><e>:</e>';
+                    hhmmssInputHtml +='</select>';
                     
                     hhmmssInputHtml +='<select class="cmb_hhmmss second tac">';
                     for(var s=0; s<60; s++){
                     	if(s == sec){
-                    		hhmmssInputHtml +='<option value="'+$m.lpad(s,2,0)+'" selected>'+$m.lpad(s,2,0)+'</option>';
+                    		hhmmssInputHtml +='<option value="'+$m.lpad(s,2,0)+'" selected>'+$m.lpad(s,2,0)+'초</option>';
                     	}else{
-                    		hhmmssInputHtml +='<option value="'+$m.lpad(s,2,0)+'">'+$m.lpad(s,2,0)+'</option>';
+                    		hhmmssInputHtml +='<option value="'+$m.lpad(s,2,0)+'">'+$m.lpad(s,2,0)+'초</option>';
                     	}
                     	
                     }
