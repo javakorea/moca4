@@ -5201,6 +5201,7 @@ public class TOController{
 			if(MapUtils.isEmpty(paramMap)) {
 				paramMap = mocaMap;
 			}
+			paramMap.put("BOARD_CONT", U.strToArr((String)paramMap.get("BOARD_CONT")," "));
 			model.addAttribute("selectBoardList", TOMapper.selectBoardNumList(paramMap));//페이징 조회
 			Map map = new HashMap(); 
 			List list = TOMapper.selectBoardStatusCnt(paramMap);

@@ -3053,17 +3053,23 @@ Moca.prototype.renderInputMultiCalendar = function(_divObj,_srcId) {
     var _id = _divObj.id+"_"+_divObj.getAttribute("pageid");
     var _maxLength = '';
     var _style = '';
+    var _width = '';
+    var _class ='';
+    
     var _displayformat = $(_divObj).attr('displayformat');
     if(_displayformat == '####-##-##'){
     	_style ="width:205px;"
     	_maxLength = 'maxlength="10"';
+    }else if(_displayformat == '####-##-## ##:##'){
+    	$(_divObj).addClass('ipt_hhmmss');
+    	_class="ica_ipt";
     }
     
     var _html = '';
-    _html += '<div id="'+('sub_'+_id)+'" style="'+_style+'">';
-    _html += '  <input type="text" class="moca_input"  style="width:calc(50% - 15px);"  value="" '+_maxLength+'>';
+    _html += '<div id="'+('sub_'+_id)+'" style="'+_style+'" class="'+_class+'">';
+    _html += '  <input type="text" class="moca_input"  style="width:calc(50% - 15px)"  value="" '+_maxLength+'>';
     _html += '  <i style="position:relative; left:-1px">~</i>';
-    _html += '  <input type="text" class="moca_input"  style="width:calc(50% - 15px);"  value="" '+_maxLength+'>';
+    _html += '  <input type="text" class="moca_input"  style="width:calc(50% - 15px)"  value="" '+_maxLength+'>';
     _html += '  <button type="button" class="moca_ica_btn"onclick="$m.fn_inputMultiCal(this);">달력선택</button>';
     _html += '</div>';
     //_divObj.innerHTML = _html;
@@ -7195,10 +7201,27 @@ var multiCalendar ={
                     multiCalendar.calendarVariable.calArray[0].dateArray.second = sec;
                     $(multiCalendar.calendarVariable.calArray[0].putObj).addClass('hhmmss');
                     var hhmmssInputHtml = '';
-                    hhmmssInputHtml += '<input type="text" class="moca_input ipt_hhmmss hour" value="'+hour+'"><e>:</e>';
-                    hhmmssInputHtml += '<input type="text" class="moca_input ipt_hhmmss minute" value="'+min+'"><e>:</e>';
-                    hhmmssInputHtml += '<input type="text" class="moca_input ipt_hhmmss second" value="'+sec+'">';
+                    hhmmssInputHtml += '<div class="hhmmss_box">'
+                    hhmmssInputHtml +='<select class="cmb_hhmmss hour tac" value="'+hour+'">';
+                    for(var h=0; h<24; h++){
+                    	hhmmssInputHtml +='<option value="'+$m.lpad(h,2,0)+'">'+$m.lpad(h,2,0)+'</option>';
+                    }
+                    hhmmssInputHtml +='</select><e>:</e>';
+                    
+                    hhmmssInputHtml +='<select class="cmb_hhmmss minute tac" value="'+min+'">';
+                    for(var h=0; h<60; h++){
+                    hhmmssInputHtml +='<option value="'+$m.lpad(h,2,0)+'">'+$m.lpad(h,2,0)+'</option>';
+                    }
+                    hhmmssInputHtml +='</select><e>:</e>';
+                    
+                    hhmmssInputHtml +='<select class="cmb_hhmmss second tac" value="'+sec+'">';
+                    for(var s=0; s<60; s++){
+                    	hhmmssInputHtml +='<option value="'+$m.lpad(s,2,0)+'">'+$m.lpad(s,2,0)+'</option>';
+                    }
+                    hhmmssInputHtml +='</select>';
+                    hhmmssInputHtml +='</div>';
                     $(multiCalendar.calendarVariable.calArray[0].putObj).parent().append(hhmmssInputHtml);
+                    
             	}
                 let y = tempArr[0];
                 let m = tempArr[1];
@@ -7240,9 +7263,36 @@ var multiCalendar ={
                     multiCalendar.calendarVariable.calArray[1].dateArray.second = sec;
                     $(multiCalendar.calendarVariable.calArray[1].putObj).addClass('hhmmss');
                     var hhmmssInputHtml = '';
-                    hhmmssInputHtml += '<input type="text" class="moca_input ipt_hhmmss hour" value="'+hour+'"><e>:</e>';
-                    hhmmssInputHtml += '<input type="text" class="moca_input ipt_hhmmss minute" value="'+min+'"><e>:</e>';
-                    hhmmssInputHtml += '<input type="text" class="moca_input ipt_hhmmss second" value="'+sec+'">';
+                    hhmmssInputHtml +='<select class="cmb_hhmmss hour tac">';
+                    for(var h=0; h<24; h++){
+                    	if(h == hour){
+                    		hhmmssInputHtml +='<option value="'+$m.lpad(h,2,0)+'" selected>'+$m.lpad(h,2,0)+'</option>';
+                    	}else{
+                    		hhmmssInputHtml +='<option value="'+$m.lpad(h,2,0)+'">'+$m.lpad(h,2,0)+'</option>';
+                    	}
+                    }
+                    hhmmssInputHtml +='</select><e>:</e>';
+                    
+                    hhmmssInputHtml +='<select class="cmb_hhmmss minute tac">';
+                    for(var h=0; h<60; h++){
+                    	if(h == min){
+                    		hhmmssInputHtml +='<option value="'+$m.lpad(h,2,0)+'" selected>'+$m.lpad(h,2,0)+'</option>';
+                    	}else{
+                    		hhmmssInputHtml +='<option value="'+$m.lpad(h,2,0)+'">'+$m.lpad(h,2,0)+'</option>';
+                    	}
+                    }
+                    hhmmssInputHtml +='</select><e>:</e>';
+                    
+                    hhmmssInputHtml +='<select class="cmb_hhmmss second tac">';
+                    for(var s=0; s<60; s++){
+                    	if(s == sec){
+                    		hhmmssInputHtml +='<option value="'+$m.lpad(s,2,0)+'" selected>'+$m.lpad(s,2,0)+'</option>';
+                    	}else{
+                    		hhmmssInputHtml +='<option value="'+$m.lpad(s,2,0)+'">'+$m.lpad(s,2,0)+'</option>';
+                    	}
+                    	
+                    }
+                    hhmmssInputHtml +='</select>';
                     $(multiCalendar.calendarVariable.calArray[1].putObj).parent().append(hhmmssInputHtml);
             	}
                 let y = tempArr[0];
@@ -7515,12 +7565,12 @@ var multiCalendar ={
                     }
                 }
                 if(multiCalendar.opt.from.indexOf(':') > -1 && multiCalendar.opt.to.indexOf(':') > -1){
-                	var fromHour=$m.lpad($($("#"+calendarId).find(".moca_calendar_fl")[0]).find('input.ipt_hhmmss.hour').val(),2,0);
-                	var fromMinute=$m.lpad($($("#"+calendarId).find(".moca_calendar_fl")[0]).find('input.ipt_hhmmss.minute').val(),2,0);
-                	var fromSecond=$m.lpad($($("#"+calendarId).find(".moca_calendar_fl")[0]).find('input.ipt_hhmmss.second').val(),2,0);
-                	var toHour=$m.lpad($($("#"+calendarId).find(".moca_calendar_fl")[1]).find('input.ipt_hhmmss.hour').val(),2,0);
-                	var toMinute=$m.lpad($($("#"+calendarId).find(".moca_calendar_fl")[1]).find('input.ipt_hhmmss.minute').val(),2,0);
-                	var toSecond=$m.lpad($($("#"+calendarId).find(".moca_calendar_fl")[1]).find('input.ipt_hhmmss.second').val(),2,0);
+                	var fromHour=$m.lpad($($("#"+calendarId).find(".moca_calendar_fl")[0]).find('.cmb_hhmmss.hour').val(),2,0);
+                	var fromMinute=$m.lpad($($("#"+calendarId).find(".moca_calendar_fl")[0]).find('.cmb_hhmmss.minute').val(),2,0);
+                	var fromSecond=$m.lpad($($("#"+calendarId).find(".moca_calendar_fl")[0]).find('.cmb_hhmmss.second').val(),2,0);
+                	var toHour=$m.lpad($($("#"+calendarId).find(".moca_calendar_fl")[1]).find('.cmb_hhmmss.hour').val(),2,0);
+                	var toMinute=$m.lpad($($("#"+calendarId).find(".moca_calendar_fl")[1]).find('.cmb_hhmmss.minute').val(),2,0);
+                	var toSecond=$m.lpad($($("#"+calendarId).find(".moca_calendar_fl")[1]).find('.cmb_hhmmss.second').val(),2,0);
                 	fromDt = fromDt+" "+fromHour+":"+fromMinute+":"+fromSecond;
                 	toDt = toDt+" "+toHour+":"+toMinute+":"+toSecond;
                 }

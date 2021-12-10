@@ -4620,9 +4620,17 @@
 			<if test="BOARD_WRITER != null and BOARD_WRITER != ''">
 	            AND A.BOARD_WRITER like CONCAT('%', #{BOARD_WRITER}, '%')
 	        </if>
-	        <if test="BOARD_TITLE != null and BOARD_TITLE != ''">
-	            AND A.BOARD_TITLE like CONCAT('%', #{BOARD_TITLE}, '%')
-	        </if>
+	        <if test="BOARD_CONT != null and BOARD_CONT != '' and BOARD_CONT.length !=0">
+	        	AND (
+				<foreach collection="BOARD_CONT" item="contents" index="K" separator="OR">
+					<choose>
+						<when test="contents != null and contents != ''">
+							A.BOARD_CONT like CONCAT ('%', #{contents}, '%')
+						</when>
+					</choose>
+				</foreach>
+				)
+			</if>
 	        <if test="BOARD_RECEIPTIONER != null and BOARD_RECEIPTIONER != ''">
 	            AND A.BOARD_RECEIPTIONER like CONCAT('%', #{BOARD_RECEIPTIONER}, '%')
 	        </if>
@@ -4685,19 +4693,16 @@
 			<if test="BOARD_WRITER != null and BOARD_WRITER != ''">
 	            AND A.BOARD_WRITER like CONCAT('%', #{BOARD_WRITER}, '%')
 	        </if>
-	        <if test="BOARD_TITLE != null and BOARD_TITLE != '' and BOARD_TITLE.length !=0">
-				<foreach collection="BOARD_TITLE" item="contents" index="K" >
-						AND (
-							<choose>
-								<when test="contents != null and contents != ''">
-									 OR A.BOARD_TITLE like CONCAT ('%', #{contents}, '%')
-								</when>
-								<otherwise>
-									A.BOARD_TITLE like CONCAT ('%', #{contents}, '%')
-								</otherwise>
-							</choose>
-						)
+	        <if test="BOARD_CONT != null and BOARD_CONT != '' and BOARD_CONT.length !=0">
+	        	AND (
+				<foreach collection="BOARD_CONT" item="contents" index="K" separator="OR">
+					<choose>
+						<when test="contents != null and contents != ''">
+							A.BOARD_CONT like CONCAT ('%', #{contents}, '%')
+						</when>
+					</choose>
 				</foreach>
+				)
 			</if>
 	        <if test="BOARD_RECEIPTIONER != null and BOARD_RECEIPTIONER != ''">
 	            AND A.BOARD_RECEIPTIONER like CONCAT('%', #{BOARD_RECEIPTIONER}, '%')
@@ -4749,9 +4754,17 @@
 		<if test="BOARD_WRITER != null and BOARD_WRITER != ''">
             AND A.BOARD_WRITER like CONCAT('%', #{BOARD_WRITER}, '%')
         </if>
-        <if test="BOARD_TITLE != null and BOARD_TITLE != ''">
-            AND A.BOARD_TITLE like CONCAT('%', #{BOARD_TITLE}, '%')
-        </if>
+        <if test="BOARD_CONT != null and BOARD_CONT != '' and BOARD_CONT.length !=0">
+        	AND (
+			<foreach collection="BOARD_CONT" item="contents" index="K" separator="OR">
+				<choose>
+					<when test="contents != null and contents != ''">
+						A.BOARD_CONT like CONCAT ('%', #{contents}, '%')
+					</when>
+				</choose>
+			</foreach>
+			)
+		</if>
         <if test="BOARD_RECEIPTIONER != null and BOARD_RECEIPTIONER != ''">
             AND A.BOARD_RECEIPTIONER like CONCAT('%', #{BOARD_RECEIPTIONER}, '%')
         </if>

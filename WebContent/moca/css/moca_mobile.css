@@ -47,6 +47,14 @@
 	.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="td"], div[type="tr"]{width:100%}
 	.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="th"]{text-align:center}
 	/*multiCalendar*/
+	.moca_ica.ipt_hhmmss{height:53px;}
+	.moca_ica.ipt_hhmmss > .ica_ipt{height:50px !important; border:0 !important;}
+	.moca_ica.ipt_hhmmss .ica_ipt > .moca_input{width:calc(100% - 25px)!important; height:50%; border:1px solid #d7d7de !important;}
+	.moca_ica.ipt_hhmmss .ica_ipt > .moca_input:first-child{margin-bottom:3px}
+	.moca_ica.ipt_hhmmss .ica_ipt > i{display:none}
+	.moca_ica.ipt_hhmmss .ica_ipt > .moca_ica_btn{border-radius:2px; height:53px;border:1px solid #d7d7de !important; background-position:50%}
+	.moca_ica.ipt_hhmmss .ica_ipt > .moca_ica_btn:before{content:none}
+	.moca_calendar_row .moca_calendar_fl .cmb_hhmmss:first-child{margin-left:15px}
 	.moca_calendar_fromto.vertical{width:264px; height:auto}
 	.moca_calendar_fromto.vertical .moca_calendar_header{height:20px}
 	.moca_calendar_fromto.vertical .moca_calendar{padding-bottom:4px}
