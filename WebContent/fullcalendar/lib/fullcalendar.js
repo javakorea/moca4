@@ -5607,6 +5607,7 @@ var FullCalendar = (function (exports) {
                 this.customContentInfo.render(this.innerElRef.current || this.props.backupElRef.current, // the element to render into
                 this.customContentInfo.contentVal);
             }
+            $m.EFC_SCHEDULER.fn_showLunar('dayGridMonth');
         };
         return ContentHookInner;
     }(BaseComponent));

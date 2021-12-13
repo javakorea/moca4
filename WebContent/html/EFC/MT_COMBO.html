@@ -3,13 +3,13 @@
 <head>
 <script>
 	
-	$m.EFC_PROP.___ready = function(){
-		$m.EFC_PROP.code({
+	$m.MT_COMBO.___ready = function(){
+		$m.MT_COMBO.code({
 			"grd_1.useAt":{code:'EFC001'},
 			"cmb_1":{code:'boardStatus'},
 			"scmb_1":{code:'boardStatus'}
 		},function(){
-			$m.EFC_PROP.exe({
+			$m.MT_COMBO.exe({
 				url : $m._domain+$m._contextRoot+"/efms/EFC_CORP/list_json.do",
 				loadingbar:true,
 	            data : {
@@ -17,45 +17,45 @@
 	            	"body" : {aaa:'111',bbb:'222'}
 	            },			
 				callback : function(response){
-					var g_obj = $m.EFC_PROP.getObj('grd_1');
+					var g_obj = $m.MT_COMBO.getObj('grd_1');
 					if(g_obj['CORP_CD'] == undefined){
 						g_obj['CORP_CD'] = {};
 						g_obj['CORP_CD']['codeOpt'] = {allOption:{label:'-선택-',value:''},metaInfo:{codeCd:"CORP_CD",codeNm:"CORP_NM"}};
 					} 
 					g_obj['CORP_CD']['list'] = response.list;
-					$m.EFC_PROP.fn_search();
+					$m.MT_COMBO.fn_search();
 				}
 			});				
 		});
 	};
 	
-	$m.EFC_PROP.fn_search = function(){
-		$m.EFC_PROP.exe({
+	$m.MT_COMBO.fn_search = function(){
+		$m.MT_COMBO.exe({
 			url : $m._domain+$m._contextRoot+"/efms/EFGPROP/list_json.do",
             data : {
             	"header" : $m.header,
-            	"body" : {PROP_KEY:$m.getValue($m.EFC_PROP.getObj( "PROP_KEY"))}
+            	"body" : {PROP_KEY:$m.getValue($m.MT_COMBO.getObj( "PROP_KEY"))}
             },			
 			callback : function(response){
-				$m.EFC_PROP.drawGrid('grd_1', $m.EFC_PROP.getResList(response,"list"));
+				$m.MT_COMBO.drawGrid('grd_1', $m.MT_COMBO.getResList(response,"list"));
 			}
 		});
 	};
-	$m.EFC_PROP.fn_exe = function(){
-		if($m.EFC_PROP.validate("grd_1","status","C,U,D")){
+	$m.MT_COMBO.fn_exe = function(){
+		if($m.MT_COMBO.validate("grd_1","status","C,U,D")){
 			$m.confirm('저장하시겠습니까?',function(result){
 				if(result == 'Y'){
-					$m.EFC_PROP.exe({
+					$m.MT_COMBO.exe({
 						url : $m._domain+$m._contextRoot+"/efms/EFGPROP/modify_json.do",
 			            data : {
 			            	"header" : $m.header,
 			            	"body" : {
-			            		paramList:$m.EFC_PROP.getFilteredList("grd_1","status","C,U,D")
+			            		paramList:$m.MT_COMBO.getFilteredList("grd_1","status","C,U,D")
 			            	}
 			            },		
 						callback : function(){
 			        	   $m.alert('성공적으로 저장되었습니다!',function(){
-			        		   $m.EFC_PROP.fn_search();
+			        		   $m.MT_COMBO.fn_search();
 			        	   	   return;
 			        	   });	
 						}
@@ -71,7 +71,7 @@
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	$m.EFC_PROP._openFileUpload = function() {
+	$m.MT_COMBO._openFileUpload = function() {
 		$m.popup({
 			type:"POPUP",
 			modal:"false",
@@ -88,16 +88,16 @@
 			},
 			data:{
 				subDir:"EFC_PROP",
-				onFileSelected:"$m.EFC_PROP.onFileSelected"
+				onFileSelected:"$m.MT_COMBO.onFileSelected"
 			}
 		});
 	};
-	$m.EFC_PROP.onFileSelected = function(filename,filesize,_e,_this) {
+	$m.MT_COMBO.onFileSelected = function(filename,filesize,_e,_this) {
 		return true;//or false
 	};	
 
 	
-	$m.EFC_PROP.selectSetter = function(prev_v,prev_t,after_v,after_t) {
+	$m.MT_COMBO.selectSetter = function(prev_v,prev_t,after_v,after_t) {
 
 	};	
 	
@@ -123,11 +123,42 @@
 								<div type="input" id="PROP_KEY" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
 							</span>
 						</div>
+						<div class="tb">
+							<span class="tb_th">모카콤보</span>
+							<span class="tb_td">
+								<div type="combo" 
+									id="cmb_1" 
+									class="moca_combo" 
+									style="width:165px" 
+									displayFormat="[label]" 
+									cdField="code" 
+									nmField="codeNm"
+								>
+								</div>
+								
+							</span>
+						</div>
+						<div class="tb">
+							<span class="tb_th">서치콤보</span>
+							<span class="tb_td">
+								<div type="searchCombo" 
+									id="scmb_1" 
+									class="moca_searchCombo" 
+									inneronchange="$m.MT_COMBO.selectSetter(this)" 
+									style="width:165px" 
+									readOnly="false"
+									displayFormat="[label]" 
+									cdField="code" 
+									nmField="codeNm"   
+									itemset='[{"cd":"0","nm":"해당없음 "},{"cd":"1","nm":"(%)비율"},{"cd":"2","nm":"(원)금액"},{"cd":"3","nm":"(원)금액3"},{"cd":"4","nm":"(원)금액4"},{"cd":"5","nm":"(원)금액5"},{"cd":"6","nm":"(원)금액6"},{"cd":"7","nm":"(원)금액7"},{"cd":"8","nm":"(원)금액8"},{"cd":"9","nm":"(원)금액9"},{"cd":"10","nm":"(원)금액10"},{"cd":"11","nm":"(원)금액11"},{"cd":"12","nm":"(원)금액12"}]'>
+								</div>
+							</span>
+						</div>
 					</div>
 				</div>
 				<div class="btn_shbox">
-					<button type="button" class="button btn_sc" onclick="$m.EFC_PROP.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
-					<!-- <button type="button" class="button btn_sc" style="display:none" onclick="$m.EFC_PROP._openFileUpload(this)"><i class="fas fa-search"></i><span>파일첨부</span></button> -->
+					<button type="button" class="button btn_sc" onclick="$m.MT_COMBO.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+					<!-- <button type="button" class="button btn_sc" style="display:none" onclick="$m.MT_COMBO._openFileUpload(this)"><i class="fas fa-search"></i><span>파일첨부</span></button> -->
 				</div>
 			</div>
 			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
@@ -141,7 +172,7 @@
 								toolbar_nextbtn="false"
 								toolbar_full="true"
 								
-								toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"$m.EFC_PROP.fn_exe","addClass":"","innerDisabled":"false"}'
+								toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"$m.MT_COMBO.fn_exe","addClass":"","innerDisabled":"false"}'
 
 								label="시스템설정목록"
 			

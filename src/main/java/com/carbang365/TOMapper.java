@@ -446,9 +446,11 @@ public interface TOMapper {
 	public int insertBoardFile(Map<String, Object> map);
 	// 게시글파일삭제
 	public int deleteBoardFileList(Map<String, Object> map);
-	// 게시글수정
+	// 게시글접수
 	public int receiptBoard(Map<String, Object> map);
-	
+	// 게시글수정일시
+	public int updateBoardDate(Map<String, Object> map);
+		
 	// 스케줄러 조회
 	public List<Map<String, Object>> selectScheduleList(Map<String, Object> map);
 	// 스케줄러 등록

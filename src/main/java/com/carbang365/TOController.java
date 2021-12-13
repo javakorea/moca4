@@ -5228,9 +5228,12 @@ public class TOController{
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
 			model.addAttribute("cnt", TOMapper.insertBoard(paramMap));
+			
 			if(paramMap.get("BOARD_PIDX") == null) {
 				paramMap.put("BOARD_PIDX", paramMap.get("BOARD_IDX"));
 				TOMapper.updateBoardInfo(paramMap);
+			}else if(paramMap.get("BOARD_PIDX") != null && paramMap.get("BOARD_PIDX") != paramMap.get("BOARD_IDX")) {
+				TOMapper.updateBoardDate(paramMap);
 			}
 			paramMap.put("status", "C");TOMapper.insertBoardHis(paramMap);
 	    	List list = (List)paramMap.get("fileList"); //자바스크립트에서 받아온 값을 자바언어구조로 바꿈
@@ -5253,12 +5256,15 @@ public class TOController{
 	    		map.put("PROP_KEY","업무게시판수신자");
 	    	}
 	    	
-	    	
+	    	String BOARD_CONT = paramMap.get("GET_CONT_TXT").toString();
+			if(BOARD_CONT.length() > 20) {
+				BOARD_CONT = BOARD_CONT.substring(0,20);
+			}
 	    	List EFGPRPOP_list = mocaEFLService.selectList_EFGPROP(map);
 	    	if(EFGPRPOP_list != null && EFGPRPOP_list.size() > 0){
 	    		Map phonenumber = (Map)EFGPRPOP_list.get(0);
 		    	API.sendSms(
-		    			(String)paramMap.get("GET_CONT_TXT"),
+		    			"[teammoca발신]\n"+BOARD_CONT+"...글이 등록되었습니다.",
 		    			phonenumber.get("PROP_VALUE").toString(),
 		    			paramMap.get("BOARD_WRITER").toString()
 		    	);
@@ -5342,6 +5348,9 @@ public class TOController{
 		        			TOMapper.insertBoardFile(row);
 		            	}
 		        	}
+				}
+				if(paramMap.get("BOARD_PIDX") != null && paramMap.get("BOARD_PIDX") != paramMap.get("BOARD_IDX")) {
+					TOMapper.updateBoardDate(paramMap);
 				}
 			}
 			TOMapper.insertBoardHis(paramMap);
@@ -5524,7 +5533,11 @@ public class TOController{
 			
 			String _BOARD_SUPPORT = paramMap.get("BOARD_SUPPORT").toString();
 			String _BOARD_WRITERPHONE = paramMap.get("BOARD_WRITERPHONE").toString();
-			
+			String BOARD_CONT = paramMap.get("BOARD_CONT").toString();
+			if(BOARD_CONT.length() > 20) {
+				BOARD_CONT = BOARD_CONT.substring(0,20);
+			}		
+					
 			if(_BOARD_SUPPORT.equals("Y") && _BOARD_WRITERPHONE != null){
 				//완료일경우만 
 				Map map = new HashMap();
@@ -5533,7 +5546,7 @@ public class TOController{
 		    	if(EFGPRPOP_list != null && EFGPRPOP_list.size() > 0){
 		    		Map phonenumber = (Map)EFGPRPOP_list.get(0);
 			    	API.sendSms(
-			    			"요청건이 완료되었습니다.",
+			    			"[teammoca발신]\n"+BOARD_CONT+"...요청건이 완료되었습니다.",
 			    			_BOARD_WRITERPHONE,
 			    			paramMap.get("BOARD_WRITER").toString()
 			    	);

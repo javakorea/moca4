@@ -29,8 +29,36 @@ $m.EFC_SCHEDULER.fn_search = function(_callbackJson){
         	$m.EFC_SCHEDULER.fn_setSchedule(response,_callbackJson);
         }
     });
-	
 };
+
+$m.EFC_SCHEDULER.fn_showLunar = function(_type,_dateFormat){
+	//dayGridMonth,timeGridWeek,timeGridDay
+	if(_type=="dayGridMonth"){
+		var _aDayTag = $('.fc-daygrid-day-top a');
+		var _dateFormat;
+		var _year;
+		var _month;
+		var _day;
+		if(_aDayTag.length > 0){
+			for(var i=0; i < _aDayTag.length ; i++){
+				_dateFormat = new Date($(_aDayTag[i]).attr('aria-label'));
+				_year =$m.dateToString(_dateFormat).year;
+				_month = $m.dateToString(_dateFormat).month;
+				_day = $m.dateToString(_dateFormat).day.replace(/(^0+)/, ""); 
+				_lunar = $m.lunar.solarToLunar(_year,_month,_day,'short');
+				$(_aDayTag[i]).html(_day+'<span class="lunar">('+_lunar+')</span>');
+				
+			}
+		}
+	}else if(_type=="timeGridWeek" || _type=="timeGridDay"){
+		_year =$m.dateToString(_dateFormat).year;
+		_month = $m.dateToString(_dateFormat).month;
+		_day = $m.dateToString(_dateFormat).day.replace(/(^0+)/, ""); 
+		_lunar = $m.lunar.solarToLunar(_year,_month,_day,'short');
+		return _lunar;
+	}
+	
+}
 
 $m.EFC_SCHEDULER.fn_setSchedule = function(response,_callbackJson){
 	['캘린더세팅']
@@ -99,17 +127,22 @@ $m.EFC_SCHEDULER.fn_setSchedule = function(response,_callbackJson){
         timeZone: 'local',
         dayHeaderContent: function (date) {
         	let weekList = ["일", "월", "화", "수", "목", "금", "토"];
-        	if(date.view.type == 'timeGridWeek'){
+        	if(date.view.type == 'dayGridMonth'){
+        		$m.EFC_SCHEDULER.fn_showLunar('dayGridMonth');
+        	}else if(date.view.type == 'timeGridWeek'){
         		var _dateObj = $m.dateToString(date.date);
+				var _lunarStr = $m.EFC_SCHEDULER.fn_showLunar('timeGridWeek',date.date);
         		var _dateStr = _dateObj.월+"/"+_dateObj.일;
         		for(var i=0; i < weekList.length ; i++ ){
-        			weekList[i] = _dateStr+" "+ weekList[i]
+        			weekList[i] = _dateStr+" "+ weekList[i]+'('+_lunarStr+')';
         		}
         	}else if(date.view.type == 'timeGridDay'){
         		var _dateObj = $m.dateToString(date.date);
+        		$m.EFC_SCHEDULER.fn_showLunar('timeGridDay',date.date);
+        		var _lunarStr = $m.EFC_SCHEDULER.fn_showLunar('timeGridWeek',date.date);
         		var _dateStr = _dateObj.월+"/"+_dateObj.일;
         		for(var i=0; i < weekList.length ; i++ ){
-        			weekList[i] = _dateStr+" "+ weekList[i];
+        			weekList[i] = _dateStr+" "+ weekList[i]+' ('+_lunarStr+')';
         		}
         	}
        	  return weekList[date.dow];

@@ -48,14 +48,19 @@ $m.EFC_BOARD_POP.___ready = function(args){
     		$m.EFC_BOARD_POP._boardType = $m.EFC_BOARD_POP.args.parent.data.BOARD_TYPE;
     		$m.EFC_BOARD_POP._boardTitle = $m.EFC_BOARD_POP.args.parent.data.BOARD_TITLE;
     		$m.EFC_BOARD_POP._pageType = $m.EFC_BOARD_POP.args.parent.data.PAGE_TYPE;
+    		if($m.getDevice() == 'mobile' && args.parent.data.popTitle != '게시물작성'){
+        		$m.hide($m.EFC_BOARD_POP.getObj('tr_phone'));
+        		$m.hide($m.EFC_BOARD_POP.getObj('tr_email'));
+        		$m.hide($m.EFC_BOARD_POP.getObj('tr_completeid'));
+        	}
     	}
     	if($m.EFC_BOARD_POP._boardType == "NOTICE" || $m.EFC_BOARD_POP._pageType == 'home'){
     		$m.hide($m.EFC_BOARD_POP.getObj('tr_status'));
     		$m.hide($m.EFC_BOARD_POP.getObj('tr_phone'));
     		$m.hide($m.EFC_BOARD_POP.getObj('tr_email'));
     		$m.hide($m.EFC_BOARD_POP.getObj('tr_completeid'));
-    		
     	}
+    	
     	if(Object.keys(CKEDITOR.instances).length > 0){
     		if(CKEDITOR.instances.editor != null){CKEDITOR.instances.editor.destroy()};
     		if(CKEDITOR.instances.reply_editor != null){CKEDITOR.instances.reply_editor.destroy()};
@@ -191,13 +196,25 @@ $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 						CKEDITOR.instances.editor.setData($m.resizeContsImg(data.BOARD_CONT));
 						$m.show($($m.EFC_BOARD_POP.getObj('form_board')).find('.rta'));
 						$m.hide($($m.EFC_BOARD_POP.getObj("cke_editor")).find("[id$='_top']"));
+						
+						if($m.getDevice() == 'mobile' && $m.trim(data.BOARD_PHONE) != ''){
+							$m.show($m.EFC_BOARD_POP.getObj('tr_phone'));
+						}
+						if($m.getDevice() == 'mobile' && $m.trim(data.BOARD_PHONE) != ''){
+							$m.show($m.EFC_BOARD_POP.getObj('tr_phone'));
+						}
+						if($m.getDevice() == 'mobile' && $m.trim(data.BOARD_COMPLETER) != ''){
+							$m.show($m.EFC_BOARD_POP.getObj('tr_completeid'));
+						}
+						
+						$m.setValue($m.EFC_BOARD_POP.getObj("wphone"),data.BOARD_PHONE);
 						$m.setValue($m.EFC_BOARD_POP.getObj("cmb_board"),data.BOARD_SUPPORT);
 						$m.setValue($m.EFC_BOARD_POP.getObj("wtitle"),data.BOARD_TITLE);
 						$m.setValue($m.EFC_BOARD_POP.getObj("wdate"),data.BOARD_DATE);
 						$m.setValue($m.EFC_BOARD_POP.getObj("wid"),data.BOARD_WRITER);
 						$m.setValue($m.EFC_BOARD_POP.getObj("widx"),data.BOARD_IDX);
 						$m.setValue($m.EFC_BOARD_POP.getObj("wemail"),data.BOARD_EMAIL);
-						$m.setValue($m.EFC_BOARD_POP.getObj("wphone"),data.BOARD_PHONE);
+						;
 						$m.setValue($m.EFC_BOARD_POP.getObj("wreceiptid"),data.BOARD_RECEIPTIONER);
 						$m.setValue($m.EFC_BOARD_POP.getObj("wcompleteid"),data.BOARD_COMPLETER);
 						$m.hide($m.EFC_BOARD_POP.getObj("btn_save"));
@@ -276,6 +293,9 @@ $m.EFC_BOARD_POP.fn_update = function(_thisObj){
 		$m.show($m.EFC_BOARD_POP.getObj("btn_save"));
 		$m.show($m.EFC_BOARD_POP.getObj('grd_file_btn_fold'));
 		$m.hide($m.EFC_BOARD_POP.getObj("btn_del_admin"));
+		$m.show($m.EFC_BOARD_POP.getObj('tr_phone'));
+		$m.show($m.EFC_BOARD_POP.getObj('tr_email'));
+		$m.show($m.EFC_BOARD_POP.getObj('tr_completeid'));
 	}else{ //답변수정
 		$m.EFC_BOARD_POP._boardReplyStatus = "U";
 		$m.setReadOnly($m.EFC_BOARD_POP.getObj("wreplytitle"),false);
@@ -697,7 +717,8 @@ $m.EFC_BOARD_POP.fn_status = function(_thisObj){
         				"BOARD_RECEIPTIONER":_receiptid,
         				"BOARD_COMPLETER": _completeid,
         				"BOARD_WRITERPHONE": $m.getValue($m.EFC_BOARD_POP.getObj('wphone')),
-        				"BOARD_WRITER":$m.getValue($m.EFC_BOARD_POP.getObj('wid'))
+        				"BOARD_WRITER":$m.getValue($m.EFC_BOARD_POP.getObj('wid')),
+        				"BOARD_CONT":CKEDITOR.instances.editor.getData()
         				}
         		},			
         		callback : function(response){
@@ -774,7 +795,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 				          	<div class="moca_table_cont" type="table">
 				          		<div type="tbody">
 				          			<div type="tr">
-				          				<div type="th" class="tar">ID</div>
+				          				<div type="th" class="tar">글번호</div>
 		                                <div type="td">
 		                                    <div type="input" id="widx" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
 		                                </div>

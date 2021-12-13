@@ -4557,6 +4557,7 @@
 	        	A.BOARD_TITLE, 
 	        	A.BOARD_WRITER, 
 	        	A.BOARD_DATE, 
+	        	A.UPDATE_DATE, 
 	        	A.BOARD_TYPE,
 	        	A.BOARD_RECEIPTIONER,
 	        	COUNT(F.BOARD_IDX) AS CNT,
@@ -4604,7 +4605,8 @@
 	        AND A.BOARD_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOARD_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')
 	        ]]>
 	        GROUP BY A.BOARD_IDX
-	        ORDER BY A.BOARD_PIDX DESC, A.BOARD_IDX ASC
+	        <!-- ORDER BY A.BOARD_PIDX DESC, A.BOARD_IDX ASC -->
+	        ORDER BY A.UPDATE_DATE DESC, A.BOARD_DATE DESC
         <include refid="setRnEd"/>
     </select>
  	
@@ -4678,6 +4680,7 @@
 	        	A.BOARD_TITLE, 
 	        	A.BOARD_WRITER, 
 	        	A.BOARD_DATE, 
+	        	A.UPDATE_DATE, 
 	        	A.BOARD_TYPE,
 	        	A.BOARD_RECEIPTIONER,
 	        	COUNT(F.BOARD_IDX) AS CNT,
@@ -4736,7 +4739,8 @@
 	        AND A.BOARD_DATE >= STR_TO_DATE(CONCAT(#{FROM},' 00:00:00'), '%Y%m%d %H:%i:%s') AND A.BOARD_DATE <= STR_TO_DATE(CONCAT(#{TO},' 23:59:59'), '%Y%m%d %H:%i:%s')
 	        ]]>
 	        GROUP BY A.BOARD_IDX
-	        ORDER BY A.BOARD_PIDX DESC, A.BOARD_IDX ASC
+	        <!-- ORDER BY A.BOARD_PIDX DESC, A.BOARD_IDX ASC -->
+	        ORDER BY A.UPDATE_DATE DESC, A.BOARD_DATE DESC
         <include refid="setRnEd"/>
         LIMIT ${limitFrom}, ${limitPerPage}
     </select>
@@ -4815,6 +4819,7 @@
         	A.BOARD_TITLE, 
         	A.BOARD_WRITER, 
         	A.BOARD_DATE, 
+        	A.UPDATE_DATE, 
         	A.BOARD_TYPE,
         	A.BOARD_RECEIPTIONER,
         	COUNT(F.BOARD_IDX) AS CNT
@@ -4828,7 +4833,7 @@
             AND A.BOARD_PIDX = #{BOARD_PIDX}
         </if> 
         GROUP BY A.BOARD_IDX
-        ORDER BY A.BOARD_DATE DESC
+        ORDER BY A.UPDATE_DATE DESC, A.BOARD_DATE DESC
     </select>
     
     
@@ -4848,6 +4853,7 @@
 	            BOARD_PHONE,
 	            BOARD_EMAIL,
 	            BOARD_DATE,
+	            UPDATE_DATE,
 	            CORP_CD,
 	            CORP_NM
             )VALUES (
@@ -4862,6 +4868,7 @@
 	            #{BOARD_WRITER},
 	            #{BOARD_PHONE},
 	            #{BOARD_EMAIL},
+	            CURRENT_TIMESTAMP,
 	            CURRENT_TIMESTAMP,
 	            #{CORP_CD},
 	            #{CORP_NM}
@@ -4880,11 +4887,20 @@
             BOARD_WRITER = #{BOARD_WRITER},
             BOARD_PHONE = #{BOARD_PHONE},
             BOARD_EMAIL = #{BOARD_EMAIL},
-            BOARD_DATE = CURRENT_TIMESTAMP
+            UPDATE_DATE = CURRENT_TIMESTAMP
          WHERE 1=1
          AND BOARD_IDX=#{BOARD_IDX}
     </update>
 
+	<!-- 게시물 수정일시 -->
+    <update id="updateBoardDate" parameterType="map">
+         /*updateBoardDate 게시물수정일시*/
+         UPDATE MT_BOARD SET 
+            UPDATE_DATE = CURRENT_TIMESTAMP
+         WHERE 1=1
+         AND BOARD_PIDX=#{BOARD_PIDX}
+    </update>
+    
     <!-- 게시물 논리 삭제 -->
     <update id="deleteStatusBoard" parameterType="map">
          /* deleteStatusBoard 게시물논리삭제*/

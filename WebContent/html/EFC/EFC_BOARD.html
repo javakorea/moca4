@@ -286,18 +286,37 @@
     	var _thisValStr = (_grd.list[_realrow].BOARD_REPLYCNT > 0)?_thisVal+ '<span class="txt_red">[' +_replyCnt+ ']</span>':_thisVal;
     		if($m.EFC_BOARD.boardType != 'NOTICE'){
     			if(_grd.list[_realrow].BOARD_SUPPORT == "N"){
-    				_showVal = "<i class='msg txt_sky mr5'>요청</i>"+ _thisValStr;
+    				_showVal = "<i class='msg txt_sky mr5'>요청</i>"+'<nobr class="span_txt">'+ _thisValStr+'</nobr>';
     			}else if(_grd.list[_realrow].BOARD_SUPPORT == "R"){
-    				_showVal = "<i class='msg txt_green mr5'>접수</i>"+ _thisValStr;
+    				_showVal = "<i class='msg txt_green mr5'>접수</i>"+'<nobr class="span_txt">'+ _thisValStr+'</nobr>';
     			}else if(_grd.list[_realrow].BOARD_SUPPORT == "B"){
-    				_showVal = "<i class='msg txt_orange mr5'>반려</i>"+ _thisValStr;
+    				_showVal = "<i class='msg txt_orange mr5'>반려</i>"+'<nobr class="span_txt">'+ _thisValStr+'</nobr>';
     			}else{
     				_showVal = _thisValStr;
     			}
     		}else{
     			_showVal = _thisValStr;
     		}
-			
+			// 일주일 전 구하기
+			var _updateDt = new Date(_grd.list[_realrow].UPDATE_DATE);
+			var _today = new Date();
+			var dateDiff = Math.ceil((_today.getTime()-_updateDt.getTime())/(1000*3600*24));
+			if(dateDiff <= 6){
+				if(dateDiff == 1){
+					_showVal+= '<i class="new recent1">N<i>';
+				}else if(dateDiff == 2){
+					_showVal+= '<i class="new recent2">N<i>';
+				}else if(dateDiff == 3){
+					_showVal+= '<i class="new recent3">N<i>';
+				}else if(dateDiff == 4){
+					_showVal+= '<i class="new recent4">N<i>';
+				}else if(dateDiff == 5){
+					_showVal+= '<i class="new recent5">N<i>';
+				}else if(dateDiff == 6){
+					_showVal+= '<i class="new recent6">N<i>';
+				}
+				
+			}
 		return _showVal;
     }
     
@@ -454,6 +473,7 @@
 								<col style="width:40px" mobileHide="true"  hide="false" columnKey="CNT" thKey="H_BOARD_FILECNT">
 								<col style="width:100px" mobileHide="true"  hide="false" columnKey="BOARD_WRITER" thKey="H_BOARD_WRITER">
 								<col style="width:150px" mobileHide="true"  hide="false" columnKey="BOARD_DATE" thKey="H_BOARD_DATE">
+								<col style="width:150px" mobileHide="true"  hide="false" columnKey="UPDATE_DATE" thKey="H_UPDATE_DATE">
 								<col style="width:100px" mobileHide="true"  hide="false" columnKey="BOARD_RECEIPTIONER" thKey="H_BOARD_RECEIPTIONER">	
 						</colgroup>
 						<thead>
@@ -462,12 +482,13 @@
 								<!--<th scope="col" id="H_BOARD_TYPE">게시판유형</th> -->
 								<!--<th scope="col" id="H_BOARD_PHONE">연락처테스트</th> -->
 								<th scope="col" id="H_CORP_NM">법인명</th>
-								<th scope="col" id="H_BOARD_PIDX">ID</th>
+								<th scope="col" id="H_BOARD_PIDX" sortable="true">글번호</th>
 								<!-- <th scope="col" id="H_BOARD_IDX">ID</th> -->
 								<th scope="col" id="H_BOARD_TITLE">제목</th>
 								<th scope="col" id="H_BOARD_FILECNT">첨부</th>
 								<th scope="col" id="H_BOARD_WRITER"  filterable="true" filterableId="BOARD_WRITER">작성자</th>
-								<th scope="col" id="H_BOARD_DATE">작성일시</th>
+								<th scope="col" id="H_BOARD_DATE" sortable="true">작성일시</th>
+								<th scope="col" id="H_BOARD_DATE" sortable="true">수정일시</th>
 								<th scope="col" id="H_BOARD_RECEIPTIONER"  filterable="true" filterableId="BOARD_RECEIPTIONER">접수자</th>
 								<!--<th scope="col" id="H_BOARD_BTN">버튼</th>-->
 							</tr>
@@ -490,7 +511,8 @@
 								<td id="BOARD_TITLE" celltype="input" style="text-align:left" name="제목" readOnly="true" displayFunction="$m.EFC_BOARD.dispReply"></td>
 								<td id="CNT" celltype="input" style="" name="첨부" readOnly="true" displayFunction="$m.EFC_BOARD.dispCnt"></td>
 								<td id="BOARD_WRITER" celltype="input" style="text-align:center" name="작성자" readOnly="true"></td>
-								<td id="BOARD_DATE" celltype="input" style="" name="작성일" readOnly="true" displayFunction="$m.longToDate"></td>
+								<td id="BOARD_DATE" celltype="input" style="" name="작성일시" readOnly="true" displayFunction="$m.longToDate"></td>
+								<td id="UPDATE_DATE" celltype="input" style="" name="수정일시" readOnly="true" displayFunction="$m.longToDate"></td>
 								<td id="BOARD_RECEIPTIONER" celltype="input" style="text-align:center" name="접수자" readOnly="true"></td>
 								<!--<td id="delBtn" name="삭제"  celltype="button" readonly="false" required="false" addRowEditable="false" callFunction="$m.TO_000P01.fn_onBtnClick" btnLabel="삭제"></td>-->
 							</tr>

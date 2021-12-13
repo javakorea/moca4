@@ -25,21 +25,19 @@ $m.checkpoint.___ready = function(args){
 			debugger;
 			if(response.list.length > 0){
 				$m.checkpoint.checkList = response.list;
-				var _listArr = $m.checkpoint.checkList[0].PROP_VALUE.split('%n%');
-				_listArr.splice(0,1);
-				var _listCnt = _listArr.length;
+				var _listArr = $m.checkpoint.checkList[0].PROP_VALUE.split(',<br />\n');
 				var a;
 				var aHtml ='';
-				for(var i=0; i<_listCnt; i++){
-					a = _listArr[i].split(/%q%|%a%/);
+				for(var i=0; i<_listArr.length; i++){
+					_listJson = JSON.parse(_listArr[i].replaceAll('&quot;','"'));
 					aHtml += '<li>';
 					aHtml += '<div class="ck_qus">';
-					aHtml += '<span class="ck_num">'+a[0]+'</span>';
-					aHtml += '<span class="ck_qus_str">'+a[1]+'</span> ';
+					aHtml += '<span class="ck_num">'+i+'.</span>';
+					aHtml += '<span class="ck_qus_str">'+_listJson.ck_qus+'</span> ';
 					aHtml += '</div>';
-					if(a[2] != null){
+					if($m.trim(_listJson.ck_ans) != ''){
 						aHtml += '<div class="ck_ans">';
-						aHtml += a[2];
+						aHtml += _listJson.ck_ans;
 						aHtml += '</div>';
 					}
 					aHtml += '</li>';
