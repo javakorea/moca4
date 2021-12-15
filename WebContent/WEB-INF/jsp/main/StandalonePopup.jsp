@@ -44,6 +44,8 @@ if(userAgent.indexOf("MOBI") > -1 || userAgent.indexOf("IPHONE") > -1   || userA
 <script type="text/javascript" src="/moca/js/moca_ui.js"></script>
 <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="/fullcalendar/lib/fullcalendar.js"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 <script>
 var $m = new Moca();
 var param = {};

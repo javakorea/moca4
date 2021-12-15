@@ -5,7 +5,7 @@
 	
 	$m.MT_COMBO.___ready = function(){
 		$m.MT_COMBO.code({
-			"grd_1.useAt":{code:'EFC001'},
+			"grd_1.EFC_COMBO":{code:'TEST'},
 			"cmb_1":{code:'boardStatus'},
 			"scmb_1":{code:'boardStatus'}
 		},function(){
@@ -25,81 +25,22 @@
 					g_obj['CORP_CD']['list'] = response.list;
 					$m.MT_COMBO.fn_search();
 				}
-			});				
+			});
 		});
 	};
 	
 	$m.MT_COMBO.fn_search = function(){
 		$m.MT_COMBO.exe({
-			url : $m._domain+$m._contextRoot+"/efms/EFGPROP/list_json.do",
+			url : $m._domain+$m._contextRoot+"/MT_TEST/selectTestList.do",
             data : {
             	"header" : $m.header,
-            	"body" : {PROP_KEY:$m.getValue($m.MT_COMBO.getObj( "PROP_KEY"))}
+            	"body" : {}
             },			
 			callback : function(response){
-				$m.MT_COMBO.drawGrid('grd_1', $m.MT_COMBO.getResList(response,"list"));
+				$m.MT_COMBO.drawGrid('grd_1', $m.MT_COMBO.getResList(response,"selectTestList"));
 			}
 		});
 	};
-	$m.MT_COMBO.fn_exe = function(){
-		if($m.MT_COMBO.validate("grd_1","status","C,U,D")){
-			$m.confirm('저장하시겠습니까?',function(result){
-				if(result == 'Y'){
-					$m.MT_COMBO.exe({
-						url : $m._domain+$m._contextRoot+"/efms/EFGPROP/modify_json.do",
-			            data : {
-			            	"header" : $m.header,
-			            	"body" : {
-			            		paramList:$m.MT_COMBO.getFilteredList("grd_1","status","C,U,D")
-			            	}
-			            },		
-						callback : function(){
-			        	   $m.alert('성공적으로 저장되었습니다!',function(){
-			        		   $m.MT_COMBO.fn_search();
-			        	   	   return;
-			        	   });	
-						}
-					});
-				}
-			});
-		}
-	};
-	
-	
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-	$m.MT_COMBO._openFileUpload = function() {
-		$m.popup({
-			type:"POPUP",
-			modal:"false",
-			url:'/moca/comp/COMP_UPLD.html',
-			title:"파일업로드",
-			callback:function(result){
-				var fileSize = result.fileSize
-				var fileLength = result.fileLength
-				var originalFilename = result.originalFilename
-				var physicalFilename = result.physicalFilename
-				var physicalFilepath = result.physicalFilepath
-				var subDir = result.subDir
-				var uploadDir = result.uploadDir
-			},
-			data:{
-				subDir:"EFC_PROP",
-				onFileSelected:"$m.MT_COMBO.onFileSelected"
-			}
-		});
-	};
-	$m.MT_COMBO.onFileSelected = function(filename,filesize,_e,_this) {
-		return true;//or false
-	};	
-
-	
-	$m.MT_COMBO.selectSetter = function(prev_v,prev_t,after_v,after_t) {
-
-	};	
 	
 </script>
 
@@ -117,12 +58,6 @@
 			<div class="moca_shbox">
 				<div class="shbox_inner">
 					<div class="flex fwrap">
-						<div class="tb">
-							<span class="tb_th">설정키값</span>
-							<span class="tb_td">
-								<div type="input" id="PROP_KEY" keyMask="enterSearchEvt" class="mocaInput sh"  style=""  disabled="false" readonly="false"></div>
-							</span>
-						</div>
 						<div class="tb">
 							<span class="tb_th">모카콤보</span>
 							<span class="tb_td">
@@ -164,43 +99,38 @@
 			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
 								rendering_div = "true"
 								toolbar_search_size="false"
-								toolbar_detail="true"
+								toolbar_detail="false"
 								toolbar_exup="false"
-								toolbar_exdn="true"
-								toolbar_addrow="true"
-								toolbar_delrow="true"
+								toolbar_exdn="false"
+								toolbar_addrow="false"
+								toolbar_delrow="false"
 								toolbar_nextbtn="false"
 								toolbar_full="true"
 								
-								toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"$m.MT_COMBO.fn_exe","addClass":"","innerDisabled":"false"}'
-
-								label="시스템설정목록"
+								label="총건수"
 			
 			>
 					<table style="width: 100%">
 						<colgroup>
-								<col style="width:60px" mobileHide="true" hide="false" columnKey="status" thKey="H_status" >
 								<col style="width:10%" mobileHide="false" hide="false" columnKey="CORP_CD" thKey="H_CORP_CD" >
-								<col style="width:15%" mobileHide="false" hide="false" columnKey="PROP_KEY" thKey="H_PROP_KEY" >
-								<col style="width:40%" mobileHide="false" hide="false" columnKey="PROP_VALUE" thKey="H_PROP_VALUE" >		
-								<col style="width:40%" mobileHide="true" hide="false" columnKey="ETC" thKey="H_ETC" >								
+								<col style="width:10%" mobileHide="false" hide="false" columnKey="EFC_COMBO" thKey="H_EFC_COMBO" >
+								<col style="" mobileHide="true" hide="false" columnKey="TEST_DB" thKey="H_TEST_DB" >		
+								<col style="width:200px" mobileHide="true" hide="false" columnKey="TEST_DT" thKey="H_TEST_DT" >						
 						</colgroup>
 						<thead>
 							<tr>
-								<th scope="col" id="H_status">상태</th>
-								<th scope="col" id="H_CORP_CD">법인</th>
-								<th scope="col" id="H_PROP_KEY">key</th>
-								<th scope="col" id="H_PROP_VALUE">value</th>
-								<th scope="col" id="H_ETC">설명</th>
+								<th scope="col" id="H_CORP_CD">일반콤보</th>
+								<th scope="col" id="H_EFC_COMBO">공통콤보</th>
+								<th scope="col" id="H_TEST_DB">설명</th>
+								<th scope="col" id="H_TEST_DT">날짜</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
-								<td id="CORP_CD" celltype="select" style="text-align:center" required="true" name="법인" readOnly="true"></td>
-								<td id="PROP_KEY" celltype="input" style="text-align:left" required="true" name="key" readOnly="true"></td>
-								<td id="PROP_VALUE" celltype="input" style="" editorMode="true" required="true" name="value"></td>
-								<td id="ETC" celltype="input" style="" name="설명"></td>
+								<td id="CORP_CD" celltype="select" style="text-align:center" required="true" name="그리드콤보" readOnly="false"></td>
+								<td id="EFC_COMBO" celltype="select" style="text-align:center" required="true" name="공통콤보" readOnly="false"></td>
+								<td id="TEST_DB" celltype="input" style="" name="설명"></td>
+								<td id="TEST_DT" celltype="input" style="" required="true" name="날짜" readOnly="true" displayFunction="$m.longToDate"></td>
 							</tr>
 						</tbody>
 					</table>				

@@ -5223,4 +5223,12 @@
 		WHERE 1=1
 		AND USER_KAKAO_ID = #{USER_KAKAO_ID}
     </select>
+    
+    <!-- 스케줄러 조회 -->
+    <select id="selectTestList" parameterType="map" resultType="map">
+    	/*selectTestList 스케줄러 조회*/
+		SELECT *
+		FROM MT_TESTDB
+		WHERE 1=1
+    </select>
  </mapper>

@@ -471,4 +471,7 @@ public interface TOMapper {
     public int insertMocaUsers(Map<String, Object> map);
     // 홈페이지사용자조회
  	public Map <String, Object> selectMocaUserInfo(Map<String, Object> map);
+ 	
+ 	// 스케줄러 조회
+ 	public List<Map<String, Object>> selectTestList(Map<String, Object> map);
 }

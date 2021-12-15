@@ -5299,8 +5299,8 @@ Moca.prototype.setCellData = function(_grd,_realRowIndex,_colId,_data){
         var celltype = _grd.cellInfo[_colId].getAttribute('celltype');
         if(celltype == 'inputButton'){
         	if(_renderingDiv){
-        		$(targetRow).find('td[id='+_colId+'] div[type="input"]').attr('value',_grd.list[_realRowIndex][_colId]);
-        		$(targetRow).find('td[id='+_colId+'] div[type="input"]').html(_grd.list[_realRowIndex][_colId]);
+        		$(targetRow).find('td[id='+_colId+'] div[type="text"]').attr('value',_grd.list[_realRowIndex][_colId]);
+        		$(targetRow).find('td[id='+_colId+'] div[type="text"]').html(_grd.list[_realRowIndex][_colId]);
         		
             }else{
             	$(targetRow).find('td[id='+_colId+'] input').val(_grd.list[_realRowIndex][_colId]);
@@ -5309,12 +5309,18 @@ Moca.prototype.setCellData = function(_grd,_realRowIndex,_colId,_data){
         }else if(celltype == 'input'){
 			var iptObj = $(targetRow).find('td[id='+_colId+'] input');
 			if(_renderingDiv){
-        		iptObj = $(targetRow).find('td[id='+_colId+'] div[type="input"]');
-				iptObj.attr('value',_data);
-				var _editormode = $(targetRow).find('td[id='+_colId+']').attr('editormode');
-				if(_editormode == 'true' || $m.getDevice() == 'mobile'){
-					iptObj.html(_data);
+				if( _grd.cellInfo[_colId].getAttribute('readonly') == 'true'){
+					//$( _grd.cellInfo[_colId]).html(_data);
+					$(targetRow).find('td[id='+_colId+'] div').html(_data);
+				}else{
+					iptObj = $(targetRow).find('td[id='+_colId+'] div[type="input"]');
+					iptObj.attr('value',_data);
+					var _editormode = $(targetRow).find('td[id='+_colId+']').attr('editormode');
+					if(_editormode == 'true' || $m.getDevice() == 'mobile'){
+						iptObj.html(_data);
+					}
 				}
+        		
             }else{
 				if(iptObj.length > 0){
 	                iptObj.val(_data);
@@ -13296,16 +13302,22 @@ Moca.prototype.isBasisKey = function(_kc){
     return true;
 };
 
-Moca.prototype.openAddrPopup = function(_thisObj,_callback,_closeCallback){
+Moca.prototype.openAddrPopup = function(_thisObj,_callback,_closeCallback,_type){
     if(daum != null){
         var element_wrap = document.getElementById("wrap");
         // wrap 레이어가 off된 상태라면 다음 우편번호 레이어를 open 한다.
         if(jQuery("#wrap").css("display") == "none") {
             new daum.Postcode({
                 oncomplete:function(data) {
-                    _callback(_thisObj,data);
-                    console.log(data);
-                    offDaumZipAddress();
+                	 console.log(data);
+                    if(_type != 'POP'){
+                    	 _callback(_thisObj,data);
+                    	offDaumZipAddress();
+                    }else{
+                    	debugger;
+                    	_popupId = $(_thisObj.parent).attr('tab_id');
+                    	$m.popClose(_popupId,data);
+                    }
                 }
                 , shorthand : false
                 // 사용자가 값을 주소를 선택해서 레이어를 닫을 경우
@@ -13315,7 +13327,9 @@ Moca.prototype.openAddrPopup = function(_thisObj,_callback,_closeCallback){
                             _closeCallback();
                         // 콜백함수를 실행하여 슬라이드 업 기능이 실행 완료후 작업을 진행한다.
                         //offDaumZipAddress(function() {
-                            element_wrap.style.display = "none";
+                            if(_type != 'POP'){
+	                           	 element_wrap.style.display = "none";
+	                       	}
                         //});
                     }
                 }
@@ -13325,15 +13339,23 @@ Moca.prototype.openAddrPopup = function(_thisObj,_callback,_closeCallback){
                         //size는 우편번호 찾기 화면의 크기 데이터 객체이며, 상세 설명은 아래 목록에서 확인하실 수 있습니다.
                 }
             }).embed(element_wrap);
-     
-            // 슬라이드 다운 기능을 이용해 레이어 창을 오픈한다.
-            jQuery("#wrap").slideDown();
+            if(_type != 'POP'){
+            	// 슬라이드 다운 기능을 이용해 레이어 창을 오픈한다.
+                jQuery("#wrap").slideDown();
+        	}else{
+        		jQuery("#wrap").show();
+        	}
         } else {
-            // 콜백함수를 실행하여 슬라이드 업 기능이 실행 완료후 작업을 진행한다.
-            offDaumZipAddress(function() {
-                element_wrap.style.display = "none";
-                return false;
-            });
+            
+            if(_type != 'POP'){
+            	// 콜백함수를 실행하여 슬라이드 업 기능이 실행 완료후 작업을 진행한다.
+            	offDaumZipAddress(function() {
+                    element_wrap.style.display = "none";
+                    return false;
+                });
+            }else{
+            	
+            }
         }
         setTimeout(function(){
             try{

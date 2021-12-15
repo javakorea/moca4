@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 <script>
 	
 	$m.EFC_CORP.___ready = function(args){
@@ -48,6 +50,34 @@
 			});
 		}
 	};
+	
+	$m.EFC_CORP.program_popId = 'COMP_ADDR';
+	$m.EFC_CORP.fn_searchProgram	 = function(_thisObj){
+		
+		var o = {};
+		o.id = $m.EFC_CORP.program_popId;
+		o.url = "/moca/comp/COMP_ADDR.html";
+		o.type = "POPUP";
+		o.modal = "false";
+		o.title = '주소검색';
+		o.callback = $m.EFC_CORP.addrSetter;
+		o.scopeId = $m.EFC_CORP.pageId;
+		o.data = {};
+		
+		$m.popup(o,_thisObj);
+	};
+	$m.EFC_CORP.addrSetter	 = function(_data){
+		debugger;
+		_roadAddr = _data.roadAddress;
+		_addrPost = _data.zonecode;
+		var _grd = $m.EFC_CORP.getObj("grd_1");
+		$m.EFC_CORP.setCellData(_grd,_grd.getAttribute("selectedRealRowIndex"),"ADDR_POST",_addrPost);	
+		$m.EFC_CORP.setCellData(_grd,_grd.getAttribute("selectedRealRowIndex"),"ADDR1",_roadAddr);
+		
+	}
+	$m.EFC_CORP.addrHide	 = function(_thisObj,_data){
+			
+	}
 </script>
 
 </head>
@@ -92,14 +122,14 @@
 					<table style="width: 100%">
 						<colgroup>
 								<col style="width:60px" mobileHide="true" hide="false" columnKey="status" thKey="lv0" ><!-- 상태 -->
-								<col style="width:140px" mobileHide="false" hide="false" columnKey="CORP_CD" thKey="lv1" ><!-- 코드 -->
+								<col style="width:80px" mobileHide="false" hide="false" columnKey="CORP_CD" thKey="lv1" ><!-- 코드 -->
 								<col style="width:180px" mobileHide="false" hide="false" columnKey="CORP_NM" thKey="lv2" ><!-- 법인명 -->
 								<col style="width:80px" mobileHide="true" hide="false" columnKey="BOSS_NM" thKey="lv3" ><!-- 대표명 -->
 								<col style="width:120px" mobileHide="true" hide="false" columnKey="BIZ_NO" thKey="lv4" ><!-- 사업자번호 -->
 								<col style="width:80px" mobileHide="true" hide="false" columnKey="KIND" thKey="lv5" ><!-- 업종코드 -->
 								<col style="width:120px" mobileHide="true" hide="false" columnKey="PHONE" thKey="lv6" ><!-- 전화번호 -->
 								<col style="width:80px" mobileHide="true" hide="false" columnKey="ADDR_POST" thKey="lv7" ><!-- 우편번호 -->
-								<col style="width:170px" mobileHide="true" hide="false" columnKey="ADDR1" thKey="lv8" ><!-- 주소 -->
+								<col style="width:250px" mobileHide="false" hide="false" columnKey="ADDR1" thKey="lv8" ><!-- 주소 -->
 								<col style="width:170px" mobileHide="true" hide="false" columnKey="ADDR2" thKey="lv9" ><!-- 상세주소 -->
 								<col style="" mobileHide="true" hide="false" columnKey="ETC" thKey="lv10" ><!-- 설명 -->
 						</colgroup>
@@ -131,17 +161,13 @@
 									displayFunction="$m.cellPhone" 
 									displayFunctionApply="realtime"
 									maxLength="13"></td>
-								<td id="ADDR_POST" celltype="input" style="" name="우편번호"></td>
-								<td id="ADDR1" celltype="input" style="" name="주소"></td>
+								<td id="ADDR_POST" celltype="input" style="" readOnly="true" name="우편번호"></td>
+								<td id="ADDR1" celltype="inputButton" style="" required="false" callFunction="$m.EFC_CORP.fn_searchProgram" name="주소"></td>
 								<td id="ADDR2" celltype="input" style="" name="상세주소"></td>
 								<td id="ETC" celltype="input" style="" name="설명"></td>
 							</tr>
 						</tbody>
 					</table>				
-					
-					
-
-
 			</div>
 		</div>	
 	</div>

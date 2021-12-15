@@ -5708,4 +5708,23 @@ public class TOController{
 		}
         return jsonview;
 	}
+	
+	//스케줄러 조회  
+	@RequestMapping(value = "/MT_TEST/selectTestList.do")
+	public View selectTestList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			List list = TOMapper.selectTestList(paramMap);
+			model.addAttribute("selectTestList",list);
+			System.out.println(list);
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
 }
