@@ -132,10 +132,11 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 .moca_footer {position:absolute; left:0; right:0; bottom:0; width:100%; height:45px; border-top:1px solid #e4e9ef; background:#3f424a; z-index:9}
 .moca_footer address {display:block; width:100%; /* padding-top:8px; */ font-style:normal; font-family:verdana; font-size:9px; color:#fff; text-align:center; position:relative; top:17px}
 
-.moca_mdi {position:absolute; top:70px; right:0; bottom:0; left:0px}
+.moca_mdi {position:absolute; top:70px; right:0; bottom:30px; left:0px}
+
 .ly_column:nth-of-type(3) .moca_mdi {left:0px}
-.moca_mdi .moca_tab_head {background:#eef0f2; /*border-bottom:1px solid #e7ecea*/}
-.moca_mdi .moca_tab_body {border:0; top:43px; bottom:30px}
+.moca_mdi .moca_tab_head {background:#eef0f2;display:flex}
+.moca_mdi .moca_tab_body {border:0; display:flex;height:calc(100% - 46px)}
 .moca_mdi .moca_tab_head,
 .moca_mdi .moca_tab_scroll {height:45px}
 .moca_mdi .moca_tab_ul {height: 31px; top: 14px; position: relative;}
@@ -150,6 +151,16 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 .moca_tab .moca_tab_control .moca_tab_allclose {left:11px; position:relative; top:5px; width:16px; text-indent:-9999px; background-image:url(../images/ico_tab_close.png); background-repeat:no-repeat}
 .moca_tab .moca_tab_control .moca_tab_division {left:7px; position:relative; top:5px; width:16px; text-indent:-9999px; background-image:url(../images/ico_tab_division.png); background-repeat:no-repeat}
 .moca_tab .moca_tab_control .moca_tab_merge {left:7px; position:relative; top:5px; width:16px; text-indent:-9999px; background-image:url(../images/ico_tab_merge.png); background-repeat:no-repeat}
+
+/*mdi tab position*/
+.mdibox[tabPosition="top"] .moca_mdi{flex-direction: column;}
+.mdibox[tabPosition="top"] .moca_tab_ul{top:14px}
+.mdibox[tabPosition="top"] .tab_bg_area{transform:unset}
+
+.mdibox[tabPosition="bottom"] .moca_mdi{flex-direction: column-reverse;border-bottom: 1px solid #d3d7d9}
+.mdibox[tabPosition="bottom"] .moca_tab_ul{top:0}
+.mdibox[tabPosition="bottom"] .tab_bg_area{transform:rotateX(180deg)}
+
 
 /***---mdi모카탭리스트 ui---***/
 .mdi_menulist{outline: none; width:120px; max-height: 119px; overflow-y: auto; border: 1px solid #9a9ea8; border-radius: 2px; margin-top: 1px; box-shadow: 0px 3px 2px rgba(0,0,0,0.2);color:#555; background-color: #fff;}
@@ -372,7 +383,7 @@ table.tbl_ly tr td {height:24px; border:0 !important; padding:0 2px; background:
 table.tbl_ly tr td:first-child {padding-left:0}
 table.tbl_ly tr td:last-child {padding-right:0}
 
-.toast_msg {position:absolute; left:0px; right:0px; bottom:0px; height:30px; padding:7px 15px; background:#eef0f2; -moz-box-sizing:border-box; box-sizing:border-box; z-index:1}
+.toast_msg {position:absolute; left:0px; right:0px; bottom:0px; height:30px; padding:7px 15px; background:#eef0f2; -moz-box-sizing:border-box; box-sizing:border-box; z-index:1; border-top:1px solid #fff}
 .toast_msg .toast_area{width:100%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
 .toast_msg .toast_area i:first-child{margin-left:0 !important;}
 .toast_msg .ico_progress{color:#e64a00; background-color:none;}

@@ -226,7 +226,9 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_tab button.moca_tab_close {position:absolute; top:4px; right:4px; width:12px; height:12px; padding:0; background:url(../images/ico_ica_close.png) no-repeat 50% 50%; cursor:pointer; text-indent:-9999px}
 .moca_tab .moca_tab_home {position:absolute; background:url(../images/btn_home.png)no-repeat; width:20px; height:20px; top:18px; left:8px}
 .moca_tab .moca_tab_home:hover{background-position:0 -25px;}
-.moca_tab .moca_tab_body {position:absolute; top:29px; left:0; right:0; bottom:0; border:1px solid #c3c9d8; background:#fff; clear:both}
+.moca_tab .moca_tab_body {border:0;display: flex; position: relative; height: calc(100% - 30px); top: 0; left:0; right:0; bottom:0;background:#fff; clear:both}
+
+    
 
 .moca_tab .moca_tab_panel {position:relative; height:100%}
 .moca_tab .moca_tab_panel .moca_tab_h3 {position:absolute; height:1px; color:trnasparent; overflow:hidden; clip:rect(0 0 0 0); margin:-1px; padding:0}
@@ -363,7 +365,7 @@ button:disabled{background:#aaa; opacity:1; cursor:default}
 .moca_grid_list .moca_grid_body > table > tbody > tr > td .item_table ul li{border:1px solid #000; height:20px;}
 .moca_grid_list .moca_grid_body > table > tbody > tr > td[readonly="true"]{padding:0 6px}
 .moca_grid_list .moca_grid_body > table > thead > tr:first-child > th:first-child, .moca_grid_list .moca_grid_body > table > tbody > tr > td:first-child{border-left:0}
-.moca_grid_list .moca_grid_body > table > tbody > tr > td > div {vertical-align:middle; position:relative}
+.moca_grid_list .moca_grid_body > table > tbody > tr > td > div {vertical-align:middle; position:relative;text-overflow: ellipsis; overflow: hidden;}
 .moca_grid_list .moca_grid_body > table > thead > tr > th:last-child,
 .moca_grid_list .moca_grid_body > table > tbody > tr > td:last-child {border-right:1px solid #bbc3ce}
 .moca_grid_list .moca_grid_body > table > tbody tr:hover td {background-color:#e5ebef}
@@ -1030,7 +1032,7 @@ button.moca_calendar_dynamic:hover {background-color:#f3a95e; color:#fff}
 .lybox:after{display:block;visibility:hidden;clear:both;height:0;font-size:0;line-height:0;content: '.'}
 .lybox.vertical{top:15px}
 
-.mdibox{min-height:40px; top:23px; position:absolute; top:0; left:0; right:0; bottom:0}/* Content 박스 */
+.mdibox{min-height:40px; top:23px; position:absolute; top:0; left:0; right:0; bottom:0px}/* Content 박스 */
 .mdibox:after{display:block;visibility:hidden;clear:both;height:0;font-size:0;line-height:0;content: '.'}
 .mdibox.flex > * {flex:auto}
 .mdibox .resizingbar {flex:unset}
@@ -1346,10 +1348,10 @@ div[type="table"].moca_table_cont{table-layout:fixed; width:100%; position: rela
 .moca_table_cont div[type="td"] div[type="button"].mocaButton button{height:22px; margin-top:1px; background: #e5e8ef; border: 1px solid rgba(0, 0, 0, 0.3); border-radius: 5px; color: #333; font-weight: bold; letter-spacing: -0.5px;}
 .iframe.moca_wrap{min-width:unset}
 .iframe.moca_wrap .moca_container{left:0; bottom:0;}
-.iframe.moca_wrap .moca_mdi .moca_tab_body{top:0; bottom:0}
+.iframe.moca_wrap .moca_mdi .moca_tab_body{top:0; bottom:0;height:100%}
 .iframe.moca_wrap .moca_tab_head,
 .iframe.moca_wrap .toast_msg{display:none}
-.iframe.moca_wrap .moca_container.on .moca_mdi{top:0}
+.iframe.moca_wrap .moca_container.on .moca_mdi{top:0; bottom:0}
 
 .li_bg{transform : perspective(5px) rotateX(0.93deg) translateZ(-1px);}
 .iframe.moca_wrap .moca_cont_wrap {padding:0}

@@ -13,6 +13,9 @@
 <script language="JavaScript" src="./js/moca.js"></script>
 <script>
 $(document).ready(function() {
+	if($('.mdibox').attr('tabposition') == 'bottom'){
+		$('.moca_aside').addClass('bottom');
+	}
 	//$m.openMdi("../../moca/comm/main.html","main","");
 	if(mocaConfig.defaultMenuId != null){
 		$m.tree_click(mocaConfig.defaultMenuId,"mdi_1");
@@ -23,9 +26,9 @@ $(document).ready(function() {
 </head>
 <body>
 		<!-- tab start -->
-			<div class="mdibox flex fauto">
+			<div class="mdibox flex fauto" tabPosition="top"">
 				<div class="ly_column col_5">
-					<div id="mdi_1" class="moca_tab moca_mdi">
+					<div id="mdi_1" class="moca_tab moca_mdi flex">
 						<div class="moca_tab_head">
 							<!-- <div class="moca_tab_home" onclick="$m.goMain();" id="moca_main" style="cursor:pointer"></div> -->
 						<!-- <button type="button" class="moca_tab_left" title="왼쪽으로스크롤">왼쪽으로 스크롤</button> -->
@@ -68,7 +71,7 @@ $(document).ready(function() {
 				<!-- 2021-07-26 MDI 분할작업 임시 (2단할경우 display:none 해제) -->
 				<div class="resizingbar"  style="display:none" onmousedown="$m.resizingbar_down(this)"><span id="__selectableArea"></span></div>
 				<div class="ly_column col_5" style="display:none"">
-					<div id="mdi_2" class="moca_tab moca_mdi">
+					<div id="mdi_2" class="moca_tab moca_mdi flex">
 						<div class="moca_tab_head">
 							<!-- <div class="moca_tab_home" onclick="$m.goMain();" id="moca_main" style="cursor:pointer"></div> -->
 						<!-- <button type="button" class="moca_tab_left" title="왼쪽으로스크롤">왼쪽으로 스크롤</button> -->

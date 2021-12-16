@@ -9,11 +9,13 @@
     .moca_wrap{min-width:unset}
     .moca_shbox.slim{padding:10px 8px 0}
     .moca_shbox.slim .moca_checkbox_label{margin-right:5px !important}
-    .moca_shbox .tb .tb_td{padding:0; width:165px;}
+    .moca_shbox .tb{padding-right:10px}
+    .moca_shbox .tb .tb_td{padding:0;}
     .moca_shbox .btn_shbox .button{padding:5px 7px}
     /*.moca_scrollY_type1{display:none}*/
     .moca_aside{background:none}
     .noheader ~ div .moca_aside.on, .moca_aside.on{top:0; bottom:auto}
+    .noheader ~ div .moca_aside.on.bottom, .moca_aside.on.bottom{top:auto; bottom:91px}
     .moca_mdi .moca_tab_listarea{right:43px; left:37px}
     .moca_container{left:0}
    	.moca_header.on{display:none}
@@ -22,7 +24,8 @@
     
     .moca_lnb_toggle{left:3px; top:13px}
     .moca_aside.on .moca_lnb_toggle{top:8px}
-    .moca_container.on .moca_mdi{top:0}
+    
+    .moca_container.on .moca_mdi{top:0;bottom:0}
     .moca_header nav{display:none}
 	.moca_header h1{ position: relative;top: 6px; text-align: center;margin: 0 auto; left: 0;}
 	.grid_total{margin-right:5px !important}
