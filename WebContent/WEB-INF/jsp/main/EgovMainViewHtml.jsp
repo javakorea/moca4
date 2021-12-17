@@ -69,6 +69,9 @@ if(userAgent.indexOf("MOBI") > -1 || userAgent.indexOf("IPHONE") > -1   || userA
 <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="/fullcalendar/lib/fullcalendar.js"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<SCRIPT language="JavaScript" src="/moca/chart/js/mchart/kongManager.js"></SCRIPT>
+<SCRIPT language="JavaScript" src="/moca/chart/js/mchart/kongSampleData.js"></SCRIPT>
+<SCRIPT language="JavaScript" src="/moca/chart/js/mchart/kongChart.js"></SCRIPT>	
 <%
 	String authorCodeString= (String)request.getAttribute("authorCode");
 	java.util.List menuList= (java.util.List)request.getAttribute("menuList");

@@ -26,7 +26,7 @@ $(document).ready(function() {
 </head>
 <body>
 		<!-- tab start -->
-			<div class="mdibox flex fauto" tabPosition="top"">
+			<div class="mdibox flex fauto" tabPosition="top">
 				<div class="ly_column col_5">
 					<div id="mdi_1" class="moca_tab moca_mdi flex">
 						<div class="moca_tab_head">
@@ -62,6 +62,7 @@ $(document).ready(function() {
 						<!-- <button type="button" class="moca_tab_right" title="오른쪽으로스크롤">오른쪽으로 스크롤</button> -->
 							<div class="moca_tab_control">
 							<!-- <button type="button" class="moca_tab_menulist" style="">탭메뉴리스트</button> -->
+								<button type="button" class="moca_tab_bottom" onclick="$m.changeTabPosition(this);" title="mdi탭하단" id="btn_mdiTab_bottom">mdi탭하단분할</button>
 								<button type="button" class="moca_tab_division" onclick="$m.changeMdi(this);" title="mdi분할" id="btn_division">mdi분할</button>
 								<button type="button" class="moca_tab_allclose" onclick="$m.all_tab_close(this);" title="전체닫기" id="btn_close_mdi_1">전체닫기</button>
 							</div> 

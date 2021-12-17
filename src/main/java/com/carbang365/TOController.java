@@ -5257,14 +5257,12 @@ public class TOController{
 	    	}
 	    	
 	    	String BOARD_CONT = paramMap.get("GET_CONT_TXT").toString();
-			if(BOARD_CONT.length() > 20) {
-				BOARD_CONT = BOARD_CONT.substring(0,20);
-			}
+			
 	    	List EFGPRPOP_list = mocaEFLService.selectList_EFGPROP(map);
 	    	if(EFGPRPOP_list != null && EFGPRPOP_list.size() > 0){
 	    		Map phonenumber = (Map)EFGPRPOP_list.get(0);
 		    	API.sendSms(
-		    			"[teammoca발신]\n"+BOARD_CONT+"...글이 등록되었습니다.",
+		    			"[teammoca발신]\n"+BOARD_CONT,
 		    			phonenumber.get("PROP_VALUE").toString(),
 		    			paramMap.get("BOARD_WRITER").toString()
 		    	);

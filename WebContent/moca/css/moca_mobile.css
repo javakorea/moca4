@@ -16,7 +16,7 @@
     .moca_aside{background:none}
     .noheader ~ div .moca_aside.on, .moca_aside.on{top:0; bottom:auto}
     .noheader ~ div .moca_aside.on.bottom, .moca_aside.on.bottom{top:auto; bottom:91px}
-    .moca_mdi .moca_tab_listarea{right:43px; left:37px}
+    .moca_mdi .moca_tab_listarea{right:35px; left:37px}
     .moca_container{left:0}
    	.moca_header.on{display:none}
     .moca_container:not(.on) > div[tag="moca:mdi"]{display:none}
@@ -43,10 +43,17 @@
 	.toast_msg{display:none}
 	.moca_input_color{padding:0}
 	/*multiMdi*/
-	.moca_mdi .moca_tab_control{width:30px}
+	.moca_mdi .moca_tab_control{width:35px; padding:0}
 	.moca_tab .moca_tab_control .moca_tab_division{display:none}
-	.moca_mdi .moca_tab_control .moca_tab_allclose{left:0}
+	.moca_tab .moca_tab_control .moca_tab_allclose{left: 0; width: 22px; height: 100%; top: 0; background-position: 50%}
+	.moca_tab .moca_tab_control .moca_tab_bottom{left: 0px; width: 22px; height: 100%; top: 0; background-position: 50%}
+	.moca_tab .moca_tab_control .moca_tab_top{left: 0px; width: 22px; height: 100%; top: 0; background-position: 50%}
 	
+	
+	/*layerTab*/
+	.moca_layer_tab_list{max-width:7.7rem}
+	.moca_layer_tab_list > .tab_bg{min-width:100px}
+	.moca_layer_tab_list > button{padding:0 5px}
 	/*divForm*/
 	.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="td"], div[type="tr"]{width:100%}
 	.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="th"]{text-align:center}

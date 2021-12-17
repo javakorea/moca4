@@ -113,6 +113,7 @@ $m.EFC_BOARD_POP.fn_searchReply = function(_grd,_idx,tdObj,_thisObj){
 $m.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
     ['게시글상세']
   //showhide처리
+   $m.show($m.EFC_BOARD_POP.getObj("reply_edit_zoomBtn"));
     $m.hide($($m.EFC_BOARD_POP.getObj("cke_editor")).find("[id$='_top']"));
     $m.hide($($m.EFC_BOARD_POP.getObj("cke_reply_editor")).find("[id$='_top']"));
     $m.show($m.EFC_BOARD_POP.getObj("reply_area"));
@@ -275,7 +276,7 @@ $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 };
 
 $m.EFC_BOARD_POP.fn_update = function(_thisObj){
-	
+	$m.hide($m.EFC_BOARD_POP.getObj('edit_zoomBtn'));
 	$m.hide($m.EFC_BOARD_POP.getObj("btn_del_admin"));
 	$m.hide($m.EFC_BOARD_POP.getObj("btn_reply_del_admin"));
 	if(_thisObj.id != 'btn_reply_update'){ //수정버튼
@@ -1049,6 +1050,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 						</div>
 					</div>
                     <div class="mt5 edit fit"  style="top:0">
+                	    <a id="reply_edit_zoomBtn" style="display:none" class="edit_zoom" onclick="$m.popChange($m.EFC_BOARD_POP.pageId,{uri:'/uat/uia/actionMain_link_zoom.do'})"></a>
                         <div contenteditable="true" placeholder="" id="reply_editor"></div>
                     </div>
                     <div type="grid" class="moca_grid toolbar mt10 fold" default_cell_height="26px" id="grd_reply_file" style="top:0; height:112px" rowSelectedColor="#434e5f"
