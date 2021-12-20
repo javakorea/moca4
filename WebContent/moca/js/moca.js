@@ -10690,7 +10690,7 @@ Moca.prototype.rendering = function(o,_aTag) {
         cont += '   <div class="moca_popup_header">';
         cont += '       <h2 class="moca_popup_title">'+o.title+'('+$m.srcId+')'+'</h2>';
         cont += '       <div class="moca_popup_control">';
-        cont += '          <button type="button" id="btn_popRefresh" class="moca_popup_btn_change" onclick="$m.popRefresh(\''+_tabId+'\');">새로고침</button>';
+        cont += '          <button type="button" id="btn_popRefresh" class="moca_popup_btn_refresh" onclick="$m.popRefresh(\''+_tabId+'\');">새로고침</button>';
         cont += '          <button type="button" id="btn_popChange" class="moca_popup_btn_change" onclick="$m.popChange(\''+_tabId+'\');">변경</button>';
         cont += '		   <button type="button" id="btn_popClose" class="moca_popup_btn_close" onclick="$m.popClose(\''+_tabId+'\');">닫기</button></div>';
         cont += '   </div>';
