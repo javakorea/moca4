@@ -3,11 +3,28 @@
 <head meta_width="700px" meta_height="400px">
 <script>
 	$m.COMP_EDIT.___ready = function(args){
-		$m.COMP_EDIT.DATA = args.parent.data;
-		CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
-            'instanceReady':function(ev){
-            	CKEDITOR.instances.editor.setData(args.parent.data.value);
-        }}} );
+		$m.hide($m.COMP_EDIT.getObj('editorBtn'));
+		$m.hide($($m.COMP_EDIT.getObj("cke_comp_editor")).find("[id$='_top']"));
+		if(args != null){
+			
+			$m.COMP_EDIT.DATA = args.parent.data;
+			var _value = $m.COMP_EDIT.DATA.value;
+			
+			CKEDITOR.replace( 'comp_editor',{uiColor:'#fff9da',on:{
+	            'instanceReady':function(ev){
+	            	if($m.COMP_EDIT.DATA.editorType == 'readonly'){
+	    				//_value = decodeURIComponent($m.COMP_EDIT.DATA.value);
+	    				_value = decodeURIComponent(param["value"]);
+	    				$m.hide($($m.COMP_EDIT.getObj("cke_comp_editor")).find("[id$='_top']"));
+	    				CKEDITOR.instances.comp_editor.setReadOnly(true);
+	    			}else{
+	    				$m.show($m.COMP_EDIT.getObj('editorBtn'));
+	    				$m.show($($m.COMP_EDIT.getObj("cke_comp_editor")).find("[id$='_top']"));
+	    			}
+	            	CKEDITOR.instances.comp_editor.setData(_value);
+	        }}} );
+			
+		}
 	};
 	$m.COMP_EDIT.fn_ok = function(){
 		var _messageboxId = $m.COMP_EDIT.pageId;
@@ -16,7 +33,7 @@
 		var _tdId = $m.COMP_EDIT.DATA.tdId;
 		var _srcId = $(_grdObj).attr('srcid');
 	    var _realRow = $(_grdObj).attr("selectedRealRowIndex");
-	    var _returnValue = CKEDITOR.instances.editor.getData();
+	    var _returnValue = CKEDITOR.instances.comp_editor.getData();
 		$m[_srcId].setCellData(_grdObj,_realRow,_tdId,_returnValue);
 		
 	
@@ -34,7 +51,7 @@
 		</div>
 		<div class="edit fit"  style="top:0">
         	<a id="edit_zoomBtn" style="display:none" class="edit_zoom" onclick="$m.popChange($m.EFC_BOARD_POP.pageId,{uri:'/uat/uia/actionMain_link_zoom.do'})"></a>
-            <div contenteditable="true" placeholder="" id="editor"></div>
+            <div contenteditable="true" placeholder="" id="comp_editor"></div>
         </div>
         
 	</div>	

@@ -894,7 +894,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 				          	</div>
                 	</div>
 			        <div class="edit fit"  style="top:0">
-			        	<a id="edit_zoomBtn" style="display:none" class="edit_zoom" onclick="$m.popChange($m.EFC_BOARD_POP.pageId,{uri:'/uat/uia/actionMain_link_zoom.do'})"></a>
+			        	<a id="edit_zoomBtn" style="display:none" class="edit_zoom" onclick="$m.editorPopChange($m.EFC_BOARD_POP.pageId,'editor',{uri:'/uat/uia/actionMain_link_zoom.do'},'')"></a>
 			            <div contenteditable="true" placeholder="" id="editor"></div>
 			        </div>
 			        <div type="grid" class="moca_grid toolbar sc_row1 mt10 fold" default_cell_height="26px" id="grd_file" style="display:none; top:0; height:112px" rowSelectedColor="#434e5f"
@@ -1050,7 +1050,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 						</div>
 					</div>
                     <div class="mt5 edit fit"  style="top:0">
-                	    <a id="reply_edit_zoomBtn" style="display:none" class="edit_zoom" onclick="$m.popChange($m.EFC_BOARD_POP.pageId,{uri:'/uat/uia/actionMain_link_zoom.do'})"></a>
+                	    <a id="reply_edit_zoomBtn" style="display:none" class="edit_zoom" onclick="$m.editorPopChange($m.EFC_BOARD_POP.pageId,'reply_editor',{uri:'/uat/uia/actionMain_link_zoom.do'},'')"></a>
                         <div contenteditable="true" placeholder="" id="reply_editor"></div>
                     </div>
                     <div type="grid" class="moca_grid toolbar mt10 fold" default_cell_height="26px" id="grd_reply_file" style="top:0; height:112px" rowSelectedColor="#434e5f"

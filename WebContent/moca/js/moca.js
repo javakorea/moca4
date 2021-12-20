@@ -4634,7 +4634,6 @@ Moca.prototype.popChange = function(_popupId,_json){
 	    var __srcid = _pop.attr('srcid');
 	    
 	    var __param = $m[__srcid].args.parent.data;
-	    debugger;
 	    var __url = "/uat/uia/actionMain_link.do?mcsrc="+$('#'+_popupId).attr('src');
 	    
 	    if(_json != null){
@@ -4653,6 +4652,35 @@ Moca.prototype.popChange = function(_popupId,_json){
 	    });
     }
 };
+
+Moca.prototype.editorPopChange = function(_popupId,_editorId,_json){
+	
+	var _pop = $('#'+_popupId+'>div.moca_popup');
+    var _w = _pop.css('width').replace(/px/g,'');
+    var _h = _pop.css('height').replace(/px/g,''); 
+    var _title =_pop[0].option.title;
+    var __srcid = _pop.attr('srcid');
+    
+    $m[__srcid].args.parent.data.editorType="readonly";
+    $m[__srcid].args.parent.data.value = $m.encode(CKEDITOR.instances[_editorId].getData());
+    var __param = $m[__srcid].args.parent.data;
+    var __editorUrl = '/moca/comp/COMP_EDIT.html';
+    var __url = "/uat/uia/actionMain_link.do?mcsrc="+__editorUrl;
+    if(_json != null){
+    	__url = _json.uri+"?mcsrc="+__editorUrl;
+    }
+    
+	var _id = $m.openWindowPopup({
+        id: _popupId,
+        method:"post",
+        title: _title,
+        width:Number(_w)+16, 
+        height:Number(_h)+80,
+        url : __url,
+        fullscreen : 'no',
+        param : __param
+    });
+}
 
 Moca.prototype.mdiChange = function(_popupId,_json){
     ['모카mdi타입전환'];
@@ -11427,10 +11455,16 @@ Moca.prototype.callReady = function(aTag) {
            var _pageId = $m[_srcId].pageId;
            $m[_pageId] =  $m[_srcId];
        }else if($(aTag).attr('tab_id') != null && $(aTag).attr('tab_id').startsWith('POPUP')){//popup case
-    	   if(opener && parent.name == $m[_srcId].pageId){
-    		    var srcid = $('#'+$(aTag).attr('tab_id'),opener.document).find('[srcid]').attr('srcid');
-           		$m[srcid].args = JSON.parse(JSON.stringify(opener.$m[srcid].args));
-           		_argsObj = $m[srcid].args;
+    	   if(opener && parent.name == $m[_srcId].pageId ){
+    		   if( _srcId != 'COMP_EDIT'){
+    			   var srcid = $('#'+$(aTag).attr('tab_id'),opener.document).find('[srcid]').attr('srcid');
+              		$m[srcid].args = JSON.parse(JSON.stringify(opener.$m[srcid].args));
+              		_argsObj = $m[srcid].args; 
+    		   }else{
+    			   var srcid = $('#'+$(aTag).attr('tab_id'),opener.document).find('[srcid]').attr('srcid');
+           			$m[_srcId].args = JSON.parse(JSON.stringify(opener.$m[srcid].args));
+	          		_argsObj = $m[_srcId].args;
+           		}
     	   }
     	   $m[_srcId].args = _argsObj;	
            $m[_srcId].___ready(_argsObj);
@@ -12055,6 +12089,7 @@ Moca.prototype.openWindowPopup = function(_opt){
     }
     var paramArray = Object.keys(params);
     var re_params = '';
+    debugger;
     for(var i=0; i < paramArray.length; i++){
         var key = paramArray[i];
         var val = params[key];
@@ -12071,7 +12106,8 @@ Moca.prototype.openWindowPopup = function(_opt){
     }else{
     	addFlag = '?';
     }
-    var _url = _opt.url+addFlag+"__popid="+_opt.id+"&__title="+$m.encode(_opt.title)+"&"+re_params;
+    var _url = _opt.url+addFlag+"__popid="+_opt.id+"&__title="+$m.encode(_opt.title);
+    //var url = _opt.url+addFlag+"__popid="+_opt.id+"&__title="+$m.encode(_opt.title)+"&"+re_params;
     var reid = '';
     try{
 	    if(_opt.method == 'post'){
