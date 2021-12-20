@@ -1734,6 +1734,10 @@ Moca.prototype.encode = function(_txt) {
     ['encode for hangul'];  
     return encodeURIComponent(encodeURIComponent(_txt));
 };
+Moca.prototype.decode = function(_txt) {
+    ['decode for hangul'];  
+    return decodeURIComponent(decodeURIComponent(_txt));
+};
 
 
 Moca.prototype.url_to_srcId = function(_url){
@@ -4599,6 +4603,10 @@ Moca.prototype.popClose = function(_popupId,_json){
     };
 };
 
+Moca.prototype.popRefresh = function(_popupId,_json){
+	$m.closeGubun = 'change';
+	location.reload();
+};
 Moca.prototype.popChange = function(_popupId,_json){
     ['모카팝업타입전환'];
     /*
@@ -4662,7 +4670,7 @@ Moca.prototype.editorPopChange = function(_popupId,_editorId,_json){
     var __srcid = _pop.attr('srcid');
     
     $m[__srcid].args.parent.data.editorType="readonly";
-    $m[__srcid].args.parent.data.value = $m.encode(CKEDITOR.instances[_editorId].getData());
+    $m[__srcid].args.parent.data.editorContents = $m.encode(CKEDITOR.instances[_editorId].getData());
     var __param = $m[__srcid].args.parent.data;
     var __editorUrl = '/moca/comp/COMP_EDIT.html';
     var __url = "/uat/uia/actionMain_link.do?mcsrc="+__editorUrl;
@@ -10681,9 +10689,10 @@ Moca.prototype.rendering = function(o,_aTag) {
         cont += '<div id="'+_pid+'" pageid="'+_tabId+'" srcid="'+$m.srcId+'" class="moca_popup '+o.type+'" style="left:'+o.left+'px;top:'+o.top+'px;width:'+ow+';height:'+oh+'">';
         cont += '   <div class="moca_popup_header">';
         cont += '       <h2 class="moca_popup_title">'+o.title+'('+$m.srcId+')'+'</h2>';
-        cont += '       <div class="moca_popup_control"><button type="button" id="btn_popChange" class="moca_popup_btn_change" ';
-        cont += ' onclick="$m.popChange(\''+_tabId+'\');"';
-        cont += '>변경</button><button type="button" id="btn_popClose" class="moca_popup_btn_close" onclick="$m.popClose(\''+_tabId+'\');">닫기</button></div>';
+        cont += '       <div class="moca_popup_control">';
+        cont += '          <button type="button" id="btn_popRefresh" class="moca_popup_btn_change" onclick="$m.popRefresh(\''+_tabId+'\');">새로고침</button>';
+        cont += '          <button type="button" id="btn_popChange" class="moca_popup_btn_change" onclick="$m.popChange(\''+_tabId+'\');">변경</button>';
+        cont += '		   <button type="button" id="btn_popClose" class="moca_popup_btn_close" onclick="$m.popClose(\''+_tabId+'\');">닫기</button></div>';
         cont += '   </div>';
         cont += '   <div class="moca_popup_body">';
         cont += '       <div class="moca_popup_content">';

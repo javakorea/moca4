@@ -58,7 +58,7 @@ var viewMode = "contentOnly";
 	}
 	System.out.println("--------------------->paramMap-->"+paramMap);
 %> 
-
+//$m.closeGubun = 'change';
 $(document).ready(function(args) {
 	//$m.popClose($('#'+param['__popid'],opener.document));
 	$('#'+param['__popid'],opener.document).hide();
