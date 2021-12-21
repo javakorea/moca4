@@ -1734,6 +1734,7 @@ HChart.prototype.redraw = function(_option,_param1) {
 					}
 				};
 				m.img.src=imgDir+"common/btn_gcm_save.png";	
+				m.img.src = m.img.src.replace('/uat/uia/','/');
 			}else{
 				try{
 					var img_resource_map1 = m.o()['img_resource_map1'];

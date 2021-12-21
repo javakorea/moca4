@@ -1988,7 +1988,6 @@ Moca.prototype.tree_addTab = function(_label,_tabId,_url,_mdiId){
 
 Moca.prototype.tabClose = function(_liCloseButtonObj,_compulsion){
     ['탭닫기'];
-    debugger;
     if($m.trim(_compulsion) == '' ){
     	$m.confirm('현재 화면을 닫으시겠습니까?',function(result){
             if(result == 'Y'){
@@ -12098,7 +12097,6 @@ Moca.prototype.openWindowPopup = function(_opt){
     }
     var paramArray = Object.keys(params);
     var re_params = '';
-    debugger;
     for(var i=0; i < paramArray.length; i++){
         var key = paramArray[i];
         var val = params[key];
@@ -13391,7 +13389,6 @@ Moca.prototype.openAddrPopup = function(_thisObj,_callback,_closeCallback,_type)
                     	 _callback(_thisObj,data);
                     	offDaumZipAddress();
                     }else{
-                    	debugger;
                     	_popupId = $(_thisObj.parent).attr('tab_id');
                     	$m.popClose(_popupId,data);
                     }
@@ -14199,7 +14196,6 @@ Moca.prototype.changeMdi = function(_ButtonObj){
 
 Moca.prototype.changeTabPosition = function(_ButtonObj){
     ['changeMdiTab'];
-    debugger;
     if(_ButtonObj.id == 'btn_mdiTab_bottom'){
     	if($('.mdibox').attr('tabposition') == 'bottom'){
         	$('.mdibox').attr('tabposition','top');
