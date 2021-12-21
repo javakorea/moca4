@@ -5264,7 +5264,7 @@ public class TOController{
 	    	if(EFGPRPOP_list != null && EFGPRPOP_list.size() > 0){
 	    		Map phonenumber = (Map)EFGPRPOP_list.get(0);
 		    	API.sendSms(
-		    			"[teammoca발신]\n"+"테스트<br>​​​​​​​1<br>".replaceAll("(?ism)[^a-zA-Z0-9 ㄱ-ㅎㅏ-ㅣ가-힣]", ""),
+		    			"[teammoca발신]\n"+"테스트<br>​​​​​​​1<br>".replaceAll("(?ism)(\\<.*?\\>)","").replaceAll("(?ism)[^a-zA-Z0-9 ㄱ-ㅎㅏ-ㅣ가-힣]",""),
 		    			phonenumber.get("PROP_VALUE").toString(),
 		    			paramMap.get("BOARD_WRITER").toString()
 		    	);
