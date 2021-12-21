@@ -370,7 +370,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                        	"BOARD_TYPE":$m.EFC_BOARD_POP._boardType,
 	                            "BOARD_TITLE":wtitle,
 	                            "BOARD_CONT":CKEDITOR.instances.editor.getData(),
-	                            "GET_CONT_TXT":CKEDITOR.instances.editor.document.getBody().getText(),
+	                            "GET_CONT_TXT":CKEDITOR.instances.editor.document.getBody().getHtml(),
 	                            "BOARD_WRITER":$m.getValue($m.EFC_BOARD_POP.getObj("wid")),
 	                            "BOARD_PHONE":$m.getValue($m.EFC_BOARD_POP.getObj("wphone")),
 	                            "BOARD_EMAIL":$m.getValue($m.EFC_BOARD_POP.getObj("wemail")),

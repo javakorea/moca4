@@ -5257,7 +5257,11 @@ public class TOController{
 	    	}
 	    	
 	    	String BOARD_CONT = paramMap.get("GET_CONT_TXT").toString();
-			
+	    	System.out.println("원본BOARD_CONT~~~~~~~~~~~>>>"+BOARD_CONT);
+	    	BOARD_CONT = BOARD_CONT.replaceAll("<br>", "");
+	    	BOARD_CONT = BOARD_CONT.replaceAll("<br />", "");
+	    	BOARD_CONT = BOARD_CONT.replaceAll("&nbsp;", "").toString();
+			System.out.println("변경BOARD_CONT~~~~~~~~~~~>>>"+BOARD_CONT);
 	    	List EFGPRPOP_list = mocaEFLService.selectList_EFGPROP(map);
 	    	if(EFGPRPOP_list != null && EFGPRPOP_list.size() > 0){
 	    		Map phonenumber = (Map)EFGPRPOP_list.get(0);
