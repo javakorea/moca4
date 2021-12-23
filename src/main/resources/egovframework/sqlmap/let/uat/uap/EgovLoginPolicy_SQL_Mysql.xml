@@ -63,7 +63,8 @@
               FROM MT_LETTNEMPLYRINFO A LEFT OUTER JOIN MT_LETTNLOGINPOLICY B
                 ON A.EMPLYR_ID = B.EMPLYR_ID   
              WHERE 1 = 1
-               AND A.EMPLYR_ID = #emplyrId#              
+               AND A.EMPLYR_ID = #emplyrId#
+               AND A.ORGNZT_ID = #orgnztId#
     </select>
     
     <insert id="loginPolicyDAO.insertLoginPolicy" parameterClass="LoginPolicy">

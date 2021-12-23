@@ -4569,7 +4569,7 @@
 			AND A.BOARD_DELYN = 'N'
 			AND A.BOARD_PIDX = A.BOARD_IDX
 			AND A.BOARD_TYPE like CONCAT('%', #{BOARD_TYPE}, '%')
-			 <if test="PAGE_TYPE != 'home' and CORP_CD != '' and CORP_CD != 'all'">
+			<if test="PAGE_TYPE != 'home' and CORP_CD != '' and CORP_CD != 'all'">
 		    	AND A.CORP_CD = #{CORP_CD}
 	        </if>
 			<if test="BOARD_WRITER != null and BOARD_WRITER != ''">

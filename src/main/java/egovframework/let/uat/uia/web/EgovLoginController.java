@@ -110,8 +110,11 @@ public class EgovLoginController {
 		boolean loginPolicyYn = true;
 
 		LoginPolicyVO loginPolicyVO = new LoginPolicyVO();
+		//법인코드추가
 		loginPolicyVO.setEmplyrId(resultVO.getId());
+		loginPolicyVO.setOrgnztId(CORP_CD);
 		loginPolicyVO = egovLoginPolicyService.selectLoginPolicy(loginPolicyVO);
+		
 		
 		if (loginPolicyVO == null) {
 			loginPolicyYn = true;

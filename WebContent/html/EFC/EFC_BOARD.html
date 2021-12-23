@@ -16,18 +16,19 @@
 			if(($m.getSs("loginTemp0") == null || $m.getSs("loginTemp0") == '') && $m.getSs("USER_ID") == null){
 				$m.hide($m.EFC_BOARD.getObj("btn_add"));
 			}
-			if($m.getSs("USER_ID") == 'superadmin'){
-				$m.show($m.EFC_BOARD.getObj("tb_chkg_corp"));
-				$($m.EFC_BOARD.getObj("grd_1")).find('.moca_grid_body col[columnkey="CORP_NM"]').attr('hide','false');
-				$($m.EFC_BOARD.getObj("grd_1")).find('.moca_grid_body col').css('display','');
-			}
 			if(args.parent.data != null){
 				$m.EFC_BOARD.pageType = args.parent.data.PAGE_TYPE;
 				if($m.EFC_BOARD.pageType == 'home'){
 					$m.hide($m.EFC_BOARD.getObj("btn_del"));
+					$m.hide($m.EFC_BOARD.getObj("btn_del_admin"));
 				}
 				$m.EFC_BOARD.boardType = args.parent.data.BOARD_TYPE;
 				$m.EFC_BOARD.popTitle = $($m.EFC_BOARD.getObj('sreenNm')).html();
+				if($m.getSs("USER_ID") == 'superadmin' && $m.EFC_BOARD.boardType == 'SUPPORT'){
+					$m.show($m.EFC_BOARD.getObj("tb_chkg_corp"));
+					$($m.EFC_BOARD.getObj("grd_1")).find('.moca_grid_body col[columnkey="CORP_NM"]').attr('hide','false');
+					$($m.EFC_BOARD.getObj("grd_1")).find('.moca_grid_body col').css('display','');
+				}
 				if($m.EFC_BOARD.boardType == 'NOTICE'){
 					$m.hide($m.EFC_BOARD.getObj("tb_chkg_1"));
 					$m.hide($($m.EFC_BOARD.getObj('grd_1')).find('.grid_label_span[grdkey="supportN"]'));

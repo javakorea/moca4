@@ -16,6 +16,11 @@
 $m.main.BD_CONTENT_FOR_BD_WS = {};
 
 $m.main.___ready = function(args){
+	$m.removeSs("CORP_CD");
+	$m.removeSs("CORP_NM");
+	$m.removeSs("LOGINDT");
+	$m.removeSs("USER_ID");
+	$m.removeSs("authorCode");
 	$m.getContent($m._domain+$m._contextRoot+"/images/home/main_img.svg",function(data) {
 		$('#mainSvg').html(data);
 	});

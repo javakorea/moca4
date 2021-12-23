@@ -63,10 +63,25 @@ public class LoginPolicy extends ComDefaultVO {
 	 * 등록여부
 	 */	
     private String regYn;
+    /**
+	 * 법인코드
+	 */	
+    private String orgnztId;
     
 	/**
 	 * @return the emplyrId
 	 */
+    
+    public String getOrgnztId() {
+		return orgnztId;
+	}
+	/**
+	 * @param emplyrId the emplyrId to set
+	 */
+	public void setOrgnztId(String orgnztId) {
+		this.orgnztId = orgnztId;
+	}
+	
 	public String getEmplyrId() {
 		return emplyrId;
 	}
