@@ -127,7 +127,7 @@ function fnInit() {
 					<option value="001"></option>
 				</select>
 	
-				<input type="text" placeholder="아이디" title="아이디를 입력하세요." id="id" name="id" maxlength="10">
+				<input type="text" placeholder="아이디" title="아이디를 입력하세요." id="id" name="id" maxlength="20">
 				<input type="password" placeholder="비밀번호" maxlength="25" title="비밀번호를 입력하세요." id="password" name="password" onkeydown="javascript:if (event.keyCode == 13) { actionLogin(); }"/>
 				<button onclick="javascript:actionLogin()" >LOGIN</button>
 				<div class="login_option">

@@ -19,7 +19,7 @@ $(document).ready(function() {
 	//$m.openMdi("../../moca/comm/main.html","main","");
 	if(mocaConfig.defaultMenuId != null){
 		var _menuId = mocaConfig.defaultMenuId;
-		if($m.getSs('CORP_CD') == 'carbang'){
+		if($m.getSs('CORP_CD') != 'A'){
 			_menuId = 'li4030000';
 		}
 		$m.tree_click(_menuId,"mdi_1");

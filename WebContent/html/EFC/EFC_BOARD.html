@@ -77,7 +77,7 @@
 	        			{label:"codeNm",value:"code",checked:true},
 	        			{"Y":"unchecked"}
 	        	);*/
-				$m.EFC_BOARD.bindCombo("cmb_corp",{metaInfo:{codeCd:"code",codeNm:"codeNm"}},list);
+				$m.EFC_BOARD.bindCombo("cmb_corp",{allOption:{label:'전체',value:'all'},metaInfo:{codeCd:"code",codeNm:"codeNm"}},list);
 				$m.EFC_BOARD.fn_search();
 			}
 		});
@@ -467,7 +467,7 @@
 						<caption style="position:relative; visibility:hidden; overflow:hidden; width:0;height:0;font-size:0;line-height:0"></caption>
 						<colgroup>
 								<col style="width:30px" mobileHide="true" hide="false" columnKey="chk" thKey="H_chk" >
-								<col style="width:80px" mobileHide="true" hide="true" columnKey="CORP_NM" thKey="H_CORP_NM">
+								<col style="width:100px" mobileHide="true" hide="true" columnKey="CORP_NM" thKey="H_CORP_NM">
 								<col style="width:60px" mobileHide="true" hide="false" columnKey="BOARD_PIDX" thKey="H_BOARD_PIDX">
 								<col style="min-width:300px" mobileHide="false"  hide="false" columnKey="BOARD_TITLE" thKey="H_BOARD_TITLE">
 								<col style="width:40px" mobileHide="true"  hide="false" columnKey="CNT" thKey="H_BOARD_FILECNT">

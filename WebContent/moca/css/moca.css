@@ -321,7 +321,6 @@ svg.tab_svg.right{left:-5px}
 .moca_grid_toolbar .rta {float:right; margin-left:-5px; text-align:right}
 .moca_grid_toolbar .rta > * {float:left; margin-left:5px}
 .moca_grid_toolbar .rta > .button {padding:0}
-.moca_grid_toolbar .lta .moca_combo {top:1px}
 .moca_grid_toolbar .button {border-radius:0}
 .btn_grid_next {width:26px; background:url(../images/grid/ico_grid_next.png) no-repeat 50% 50%; text-indent:-9999px}
 .btn_grid_add {width:26px; background:url(../images/grid/ico_grid_add.png) no-repeat 50% 50%; text-indent:-9999px}
@@ -347,7 +346,8 @@ svg.tab_svg.right{left:-5px}
 .grid_label_span{height: 24px; line-height:31px; padding: 0 3px; font-size: 12px; box-sizing: border-box;}
 .grid_label_span .label{margin-right:3px; line-height:24px;}
 .grid_label_span .label:before{content: ''; display: inline-block; width: 3px; height: 3px; background: #f3a95e;margin-right: 4px; border-radius: 3px; position: relative; top: -3px;}
-.grid_label_span .moca_combo{height:23px; top:-1px}
+.grid_label_span .moca_combo{height:20px; top: 0; line-height: 0;}
+.grid_label_span .moca_input{height:20px}
 .grid_label_span em{font-weight:normal; font-style:normal}
 .grid_btn button{padding: 0 7px; background: #87a9bc; color: #fff; border-radius: 2px; height: 24px; box-sizing: border-box; opacity: 0.9;	}
 .grid_btn button:active{opacity:1}

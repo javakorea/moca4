@@ -5709,7 +5709,7 @@ public class TOController{
         return jsonview;
 	}
 	
-	//스케줄러 조회  
+	//TEST 조회  
 	@RequestMapping(value = "/MT_TEST/selectTestList.do")
 	public View selectTestList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 		try {
@@ -5727,4 +5727,5 @@ public class TOController{
 		}
         return jsonview;
 	}
+	
 }

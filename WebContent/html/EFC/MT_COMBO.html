@@ -34,7 +34,9 @@
 			url : $m._domain+$m._contextRoot+"/MT_TEST/selectTestList.do",
             data : {
             	"header" : $m.header,
-            	"body" : {}
+            	"body" : {
+            		"TEST_TYPE":"COMBO"
+            	}
             },			
 			callback : function(response){
 				$m.MT_COMBO.drawGrid('grd_1', $m.MT_COMBO.getResList(response,"selectTestList"));

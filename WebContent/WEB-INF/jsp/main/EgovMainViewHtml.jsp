@@ -60,7 +60,6 @@ if(userAgent.indexOf("MOBI") > -1 || userAgent.indexOf("IPHONE") > -1   || userA
 }
 %>
 <link rel="stylesheet" type="text/css" href="/fullcalendar/lib/fullcalendar.css?v=1">
-
 <script language="JavaScript" src="/moca/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="/moca/js/sha512.min.js"></script>
 <script language="JavaScript" src="/moca/js/config.js"></script>

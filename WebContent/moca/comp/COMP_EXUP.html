@@ -51,6 +51,7 @@
 		_form.setAttribute("accept-charset","UTF-8");
 		document.body.appendChild(_form);
 		var formData = new FormData(_form);
+		debugger;
 		formData.append("file", $("#mfile")[0].files[0]);
 		formData.append("data", JSON.stringify($m.COMP_EXUP.data));
 		var loadingId = $m.loading(null,null,$m.COMP_EXUP.data.parent,{loadingbar:true});

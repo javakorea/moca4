@@ -954,7 +954,6 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                 
                 
                 _style = cellTd.getAttribute("style");
-                
                 var aCol = $(_grd).find('.moca_grid_body colgroup').find('col[columnkey='+_id+']');
     	        if($m.getDevice() == "pc"){
     	        	$m.moblePcHide(aCol[0],"hide");
@@ -8179,6 +8178,7 @@ Moca.prototype._excel_up = function(_thisObj) {
             _jsonMap[excelIndex] = key;
         }
     }
+    debugger;
     $m.popup({
         type:"POPUP",
         modal:"false",
@@ -9957,7 +9957,7 @@ Moca.prototype.renderGridToolbarLabelInput = function(x1Obj) {
     }
     _html += '<div class="grid_label_span '+x1Obj.addClassStr+'">';
     _html += '<span class="label">'+x1Obj.label+'</span>';
-    _html += '  <input type="text" id="'+x1Obj.id+'" name="'+x1Obj.id+'" value="'+x1Obj.value+'" style="width:'+x1Obj.width+'">';
+    _html += '  <input class="moca_input" type="text" id="'+x1Obj.id+'" name="'+x1Obj.id+'" value="'+x1Obj.value+'" style="width:'+x1Obj.width+'">';
     _html += '</div>';
     return _html;
 };
@@ -10050,7 +10050,7 @@ Moca.prototype.renderGridToolbarRadio = function(x1Obj,_id) {
     }
 
     
-    _html += '<div class="moca_radio mt5 '+x1Obj.addClassStr+'"  id="'+x1Obj.id+'">';
+    _html += '<div class="moca_radio mt7 '+x1Obj.addClassStr+'"  id="'+x1Obj.id+'">';
     var arr = x1Obj.value;
     for(var i=0; i < arr.length; i++){
         var obj = arr[i];
@@ -12244,7 +12244,10 @@ Moca.prototype.renderMocaDiv = function(o) {
     var _mobileHide = '';
     if(o.tagName == 'DIV'){
         _mobileHide = $m.nul(o.getAttribute("mobileHide"));
-        o.style.display = 'none';
+        if($m.getDevice()=='mobile'){
+        	 o.style.display = 'none';
+        }
+       
     }
 };
 
