@@ -4741,6 +4741,10 @@ Moca.prototype.mpopClose = function(_thisObj,_messageboxId){
     }
 };
 
+Moca.prototype.getSrcId = function(_thisObj){
+	['모카getSrcId'];
+	return $(_thisObj).attr('srcid');
+};
 
 Moca.prototype.getObj = function(_objId,_tag,_pageId,_srcId){
     ['고유한 obj찾기'];
