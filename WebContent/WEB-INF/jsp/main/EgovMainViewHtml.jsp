@@ -49,28 +49,28 @@ if(userAgent.indexOf("MOBI") > -1 || userAgent.indexOf("IPHONE") > -1   || userA
 <META http-equiv="Pragma" content="no-cache">
 <META http-equiv="Cache-Control" content="No-Cache">
 
-<link rel="stylesheet" type="text/css" href="/moca/css/moca.css?v=1.23">
-<link rel="stylesheet" type="text/css" href="/moca/css/fontawesome.css?v=1">
-<link rel="stylesheet" type="text/css" href="/moca/css/moca_layout.css?v=1">
+<link rel="stylesheet" type="text/css" href="/moca/css/moca.css<%="?v="+System.currentTimeMillis()%>">
+<link rel="stylesheet" type="text/css" href="/moca/css/fontawesome.css<%="?v="+System.currentTimeMillis()%>">
+<link rel="stylesheet" type="text/css" href="/moca/css/moca_layout.css<%="?v="+System.currentTimeMillis()%>">
 <%
 if(userAgent.indexOf("MOBI") > -1 || userAgent.indexOf("IPHONE") > -1   || userAgent.indexOf("ANDROID") > -1) {
 %>
-	<link rel="stylesheet" type="text/css" href="/moca/css/moca_mobile.css?v=1.14">
+	<link rel="stylesheet" type="text/css" href="/moca/css/moca_mobile.css<%="?v="+System.currentTimeMillis()%>">
 <%	
 }
 %>
-<link rel="stylesheet" type="text/css" href="/fullcalendar/lib/fullcalendar.css?v=1">
+<link rel="stylesheet" type="text/css" href="/fullcalendar/lib/fullcalendar.css<%="?v="+System.currentTimeMillis()%>">
 <script language="JavaScript" src="/moca/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="/moca/js/sha512.min.js"></script>
-<script language="JavaScript" src="/moca/js/config.js"></script>
-<script language="JavaScript" src="/moca/js/moca.js"></script>
-<script type="text/javascript" src="/moca/js/moca_ui.js"></script>
+<script language="JavaScript" src="/moca/js/config.js<%="?v="+System.currentTimeMillis()%>"></script>
+<script language="JavaScript" src="/moca/js/moca.js<%="?v="+System.currentTimeMillis()%>"></script>
+<script type="text/javascript" src="/moca/js/moca_ui.js<%="?v="+System.currentTimeMillis()%>"></script>
 <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="/fullcalendar/lib/fullcalendar.js"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<SCRIPT language="JavaScript" src="/moca/chart/js/mchart/kongManager.js"></SCRIPT>
-<SCRIPT language="JavaScript" src="/moca/chart/js/mchart/kongSampleData.js"></SCRIPT>
-<SCRIPT language="JavaScript" src="/moca/chart/js/mchart/kongChart.js"></SCRIPT>	
+<SCRIPT language="JavaScript" src="/moca/chart/js/mchart/kongManager.js<%="?v="+System.currentTimeMillis()%>"></SCRIPT>
+<SCRIPT language="JavaScript" src="/moca/chart/js/mchart/kongSampleData.js<%="?v="+System.currentTimeMillis()%>"></SCRIPT>
+<SCRIPT language="JavaScript" src="/moca/chart/js/mchart/kongChart.js<%="?v="+System.currentTimeMillis()%>"></SCRIPT>	
 <%
 	String authorCodeString= (String)request.getAttribute("authorCode");
 	java.util.List menuList= (java.util.List)request.getAttribute("menuList");
@@ -227,9 +227,7 @@ $(document).ready(function() {
 			}	
 		}
 	});
-	    
-	
-	
+
 });
 </script>
 </head>
