@@ -1976,8 +1976,6 @@ Moca.prototype.tree_addTab = function(_label,_tabId,_url,_mdiId){
     var _html = $('#'+_mdiId+' .moca_tab_ul').html();
     var _full_html = _html.replace(/active/g,'')+tabHtml;
     $('#'+_mdiId+' .moca_tab_ul').html(_full_html); 
-
-    debugger;
     if($m.getDevice() == 'pc'){
     	if($('#'+_mdiId+' .moca_tab_close:last').length != 0){
             ($('#'+_mdiId+' .moca_tab_allclose').offset().left - $('#'+_mdiId+' .moca_tab_close:last').offset().left <= 100)? $('#'+_mdiId+' .moca_tab_ul').addClass('tabWidth') : $('#'+_mdiId+' .moca_tab_ul').removeClass('tabWidth');
@@ -8183,7 +8181,6 @@ Moca.prototype._excel_up = function(_thisObj) {
             _jsonMap[excelIndex] = key;
         }
     }
-    debugger;
     $m.popup({
         type:"POPUP",
         modal:"false",

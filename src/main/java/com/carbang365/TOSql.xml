@@ -5081,6 +5081,9 @@
 		AND SCH_DELYN = 'N'
 		AND SCH_CURRENTMONTH = #{SCH_CURRENTMONTH}
 		AND CORP_CD = #{CORP_CD}
+		<if test="SCH_TODAY != null and SCH_TODAY != ''">
+            AND SCH_START like CONCAT('%', #{SCH_TODAY}, '%')
+        </if>
     </select>
     
     <!-- 스케줄러 단건조회 -->
@@ -5206,7 +5209,7 @@
     
     <!-- test 조회 -->
     <select id="selectTestList" parameterType="map" resultType="map">
-    	/*selectTestList 스케줄러 조회*/
+    	/*selectTestList test 조회*/
 		SELECT *
 		FROM MT_TESTDB
 		WHERE 1=1
