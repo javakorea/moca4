@@ -1103,7 +1103,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                 var _reLabel = '';
                 try{
                     if(_displayFunction != null && eval(_displayFunction) != null){
-                        _reLabel = eval(_displayFunction)(cell,_grd,_row["_system"]["realIndex"]);  
+                        _reLabel = eval(_displayFunction)(cell,_grd,_row["_system"]["realIndex"],_id);  
                     }else{
                         _reLabel = cell;    
                     }

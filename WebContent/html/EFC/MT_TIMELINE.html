@@ -15,16 +15,102 @@ $m.MT_TIMELINE.___ready = function(){
             }
         },          
         callback : function(response){
-        	//SCH_COLOR
-        	$m.longToDate(response.selectScheduleList[0].SCH_START);
+        	var _listArr = $m.MT_TIMELINE.getResList(response,"selectScheduleList");
         	
-			$m.MT_TIMELINE.drawGrid('grd_1', $m.MT_TIMELINE.getResList(response,"selectScheduleList"));
+        	//_grdObj 예({superadmin:[일정1][일정2], hjsung:[일정1][일정2][일정3]})
+        	//_grdObj : 사용자에 따라 일정을 json으로 묶음
+        	var _grdObj = {};
+        	for(var i=0; i <_listArr.length ; i++){
+        		_grdObj[_listArr[i].SCH_WRITER]=[];
+        		
+        		for(var t=0; t<24; t++){
+        			_listArr[i]['TM_'+$m.lpad(t,2,0)+'_00'] = '';
+					_listArr[i]['TM_'+$m.lpad(t,2,0)+'_30']= '';
+        		}
+        	}
+			for(var i=0; i <_listArr.length ; i++){
+				var stDt = new Date(_listArr[i].SCH_START);
+	        	var enDt = new Date(_listArr[i].SCH_END);
+	        	var _strH = $m.dateToString(stDt).시;
+	        	var _strM = $m.dateToString(stDt).분;
+	        	if(_strM > 0){
+	        		_strM = '30' //예를들어 분이 20분 이렇게 떨어질경우 30분칸부터 시작되게끔
+	        	}
+	        	var termMin = ((enDt.getTime())-(stDt.getTime()))/1000/60; //스케줄러 일정 걸리는 시간
+	        	var termNum = Math.ceil(termMin/30); //시작시간 기준으로 몇칸 채워야하는지
+	        	var _strHplus = _strH;
+	        	var _strMplus = _strM;
+	        	var bg;
+	        	var title;
+	        	for(var t=0; t<24; t++){
+	        		if( _listArr[i]['TM_'+$m.lpad(t,2,0)+'_00'] == _listArr[i]['TM_'+_strH+'_'+_strM] ||
+    	        		_listArr[i]['TM_'+$m.lpad(t,2,0)+'_30'] == _listArr[i]['TM_'+_strH+'_'+_strM]		
+    	        	){//시작지점 timeline_bar
+	        			_bg = "background:"+_listArr[i].SCH_COLOR+"; ";
+	        			_title = _listArr[i].SCH_TITLE;
+	        			_listArr[i]['TM_'+_strH+'_'+_strM] = '<div class="timeline_bar" style="'+_bg+'">'+_title+'</div>';
+	        			termNum = termNum -1;
+	        			
+    	        	}else if(termNum > 0){//중간과 끝지점 timeline_bar
+    	        		_strMplus = Number(_strMplus) + 30;
+    	        		if(_strMplus > 60){
+    	        			_strHplus = Number(_strHplus) + 1;
+    	        			_strMplus = Number(_strMplus) - 60;
+    	        		}
+    	        		if(_strMplus == '60'){
+    	        			_listArr[i]['TM_'+$m.lpad(Number(_strHplus)+1,2,0)+'_'+'00'] = '<div class="timeline_bar" style="'+_bg+'"></div>';
+    	        			termNum = termNum -1;
+    	        		}else{
+    	        			_listArr[i]['TM_'+$m.lpad(_strHplus,2,0)+'_'+$m.lpad(Number(_strMplus),2,0)] = '<div class="timeline_bar" style="'+_bg+'"></div>';
+    	        			termNum = termNum -1;
+    	        		}
+    	        	}
+        		}
+        	}
+			
+			
+        	var _grdObjKeyArr = Object.keys(_grdObj);
+        	for(var i=0; i <_listArr.length ; i++){
+				for(var j=0; j<_grdObjKeyArr.length; j++){
+					if(_grdObjKeyArr[j] == _listArr[i].SCH_WRITER){
+						_grdObj[_grdObjKeyArr[j]].push(_listArr[i]);
+					}
+				}
+        	}
+        	var _list = {};
+        	_list._viewArr = [];
+        	for(var s=0; s < _grdObjKeyArr.length; s++){
+        		var _viewObj = {};
+        		for(var ss=0; ss <_grdObj[_grdObjKeyArr[s]].length; ss++){
+        			var aSchObj = _grdObj[_grdObjKeyArr[s]][ss];
+        			_viewObj.SCH_WRITER =aSchObj.SCH_WRITER;
+        			if(Object.keys(_viewObj).length < 2){
+        				for(var t=0; t<24; t++){
+            				_viewObj['TM_'+$m.lpad(t,2,0)+'_00'] = '';
+            				_viewObj['TM_'+$m.lpad(t,2,0)+'_30']= '';
+            			}
+        			}
+        			for(var t=0; t<24; t++){
+        				if($m.trim(aSchObj['TM_'+$m.lpad(t,2,0)+'_00']) != ''){
+        					_viewObj['TM_'+$m.lpad(t,2,0)+'_00'] = aSchObj['TM_'+$m.lpad(t,2,0)+'_00'];
+        				}
+        				if($m.trim(aSchObj['TM_'+$m.lpad(t,2,0)+'_30']) != ''){
+        					_viewObj['TM_'+$m.lpad(t,2,0)+'_30'] = aSchObj['TM_'+$m.lpad(t,2,0)+'_30'];
+        				}
+        			}
+        		}
+        		
+        		_list._viewArr.push(_viewObj);
+        	};
+			$m.MT_TIMELINE.drawGrid('grd_1', $m.MT_TIMELINE.getResList(_list,"_viewArr"));
+			
         }
     });
 };
 
-$m.MT_TIMELINE.dispReply= function(_thisVal, _grd, _realrow){
-	debugger;
+$m.MT_TIMELINE.dispReply= function(_thisVal, _grd, _realrow,_cellId){
+	
+	return _thisVal;
 	var _bg = "background-color:"+_grd.list[_realrow].SCH_COLOR+"; ";
 	var _start = new Date(_grd.list[_realrow].SCH_START);
 	var _startH = $m.dateToString(_start).시;
@@ -32,8 +118,27 @@ $m.MT_TIMELINE.dispReply= function(_thisVal, _grd, _realrow){
 	var _end = new Date(_grd.list[_realrow].SCH_END);
 	var _endH = $m.dateToString(_end).시;
 	var _endM = $m.dateToString(_end).분;
-	var _term = _endH - _startH;
+	var _title = _grd.list[_realrow].SCH_TITLE;	
+	var _showVal = _thisVal;
+	var _cellHour =_cellId.split('_')[1];
+	var _cellMin =_cellId.split('_')[2];
+	debugger;
+	if(_cellHour == _startH){
+		if(_cellMin == '00' && _startM == 0){
+			_showVal = '<div class="timeline_bar" style="'+_bg+'">'+_title+'</div>';
+		}else if(_cellMin != '00' && _startM > 0){
+			_showVal = '<div class="timeline_bar" style="'+_bg+'">'+_title+'</div>';
+		}
+		
+	}else if(_startH <=_cellHour  && _cellHour<=_endH && (_endH - _cellHour) > 0){
+		_showVal = '<div class="timeline_bar" style="'+_bg+'"></div>';
+	}
+	else if(_startH <=_cellHour  && _cellHour<=_endH && (_cellHour - _startH) > 0  ){
+		_showVal = '<div class="timeline_bar" style="'+_bg+'"></div>';
+	}
 	
+	return _showVal;
+	/*
 	var _th = $($m.MT_TIMELINE.getObj('grd_1')).find('#'+'H_TM_'+_startH);
 	var _nth = _th.closest('th').index();
 	var _thWidth = Math.floor(_th.outerWidth());
@@ -45,14 +150,14 @@ $m.MT_TIMELINE.dispReply= function(_thisVal, _grd, _realrow){
 	var _width = "width:"+((_term*_thWidth)-8+'')+"px; ";
 	var _showVal = '<div class="timeline_bar bar1" style="'+_bg+_left+_width+'">'+_thisVal+'</div>';
 	return _showVal;
+	*/
 }
 </script>
 <style>
 	.timeline tr{position:relative;}
-	.timeline .moca_grid_list .moca_grid_body > table > tbody > tr > td{overflow:visible}
+	.timeline .moca_grid_list .moca_grid_body > table > tbody > tr > td{overflow:visible;padding: 0; text-overflow: unset;}
 	.timeline .moca_grid_list .moca_grid_body > table > tbody > tr > td > div{position:unset;overflow:visible}
-	.moca_grid_body td div.timeline_bar{position:absolute; min-height:20px; line-height:20px; top: 4px;margin-right: 4px; color:#fff; text-overflow: ellipsis; overflow: hidden; box-sizing:border-box; padding: 0 4px;}
-	.timeline_bar.bar1{ right:300px}
+	.moca_grid_body td div.timeline_bar{ min-height:20px; line-height:20px; top: 4px;color:#fff; text-overflow: ellipsis;  box-sizing:border-box; padding: 0 4px;}
 	.td_tm{width:20px}
 	.fixed{left:0; background:#d2d9e8}
 </style>
@@ -81,61 +186,59 @@ $m.MT_TIMELINE.dispReply= function(_thisVal, _grd, _realrow){
 					<table style="width: 100%">
 						<colgroup>
 								<col style="min-width:120px" mobileHide="false" hide="false" columnKey="SCH_WRITER" thKey="H_SCH_WRITER" >
-								<col style="width:0px" mobileHide="true" hide="false" columnKey="TM_00_BAR" thKey="H_TM_BAR" >
 								
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_00_1" thKey="H_TM_00_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_00_2" thKey="H_TM_00_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_01_1" thKey="H_TM_01_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_01_2" thKey="H_TM_01_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_02_1" thKey="H_TM_02_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_02_2" thKey="H_TM_02_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_03_1" thKey="H_TM_03_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_03_2" thKey="H_TM_03_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_04_1" thKey="H_TM_04_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_04_2" thKey="H_TM_04_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_05_1" thKey="H_TM_05_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_05_2" thKey="H_TM_05_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_06_1" thKey="H_TM_06_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_06_2" thKey="H_TM_06_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_07_1" thKey="H_TM_07_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_07_2" thKey="H_TM_07_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_08_1" thKey="H_TM_08_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_08_2" thKey="H_TM_08_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_09_1" thKey="H_TM_09_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_09_2" thKey="H_TM_09_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_10_1" thKey="H_TM_10_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_10_2" thKey="H_TM_10_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_11_1" thKey="H_TM_11_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_11_2" thKey="H_TM_11_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_12_1" thKey="H_TM_12_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_12_2" thKey="H_TM_12_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_13_1" thKey="H_TM_13_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_13_2" thKey="H_TM_13_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_14_1" thKey="H_TM_14_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_14_2" thKey="H_TM_14_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_15_1" thKey="H_TM_15_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_15_2" thKey="H_TM_15_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_16_1" thKey="H_TM_16_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_16_2" thKey="H_TM_16_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_17_1" thKey="H_TM_17_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_17_2" thKey="H_TM_17_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_18_1" thKey="H_TM_18_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_18_2" thKey="H_TM_18_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_19_1" thKey="H_TM_19_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_19_2" thKey="H_TM_19_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_20_1" thKey="H_TM_20_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_20_2" thKey="H_TM_20_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_21_1" thKey="H_TM_21_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_21_2" thKey="H_TM_21_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_22_1" thKey="H_TM_22_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_22_2" thKey="H_TM_22_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_23_1" thKey="H_TM_23_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_23_2" thKey="H_TM_23_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_00_00" thKey="H_TM_00_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_00_30" thKey="H_TM_00_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_01_00" thKey="H_TM_01_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_01_30" thKey="H_TM_01_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_02_00" thKey="H_TM_02_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_02_30" thKey="H_TM_02_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_03_00" thKey="H_TM_03_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_03_30" thKey="H_TM_03_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_04_00" thKey="H_TM_04_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_04_30" thKey="H_TM_04_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_05_00" thKey="H_TM_05_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_05_30" thKey="H_TM_05_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_06_00" thKey="H_TM_06_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_06_30" thKey="H_TM_06_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_07_00" thKey="H_TM_07_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_07_30" thKey="H_TM_07_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_08_00" thKey="H_TM_08_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_08_30" thKey="H_TM_08_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_09_00" thKey="H_TM_09_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_09_30" thKey="H_TM_09_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_10_00" thKey="H_TM_10_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_10_30" thKey="H_TM_10_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_11_00" thKey="H_TM_11_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_11_30" thKey="H_TM_11_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_12_00" thKey="H_TM_12_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_12_30" thKey="H_TM_12_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_13_00" thKey="H_TM_13_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_13_30" thKey="H_TM_13_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_14_00" thKey="H_TM_14_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_14_30" thKey="H_TM_14_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_15_00" thKey="H_TM_15_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_15_30" thKey="H_TM_15_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_16_00" thKey="H_TM_16_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_16_30" thKey="H_TM_16_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_17_00" thKey="H_TM_17_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_17_30" thKey="H_TM_17_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_18_00" thKey="H_TM_18_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_18_30" thKey="H_TM_18_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_19_00" thKey="H_TM_19_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_19_30" thKey="H_TM_19_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_20_00" thKey="H_TM_20_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_20_30" thKey="H_TM_20_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_21_00" thKey="H_TM_21_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_21_30" thKey="H_TM_21_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_22_00" thKey="H_TM_22_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_22_30" thKey="H_TM_22_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_23_00" thKey="H_TM_23_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_23_30" thKey="H_TM_23_2" >
 						</colgroup>
 						<thead>
 							<tr>
 								<th scope="col" class="fixed" id="H_SCH_WRITER">작성자</th>
-								<th scope="col" id="H_SCH_TITLE"></th>
 								
 								<th scope="col" id="H_TM_00" colSpan="2">00시</th>
 								<th scope="col" id="H_TM_01" colSpan="2">01시</th>
@@ -167,55 +270,54 @@ $m.MT_TIMELINE.dispReply= function(_thisVal, _grd, _realrow){
 						<tbody>
 							<tr>
 								<td id="SCH_WRITER" class="fixed" celltype="input" style="" readOnly="true" name="이름"></td>
-								<td id="SCH_TITLE" celltype="input" style="text-align:left" name="00" required="false" readOnly="true"  displayFunction="$m.MT_TIMELINE.dispReply"></td>
-								<td id="TM_00_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true"></td>
-								<td id="TM_00_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_01_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_01_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_02_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_02_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_03_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_03_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_04_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_04_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_05_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_05_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_06_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_06_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_07_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_07_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_08_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_08_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_09_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_09_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_10_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_10_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_11_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_11_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_12_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_12_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_13_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_13_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_14_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_14_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_15_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_15_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_16_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_16_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_17_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_17_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_18_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_18_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_19_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_19_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_20_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_20_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_21_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_21_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_22_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_22_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
-								<td id="TM_23_1" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" ></td>
-								<td id="TM_23_2" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" ></td>
+								<td id="TM_00_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_00_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_01_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_01_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_02_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_02_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_03_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_03_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_04_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_04_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_05_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_05_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_06_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_06_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_07_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_07_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_08_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_08_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_09_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_09_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_10_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_10_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_11_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_11_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_12_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_12_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_13_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_13_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_14_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_14_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_15_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_15_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_16_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_16_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_17_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_17_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_18_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_18_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_19_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_19_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_20_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_20_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_21_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_21_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_22_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_22_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_23_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
+								<td id="TM_23_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.MT_TIMELINE.dispReply"></td>
 							</tr>
 						</tbody>
 					</table>				
