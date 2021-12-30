@@ -83,36 +83,120 @@ $m.EFC_SCHEDULER.fn_setSchedule = function(response,_callbackJson){
 	var calendarEl = $m.EFC_SCHEDULER.getObj('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
     	headerToolbar: {
-            left: 'prevBtn,nextBtn todayBtn',
+            left: 'prevBtn,nextBtn todayBtn dateBtn',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            right: 'dayGridMonthBtn,timeGridWeekBtn,timeGridDayBtn,timeLineBtn'
         },
         customButtons : {
         	prevBtn:{
         		text:'<',
         		click: function(info){
-        			$m.EFC_SCHEDULER.calendar.prev();
-        			var _startDt = $m.EFC_SCHEDULER.calendar.getDate();
-        			var _callbackJson = {"startDt":_startDt,"viewType":$m.EFC_SCHEDULER.calendar.currentData.currentViewType};
-        			$m.EFC_SCHEDULER.fn_search(_callbackJson);
+        			if($($m.EFC_SCHEDULER.getObj("grd_1")).height() > 26){
+        				$m.EFC_SCHEDULER.calendar.prev();
+        				$($m.EFC_SCHEDULER.getObj("calendar")).css("height","auto");
+        				var _startDt = $m.EFC_SCHEDULER.calendar.getDate();
+        				var _ymd = $m.dateToString(_startDt).년+"년"+$m.dateToString(_startDt).월+"월"+$m.dateToString(_startDt).일+"일";
+            			$($m.EFC_SCHEDULER.getObj("calendar")).find('.fc-dateBtn-button').text(_ymd);
+            			
+        				var _callbackJson = {"startDt":_startDt,"viewType":$m.EFC_SCHEDULER.calendar.currentData.currentViewType};
+        				$m.EFC_SCHEDULER.fn_search(_callbackJson);
+        				$m.EFC_SCHEDULER.fn_timeLine(_callbackJson);
+        			}else{
+        				$m.EFC_SCHEDULER.calendar.prev();
+        				var _startDt = $m.EFC_SCHEDULER.calendar.getDate();
+        				var _callbackJson = {"startDt":_startDt,"viewType":$m.EFC_SCHEDULER.calendar.currentData.currentViewType};
+        				$m.EFC_SCHEDULER.fn_search(_callbackJson);
+        			}
         		}
         	},
         	nextBtn:{
         		text:'>',
         		click: function(info){
-        			$m.EFC_SCHEDULER.calendar.next();
-        			var _startDt = $m.EFC_SCHEDULER.calendar.getDate();
-        			var _callbackJson = {"startDt":_startDt,"viewType":$m.EFC_SCHEDULER.calendar.currentData.currentViewType};
-        			$m.EFC_SCHEDULER.fn_search(_callbackJson);
+        			if($($m.EFC_SCHEDULER.getObj("grd_1")).height() > 26){
+        				$m.EFC_SCHEDULER.calendar.next();
+        				$($m.EFC_SCHEDULER.getObj("calendar")).css("height","auto");
+        				var _startDt = $m.EFC_SCHEDULER.calendar.getDate();
+        				var _ymd = $m.dateToString(_startDt).년+"년"+$m.dateToString(_startDt).월+"월"+$m.dateToString(_startDt).일+"일";
+            			$($m.EFC_SCHEDULER.getObj("calendar")).find('.fc-dateBtn-button').text(_ymd);
+            			
+        				var _callbackJson = {"startDt":_startDt,"viewType":$m.EFC_SCHEDULER.calendar.currentData.currentViewType};
+        				$m.EFC_SCHEDULER.fn_search(_callbackJson);
+        				$m.EFC_SCHEDULER.fn_timeLine(_callbackJson);
+        			}else{
+	        			$m.EFC_SCHEDULER.calendar.next();
+	        			var _startDt = $m.EFC_SCHEDULER.calendar.getDate();
+	        			var _callbackJson = {"startDt":_startDt,"viewType":$m.EFC_SCHEDULER.calendar.currentData.currentViewType};
+	        			$m.EFC_SCHEDULER.fn_search(_callbackJson);
+	        		}
         		}
         	},
         	todayBtn:{
         		text:'오늘',
         		click: function(info){
-        			$m.EFC_SCHEDULER.calendar.today();
+        			if($($m.EFC_SCHEDULER.getObj("grd_1")).height() > 26){
+        				$m.EFC_SCHEDULER.calendar.today();
+        				$($m.EFC_SCHEDULER.getObj("calendar")).css("height","auto");
+        				var _startDt = $m.EFC_SCHEDULER.calendar.getDate();
+        				var _ymd = $m.dateToString(_startDt).년+"년"+$m.dateToString(_startDt).월+"월"+$m.dateToString(_startDt).일+"일";
+            			$($m.EFC_SCHEDULER.getObj("calendar")).find('.fc-dateBtn-button').text(_ymd);
+            			
+        				var _callbackJson = {"startDt":_startDt,"viewType":$m.EFC_SCHEDULER.calendar.currentData.currentViewType};
+        				$m.EFC_SCHEDULER.fn_search(_callbackJson);
+        				$m.EFC_SCHEDULER.fn_timeLine(_callbackJson);
+        			}else{
+	        			$m.EFC_SCHEDULER.calendar.today();
+	        			var _startDt = $m.EFC_SCHEDULER.calendar.getDate();
+	        			var _callbackJson = {"startDt":_startDt,"viewType":$m.EFC_SCHEDULER.calendar.currentData.currentViewType};
+	        			$m.EFC_SCHEDULER.fn_search(_callbackJson);
+        			}
+        		}
+        	},
+        	dayGridMonthBtn:{
+        		text:'월',
+        		click: function(info){
+        			$m.hide($m.EFC_SCHEDULER.getObj("grd_1"));
+        			$(this).parent().find('.fc-button-active').removeClass('fc-button-active');
+        			$(this).addClass('fc-button-active');
+        			$($m.EFC_SCHEDULER.getObj("calendar")).find('.fc-dateBtn-button').hide();
+        			$m.EFC_SCHEDULER.calendar.changeView('dayGridMonth');
+        		}
+        	},
+        	timeGridWeekBtn:{
+        		text:'주',
+        		click: function(info){
+        			$(this).parent().find('.fc-button-active').removeClass('fc-button-active');
+        			$(this).addClass('fc-button-active');
+        			$m.hide($m.EFC_SCHEDULER.getObj("grd_1"));
+        			$($m.EFC_SCHEDULER.getObj("calendar")).find('.fc-dateBtn-button').hide();
+        			$m.EFC_SCHEDULER.calendar.changeView('timeGridWeek');
+        		}
+        	},
+        	timeGridDayBtn:{
+        		text:'일',
+        		click: function(info){
+        			$(this).parent().find('.fc-button-active').removeClass('fc-button-active');
+        			$(this).addClass('fc-button-active');
+        			$m.hide($m.EFC_SCHEDULER.getObj("grd_1"));
+        			$($m.EFC_SCHEDULER.getObj("calendar")).find('.fc-dateBtn-button').hide();
+        			$m.EFC_SCHEDULER.calendar.changeView('timeGridDay');
+        			
+        		}
+        	},
+        	timeLineBtn:{
+        		text:'타임라인',
+        		click: function(info){
+        			//타임라인
+        			$(this).parent().find('.fc-button-active').removeClass('fc-button-active');
+        			$(this).addClass('fc-button-active');
+        			$m.EFC_SCHEDULER.calendar.changeView('timeGridDay');
         			var _startDt = $m.EFC_SCHEDULER.calendar.getDate();
         			var _callbackJson = {"startDt":_startDt,"viewType":$m.EFC_SCHEDULER.calendar.currentData.currentViewType};
-        			$m.EFC_SCHEDULER.fn_search(_callbackJson);
+        			$($m.EFC_SCHEDULER.getObj("calendar")).css("height","auto");
+        			$m.show($m.EFC_SCHEDULER.getObj("grd_1"));
+        			var _ymd = $m.dateToString($m.EFC_SCHEDULER.calendar.getDate()).년+"년"+$m.dateToString($m.EFC_SCHEDULER.calendar.getDate()).월+"월"+$m.dateToString($m.EFC_SCHEDULER.calendar.getDate()).일+"일";
+        			$($m.EFC_SCHEDULER.getObj("calendar")).find('.fc-dateBtn-button').text(_ymd);
+        			$($m.EFC_SCHEDULER.getObj("calendar")).find('.fc-dateBtn-button').show();
+        			$m.EFC_SCHEDULER.fn_timeLine(_callbackJson);
         		}
         	}
         },
@@ -169,6 +253,8 @@ $m.EFC_SCHEDULER.fn_setSchedule = function(response,_callbackJson){
         longPressDelay:10
     });
     calendar.render();
+    
+    $($m.EFC_SCHEDULER.getObj("calendar")).find('.fc-dayGridMonthBtn-button').addClass('fc-button-active');
     $m.EFC_SCHEDULER.calendar = calendar;
    
 }
@@ -197,7 +283,6 @@ $m.EFC_SCHEDULER.fn_addSchedule = function(_valueObj,_status){
     	var oriEndDate = _valueObj.event._instance.range.end;
     	var _startDate = new Date(oriStartDate.setHours(oriStartDate.getHours() - 9));
     	var _endDate = new Date(oriEndDate.setHours(oriEndDate.getHours() - 9));
-    	
     	_start = $m.dateToString(_startDate).fullFormat;
     	_end = $m.dateToString(_endDate).fullFormat;
     	_schTitle = _valueObj.event._def.title;
@@ -238,9 +323,177 @@ $m.EFC_SCHEDULER.fn_pop_callback = function(_json){
 		$m.EFC_SCHEDULER.fn_search(_callbackJson);
 	}
 }
-
+$m.EFC_SCHEDULER.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
+    ['일정상세']
+    var _dataObj = $m.EFC_SCHEDULER.getObj("grd_1").list[rowIndex][colId+"_data"];
+    _title = '일정상세';
+    _start = $m.dateToString(new Date(_dataObj.SCH_START)).fullFormat;
+	_end = $m.dateToString(new Date(_dataObj.SCH_END)).fullFormat;
+	_schTitle = _dataObj.SCH_TITLE;
+	_schIdx = _dataObj.SCH_IDX;
+	_bgcolor = _dataObj.SCH_COLOR;
+	var o = {};
+    o.id = $m.EFC_SCHEDULER.popId;
+    o.url = '/html/EFC/EFC_SCHEDULER_POP.html';
+    o.type = "POPUP";
+    o.modal = "true";
+    o.title = _title;
+    o.callback = $m.EFC_SCHEDULER.fn_pop_callback;
+    o.scopeId = $m.EFC_SCHEDULER.pageId;
+    o.data = {
+ 		'start' : _start,
+ 		'end'   : _end,
+ 		'allDay': false,
+ 		'title' : _schTitle,
+ 		'schIdx': _schIdx,
+ 		'viewType':$m.EFC_SCHEDULER.calendar.view.type,
+ 		'bgcolor':_bgcolor
+    }
+    var _thisObj = $m.EFC_SCHEDULER.getObj('calendar');
+    $m.popup(o,_thisObj);
+}
+$m.EFC_SCHEDULER.fn_timeLine = function(_callbackJson){
+	if(_callbackJson != null){
+		_showMonth = $m.dateToString(new Date(_callbackJson.startDt)).월;
+		_showDay = $m.dateToString(new Date(_callbackJson.startDt)).년+"-"+$m.dateToString(new Date(_callbackJson.startDt)).월+"-"+$m.dateToString(new Date(_callbackJson.startDt)).일;
+	}
+	$m.EFC_SCHEDULER.exe({
+	    url : $m._domain+$m._contextRoot+"/EFC_SCHEDULER/selectScheduleList.do",
+	    loadingbar:true,
+	    data : {
+	        "header" : $m.header,
+	        "body" : {
+	        	"SCH_CURRENTMONTH":_showMonth,
+	        	"CORP_CD":$m.getSs("CORP_CD"),
+	        	"SCH_TODAY":_showDay
+	        }
+	    },          
+	    callback : function(response){
+	    	var _listArr = $m.EFC_SCHEDULER.getResList(response,"selectScheduleList");
+	    	
+	    	//_grdObj 예({superadmin:[일정1][일정2], hjsung:[일정1][일정2][일정3]})
+	    	//_grdObj : 사용자에 따라 일정을 json으로 묶음
+	    	var _grdObj = {};
+	    	for(var i=0; i <_listArr.length ; i++){
+	    		_grdObj[_listArr[i].SCH_WRITER]=[];
+	    		
+	    		for(var t=0; t<24; t++){
+	    			_listArr[i]['TM_'+$m.lpad(t,2,0)+'_00'] = '';
+					_listArr[i]['TM_'+$m.lpad(t,2,0)+'_30']= '';
+	    		}
+	    	}
+			for(var i=0; i <_listArr.length ; i++){
+				var stDt = new Date(_listArr[i].SCH_START);
+	        	var enDt = new Date(_listArr[i].SCH_END);
+	        	var _strH = $m.dateToString(stDt).시;
+	        	var _strM = $m.dateToString(stDt).분;
+	        	if(_strM > 0){
+	        		_strM = '30' //예를들어 분이 20분 이렇게 떨어질경우 30분칸부터 시작되게끔
+	        	}
+	        	var termMin = ((enDt.getTime())-(stDt.getTime()))/1000/60; //스케줄러 일정 걸리는 시간
+	        	var termNum = Math.ceil(termMin/30); //시작시간 기준으로 몇칸 채워야하는지
+	        	var _strHplus = _strH;
+	        	var _strMplus = _strM;
+	        	var bg;
+	        	var _dataObj;
+	        	for(var t=0; t<24; t++){
+	        		if( _listArr[i]['TM_'+$m.lpad(t,2,0)+'_00'] == _listArr[i]['TM_'+_strH+'_'+_strM] ||
+		        		_listArr[i]['TM_'+$m.lpad(t,2,0)+'_30'] == _listArr[i]['TM_'+_strH+'_'+_strM]		
+		        	){//시작지점 timeline_bar
+	        			_bg = "background:"+_listArr[i].SCH_COLOR+"; ";
+	        			_title = _listArr[i].SCH_TITLE;
+	        			_listArr[i]['TM_'+_strH+'_'+_strM] = '<div class="timeline_bar" style="'+_bg+'">'+_title+'</div>';
+	        			_listArr[i]['TM_'+_strH+'_'+_strM+"_data"] = {
+        					"SCH_TITLE":_listArr[i].SCH_TITLE,
+            				"SCH_IDX":_listArr[i].SCH_IDX,
+            				"SCH_START":_listArr[i].SCH_START,
+            				"SCH_END":_listArr[i].SCH_END,
+            				"SCH_COLOR":_listArr[i].SCH_COLOR
+	        			};
+	        			termNum = termNum -1;
+	        			
+		        	}else if(termNum > 0){//중간과 끝지점 timeline_bar
+		        		_strMplus = Number(_strMplus) + 30;
+		        		if(_strMplus > 60){
+		        			_strHplus = Number(_strHplus) + 1;
+		        			_strMplus = Number(_strMplus) - 60;
+		        		}
+		        		if(_strMplus == '60'){
+		        			_listArr[i]['TM_'+$m.lpad(Number(_strHplus)+1,2,0)+'_'+'00'] = '<div class="timeline_bar" style="'+_bg+'"></div>';
+		        			_listArr[i]['TM_'+$m.lpad(Number(_strHplus)+1,2,0)+'_'+'00_data'] = {
+	        					"SCH_TITLE":_listArr[i].SCH_TITLE,
+	            				"SCH_IDX":_listArr[i].SCH_IDX,
+	            				"SCH_START":_listArr[i].SCH_START,
+	            				"SCH_END":_listArr[i].SCH_END,
+	            				"SCH_COLOR":_listArr[i].SCH_COLOR
+		        			};
+		        			termNum = termNum -1;
+		        		}else{
+		        			_listArr[i]['TM_'+$m.lpad(_strHplus,2,0)+'_'+$m.lpad(Number(_strMplus),2,0)] = '<div class="timeline_bar" style="'+_bg+'"></div>';
+		        			_listArr[i]['TM_'+$m.lpad(_strHplus,2,0)+'_'+$m.lpad(Number(_strMplus),2,0)+"_data"] = {
+	        					"SCH_TITLE":_listArr[i].SCH_TITLE,
+	            				"SCH_IDX":_listArr[i].SCH_IDX,
+	            				"SCH_START":_listArr[i].SCH_START,
+	            				"SCH_END":_listArr[i].SCH_END,
+	            				"SCH_COLOR":_listArr[i].SCH_COLOR
+		        			};
+		        			termNum = termNum -1;
+		        		}
+		        	}
+	    		}
+	    	}
+			
+			
+	    	var _grdObjKeyArr = Object.keys(_grdObj);
+	    	for(var i=0; i <_listArr.length ; i++){
+				for(var j=0; j<_grdObjKeyArr.length; j++){
+					if(_grdObjKeyArr[j] == _listArr[i].SCH_WRITER){
+						_grdObj[_grdObjKeyArr[j]].push(_listArr[i]);
+					}
+				}
+	    	}
+	    	var _list = {};
+	    	_list._viewArr = [];
+	    	for(var s=0; s < _grdObjKeyArr.length; s++){
+	    		var _viewObj = {};
+	    		for(var ss=0; ss <_grdObj[_grdObjKeyArr[s]].length; ss++){
+	    			var aSchObj = _grdObj[_grdObjKeyArr[s]][ss];
+	    			_viewObj.SCH_WRITER =aSchObj.SCH_WRITER;
+	    			if(Object.keys(_viewObj).length < 2){
+	    				for(var t=0; t<24; t++){
+	        				_viewObj['TM_'+$m.lpad(t,2,0)+'_00'] = '';
+	        				_viewObj['TM_'+$m.lpad(t,2,0)+'_30']= '';
+	        			}
+	    			}
+	    			for(var t=0; t<24; t++){
+	    				if($m.trim(aSchObj['TM_'+$m.lpad(t,2,0)+'_00']) != ''){
+	    					_viewObj['TM_'+$m.lpad(t,2,0)+'_00'] = aSchObj['TM_'+$m.lpad(t,2,0)+'_00'];
+	    					_viewObj['TM_'+$m.lpad(t,2,0)+'_00_data'] = aSchObj['TM_'+$m.lpad(t,2,0)+'_00_data'];
+	    				}
+	    				if($m.trim(aSchObj['TM_'+$m.lpad(t,2,0)+'_30']) != ''){
+	    					_viewObj['TM_'+$m.lpad(t,2,0)+'_30'] = aSchObj['TM_'+$m.lpad(t,2,0)+'_30'];
+	    					_viewObj['TM_'+$m.lpad(t,2,0)+'_30_data'] = aSchObj['TM_'+$m.lpad(t,2,0)+'_30_data'];
+	    				}
+	    			}
+	    		}
+	    		
+	    		_list._viewArr.push(_viewObj);
+	    	};
+			$m.EFC_SCHEDULER.drawGrid('grd_1', $m.EFC_SCHEDULER.getResList(_list,"_viewArr"));
+			
+	    }
+	});
+};
 </script>
-
+<style>
+	.timeline tr{position:relative;}
+	.timeline .moca_grid_list {margin-top:0}
+	.timeline .moca_grid_list .moca_grid_body > table > tbody > tr > td{overflow:visible;padding: 0; text-overflow: unset;}
+	.timeline .moca_grid_list .moca_grid_body > table > tbody > tr > td > div{position:unset;overflow:visible}
+	.timeline .moca_grid_body td div.timeline_bar{ min-height:20px; line-height:20px; top: 4px;color:#fff; text-overflow: ellipsis;  box-sizing:border-box; padding: 0 4px;}
+	.timeline .td_tm{width:20px}
+	.timeline .fixed{left:0; background:#d2d9e8}
+</style>
 </head>
 <body>
 <div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
@@ -251,7 +504,158 @@ $m.EFC_SCHEDULER.fn_pop_callback = function(_json){
 				data = '{"sreenCd":"MOCA_SCHEDULER","sreenNm":"스케줄러","sreenPath":"업무관리,스케줄러"}'
 			></div>
 			<div class="fullcalendar" id='calendar' style="display:flex; height:100%"></div>
-			
+			<!-- 타임라인 -->
+			<div type="grid" class="moca_grid fauto timeline" style="display:none; background:#fff; z-index:2" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
+								rendering_div = "true"
+								toolbar_search_size="false"
+								toolbar_detail="false"
+								toolbar_exup="false"
+								toolbar_exdn="false"
+								toolbar_addrow="false"
+								toolbar_delrow="false"
+								toolbar_full="false"
+								label="총건수"
+								onDblClick = "$m.EFC_SCHEDULER.grd_1__onDblClick"
+			>
+					<table style="width: 100%">
+						<colgroup>
+								<col style="min-width:120px" mobileHide="false" hide="false" columnKey="SCH_WRITER" thKey="H_SCH_WRITER" >
+								
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_00_00" thKey="H_TM_00_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_00_30" thKey="H_TM_00_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_01_00" thKey="H_TM_01_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_01_30" thKey="H_TM_01_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_02_00" thKey="H_TM_02_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_02_30" thKey="H_TM_02_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_03_00" thKey="H_TM_03_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_03_30" thKey="H_TM_03_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_04_00" thKey="H_TM_04_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_04_30" thKey="H_TM_04_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_05_00" thKey="H_TM_05_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_05_30" thKey="H_TM_05_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_06_00" thKey="H_TM_06_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_06_30" thKey="H_TM_06_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_07_00" thKey="H_TM_07_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_07_30" thKey="H_TM_07_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_08_00" thKey="H_TM_08_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_08_30" thKey="H_TM_08_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_09_00" thKey="H_TM_09_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_09_30" thKey="H_TM_09_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_10_00" thKey="H_TM_10_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_10_30" thKey="H_TM_10_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_11_00" thKey="H_TM_11_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_11_30" thKey="H_TM_11_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_12_00" thKey="H_TM_12_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_12_30" thKey="H_TM_12_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_13_00" thKey="H_TM_13_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_13_30" thKey="H_TM_13_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_14_00" thKey="H_TM_14_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_14_30" thKey="H_TM_14_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_15_00" thKey="H_TM_15_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_15_30" thKey="H_TM_15_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_16_00" thKey="H_TM_16_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_16_30" thKey="H_TM_16_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_17_00" thKey="H_TM_17_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_17_30" thKey="H_TM_17_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_18_00" thKey="H_TM_18_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_18_30" thKey="H_TM_18_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_19_00" thKey="H_TM_19_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_19_30" thKey="H_TM_19_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_20_00" thKey="H_TM_20_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_20_30" thKey="H_TM_20_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_21_00" thKey="H_TM_21_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_21_30" thKey="H_TM_21_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_22_00" thKey="H_TM_22_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_22_30" thKey="H_TM_22_2" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_23_00" thKey="H_TM_23_1" >
+								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_23_30" thKey="H_TM_23_2" >
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col" class="fixed" id="H_SCH_WRITER">작성자</th>
+								
+								<th scope="col" id="H_TM_00" colSpan="2">00시</th>
+								<th scope="col" id="H_TM_01" colSpan="2">01시</th>
+								<th scope="col" id="H_TM_02" colSpan="2">02시</th>
+								<th scope="col" id="H_TM_03" colSpan="2">03시</th>
+								<th scope="col" id="H_TM_04" colSpan="2">04시</th>
+								<th scope="col" id="H_TM_05" colSpan="2">05시</th>
+								<th scope="col" id="H_TM_06" colSpan="2">06시</th>
+								<th scope="col" id="H_TM_07" colSpan="2">07시</th>
+								<th scope="col" id="H_TM_08" colSpan="2">08시</th>
+								<th scope="col" id="H_TM_09" colSpan="2">09시</th>
+								<th scope="col" id="H_TM_10" colSpan="2">10시</th>
+								<th scope="col" id="H_TM_11" colSpan="2">11시</th>
+								<th scope="col" id="H_TM_12" colSpan="2">12시</th>
+								<th scope="col" id="H_TM_13" colSpan="2">13시</th>
+								<th scope="col" id="H_TM_14" colSpan="2">14시</th>
+								<th scope="col" id="H_TM_15" colSpan="2">15시</th>
+								<th scope="col" id="H_TM_16" colSpan="2">16시</th>
+								<th scope="col" id="H_TM_17" colSpan="2">17시</th>
+								<th scope="col" id="H_TM_18" colSpan="2">18시</th>
+								<th scope="col" id="H_TM_19" colSpan="2">19시</th>
+								<th scope="col" id="H_TM_20" colSpan="2">20시</th>
+								<th scope="col" id="H_TM_21" colSpan="2">21시</th>
+								<th scope="col" id="H_TM_22" colSpan="2">22시</th>
+								<th scope="col" id="H_TM_23" colSpan="2">23시</th>
+								
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="SCH_WRITER" class="fixed" celltype="input" style="" readOnly="true" name="이름"></td>
+								<td id="TM_00_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_00_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_01_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_01_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_02_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_02_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_03_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_03_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_04_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_04_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_05_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_05_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_06_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_06_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_07_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_07_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_08_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_08_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_09_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_09_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_10_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_10_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_11_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_11_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_12_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_12_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_13_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_13_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_14_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_14_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_15_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_15_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_16_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_16_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_17_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_17_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_18_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_18_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_19_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_19_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_20_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_20_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_21_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_21_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_22_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_22_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_23_00" celltype="input" style="text-align:left" name="00" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+								<td id="TM_23_30" celltype="input" style="text-align:left" name="01" required="false" readOnly="true" displayFunction="$m.EFC_SCHEDULER.dispReply"></td>
+							</tr>
+						</tbody>
+					</table>				
+			</div>
 		</div>
 	</div>
 </div>

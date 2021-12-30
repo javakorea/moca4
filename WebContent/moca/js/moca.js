@@ -5941,11 +5941,13 @@ Moca.prototype.genTbody = function(_grd,_list,_idx,isEnd) {
         	
             var nowGrd = e.delegateTarget;
             var rowIndex = e.currentTarget.getAttribute('realrowindex');
+            debugger;
             if(event.srcElement.tagName == 'DIV'){
-                var colId = $(event.srcElement).parent().attr('id');
+                var colId = $(event.srcElement).closest('td').attr('id');
             }else if(event.srcElement.tagName == 'TD'){
                 var colId = event.srcElement.id;
             }
+            
             var colIndex = $(e.currentTarget).find('td[id='+colId+']').index();
             var _onDblClickFunc = nowGrd.getAttribute("onDblClick");
             eval(_onDblClickFunc)(nowGrd,rowIndex,colIndex,colId);

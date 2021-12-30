@@ -1291,11 +1291,15 @@ td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:2
 .fullcalendar.fc .fc-nextBtn-button{width:26px;background-color:#87a9bc;border: 0;border-left: 1px solid #818e95;opacity:0.9}
 .fullcalendar.fc .fc-prevBtn-button.fc-button-primary:not(:disabled):hover, .fullcalendar.fc .fc-prevBtn-button.fc-button-primary:not(:disabled):active, .fullcalendar.fc .fc-prevBtn-button.fc-button-primary:not(:disabled).fc-button-active{opacity:1;background-color:#497399; border-right:1px solid #9dbfd3}
 .fullcalendar.fc .fc-nextBtn-button.fc-button-primary:not(:disabled):hover, .fullcalendar.fc .fc-nextBtn-button.fc-button-primary:not(:disabled):active, .fullcalendar.fc .fc-nextBtn-button.fc-button-primary:not(:disabled).fc-button-active{opacity:1;background-color:#497399; border-left:1px solid #9dbfd3}
-.fullcalendar.fc button[title="월"].fc-dayGridMonth-button{background-color: #87a9bc;border: 0;border-right: 1px solid #9dbfd3;}
-.fullcalendar.fc button[title="주"].fc-timeGridWeek-button{background-color: #87a9bc;border: 0;border-left: 1px solid #9dbfd3;border-right: 1px solid #9dbfd3;}
-.fullcalendar.fc button[title="일"].fc-timeGridDay-button{background-color: #87a9bc;border: 0;border-left: 1px solid #9dbfd3;}
+.fullcalendar.fc button[title="월"].fc-dayGridMonthBtn-button{background-color: #87a9bc;border: 0;border-right: 1px solid #9dbfd3;}
+.fullcalendar.fc button[title="주"].fc-timeGridWeekBtn-button{background-color: #87a9bc;border: 0;border-left: 1px solid #9dbfd3;border-right: 1px solid #9dbfd3;}
+.fullcalendar.fc button[title="일"].fc-timeGridDayBtn-button{background-color: #87a9bc;border: 0;border-left: 1px solid #9dbfd3;}
+.fullcalendar.fc button[title="타임라인"].fc-timeLineBtn-button{background-color: #87a9bc;border: 0;border-left: 1px solid #9dbfd3;}
 .fullcalendar.fc .fc-button-active{background-color:#5c83a6 !important}
 .fullcalendar.fc button[title="오늘"].fc-todayBtn-button{margin-left:5px; background-color: #c96f57; border:0; opacity:0.9}
+.fullcalendar.fc button.fc-dateBtn-button{display:none; margin-left:5px; background-color: #efefef; border:0; color:#333; font-weight:bold; cursor:unset}
+
+
 .fullcalendar .lunar{font-size:11px; margin-left:3px; color:#666}
 /*test*/
 .moca_ica[type="inputMultiCalendar"] > div:first-child{width:100%}

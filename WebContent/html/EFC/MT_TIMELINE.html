@@ -121,8 +121,7 @@ $m.MT_TIMELINE.dispReply= function(_thisVal, _grd, _realrow,_cellId){
 	var _title = _grd.list[_realrow].SCH_TITLE;	
 	var _showVal = _thisVal;
 	var _cellHour =_cellId.split('_')[1];
-	var _cellMin =_cellId.split('_')[2];
-	debugger;
+	var _cellMin =_cellId.split('_')[2];s
 	if(_cellHour == _startH){
 		if(_cellMin == '00' && _startM == 0){
 			_showVal = '<div class="timeline_bar" style="'+_bg+'">'+_title+'</div>';
@@ -138,19 +137,6 @@ $m.MT_TIMELINE.dispReply= function(_thisVal, _grd, _realrow,_cellId){
 	}
 	
 	return _showVal;
-	/*
-	var _th = $($m.MT_TIMELINE.getObj('grd_1')).find('#'+'H_TM_'+_startH);
-	var _nth = _th.closest('th').index();
-	var _thWidth = Math.floor(_th.outerWidth());
-	var _left = "left:"+_thWidth*(_nth+1)+"px; ";
-	if(_startM > 0){
-		_left = "left:"+((_thWidth*(_nth+1))+(_thWidth/2))+"px; ";
-	}
-	
-	var _width = "width:"+((_term*_thWidth)-8+'')+"px; ";
-	var _showVal = '<div class="timeline_bar bar1" style="'+_bg+_left+_width+'">'+_thisVal+'</div>';
-	return _showVal;
-	*/
 }
 </script>
 <style>
