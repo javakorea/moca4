@@ -5,11 +5,10 @@
 <script src='/fullcalendar/lib/main.js'></script>
 <script>
 $m.EFC_SCHEDULER.calendar;
+$m.EFC_SCHEDULER.viewType;
 $m.EFC_SCHEDULER.___ready = function(){
 	$m.EFC_SCHEDULER.fn_search();
 };
-
-
 $m.EFC_SCHEDULER.fn_search = function(_callbackJson){
 	var _showMonth = $m.dateToString(new Date()).월;
 	if(_callbackJson != null){
@@ -64,8 +63,12 @@ $m.EFC_SCHEDULER.fn_setSchedule = function(response,_callbackJson){
 	['캘린더세팅']
 	var _defaultView = 'dayGridMonth';
 	var _defaultDate;
+	debugger;
 	if(_callbackJson != null){
 		_defaultView = _callbackJson.viewType;
+		if(_defaultView == 'timeline'){
+			_defaultView = 'timeGridDay';
+		}
 		_defaultDate = _callbackJson.startDt;
 	}
 	var _schOriArray = response.selectScheduleList;
@@ -91,7 +94,7 @@ $m.EFC_SCHEDULER.fn_setSchedule = function(response,_callbackJson){
         	prevBtn:{
         		text:'<',
         		click: function(info){
-        			if($($m.EFC_SCHEDULER.getObj("grd_1")).height() > 26){
+        			if($m.EFC_SCHEDULER.viewType == 'timeline'){
         				$m.EFC_SCHEDULER.calendar.prev();
         				$($m.EFC_SCHEDULER.getObj("calendar")).css("height","auto");
         				var _startDt = $m.EFC_SCHEDULER.calendar.getDate();
@@ -112,7 +115,7 @@ $m.EFC_SCHEDULER.fn_setSchedule = function(response,_callbackJson){
         	nextBtn:{
         		text:'>',
         		click: function(info){
-        			if($($m.EFC_SCHEDULER.getObj("grd_1")).height() > 26){
+        			if($m.EFC_SCHEDULER.viewType == 'timeline'){
         				$m.EFC_SCHEDULER.calendar.next();
         				$($m.EFC_SCHEDULER.getObj("calendar")).css("height","auto");
         				var _startDt = $m.EFC_SCHEDULER.calendar.getDate();
@@ -133,7 +136,7 @@ $m.EFC_SCHEDULER.fn_setSchedule = function(response,_callbackJson){
         	todayBtn:{
         		text:'오늘',
         		click: function(info){
-        			if($($m.EFC_SCHEDULER.getObj("grd_1")).height() > 26){
+        			if($m.EFC_SCHEDULER.viewType == 'timeline'){
         				$m.EFC_SCHEDULER.calendar.today();
         				$($m.EFC_SCHEDULER.getObj("calendar")).css("height","auto");
         				var _startDt = $m.EFC_SCHEDULER.calendar.getDate();
@@ -154,26 +157,40 @@ $m.EFC_SCHEDULER.fn_setSchedule = function(response,_callbackJson){
         	dayGridMonthBtn:{
         		text:'월',
         		click: function(info){
+        			$m.EFC_SCHEDULER.viewType = 'dayGridMonth';
+        			if($m.getDevice()=="mobile"){
+        				$($m.EFC_SCHEDULER.getObj("calendar")).find('.fc-toolbar-title').show();
+        			}
         			$m.hide($m.EFC_SCHEDULER.getObj("grd_1"));
         			$(this).parent().find('.fc-button-active').removeClass('fc-button-active');
         			$(this).addClass('fc-button-active');
         			$($m.EFC_SCHEDULER.getObj("calendar")).find('.fc-dateBtn-button').hide();
         			$m.EFC_SCHEDULER.calendar.changeView('dayGridMonth');
+        			
         		}
         	},
         	timeGridWeekBtn:{
         		text:'주',
         		click: function(info){
+        			$m.EFC_SCHEDULER.viewType = 'timeGridWeek';
+        			if($m.getDevice()=="mobile"){
+        				$($m.EFC_SCHEDULER.getObj("calendar")).find('.fc-toolbar-title').show();
+        			}
         			$(this).parent().find('.fc-button-active').removeClass('fc-button-active');
         			$(this).addClass('fc-button-active');
         			$m.hide($m.EFC_SCHEDULER.getObj("grd_1"));
         			$($m.EFC_SCHEDULER.getObj("calendar")).find('.fc-dateBtn-button').hide();
         			$m.EFC_SCHEDULER.calendar.changeView('timeGridWeek');
+        			
         		}
         	},
         	timeGridDayBtn:{
         		text:'일',
         		click: function(info){
+        			$m.EFC_SCHEDULER.viewType = 'timeGridDay';
+        			if($m.getDevice()=="mobile"){
+        				$($m.EFC_SCHEDULER.getObj("calendar")).find('.fc-toolbar-title').show();
+        			}
         			$(this).parent().find('.fc-button-active').removeClass('fc-button-active');
         			$(this).addClass('fc-button-active');
         			$m.hide($m.EFC_SCHEDULER.getObj("grd_1"));
@@ -186,6 +203,10 @@ $m.EFC_SCHEDULER.fn_setSchedule = function(response,_callbackJson){
         		text:'타임라인',
         		click: function(info){
         			//타임라인
+        			$m.EFC_SCHEDULER.viewType = 'timeline';
+        			if($m.getDevice()=="mobile"){
+        				$($m.EFC_SCHEDULER.getObj("calendar")).find('.fc-toolbar-title').hide();
+        			}
         			$(this).parent().find('.fc-button-active').removeClass('fc-button-active');
         			$(this).addClass('fc-button-active');
         			$m.EFC_SCHEDULER.calendar.changeView('timeGridDay');
@@ -253,8 +274,18 @@ $m.EFC_SCHEDULER.fn_setSchedule = function(response,_callbackJson){
         longPressDelay:10
     });
     calendar.render();
+    if($m.EFC_SCHEDULER.viewType == "timeline"){
+    	$($m.EFC_SCHEDULER.getObj("calendar")).find('.fc-timeLineBtn-button').trigger("click");
+    	$($m.EFC_SCHEDULER.getObj("calendar")).css("height","auto");
+    	
+    }else{
+    	$m.EFC_SCHEDULER.viewType = calendar.view.type;
+    }
+   
+    if($m.EFC_SCHEDULER.viewType == 'dayGridMonth'){
+    	$($m.EFC_SCHEDULER.getObj("calendar")).find('.fc-dayGridMonthBtn-button').addClass('fc-button-active');
+    }
     
-    $($m.EFC_SCHEDULER.getObj("calendar")).find('.fc-dayGridMonthBtn-button').addClass('fc-button-active');
     $m.EFC_SCHEDULER.calendar = calendar;
    
 }
@@ -305,7 +336,7 @@ $m.EFC_SCHEDULER.fn_addSchedule = function(_valueObj,_status){
  		'allDay': false,
  		'title' : _schTitle,
  		'schIdx': _schIdx,
- 		'viewType':_valueObj.view.type,
+ 		'viewType':$m.EFC_SCHEDULER.viewType,
  		'bgcolor':_bgcolor
     }
     var _thisObj = $m.EFC_SCHEDULER.getObj('calendar');
@@ -346,7 +377,7 @@ $m.EFC_SCHEDULER.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
  		'allDay': false,
  		'title' : _schTitle,
  		'schIdx': _schIdx,
- 		'viewType':$m.EFC_SCHEDULER.calendar.view.type,
+ 		'viewType':$m.EFC_SCHEDULER.viewType ,
  		'bgcolor':_bgcolor
     }
     var _thisObj = $m.EFC_SCHEDULER.getObj('calendar');
@@ -486,13 +517,7 @@ $m.EFC_SCHEDULER.fn_timeLine = function(_callbackJson){
 };
 </script>
 <style>
-	.timeline tr{position:relative;}
-	.timeline .moca_grid_list {margin-top:0}
-	.timeline .moca_grid_list .moca_grid_body > table > tbody > tr > td{overflow:visible;padding: 0; text-overflow: unset;}
-	.timeline .moca_grid_list .moca_grid_body > table > tbody > tr > td > div{position:unset;overflow:visible}
-	.timeline .moca_grid_body td div.timeline_bar{ min-height:20px; line-height:20px; top: 4px;color:#fff; text-overflow: ellipsis;  box-sizing:border-box; padding: 0 4px;}
-	.timeline .td_tm{width:20px}
-	.timeline .fixed{left:0; background:#d2d9e8}
+
 </style>
 </head>
 <body>
@@ -519,56 +544,56 @@ $m.EFC_SCHEDULER.fn_timeLine = function(_callbackJson){
 			>
 					<table style="width: 100%">
 						<colgroup>
-								<col style="min-width:120px" mobileHide="false" hide="false" columnKey="SCH_WRITER" thKey="H_SCH_WRITER" >
+								<col style="min-width:120px; width:120px" mobileHide="false" hide="false" columnKey="SCH_WRITER" thKey="H_SCH_WRITER" >
 								
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_00_00" thKey="H_TM_00_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_00_30" thKey="H_TM_00_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_01_00" thKey="H_TM_01_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_01_30" thKey="H_TM_01_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_02_00" thKey="H_TM_02_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_02_30" thKey="H_TM_02_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_03_00" thKey="H_TM_03_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_03_30" thKey="H_TM_03_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_04_00" thKey="H_TM_04_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_04_30" thKey="H_TM_04_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_05_00" thKey="H_TM_05_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_05_30" thKey="H_TM_05_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_06_00" thKey="H_TM_06_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_06_30" thKey="H_TM_06_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_07_00" thKey="H_TM_07_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_07_30" thKey="H_TM_07_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_08_00" thKey="H_TM_08_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_08_30" thKey="H_TM_08_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_09_00" thKey="H_TM_09_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_09_30" thKey="H_TM_09_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_10_00" thKey="H_TM_10_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_10_30" thKey="H_TM_10_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_11_00" thKey="H_TM_11_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_11_30" thKey="H_TM_11_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_12_00" thKey="H_TM_12_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_12_30" thKey="H_TM_12_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_13_00" thKey="H_TM_13_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_13_30" thKey="H_TM_13_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_14_00" thKey="H_TM_14_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_14_30" thKey="H_TM_14_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_15_00" thKey="H_TM_15_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_15_30" thKey="H_TM_15_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_16_00" thKey="H_TM_16_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_16_30" thKey="H_TM_16_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_17_00" thKey="H_TM_17_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_17_30" thKey="H_TM_17_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_18_00" thKey="H_TM_18_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_18_30" thKey="H_TM_18_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_19_00" thKey="H_TM_19_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_19_30" thKey="H_TM_19_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_20_00" thKey="H_TM_20_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_20_30" thKey="H_TM_20_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_21_00" thKey="H_TM_21_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_21_30" thKey="H_TM_21_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_22_00" thKey="H_TM_22_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_22_30" thKey="H_TM_22_2" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_23_00" thKey="H_TM_23_1" >
-								<col style="width:30px" mobileHide="true" hide="false" columnKey="TM_23_30" thKey="H_TM_23_2" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_00_00" thKey="H_TM_00" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_00_30" thKey="H_TM_00" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_01_00" thKey="H_TM_01" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_01_30" thKey="H_TM_01" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_02_00" thKey="H_TM_02" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_02_30" thKey="H_TM_02" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_03_00" thKey="H_TM_03" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_03_30" thKey="H_TM_03" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_04_00" thKey="H_TM_04" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_04_30" thKey="H_TM_04" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_05_00" thKey="H_TM_05" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_05_30" thKey="H_TM_05" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_06_00" thKey="H_TM_06" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_06_30" thKey="H_TM_06" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_07_00" thKey="H_TM_07" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_07_30" thKey="H_TM_07" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_08_00" thKey="H_TM_08" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_08_30" thKey="H_TM_08" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_09_00" thKey="H_TM_09" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_09_30" thKey="H_TM_09" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_10_00" thKey="H_TM_10" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_10_30" thKey="H_TM_10" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_11_00" thKey="H_TM_11" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_11_30" thKey="H_TM_11" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_12_00" thKey="H_TM_12" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_12_30" thKey="H_TM_12" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_13_00" thKey="H_TM_13" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_13_30" thKey="H_TM_13" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_14_00" thKey="H_TM_14" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_14_30" thKey="H_TM_14" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_15_00" thKey="H_TM_15" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_15_30" thKey="H_TM_15" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_16_00" thKey="H_TM_16" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_16_30" thKey="H_TM_16" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_17_00" thKey="H_TM_17" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_17_30" thKey="H_TM_17" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_18_00" thKey="H_TM_18" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_18_30" thKey="H_TM_18" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_19_00" thKey="H_TM_19" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_19_30" thKey="H_TM_19" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_20_00" thKey="H_TM_20" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_20_30" thKey="H_TM_20" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_21_00" thKey="H_TM_21" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_21_30" thKey="H_TM_21" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_22_00" thKey="H_TM_22" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_22_30" thKey="H_TM_22" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_23_00" thKey="H_TM_23" >
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="TM_23_30" thKey="H_TM_23" >
 						</colgroup>
 						<thead>
 							<tr>

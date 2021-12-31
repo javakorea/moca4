@@ -1311,7 +1311,17 @@ div[type="tbody"]{display:table-row-group; background:url(../images/row_bg.png);
 div[type="tr"]{/*display:table-row*/float:left; margin-bottom:1px}
 div[type="th"], div[type="td"]{display:table-cell}
 
+/*timeline*/
+.timeline tr{position:relative;}
+.timeline .moca_grid_list {margin-top:0}
+.timeline .moca_scrollY_type1{display:none}
+.timeline .moca_grid_list .moca_grid_body > table > tbody > tr > td{overflow:visible;padding: 0; text-overflow: unset;}
+.timeline .moca_grid_list .moca_grid_body > table > tbody > tr > td > div{position:unset;overflow:visible}
+.timeline .moca_grid_body td div.timeline_bar{ min-height:20px; line-height:20px; top: 4px;color:#fff; text-overflow: ellipsis;  box-sizing:border-box; padding: 0 4px;}
+.timeline .td_tm{width:20px}
+.timeline .fixed{left:0; background:#d2d9e8}
 
+	
 /*
 div[type="table"]{display:flex; flex-wrap: wrap; flex-direction: row;}
 div[type="thead"]{display:flex}
