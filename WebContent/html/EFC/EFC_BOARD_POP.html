@@ -51,7 +51,7 @@ $m.EFC_BOARD_POP.___ready = function(args){
     		if($m.getDevice() == 'mobile' && args.parent.data.popTitle != '게시물작성'){
         		$m.hide($m.EFC_BOARD_POP.getObj('tr_phone'));
         		$m.hide($m.EFC_BOARD_POP.getObj('tr_email'));
-        		$m.hide($m.EFC_BOARD_POP.getObj('tr_completeid'));
+        		//$m.hide($m.EFC_BOARD_POP.getObj('tr_completeid'));
         	}
     	}
     	if($m.EFC_BOARD_POP._boardType == "NOTICE" || $m.EFC_BOARD_POP._pageType == 'home'){
@@ -795,10 +795,40 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 	                >
 				          	<div class="moca_table_cont" type="table">
 				          		<div type="tbody">
-				          			<div type="tr">
-				          				<div type="th" class="tar">글번호</div>
+				          			<div type="tr" class="w40">
+				          				<div type="th" class="tar">게시물번호</div>
 		                                <div type="td">
 		                                    <div type="input" id="widx" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+		                                </div>
+		                            </div>
+		                            <div type="tr" class="w60">
+		                                <div type="th" class="tar">작성일시</div>
+		                                <div type="td">
+		                                    <div type="input" id="wdate" class="mocaInput" style="width:100%;" innerStyle="" displayFunction="$m.dateFormat"  readonly="true"
+		                                        defaultValue="" 
+		                                        selecterItem=""
+		                                        showRadioOption="false"
+		                                    ></div>
+		                                </div>
+		                            </div>
+				          			<div type="tr" class="w40">
+		                                <div type="th" class="tar">작성자</div>
+		                                <div type="td">
+		                                    <div type="input" class="mocaInput" style="width:100%;" innerStyle="" id="wid" displayFormat=""  readonly="true"
+		                                        defaultValue="" 
+		                                        selecterItem=""
+		                                        showRadioOption="false"
+		                                    ></div>
+		                                </div>
+		                            </div>
+		                            <div type="tr" id="tr_completeid" class="w60">
+		                                <div type="th" class="tar">완료자</div>
+		                                <div type="td">
+		                                    <div type="input" class="mocaInput" style="width:100%;" innerStyle="" id="wcompleteid" displayFunction=""  readonly="true"
+		                                        defaultValue="" 
+		                                        selecterItem=""
+		                                        showRadioOption="false"
+		                                    ></div>
 		                                </div>
 		                            </div>
 				          			<div type="tr">
@@ -828,26 +858,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 											</div>
 		                                </div>
 		                            </div>
-				          			<div type="tr">
-		                                <div type="th" class="tar">작성일시</div>
-		                                <div type="td">
-		                                    <div type="input" id="wdate" class="mocaInput" style="width:100%;" innerStyle="" displayFunction="$m.dateFormat"  readonly="true"
-		                                        defaultValue="" 
-		                                        selecterItem=""
-		                                        showRadioOption="false"
-		                                    ></div>
-		                                </div>
-		                            </div>
-				          			<div type="tr">
-		                                <div type="th" class="tar">작성자</div>
-		                                <div type="td">
-		                                    <div type="input" class="mocaInput" style="width:100%;" innerStyle="" id="wid" displayFormat=""  readonly="true"
-		                                        defaultValue="" 
-		                                        selecterItem=""
-		                                        showRadioOption="false"
-		                                    ></div>
-		                                </div>
-		                            </div>
+				          			
 				          			<div type="tr" id="tr_phone">
 		                                <div type="th" class="tar">휴대폰번호</div>
 		                                <div type="td">
@@ -880,16 +891,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 		                                </div>
 		                            </div>
 		                             -->
-				          			<div type="tr" id="tr_completeid">
-		                                <div type="th" class="tar">완료자</div>
-		                                <div type="td">
-		                                    <div type="input" class="mocaInput" style="width:100%;" innerStyle="" id="wcompleteid" displayFunction=""  readonly="true"
-		                                        defaultValue="" 
-		                                        selecterItem=""
-		                                        showRadioOption="false"
-		                                    ></div>
-		                                </div>
-		                            </div>
+				          			
 				          		</div>
 				          	</div>
                 	</div>

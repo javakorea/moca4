@@ -96,6 +96,14 @@
 			$m.MT_GRID.fn_search();
 		}
 	};
+	$m.MT_GRID.grd_01__onDblClick = function(_grd,rowIndex,colIndex,colId){
+		alert("grd_01__onDblClick\n"+
+			"그리드: "+_grd.id+"\n"+
+			"rowIndex: "+rowIndex+"\n"+
+			"colIndex: "+colIndex+"\n"+
+			"colId: "+colId
+		);
+	}
 </script>
 
 </head>
@@ -177,6 +185,7 @@
 								toolbar_grid_label_combo='{"position":"left","id":"totalCombo","label":"labelCombo","value":"","width":"65px"}'
 								toolbar_grid_label_ ='{"position":"left","id":"totalradio","label":"radio"}'
 								toolbar_grid_radio='{"position":"left","id":"radio1","label":"radio1","onclick":"$m.MT_GRID.blank","value":[{"label":"Y","value":"1","checked":"1"},{"label":"N","value":"0"}],"width":"100px"}'
+								onDblClick = "$m.MT_GRID.grd_01__onDblClick"
 								label="총건수"
 			
 			>
@@ -200,7 +209,7 @@
 						<tbody>
 							<tr>
 								<td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
-								<td excelIndex="1" id="TEST_PROP" celltype="input" style="text-align:left" name="속성" required="false" readOnly="false" ></td>
+								<td excelIndex="1" id="TEST_PROP" celltype="input" style="text-align:left" name="속성" required="false" readOnly="true" ></td>
 								<td excelIndex="2" id="TEST_VALUE" celltype="input" style="text-align:left" name="값" readOnly="true"></td>
 								<td excelIndex="3" id="TEST_DB" celltype="input" style="" name="설명 (editorMode='true')"  required="true" editorMode="true" ></td>
 								<td excelIndex="4" id="TEST_DT" celltype="input" style="" required="true" name="날짜" readOnly="true" displayFunction="$m.longToDate"></td>

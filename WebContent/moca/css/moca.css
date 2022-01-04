@@ -1333,7 +1333,7 @@ div[type="td"]{display:flex; flex:auto;}
 
 div[type="table"].moca_table_cont{table-layout:fixed; width:100%; position: relative; border-top:1px solid #bbc3ce; margin-top:5px; background:#fff; border-radius:2px;  border-collapse: separate;}
 .moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="td"]{padding:2px; min-width:30px; background:#fff}
-.moca_table_cont > div[type="thead"] > div[type="tr"] > div[type="th"], .moca_table_cont div[type="tbody"] > div[type="tr"] > div[type="th"]{min-width:90px; padding:0 6px; height:28px; line-height:28px; font-size: 12px; border-right:1px solid #bbc3ce; box-sizing: border-box; color: #333; background:#e5e8ef; vertical-align:middle; font-weight: bold; text-align: center;}
+.moca_table_cont > div[type="thead"] > div[type="tr"] > div[type="th"], .moca_table_cont div[type="tbody"] > div[type="tr"] > div[type="th"]{min-width:75px; padding:0 6px; height:28px; line-height:28px; font-size: 12px; border-right:1px solid #bbc3ce; box-sizing: border-box; color: #333; background:#e5e8ef; vertical-align:middle; font-weight: bold; text-align: center;}
 .moca_table.th_nowrap .moca_table_body > div[type="table"] > div[type="thead"] > div[type="tr"] > div[type="th"] {overflow: auto; white-space: normal; text-overflow: inherit;}
 .moca_table.th_nowrap .moca_grid_sort_box span {overflow: auto; white-space: normal; text-overflow: inherit;}
 

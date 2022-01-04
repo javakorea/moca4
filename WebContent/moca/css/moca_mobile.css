@@ -40,6 +40,9 @@
 	.moca_grid_list .moca_grid_body::-webkit-scrollbar {
 	  display: none; /* Chrome, Safari, Opera */
 	}
+	.moca_table .w40{width:40% !important;}
+	.moca_table .w50{width:50% !important;}
+	.moca_table .w60{width:60% !important;}
 	.toast_msg{display:none}
 	.moca_input_color{padding:0}
 	/*multiMdi*/
