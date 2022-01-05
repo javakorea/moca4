@@ -14,12 +14,14 @@
 		var _todayStr = _today.year+_today.month+_today.day;
 		var _fromStr = String(_today.year-1)+_today.month+_today.day;
 		var _boardType = "ERP";
-		
 		if(_tabContentIndex == "1"){
+			$m.EFC_BOARD.boardType = 'ERP';
 			_boardType = 'ERP';
 		}else if(_tabContentIndex == "2"){
+			$m.EFC_BOARD.boardType = 'WS';
 			_boardType = 'WS';
 		}else if(_tabContentIndex == "3"){
+			$m.EFC_BOARD.boardType = 'NOTICE';
 			_boardType = 'NOTICE';
 		}
 		$m.MT_TAB.exe({

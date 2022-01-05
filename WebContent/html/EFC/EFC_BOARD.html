@@ -11,7 +11,10 @@
 		if($.trim(args.parent.id) != ''){
 			_isTab = args.parent.id.startsWith("TAB");
 		}
-		if(!_isTab){
+		if(_isTab){
+			//tab에서 열었을경우
+			$m.hide(($m.EFC_BOARD.getObj('titbox')));
+		}
 			$m.EFC_BOARD.boardType ='ERP';
 			if(($m.getSs("loginTemp0") == null || $m.getSs("loginTemp0") == '') && $m.getSs("USER_ID") == null){
 				$m.hide($m.EFC_BOARD.getObj("btn_add"));
@@ -53,10 +56,6 @@
 	        	);
 	        	$m.EFC_BOARD.fn_searchCorp();
 	        });
-		}else{
-			//tab에서 열었을경우
-			$m.hide(($m.EFC_BOARD.getObj('titbox')));
-		}
 		
 	};
 	
@@ -97,9 +96,6 @@
 		if($m.getValue($m.EFC_BOARD.getObj( "ipt_TITLE")).indexOf(' ')>-1){
 			_boardTitle = $m.getValue($m.EFC_BOARD.getObj( "ipt_TITLE")).split(/ /);
 		}
-		
-		
-		
 	    $m.EFC_BOARD.exe({
 	        url : $m._domain+$m._contextRoot+"/EFC_BOARD/selectBoardList.do",
 	        loadingbar:true,
