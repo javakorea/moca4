@@ -40,7 +40,6 @@ $m.EFC_BOARD_POP.___ready = function(args){
     	$m.hide($($m.EFC_BOARD_POP.getObj('form_board')).find('.rta'));
     	$m.hide($($m.EFC_BOARD_POP.getObj('grd_file')).find('.moca_grid_list'));
     	$m.hide($($m.EFC_BOARD_POP.getObj('grd_reply_file')).find('.moca_grid_list'));
-    	
     	if(args != null){
     		$m.EFC_BOARD_POP.args = args;
     		$m.EFC_BOARD_POP._boardIdx = $m.EFC_BOARD_POP.args.parent.data.BOARD_IDX;
@@ -49,9 +48,16 @@ $m.EFC_BOARD_POP.___ready = function(args){
     		$m.EFC_BOARD_POP._boardTitle = $m.EFC_BOARD_POP.args.parent.data.BOARD_TITLE;
     		$m.EFC_BOARD_POP._pageType = $m.EFC_BOARD_POP.args.parent.data.PAGE_TYPE;
     		if($m.getDevice() == 'mobile' && args.parent.data.popTitle != '게시물작성'){
+    			$m.hide($($m.EFC_BOARD_POP.getObj("contents")).find('.mHide'));
+    			$m.show($($m.EFC_BOARD_POP.getObj("contents")).find('.mShow'));
         		$m.hide($m.EFC_BOARD_POP.getObj('tr_phone'));
         		$m.hide($m.EFC_BOARD_POP.getObj('tr_email'));
         		//$m.hide($m.EFC_BOARD_POP.getObj('tr_completeid'));
+        	}else if($m.getDevice() == 'mobile' && args.parent.data.popTitle == '게시물작성'){
+        		$m.hide($($m.EFC_BOARD_POP.getObj("contents")).find('.mShow'));
+        		$m.hide($($m.EFC_BOARD_POP.getObj("contents")).find('.writeHide'));
+        	}else{
+        		$m.hide($($m.EFC_BOARD_POP.getObj("contents")).find('.mShow'));
         	}
     	}
     	if($m.EFC_BOARD_POP._boardType == "NOTICE" || $m.EFC_BOARD_POP._pageType == 'home'){
@@ -118,6 +124,7 @@ $m.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
     $m.hide($($m.EFC_BOARD_POP.getObj("cke_reply_editor")).find("[id$='_top']"));
     $m.show($m.EFC_BOARD_POP.getObj("reply_area"));
     if($m.getDevice() != 'pc'){
+    	
     	$m.hide($($m.EFC_BOARD_POP.getObj("form_board")).find(".moca_addtion_area"));
     	 $($m.EFC_BOARD_POP.getObj("form_board")).addClass('maxRow');
     }
@@ -154,6 +161,8 @@ $m.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 				$m.setValue($m.EFC_BOARD_POP.getObj("wreplydate"),data.BOARD_DATE);
 				$m.setValue($m.EFC_BOARD_POP.getObj("wreplyid"),data.BOARD_WRITER);
 				$m.setValue($m.EFC_BOARD_POP.getObj("wreplyidx"),data.BOARD_IDX);
+				$m.setValue($m.EFC_BOARD_POP.getObj("wboardreplyinfo"),data.BOARD_IDX+" / "+data.BOARD_DATE+" / "+data.BOARD_WRITER);
+				
 				$m.hide($m.EFC_BOARD_POP.getObj("btn_save"));
 				$m.hide($m.EFC_BOARD_POP.getObj("btn_add"));
 			    if($m.getValue($m.EFC_BOARD_POP.getObj("wid")) != $m.getSs("USER_ID") && $m.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
@@ -208,6 +217,7 @@ $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 							$m.show($m.EFC_BOARD_POP.getObj('tr_completeid'));
 						}
 						
+						
 						$m.setValue($m.EFC_BOARD_POP.getObj("wphone"),data.BOARD_PHONE);
 						$m.setValue($m.EFC_BOARD_POP.getObj("cmb_board"),data.BOARD_SUPPORT);
 						$m.setValue($m.EFC_BOARD_POP.getObj("wtitle"),data.BOARD_TITLE);
@@ -215,13 +225,13 @@ $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 						$m.setValue($m.EFC_BOARD_POP.getObj("wid"),data.BOARD_WRITER);
 						$m.setValue($m.EFC_BOARD_POP.getObj("widx"),data.BOARD_IDX);
 						$m.setValue($m.EFC_BOARD_POP.getObj("wemail"),data.BOARD_EMAIL);
-						;
 						$m.setValue($m.EFC_BOARD_POP.getObj("wreceiptid"),data.BOARD_RECEIPTIONER);
 						$m.setValue($m.EFC_BOARD_POP.getObj("wcompleteid"),data.BOARD_COMPLETER);
 						$m.hide($m.EFC_BOARD_POP.getObj("btn_save"));
 						$m.hide($m.EFC_BOARD_POP.getObj("btn_add"));
 						$m.show($m.EFC_BOARD_POP.getObj('grd_file_btn_fold'));
-					    
+						$m.setValue($m.EFC_BOARD_POP.getObj("wboardinfo"),"["+$m.getValue($m.EFC_BOARD_POP.getObj("cmb_board"))+"] "+data.BOARD_IDX+" / "+data.BOARD_DATE+" / "+data.BOARD_WRITER);
+						
 					    if($m.getSs("loginTemp0") != null && $m.getValue($m.EFC_BOARD_POP.getObj("wid")) != $m.getSs("loginTemp0").name || $m.getValue($m.EFC_BOARD_POP.getObj("wid")) != $m.getSs("USER_ID") && $m.getSs("authorCode") != "ROLE_SUPER_ADMIN"){
 					    	$m.hide($m.EFC_BOARD_POP.getObj("btn_del"));
 					    }
@@ -661,6 +671,7 @@ $m.EFC_BOARD_POP.popId = "EFC_BOARD_ANS_POP";
 $m.EFC_BOARD_POP.fn_reply = function(_thisObj){
     ['답변달기']
     if($m.getDevice() != 'pc'){
+     $('.mShow.reply').hide();
    	 $m.hide($($m.EFC_BOARD_POP.getObj("form_board")).find(".moca_addtion_area"));
    	 $($m.EFC_BOARD_POP.getObj("form_board")).addClass('maxRow');
    }
@@ -795,13 +806,19 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 	                >
 				          	<div class="moca_table_cont" type="table">
 				          		<div type="tbody">
-				          			<div type="tr" class="w40">
+				          			<div type="tr" class="mShow writeHide">
+				          				<div type="th" class="tar">게시물</div>
+		                                <div type="td">
+		                                    <div type="input" id="wboardinfo" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+		                                </div>
+		                            </div>
+				          			<div type="tr" class="mHide writeHide">
 				          				<div type="th" class="tar">게시물번호</div>
 		                                <div type="td">
 		                                    <div type="input" id="widx" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
 		                                </div>
 		                            </div>
-		                            <div type="tr" class="w60">
+		                            <div type="tr" class="mHide">
 		                                <div type="th" class="tar">작성일시</div>
 		                                <div type="td">
 		                                    <div type="input" id="wdate" class="mocaInput" style="width:100%;" innerStyle="" displayFunction="$m.dateFormat"  readonly="true"
@@ -811,7 +828,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 		                                    ></div>
 		                                </div>
 		                            </div>
-				          			<div type="tr" class="w40">
+				          			<div type="tr" class="mHide">
 		                                <div type="th" class="tar">작성자</div>
 		                                <div type="td">
 		                                    <div type="input" class="mocaInput" style="width:100%;" innerStyle="" id="wid" displayFormat=""  readonly="true"
@@ -821,7 +838,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 		                                    ></div>
 		                                </div>
 		                            </div>
-		                            <div type="tr" id="tr_completeid" class="w60">
+		                            <div type="tr" id="tr_completeid" class="mHide writeHide">
 		                                <div type="th" class="tar">완료자</div>
 		                                <div type="td">
 		                                    <div type="input" class="mocaInput" style="width:100%;" innerStyle="" id="wcompleteid" displayFunction=""  readonly="true"
@@ -841,7 +858,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 		                                    ></div>
 		                                </div>
 		                            </div>
-				          			<div type="tr" id="tr_status">
+				          			<div type="tr" id="tr_status" class="mHide">
 		                                <div type="th" class="tar">상태</div>
 		                                <div type="td">
 		                                	<!-- <div type="combo" id="cmb_board" class="moca_combo" readonly="true" displayFormat="[label]" cdField="code" nmField="codeNm" ></div> -->
@@ -859,7 +876,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 		                                </div>
 		                            </div>
 				          			
-				          			<div type="tr" id="tr_phone">
+				          			<div type="tr" id="tr_phone" class="mHide">
 		                                <div type="th" class="tar">휴대폰번호</div>
 		                                <div type="td">
 		                                    <div type="input" class="mocaInput" style="width:100%; " innerStyle="" id="wphone" displayFormat=""  readonly="true"
@@ -869,7 +886,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 		                                    ></div>
 		                                </div>
 		                            </div>
-				          			<div type="tr" id="tr_email">
+				          			<div type="tr" id="tr_email" class="mHide">
 		                                <div type="th" class="tar">이메일</div>
 		                                <div type="td">
 		                                    <div type="input" class="mocaInput" style="width:100%" innerStyle="" id="wemail" displayFormat=""  readonly="true"
@@ -1012,7 +1029,13 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 						
 						<div class="moca_table_cont" type="table">
 							<div type="tbody">
-								<div type="tr" id="tr_replyidx">
+								<div type="tr" class="mShow reply">
+			          				<div type="th" class="tar">답변게시물</div>
+	                                <div type="td">
+	                                    <div type="input" id="wboardreplyinfo" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+	                                </div>
+	                            </div>
+								<div type="tr" id="tr_replyidx" class="mHide">
 									<div type="th" class="tar">답변ID</div>
 									<div type="td">
 										 <div type="input" id="wreplyidx" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
@@ -1028,7 +1051,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 										></div>
 									</div>
 								</div>
-								<div type="tr" id="tr_createDt">
+								<div type="tr" id="tr_createDt" class="mHide">
 									<div type="th" class="tar">작성일시</div>
 									<div type="td">
 										<div type="input" class="mocaInput" style="width:100%; " innerClass="" id="wreplydate" displayFunction="$m.dateFormat"  readonly="true"
@@ -1038,7 +1061,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 										></div>
 									</div>
 								</div>
-								<div type="tr" id="tr_writer">
+								<div type="tr" id="tr_writer" class="mHide">
 									<div type="th" class="tar">작성자</div>
 									<div type="td">
 										<div type="input" class="mocaInput" style="width:100%;" innerStyle="" id="wreplyid" displayFormat=""  readonly="true"
