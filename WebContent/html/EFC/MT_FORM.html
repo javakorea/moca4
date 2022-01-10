@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script>
+	
+	$m.MT_FORM.___ready = function(){
+		$m.MT_FORM.fn_search();
+	};
+	
+	$m.MT_FORM.fn_search = function(){
+		$m.MT_FORM.exe({
+			url : $m._domain+$m._contextRoot+"/MT_TEST/selectTestList.do",
+            data : {
+            	"header" : $m.header,
+            	"body" : {
+            		"TEST_TYPE":"TEST"
+            	}
+            },			
+			callback : function(response){
+				var _data = response.selectTestList[0];
+				
+				$m.setValue($m.MT_FORM.getObj("w1"),_data.IDX);
+				$m.setValue($m.MT_FORM.getObj("w2"),_data.TEST_TYPE);
+				$m.setValue($m.MT_FORM.getObj("w3"),$m.longToDate(_data.TEST_DT));
+				$m.setValue($m.MT_FORM.getObj("w4"),_data.TEST_NM);
+				
+				$m.setValue($m.MT_FORM.getObj("w5"),_data.TEST_PROP);
+				$m.setValue($m.MT_FORM.getObj("w5"),_data.TEST_VALUE);
+				$m.setValue($m.MT_FORM.getObj("w6"),_data.TEST_DB);
+			
+			}
+		});
+	};
+</script>
+
+</head>
+<body>
+	
+<div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
+	<div class="moca_tab_cont" style="height:100%">
+		<div class="moca_cont_wrap flex fcol">
+			<div type="include" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
+				src="/html/titlebox.html"
+				data = '{"sreenCd":"MT_FORM","sreenNm":"시스템설정","sreenPath":"시스템관리,시스템설정"}'
+			></div>
+
+			<div type="form" id="form_board" class="moca_table toolbar" tdType="divTbl" style=""
+	                label=""
+	                showRowSelection="true"
+	                oncellclick="$m.MT_FORM.onRowClick"
+	                addition='[
+	                {"type":"button","position":"right","id":"btn_reply","label":"답변작성","onclick":"$m.MT_FORM.fn_reply","innerStyle":"background:#97a2ba"},
+	                {"type":"button","position":"right","id":"btn_save","label":"저장","onclick":"$m.MT_FORM.fn_save","innerStyle":"background:#97a2ba"},
+	                {"type":"button","position":"right","id":"btn_del_admin","label":"물리삭제","onclick":"$m.MT_FORM.fn_adminDel","innerStyle":"background:#6d7993", "addClass":""}
+	                    ]'
+	                >
+		          	<div class="moca_table_cont" type="table">
+		          		<div type="tbody">
+		          			<div type="tr">
+		          				<div type="th" class="tar" style="width:100px">IDX</div>
+                                <div type="td">
+                                    <div type="input" id="w1" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+                                </div>
+                                <div type="th" class="tar" style="width:100px">TEST_TYPE</div>
+                                <div type="td">
+                                    <div type="input" id="w2" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+                                </div>
+                                <div type="th" class="tar" style="width:100px">TEST_DATE</div>
+                                <div type="td">
+                                    <div type="input" id="w3" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+                                </div>
+                                 <div type="th" class="tar" style="width:100px">TEST_NM</div>
+                                <div type="td">
+                                    <div type="input" id="w4" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+                                </div>
+                            </div>
+                            <div type="tr">
+		          				<div type="th" class="tar" style="width:100px">TEST_PROP</div>
+                                <div type="td">
+                                    <div type="input" id="w5" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+                                </div>
+                                <div type="th" class="tar" style="width:100px">TEST_VALUE</div>
+                                <div type="td">
+                                    <div type="input" id="w6" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+                                </div>
+                                <div type="th" class="tar" style="width:100px">TEST_DB</div>
+                                <div type="td">
+                                    <div type="input" id="w7" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+                                </div>
+                            </div>
+		          		</div>
+		          	</div>
+            </div>
+            <div type="form" id="form_board_keyMask" class="moca_table toolbar" style=""
+	                label="keyMask"
+	                showRowSelection="false"
+	                addition='[
+	                    ]'
+	                >
+		          	<div class="moca_table_cont" type="table">
+		          		<div type="tbody">
+		          			<div type="tr">
+		          				<div type="th" class="tar" style="width:100px">onlyPhone</div>
+                                <div type="td">
+									<div type="input" id="w3_1" class="mocaInput" keyMask="onlyPhone" displayFunction="$m.phoneWithDashFormatter" innerClass="" onclick="" style="" value="010-1234-5678" readonly="false"></div>
+                                </div>
+                                <div type="th" class="tar" style="width:100px">onlyNumber</div>
+                                <div type="td">
+									<div type="input" id="w3_2" class="mocaInput" keyMask="onlyNumber" displayFunction="$m.comma" innerClass="" onclick="" style="" value="1,234,567" readonly="false"></div>
+                                </div>
+                                <div type="th" class="tar" style="width:100px">onlyMoney</div>
+                                <div type="td">
+									<div type="input" id="w3_3" class="mocaInput" keyMask="onlyMoney" displayFunction="$m.comma" innerClass="" onclick="" style="" value="1,234,567" readonly="false"></div>
+                                </div>
+                                <div type="th" class="tar" style="width:100px">onlyFloat</div>
+                                <div type="td">
+									<div type="input" id="w3_4" class="mocaInput" keyMask="onlyFloat" innerClass="" onclick="" style="" value="12345" readonly="false"></div>
+                                </div>
+                                <div type="th" class="tar" style="width:100px">onlyPercent</div>
+                                <div type="td">
+									<div type="input" id="w2_5" class="mocaInput" keyMask="onlyPercent" displayFunction="$m.comma" innerClass="" onclick="" style="" value="99.99%" readonly="false"></div>
+                                </div>
+                            </div>
+		          		</div>
+		          	</div>
+            </div>
+            <div class="lybox fauto mt12">
+				<div class="ly_column col_5">
+					<div class="ly_col_cont pr7_5">
+						<div type="form" id="form_board3" class="moca_table toolbar" style=""
+				                label="2단 form"
+				                showRowSelection="false"
+				                addition='[
+				                    ]'
+				                >
+					          	<div class="moca_table_cont" type="table">
+					          		<div type="tbody">
+					          			<div type="tr">
+			                                <div type="th" class="tar" style="width:100px">Title</div>
+			                                <div type="td">
+			                                	<div type="input" id="w2_5" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+			                                </div>
+			                                <div type="th" class="tar" style="width:100px">Title</div>
+			                                <div type="td">
+			                                	<div type="input" id="w2_5" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+			                                </div>
+			                            </div>
+			                            <div type="tr">
+					          				<div type="th" class="tar" style="width:100px">Title</div>
+			                                <div type="td">
+			                                	<div type="input" id="w2_5" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+			                                </div>
+			                                <div type="th" class="tar" style="width:100px">Title</div>
+			                                <div type="td">
+			                                	<div type="input" id="w2_5" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+			                                </div>
+			                            </div>
+			                            <div type="tr">
+					          				<div type="th" class="tar" style="width:100px">Title</div>
+			                                <div type="td">
+			                                	<div type="input" id="w2_5" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+			                                </div>
+			                                <div type="th" class="tar" style="width:100px">Title</div>
+			                                <div type="td">
+												<div type="input" id="w2_6" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+			                                </div>
+			                            </div>
+			                            <div type="tr">
+					          				<div type="th" class="tar" style="width:100px">Title</div>
+			                                <div type="td">
+												<div type="input" id="w2_5" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+			                                </div>
+			                                <div type="th" class="tar" style="width:100px">Title</div>
+			                                <div type="td">
+												<div type="input" id="w2_6" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+			                                </div>
+			                            </div>
+			                            <div type="tr">
+					          				<div type="th" class="tar" style="width:100px">Title</div>
+			                                <div type="td">
+												<div type="input" id="w2_5" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+			                                </div>
+			                                <div type="th" class="tar" style="width:100px">Title</div>
+			                                <div type="td">
+												<div type="input" id="w2_6" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+			                                </div>
+			                            </div>
+					          		</div>
+					          	</div>
+			            </div>
+					</div>
+				</div>
+				<div class="ly_column col_5">
+					<div class="ly_col_cont pl7_5">
+						<div type="form" id="form_board4" class="moca_table toolbar" style=""
+			                label="3단 form"
+			                showRowSelection="false"
+			                addition='[
+			                    ]'
+			                >
+				          	<div class="moca_table_cont" type="table">
+				          		<div type="tbody">
+				          			<div type="tr">
+				          				<div type="th" class="tar" style="width:100px">IDX</div>
+		                                <div type="td">
+											<div type="input" id="w2_1" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+		                                </div>
+		                                <div type="th" class="tar" style="width:100px">TEST_TYPE</div>
+		                                <div type="td">
+											<div type="input" id="w2_2" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+		                                </div>
+		                                <div type="th" class="tar" style="width:100px">TEST_DATE</div>
+		                                <div type="td">
+											<div type="input" id="w2_3" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+		                                </div>
+		                            </div>
+		                            <div type="tr">
+				          				<div type="th" class="tar" style="width:100px">TEST_PROP</div>
+		                                <div type="td">
+											<div type="input" id="w2_5" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+		                                </div>
+		                                <div type="th" class="tar" style="width:100px">TEST_VALUE</div>
+		                                <div type="td">
+											<div type="input" id="w2_6" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+		                                </div>
+		                                <div type="th" class="tar" style="width:100px">TEST_DB</div>
+		                                <div type="td">
+											<div type="input" id="w2_7" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+		                                </div>
+		                            </div>
+		                            <div type="tr">
+				          				<div type="th" class="tar" style="width:100px">TEST_PROP</div>
+		                                <div type="td">
+											<div type="input" id="w2_5" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+		                                </div>
+		                                <div type="th" class="tar" style="width:100px">TEST_VALUE</div>
+		                                <div type="td">
+											<div type="input" id="w2_6" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+		                                </div>
+		                                <div type="th" class="tar" style="width:100px">TEST_DB</div>
+		                                <div type="td">
+											<div type="input" id="w2_7" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+		                                </div>
+		                            </div>
+		                            <div type="tr">
+				          				<div type="th" class="tar" style="width:100px">TEST_PROP</div>
+		                                <div type="td">
+											<div type="input" id="w2_5" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+		                                </div>
+		                                <div type="th" class="tar" style="width:100px">TEST_VALUE</div>
+		                                <div type="td">
+											<div type="input" id="w2_6" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+		                                </div>
+		                                <div type="th" class="tar" style="width:100px">TEST_DB</div>
+		                                <div type="td">
+											<div type="input" id="w2_7" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+		                                </div>
+		                            </div>
+		                            <div type="tr">
+				          				<div type="th" class="tar" style="width:100px">TEST_PROP</div>
+		                                <div type="td">
+											<div type="input" id="w2_5" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+		                                </div>
+		                                <div type="th" class="tar" style="width:100px">TEST_VALUE</div>
+		                                <div type="td">
+											<div type="input" id="w2_6" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+		                                </div>
+		                                <div type="th" class="tar" style="width:100px">TEST_DB</div>
+		                                <div type="td">
+											<div type="input" id="w2_7" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
+		                                </div>
+		                            </div>
+				          		</div>
+				          	</div>
+		           	 	</div>
+					</div>
+				</div>
+			</div>
+            
+		</div>	
+	</div>
+</div>
+</body>
+</html>

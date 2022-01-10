@@ -5727,5 +5727,24 @@ public class TOController{
 		}
         return jsonview;
 	}
-	
+	//TEST numlist조회  
+	@RequestMapping(value = "/MT_TEST/selectTestNumList.do")
+	public View selectTestNumList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			List list = TOMapper.selectTestNumList(paramMap);
+			model.addAttribute("selectTestNumList",list);
+			model.addAttribute("selectTestNumList_totCnt", TOMapper.selectTestNumList_totCnt(paramMap).get("TOTCNT")); //총건수
+			
+			System.out.println(list);
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
 }

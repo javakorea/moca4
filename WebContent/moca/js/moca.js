@@ -10914,7 +10914,12 @@ Moca.prototype.rendering = function(o,_aTag) {
     
     $m[_srcId].getFormObj = function(_formId,_compId,_formIndex){
 		var _formObj = $m[_srcId].getObj(_formId);
-		return $($(_formObj).find('tbody tr')[_formIndex -1]).find('#'+_compId)[0];
+		if($m.trim($(_formObj).attr('tdType'))!=''){
+			return $($(_formObj).find('div[type="tr"]')[_formIndex -1]).find('#'+_compId)[0];
+		}else{
+			return $($(_formObj).find('tbody tr')[_formIndex -1]).find('#'+_compId)[0];
+		}
+		
 	};
         
     $m[_srcId].getInput = function(_id){

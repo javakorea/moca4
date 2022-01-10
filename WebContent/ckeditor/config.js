@@ -43,7 +43,7 @@ CKEDITOR.editorConfig = function( config ) {
       },
       {
         name: 'insert',
-        items: ['Table','Image']
+        items: ['Table','Image','Link']
       }
     ];
 	// Toolbar groups configuration.

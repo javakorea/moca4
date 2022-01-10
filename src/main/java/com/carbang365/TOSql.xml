@@ -5215,4 +5215,22 @@
 		WHERE 1=1
 		AND TEST_TYPE = #{TEST_TYPE}
     </select>
+    <!-- test 조회 -->
+    <select id="selectTestNumList" parameterType="map" resultType="map">
+    	/*selectTestList test 조회*/
+		SELECT *
+		FROM MT_TESTDB
+		WHERE 1=1
+		AND TEST_TYPE = #{TEST_TYPE}
+		LIMIT ${limitFrom}, ${limitPerPage}
+    </select>
+    <!-- test 조회 -->
+    <select id="selectTestNumList_totCnt" parameterType="map" resultType="map">
+    	/*selectTestNumList_totCnt 조회*/
+		SELECT COUNT(IDX) AS TOTCNT
+		FROM MT_TESTDB
+		WHERE 1=1
+		AND TEST_TYPE = #{TEST_TYPE}
+    </select>
+    
  </mapper>
