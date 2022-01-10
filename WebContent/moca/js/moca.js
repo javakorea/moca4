@@ -963,6 +963,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
     	        		_style = _style.replace("display: none","display: table-cell");
     	        	}
     	        }else{
+    	        	debugger;
     	        	$m.moblePcHide(aCol[0],"mobileHide");
     	        	if(aCol.attr("mobileHide") == "true"){
     	        		_style = _style.replace("display: table-cell","display: none");
@@ -5659,6 +5660,7 @@ Moca.prototype.getFilteredListForFilter = function(_list,key,_val){
 
 Moca.prototype.validate = function(__grdId,_key,_val,_pageId,srcId){
     ['응답객체를 리턴타입에 맞게 변환']
+    debugger;
     var _grdIdArr = __grdId.split(',');
     var isExist = false;
     for(var g=0; g < _grdIdArr.length; g++){
@@ -13926,6 +13928,7 @@ Moca.prototype.cellAllCheck = function(_thisObj){
        var _list = grd.list;
        for(var i=0; i < _list.length; i++){
            var row = _list[i];
+           row._system.status ='';
            row[tdId] = $(grd.cellInfo[tdId]).attr("falsevalue");
        }
    }else{
@@ -13936,6 +13939,7 @@ Moca.prototype.cellAllCheck = function(_thisObj){
        for(var i=0; i < _list.length; i++){
            var row = _list[i];
            if($($(grd).find('td[id='+tdId+']')[i]).find('input').is(':disabled') == false){
+        	   row._system.status ='U';
                row[tdId] = $(grd.cellInfo[tdId]).attr("truevalue");
            }
        }

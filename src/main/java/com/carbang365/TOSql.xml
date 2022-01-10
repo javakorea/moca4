@@ -4562,8 +4562,8 @@
 	        	A.BOARD_RECEIPTIONER,
 	        	COUNT(F.BOARD_IDX) AS CNT,
 	        	A.BOARD_REPLYCNT
-			FROM MT_BOARD A 
-			LEFT OUTER JOIN MT_BOARDFILE F ON A.BOARD_IDX = F.BOARD_IDX
+			FROM ${BOARD_TABLE} A 
+			LEFT OUTER JOIN ${BOARD_FILE_TABLE} F ON A.BOARD_IDX = F.BOARD_IDX
 			
 			WHERE 1=1
 			AND A.BOARD_DELYN = 'N'
@@ -4614,7 +4614,7 @@
     <select id="selectBoardTotCnt" parameterType="map" resultType="map">
     	/*selectBoardTotCnt 게시판 조회 총건수*/
 	       SELECT COUNT(A.BOARD_IDX) AS TOTCNT
-			FROM MT_BOARD A
+			FROM ${BOARD_TABLE} A
 			WHERE 1=1
 			AND A.BOARD_DELYN = 'N'
 			AND A.BOARD_PIDX = A.BOARD_IDX
@@ -4676,8 +4676,8 @@
 	        	COUNT(F.BOARD_IDX) AS CNT,
 	        	A.BOARD_REPLYCNT,
 	        	
-			FROM MT_BOARD A 
-			LEFT OUTER JOIN MT_BOARDFILE F ON A.BOARD_IDX = F.BOARD_IDX
+			FROM ${BOARD_TABLE} A 
+			LEFT OUTER JOIN ${BOARD_FILE_TABLE} F ON A.BOARD_IDX = F.BOARD_IDX
 			
 			WHERE 1=1
 			AND A.BOARD_DELYN = 'N'
@@ -4730,7 +4730,7 @@
      /*selectBoardStatusCnt 게시판 상태 건수*/
      SELECT 
      	A.BOARD_SUPPORT, COUNT(A.BOARD_SUPPORT) AS CNT
-     FROM MT_BOARD A
+     FROM ${BOARD_TABLE} A
 	 WHERE 1=1 
 		AND A.BOARD_DELYN = 'N'
 		AND A.BOARD_PIDX = A.BOARD_IDX
@@ -4776,7 +4776,7 @@
 	<!-- 게시물 답변 cnt -->
     <update id="updateReplyCnt" parameterType="map">
          /*updateReplyCnt 게시물답변카운트*/
-         UPDATE MT_BOARD SET 
+         UPDATE ${BOARD_TABLE} SET 
             <choose>
 				<when test='BOARD_REPLYSTATUS.equals("C")'>
 					 BOARD_REPLYCNT = BOARD_REPLYCNT+1
@@ -4803,8 +4803,8 @@
         	A.BOARD_TYPE,
         	A.BOARD_RECEIPTIONER,
         	COUNT(F.BOARD_IDX) AS CNT
-		FROM MT_BOARD A 
-		LEFT OUTER JOIN MT_BOARDFILE F ON A.BOARD_IDX = F.BOARD_IDX
+		FROM ${BOARD_TABLE} A 
+		LEFT OUTER JOIN ${BOARD_FILE_TABLE} F ON A.BOARD_IDX = F.BOARD_IDX
 		
 		WHERE 1=1
 		AND A.BOARD_DELYN = 'N'
@@ -4816,11 +4816,10 @@
         ORDER BY A.UPDATE_DATE DESC, A.BOARD_DATE DESC
     </select>
     
-    
  	<!-- 게시물 작성 -->
     <insert id="insertBoard" parameterType="map" useGeneratedKeys="true" keyProperty="BOARD_IDX">
         /*insertBoard 게시물 작성*/
-            INSERT INTO MT_BOARD(
+            INSERT INTO ${BOARD_TABLE}(
             	BOARD_DELYN,
             	BOARD_TYPE,
            	 	<if test='BOARD_PIDX != null'>
@@ -4858,7 +4857,7 @@
     <!-- 게시물 수정 -->
     <update id="updateBoardInfo" parameterType="map">
          /*updateBoardInfo 게시물수정*/
-         UPDATE MT_BOARD SET 
+         UPDATE ${BOARD_TABLE} SET 
             BOARD_TYPE = #{BOARD_TYPE},
             BOARD_PIDX = #{BOARD_PIDX},
            	BOARD_SUPPORT = #{BOARD_SUPPORT},
@@ -4875,7 +4874,7 @@
 	<!-- 게시물 수정일시 -->
     <update id="updateBoardDate" parameterType="map">
          /*updateBoardDate 게시물수정일시*/
-         UPDATE MT_BOARD SET 
+         UPDATE ${BOARD_TABLE} SET 
             UPDATE_DATE = CURRENT_TIMESTAMP
          WHERE 1=1
          AND BOARD_PIDX=#{BOARD_PIDX}
@@ -4884,7 +4883,7 @@
     <!-- 게시물 논리 삭제 -->
     <update id="deleteStatusBoard" parameterType="map">
          /* deleteStatusBoard 게시물논리삭제*/
-         UPDATE MT_BOARD SET 
+         UPDATE ${BOARD_TABLE} SET 
          	 BOARD_DELYN = 'Y'
          WHERE 1=1
          <choose>
@@ -4900,7 +4899,7 @@
 	<!-- 게시물 물리 삭제 (관리자삭제) -->
     <delete id="deleteBoard" parameterType="map">
         /*deleteBoard 게시물삭제*/
-        DELETE FROM MT_BOARD
+        DELETE FROM ${BOARD_TABLE}
 		WHERE 1=1
 		<choose>
    			<when test="BOARD_PIDX != null and BOARD_PIDX != ''">
@@ -4927,7 +4926,7 @@
             A.BOARD_COMPLETER,
             DATE_FORMAT(A.BOARD_DATE, '%Y-%m-%d  %H:%i:%s') AS BOARD_DATE
             
-        FROM MT_BOARD A
+        FROM ${BOARD_TABLE} A
         WHERE 1=1
         <if test="BOARD_IDX != null and BOARD_IDX != ''">
             AND A.BOARD_IDX = #{BOARD_IDX}
@@ -4937,7 +4936,7 @@
     <!-- 게시물이력 작성 -->
     <insert id="insertBoardHis" parameterType="map">
         /*insertBoardHis 게시물이력 작성*/
-            INSERT INTO MT_BOARDHIS (
+            INSERT INTO ${BOARD_HIS_TABLE} (
                 SELECT 0 AS BOARDHIS_IDX,
                        #{status} AS BOARDHIS_STATUS,
                        CURRENT_TIMESTAMP,
@@ -4951,7 +4950,7 @@
                        A.BOARD_EMAIL, 
                        A.BOARD_RECEIPTIONER,
                        A.BOARD_COMPLETER
-                FROM MT_BOARD A 
+                FROM ${BOARD_TABLE} A 
                 WHERE 1=1
                 AND BOARD_IDX = #{BOARD_IDX}
             )
@@ -4973,7 +4972,7 @@
 	        A.BOARD_PHONE, 
 	        A.BOARD_EMAIL, 
             A.BOARD_RECEIPTIONER
-        FROM MT_BOARDHIS A
+        FROM ${BOARD_HIS_TABLE} A
         WHERE 1=1
         <if test="BOARDHIS_IDX != null and BOARDHIS_IDX != ''">
             AND A.BOARDHIS_IDX = #{BOARDHIS_IDX}
@@ -4984,7 +4983,7 @@
     <select id="selectBoardHisList" parameterType="map" resultType="map">
     	/*selectBoardHisList 게시판이력 조회*/
         SELECT *
-        FROM MT_BOARDHIS A
+        FROM ${BOARD_HIS_TABLE} A
         WHERE 1=1
         <if test="BOARD_IDX != null and BOARD_IDX != ''">
             AND A.BOARD_IDX = #{BOARD_IDX}
@@ -5015,14 +5014,14 @@
     <!-- 게시물첨부파일 insert -->
     <insert id="insertBoardFile" parameterType="map">
         /*insertBoardFile 게시물첨부파일*/
-        INSERT INTO MT_BOARDFILE (
+        INSERT INTO ${BOARD_FILE_TABLE} (
 		    SELECT 0 AS BOARDFILE_IDX,
 		       A.BOARD_IDX,
 		       #{BOARDFILE_NAME} AS BOARDFILE_NAME,
 		       #{BOARDFILE_NAMESERVER} AS BOARDFILE_NAMESERVER,
 		       #{BOARDFILE_PATH} AS BOARDFILE_PATH,
 		       #{BOARDFILE_SIZE} AS BOARDFILE_SIZE
-		    FROM MT_BOARD A
+		    FROM ${BOARD_TABLE} A
 		    WHERE 1=1
             AND BOARD_IDX = #{BOARD_IDX}
 		)
@@ -5032,17 +5031,18 @@
     <select id="selectBoardFileList" parameterType="map" resultType="map">
     	/*selectBoardFileList 게시판첨부파일조회*/
         SELECT *
-        FROM MT_BOARDFILE A
+        FROM ${BOARD_FILE_TABLE} A
         WHERE 1=1
         <if test="BOARD_IDX != null and BOARD_IDX != ''">
             AND A.BOARD_IDX = #{BOARD_IDX}
         </if>
         ORDER BY A.BOARDFILE_IDX DESC
     </select>
+    
     <!-- 게시판첨부파일 삭제  -->
     <delete id="deleteBoardFileList" parameterType="map">
         /*deleteBoard 게시물삭제*/
-        DELETE FROM MT_BOARDFILE
+        DELETE FROM ${BOARD_FILE_TABLE}
         WHERE 1=1
         AND BOARD_IDX=#{BOARD_IDX}
     </delete>
@@ -5050,7 +5050,7 @@
     <!-- 게시물 상태수정-->
     <update id="receiptBoard" parameterType="map">
          /* 게시물접수 receiptBoard*/
-         UPDATE MT_BOARD SET 
+         UPDATE ${BOARD_TABLE} SET 
          	 BOARD_SUPPORT = #{BOARD_SUPPORT},
          	 BOARD_RECEIPTIONER = #{BOARD_RECEIPTIONER},
          	 BOARD_COMPLETER = #{BOARD_COMPLETER}

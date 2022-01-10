@@ -3,6 +3,9 @@
 <head>
 <script>
 	$m.EFC_BOARD_HIS.___ready = function(args){
+		if(args.parent.data != null){
+			$m.EFC_BOARD_HIS.BOARD_TYPE = args.parent.data.BOARD_TYPE;
+		}
 		$m.EFC_BOARD_HIS.code({
             "grd_1.BOARDHIS_STATUS":{code:'crud'},
             "grd_1.BOARD_TYPE":{code:'boardType'},
@@ -21,6 +24,7 @@
 	        data : {
 	            "header" : $m.header,
 	            "body" : {
+	            	"BOARD_TYPE":$m.EFC_BOARD_HIS.BOARD_TYPE,
 	            	"BOARD_WRITER":$m.getValue($m.EFC_BOARD_HIS.getObj( "ipt_WRITER")),
 	            	"BOARD_TITLE":$m.getValue($m.EFC_BOARD_HIS.getObj( "ipt_TITLE")),
 	            	"BOARD_IDX":$m.getValue($m.EFC_BOARD_HIS.getObj( "ipt_BOARDIDX")),
@@ -51,7 +55,7 @@
 	    o.title = '게시판이력상세';
 	    o.callback = $m.EFC_BOARD_HIS.fn_pop_callback;
 	    o.scopeId = $m.EFC_BOARD_HIS.pageId;
-	    o.data = {"BOARD_IDX":_BoardIdx+'',"BOARDHIS_IDX":_BoardHisIdx+'',"BOARD_TITLE":_BoardTitle,"BOARDHIS_STATUS":_BoardHisStatus};
+	    o.data = {"BOARD_TYPE":$m.EFC_BOARD_HIS.BOARD_TYPE,"BOARD_IDX":_BoardIdx+'',"BOARDHIS_IDX":_BoardHisIdx+'',"BOARD_TITLE":_BoardTitle,"BOARDHIS_STATUS":_BoardHisStatus};
 	    $m.popup(o,_grd);
 	};
 </script>

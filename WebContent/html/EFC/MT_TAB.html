@@ -15,14 +15,16 @@
 		var _fromStr = String(_today.year-1)+_today.month+_today.day;
 		var _boardType = "ERP";
 		if(_tabContentIndex == "1"){
-			$m.EFC_BOARD.boardType = 'ERP';
-			_boardType = 'ERP';
-		}else if(_tabContentIndex == "2"){
 			$m.EFC_BOARD.boardType = 'WS';
 			_boardType = 'WS';
-		}else if(_tabContentIndex == "3"){
+			
+		}else if(_tabContentIndex == "2"){
 			$m.EFC_BOARD.boardType = 'NOTICE';
 			_boardType = 'NOTICE';
+		}else if(_tabContentIndex == "3"){
+			
+			$m.EFC_BOARD.boardType = 'ERP';
+			_boardType = 'ERP';
 		}
 		$m.MT_TAB.exe({
 			url : $m._domain+$m._contextRoot+"/EFC_BOARD/selectBoardList.do",
@@ -50,9 +52,9 @@
 					$m.EFC_BOARD.drawGrid('grd_1',$m.getResList(response,"selectBoardList"));
 				}
 				var cList = response.selectBoardList;
-				(cList[0].cnt == 0)? $($m.MT_TAB.getObj("t1")).find('.tab_badge').css("visibility","hidden"):$($m.MT_TAB.getObj("t1")).find('.tab_badge').css("visibility","visible").html($m.comma(cList[0].cnt));
-				(cList[1].cnt == 0)? $($m.MT_TAB.getObj("t2")).find('.tab_badge').css("visibility","hidden"):$($m.MT_TAB.getObj("t2")).find('.tab_badge').css("visibility","visible").html($m.comma(cList[1].cnt));
-				(cList[2].cnt == 0)? $($m.MT_TAB.getObj("t3")).find('.tab_badge').css("visibility","hidden"):$($m.MT_TAB.getObj("t3")).find('.tab_badge').css("visibility","visible").html($m.comma(cList[2].cnt));
+				//(cList[0].cnt == 0)? $($m.MT_TAB.getObj("t1")).find('.tab_badge').css("visibility","hidden"):$($m.MT_TAB.getObj("t1")).find('.tab_badge').css("visibility","visible").html($m.comma(cList[0].cnt));
+				//(cList[1].cnt == 0)? $($m.MT_TAB.getObj("t2")).find('.tab_badge').css("visibility","hidden"):$($m.MT_TAB.getObj("t2")).find('.tab_badge').css("visibility","visible").html($m.comma(cList[1].cnt));
+				//(cList[2].cnt == 0)? $($m.MT_TAB.getObj("t3")).find('.tab_badge').css("visibility","hidden"):$($m.MT_TAB.getObj("t3")).find('.tab_badge').css("visibility","visible").html($m.comma(cList[2].cnt));
 			}
 		});
 	};

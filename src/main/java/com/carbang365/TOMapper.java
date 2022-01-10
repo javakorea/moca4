@@ -411,8 +411,7 @@ public interface TOMapper {
     // 경로 결정을 위한  친환경 조회
     public Map <String, Object> ecoTypeSelect(Map<String, Object> map);
     
- 
-    // 게시판조회
+ 	// 게시판조회
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map);
 	// 게시판 총건수조회
 	public Map<String, Object> selectBoardTotCnt(Map<String, Object> map);

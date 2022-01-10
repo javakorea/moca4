@@ -29,8 +29,9 @@
 				$m.EFC_BOARD.popTitle = $($m.EFC_BOARD.getObj('sreenNm')).html();
 				if($m.getSs("USER_ID") == 'superadmin' && $m.EFC_BOARD.boardType == 'SUPPORT'){
 					$m.show($m.EFC_BOARD.getObj("tb_chkg_corp"));
+					$($m.EFC_BOARD.getObj("grd_1")).find('.moca_grid_body #H_CORP_NM').css('display','table-cell');
 					$($m.EFC_BOARD.getObj("grd_1")).find('.moca_grid_body col[columnkey="CORP_NM"]').attr('hide','false');
-					$($m.EFC_BOARD.getObj("grd_1")).find('.moca_grid_body col').css('display','');
+					$($m.EFC_BOARD.getObj("grd_1")).find('.moca_grid_body col[columnkey="CORP_NM"]').css('display','table-column');
 				}
 				if($m.EFC_BOARD.boardType == 'NOTICE'){
 					$m.hide($m.EFC_BOARD.getObj("tb_chkg_1"));
@@ -114,18 +115,21 @@
 	        },          
 	        callback : function(response){
 	        	$m.EFC_BOARD.grdList = $m.getResList(response,"selectBoardList");
-	            $m.EFC_BOARD.drawGrid('grd_1',$m.EFC_BOARD.grdList);
-	            var _supportB = (response.selectBoardStatusCnt.B != null)? response.selectBoardStatusCnt.B : 0;
-	            var _supportN = (response.selectBoardStatusCnt.N != null)? response.selectBoardStatusCnt.N : 0;
-	            var _supportR = (response.selectBoardStatusCnt.R != null)? response.selectBoardStatusCnt.R : 0;
-	            var _supportY = (response.selectBoardStatusCnt.Y != null)? response.selectBoardStatusCnt.Y : 0;
+	        	if(response.selectBoardList != null){
+	        		 $m.EFC_BOARD.drawGrid('grd_1',$m.EFC_BOARD.grdList);
+	 	            var _supportB = (response.selectBoardStatusCnt.B != null)? response.selectBoardStatusCnt.B : 0;
+	 	            var _supportN = (response.selectBoardStatusCnt.N != null)? response.selectBoardStatusCnt.N : 0;
+	 	            var _supportR = (response.selectBoardStatusCnt.R != null)? response.selectBoardStatusCnt.R : 0;
+	 	            var _supportY = (response.selectBoardStatusCnt.Y != null)? response.selectBoardStatusCnt.Y : 0;
 
-	         	if($m.getDevice() == 'pc'){
-	         		$m.setLabelValue($m.EFC_BOARD.getObj('supportB'),$m.comma(_supportB));//반려
-		            $m.setLabelValue($m.EFC_BOARD.getObj('supportN'),$m.comma(_supportN));//요청
-		            $m.setLabelValue($m.EFC_BOARD.getObj('supportR'),$m.comma(_supportR));//접수
-		            $m.setLabelValue($m.EFC_BOARD.getObj('supportY'),$m.comma(_supportY));//완료
-	         	}
+	 	         	if($m.getDevice() == 'pc'){
+	 	         		$m.setLabelValue($m.EFC_BOARD.getObj('supportB'),$m.comma(_supportB));//반려
+	 		            $m.setLabelValue($m.EFC_BOARD.getObj('supportN'),$m.comma(_supportN));//요청
+	 		            $m.setLabelValue($m.EFC_BOARD.getObj('supportR'),$m.comma(_supportR));//접수
+	 		            $m.setLabelValue($m.EFC_BOARD.getObj('supportY'),$m.comma(_supportY));//완료
+	 	         	}
+	        	}
+	           
 	        }
 	    });
 	};
@@ -200,14 +204,18 @@
                            data : {
                                "header" : $m.header,
                                "body" : {
-                                   paramList:$m.getCheckedData($m.EFC_BOARD.getObj("grd_1"),"chk")
+                                   paramList:$m.getCheckedData($m.EFC_BOARD.getObj("grd_1"),"chk"),
+                                   "BOARD_TYPE":$m.EFC_BOARD.boardType,
                                }
                            },      
-                           callback : function(){
-                              $m.alert('성공적으로 삭제되었습니다!',function(){
-                                  $m.EFC_BOARD.fn_search();
-                                  return;
-                              });  
+                           callback : function(response){
+                        	   if(response.cnt > 0){
+                        		   $m.alert('성공적으로 삭제되었습니다!',function(){
+                                       $m.EFC_BOARD.fn_search();
+                                       return;
+                                   });  
+                        	   }
+                             
                            }
                        });
                    }
@@ -225,14 +233,18 @@
 	                           data : {
 	                               "header" : $m.header,
 	                               "body" : {
-	                                   paramList:$m.getCheckedData($m.EFC_BOARD.getObj("grd_1"),"chk")
+	                                   paramList:$m.getCheckedData($m.EFC_BOARD.getObj("grd_1"),"chk"),
+	                                   "BOARD_TYPE":$m.EFC_BOARD.boardType,
 	                               }
 	                           },      
-	                           callback : function(){
-	                              $m.alert('성공적으로 삭제되었습니다!',function(){
-	                                  $m.EFC_BOARD.fn_search();
-	                                  return;
-	                              });  
+	                           callback : function(response){
+	                        	   if(response.cnt > 0){
+	                        		   $m.alert('성공적으로 삭제되었습니다!',function(){
+	 	                                  $m.EFC_BOARD.fn_search();
+	 	                                  return;
+	 	                              });  
+	                        	   }
+	                             
 	                           }
 	                       });
 	                   }
@@ -250,14 +262,18 @@
 		                           data : {
 		                               "header" : $m.header,
 		                               "body" : {
-		                                   paramList:[$m.EFC_BOARD.getObj("grd_1").list[rIndex]]
+		                                   paramList:[$m.EFC_BOARD.getObj("grd_1").list[rIndex]],
+		                                   "BOARD_TYPE":$m.EFC_BOARD.boardType,
 		                               }
 		                           },      
-		                           callback : function(){
-		                              $m.alert('성공적으로 삭제되었습니다!',function(){
-		                                  $m.EFC_BOARD.fn_search();
-		                                  return;
-		                              });  
+		                           callback : function(response){
+		                        	   if(response.cnt > 0){
+		                        		   $m.alert('성공적으로 삭제되었습니다!',function(){
+			                                  $m.EFC_BOARD.fn_search();
+			                                  return;
+			                              });  
+		                        	   }
+		                             
 		                           }
 		                       });
 		                   }
@@ -462,10 +478,11 @@
 					<table style="width: 100%">
 						<caption style="position:relative; visibility:hidden; overflow:hidden; width:0;height:0;font-size:0;line-height:0"></caption>
 						<colgroup>
+								<col style="width:0px" mobileHide="true" hide="true" columnKey="status" thKey="H_status" >
 								<col style="width:30px" mobileHide="true" hide="false" columnKey="chk" thKey="H_chk" >
 								<col style="width:100px" mobileHide="true" hide="true" columnKey="CORP_NM" thKey="H_CORP_NM">
 								<col style="width:60px" mobileHide="true" hide="false" columnKey="BOARD_PIDX" thKey="H_BOARD_PIDX">
-								<col style="min-width:300px" mobileHide="false"  hide="false" columnKey="BOARD_TITLE" thKey="H_BOARD_TITLE">
+								<col style="min-width:300px" width="100%" mobileHide="false"  hide="false" columnKey="BOARD_TITLE" thKey="H_BOARD_TITLE">
 								<col style="width:40px" mobileHide="true"  hide="false" columnKey="CNT" thKey="H_BOARD_FILECNT">
 								<col style="width:100px" mobileHide="true"  hide="false" columnKey="BOARD_WRITER" thKey="H_BOARD_WRITER">
 								<col style="width:150px" mobileHide="true"  hide="false" columnKey="BOARD_DATE" thKey="H_BOARD_DATE">
@@ -474,23 +491,21 @@
 						</colgroup>
 						<thead>
 							<tr>
+								<th scope="col" id="H_status">상태</th>
 								<th scope="col" celltype="checkbox" id="H_chk" targetId="chk">선택</th>
-								<!--<th scope="col" id="H_BOARD_TYPE">게시판유형</th> -->
-								<!--<th scope="col" id="H_BOARD_PHONE">연락처테스트</th> -->
 								<th scope="col" id="H_CORP_NM">법인명</th>
 								<th scope="col" id="H_BOARD_PIDX" sortable="true">글번호</th>
-								<!-- <th scope="col" id="H_BOARD_IDX">ID</th> -->
 								<th scope="col" id="H_BOARD_TITLE">제목</th>
 								<th scope="col" id="H_BOARD_FILECNT">첨부</th>
 								<th scope="col" id="H_BOARD_WRITER"  filterable="true" filterableId="BOARD_WRITER">작성자</th>
 								<th scope="col" id="H_BOARD_DATE" sortable="true">작성일시</th>
 								<th scope="col" id="H_BOARD_DATE" sortable="true">수정일시</th>
 								<th scope="col" id="H_BOARD_RECEIPTIONER"  filterable="true" filterableId="BOARD_RECEIPTIONER">접수자</th>
-								<!--<th scope="col" id="H_BOARD_BTN">버튼</th>-->
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
+								<td id="status" celltype="input" style="text-align:center" name="상태" readOnly="true"></td>
 								<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" disabledFunction="$m.EFC_BOARD.disabled" ></td>
 								<!--<td id="BOARD_TYPE" celltype="input" style="text-align:center" name="ID" readOnly="true"></td> -->
 								<!--

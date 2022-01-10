@@ -101,14 +101,18 @@ $m.EFC_BOARD_POP.fn_searchReply = function(_grd,_idx,tdObj,_thisObj){
 	            "header" : $m.header,
 	            "body" : {
 	            	"BOARD_PIDX":$m.EFC_BOARD_POP._boardPIdx,
+	            	"BOARD_TYPE":$m.EFC_BOARD_POP._boardType
 	            }
 	        },          
 	        callback : function(response){
-	        	$m.EFC_BOARD_POP.grdList = $m.getResList(response,"selectBoardReply");
-	        	if($m.getResList(response,"selectBoardReply").length > 0){
-	        		$m._foldGrid($m.EFC_BOARD_POP.getObj('grd_reply_list_btn_fold'));
-			    }
-	        	$m.EFC_BOARD_POP.drawGrid('grd_reply_list',$m.EFC_BOARD_POP.grdList);
+	        	if(response.selectBoardReply != null ){
+	        		$m.EFC_BOARD_POP.grdList = $m.getResList(response,"selectBoardReply");
+		        	if($m.getResList(response,"selectBoardReply").length > 0){
+		        		$m._foldGrid($m.EFC_BOARD_POP.getObj('grd_reply_list_btn_fold'));
+				    }
+		        	$m.EFC_BOARD_POP.drawGrid('grd_reply_list',$m.EFC_BOARD_POP.grdList);
+	        	}
+	        	
 	        }
 	    });
 		
@@ -149,7 +153,8 @@ $m.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 		data : {
 			"header" : $m.header,
 			"body" : {
-				"BOARD_IDX":$m.EFC_BOARD_POP._boardIdx
+				"BOARD_IDX":$m.EFC_BOARD_POP._boardIdx,
+				"BOARD_TYPE":$m.EFC_BOARD_POP._boardType
 				}
 		},
 		callback : function(response){
@@ -192,7 +197,8 @@ $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 				data : {
 					"header" : $m.header,
 					"body" : {
-						"BOARD_IDX":$m.EFC_BOARD_POP._boardIdx
+						"BOARD_IDX":$m.EFC_BOARD_POP._boardIdx,
+						"BOARD_TYPE":$m.EFC_BOARD_POP._boardType
 						}
 				},			
 				callback : function(response){
@@ -338,7 +344,8 @@ $m.EFC_BOARD_POP.fn_replyCnt = function(_thisObj,_message){
              "header" : $m.header,
              "body" : {
              	"BOARD_IDX":$m.EFC_BOARD_POP._boardPIdx,
-             	"BOARD_REPLYSTATUS":$m.EFC_BOARD_POP._boardReplyStatus
+             	"BOARD_REPLYSTATUS":$m.EFC_BOARD_POP._boardReplyStatus,
+             	"BOARD_TYPE":$m.EFC_BOARD_POP._boardType
                  }
          },          
          callback : function(response){
@@ -374,6 +381,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                    data : {
 	                        "header" : $m.header,
 	                        "body" : {
+	                        	"BOARD_TYPE":$m.EFC_BOARD_POP._boardType,
 	                        	"BOARD_DELYN":'N',
 	                        	"BOARD_SUPPORT":$m.EFC_BOARD_POP.getSearchCombo('cmb_board').value,
 	                        	"BOARD_TYPE":$m.EFC_BOARD_POP._boardType,
@@ -525,7 +533,8 @@ $m.EFC_BOARD_POP.fn_adminDel = function(_thisObj){
                     "header" : $m.header,
                     "body" : {
                     	"BOARD_IDX":_idx,
-                        "BOARD_PIDX":_pid
+                        "BOARD_PIDX":_pid,
+                        "BOARD_TYPE":$m.EFC_BOARD_POP._boardType
                         }
                 },          
                 callback : function(response){
@@ -569,7 +578,8 @@ $m.EFC_BOARD_POP.fn_del = function(_thisObj){
                      "header" : $m.header,
                      "body" : {
                          "BOARD_IDX":_idx,
-                         "BOARD_PIDX":_pid
+                         "BOARD_PIDX":_pid,
+                         "BOARD_TYPE":$m.EFC_BOARD_POP._boardType
                          }
                  },          
                  callback : function(response){
@@ -596,7 +606,8 @@ $m.EFC_BOARD_POP.fn_searchfile = function(_grd,_idx,tdObj,_thisObj){
             data : {
                 "header" : $m.header,
                 "body" : {
-                    "BOARD_IDX":$m.EFC_BOARD_POP._boardIdx
+                    "BOARD_IDX":$m.EFC_BOARD_POP._boardIdx,
+                    "BOARD_TYPE":$m.EFC_BOARD_POP._boardType
                     }
             },          
             callback : function(response){
@@ -729,7 +740,8 @@ $m.EFC_BOARD_POP.fn_status = function(_thisObj){
         				"BOARD_COMPLETER": _completeid,
         				"BOARD_WRITERPHONE": $m.getValue($m.EFC_BOARD_POP.getObj('wphone')),
         				"BOARD_WRITER":$m.getValue($m.EFC_BOARD_POP.getObj('wid')),
-        				"BOARD_CONT":CKEDITOR.instances.editor.getData()
+        				"BOARD_CONT":CKEDITOR.instances.editor.getData(),
+        				"BOARD_TYPE":$m.EFC_BOARD_POP._boardType
         				}
         		},			
         		callback : function(response){
