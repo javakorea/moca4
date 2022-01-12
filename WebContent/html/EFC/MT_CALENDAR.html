@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script>
+	
+	$m.MT_CALENDAR.___ready = function(){
+
+	};
+	
+	$m.MT_CALENDAR.fn_search = function(){
+		$m.MT_CALENDAR.exe({
+			url : $m._domain+$m._contextRoot+"/MT_TEST/selectTestList.do",
+            data : {
+            	"header" : $m.header,
+            	"body" : {
+            		"TEST_TYPE":"TEST"
+            	}
+            },			
+			callback : function(response){
+				$m.MT_CALENDAR.drawGrid('grd_1', $m.MT_CALENDAR.getResList(response,"selectTestList"));
+			}
+		});
+	};
+	
+</script>
+
+</head>
+<body>
+	
+<div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
+	<div class="moca_tab_cont" style="height:100%">
+		<div class="moca_cont_wrap flex fcol">
+			<div type="include" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
+				src="/html/titlebox.html"
+				data = '{"sreenCd":"MOCA_PROP","sreenNm":"시스템설정","sreenPath":"시스템관리,시스템설정"}'
+			></div>
+
+			<div class="moca_shbox">
+				<div class="shbox_inner">
+					<div class="flex fwrap">
+						<div class="tb">
+							<span class="tb_th">inputCalendar</span>
+							<span class="tb_td">
+								<div type="inputCalendar" class="moca_ica fl" style="" id="CREATE_DTTM" displayFormat="####-##-##" 
+	                               defaultValue="12개월전" 
+	                               selecterItem="오늘,3일전,6일전"
+	                               showRadioOption="false"
+	                               maxTermByDay="365"
+	                         ></div>
+							</span>
+						</div>
+						<div class="tb">
+							<span class="tb_th">inputMultiCalendar</span>
+							<span class="tb_td">
+								<div type="inputMultiCalendar" class="moca_ica fl" style="width:auto" id="CREATE_DTTM2" displayFormat="####-##-##" 
+		                               defaultValue="12개월전" 
+		                               selecterItem="오늘,3일전,6일전"
+		                               showRadioOption="false"
+		                               maxTermByDay="365"
+		                         ></div>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="btn_shbox">
+					<button type="button" class="button btn_sc" onclick="$m.MT_CALENDAR.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+					<!-- <button type="button" class="button btn_sc" style="display:none" onclick="$m.MT_CALENDAR._openFileUpload(this)"><i class="fas fa-search"></i><span>파일첨부</span></button> -->
+				</div>
+			</div>
+			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
+								rendering_div = "true"
+								toolbar_search_size="false"
+								toolbar_detail="false"
+								toolbar_exup="false"
+								toolbar_exdn="false"
+								toolbar_addrow="false"
+								toolbar_delrow="false"
+								toolbar_nextbtn="false"
+								toolbar_full="true"
+								
+								label="총건수"
+			
+			>
+					<table style="width: 100%">
+						<colgroup>
+								<col style="width:10%" mobileHide="false" hide="false" columnKey="CORP_CD" thKey="H_CORP_CD" >
+								<col style="width:10%" mobileHide="false" hide="false" columnKey="EFC_COMBO" thKey="H_EFC_COMBO" >
+								<col style="" mobileHide="true" hide="false" columnKey="TEST_DB" thKey="H_TEST_DB" >		
+								<col style="width:200px" mobileHide="true" hide="false" columnKey="TEST_DT" thKey="H_TEST_DT" >						
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col" id="H_CORP_CD">일반콤보</th>
+								<th scope="col" id="H_EFC_COMBO">공통콤보</th>
+								<th scope="col" id="H_TEST_DB">설명</th>
+								<th scope="col" id="H_TEST_DT">날짜</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="CORP_CD" celltype="input" style="text-align:center" required="true" name="그리드콤보" readOnly="false"></td>
+								<td id="EFC_COMBO" celltype="input" style="text-align:center" required="true" name="공통콤보" readOnly="false"></td>
+								<td id="TEST_DB" celltype="input" style="" name="설명"></td>
+								<td id="TEST_DT" celltype="input" style="" required="true" name="날짜" readOnly="true" displayFunction="$m.longToDate"></td>
+							</tr>
+						</tbody>
+					</table>				
+			</div>
+		</div>	
+	</div>
+</div>
+</body>
+</html>

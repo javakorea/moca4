@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head meta_width="1400px" meta_height="700px">
+<script>
+	
+	$m.MT_POPUP.___ready = function(){
+		$m.MT_POPUP.code({
+			"grd_1.EFC_COMBO":{code:'TEST'},
+			"cmb_1":{code:'boardStatus'},
+			"scmb_1":{code:'boardStatus'}
+		},function(){
+			$m.MT_POPUP.exe({
+				url : $m._domain+$m._contextRoot+"/efms/EFC_CORP/list_json.do",
+				loadingbar:true,
+	            data : {
+	            	"header" : $m.header,
+	            	"body" : {aaa:'111',bbb:'222'}
+	            },			
+				callback : function(response){
+					var g_obj = $m.MT_POPUP.getObj('grd_1');
+					if(g_obj['CORP_CD'] == undefined){
+						g_obj['CORP_CD'] = {};
+						g_obj['CORP_CD']['codeOpt'] = {allOption:{label:'-선택-',value:''},metaInfo:{codeCd:"CORP_CD",codeNm:"CORP_NM"}};
+					} 
+					g_obj['CORP_CD']['list'] = response.list;
+					$m.MT_POPUP.fn_search();
+				}
+			});
+		});
+	};
+	
+	$m.MT_POPUP.fn_search = function(){
+		$m.MT_POPUP.exe({
+			url : $m._domain+$m._contextRoot+"/MT_TEST/selectTestList.do",
+            data : {
+            	"header" : $m.header,
+            	"body" : {
+            		"TEST_TYPE":"TEST"
+            	}
+            },			
+			callback : function(response){
+				$m.MT_POPUP.drawGrid('grd_1', $m.MT_POPUP.getResList(response,"selectTestList"));
+			}
+		});
+	};
+	
+	$m.MT_POPUP.radio_01_click = function(_radioObj){
+		if(_radioObj.value == '1단'){
+			$m.show($m.MT_POPUP.getObj("shbox_1"));
+			$m.hide($m.MT_POPUP.getObj("shbox_2"));
+			$m.hide($m.MT_POPUP.getObj("shbox_3"));
+			$m.hide($m.MT_POPUP.getObj("shbox_4"));
+		}else if(_radioObj.value == '2단'){
+			$m.show($m.MT_POPUP.getObj("shbox_1"));
+			$m.show($m.MT_POPUP.getObj("shbox_2"));
+			$m.hide($m.MT_POPUP.getObj("shbox_3"));
+			$m.hide($m.MT_POPUP.getObj("shbox_4"));
+		}else if(_radioObj.value == '3단'){
+			$m.show($m.MT_POPUP.getObj("shbox_1"));
+			$m.show($m.MT_POPUP.getObj("shbox_2"));
+			$m.show($m.MT_POPUP.getObj("shbox_3"));
+			$m.hide($m.MT_POPUP.getObj("shbox_4"));
+		}else if(_radioObj.value == '4단'){
+			$m.show($m.MT_POPUP.getObj("shbox_1"));
+			$m.show($m.MT_POPUP.getObj("shbox_2"));
+			$m.show($m.MT_POPUP.getObj("shbox_3"));
+			$m.show($m.MT_POPUP.getObj("shbox_4"));
+		}
+	}
+	$m.MT_POPUP.fn_exe = function(_thisObj){
+		var o = {};
+	    o.id = "MT_POPUP";
+	    o.url = '/html/EFC/MT_POPUP.html';
+	    o.type = "POPUP";
+	    o.modal = "false";
+	    o.title = '레이어팝업';
+	    o.callback = $m.MT_POPUP.fn_pop_callback;
+	    o.scopeId = $m.MT_POPUP.pageId;
+	    o.data = {};
+		$m.popup(o,_thisObj);
+	};
+	$m.MT_POPUP.fn_exe2 = function(_thisObj){
+		$m.mdiChange($m.MT_POPUP.pageId);
+	};
+	$m.MT_POPUP._excelCallback = function(_json){
+		if(_json.gridId == "grd_1"){
+			$m.MT_POPUP.fn_search();
+		}
+	};
+	$m.MT_POPUP.grd_01__onDblClick = function(_grd,rowIndex,colIndex,colId){
+		alert("grd_01__onDblClick\n"+
+			"그리드: "+_grd.id+"\n"+
+			"rowIndex: "+rowIndex+"\n"+
+			"colIndex: "+colIndex+"\n"+
+			"colId: "+colId
+		);
+	}
+</script>
+
+</head>
+<body>
+	
+<div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
+	<div class="moca_tab_cont" style="height:100%">
+		<div class="moca_cont_wrap flex fcol">
+			<div type="include" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
+				src="/html/titlebox.html"
+				data = '{"sreenCd":"MT_POPUP","sreenNm":"시스템설정","sreenPath":"시스템관리,시스템설정"}'
+			></div>
+
+			<div class="moca_shbox">
+				<div class="shbox_inner">
+					<div class="flex fwrap tr" id="shbox_1">
+						<div class="tb">
+							<span class="tb_th">조회영역</span>
+							<span class="tb_td">
+								<div type="radio" class="mocaRadio" style="width:100%" id="radio_01"
+								    itemset='[{"label":"1단","value":"1단","checked":"true"},
+								              {"label":"2단","value":"2단"},
+								              {"label":"3단","value":"3단"},
+								              {"label":"4단","value":"4단"}
+								              ]'
+								                innerOnclick='$m.MT_POPUP.radio_01_click'
+								></div>
+							</span>
+						</div>
+						<div class="tb">
+							<span class="tb_th">검색내용</span>
+							<span class="tb_td">
+								<div type="input" id="ipt_WRITER1" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="true"></div>
+							</span>
+						</div>
+					</div>
+					<div class="flex fwrap tr" id="shbox_2" style="display:none">
+						<div class="tb">
+							<span class="tb_th">검색내용</span>
+							<span class="tb_td">
+								<div type="input" id="ipt_WRITER2" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="true"></div>
+							</span>
+						</div>
+					</div>
+					<div class="flex fwrap tr" id="shbox_3" style="display:none">
+						<div class="tb">
+							<span class="tb_th">검색내용</span>
+							<span class="tb_td">
+								<div type="input" id="ipt_WRITER3" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="true"></div>
+							</span>
+						</div>
+					</div>
+					<div class="flex fwrap tr" id="shbox_4" style="display:none">
+						<div class="tb">
+							<span class="tb_th">검색내용</span>
+							<span class="tb_td">
+								<div type="input" id="ipt_WRITER4" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="true"></div>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="btn_shbox">
+					<button type="button" class="button btn_sc" onclick="$m.MT_POPUP.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+					<!-- <button type="button" class="button btn_sc" style="display:none" onclick="$m.MT_POPUP._openFileUpload(this)"><i class="fas fa-search"></i><span>파일첨부</span></button> -->
+				</div>
+			</div>
+			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
+								rendering_div = "true"
+								toolbar_search_size="false"
+								toolbar_detail="true"
+								toolbar_exup="true"
+								toolbar_exdn="true"
+								toolbar_addrow="true"
+								toolbar_delrow="true"
+								toolbar_full="true"
+								toolbar_grid_button1='{"position":"right","id":"btn_add","label":"레이어팝업","onclick":"$m.MT_POPUP.fn_exe","addClass":"","innerDisabled":"false"}'
+								toolbar_grid_button2='{"position":"right","id":"btn_add2","label":"윈도우팝업","onclick":"$m.MT_POPUP.fn_exe2","addClass":"","innerDisabled":"false"}'
+								toolbar_grid_label_span='{"position":"left","id":"todayCnt","label":"labelSpan","value":"200,000","valueClass":"txt_green","unit":"원"}'
+								toolbar_grid_label_input='{"position":"left","id":"totalPeople","label":"labelInput","value":"","width":"65px"}'
+								toolbar_grid_label_combo='{"position":"left","id":"totalCombo","label":"labelCombo","value":"","width":"65px"}'
+								toolbar_grid_label_ ='{"position":"left","id":"totalradio","label":"radio"}'
+								toolbar_grid_radio='{"position":"left","id":"radio1","label":"radio1","onclick":"$m.MT_POPUP.blank","value":[{"label":"Y","value":"1","checked":"1"},{"label":"N","value":"0"}],"width":"100px"}'
+								onDblClick = "$m.MT_POPUP.grd_01__onDblClick"
+								label="총건수"
+			
+			>
+					<table style="width: 100%">
+						<colgroup>
+								<col style="width:60px" mobileHide="false" hide="false" columnKey="status" thKey="H_STATUS" >
+								<col style="width:150px" mobileHide="true" hide="false" columnKey="TEST_PROP" thKey="TEST_PROP" >
+								<col style="" mobileHide="true" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
+								<col style="width:300px" mobileHide="true" hide="false" columnKey="TEST_DB" thKey="H_TEST_DB" >		
+								<col style="width:160px" mobileHide="true" hide="false" columnKey="TEST_DT" thKey="H_TEST_DT" >						
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col" id="H_STATUS">상태</th>
+								<th scope="col" id="H_TEST_PROP">속성</th>
+								<th scope="col" id="H_TEST_VALUE">값</th>
+								<th scope="col" id="H_TEST_DB">설명 (editorMode='true')</th>
+								<th scope="col" id="H_TEST_DT">날짜</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
+								<td excelIndex="1" id="TEST_PROP" celltype="input" style="text-align:left" name="속성" required="false" readOnly="true" ></td>
+								<td excelIndex="2" id="TEST_VALUE" celltype="input" style="text-align:left" name="값" readOnly="true"></td>
+								<td excelIndex="3" id="TEST_DB" celltype="input" style="" name="설명 (editorMode='true')"  required="true" editorMode="true" ></td>
+								<td excelIndex="4" id="TEST_DT" celltype="input" style="" required="true" name="날짜" readOnly="true" displayFunction="$m.longToDate"></td>
+							</tr>
+						</tbody>
+					</table>				
+			</div>
+		</div>	
+	</div>
+</div>
+</body>
+</html>

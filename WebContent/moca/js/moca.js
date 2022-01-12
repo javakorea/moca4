@@ -963,7 +963,6 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
     	        		_style = _style.replace("display: none","display: table-cell");
     	        	}
     	        }else{
-    	        	debugger;
     	        	$m.moblePcHide(aCol[0],"mobileHide");
     	        	if(aCol.attr("mobileHide") == "true"){
     	        		_style = _style.replace("display: table-cell","display: none");
@@ -2884,7 +2883,7 @@ Moca.prototype.fn_inputCal = function(_thisObj) {
         }
         sampleCalendar.init(val,_thisObj, typeIdx);
     }else{
-        $('.moca_calendar').remove();
+    	$(_thisObj).parent().find('.moca_calendar').remove();
         sampleCalendar.calId = null;
     }
 };
@@ -5660,7 +5659,6 @@ Moca.prototype.getFilteredListForFilter = function(_list,key,_val){
 
 Moca.prototype.validate = function(__grdId,_key,_val,_pageId,srcId){
     ['응답객체를 리턴타입에 맞게 변환']
-    debugger;
     var _grdIdArr = __grdId.split(',');
     var isExist = false;
     for(var g=0; g < _grdIdArr.length; g++){
@@ -6124,7 +6122,8 @@ var sampleCalendar ={
             calHtml +='                     </div>                                                                                                                                                                       ';
             //calHtml +='                   </div>                                                                                                                                                                           ';
             tmp.innerHTML = calHtml;
-            document.body.appendChild(tmp);
+            $(_thisObj).closest('div[type="inputCalendar"]').append(tmp);
+            //document.body.appendChild(tmp);
             
             sampleCalendar.calendarVariable.obj = $('#' +messageboxId);
                     
@@ -6132,7 +6131,7 @@ var sampleCalendar ={
             var _t = $(_thisObj).prev().offset().top;
             var _l = $(_thisObj).prev().offset().left;
             var _h = $(_thisObj).prev().height();
-            $('#'+messageboxId).css('top',(_t+_h)).css('left',_l);
+            //$('#'+messageboxId).css('top',(_t+_h)).css('left',_l);
             
             sampleCalendar.calendarVariable.putObj = $(_thisObj).prev();
             //sampleCalendar.iptId = $(_thisObj).prev().attr('id');
@@ -7228,7 +7227,7 @@ var multiCalendar ={
             calHtml +=' </div>';
                                                                                                                                                                                           
             tmp.innerHTML = calHtml;
-            
+           
             _opt.target.append(tmp);
             //document.body.appendChild(tmp);
             
