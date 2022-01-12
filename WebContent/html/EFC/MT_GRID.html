@@ -23,6 +23,7 @@
 						g_obj['CORP_CD']['codeOpt'] = {allOption:{label:'-선택-',value:''},metaInfo:{codeCd:"CORP_CD",codeNm:"CORP_NM"}};
 					} 
 					g_obj['CORP_CD']['list'] = response.list;
+					
 					$m.MT_GRID.fn_search();
 				}
 			});
@@ -40,8 +41,16 @@
             },			
 			callback : function(response){
 				$m.MT_GRID.drawGrid('grd_1', $m.MT_GRID.getResList(response,"selectTestList"));
+				if($m.getDevice() == 'mobile'){
+					$($m.MT_GRID.getObj('grd_1')).find('.grid_label_span').hide();
+					$($m.MT_GRID.getObj('grd_1')).find('.moca_radio').hide();
+					
+				}
+				$($m.MT_GRID.getObj('grd_1')).show();
 			}
 		});
+		
+		
 	};
 	
 	$m.MT_GRID.radio_01_click = function(_radioObj){
@@ -136,7 +145,7 @@
 						<div class="tb">
 							<span class="tb_th">검색내용</span>
 							<span class="tb_td">
-								<div type="input" id="ipt_WRITER1" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="true"></div>
+								<div type="input" id="ipt_WRITER1" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="false"></div>
 							</span>
 						</div>
 					</div>
@@ -144,7 +153,7 @@
 						<div class="tb">
 							<span class="tb_th">검색내용</span>
 							<span class="tb_td">
-								<div type="input" id="ipt_WRITER2" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="true"></div>
+								<div type="input" id="ipt_WRITER2" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="false"></div>
 							</span>
 						</div>
 					</div>
@@ -152,7 +161,7 @@
 						<div class="tb">
 							<span class="tb_th">검색내용</span>
 							<span class="tb_td">
-								<div type="input" id="ipt_WRITER3" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="true"></div>
+								<div type="input" id="ipt_WRITER3" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="false"></div>
 							</span>
 						</div>
 					</div>
@@ -160,7 +169,7 @@
 						<div class="tb">
 							<span class="tb_th">검색내용</span>
 							<span class="tb_td">
-								<div type="input" id="ipt_WRITER4" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="true"></div>
+								<div type="input" id="ipt_WRITER4" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="false"></div>
 							</span>
 						</div>
 					</div>
@@ -170,9 +179,11 @@
 					<!-- <button type="button" class="button btn_sc" style="display:none" onclick="$m.MT_GRID._openFileUpload(this)"><i class="fas fa-search"></i><span>파일첨부</span></button> -->
 				</div>
 			</div>
-			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
+			<div type="grid" class="moca_grid toolbar fauto mt12" style="display:none" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
 								rendering_div = "true"
 								toolbar_search_size="false"
+								toolbar_common_btns_pc='{"detail":"dblclick","exup":"false","exdn":"true","addrow":"false","delrow":"false","full":"true"}'
+								toolbar_common_btns_mobile='{"detail":"dblclick","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'
 								toolbar_detail="true"
 								toolbar_exup="true"
 								toolbar_exdn="true"
@@ -191,9 +202,9 @@
 			>
 					<table style="width: 100%">
 						<colgroup>
-								<col style="width:60px" mobileHide="false" hide="false" columnKey="status" thKey="H_STATUS" >
-								<col style="width:150px" mobileHide="true" hide="false" columnKey="TEST_PROP" thKey="TEST_PROP" >
-								<col style="" mobileHide="true" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
+								<col style="width:60px" mobileHide="true" hide="false" columnKey="status" thKey="H_STATUS" >
+								<col style="width:150px" mobileHide="false" hide="false" columnKey="TEST_PROP" thKey="H_TEST_PROP" >
+								<col style="" mobileHide="false" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
 								<col style="width:300px" mobileHide="true" hide="false" columnKey="TEST_DB" thKey="H_TEST_DB" >		
 								<col style="width:160px" mobileHide="true" hide="false" columnKey="TEST_DT" thKey="H_TEST_DT" >						
 						</colgroup>

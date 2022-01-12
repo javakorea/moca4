@@ -127,7 +127,7 @@
 						<div class="tb">
 							<span class="tb_th">검색내용</span>
 							<span class="tb_td">
-								<div type="input" id="ipt_WRITER1" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="true"></div>
+								<div type="input" id="ipt_WRITER1" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="false"></div>
 							</span>
 						</div>
 					</div>
@@ -135,7 +135,7 @@
 						<div class="tb">
 							<span class="tb_th">검색내용</span>
 							<span class="tb_td">
-								<div type="input" id="ipt_WRITER2" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="true"></div>
+								<div type="input" id="ipt_WRITER2" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="false"></div>
 							</span>
 						</div>
 					</div>
@@ -143,7 +143,7 @@
 						<div class="tb">
 							<span class="tb_th">검색내용</span>
 							<span class="tb_td">
-								<div type="input" id="ipt_WRITER3" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="true"></div>
+								<div type="input" id="ipt_WRITER3" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="false"></div>
 							</span>
 						</div>
 					</div>
@@ -151,7 +151,7 @@
 						<div class="tb">
 							<span class="tb_th">검색내용</span>
 							<span class="tb_td">
-								<div type="input" id="ipt_WRITER4" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="true"></div>
+								<div type="input" id="ipt_WRITER4" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="false"></div>
 							</span>
 						</div>
 					</div>
@@ -172,20 +172,15 @@
 								toolbar_full="true"
 								toolbar_grid_button1='{"position":"right","id":"btn_add","label":"레이어팝업","onclick":"$m.MT_POPUP.fn_exe","addClass":"","innerDisabled":"false"}'
 								toolbar_grid_button2='{"position":"right","id":"btn_add2","label":"윈도우팝업","onclick":"$m.MT_POPUP.fn_exe2","addClass":"","innerDisabled":"false"}'
-								toolbar_grid_label_span='{"position":"left","id":"todayCnt","label":"labelSpan","value":"200,000","valueClass":"txt_green","unit":"원"}'
-								toolbar_grid_label_input='{"position":"left","id":"totalPeople","label":"labelInput","value":"","width":"65px"}'
-								toolbar_grid_label_combo='{"position":"left","id":"totalCombo","label":"labelCombo","value":"","width":"65px"}'
-								toolbar_grid_label_ ='{"position":"left","id":"totalradio","label":"radio"}'
-								toolbar_grid_radio='{"position":"left","id":"radio1","label":"radio1","onclick":"$m.MT_POPUP.blank","value":[{"label":"Y","value":"1","checked":"1"},{"label":"N","value":"0"}],"width":"100px"}'
 								onDblClick = "$m.MT_POPUP.grd_01__onDblClick"
 								label="총건수"
 			
 			>
 					<table style="width: 100%">
 						<colgroup>
-								<col style="width:60px" mobileHide="false" hide="false" columnKey="status" thKey="H_STATUS" >
-								<col style="width:150px" mobileHide="true" hide="false" columnKey="TEST_PROP" thKey="TEST_PROP" >
-								<col style="" mobileHide="true" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
+								<col style="width:60px" mobileHide="true" hide="false" columnKey="status" thKey="H_STATUS" >
+								<col style="width:150px" mobileHide="false" hide="false" columnKey="TEST_PROP" thKey="H_TEST_PROP" >
+								<col style="" mobileHide="false" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
 								<col style="width:300px" mobileHide="true" hide="false" columnKey="TEST_DB" thKey="H_TEST_DB" >		
 								<col style="width:160px" mobileHide="true" hide="false" columnKey="TEST_DT" thKey="H_TEST_DT" >						
 						</colgroup>
