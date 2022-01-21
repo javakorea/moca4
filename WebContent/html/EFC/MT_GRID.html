@@ -5,7 +5,7 @@
 	
 	$m.MT_GRID.___ready = function(){
 		$m.MT_GRID.code({
-			"grd_1.EFC_COMBO":{code:'TEST'},
+			"grd_comp.EFC_COMBO":{code:'TEST'},
 			"cmb_1":{code:'boardStatus'},
 			"scmb_1":{code:'boardStatus'}
 		},function(){
@@ -41,16 +41,28 @@
             },			
 			callback : function(response){
 				$m.MT_GRID.drawGrid('grd_1', $m.MT_GRID.getResList(response,"selectTestList"));
+				$m.MT_GRID.fn_comp();
 				if($m.getDevice() == 'mobile'){
 					$($m.MT_GRID.getObj('grd_1')).find('.grid_label_span').hide();
 					$($m.MT_GRID.getObj('grd_1')).find('.moca_radio').hide();
 				}
 			}
 		});
-		
-		
 	};
-	
+	$m.MT_GRID.fn_comp = function(){
+		$m.MT_GRID.exe({
+			url : $m._domain+$m._contextRoot+"/MT_TEST/selectTestList.do",
+            data : {
+            	"header" : $m.header,
+            	"body" : {
+            		"TEST_TYPE":"TEST2"
+            	}
+            },			
+			callback : function(response){
+				$m.MT_GRID.drawGrid('grd_comp', $m.MT_GRID.getResList(response,"selectTestList"));
+			}
+		});
+	};
 	$m.MT_GRID.radio_01_click = function(_radioObj){
 		if(_radioObj.value == '1단'){
 			$m.show($m.MT_GRID.getObj("shbox_1"));
@@ -111,6 +123,45 @@
 			"colId: "+colId
 		);
 	}
+	$m.MT_GRID._openFileUpload = function(_thisObj) {
+		 var o = {};
+		 	o.url = '/moca/comp/COMP_UPLD.html';
+		 	//o.id = "COMP_UPLD";
+		    o.type = "POPUP";
+		    o.modal = "false";
+		    o.title = '파일업로드';
+		    o.callback = function(result){
+		    	if(result != null){
+		    		//업로드완료후 리턴업로드된파일정보를 받아서
+		            //이후 파일관련테이블에 insert하는 로직을 추가한다.
+		            var fileSize = result.fileSize;
+		            var fileLength = result.fileLength;
+		            var originalFilename = result.originalFilename;
+		            var physicalFilename = result.physicalFilename;
+		            var physicalFilepath = result.physicalFilepath;
+		            var subDir = result.subDir;
+		            var uploadDir = result.uploadDir;
+		            var arr = $m.MT_GRID.getObj("grd_file").list;
+		            var row = {BOARDFILE_NAME:originalFilename,BOARDFILE_SIZE:fileSize,BOARDFILE_NAMESERVER:physicalFilename,BOARDFILE_PATH:physicalFilepath}; 
+		            row._system = {"status":""};
+		            var sn = arr.length;
+		            arr[sn] =  row;
+		            $m.MT_GRID.drawGrid('grd_file',arr);
+		            //grd_file.list[sn]._system.status = "C";
+		    	}
+	        },
+		    o.scopeId = $m.MT_GRID.pageId;
+		    o.data = {
+		    		subDir:"MT_GRID",
+		            onFileSelected:"$m.MT_GRID.onFileSelected"
+		    };
+		    $m.popup(o,_thisObj);
+	};
+	$m.MT_GRID.onFileSelected = function(filename,filesize,_e,_this) {
+	    //filename이나 filesize를 활용하여 업로드여부를 체크할수있다.
+	    
+	    return true;//or false
+	};
 </script>
 
 </head>
@@ -174,7 +225,6 @@
 				</div>
 				<div class="btn_shbox">
 					<button type="button" class="button btn_sc" onclick="$m.MT_GRID.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
-					<!-- <button type="button" class="button btn_sc" style="display:none" onclick="$m.MT_GRID._openFileUpload(this)"><i class="fas fa-search"></i><span>파일첨부</span></button> -->
 				</div>
 			</div>
 			<div type="grid" class="moca_grid toolbar fauto mt12" style="" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
@@ -226,6 +276,98 @@
 						</tbody>
 					</table>				
 			</div>
+			<div type="grid" class="moca_grid toolbar sc_row1 mt10" default_cell_height="26px" id="grd_comp" style=" top:0; height:112px" rowSelectedColor="#434e5f"
+			        		rendering_div = "true"
+                            toolbar_search_size="false"
+                            toolbar_detail="false"
+                            toolbar_exup="false"
+                            toolbar_exdn="false"
+                            toolbar_addrow="false"
+                            toolbar_delrow="true"
+                            toolbar_nextbtn="false"
+                            toolbar_full="false"
+                            toolbar_fold="true"
+                            onFoldClick="$m.MT_GRID.grd_btnShowHide"
+                            subLabel="Grid celltype"
+			        
+		        >
+	                <table style="width: 100%">
+						<colgroup>
+								<col style="width:60px" mobileHide="false" hide="false" columnKey="TEST_YN" thKey="H_TEST_YN" >
+								<col style="width:120px" mobileHide="false" hide="false" columnKey="TEST_YN2" thKey="H_TEST_YN2" >
+								<col style="width:120px" mobileHide="false" hide="false" columnKey="EFC_COMBO" thKey="H_EFC_COMBO" >
+								<col style="width:300px" mobileHide="true" hide="false" columnKey="TEST_DB" thKey="H_TEST_DB" >		
+								<col style="width:160px" mobileHide="true" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col" id="H_TEST_YN">checkbox</th>
+								<th scope="col" id="H_TEST_YN2">radio</th>
+								<th scope="col" id="H_TEST_COMBO">combo</th>
+								<th scope="col" id="H_TEST_DB">input</th>
+								<th scope="col" id="H_TEST_VALUE">editorMode='true'</th>
+								
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="TEST_YN" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" disabledFunction="" ></td>
+								<td id="TEST_YN2" celltype="radio" style="" name="선택" 
+									  itemset='[{"label":"yes","value":"1","checked":"true"},
+									              {"label":"no","value":"0"}
+									              ]'
+								
+								></td>
+								<td id="EFC_COMBO" celltype="select" style="text-align:center" required="true" name="공통콤보" readOnly="false"></td>
+								<td id="TEST_DB" celltype="input" style="" name="값" readOnly="false"></td>
+								<td id="TEST_VALUE" celltype="input" style="text-align:left"  name="설명 (editorMode='true')"  required="false" editorMode="true" ></td>
+								
+							</tr>
+						</tbody>
+					</table>              
+	        </div>
+			<div type="grid" class="moca_grid toolbar sc_row1 mt10" default_cell_height="26px" id="grd_file" style=" top:0; height:112px" rowSelectedColor="#434e5f"
+			        
+			                            toolbar_search_size="false"
+			                            toolbar_detail="false"
+			                            toolbar_exup="false"
+			                            toolbar_exdn="false"
+			                            toolbar_addrow="false"
+			                            toolbar_delrow="true"
+			                            toolbar_nextbtn="false"
+			                            toolbar_full="false"
+			                            toolbar_fold="true"
+			                            onFoldClick="$m.MT_GRID.grd_btnShowHide"
+			                            toolbar_grid_button2='{"position":"left","id":"btn_add","label":"파일찾기","onclick":"$m.MT_GRID._openFileUpload","addClass":"","innerDisabled":"false"}'
+			                            onDblClick = "$m.MT_GRID.grd_fileDownload"
+			                            subLabel="fileUpload"
+			        
+		        >
+	                <table style="width: 100%">
+	                    <colgroup>
+	                            <col style="width:60px" mobileHide="true" columnKey="status" thKey="H_status">
+	                            <col style="width:50px">
+	                            <col style="">
+	                            <col style="width:70px">       
+	                    </colgroup>
+	                    <thead>
+	                        <tr>
+	                            <th scope="col" id="H_status">상태</th>
+	                            <th scope="col" id="H_BOARDFILE_IDX">파일ID</th>
+	                            <th scope="col" id="H_BOARDFILE_NAME">파일명</th>
+	                            <th scope="col" id="H_BOARDFILE_SIZE">파일크기</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                        <tr>
+	                            <td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
+	                            <td id="BOARDFILE_IDX" celltype="input" style="" readOnly="true" name="파일ID"></td>
+	                            <td id="BOARDFILE_NAME" celltype="input" style="text-align:left" name="파일명" readOnly="true"></td>
+	                            <td id="BOARDFILE_SIZE" celltype="input" style="" name="파일크기" readOnly="true"></td>
+	                        </tr>
+	                    </tbody>
+	                </table>                
+	        </div>
 		</div>	
 	</div>
 </div>
