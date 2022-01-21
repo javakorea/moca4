@@ -9856,7 +9856,7 @@ Moca.prototype.renderGridToolbarCheckbox = function(x1Obj) {
     }else{
         x1Obj.addClassStr = x1Obj.addClass;
     }
-    _html += '<div type="gridCheckbox" class="mt3 '+x1Obj.addClassStr+'">';
+    _html += '<div type="gridCheckbox" class="'+x1Obj.addClassStr+'">';
     _html += '<input type="checkbox" class="moca_checkbox_input" id="'+x1Obj.id+'" name="'+x1Obj.id+'" value="'+x1Obj.value+'" '+x1Obj.checkedStr+' '+x1Obj.onclickStr+'>';
     _html += '<label type="checkbox" class="moca_checkbox_label" for="'+x1Obj.id+'" >'+x1Obj.label+'</label>'; 
     _html += '</div>';
@@ -10632,6 +10632,12 @@ Moca.prototype.renderCheckboxGroup = function(_divObj,_val,_gubun,_metaObj,_chec
     var _html = '';
     var _onclick = '';
     var _pageId= $(_divObj).attr('pageid');
+    var _disabledStr= '';
+    	debugger;
+    if($(_divObj).attr('disabled')){
+    	_disabledStr = 'disabled';
+    }
+    	
     for(var i=0; i < _itemsetArray.length; i++){
         var obj = _itemsetArray[i];
         var checkedStr = '';
@@ -10640,6 +10646,7 @@ Moca.prototype.renderCheckboxGroup = function(_divObj,_val,_gubun,_metaObj,_chec
         }else if(_metaObj.checked){
           checkedStr = 'checked';
         }
+        
         var onclickStr = '';
         if(obj.onclick){
         	onclickStr = 'onclick="'+obj.onclick+'(this)"';
@@ -10654,7 +10661,7 @@ Moca.prototype.renderCheckboxGroup = function(_divObj,_val,_gubun,_metaObj,_chec
           checkedStr = '';
         }   
         
-        _html += '<input type="checkbox" class="moca_checkbox_input" name="'+_id+'" id="'+_pageId+'_'+_id+'_'+i+'" '+checkedStr+' value="'+obj.value+'">';
+        _html += '<input type="checkbox" class="moca_checkbox_input" name="'+_id+'" id="'+_pageId+'_'+_id+'_'+i+'" '+checkedStr+' '+_disabledStr+' value="'+obj.value+'">';
         _html += '<label class="moca_checkbox_label mr15" for="'+_pageId+'_'+_id+'_'+i+'" '+onclickStr+'>'+obj.label+'</label>';
     }
     _divObj.innerHTML = _html;

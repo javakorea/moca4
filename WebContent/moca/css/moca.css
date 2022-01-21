@@ -64,6 +64,7 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 /* MOCA Checkbox, radio */
 .checkboxGroup > div[type="checkbox"]{float:left}
 .checkboxGroup.vertical > div[type="checkbox"]{float:none}
+.checkboxGroup{line-height:24px; padding:0 4px}
 .moca_radio, 
 .moca_checkbox {vertical-align:middle; -moz-box-sizing:border-box; box-sizing:border-box}
 .moca_radio:after, 
@@ -92,9 +93,11 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_checkbox_input + .moca_checkbox_label:before, .moca_checkbox_input.chk_all + .moca_checkbox_label:before {background:url(../images/ico_cbx.png) no-repeat 0 0; top:1px}
 .moca_checkbox_input:checked + .moca_checkbox_label:before {background-position:0 -12px}
 .moca_checkbox_input:disabled + .moca_checkbox_label:before {background-position:0 -24px; cursor:default}
-.moca_checkbox_input:disabled:checked + .moca_checkbox_label:before {background-position:0 -36px: cursor:default}
+.moca_checkbox_input:disabled:checked + .moca_checkbox_label:before {background-position:0 -36px; cursor:default}
 .moca_checkbox_input:indeterminate + .moca_checkbox_label:before {background-position:0 -72px}
 .moca_checkbox_input.chk_all:checked + .moca_checkbox_label:before{background-position:0 -60px} 
+
+div[type="gridCheckbox"]{height: 24px; margin-top: 0; line-height: 31px;}
 /* MOCA input */
 .moca_input {background-color:#fff;height:24px; width:100%; padding:0 4px; border:1px solid #d7d7de; border-radius:2px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -webkit-appearance:none; -moz-appearance:none; appearance:none; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
 .moca_input.req{border:1px solid #e79f78; background:#fffbe8;}
@@ -1345,7 +1348,7 @@ div[type="table"].moca_table_cont{table-layout:fixed; width:100%; position: rela
 .moca_table_cont > div[type="thead"] > div[type="tr"] > div[type="th"]:last-child{border-right:0}
 .moca_table_cont > div[type="thead"] > div[type="tr"] > div[type="th"].bd{border-right: 1px solid #bbc3ce;}
 .moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="th"]{height:28px}
-.moca_table_cont .moca_checkbox_input + .moca_checkbox_label {display:inline-block; position:relative; padding-left:10px; margin-right:4px}
+.moca_table_cont .moca_checkbox_input + .moca_checkbox_label {display:inline-block; position:relative; padding-left:15px; margin-right:4px}
 .moca_table_cont.th_tar div[type="th"]{text-align:right}
 
 /*moca_table th색상*/

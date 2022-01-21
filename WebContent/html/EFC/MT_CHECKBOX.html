@@ -3,12 +3,29 @@
 <head>
 <script>
 	
-	$m.MT_RADIO.___ready = function(){
-		$m.MT_RADIO.fn_search();
+	$m.MT_CHECKBOX.___ready = function(){
+		 $m.MT_CHECKBOX.code({
+	            "chkg_1":{code:'TEST'},"chkg_2":{code:'TEST'}
+	        },function(result){
+	        	var list = result['chkg_1'];
+	        	$m.setCheckboxGroupList(
+	        			$m.MT_CHECKBOX.getObj('chkg_1'),
+	        			list,
+	        			{label:"codeNm",value:"code",checked:true},
+	        			{"Y":"unchecked"}
+	        	);
+	        	$m.setCheckboxGroupList(
+	        			$m.MT_CHECKBOX.getObj('chkg_2'),
+	        			list,
+	        			{label:"codeNm",value:"code",checked:true},
+	        			{"Y":"unchecked"}
+	        	);
+	        });
+		$m.MT_CHECKBOX.fn_search();
 	};
 	
-	$m.MT_RADIO.fn_search = function(){
-		$m.MT_RADIO.exe({
+	$m.MT_CHECKBOX.fn_search = function(){
+		$m.MT_CHECKBOX.exe({
 			url : $m._domain+$m._contextRoot+"/MT_TEST/selectTestList.do",
             data : {
             	"header" : $m.header,
@@ -17,17 +34,17 @@
             	}
             },			
 			callback : function(response){
-				$m.MT_RADIO.drawGrid('grd_1', $m.MT_RADIO.getResList(response,"selectTestList"));
+				$m.MT_CHECKBOX.drawGrid('grd_1', $m.MT_CHECKBOX.getResList(response,"selectTestList"));
 				var _data = response.selectTestList[0];
 				
-				$m.setValue($m.MT_RADIO.getObj("w1"),_data.IDX);
-				$m.setValue($m.MT_RADIO.getObj("w2"),_data.TEST_TYPE);
-				$m.setValue($m.MT_RADIO.getObj("w3"),$m.longToDate(_data.TEST_DT));
-				$m.setValue($m.MT_RADIO.getObj("w4"),_data.TEST_NM);
+				$m.setValue($m.MT_CHECKBOX.getObj("w1"),_data.IDX);
+				$m.setValue($m.MT_CHECKBOX.getObj("w2"),_data.TEST_TYPE);
+				$m.setValue($m.MT_CHECKBOX.getObj("w3"),$m.longToDate(_data.TEST_DT));
+				$m.setValue($m.MT_CHECKBOX.getObj("w4"),_data.TEST_NM);
 				
-				$m.setValue($m.MT_RADIO.getObj("w5"),_data.TEST_PROP);
-				$m.setValue($m.MT_RADIO.getObj("w5"),_data.TEST_VALUE);
-				$m.setValue($m.MT_RADIO.getObj("w6"),_data.TEST_DB);
+				$m.setValue($m.MT_CHECKBOX.getObj("w5"),_data.TEST_PROP);
+				$m.setValue($m.MT_CHECKBOX.getObj("w5"),_data.TEST_VALUE);
+				$m.setValue($m.MT_CHECKBOX.getObj("w6"),_data.TEST_DB);
 				if($m.getDevice()=='mobile'){
 					$('.ly_column.col_5').css('width','100%');
 					$('.ly_column.col_5').css('height','auto');
@@ -36,13 +53,18 @@
 			}
 		});
 	};
-	$m.MT_RADIO.fn_check_after = function(_grd,_rowIndex,_colId){
+	$m.MT_CHECKBOX.fn_check_after = function(_grd,_rowIndex,_colId){
 		debugger;
 		if(_colId == 'grd_radio'){
-			//$m.MT_RADIO.setCellData($m.MT_RADIO.getObj("grd_1"),i,'grd_radio',checkedValue);
-    		$m.MT_RADIO.redrawGrid($m.MT_RADIO.getObj("grd_1"));
+			//$m.MT_CHECKBOX.setCellData($m.MT_CHECKBOX.getObj("grd_1"),i,'grd_radio',checkedValue);
+    		$m.MT_CHECKBOX.redrawGrid($m.MT_CHECKBOX.getObj("grd_1"));
     	}
 	}
+	$m.MT_CHECKBOX.disabled= function(_thisVal, _grd, _realrow){
+    	return true;
+    }
+	$m.MT_CHECKBOX.fn_check= function(_thisVal, _grd, _realrow){
+    }
 </script>
 
 </head>
@@ -53,7 +75,7 @@
 		<div class="moca_cont_wrap flex fcol">
 			<div type="include" class="moca_titbox noshbox cm" id="titbox" tag="moca:titbox" 
 				src="/html/titlebox.html"
-				data = '{"sreenCd":"MT_RADIO","sreenNm":"시스템설정","sreenPath":"시스템관리,시스템설정"}'
+				data = '{"sreenCd":"MT_CHECKBOX","sreenNm":"시스템설정","sreenPath":"시스템관리,시스템설정"}'
 			></div>
 			 <div type="form" id="form_1" class="moca_table" style=""
 	                label=""
@@ -64,41 +86,24 @@
 		          	<div class="moca_table_cont" type="table">
 		          		<div type="tbody">
 		          			<div type="tr">
-		          				<div type="th" class="tar" style="width:100px">radio</div>
+		          				<div type="th" class="tar" style="width:100px">checkbox</div>
                                 <div type="td">
-                                	<div type="radio" class="mocaRadio" style="width:100%" id="radio_01"
-									    itemset='[{"label":"label1","value":"value1","checked":"true"},
-									              {"label":"label2","value":"value2"},
-									              {"label":"label3","value":"value3"},
-									              {"label":"label4","value":"value4"}
-									              ]'
-									></div>
-                                </div>
-                                
-                            </div>
-                            <div type="tr">
-		          				<div type="th" class="tar" style="width:100px">empty</div>
-                                <div type="td">
-                                	<div type="radio" class="mocaRadio" style="width:100%" id="radio_02"
-									    itemset='[{"label":"label1","value":"value1"},
-									              {"label":"label2","value":"value2"},
-									              {"label":"label3","value":"value3"},
-									              {"label":"label4","value":"value4"}
-									              ]'
-									></div>
+                                	<div type="checkboxGroup" class="fl bd" direction="" id="chkg_1" style=""
+		                                itemset='[
+		                                    {"id":"chk1","label":"완료","value":"Y","checked":"true"}
+		                                ]'>
+		                            </div>
                                 </div>
                                 
                             </div>
                             <div type="tr">
                             	<div type="th" class="tar" style="width:100px">disabled</div>
                                 <div type="td">
-                                	<div type="radio" disabled="true" class="mocaRadio" style="width:100%" id="radio_03"
-									    itemset='[{"label":"label1","value":"value1","checked":"true"},
-									              {"label":"label2","value":"value2"},
-									              {"label":"label3","value":"value3"},
-									              {"label":"label4","value":"value4"}
-									              ]'
-									></div>
+                                	<div type="checkboxGroup" class="fl bd" direction="" disabled="true" id="chkg_2" style=""
+		                                itemset='[
+		                                    {"id":"chk1","label":"완료","value":"Y","checked":"true"}
+		                                ]'>
+		                            </div>
                                 </div>
                             </div>
 		          		</div>
@@ -115,49 +120,42 @@
 								toolbar_addrow="false"
 								toolbar_delrow="false"
 								toolbar_full="false"
-								toolbar_grid_label_ ='{"position":"left","id":"totalradio","label":"toolbarRadio"}'
-								toolbar_grid_radio='{"position":"left","id":"radio1","label":"radio1","onclick":"$m.MT_GRID.blank","value":[{"label":"Y","value":"1","checked":"1"},{"label":"N","value":"0"}],"width":"100px"}'
-								onDblClick = "$m.MT_RADIO.grd_01__onDblClick"
+								toolbar_grid_label_ ='{"position":"left","id":"totalradio","label":"toolbarCheckbox"}'
+								toolbar_grid_checkbox1='{"position":"left","id":"check1","label":"체크박스","value":"1","checked":"true","onclick":"$m.MT_CHECKBOX.fn_check"}'
+								onDblClick = "$m.MT_CHECKBOX.grd_01__onDblClick"
 								label="총건수"
 			
 			>
 					<table style="width: 100%">
 						<colgroup>
-								<col style="width:60px" mobileHide="true" hide="false" columnKey="status" thKey="H_STATUS" >
-								<col style="width:200px" mobileHide="false" hide="false" columnKey="TEST_YN" thKey="H_TEST_YN" >	
+								<col style="width:30px" mobileHide="false" hide="false" columnKey="chk" thKey="H_chk" >
+								<col style="width:60px" mobileHide="false" hide="false" columnKey="chk2" thKey="H_chk2" >
+								<col style="width:0px" mobileHide="true" hide="true" columnKey="status" thKey="H_STATUS" >
 								<col style="width:150px" mobileHide="false" hide="false" columnKey="TEST_PROP" thKey="H_TEST_PROP" >
 								<col style="" mobileHide="true" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
 								<col style="width:300px" mobileHide="true" hide="false" columnKey="TEST_DB" thKey="H_TEST_DB" >		
 								<col style="width:160px" mobileHide="true" hide="false" columnKey="TEST_DT" thKey="H_TEST_DT" >
-											
 						</colgroup>
 						<thead>
 							<tr>
+								<th scope="col" celltype="checkbox" id="H_chk" targetId="chk">선택</th>
+								<th scope="col" id="H_chk2">disabled</th>
 								<th scope="col" id="H_STATUS">상태</th>
-								<th scope="col" id="H_TEST_YN">radio</th>
 								<th scope="col" id="H_TEST_PROP">속성</th>
 								<th scope="col" id="H_TEST_VALUE">값</th>
 								<th scope="col" id="H_TEST_DB">설명 (editorMode='true')</th>
 								<th scope="col" id="H_TEST_DT">날짜</th>
-								
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
+								<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" disabledFunction="" ></td>
+								<td id="TEST_YN" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" disabledFunction="$m.MT_CHECKBOX.disabled" ></td>
 								<td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
-								<td id="TEST_YN" celltype="radio" style="" name="선택" 
-									  itemset='[{"label":"yes","value":"1","checked":"true"},
-									              {"label":"no","value":"0"}
-									              ]'
-								
-								></td>
 								<td id="TEST_PROP" celltype="input" style="text-align:left" name="속성" required="false" readOnly="true" ></td>
 								<td id="TEST_VALUE" celltype="input" style="text-align:left" name="값" readOnly="true"></td>
 								<td id="TEST_DB" celltype="input" style="" name="설명 (editorMode='true')"  required="true" editorMode="true" ></td>
 								<td id="TEST_DT" celltype="input" style="" required="true" name="날짜" readOnly="true" displayFunction="$m.longToDate"></td>
-								
-								
-									  
 							</tr>
 						</tbody>
 					</table>				
