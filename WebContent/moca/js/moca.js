@@ -12278,6 +12278,7 @@ Moca.prototype.renderMocaButton = function(o) {
         var _onclickStr ='';
         if($m.trim(_onclick) != ''){
         	_onclickStr = 'onclick="'+_onclick+'"';
+        	o.removeAttribute("onclick");
         }
         _html += '<button id="button_'+$m.nul(_id)+'"  style="'+_innerStyle+'" class="'+_innerClass+'" '+_disabled+' '+_onclickStr+'>'+$m.nul(_label)+'</button>';
         o.innerHTML = _html;
@@ -14143,7 +14144,6 @@ Moca.prototype.defaultCellClick = function(_thisObj){
     var selectedRealRowIndex = grd.getAttribute("selectedRealRowIndex");
     var onBeforeClickStr = grd.getAttribute("onBeforeClick");
     var onAfterClickStr = grd.getAttribute("onAfterClick");
-    $m._uptData(_thisObj);
     var pro = Promise.resolve();
     if(onBeforeClickStr != "" && onBeforeClickStr != null){
         pro = pro.then(function(re){

@@ -35,6 +35,11 @@
 			}
 		});
 	};
+	
+	$m.MT_FORM.fn_reply = function(){
+		$m.alert("저장되었습니다.")
+	}
+	
 </script>
 
 </head>
@@ -48,14 +53,12 @@
 				data = '{"sreenCd":"MT_FORM","sreenNm":"시스템설정","sreenPath":"시스템관리,시스템설정"}'
 			></div>
 
-			<div type="form" id="form_board" class="moca_table toolbar" tdType="divTbl" style=""
-	                label=""
+			<div type="form" id="form_board" class="moca_table toolbar mt5" tdType="divTbl" style=""
+	                label="form"
 	                showRowSelection="true"
 	                oncellclick="$m.MT_FORM.onRowClick"
 	                addition='[
-	                {"type":"button","position":"right","id":"btn_reply","label":"답변작성","onclick":"$m.MT_FORM.fn_reply","innerStyle":"background:#97a2ba"},
-	                {"type":"button","position":"right","id":"btn_save","label":"저장","onclick":"$m.MT_FORM.fn_save","innerStyle":"background:#97a2ba"},
-	                {"type":"button","position":"right","id":"btn_del_admin","label":"물리삭제","onclick":"$m.MT_FORM.fn_adminDel","innerStyle":"background:#6d7993", "addClass":""}
+	                {"type":"button","position":"right","id":"btn_reply","label":"버튼","onclick":"$m.MT_FORM.fn_reply","innerStyle":"background:#97a2ba"}
 	                    ]'
 	                >
 		          	<div class="moca_table_cont" type="table">
