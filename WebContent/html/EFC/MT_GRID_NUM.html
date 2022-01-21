@@ -42,6 +42,11 @@
             },			
 			callback : function(response){
 				$m.MT_GRID_NUM.drawGrid('grd_1', $m.MT_GRID_NUM.getResList(response,"selectTestNumList"),response);
+				if($m.getDevice() == 'mobile'){
+					$($m.MT_GRID_NUM.getObj('grd_1')).find('.grid_label_span').hide();
+					$($m.MT_GRID_NUM.getObj('grd_1')).find('.moca_radio').hide();
+				}
+				$($m.MT_GRID_NUM.getObj('grd_1')).show();
 			}
 		});
 	};
@@ -138,7 +143,7 @@
 						<div class="tb">
 							<span class="tb_th">검색내용</span>
 							<span class="tb_td">
-								<div type="input" id="ipt_WRITER1" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="true"></div>
+								<div type="input" id="ipt_WRITER1" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="false"></div>
 							</span>
 						</div>
 					</div>
@@ -146,7 +151,7 @@
 						<div class="tb">
 							<span class="tb_th">검색내용</span>
 							<span class="tb_td">
-								<div type="input" id="ipt_WRITER2" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="true"></div>
+								<div type="input" id="ipt_WRITER2" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="false"></div>
 							</span>
 						</div>
 					</div>
@@ -154,7 +159,7 @@
 						<div class="tb">
 							<span class="tb_th">검색내용</span>
 							<span class="tb_td">
-								<div type="input" id="ipt_WRITER3" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="true"></div>
+								<div type="input" id="ipt_WRITER3" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="false"></div>
 							</span>
 						</div>
 					</div>
@@ -162,7 +167,7 @@
 						<div class="tb">
 							<span class="tb_th">검색내용</span>
 							<span class="tb_td">
-								<div type="input" id="ipt_WRITER4" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="true"></div>
+								<div type="input" id="ipt_WRITER4" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="false"></div>
 							</span>
 						</div>
 					</div>
@@ -172,7 +177,7 @@
 					<!-- <button type="button" class="button btn_sc" style="display:none" onclick="$m.MT_GRID_NUM._openFileUpload(this)"><i class="fas fa-search"></i><span>파일첨부</span></button> -->
 				</div>
 			</div>
-			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
+			<div type="grid" class="moca_grid toolbar fauto mt12" style="display:none" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
 								rendering_div = "true"
 								toolbar_search_size="false"
 								toolbar_detail="true"

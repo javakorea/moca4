@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script>
+	
+	$m.MT_INPUT.___ready = function(){
+		$m.MT_INPUT.fn_search();
+	};
+	
+	$m.MT_INPUT.fn_search = function(){
+		$m.MT_INPUT.exe({
+			url : $m._domain+$m._contextRoot+"/MT_TEST/selectTestList.do",
+            data : {
+            	"header" : $m.header,
+            	"body" : {
+            		"TEST_TYPE":"TEST"
+            	}
+            },			
+			callback : function(response){
+				$m.MT_INPUT.drawGrid('grd_1', $m.MT_INPUT.getResList(response,"selectTestList"));
+				var _data = response.selectTestList[0];
+				
+				$m.setValue($m.MT_INPUT.getObj("w1"),_data.IDX);
+				$m.setValue($m.MT_INPUT.getObj("w2"),_data.TEST_TYPE);
+				$m.setValue($m.MT_INPUT.getObj("w3"),$m.longToDate(_data.TEST_DT));
+				$m.setValue($m.MT_INPUT.getObj("w4"),_data.TEST_NM);
+				
+				$m.setValue($m.MT_INPUT.getObj("w5"),_data.TEST_PROP);
+				$m.setValue($m.MT_INPUT.getObj("w5"),_data.TEST_VALUE);
+				$m.setValue($m.MT_INPUT.getObj("w6"),_data.TEST_DB);
+				if($m.getDevice()=='mobile'){
+					$('.ly_column.col_5').css('width','100%');
+					$('.ly_column.col_5').css('height','auto');
+					$('.ly_column.col_5 .ly_col_cont.pl7_5').removeClass('pl7_5');					
+				}
+			}
+		});
+	};
+</script>
+
+</head>
+<body>
+	
+<div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
+	<div class="moca_tab_cont" style="height:100%">
+		<div class="moca_cont_wrap flex fcol">
+			<div type="include" class="moca_titbox noshbox cm" id="titbox" tag="moca:titbox" 
+				src="/html/titlebox.html"
+				data = '{"sreenCd":"MT_INPUT","sreenNm":"시스템설정","sreenPath":"시스템관리,시스템설정"}'
+			></div>
+			 <div type="form" id="form_1" class="moca_table" style=""
+	                label=""
+	                showRowSelection="false"
+	                addition='[
+	                    ]'
+	                >
+		          	<div class="moca_table_cont" type="table">
+		          		<div type="tbody">
+		          			<div type="tr">
+		          				<div type="th" class="tar" style="width:100px">INPUT</div>
+                                <div type="td">
+									<div type="input" id="w3_1" class="mocaInput" displayFunction="" innerClass="" onclick="" style="" value="테스트데이터" readonly="false"></div>
+                                </div>
+                            </div>
+                            <div type="tr">
+                            	<div type="th" class="tar" style="width:100px">required</div>
+                                <div type="td">
+									<div type="input" id="w3_1" class="mocaInput req" displayFunction="" innerClass="" onclick="" style="" value="테스트데이터" readonly="false"></div>
+                                </div>
+                            </div>
+                            <div type="tr">
+                            	<div type="th" class="tar" style="width:100px">disabled</div>
+                                <div type="td">
+									<div type="input" id="w3_1" class="mocaInput" displayFunction="" innerClass="" onclick="" style="" value="테스트데이터" innerDisabled="true"></div>
+                                </div>
+                            </div>
+                            <div type="tr">
+                            	<div type="th" class="tar" style="width:100px">readonly</div>
+                                <div type="td">
+									<div type="input" id="w3_1" class="mocaInput" displayFunction="" innerClass="" onclick="" style="" value="테스트데이터" readonly="true"></div>
+                                </div>
+                            </div>
+		          		</div>
+		          	</div>
+            </div>
+            <div type="form" id="form_board_keyMask" class="moca_table toolbar" style=""
+	                label="keyMask"
+	                showRowSelection="false"
+	                addition='[
+	                    ]'
+	                >
+		          	<div class="moca_table_cont" type="table">
+		          		<div type="tbody">
+		          			<div type="tr">
+		          				<div type="th" class="tar" style="width:100px">Phone</div>
+                                <div type="td">
+									<div type="input" id="w3_1" class="mocaInput" keyMask="onlyPhone" displayFunction="$m.phoneWithDashFormatter" innerClass="" onclick="" style="" value="010-1234-5678" readonly="false"></div>
+                                </div>
+                            </div>
+                            <div type="tr">
+                                <div type="th" class="tar" style="width:100px">Number</div>
+                                <div type="td">
+									<div type="input" id="w3_2" class="mocaInput" keyMask="onlyNumber" displayFunction="$m.comma" innerClass="" onclick="" style="" value="1,234,567" readonly="false"></div>
+                                </div>
+                            </div>
+                            <div type="tr">
+                                <div type="th" class="tar" style="width:100px">Money</div>
+                                <div type="td">
+									<div type="input" id="w3_3" class="mocaInput" keyMask="onlyMoney" displayFunction="$m.comma" innerClass="" onclick="" style="" value="1,234,567" readonly="false"></div>
+                                </div>
+                            </div>
+                            <div type="tr">
+                                <div type="th" class="tar" style="width:100px">Float</div>
+                                <div type="td">
+									<div type="input" id="w3_4" class="mocaInput" keyMask="onlyFloat" innerClass="" onclick="" style="" value="12345" readonly="false"></div>
+                                </div>
+                            </div>
+                            <div type="tr">
+                                <div type="th" class="tar" style="width:100px">Percent</div>
+                                <div type="td">
+									<div type="input" id="w2_5" class="mocaInput" keyMask="onlyPercent" displayFunction="$m.comma" innerClass="" onclick="" style="" value="99.99%" readonly="false"></div>
+                                </div>
+                            </div>
+                            <div type="tr">
+                            </div>
+		          		</div>
+		          	</div>
+            </div>
+			<div type="grid" class="moca_grid toolbar fauto mt12" style="" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
+								rendering_div = "true"
+								toolbar_search_size="false"
+								toolbar_common_btns_pc='{"detail":"dblclick","exup":"false","exdn":"true","addrow":"false","delrow":"false","full":"true"}'
+								toolbar_common_btns_mobile='{"detail":"dblclick","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'
+								toolbar_detail="true"
+								toolbar_exup="true"
+								toolbar_exdn="true"
+								toolbar_addrow="true"
+								toolbar_delrow="true"
+								toolbar_full="true"
+								toolbar_grid_label_input='{"position":"left","id":"totalPeople","label":"labelInput","value":"","width":"65px"}'
+								onDblClick = "$m.MT_INPUT.grd_01__onDblClick"
+								label="총건수"
+			
+			>
+					<table style="width: 100%">
+						<colgroup>
+								<col style="width:60px" mobileHide="true" hide="false" columnKey="status" thKey="H_STATUS" >
+								<col style="width:300px" mobileHide="true" hide="false" columnKey="TEST_PROP" thKey="H_TEST_PROP" >
+								<col style="width:30%" mobileHide="false" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
+								<col style="width:30%" mobileHide="false" hide="false" columnKey="TEST_DB" thKey="H_TEST_DB" >		
+								<col style="width:160px" mobileHide="true" hide="false" columnKey="TEST_DT" thKey="H_TEST_DT" >						
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col" id="H_STATUS">상태</th>
+								<th scope="col" id="H_TEST_PROP">input</th>
+								<th scope="col" id="H_TEST_VALUE">required</th>
+								<th scope="col" id="H_TEST_DB">editorMode='true'</th>
+								<th scope="col" id="H_TEST_DT">readonly='true'</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
+								<td excelIndex="1" id="TEST_PROP" celltype="input" style="text-align:left" name="속성" required="false" readOnly="false" ></td>
+								<td excelIndex="2" id="TEST_VALUE" celltype="input" style="text-align:left" name="값" required="true" readOnly="false"></td>
+								<td excelIndex="3" id="TEST_DB" celltype="input" style="" name="설명 (editorMode='true')"  required="false" editorMode="true" ></td>
+								<td excelIndex="4" id="TEST_DT" celltype="input" style="" required="true" name="날짜" readOnly="true" displayFunction="$m.longToDate"></td>
+							</tr>
+						</tbody>
+					</table>				
+			</div>
+
+            
+		</div>	
+	</div>
+</div>
+</body>
+</html>

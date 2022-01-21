@@ -88,7 +88,7 @@ legend, caption {position:absolute; height:1px; color:trnasparent; overflow:hidd
 .moca_radio_input + .moca_radio_label:before {background:url(../images/ico_rad.png) no-repeat 0 0}
 .moca_radio_input:checked + .moca_radio_label:before {background-position:0 -12px}
 .moca_radio_input:disabled + .moca_radio_label:before {background-position:0 -24px; cursor:default}
-.moca_radio_input:disabled:checked + .moca_radio_label:before {background-position:0 -36px: cursor:default}
+.moca_radio_input:disabled:checked + .moca_radio_label:before {background-position:0 -36px; cursor:default}
 .moca_checkbox_input + .moca_checkbox_label:before, .moca_checkbox_input.chk_all + .moca_checkbox_label:before {background:url(../images/ico_cbx.png) no-repeat 0 0; top:1px}
 .moca_checkbox_input:checked + .moca_checkbox_label:before {background-position:0 -12px}
 .moca_checkbox_input:disabled + .moca_checkbox_label:before {background-position:0 -24px; cursor:default}
@@ -1247,7 +1247,7 @@ td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:2
 .mocaInput.req input[type="text"]{border:1px solid #e79f78; background:#fffbe8;}
 .mocaInput.req input[type="text"]:hover{border:1px solid #e45c2d;background:#fffbe8}
 .mocaInput input[type="text"]:read-only{border:1px solid rgba(0,0,0,0); background:unset !important}
-.mocaInput input[type="text"]:read-only:hover{border:1px solid rgba(0,0,0,0)}
+.mocaInput input[type="text"]:read-only:hover{/*border:1px solid rgba(0,0,0,0)*/}
 .mocaInput input[type="text"]:disabled{border: 1px solid #d7d7de; background: #eee;}
 /* MOCA inputButton */
 .mocaInputButton {position:relative; text-indent:0; height:24px; border:1px solid #ddd; background:#fff; -moz-box-sizing:border-box; box-sizing:border-box}
@@ -1262,7 +1262,7 @@ td[celltype=tree] label {display:inline-block; vertical-align:top; line-height:2
 .mocaRadio label:before {content:''; position:absolute; left:0; top:1px; width:12px; height:12px; background:url(../images/ico_rad.png) no-repeat 0 0}
 .mocaRadio input[type="radio"]:checked + label:before{background-position:0 -12px}
 .mocaRadio input[type="radio"]:disabled + label:before {background-position:0 -24px; cursor:default}
-.mocaRadio input[type="radio"]:disabled:checked + label:before {background-position:0 -36px: cursor:default}
+.mocaRadio input[type="radio"]:disabled:checked + label:before {background-position:0 -36px; cursor:default}
 
 /*ckeditor*/
 .cke_wysiwyg_frame, .cke_wysiwyg_div{height:calc(100% - 4px) !important}
@@ -1309,6 +1309,7 @@ div[type="table"]{display:table}
 div[type="thead"]{display:table-header-group}
 div[type="tbody"]{display:table-row-group; background:url(../images/row_bg.png);}
 div[type="tr"]{/*display:table-row*/float:left; margin-bottom:1px}
+div[type="tr"]:last-child{border-bottom:1px solid #bbc3ce}
 div[type="th"], div[type="td"]{display:table-cell}
 
 /*timeline*/

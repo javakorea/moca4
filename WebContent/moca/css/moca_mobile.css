@@ -73,7 +73,7 @@
 	.moca_calendar_fromto.vertical .moca_calendar_header{height:20px}
 	.moca_calendar_fromto.vertical .moca_calendar{padding-bottom:4px}
 	.moca_calendar_fromto.vertical .moca_calendar_row .moca_calendar_fl{width:100%}
-	.moca_calendar_fromto.vertical .moca_calendar_lta{position:relative; width:auto; height:33px}
+	.moca_calendar_fromto.vertical .moca_calendar_lta{position:relative; width:auto; overflow:hidden}
 	.moca_calendar_fromto.vertical .moca_calendar_lta .moca_calendar_list {padding: 8px 0px 0 8px;height:auto; float:left}
 	.moca_calendar_fromto.vertical .moca_calendar_lta .moca_calendar_footer{float:right; padding:4px 4px 0 0}
 	.moca_calendar_fromto.vertical .moca_calendar_row .moca_calendar_fl:nth-child(1){padding-right:0; background:#242731; padding-bottom:8px}
