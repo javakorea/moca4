@@ -10,12 +10,13 @@
 <link rel="stylesheet" type="text/css" href="./css/teammoca.css">
 <link rel="stylesheet" type="text/css" href="./moca/css/fontawesome.css">
 <link rel="stylesheet" type="text/css" href="./css/media.css">
-
+<style>
+</style>
 
 <script>
 $m.main.BD_CONTENT_FOR_BD_WS = {};
-
 $m.main.___ready = function(args){
+	
 	$m.removeSs("CORP_CD");
 	$m.removeSs("CORP_NM");
 	$m.removeSs("LOGINDT");
@@ -294,7 +295,9 @@ function loginChecker(){
 	}
 };
 function goMoca(){
-	location.href="/admin.do"
+	//location.href="/admin.do"
+	location.href="/uat/uia/actionMain.do"
+		
 }
 
 

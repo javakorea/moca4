@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<style>
+</style>
+<script>
+$m.TO_013.___ready = function(args){
+	$m.TO_013.fn_search();
+};
+
+$m.TO_013.popId = 'TO_000P08';
+$m.TO_013.fn_pop = function(_thisObj){
+	['금융기관DB정보상세 팝업']
+	var _grd = $m.TO_013.getObj("grd_13");
+	var selectedRealRowIndex = _grd.getAttribute('selectedRealRowIndex');
+	if(selectedRealRowIndex == null){
+		selectedRealRowIndex = "0";
+	}
+	var o = {};
+	o.id = $m.TO_013.popId;
+	o.url = '/html/TO/TO_000P08.html';
+	o.type = "POPUP";
+	o.modal = "false";
+	o.title = '금융기관DB정보상세';
+	o.callback = $m.TO_013.fn_pop_callback;
+	o.scopeId = $m.TO_013.pageId;
+	o.data = {"inqType":"2","idx":_grd.list[selectedRealRowIndex].idx};
+	$m.popup(o,_thisObj);
+};
+$m.TO_013.fn_pop_callback = function(_json){
+	if(_json != null){
+		alert(_json);
+	}
+};
+
+$m.TO_013.grd_13__onDblClick = function(_grd,rowIndex,colIndex,colId){
+	var o = {};
+	o.id = $m.TO_013.popId;
+	o.url = '/html/TO/TO_000P08.html';
+	o.type = "POPUP";
+	o.modal = "false";
+	o.title = '금융기관DB정보상세';
+	o.callback = $m.TO_013.fn_pop_callback;
+	o.scopeId = $m.TO_013.pageId;
+	o.data = {"inqType":"2","idx":_grd.list[rowIndex].idx};
+	$m.popup(o,_grd);
+};
+
+$m.TO_013.fn_search = function(){
+	$m.TO_013.exe({
+		url : $m._domain+$m._contextRoot+"/TO_013/fincialDbList.do",
+		loadingbar:true,
+		data : {
+			"header" : $m.header,
+			"body" : {
+				"inqType":"1",
+				"searchTxt":$m.getValue($m.TO_013.getObj("keyWordFinacName")),
+				"searchTxt2":$m.getValue($m.TO_013.getObj("keyWordCorpPhone"))
+			}
+		},			
+		callback : function(response){
+			$m.TO_013.drawGrid('grd_13',$m.getResList(response,"fincialDbList"));
+			grd_13.setAttribute("selectedRealRowIndex","0");
+			$m._setRowSelection(grd_13);
+			$m.setFocus($m.TO_013.getObj("keyWordFinacName"));
+		}
+	});
+} 
+ 
+ /**/
+$m.TO_013.fn_pop2 = function(_thisObj){
+	['금융기관DB정보 추가등록 팝업']
+	var o = {};
+	o.id = $m.TO_013.popId;
+	o.url = '/html/TO/TO_000P09.html';
+	o.type = "POPUP";
+	o.modal = "true";
+	o.title = '금융기관DB정보 추가등록';
+	o.callback = $m.TO_013.fn_pop2_callback;
+	o.scopeId = $m.TO_013.pageId;
+	o.data = {};
+	
+	$m.popup(o,_thisObj);
+};
+$m.TO_013.fn_pop2_callback = function(_json){
+	if(_json != null){
+		alert(_json);
+	}
+};
+
+
+
+
+$m.TO_013._excelCallback = function(_json){
+	if(_json.gridId == "grd_13"){
+		$m.TO_013.fn_search();
+	}
+};
+
+
+
+</script>
+</head>
+<body>
+<div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
+	<div class="moca_tab_cont" style="height:100%">
+		<div class="moca_cont_wrap flex fcol">
+			<div type="wframe" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
+				src="/html/titlebox.html"
+				data = '{"sreenCd":"TO_013","sreenNm":"금융기관 DB","sreenPath":"Quick Menu,금융기관 DB"}'
+			></div>
+			
+			<div class="moca_shbox">
+				<div class="shbox_inner">
+					<div class="flex fwrap tr" id="shbox_1">
+						<div class="tb">
+							<span class="tb_th">금융기관명</span>
+							<span class="tb_td">
+								<div type="input" id="keyWordFinacName" class="mocaInput" innerClass="tac" keyMask="enterSearch"></div>
+							</span>
+						</div>
+						<div class="tb">
+							<span class="tb_th">검색내용</span>
+							<span class="tb_td">
+								<div type="input" id="keyWordCorpPhone" class="mocaInput" innerClass="tac" keyMask="enterSearch"></div>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="btn_shbox">
+					<button type="button" class="button btn_sc" onclick="$m.TO_013.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+				</div>
+			</div>
+			<div type="grid" class="moca_grid toolbar fauto mt12"" default_cell_height="26px" id="grd_13" 
+					toolbar_search_size="false"
+					toolbar_col_showhide="false"
+					toolbar_detail="false"
+					toolbar_exup="true"
+					toolbar_exdn="true"
+					toolbar_addrow="false"
+					toolbar_delrow="false"
+					toolbar_nextbtn="false"
+					toolbar_full="true"
+					onDblClick = "$m.TO_013.grd_13__onDblClick"
+					toolbar_grid_button1='{"position":"right","id":"button1","label":"상세보기","onclick":"$m.TO_013.fn_pop","addClass":""}'
+					toolbar_grid_button2='{"position":"right","id":"button1","label":"기관 추가","onclick":"$m.TO_013.fn_pop2","addClass":""}'
+					
+					label="총건수">
+					<table style="width: 100%">
+						<colgroup>
+								<col style="width:60px"><!-- 순번 -->
+								<col style="width:0px"><!-- Idx -->
+								<col style="width:100px"><!-- 구분 -->
+								<col style="width:250px"><!-- 금융기관명 -->
+								<col style="width:250px"><!-- 수정금융기관-->
+								<col style="width:100px"><!-- 담당자 -->
+								<col style="width:500px"><!-- 주소 -->
+								<col style="width:120px"><!-- 전화번호 -->
+								<col style=""><!-- 비고 -->
+						</colgroup>
+						<thead>
+							<tr>
+								<th id="H_rowNum">순번</th>
+								<th id="H_idx">ID</th>
+								<th id="H_a01">구분</th>
+								<th id="H_a02">금융기관명</th>
+								<th id="H_a03">수정금융기관</th>
+								<th id="H_a04">담당자</th>
+								<th id="H_a05">주소</th>
+								<th id="H_a06">전화번호</th>
+								<th id="H_a07">비고</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td excelIndex="0"  id="rowNum" name="순번" celltype="input" style="" readonly="true" displayFunction="$m.fn_display_rownum"></td>
+								<td excelIndex="1"  id="idx" name="ID" celltype="input" style="" readonly="true" ></td>
+								<td excelIndex="2"  id="FinacType" name="구분"  celltype="input" style="" readonly="true" required="false" displayFunction="$m.TO_013.fn_display_gubun"></td>	
+								<td excelIndex="3"  id="FinacName" name="금융기관명"  celltype="input" style="text-align:left" readonly="true" displayFunction=""></td>	
+								<td excelIndex="4"  id="EditFinacName" name="수정금융기관"  celltype="input" style="text-align:left" readonly="true" displayFunction=""></td>
+								<td excelIndex="5"  id="FinacManager" name="담당자"  celltype="input" style="" readonly="true" displayFunction=""></td>
+								<td excelIndex="6"  id="FinacAddress" name="주소"  celltype="input" style="text-align:left" readonly="true" displayFunction=""></td>
+								<td excelIndex="7"  id="CorpPhone" name="전화번호"  celltype="input" style="" readonly="true" displayFunction=""></td>
+								<td excelIndex="8"  id="Note" name="비고"  celltype="input" style="" readonly="true" displayFunction=""></td>
+							</tr>
+						</tbody>
+					</table>				
+			</div>
+		</div>	
+	</div>
+</div>
+</body>
+</html>

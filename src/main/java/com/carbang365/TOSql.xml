@@ -5197,6 +5197,7 @@
 			, #{USER_NAME}
 			, CURRENT_TIMESTAMP
     	)
+    	
     </insert>
     
     <!-- 사용자조회 -->
