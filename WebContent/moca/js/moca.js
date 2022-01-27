@@ -1340,7 +1340,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                        }else{
                     	   isChecked = "";
                        }
-                    	_inTag += '<input type="radio" class="mocaRadio" name="rdo_'+_nowIndex+'" id="rdo_'+r+"_"+$m.pageId+'_'+_grd.id+'_'+_nowIndex+_rdoArr[r].value+'" grd_id='+_grd.id+'  value="'+_rdoArr[r].value+'"   '+isChecked+' '+isDisabled+' >';
+                    	_inTag += '<input type="radio" class="mocaRadio" name="rdo_'+r+"_"+$m.pageId+'_'+_grd.id+'_'+_nowIndex+'" id="rdo_'+r+"_"+$m.pageId+'_'+_grd.id+'_'+_nowIndex+_rdoArr[r].value+'" grd_id='+_grd.id+'  value="'+_rdoArr[r].value+'"   '+isChecked+' '+isDisabled+' >';
                          _inTag += '<label class="moca_radio_label" for="rdo_'+r+"_"+$m.pageId+'_'+_grd.id+'_'+_nowIndex+_rdoArr[r].value+'"  >'+_rdoArr[r].label+'</label>';
                 	}
                     _inTag += '</div>';
