@@ -5392,7 +5392,6 @@ Moca.prototype.setCellData = function(_grd,_realRowIndex,_colId,_data){
     }else{
         _grd.list[_realRowIndex][_colId] = _data;   
     }
-
     var targetRow = $(_grd).find('tbody:first>tr[realrowindex='+_realRowIndex+']');
     var _renderingDiv = $(_grd).attr('rendering_div');
             
@@ -5500,7 +5499,7 @@ Moca.prototype.removeRow = function(_grd,_rowIndex){
 
 Moca.prototype._uptData = function(_thisObj){
     ['에디팅데이터 실시간 dataList에 반영'];
-    event.preventDefault();
+    //event.preventDefault();
     $m._selectFocus(_thisObj);
     var grd = $(_thisObj).closest('div[type=grid]')[0];
     var _thisTd = $(_thisObj).closest('td');
@@ -5509,6 +5508,7 @@ Moca.prototype._uptData = function(_thisObj){
     var _thisTr = $(_thisObj).closest('tr');
     var rowIndex = _tbody.children().index(_thisTr);
     var realRowIndex = grd.getAttribute("selectedRealRowIndex");
+    var _thisEvtObj;
     if(_thisObj.tagName == "TD"){
         $m._selectFocus(_thisObj);
         var chkbox = $(_thisObj).find(".moca_checkbox_grid>input");
@@ -5522,13 +5522,16 @@ Moca.prototype._uptData = function(_thisObj){
         }
         var rdobox = $(_thisObj).find(".moca_radio_grid>input");
         if(rdobox.length > 0){
-            _thisObj = event.srcElement;
-            $(_thisObj).parent().find('input[checked]').attr('checked',false);
-            if($(_thisObj).prop("checked")){
+            _thisEvtObj = event.srcElement;
+            debugger;
+            //$(_thisEvtObj).parent().find('input[checked]').attr('checked',false);
+            /*
+            if($(_thisEvtObj).prop("checked")){
                 $(_thisObj).prop("checked",true);
             }else{
                 $(_thisObj).prop("checked",false);
             }
+            */
         }
     }
     if(_thisObj.type == 'checkbox'){
@@ -5561,11 +5564,17 @@ Moca.prototype._uptData = function(_thisObj){
             var v = _thisTd[0].getAttribute("falseValue");
             $m.setCellData(grd,realRowIndex,colid,v);
         }
-    }else if(_thisObj.type == 'radio'){
-    	if(_thisObj.checked){
-    		_value = $(_thisObj)[0].value;
+    }else if(_thisEvtObj.type == 'radio'){
+    	if(_thisEvtObj.checked){
+    		_value = $(_thisEvtObj)[0].value;
     		$m.setCellData(grd,realRowIndex,colid,_value);
     	}
+    }else if($(_thisEvtObj).prev().length > 0 && $(_thisEvtObj).prev()[0].type == 'radio'){
+    	var r = $(_thisEvtObj).prev()[0];
+    	if(r.checked){
+    		_value = $(r)[0].value;
+    		$m.setCellData(grd,realRowIndex,colid,_value);
+    	}    	
     }else if(_thisObj.tagName == 'TD'){
         if($(_thisObj).find('input').length > 0){
             _value = $(_thisObj).find('input').attr('value');
@@ -14071,7 +14080,7 @@ Moca.prototype.setLabelValue = function(_thisObj,_value){
 };
 
 Moca.prototype.defaultCellClick = function(_thisObj){
-	event.preventDefault();
+	//event.preventDefault();
     if($(_thisObj).attr('celltype') == 'input' && $(_thisObj).find('input').length > 0){
         return  ;
     }
