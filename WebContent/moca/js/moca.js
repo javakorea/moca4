@@ -5564,7 +5564,7 @@ Moca.prototype._uptData = function(_thisObj){
             var v = _thisTd[0].getAttribute("falseValue");
             $m.setCellData(grd,realRowIndex,colid,v);
         }
-    }else if(_thisEvtObj.type == 'radio'){
+    }else if(_thisEvtObj!=null && _thisEvtObj.type == 'radio'){
     	if(_thisEvtObj.checked){
     		_value = $(_thisEvtObj)[0].value;
     		$m.setCellData(grd,realRowIndex,colid,_value);

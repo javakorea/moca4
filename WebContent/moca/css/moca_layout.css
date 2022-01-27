@@ -263,7 +263,7 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 .itemTable input[type='checkbox'].allcheck:before {background-position:0 -84px}
 .itemTable input[type='checkbox'].allcheck:indeterminate:before{background-position:0 -108px}
 .itemTable input[type='checkbox'].allcheck:checked:before{background-position:0 -96px}
-.itemTable .moca_ibn_btn{right: 3px; border: 1px solid #fff; top: 4px; font-size: 11px; padding: 1px 5px; border-radius: 2px; color: #fff}
+.itemTable .moca_ibn_btn{right: 3px; border: 1px solid #fff; top: 4px; font-size: 11px; padding: 1px 4px; border-radius: 2px; color: #fff}
 .itemTable div.filterheader{height: 25px; padding-top: 4px; position: fixed; z-index: 1; background: #3f424a; width: inherit; border-bottom: 1px solid #fff; min-width:130px}
 .itemTable input[type='text']{ height: 21px; left: 2px; position: relative; top: 5px; right: 0; width: calc(100% - 4px); display:block}
 
