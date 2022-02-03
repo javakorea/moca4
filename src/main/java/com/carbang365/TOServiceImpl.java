@@ -152,7 +152,7 @@ public class TOServiceImpl implements TOServiceInterface {
 		try {
 		 	String srcId = (String)paramMap.get("srcId");
 		 	String uploadType = (String)paramMap.get("uploadType");
-            if("TO_013".equalsIgnoreCase(srcId)) {//금융기관DB
+            if("MT_GRID".equalsIgnoreCase(srcId)) {//금융기관DB
             	List excelList = (List)paramMap.get("excelList");
             	paramMap.put("fincialList", excelList);
 				if("2".equals(uploadType)) {

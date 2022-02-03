@@ -40,10 +40,24 @@
             },			
 			callback : function(response){
 				$m.MT_COMBO.drawGrid('grd_1', $m.MT_COMBO.getResList(response,"selectTestList"));
+				$m.MT_COMBO.fn_search2();
 			}
 		});
 	};
-	
+	$m.MT_COMBO.fn_search2 = function(){
+		$m.MT_COMBO.exe({
+			url : $m._domain+$m._contextRoot+"/MT_TEST/selectTestList.do",
+            data : {
+            	"header" : $m.header,
+            	"body" : {
+            		"TEST_TYPE":"COMBO2"
+            	}
+            },			
+			callback : function(response){
+				$m.MT_COMBO.drawGrid('grd_2', $m.MT_COMBO.getResList(response,"selectTestList"));
+			}
+		});
+	};
 </script>
 
 </head>
@@ -52,52 +66,53 @@
 <div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
 	<div class="moca_tab_cont" style="height:100%">
 		<div class="moca_cont_wrap flex fcol">
-			<div type="include" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
+			<div type="include" class="moca_titbox noshbox cm" id="titbox" tag="moca:titbox" 
 				src="/html/titlebox.html"
 				data = '{"sreenCd":"MOCA_PROP","sreenNm":"시스템설정","sreenPath":"시스템관리,시스템설정"}'
 			></div>
-
-			<div class="moca_shbox">
-				<div class="shbox_inner">
-					<div class="flex fwrap">
-						<div class="tb">
-							<span class="tb_th">모카콤보</span>
-							<span class="tb_td">
-								<div type="combo" 
-									id="cmb_1" 
-									class="moca_combo" 
-									style="width:165px" 
-									displayFormat="[label]" 
-									cdField="code" 
-									nmField="codeNm"
-								>
-								</div>
-								
-							</span>
-						</div>
-						<div class="tb">
-							<span class="tb_th">서치콤보</span>
-							<span class="tb_td">
-								<div type="searchCombo" 
-									id="scmb_1" 
-									class="moca_searchCombo" 
-									inneronchange="$m.MT_COMBO.selectSetter(this)" 
-									style="width:165px" 
-									readOnly="false"
-									displayFormat="[label]" 
-									cdField="code" 
-									nmField="codeNm"   
-									itemset='[{"cd":"0","nm":"해당없음 "},{"cd":"1","nm":"(%)비율"},{"cd":"2","nm":"(원)금액"},{"cd":"3","nm":"(원)금액3"},{"cd":"4","nm":"(원)금액4"},{"cd":"5","nm":"(원)금액5"},{"cd":"6","nm":"(원)금액6"},{"cd":"7","nm":"(원)금액7"},{"cd":"8","nm":"(원)금액8"},{"cd":"9","nm":"(원)금액9"},{"cd":"10","nm":"(원)금액10"},{"cd":"11","nm":"(원)금액11"},{"cd":"12","nm":"(원)금액12"}]'>
-								</div>
-							</span>
-						</div>
-					</div>
-				</div>
-				<div class="btn_shbox">
-					<button type="button" class="button btn_sc" onclick="$m.MT_COMBO.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
-					<!-- <button type="button" class="button btn_sc" style="display:none" onclick="$m.MT_COMBO._openFileUpload(this)"><i class="fas fa-search"></i><span>파일첨부</span></button> -->
-				</div>
-			</div>
+			<div type="form" id="form_board" class="moca_table toolbar mt5" tdType="divTbl" style=""
+	                label="시연_combo(form)"
+	                showRowSelection="true"
+	                oncellclick=""
+	                addition='[
+	                {"type":"button","position":"right","id":"btn_reply","label":"버튼","onclick":"$m.MT_COMBO.fn_reply","innerStyle":"background:#97a2ba"}
+	                    ]'
+	                >
+		          	<div class="moca_table_cont" type="table">
+		          		<div type="tbody">
+                            <div type="tr">
+                                <div type="th" class="tar" style="width:100px">combo</div>
+                                <div type="td">
+                                	<div type="combo" 
+										id="cmb_1" 
+										class="moca_combo" 
+										style="width:165px" 
+										displayFormat="[label]" 
+										cdField="code" 
+										nmField="codeNm"
+									>
+									</div>
+                                </div>
+                            </div>
+                            <div type="tr">
+                                 <div type="th" class="tar" style="width:100px">searchcombo</div>
+                                <div type="td">
+                                	<div type="searchCombo" 
+										id="scmb_1" 
+										class="moca_searchCombo" 
+										inneronchange="$m.MT_COMBO.selectSetter(this)" 
+										style="width:165px" 
+										readOnly="false"
+										displayFormat="[label]" 
+										cdField="code" 
+										nmField="codeNm"   
+										itemset='[{"cd":"0","nm":"해당없음 "},{"cd":"1","nm":"(%)비율"},{"cd":"2","nm":"(원)금액"},{"cd":"3","nm":"(원)금액3"},{"cd":"4","nm":"(원)금액4"},{"cd":"5","nm":"(원)금액5"},{"cd":"6","nm":"(원)금액6"},{"cd":"7","nm":"(원)금액7"},{"cd":"8","nm":"(원)금액8"},{"cd":"9","nm":"(원)금액9"},{"cd":"10","nm":"(원)금액10"},{"cd":"11","nm":"(원)금액11"},{"cd":"12","nm":"(원)금액12"}]'>
+									</div>
+                                </div>
+                            </div>
+		          		</div>
+		          	</div>
+            </div>
 			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
 								rendering_div = "true"
 								toolbar_search_size="false"
@@ -109,30 +124,63 @@
 								toolbar_nextbtn="false"
 								toolbar_full="true"
 								
-								label="총건수"
+								label="시연_combo(grid)"
 			
 			>
 					<table style="width: 100%">
 						<colgroup>
-								<col style="width:10%" mobileHide="false" hide="false" columnKey="CORP_CD" thKey="H_CORP_CD" >
-								<col style="width:10%" mobileHide="false" hide="false" columnKey="EFC_COMBO" thKey="H_EFC_COMBO" >
+								<col style="width:30%" mobileHide="false" hide="false" columnKey="CORP_CD" thKey="H_CORP_CD" >
+								<col style="width:30%" mobileHide="false" hide="false" columnKey="EFC_COMBO" thKey="H_EFC_COMBO" >
 								<col style="" mobileHide="true" hide="false" columnKey="TEST_DB" thKey="H_TEST_DB" >		
-								<col style="width:200px" mobileHide="true" hide="false" columnKey="TEST_DT" thKey="H_TEST_DT" >						
 						</colgroup>
 						<thead>
 							<tr>
 								<th scope="col" id="H_CORP_CD">일반콤보</th>
 								<th scope="col" id="H_EFC_COMBO">공통콤보</th>
-								<th scope="col" id="H_TEST_DB">설명</th>
-								<th scope="col" id="H_TEST_DT">날짜</th>
+								<th scope="col" id="H_TEST_YN">비고</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td id="CORP_CD" celltype="select" style="text-align:center" required="true" name="그리드콤보" readOnly="false"></td>
-								<td id="EFC_COMBO" celltype="select" style="text-align:center" required="true" name="공통콤보" readOnly="false"></td>
-								<td id="TEST_DB" celltype="input" style="" name="설명"></td>
-								<td id="TEST_DT" celltype="input" style="" required="true" name="날짜" readOnly="true" displayFunction="$m.longToDate"></td>
+								<td id="CORP_CD" celltype="select" style="text-align:center" required="false" name="그리드콤보" readOnly="false"></td>
+								<td id="EFC_COMBO" celltype="select" style="text-align:center" required="false" name="공통콤보" readOnly="false"></td>
+								<td id="TEST_YN" celltype="input" style="" name="비고" readOnly="true"></td>
+							</tr>
+						</tbody>
+					</table>				
+			</div>
+			<div type="grid" class="moca_grid toolbar fauto mt12" style="height:365px" default_cell_height="26px" id="grd_2" rowSelectedColor="#434e5f"
+								rendering_div = "true"
+								toolbar_search_size="false"
+								toolbar_common_btns_pc='{"detail":"dblclick","exup":"false","exdn":"true","addrow":"false","delrow":"false","full":"true"}'
+								toolbar_common_btns_mobile='{"detail":"dblclick","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'
+								toolbar_detail="false"
+								toolbar_exup="false"
+								toolbar_exdn="true"
+								toolbar_addrow="false"
+								toolbar_delrow="false"
+								toolbar_full="true"
+								label="설명_combo"
+			
+			>
+					<table style="width: 100%">
+						<colgroup>
+								<col style="width:150px" mobileHide="false" hide="false" columnKey="TEST_PROP" thKey="H_TEST_PROP" >
+								<col style="" mobileHide="false" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
+								<col style="width:400px" mobileHide="true" hide="false" columnKey="TEST_DB" thKey="H_TEST_DB" >		
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col" id="H_TEST_PROP">속성</th>
+								<th scope="col" id="H_TEST_VALUE">값</th>
+								<th scope="col" id="H_TEST_DB">설명</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td excelIndex="1" id="TEST_PROP" celltype="input" style="text-align:left" name="속성" required="false" readOnly="true" ></td>
+								<td excelIndex="2" id="TEST_VALUE" celltype="input" style="text-align:left" name="값" readOnly="true"></td>
+								<td excelIndex="3" id="TEST_DB" celltype="input" style="text-align:left" name="설명 " readOnly="true" required="false" editorMode="true" ></td>
 							</tr>
 						</tbody>
 					</table>				

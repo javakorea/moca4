@@ -58,7 +58,8 @@
 	.moca_layer_tab_list > .tab_bg{min-width:100px}
 	.moca_layer_tab_list > button{padding:0 5px}
 	/*divForm*/
-	.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="td"], div[type="tr"]{width:100%}
+	.moca_table_cont > div[type="tbody"] > div[type="tr"] {width:100%}
+	/*.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="td"], div[type="tr"]{width:100%}*/
 	.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="th"]{text-align:center}
 	/*multiCalendar*/
 	.moca_ica.ipt_hhmmss{height:53px;}

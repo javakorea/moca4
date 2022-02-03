@@ -4,7 +4,22 @@
 <script>
 	
 	$m.MT_FORM.___ready = function(){
-		$m.MT_FORM.fn_search();
+		$m.MT_FORM.code({
+			"cmb_1":{code:'boardStatus'},
+			"scmb_1":{code:'boardStatus'}
+		},function(){
+			$m.MT_FORM.exe({
+				url : $m._domain+$m._contextRoot+"/efms/EFC_CORP/list_json.do",
+				loadingbar:true,
+	            data : {
+	            	"header" : $m.header,
+	            	"body" : {aaa:'111',bbb:'222'}
+	            },			
+				callback : function(response){
+					$m.MT_FORM.fn_search();
+				}
+			});
+		});
 	};
 	
 	$m.MT_FORM.fn_search = function(){
@@ -18,16 +33,10 @@
             },			
 			callback : function(response){
 				var _data = response.selectTestList[0];
-				
-				$m.setValue($m.MT_FORM.getObj("w1"),_data.IDX);
-				$m.setValue($m.MT_FORM.getObj("w2"),_data.TEST_TYPE);
-				$m.setValue($m.MT_FORM.getObj("w3"),$m.longToDate(_data.TEST_DT));
-				$m.setValue($m.MT_FORM.getObj("w4"),_data.TEST_NM);
-				
 				$m.setValue($m.MT_FORM.getObj("w5"),_data.TEST_PROP);
-				$m.setValue($m.MT_FORM.getObj("w5"),_data.TEST_VALUE);
-				$m.setValue($m.MT_FORM.getObj("w6"),_data.TEST_DB);
+				$m.MT_FORM.fn_search2();
 				if($m.getDevice()=='mobile'){
+					$m.hide($m.MT_FORM.getObj("form_dan"));
 					$('.ly_column.col_5').css('width','100%');
 					$('.ly_column.col_5').css('height','auto');
 					$('.ly_column.col_5 .ly_col_cont.pl7_5').removeClass('pl7_5');					
@@ -35,11 +44,46 @@
 			}
 		});
 	};
-	
+	$m.MT_FORM.fn_search2 = function(){
+		$m.MT_FORM.exe({
+			url : $m._domain+$m._contextRoot+"/MT_TEST/selectTestList.do",
+            data : {
+            	"header" : $m.header,
+            	"body" : {
+            		"TEST_TYPE":"FORM"
+            	}
+            },			
+			callback : function(response){
+				$m.MT_FORM.drawGrid('grd_2', $m.MT_FORM.getResList(response,"selectTestList"));
+			}
+		});
+	};
 	$m.MT_FORM.fn_reply = function(){
 		$m.alert("저장되었습니다.")
 	}
-	
+	$m.MT_FORM.radio_01_click = function(_radioObj){
+		if(_radioObj.value == '1단'){
+			$m.show($m.MT_FORM.getObj("shbox_1"));
+			$m.hide($m.MT_FORM.getObj("shbox_2"));
+			$m.hide($m.MT_FORM.getObj("shbox_3"));
+			$m.hide($m.MT_FORM.getObj("shbox_4"));
+		}else if(_radioObj.value == '2단'){
+			$m.show($m.MT_FORM.getObj("shbox_1"));
+			$m.show($m.MT_FORM.getObj("shbox_2"));
+			$m.hide($m.MT_FORM.getObj("shbox_3"));
+			$m.hide($m.MT_FORM.getObj("shbox_4"));
+		}else if(_radioObj.value == '3단'){
+			$m.show($m.MT_FORM.getObj("shbox_1"));
+			$m.show($m.MT_FORM.getObj("shbox_2"));
+			$m.show($m.MT_FORM.getObj("shbox_3"));
+			$m.hide($m.MT_FORM.getObj("shbox_4"));
+		}else if(_radioObj.value == '4단'){
+			$m.show($m.MT_FORM.getObj("shbox_1"));
+			$m.show($m.MT_FORM.getObj("shbox_2"));
+			$m.show($m.MT_FORM.getObj("shbox_3"));
+			$m.show($m.MT_FORM.getObj("shbox_4"));
+		}
+	}
 </script>
 
 </head>
@@ -48,13 +92,65 @@
 <div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
 	<div class="moca_tab_cont" style="height:100%">
 		<div class="moca_cont_wrap flex fcol">
-			<div type="include" class="moca_titbox noshbox cm" id="titbox" tag="moca:titbox" 
+			<div type="include" class="moca_titbox cm" id="titbox" tag="moca:titbox" 
 				src="/html/titlebox.html"
 				data = '{"sreenCd":"MT_FORM","sreenNm":"시스템설정","sreenPath":"시스템관리,시스템설정"}'
 			></div>
-
+			<div class="moca_shbox">
+				<div class="shbox_inner">
+					<div class="flex fwrap tr" id="shbox_1">
+						<div class="tb">
+							<span class="tb_th">시연_조회영역</span>
+							<span class="tb_td">
+								<div type="radio" class="mocaRadio" style="width:100%" id="radio_01"
+								    itemset='[{"label":"1단","value":"1단","checked":"true"},
+								              {"label":"2단","value":"2단"},
+								              {"label":"3단","value":"3단"},
+								              {"label":"4단","value":"4단"}
+								              ]'
+								                innerOnclick='$m.MT_FORM.radio_01_click'
+								></div>
+							</span>
+						</div>
+						<div class="tb">
+							<span class="tb_th">시연_검색내용</span>
+							<span class="tb_td">
+								<div type="input" id="ipt_WRITER1" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="false"></div>
+							</span>
+						</div>
+					</div>
+					<div class="flex fwrap tr" id="shbox_2" style="display:none">
+						<div class="tb">
+							<span class="tb_th">시연_검색내용</span>
+							<span class="tb_td">
+								<div type="input" id="ipt_WRITER2" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="false"></div>
+							</span>
+						</div>
+					</div>
+					<div class="flex fwrap tr" id="shbox_3" style="display:none">
+						<div class="tb">
+							<span class="tb_th">시연_검색내용</span>
+							<span class="tb_td">
+								<div type="input" id="ipt_WRITER3" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="false"></div>
+							</span>
+						</div>
+					</div>
+					<div class="flex fwrap tr" id="shbox_4" style="display:none">
+						<div class="tb">
+							<span class="tb_th">시연_검색내용</span>
+							<span class="tb_td">
+								<div type="input" id="ipt_WRITER4" keyMask="enterSearchEvt" class="mocaInput sh"  style="width:187px"  disabled="false" readonly="false" mobileHide="false"></div>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="btn_shbox">
+					<button type="button" class="button btn_sc" onclick="$m.MT_FORM.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
+					<!-- <button type="button" class="button btn_sc" style="display:none" onclick="$m.MT_FORM._openFileUpload(this)"><i class="fas fa-search"></i><span>파일첨부</span></button> -->
+				</div>
+			</div>
 			<div type="form" id="form_board" class="moca_table toolbar mt5" tdType="divTbl" style=""
-	                label="form"
+	                label="시연_form"
 	                showRowSelection="true"
 	                oncellclick="$m.MT_FORM.onRowClick"
 	                addition='[
@@ -64,46 +160,67 @@
 		          	<div class="moca_table_cont" type="table">
 		          		<div type="tbody">
 		          			<div type="tr">
-		          				<div type="th" class="tar" style="width:100px">IDX</div>
+		          				<div type="th" class="tar" style="width:100px">checkbox</div>
                                 <div type="td">
-                                    <div type="input" id="w1" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+                                	<div type="checkboxGroup" class="fl bd" direction="" id="chkg_1" style=""
+		                                itemset='[
+		                                    {"id":"chk1","label":"체크1","value":"Y","checked":"true"},
+		                                     {"id":"chk1","label":"체크2","value":"N","checked":"true"}
+		                                ]'>
+		                            </div>
                                 </div>
 							</div>
                             <div type="tr">
-                                <div type="th" class="tar" style="width:100px">TYPE</div>
+                                <div type="th" class="tar" style="width:100px">radio</div>
                                 <div type="td">
-                                    <div type="input" id="w2" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+                                	<div type="radio" class="mocaRadio" style="width:100%" id="radio_02"
+									    itemset='[{"label":"label1","value":"value1","checked":"true"},
+									              {"label":"label2","value":"value2"}
+									              ]'
+									></div>
                                 </div>
                            	</div>
                             <div type="tr">
-                                <div type="th" class="tar" style="width:100px">DATE</div>
+                                <div type="th" class="tar" style="width:100px">combo</div>
                                 <div type="td">
-                                    <div type="input" id="w3" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+                                	<div type="combo" 
+										id="cmb_1" 
+										class="moca_combo" 
+										style="width:165px" 
+										displayFormat="[label]" 
+										cdField="code" 
+										nmField="codeNm"
+									>
+									</div>
                                 </div>
                             </div>
                             <div type="tr">
-                                 <div type="th" class="tar" style="width:100px">NAME</div>
+                                 <div type="th" class="tar" style="width:100px">searchcombo</div>
                                 <div type="td">
-                                    <div type="input" id="w4" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+                                	<div type="searchCombo" 
+										id="scmb_1" 
+										class="moca_searchCombo" 
+										inneronchange="$m.MT_COMBO.selectSetter(this)" 
+										style="width:165px" 
+										readOnly="false"
+										displayFormat="[label]" 
+										cdField="code" 
+										nmField="codeNm"   
+										itemset='[{"cd":"0","nm":"해당없음 "},{"cd":"1","nm":"(%)비율"},{"cd":"2","nm":"(원)금액"},{"cd":"3","nm":"(원)금액3"},{"cd":"4","nm":"(원)금액4"},{"cd":"5","nm":"(원)금액5"},{"cd":"6","nm":"(원)금액6"},{"cd":"7","nm":"(원)금액7"},{"cd":"8","nm":"(원)금액8"},{"cd":"9","nm":"(원)금액9"},{"cd":"10","nm":"(원)금액10"},{"cd":"11","nm":"(원)금액11"},{"cd":"12","nm":"(원)금액12"}]'>
+									</div>
                                 </div>
                             </div>
                             <div type="tr">
-		          				<div type="th" class="tar" style="width:100px">PROP</div>
+		          				<div type="th" class="tar" style="width:100px">input</div>
                                 <div type="td">
-                                    <div type="input" id="w5" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+                                    <div type="input" id="w5" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="false"></div>
                                 </div>
                            </div>
-                            <div type="tr">
-                                <div type="th" class="tar" style="width:100px">VALUE</div>
-                                <div type="td">
-                                    <div type="input" id="w6" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
-                                </div>
-                            </div>
 		          		</div>
 		          	</div>
             </div>
             <div type="form" id="form_board_keyMask" class="moca_table toolbar" style=""
-	                label="keyMask"
+	                label="시연_inputKeyMask"
 	                showRowSelection="false"
 	                addition='[
 	                    ]'
@@ -145,11 +262,11 @@
 		          		</div>
 		          	</div>
             </div>
-            <div class="lybox fauto mt12">
+            <div id="form_dan" class="lybox fauto mt12 fgrow">
 				<div class="ly_column col_5">
 					<div class="ly_col_cont pr7_5">
 						<div type="form" id="form_board3" class="moca_table toolbar" style=""
-				                label="2단 form"
+				                label="시연_2단 form"
 				                showRowSelection="false"
 				                addition='[
 				                    ]'
@@ -214,7 +331,7 @@
 				<div class="ly_column col_5">
 					<div class="ly_col_cont pl7_5">
 						<div type="form" id="form_board4" class="moca_table toolbar" style=""
-			                label="3단 form"
+			                label="시연_3단 form"
 			                showRowSelection="false"
 			                addition='[
 			                    ]'
@@ -297,7 +414,42 @@
 					</div>
 				</div>
 			</div>
-            
+            <div type="grid" class="moca_grid toolbar fauto mt12" style="" default_cell_height="26px" id="grd_2" rowSelectedColor="#434e5f"
+								rendering_div = "true"
+								toolbar_search_size="false"
+								toolbar_common_btns_pc='{"detail":"dblclick","exup":"false","exdn":"true","addrow":"false","delrow":"false","full":"true"}'
+								toolbar_common_btns_mobile='{"detail":"dblclick","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'
+								toolbar_detail="false"
+								toolbar_exup="false"
+								toolbar_exdn="true"
+								toolbar_addrow="false"
+								toolbar_delrow="false"
+								toolbar_full="true"
+								label="설명_Form"
+			
+			>
+					<table style="width: 100%">
+						<colgroup>
+								<col style="width:150px" mobileHide="false" hide="false" columnKey="TEST_PROP" thKey="H_TEST_PROP" >
+								<col style="" mobileHide="false" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
+								<col style="width:400px" mobileHide="true" hide="false" columnKey="TEST_DB" thKey="H_TEST_DB" >		
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col" id="H_TEST_PROP">속성</th>
+								<th scope="col" id="H_TEST_VALUE">값</th>
+								<th scope="col" id="H_TEST_DB">설명</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td excelIndex="1" id="TEST_PROP" celltype="input" style="text-align:left" name="속성" required="false" readOnly="true" ></td>
+								<td excelIndex="2" id="TEST_VALUE" celltype="input" style="text-align:left" name="값" readOnly="true"></td>
+								<td excelIndex="3" id="TEST_DB" celltype="input" style="text-align:left" name="설명 " readOnly="true" required="false" editorMode="true" ></td>
+							</tr>
+						</tbody>
+					</table>				
+			</div>
 		</div>	
 	</div>
 </div>

@@ -267,7 +267,7 @@ ul.moca_switch > li.active {z-index:2; opacity:1}
 .itemTable div.filterheader{height: 25px; padding-top: 4px; position: fixed; z-index: 1; background: #3f424a; width: inherit; border-bottom: 1px solid #fff; min-width:130px}
 .itemTable input[type='text']{ height: 21px; left: 2px; position: relative; top: 5px; right: 0; width: calc(100% - 4px); display:block}
 
-.searchCmbTable{text-indent:5px; outline: none; max-height: 119px; margin-top: -1px; color:#333; z-index:1}
+.searchCmbTable{text-indent:5px; outline: none; max-height: 119px; margin-top: -1px; color:#333; z-index:1;position:absolute; left:0; right:0; overflow-y:auto}
 .searchCmbTable > ul {position:relative; overflow-y: auto; max-height:89px; border-bottom:1px solid #bbb; z-index:1; border: 1px solid #7b9cd3}
 .searchCmbTable ul li{font-weight: normal; display: block; white-space: nowrap; min-height: 1.2em; line-height:1.73;background:#fff; color:#333; text-align:left}
 .searchCmbTable ul li.on{background:#1e90ff; color:#fff;}

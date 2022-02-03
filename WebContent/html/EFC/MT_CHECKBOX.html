@@ -30,13 +30,13 @@
             data : {
             	"header" : $m.header,
             	"body" : {
-            		"TEST_TYPE":"TEST"
+            		"TEST_TYPE":"CHECK"
             	}
             },			
 			callback : function(response){
 				$m.MT_CHECKBOX.drawGrid('grd_1', $m.MT_CHECKBOX.getResList(response,"selectTestList"));
 				var _data = response.selectTestList[0];
-				
+				$m.MT_CHECKBOX.fn_search2();
 				$m.setValue($m.MT_CHECKBOX.getObj("w1"),_data.IDX);
 				$m.setValue($m.MT_CHECKBOX.getObj("w2"),_data.TEST_TYPE);
 				$m.setValue($m.MT_CHECKBOX.getObj("w3"),$m.longToDate(_data.TEST_DT));
@@ -54,7 +54,6 @@
 		});
 	};
 	$m.MT_CHECKBOX.fn_check_after = function(_grd,_rowIndex,_colId){
-		debugger;
 		if(_colId == 'grd_radio'){
 			//$m.MT_CHECKBOX.setCellData($m.MT_CHECKBOX.getObj("grd_1"),i,'grd_radio',checkedValue);
     		$m.MT_CHECKBOX.redrawGrid($m.MT_CHECKBOX.getObj("grd_1"));
@@ -65,6 +64,20 @@
     }
 	$m.MT_CHECKBOX.fn_check= function(_thisVal, _grd, _realrow){
     }
+	$m.MT_CHECKBOX.fn_search2 = function(){
+		$m.MT_CHECKBOX.exe({
+			url : $m._domain+$m._contextRoot+"/MT_TEST/selectTestList.do",
+            data : {
+            	"header" : $m.header,
+            	"body" : {
+            		"TEST_TYPE":"CHECK2"
+            	}
+            },			
+			callback : function(response){
+				$m.MT_CHECKBOX.drawGrid('grd_3', $m.MT_CHECKBOX.getResList(response,"selectTestList"));
+			}
+		});
+	};
 </script>
 
 </head>
@@ -77,8 +90,8 @@
 				src="/html/titlebox.html"
 				data = '{"sreenCd":"MT_CHECKBOX","sreenNm":"시스템설정","sreenPath":"시스템관리,시스템설정"}'
 			></div>
-			 <div type="form" id="form_1" class="moca_table" style=""
-	                label=""
+			 <div type="form" id="form_1" class="moca_table toolbar" style=""
+	                label="시연_checkbox(form)"
 	                showRowSelection="false"
 	                addition='[
 	                    ]'
@@ -86,7 +99,7 @@
 		          	<div class="moca_table_cont" type="table">
 		          		<div type="tbody">
 		          			<div type="tr">
-		          				<div type="th" class="tar" style="width:100px">checkbox</div>
+		          				<div type="th" class="tar" style="">checkbox</div>
                                 <div type="td">
                                 	<div type="checkboxGroup" class="fl bd" direction="" id="chkg_1" style=""
 		                                itemset='[
@@ -94,11 +107,8 @@
 		                                ]'>
 		                            </div>
                                 </div>
-                                
-                            </div>
-                            <div type="tr">
-                            	<div type="th" class="tar" style="width:100px">disabled</div>
-                                <div type="td">
+                                <div type="th" class="tar" style="">disabled</div>
+                                <div type="td" class="vam" style="">
                                 	<div type="checkboxGroup" class="fl bd" direction="" disabled="true" id="chkg_2" style=""
 		                                itemset='[
 		                                    {"id":"chk1","label":"완료","value":"Y","checked":"true"}
@@ -123,7 +133,7 @@
 								toolbar_grid_label_ ='{"position":"left","id":"totalradio","label":"toolbarCheckbox"}'
 								toolbar_grid_checkbox1='{"position":"left","id":"check1","label":"체크박스","value":"1","checked":"true","onclick":"$m.MT_CHECKBOX.fn_check"}'
 								onDblClick = "$m.MT_CHECKBOX.grd_01__onDblClick"
-								label="총건수"
+								label="시연_checkbox(grid)"
 			
 			>
 					<table style="width: 100%">
@@ -131,7 +141,7 @@
 								<col style="width:30px" mobileHide="false" hide="false" columnKey="chk" thKey="H_chk" >
 								<col style="width:60px" mobileHide="false" hide="false" columnKey="chk2" thKey="H_chk2" >
 								<col style="width:0px" mobileHide="true" hide="true" columnKey="status" thKey="H_STATUS" >
-								<col style="width:150px" mobileHide="false" hide="false" columnKey="TEST_PROP" thKey="H_TEST_PROP" >
+								<col style="width:180px" mobileHide="false" hide="false" columnKey="TEST_PROP" thKey="H_TEST_PROP" >
 								<col style="" mobileHide="true" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
 								<col style="width:300px" mobileHide="true" hide="false" columnKey="TEST_DB" thKey="H_TEST_DB" >		
 								<col style="width:160px" mobileHide="true" hide="false" columnKey="TEST_DT" thKey="H_TEST_DT" >
@@ -143,7 +153,7 @@
 								<th scope="col" id="H_STATUS">상태</th>
 								<th scope="col" id="H_TEST_PROP">속성</th>
 								<th scope="col" id="H_TEST_VALUE">값</th>
-								<th scope="col" id="H_TEST_DB">설명 (editorMode='true')</th>
+								<th scope="col" id="H_TEST_DB">설명</th>
 								<th scope="col" id="H_TEST_DT">날짜</th>
 							</tr>
 						</thead>
@@ -154,13 +164,48 @@
 								<td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
 								<td id="TEST_PROP" celltype="input" style="text-align:left" name="속성" required="false" readOnly="true" ></td>
 								<td id="TEST_VALUE" celltype="input" style="text-align:left" name="값" readOnly="true"></td>
-								<td id="TEST_DB" celltype="input" style="" name="설명 (editorMode='true')"  required="true" editorMode="true" ></td>
+								<td id="TEST_DB" celltype="input" style="" name="설명"  required="true" editorMode="true" ></td>
 								<td id="TEST_DT" celltype="input" style="" required="true" name="날짜" readOnly="true" displayFunction="$m.longToDate"></td>
 							</tr>
 						</tbody>
 					</table>				
 			</div>
-
+			<div type="grid" class="moca_grid toolbar fauto mt12" style="height:165px" default_cell_height="26px" id="grd_3" rowSelectedColor="#434e5f"
+								rendering_div = "true"
+								toolbar_search_size="false"
+								toolbar_common_btns_pc='{"detail":"dblclick","exup":"false","exdn":"true","addrow":"false","delrow":"false","full":"true"}'
+								toolbar_common_btns_mobile='{"detail":"dblclick","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'
+								toolbar_detail="false"
+								toolbar_exup="false"
+								toolbar_exdn="true"
+								toolbar_addrow="false"
+								toolbar_delrow="false"
+								toolbar_full="true"
+								label="설명_checkbox(grid)"
+			
+			>
+					<table style="width: 100%">
+						<colgroup>
+								<col style="width:150px" mobileHide="false" hide="false" columnKey="TEST_PROP" thKey="H_TEST_PROP" >
+								<col style="" mobileHide="false" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
+								<col style="width:400px" mobileHide="true" hide="false" columnKey="TEST_DB" thKey="H_TEST_DB" >		
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col" id="H_TEST_PROP">속성</th>
+								<th scope="col" id="H_TEST_VALUE">값</th>
+								<th scope="col" id="H_TEST_DB">설명</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td excelIndex="1" id="TEST_PROP" celltype="input" style="text-align:left" name="속성" required="false" readOnly="true" ></td>
+								<td excelIndex="2" id="TEST_VALUE" celltype="input" style="text-align:left" name="값" readOnly="true"></td>
+								<td excelIndex="3" id="TEST_DB" celltype="input" style="text-align:left" name="설명 " readOnly="true" required="false" editorMode="true" ></td>
+							</tr>
+						</tbody>
+					</table>				
+			</div>
             
 		</div>	
 	</div>

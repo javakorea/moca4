@@ -13,13 +13,13 @@
             data : {
             	"header" : $m.header,
             	"body" : {
-            		"TEST_TYPE":"TEST"
+            		"TEST_TYPE":"RADIO"
             	}
             },			
 			callback : function(response){
 				$m.MT_RADIO.drawGrid('grd_1', $m.MT_RADIO.getResList(response,"selectTestList"));
 				var _data = response.selectTestList[0];
-				
+				$m.MT_RADIO.fn_search2();
 				$m.setValue($m.MT_RADIO.getObj("w1"),_data.IDX);
 				$m.setValue($m.MT_RADIO.getObj("w2"),_data.TEST_TYPE);
 				$m.setValue($m.MT_RADIO.getObj("w3"),$m.longToDate(_data.TEST_DT));
@@ -36,8 +36,21 @@
 			}
 		});
 	};
+	$m.MT_RADIO.fn_search2 = function(){
+		$m.MT_RADIO.exe({
+			url : $m._domain+$m._contextRoot+"/MT_TEST/selectTestList.do",
+            data : {
+            	"header" : $m.header,
+            	"body" : {
+            		"TEST_TYPE":"RADIO2"
+            	}
+            },			
+			callback : function(response){
+				$m.MT_RADIO.drawGrid('grd_3', $m.MT_RADIO.getResList(response,"selectTestList"));
+			}
+		});
+	};
 	$m.MT_RADIO.fn_check_after = function(_grd,_rowIndex,_colId){
-		debugger;
 		if(_colId == 'grd_radio'){
 			//$m.MT_RADIO.setCellData($m.MT_RADIO.getObj("grd_1"),i,'grd_radio',checkedValue);
     		$m.MT_RADIO.redrawGrid($m.MT_RADIO.getObj("grd_1"));
@@ -55,8 +68,8 @@
 				src="/html/titlebox.html"
 				data = '{"sreenCd":"MT_RADIO","sreenNm":"시스템설정","sreenPath":"시스템관리,시스템설정"}'
 			></div>
-			 <div type="form" id="form_1" class="moca_table" style=""
-	                label=""
+			 <div type="form" id="form_1" class="moca_table toolbar" style=""
+	                label="시연_radio(form)"
 	                showRowSelection="false"
 	                addition='[
 	                    ]'
@@ -69,8 +82,7 @@
                                 	<div type="radio" class="mocaRadio" style="width:100%" id="radio_01"
 									    itemset='[{"label":"label1","value":"value1","checked":"true"},
 									              {"label":"label2","value":"value2"},
-									              {"label":"label3","value":"value3"},
-									              {"label":"label4","value":"value4"}
+									              {"label":"label3","value":"value3"}
 									              ]'
 									></div>
                                 </div>
@@ -82,8 +94,7 @@
                                 	<div type="radio" class="mocaRadio" style="width:100%" id="radio_02"
 									    itemset='[{"label":"label1","value":"value1"},
 									              {"label":"label2","value":"value2"},
-									              {"label":"label3","value":"value3"},
-									              {"label":"label4","value":"value4"}
+									              {"label":"label3","value":"value3"}
 									              ]'
 									></div>
                                 </div>
@@ -95,8 +106,7 @@
                                 	<div type="radio" disabled="true" class="mocaRadio" style="width:100%" id="radio_03"
 									    itemset='[{"label":"label1","value":"value1","checked":"true"},
 									              {"label":"label2","value":"value2"},
-									              {"label":"label3","value":"value3"},
-									              {"label":"label4","value":"value4"}
+									              {"label":"label3","value":"value3"}
 									              ]'
 									></div>
                                 </div>
@@ -118,7 +128,62 @@
 								toolbar_grid_label_ ='{"position":"left","id":"totalradio","label":"toolbarRadio"}'
 								toolbar_grid_radio='{"position":"left","id":"radio1","label":"radio1","onclick":"$m.MT_GRID.blank","value":[{"label":"Y","value":"1","checked":"1"},{"label":"N","value":"0"}],"width":"100px"}'
 								onDblClick = "$m.MT_RADIO.grd_01__onDblClick"
-								label="총건수"
+								label="시연_radio(grid)"
+			
+			>
+					<table style="width: 100%">
+						<colgroup>
+								<col style="width:60px" mobileHide="true" hide="false" columnKey="status" thKey="H_STATUS" >
+								<col style="width:200px" mobileHide="false" hide="false" columnKey="TEST_YN" thKey="H_TEST_YN" >	
+								<col style="width:150px" mobileHide="false" hide="false" columnKey="TEST_PROP" thKey="H_TEST_PROP" >
+								<col style="" mobileHide="true" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
+								<col style="width:300px" mobileHide="true" hide="false" columnKey="TEST_DB" thKey="H_TEST_DB" >		
+								<col style="width:160px" mobileHide="true" hide="false" columnKey="TEST_DT" thKey="H_TEST_DT" >
+											
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col" id="H_STATUS">상태</th>
+								<th scope="col" id="H_TEST_YN">radio</th>
+								<th scope="col" id="H_TEST_PROP">속성</th>
+								<th scope="col" id="H_TEST_VALUE">값</th>
+								<th scope="col" id="H_TEST_DB">설명</th>
+								<th scope="col" id="H_TEST_DT">날짜</th>
+								
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
+								<td id="TEST_YN" celltype="radio" style="" name="선택" 
+									  itemset='[{"label":"yes","value":"1","checked":"true"},
+									              {"label":"no","value":"0"}
+									              ]'
+								
+								></td>
+								<td id="TEST_PROP" celltype="input" style="text-align:left" name="속성" required="false" readOnly="true" ></td>
+								<td id="TEST_VALUE" celltype="input" style="text-align:left" name="값" readOnly="true"></td>
+								<td id="TEST_DB" celltype="input" style="" name="설명"  required="true" editorMode="true" ></td>
+								<td id="TEST_DT" celltype="input" style="" required="true" name="날짜" readOnly="true" displayFunction="$m.longToDate"></td>
+							</tr>
+						</tbody>
+					</table>				
+			</div>
+			<div type="grid" class="moca_grid toolbar fauto mt12" style="display:none" default_cell_height="26px" id="grd_2" rowSelectedColor="#434e5f"
+								rendering_div = "true"
+								toolbar_search_size="false"
+								toolbar_common_btns_pc='{"detail":"dblclick","exup":"false","exdn":"true","addrow":"false","delrow":"false","full":"true"}'
+								toolbar_common_btns_mobile='{"detail":"dblclick","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'
+								toolbar_detail="false"
+								toolbar_exup="false"
+								toolbar_exdn="false"
+								toolbar_addrow="false"
+								toolbar_delrow="false"
+								toolbar_full="false"
+								toolbar_grid_label_ ='{"position":"left","id":"totalradio","label":"toolbarRadio"}'
+								toolbar_grid_radio='{"position":"left","id":"radio1","label":"radio1","onclick":"$m.MT_GRID.blank","value":[{"label":"Y","value":"1","checked":"1"},{"label":"N","value":"0"}],"width":"100px"}'
+								onDblClick = "$m.MT_RADIO.grd_01__onDblClick"
+								label="시연_radio(grid_세로)"
 			
 			>
 					<table style="width: 100%">
@@ -162,8 +227,42 @@
 						</tbody>
 					</table>				
 			</div>
-
-            
+            <div type="grid" class="moca_grid toolbar fauto mt12" style="height:165px" default_cell_height="26px" id="grd_3" rowSelectedColor="#434e5f"
+								rendering_div = "true"
+								toolbar_search_size="false"
+								toolbar_common_btns_pc='{"detail":"dblclick","exup":"false","exdn":"true","addrow":"false","delrow":"false","full":"true"}'
+								toolbar_common_btns_mobile='{"detail":"dblclick","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'
+								toolbar_detail="false"
+								toolbar_exup="false"
+								toolbar_exdn="true"
+								toolbar_addrow="false"
+								toolbar_delrow="false"
+								toolbar_full="true"
+								label="설명_radio(grid)"
+			
+			>
+					<table style="width: 100%">
+						<colgroup>
+								<col style="width:150px" mobileHide="false" hide="false" columnKey="TEST_PROP" thKey="H_TEST_PROP" >
+								<col style="" mobileHide="false" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
+								<col style="width:400px" mobileHide="true" hide="false" columnKey="TEST_DB" thKey="H_TEST_DB" >		
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col" id="H_TEST_PROP">속성</th>
+								<th scope="col" id="H_TEST_VALUE">값</th>
+								<th scope="col" id="H_TEST_DB">설명</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td excelIndex="1" id="TEST_PROP" celltype="input" style="text-align:left" name="속성" required="false" readOnly="true" ></td>
+								<td excelIndex="2" id="TEST_VALUE" celltype="input" style="text-align:left" name="값" readOnly="true"></td>
+								<td excelIndex="3" id="TEST_DB" celltype="input" style="text-align:left" name="설명 " readOnly="true" required="false" editorMode="true" ></td>
+							</tr>
+						</tbody>
+					</table>				
+			</div>
 		</div>	
 	</div>
 </div>

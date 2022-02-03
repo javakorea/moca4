@@ -67,7 +67,7 @@
 				data = '{"sreenCd":"MT_MESSAGE","sreenNm":"시스템설정","sreenPath":"시스템관리,시스템설정"}'
 			></div>
 			 <div type="form" id="form_1" class="moca_table toolbar" style=""
-	                label="messagebox"
+	                label="시연_messagebox"
 	                showRowSelection="false"
 	                addition='[
 	                    ]'
@@ -77,25 +77,25 @@
 		          			<div type="tr">
 		          				<div type="th" class="tar" style="width:100px">alert</div>
                                 <div type="td" style="width:200px">
-									<div type="button" id="btn01" class="mocaButton" onclick="$m.MT_MESSAGE.fn_alert(this)" style="" innerStyle="" value="alert" label="alert" ></div>
+									<div type="button" id="btn01" class="mocaButton" onclick="$m.MT_MESSAGE.fn_alert(this)" style="" innerStyle="" value="alert" label="시연버튼" ></div>
                                 </div>
                             </div>
                             <div type="tr">
                             	<div type="th" class="tar" style="width:100px">confirm</div>
                                 <div type="td" style="width:200px">
-									<div type="button" id="btn02" class="mocaButton" onclick="$m.MT_MESSAGE.fn_confirm(this)" style="" innerStyle="" value="confirm" label="confirm" ></div>
+									<div type="button" id="btn02" class="mocaButton" onclick="$m.MT_MESSAGE.fn_confirm(this)" style="" innerStyle="" value="confirm" label="시연버튼" ></div>
                                 </div>
                             </div>
                             <div type="tr">
                             	<div type="th" class="tar" style="width:100px">question</div>
                                 <div type="td" style="width:200px">
-									<div type="button" id="btn03" class="mocaButton" onclick="$m.MT_MESSAGE.fn_question(this)" style="" innerStyle="" value="question" label="question" ></div>
+									<div type="button" id="btn03" class="mocaButton" onclick="$m.MT_MESSAGE.fn_question(this)" style="" innerStyle="" value="question" label="시연버튼" ></div>
                                 </div>
                             </div>
                             <div type="tr">
                             	<div type="th" class="tar" style="width:100px">error</div>
                                 <div type="td" style="width:200px">
-									<div type="button" id="btn04" class="mocaButton" onclick="$m.MT_MESSAGE.fn_error(this)" style="" innerStyle="" value="error" label="error" ></div>
+									<div type="button" id="btn04" class="mocaButton" onclick="$m.MT_MESSAGE.fn_error(this)" style="" innerStyle="" value="error" label="시연버튼" ></div>
                                 </div>
                             </div>
                             <div type="tr">
@@ -118,7 +118,7 @@
 								toolbar_addrow="false"
 								toolbar_delrow="false"
 								toolbar_full="false"
-								label="총건수"
+								label="설명_messagebox"
 			
 			>
 					<table style="width: 100%">
@@ -138,7 +138,7 @@
 							<tr>
 								<td excelIndex="1" id="TEST_PROP" celltype="input" style="text-align:left" name="속성" required="false" readOnly="true" ></td>
 								<td excelIndex="2" id="TEST_VALUE" celltype="input" style="text-align:left" name="값" readOnly="true"></td>
-								<td excelIndex="3" id="TEST_DB" celltype="input" style="" name="설명 (editorMode='true')"  required="true" editorMode="true" ></td>
+								<td excelIndex="3" id="TEST_DB" celltype="input" style="text-align:left" name="설명"  required="false" readOnly="true" editorMode="true" ></td>
 							</tr>
 						</tbody>
 					</table>				

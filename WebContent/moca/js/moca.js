@@ -1340,8 +1340,8 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                        }else{
                     	   isChecked = "";
                        }
-                    	_inTag += '<input type="radio" class="mocaRadio" name="rdo_'+r+"_"+$m.pageId+'_'+_grd.id+'_'+_nowIndex+'" id="rdo_'+r+"_"+$m.pageId+'_'+_grd.id+'_'+_nowIndex+_rdoArr[r].value+'" grd_id='+_grd.id+'  value="'+_rdoArr[r].value+'"   '+isChecked+' '+isDisabled+' >';
-                         _inTag += '<label class="moca_radio_label" for="rdo_'+r+"_"+$m.pageId+'_'+_grd.id+'_'+_nowIndex+_rdoArr[r].value+'"  >'+_rdoArr[r].label+'</label>';
+                    	_inTag += '<input type="radio" class="mocaRadio" name="rdo_'+"_"+$m.pageId+'_'+_grd.id+'_'+_nowIndex+'" id="rdo_'+r+"_"+$m.pageId+'_'+_grd.id+'_'+_nowIndex+_rdoArr[r].value+'" grd_id='+_grd.id+'  value="'+_rdoArr[r].value+'"   '+isChecked+' '+isDisabled+' >';
+                         _inTag += '<label class="moca_radio_label" for="rdo_'+"_"+$m.pageId+'_'+_grd.id+'_'+_nowIndex+_rdoArr[r].value+'"  >'+_rdoArr[r].label+'</label>';
                 	}
                     _inTag += '</div>';
                 }
@@ -5523,7 +5523,6 @@ Moca.prototype._uptData = function(_thisObj){
         var rdobox = $(_thisObj).find(".moca_radio_grid>input");
         if(rdobox.length > 0){
             _thisEvtObj = event.srcElement;
-            debugger;
             //$(_thisEvtObj).parent().find('input[checked]').attr('checked',false);
             /*
             if($(_thisEvtObj).prop("checked")){
@@ -10642,7 +10641,6 @@ Moca.prototype.renderCheckboxGroup = function(_divObj,_val,_gubun,_metaObj,_chec
     var _onclick = '';
     var _pageId= $(_divObj).attr('pageid');
     var _disabledStr= '';
-    	debugger;
     if($(_divObj).attr('disabled')){
     	_disabledStr = 'disabled';
     }
