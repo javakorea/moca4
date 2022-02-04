@@ -6569,6 +6569,7 @@ var sampleCalendar ={
             });
             //오늘
             $("#"+calendarId).find(".moca_calendar_btn_today").off("click").on("click",function(){
+            	debugger;
                 event.stopPropagation();
                 var now = new Date();
                 let tempId = $(this).attr("calendarId");
@@ -6582,7 +6583,14 @@ var sampleCalendar ={
                 sampleCalendar.calendarDateBtnEventSetting(sampleCalendar.calendarVariable,now.getDate(), null);
                 sampleCalendar.calId = null;    
             });
-            
+            //취소
+           
+            $("#"+calendarId).find(".moca_calendar_btn_cancel").off("click").on("click",function(_thisobj){
+                event.stopPropagation();
+                var _calId = $(this).closest('div[role="calendar"]').attr('id');
+                $m.closeCalendar($('#'+_calId));
+                //$m.closeMultiCalendar($('#'+calendarId));
+            })
         },
         calendarLayout : function (type){
             let layoutHtml = "";
@@ -12426,6 +12434,7 @@ Moca.prototype.renderMocaInput = function(o) {
     var _keyMask = '';
     var _maxLength = '';
     var _mobileHide = '';
+    var _displayfunctionapply = '';
     if(o.tagName == 'DIV'){
         _value = $m.nul(o.getAttribute("value"));
         _id = $m.nul(o.getAttribute("id"));
@@ -12438,7 +12447,7 @@ Moca.prototype.renderMocaInput = function(o) {
         _keyMask = $m.nul(o.getAttribute("keyMask"));
         _maxLength = $m.nul(o.getAttribute("maxLength"));
         _mobileHide = $m.nul(o.getAttribute("mobileHide"));
-        
+        _displayfunctionapply = $m.nul(o.getAttribute("displayfunctionapply"));
         var _keyMaskStr = '';
         if($m.trim(_keyMask) != ''){
             _keyMaskStr = _keyMask;
@@ -12458,8 +12467,13 @@ Moca.prototype.renderMocaInput = function(o) {
         }else{
             _disabled = "";
         }
+        
+        var _event="onblur";
+        if(_displayfunctionapply == 'realtime'){
+        	_event="onkeyup";
+        }
         var _html = '';
-        _html += '<input type="text" '+_maxLengthStr+' onkeyup="$m.setValue(this,this.value,\''+_keyMaskStr+'\');'+_innerOnblur+'"  onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" style="'+_innerStyle+'" class="'+_innerClass+'" id="input_'+_id+'" displayFunction="'+_displayFunction+'"  autocomplete="off" value="'+_value+'" '+_readonly+' onclick="'+_onInnerClick+'"  '+_disabled+'>';
+        _html += '<input type="text" '+_maxLengthStr+' '+_event+'="$m.setValue(this,this.value,\''+_keyMaskStr+'\');'+_innerOnblur+'"  onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" style="'+_innerStyle+'" class="'+_innerClass+'" id="input_'+_id+'" displayFunction="'+_displayFunction+'"  autocomplete="off" value="'+_value+'" '+_readonly+' onclick="'+_onInnerClick+'"  '+_disabled+'>';
         o.innerHTML = _html;
     }else{
         _value = $m.nul(o.value); 
