@@ -757,7 +757,7 @@ to {background-position:0 0}
 .moca_messagebox .moca_messagebox_close {position:absolute; top:10px; right:10px; height:22px; width:22px; background:url(../images/ico_msg_close.png) no-repeat 50% 50%; border:0; text-indent:-9999px}
 .moca_messagebox .ico {height:56px; margin-top:10px; background-repeat:no-repeat; background-position:50% 50%}
 .moca_messagebox.alert .ico {background-image:url(../images/ico_alert.png)}
-.moca_messagebox.confirm .ico {background-image:url(../images/ico_confirm.png)}
+.moca_messagebox.confirm .ico ,.moca_messagebox.question .ico {background-image:url(../images/ico_confirm.png)}
 .moca_messagebox.error .ico {background-image:url(../images/ico_error.png)}
 .moca_messagebox_grp {text-align:center}
 .moca_messagebox_grp h2 {color:#24394a; font-size:18px; font-weight:bold}
@@ -765,8 +765,10 @@ to {background-position:0 0}
 .moca_message p {color:#333; font-size:14px; font-weight:700; word-break:keep-all}
 .moca_messagebox .moca_btnbox {border-top:1px solid #fff; padding-top:15px; text-align:center}
 .moca_messagebox .moca_btnbox button {height:30px; min-width:100px; padding:5px 20px; margin:0 2px; border-radius:15px; border:0; color:#fff; font-size:14px; font-weight:bold}
+.moca_messagebox.question .moca_btnbox button{min-width:unset}
 .moca_messagebox.alert .moca_btnbox .moca_btn_confirm {background:#c96f57}
 .moca_messagebox.confirm .moca_btnbox .moca_btn_confirm {background:#c96f57}
+.moca_messagebox.question .moca_btnbox .moca_btn_confirm {background:#c96f57}
 .moca_messagebox.error .moca_btnbox .moca_btn_confirm {background:#c96f57}
 .moca_messagebox .moca_btnbox .moca_btn_cancel {background:#98abc1}
 .moca_messagebox .moca_btnbox .moca_btn_cancel + .moca_btn_confirm {margin-left:5px}

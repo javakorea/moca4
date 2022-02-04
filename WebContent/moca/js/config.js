@@ -26,7 +26,7 @@ var mocaConfig = {
 			attr :'{"detail":"true","exup":"false","exdn":"true","addrow":"false","delrow":"false","full":"true","dblclick":"false"}'
 		},
 		toolbar_common_btns_mobile : {
-			priority : 'config',
+			priority : 'common',
 			attr :'{"exup":"false","exdn":"false","addrow":"false","delrow":"false"}'
 		}
 		/*attr :'{"detail":"true","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'*/

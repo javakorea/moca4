@@ -61,6 +61,8 @@
 	.moca_table_cont > div[type="tbody"] > div[type="tr"] {width:100%}
 	/*.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="td"], div[type="tr"]{width:100%}*/
 	.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="th"]{text-align:center}
+	/*calendar*/
+	.moca_calendar.vertical{width:264px; height:auto}
 	/*multiCalendar*/
 	.moca_ica.ipt_hhmmss{height:53px;}
 	.moca_ica.ipt_hhmmss > .ica_ipt{height:50px !important; border:0 !important;}

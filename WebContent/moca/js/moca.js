@@ -1138,7 +1138,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                 
                 
                 
-                row += '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" editorMode="'+_editorMode+'" style="'+_style+'"  readOnly="'+readOnly+'" onclick="$m.defaultCellClick(this)">'+_inTag+'</td>';
+                row += '<td id="'+_id+'" class="'+_class+'" name="'+_name+'"  toolTip="'+_toolTip+'" celltype="'+_celltype+'" displayFunction=\''+_displayFunction+'\'  displayFunctionApply=\''+_displayFunctionApply+'\' editorMode="'+_editorMode+'" style="'+_style+'"  readOnly="'+readOnly+'" onclick="$m.defaultCellClick(this)">'+_inTag+'</td>';
             }else if(_celltype == 'inputButton'){
                 var _reLabel = '';
                 if(_displayFunction != null && eval(_displayFunction) != null){
@@ -2655,7 +2655,7 @@ Moca.prototype.question = function(_message,_callback,m1,m2,m3){
     this.callbacks[messageboxId] = _callback;
     var confirm_html = '';
     //confirm_html += '<div class="moca_messagebox_modal" style="display:block" id='+messageboxId+'>                  ';
-    confirm_html += '   <div class="moca_messagebox confirm" style="width:450px;max-width:800px">                                   ';
+    confirm_html += '   <div class="moca_messagebox question" style="max-width:800px">                                   ';
     confirm_html += '       <div class="moca_messagebox_grp">                                   ';
     confirm_html += '           <div class="ico"></div>                                         ';
     confirm_html += '           <h2 class="moca_messagebox_title"></h2>                  ';
@@ -3092,7 +3092,6 @@ Moca.prototype.renderInputCalendar = function(_divObj) {
         defaultValue = "오늘";
     }
     var ondateSelected = _divObj.getAttribute("ondateSelected");    
-    
     
     var value = "";
     value = $m.getFromToByOption(defaultValue).from;
@@ -5415,9 +5414,13 @@ Moca.prototype.setCellData = function(_grd,_realRowIndex,_colId,_data){
 				}else{
 					iptObj = $(targetRow).find('td[id='+_colId+'] div[type="input"]');
 					iptObj.attr('value',_data);
+					var _iptTag = iptObj.find('input');
+					var _displayFunctionApply = $(targetRow).find('td[id='+_colId+']').attr('displayFunctionApply');
 					var _editormode = $(targetRow).find('td[id='+_colId+']').attr('editormode');
 					if(_editormode == 'true' || $m.getDevice() == 'mobile'){
 						iptObj.html(_data);
+					}else if(_displayFunctionApply == 'realtime' && _iptTag != ''){
+						_iptTag.val(_data);
 					}
 				}
         		
@@ -5586,6 +5589,7 @@ Moca.prototype._uptData = function(_thisObj){
         var displayFunctionApplyValue = $(_thisObj).attr('displayFunctionApply');
         if($m.trim(displayfunctionValue) != '' && $m.trim(displayFunctionApplyValue) == 'realtime'){
             var reValue = eval(displayfunctionValue)(_thisObj.value);
+           
             //일단데이터(input)
             $m.setCellData(grd,realRowIndex,colid,reValue);
         }else{
@@ -6149,11 +6153,12 @@ var sampleCalendar ={
             
             var messageboxId = "INPUTCAL_"+nowtime;
             sampleCalendar.calendarVariable.id = messageboxId;
-            
             var tmp = document.createElement( 'div' );
+            
             tmp.setAttribute("id",messageboxId);
             tmp.setAttribute("class","moca_calendar");
             tmp.setAttribute("role","calendar");
+            
             var calHtml = '';
             //calHtml +='                   <div class="moca_calendar" role="calendar" id="'+messageboxId+'">                                                                                                                                      ';
             calHtml +='                     <div class="moca_calendar_header">                                                                                                                                           ';
@@ -6194,6 +6199,18 @@ var sampleCalendar ={
             sampleCalendar.calendarVariable.putObj = $(_thisObj).prev();
             //sampleCalendar.iptId = $(_thisObj).prev().attr('id');
 
+            if($m.getDevice() != "pc"){
+            	$(tmp).addClass('vertical');
+            	var _width = $(tmp).width();
+            	var _height = $(tmp).height();
+                var top = (document.body.offsetHeight/2) - (parseInt(_height)/2) + $(document).scrollTop();
+                var left = (document.body.offsetWidth/2) - (parseInt(_width)/2) + $(document).scrollLeft();
+                _t = top;
+                _l = left;
+                $(tmp).css('position','fixed');
+                $(tmp).css('top',(_t)).css('left',_l);
+            }
+            
             //_thisObj
             let tempId = $('#'+messageboxId).find(".moca_calendar_btn_prev").attr("calendarId");
 
@@ -12409,7 +12426,6 @@ Moca.prototype.renderMocaInput = function(o) {
     var _keyMask = '';
     var _maxLength = '';
     var _mobileHide = '';
-    
     if(o.tagName == 'DIV'){
         _value = $m.nul(o.getAttribute("value"));
         _id = $m.nul(o.getAttribute("id"));
@@ -12443,7 +12459,7 @@ Moca.prototype.renderMocaInput = function(o) {
             _disabled = "";
         }
         var _html = '';
-        _html += '<input type="text" '+_maxLengthStr+' onblur="$m.setValue(this,this.value,\''+_keyMaskStr+'\');'+_innerOnblur+'"  onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" style="'+_innerStyle+'" class="'+_innerClass+'" id="input_'+_id+'" displayFunction="'+_displayFunction+'"  autocomplete="off" value="'+_value+'" '+_readonly+' onclick="'+_onInnerClick+'"  '+_disabled+'>';
+        _html += '<input type="text" '+_maxLengthStr+' onkeyup="$m.setValue(this,this.value,\''+_keyMaskStr+'\');'+_innerOnblur+'"  onkeydown="$m.keydown(this,this.value,\''+_keyMaskStr+'\');" style="'+_innerStyle+'" class="'+_innerClass+'" id="input_'+_id+'" displayFunction="'+_displayFunction+'"  autocomplete="off" value="'+_value+'" '+_readonly+' onclick="'+_onInnerClick+'"  '+_disabled+'>';
         o.innerHTML = _html;
     }else{
         _value = $m.nul(o.value); 
@@ -14092,6 +14108,8 @@ Moca.prototype.defaultCellClick = function(_thisObj){
 		var _editorMode;
 		_editorMode =$m.trim(cellTd.getAttribute('editormode'));
 		_keyMask = $m.trim(cellTd.getAttribute("keyMask"));
+		_displayfunction = $m.trim(cellTd.getAttribute("displayfunction"));
+		_displayfunctionapply = $m.trim(cellTd.getAttribute("displayfunctionapply"));
 		if(_keyMask != null){
 			_keyMaskStr = _keyMask;
 		}
@@ -14138,7 +14156,8 @@ Moca.prototype.defaultCellClick = function(_thisObj){
 			        }
 			    });
 			}else{
-				$(_divObj).html("<input type='text' onkeyup=\"$m._uptData(this)\" onblur=\"$m.setDivTag(this,this.value,\'"+_keyMaskStr+"\');\" value='"+_value+"'/>");
+				 
+				$(_divObj).html("<input type='text' onkeyup=\"$m._uptData(this)\" displayFunction=\'"+_displayfunction+"\'  displayFunctionApply=\'"+_displayfunctionapply+"\' onblur=\"$m.setDivTag(this,this.value,\'"+_keyMaskStr+"\');\"  value='"+_value+"'/>");
 			}
 		}
     }
