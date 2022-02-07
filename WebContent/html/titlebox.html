@@ -3,13 +3,13 @@
 <head>
 <script>
 $m.titlebox.___ready = function(args){
+	debugger;
 	var _mdiId = $(args.parent).attr('pageid');
 	$(args.parent).find('.grp_combtns > .winpop').attr('onclick',"$m.mdiChange('"+_mdiId+"')");
 	var p = $(args.parent);
 	var is = $m.getIncludeScope(p,this);
 	var data = JSON.parse(p.attr("data"));
-	
-	if(opener){
+	if(opener && $('#'+'titbox',opener.document).length > 0){
 		data = JSON.parse($('#'+'titbox',opener.document).attr('data'));
 		$m.hide($('.grp_combtns'));
 	}

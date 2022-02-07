@@ -41,7 +41,7 @@ function Moca(){
     this.resizePadding = '2';
     this.codeCd = 'code';
     this.codeNm = 'codeNm';
-    this.rowSelectedColor = '#f3a95e';
+    this.rowSelectedColor = '#434e5f';
     this.curColForResize;
     this.resizingbarDiv;
     this.resizingbarDivOffsetLeft;
@@ -5659,8 +5659,13 @@ Moca.prototype._setRowSelection = function(grd,_tdObj){
             selectedRow = foundedRow[0];
         }
         if(selectedRow != null){
+        	var _bgcolor = $m.rowSelectedColor;
+        	if($m.trim(grd.getAttribute("rowselectedcolor")) != ''){
+        		_bgcolor = grd.getAttribute("rowselectedcolor");
+        	}
+        	
             $(grd).find('tbody:first').children().children().css('background-color','').css('color','');
-            $(selectedRow).children().css('background-color',$m.rowSelectedColor).css('color','#FFF');
+            $(selectedRow).children().css('background-color',_bgcolor).css('color','#FFF');
         }
     }
 };
@@ -11564,7 +11569,7 @@ Moca.prototype.callReady = function(aTag) {
        		_argsObj = aTag;
        }
        if($(aTag).attr('tab_id') != null && !$(aTag).attr('tab_id').startsWith('POPUP') && aTag.id != "moca_main"){//single page case
-    	   if(opener){
+    	   if(opener && $('#'+$(aTag).attr('tab_id')+'_dv',opener.document).length > 0){
 	   		    var srcid = $('#'+$(aTag).attr('tab_id')+'_dv',opener.document).find('[srcid]').attr('srcid');
 	          		$m[srcid].args = JSON.parse(JSON.stringify(opener.$m[srcid].args));
 	          		_argsObj = $m[srcid].args;

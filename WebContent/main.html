@@ -22,6 +22,7 @@ $m.main.___ready = function(args){
 	$m.removeSs("LOGINDT");
 	$m.removeSs("USER_ID");
 	$m.removeSs("authorCode");
+	
 	$m.getContent($m._domain+$m._contextRoot+"/images/home/main_img.svg",function(data) {
 		$('#mainSvg').html(data);
 	});
@@ -206,6 +207,7 @@ function loginSetter(_id,_email,_name){
         	}
         },			
 		callback : function(response){
+			debugger;
 			if(response.selectMocaUserInfo != null){
 				//곧바로 진행스텝으로
 				$m.setSs("loginInfo",response.selectMocaUserInfo);
@@ -296,8 +298,29 @@ function loginChecker(){
 };
 function goMoca(){
 	//location.href="/admin.do"
-	location.href="/uat/uia/actionMain.do"
-		
+	//$m.getSs("loginTemp0").id;
+	
+	sessionStorage['CORP_CD'] = "social";
+   	sessionStorage['CORP_NM'] = "소셜로그인";
+   	sessionStorage['USER_ID'] = $m.getSs("loginTemp0").id;
+   	
+
+   	
+    var _id = $m.openWindowPopup({
+        id: "demo",
+        method:"post",
+        title: "moca 데모페이지",
+        width:1920, 
+        height:1080,
+        url : '/uat/uia/actionSecurityLogin.do',
+        fullscreen : 'no',
+        param : {
+    		"id":$m.getSs("loginTemp0").id+"",
+    		"password":$m.getSs("loginTemp0").id+"",
+    		"CORP_CD":"social",
+    		"userSe":"USR"
+    	}
+    });
 }
 
 
@@ -319,6 +342,7 @@ function goMoca(){
 						 	<i></i>
 						 	<span>Login</span>
 						 </button>
+						 <input type="hidden" name="userSe"  value="USR"/>
 						 <span style="display:none" class="btn_Erp fl" id="btnErp" onclick="goMoca()">ERP<i class="fas fa-location-arrow ml5"></i></span>
 						 <span style="display:none" class="loginInfo fl ml5" id="userName" onclick="$m.main.fn_logout()"><i class="fa fa-user mr5" aria-hidden="true"></i>홍길동</span>
 					</div>

@@ -54,10 +54,13 @@ import com.ibm.icu.text.SimpleDateFormat;
 
 import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.service.Globals;
+import egovframework.let.uss.umt.service.EgovUserManageService;
+import egovframework.let.uss.umt.service.UserManageVO;
+import egovframework.let.utl.sim.service.EgovFileScrty;
+import mocaframework.com.cmm.API;
 import mocaframework.com.cmm.U;
 import mocaframework.com.cmm.Util;
 import mocaframework.com.cmm.service.MocaEFLService;
-import mocaframework.com.cmm.API;
 
 @Controller
 public class TOController{
@@ -76,6 +79,10 @@ public class TOController{
 	@Resource(name = "mocaEFLService")
 	private MocaEFLService mocaEFLService;
 
+	/** userManageService */
+	@Resource(name = "userManageService")
+	private EgovUserManageService userManageService;
+	
 //	공통사항
 //		1. 화면 링크는 기존 구성과 동일하게 *.html로 링크(이미 각 html 링크는 적용되어 있음. 빠진/추가된 부분만 추후 추가하면 될듯)
 //		2. 화면 로드 시 필요 데이터는 ajax를 호출하여 json 형식으로 return, 모카 프레임웤을 이용하여 화면 draw(TO_001.html, EFC_USER.html 참조)
@@ -5790,8 +5797,22 @@ public class TOController{
 				paramMap = mocaMap;
 			}
 			int cnt = 0;
-			cnt = TOMapper.insertMocaUsers(paramMap);
+			//cnt = TOMapper.insertMocaUsers(paramMap);
 			model.addAttribute("cnt", cnt);
+			
+			
+    		UserManageVO userManageVO = new UserManageVO();
+    		userManageVO.setEmplyrId((String)paramMap.get("USER_KAKAO_ID"));
+    		userManageVO.setEmplyrNm((String)paramMap.get("USER_NAME"));
+    		userManageVO.setOrgnztId("social");
+    		userManageVO.setEmplyrSttusCode("P");
+    		userManageVO.setAuthorCode("ROLE_HOMEPAGE");
+    		userManageVO.setPassword((String)paramMap.get("USER_KAKAO_ID"));
+			String pass = EgovFileScrty.encryptPassword(userManageVO.getPassword(), userManageVO.getEmplyrId());
+			userManageVO.setPassword(pass);
+    		
+			userManageService.insertUser(userManageVO);
+			System.out.println("userManageVO~~~~~~>>>>"+userManageVO);
 			
 		}catch(Exception e) {
 			e.printStackTrace();

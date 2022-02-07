@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -17,7 +18,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.web.servlet.View;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
@@ -28,6 +31,7 @@ import egovframework.let.utl.sim.service.EgovClntInfo;
 import egovframework.rte.fdl.cmmn.trace.LeaveaTrace;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.fdl.security.userdetails.util.EgovUserDetailsHelper;
+import mocaframework.com.cmm.U;
 import mocaframework.com.cmm.service.MocaEFLService;
 
 
@@ -52,6 +56,9 @@ import mocaframework.com.cmm.service.MocaEFLService;
 public class EgovLoginController {
 	@Resource(name = "mocaEFLService")
 	private MocaEFLService mocaEFLService;
+	
+	@Autowired
+    private View jsonview;
 	
 	/** EgovLoginService */
 	@Resource(name = "loginService")
@@ -85,6 +92,98 @@ public class EgovLoginController {
 	}
 
 	/**
+	 * 소셜로그인
+	 * @param vo - 소셜아이디, 비밀번호가 담긴 LoginVO
+	 * @param request - 세션처리를 위한 HttpServletRequest
+	 * @return result - 로그인결과(세션정보)
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/uat/uia/actionSecuritySocialLogin.do")
+	public View actionSecuritySocialLogin(@ModelAttribute("loginVO") LoginVO loginVO, HttpServletResponse response, HttpServletRequest request, @RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		// 접속IP
+		String userIp = EgovClntInfo.getClntIP(request);
+		//ajax처리
+		Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+		String CORP_CD = (String)paramMap.get("CORP_CD");
+		String id = (String)paramMap.get("id");
+		String password = (String)paramMap.get("password");
+
+		// 1. 일반 로그인 처리
+		loginVO.setId(id);
+		loginVO.setPassword(password);
+		loginVO.setCORP_CD(CORP_CD);
+		loginVO.setUserSe("USR");
+		
+		LoginVO resultVO = loginService.actionLogin(loginVO);
+		
+		resultVO.setCORP_CD(CORP_CD);
+		boolean loginPolicyYn = true;
+
+		LoginPolicyVO loginPolicyVO = new LoginPolicyVO();
+		//법인코드추가
+		loginPolicyVO.setEmplyrId(resultVO.getId());
+		loginPolicyVO.setOrgnztId(CORP_CD);
+		loginPolicyVO = egovLoginPolicyService.selectLoginPolicy(loginPolicyVO);
+		
+		
+		if (loginPolicyVO == null) {
+			loginPolicyYn = true;
+		} else {
+			if (loginPolicyVO.getLmttAt().equals("Y")) {
+				if (!userIp.equals(loginPolicyVO.getIpInfo())) {
+					loginPolicyYn = false;
+				}
+			}
+		}
+		System.out.println("loginVO:"+loginVO);
+		System.out.println("====================================================================");
+		System.out.println("loginPolicyYn:"+loginPolicyYn);
+		
+		String corpCd = resultVO.getCORP_CD();
+		System.out.println("===CORP_CD:"+CORP_CD);
+		
+    	System.out.println("===resultVO:"+resultVO);
+    	
+    	
+		if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("") && loginPolicyYn) {
+
+			// 2. spring security 연동
+			request.getSession().setAttribute("LoginVO", resultVO);
+		        Map bodyMap = new HashMap();
+				bodyMap.put("CORP_CD",resultVO.getCORP_CD());
+				bodyMap.put("USER_ID",resultVO.getId());
+				bodyMap.put("MENU_NM","로그인");
+				bodyMap.put("MENU_NO","");
+				bodyMap.put("URL","/uat/uia/actionMain.do");
+				bodyMap.put("SRCID","/WEB-INF/jsp/uat/uia/EgovLoginUsr.jsp");
+				bodyMap.put("LABEL","로그인:/egovframework/let/uat/uia/web/EgovLoginController.java");
+		    	mocaEFLService.insertOne_EFGULOG(bodyMap);
+
+			UsernamePasswordAuthenticationFilter springSecurity = null;
+
+			ApplicationContext act = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getSession().getServletContext());
+						
+			Map<String, UsernamePasswordAuthenticationFilter> beans = act.getBeansOfType(UsernamePasswordAuthenticationFilter.class);
+			if (beans.size() > 0) {
+				
+				springSecurity = (UsernamePasswordAuthenticationFilter) beans.values().toArray()[0];
+				springSecurity.setUsernameParameter("egov_security_username");
+				springSecurity.setPasswordParameter("egov_security_password");
+				springSecurity.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(request.getServletContext().getContextPath() +"/egov_security_login", "POST"));
+			} else {
+				throw new IllegalStateException("No AuthenticationProcessingFilter");
+			}
+			springSecurity.doFilter(new RequestWrapperForSecurity(request, resultVO.getUserSe()+ resultVO.getId(), resultVO.getUniqId()), response, null);
+			return jsonview;
+			// 성공 시 페이지.. (redirect 불가)
+
+		} else {
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
+			return jsonview;
+		}
+	}
+	
+	/**
 	 * 일반(스프링 시큐리티) 로그인을 처리한다
 	 * @param vo - 아이디, 비밀번호가 담긴 LoginVO
 	 * @param request - 세션처리를 위한 HttpServletRequest
@@ -96,6 +195,7 @@ public class EgovLoginController {
 		// 접속IP
 		String userIp = EgovClntInfo.getClntIP(request);
 		//ajax처리
+		System.out.println("loginVO.getUserSe====="+loginVO.getUserSe());
 		if(loginVO.getUserSe() == null) {
 			model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
 			return "uat/uia/EgovLoginUsr_redirect";
