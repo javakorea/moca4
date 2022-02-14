@@ -61,6 +61,8 @@ public class UserDefaultVO implements Serializable {
     private String userId = "";
     private String userNm = "";
 
+	private String ORGNZT_ID;
+
 	/**
 	 * sbscrbSttus attribute 값을  리턴한다.
 	 * @return String
@@ -235,6 +237,10 @@ public class UserDefaultVO implements Serializable {
 
 	public void setUserNm(String userNm) {
 		this.userNm = userNm;
+	}
+	
+	public void setORGNZT_ID(String ORGNZT_ID) {
+		this.ORGNZT_ID = ORGNZT_ID;
 	}
 
 	public static long getSerialversionuid() {

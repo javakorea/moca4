@@ -50,6 +50,9 @@ FROM(
 		<isNotEmpty property="userNm">
 			AND userNm LIKE CONCAT ('%', #userNm#,'%')
 		</isNotEmpty>
+		<isNotEmpty property="ORGNZT_ID">
+			AND ORGNZT_ID = #ORGNZT_ID#
+		</isNotEmpty>
         ORDER BY sbscrbDe DESC
     </select>
     

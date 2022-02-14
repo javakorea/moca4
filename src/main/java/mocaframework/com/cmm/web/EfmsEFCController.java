@@ -277,6 +277,36 @@ public class EfmsEFCController {
         return jsonview;
 	}	
 	
+	@RequestMapping(value = "/uss/umt/user/EgovUserManageSocial_json.do")
+	public View selectUserSocialList(@RequestParam Map mocaMap, 
+			@ModelAttribute("authorManageVO") AuthorManageVO authorManageVO,
+			ModelMap model) throws Exception {
+		//Map map = U.getBody(mocaMap);
+		Map map = U.getBodyNoSess(mocaMap);
+		String userId = (String)map.get("userId");
+		String userNm = (String)map.get("userNm");
+		
+		
+		// 미인증 사용자에 대한 보안처리
+/*		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	if(!isAuthenticated) {
+    		model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
+        	return null;
+    	}*/
+    	UserDefaultVO userSearchVO = new UserDefaultVO();
+    	userSearchVO.setUserId(userId);
+    	userSearchVO.setUserNm(userNm);
+    	userSearchVO.setORGNZT_ID("social");
+		model.addAttribute("list", userManageService.selectUserList(userSearchVO));
+		
+		
+    	authorManageVO.setAuthorManageList(egovAuthorManageService.selectAuthorAllList(authorManageVO));
+        model.addAttribute("authorManageList", authorManageVO.getAuthorManageList());
+        
+        return jsonview;
+	}
+	
+	
 	@RequestMapping(value = "/uss/umt/user/selectGroupIdDetail.do")
 	public View selectGroupIdDetail(@RequestParam Map param, ModelMap model) throws Exception {
 		ComDefaultCodeVO vo = new ComDefaultCodeVO();

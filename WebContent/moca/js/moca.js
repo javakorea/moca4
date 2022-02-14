@@ -1016,7 +1016,6 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
             
             if(_celltype == 'select'){
                 row += '<td id="'+_id+'" class="'+_class+'" name="'+_name+'" toolTip="'+_toolTip+'" celltype="'+_celltype+'" displayFormat="'+_displayFormat+'" keyMask="'+_keyMask+'" displayFunction="'+_displayFunction+'" readOnly="'+readOnly+'"  style="'+_style+'"  >';
-                
                 if($(_grd)[0][_id] != null){
                     var arr = $(_grd)[0][_id].list;
                     if(arr == null){
@@ -1073,12 +1072,15 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                         }else{
                             _reLabel = _nm;
                         }
+                        
+                        _grd.excelList=_grd.list;
                         if(cell == aData[_codeCd]){
                             selectFlag = true;
                             selectTag   = $m.getInputSelectTag(_reLabel,_required);
                             cd = _cd;
                             nm = _nm;
                             label = _reLabel;
+                            _grd.excelList[_nowIndex][_id]=_reLabel;
                             break;
                         }
                     }   
@@ -6574,7 +6576,6 @@ var sampleCalendar ={
             });
             //오늘
             $("#"+calendarId).find(".moca_calendar_btn_today").off("click").on("click",function(){
-            	debugger;
                 event.stopPropagation();
                 var now = new Date();
                 let tempId = $(this).attr("calendarId");
@@ -8309,6 +8310,9 @@ Moca.prototype._excel_down = function(_thisObj) {
     }
 
     var list = grd[0].list;
+    if(grd[0].excelList != null){
+    	list = grd[0].excelList;
+    }
     if(list.length == 0){
     	 $m.alert("다운로드할 데이터가 없습니다.");
     	 return;

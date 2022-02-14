@@ -18,10 +18,24 @@
             },			
 			callback : function(response){
 				$m.MT_POPUP.drawGrid('grd_1', $m.MT_POPUP.getResList(response,"selectTestList"));
+				$m.MT_POPUP.fn_search2();
 			}
 		});
 	};
-	
+	$m.MT_POPUP.fn_search2 = function(){
+		$m.MT_POPUP.exe({
+			url : $m._domain+$m._contextRoot+"/MT_TEST/selectTestList.do",
+            data : {
+            	"header" : $m.header,
+            	"body" : {
+            		"TEST_TYPE":"POPUP"
+            	}
+            },			
+			callback : function(response){
+				$m.MT_POPUP.drawGrid('grd_2', $m.MT_POPUP.getResList(response,"selectTestList"));
+			}
+		});
+	};
 	$m.MT_POPUP.fn_exe = function(_thisObj){
 		var o = {};
 	    o.id = "MT_POPUP2";
@@ -47,7 +61,6 @@
 	}
 	
 	$m.MT_POPUP.fn_exe2 = function(_thisObj){
-		debugger;
 		$m.mdiChange($m.MT_POPUP.pageId);
 	};
 	$m.MT_POPUP._excelCallback = function(_json){

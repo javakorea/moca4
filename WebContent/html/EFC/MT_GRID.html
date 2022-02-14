@@ -166,7 +166,7 @@
 			<div type="grid" class="moca_grid toolbar sc_row1 mt10" default_cell_height="26px" id="grd_comp" style=" top:0; height:112px" rowSelectedColor="#434e5f"
 	        		rendering_div = "true"
 					toolbar_search_size="false"
-					toolbar_common_btns_pc='{"detail":"true","exup":"false","exdn":"true","addrow":"false","delrow":"false","full":"true"}'
+					toolbar_common_btns_pc='{"detail":"true","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'
 					toolbar_common_btns_mobile='{"detail":"false","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'
 					toolbar_detail="true"
 					toolbar_exup="false"
@@ -288,14 +288,12 @@
 								<col style="width:60px" mobileHide="true" hide="false" columnKey="status" thKey="H_STATUS" >
 								<col style="width:150px" mobileHide="false" hide="false" columnKey="TEST_PROP" thKey="H_TEST_PROP" >
 								<col style="" mobileHide="false" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
-								<col style="width:400px" mobileHide="true" hide="false" columnKey="TEST_DB" thKey="H_TEST_DB" >		
 						</colgroup>
 						<thead>
 							<tr>
 								<th scope="col" id="H_STATUS">상태</th>
 								<th scope="col" id="H_TEST_PROP">속성</th>
-								<th scope="col" id="H_TEST_VALUE">값</th>
-								<th scope="col" id="H_TEST_DB">설명</th>
+								<th scope="col" id="H_TEST_VALUE">설명</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -303,7 +301,6 @@
 								<td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
 								<td excelIndex="1" id="TEST_PROP" celltype="input" style="text-align:left" name="속성" required="false" readOnly="true" ></td>
 								<td excelIndex="2" id="TEST_VALUE" celltype="input" style="text-align:left" name="값" readOnly="true"></td>
-								<td excelIndex="3" id="TEST_DB" celltype="input" style="text-align:left" name="설명 " readOnly="true" required="false" editorMode="true" ></td>
 							</tr>
 						</tbody>
 					</table>				
