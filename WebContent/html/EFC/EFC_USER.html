@@ -141,7 +141,7 @@
 				</div>
 			</div>
 			
-			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1"
+			<div type="grid" style="" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1"
 								toolbar_search_size="false"
 								toolbar_detail="true"
 								toolbar_exup="true"
@@ -152,6 +152,7 @@
 								toolbar_full="true"
 								toolbar_grid_button1='{"position":"right","id":"btn_save","label":"저장","onclick":"$m.EFC_USER.fn_exe","addClass":""}'
 								onSelectChanged="$m.EFC_USER.selectChanged"
+								exdn_withLabel = "true"
 								label="사용자목록"
 
 			>
@@ -187,22 +188,22 @@
 						<tbody>
 							<tr>
 								<td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
-								<td id="userId" celltype="input" style="text-align:left" readOnly="true"  required="true" name="아이디"></td>
-								<td id="userNm" celltype="input" style="" readOnly="true"  required="true" name="이름"></td>
-								<td id="authorCode" celltype="select" style="" name="권한" required="true" ></td>
-								<td id="orgnztId" celltype="select" style=""  required="true" name="법인코드"></td>
-								<td id="password" celltype="input" style="" required="true" name="비밀번호" ></td>
-								<td id="sbscrbDe" celltype="input" style="" readOnly="true"	displayFunction="$m.longToDate" addRowEditable="false" name="등록일"></td>
-								<td id="moblphonNo" 
+								<td excelIndex="0" id="userId" celltype="input" style="text-align:left" readOnly="true"  required="true" name="아이디"></td>
+								<td excelIndex="1" id="userNm" celltype="input" style="" readOnly="true"  required="true" name="이름"></td>
+								<td excelIndex="2" id="authorCode" celltype="select" style="" name="권한" required="true" ></td>
+								<td excelIndex="3" id="orgnztId" celltype="select" style=""  required="true" name="법인코드"></td>
+								<td excelIndex="4" id="password" celltype="input" style="" required="true" name="비밀번호" ></td>
+								<td excelIndex="5" id="sbscrbDe" celltype="input" style="" readOnly="true"	displayFunction="$m.longToDate" addRowEditable="false" name="등록일"></td>
+								<td excelIndex="6" id="moblphonNo" 
 									celltype="input" 
 									keyMask="onlyPhone" style="text-align:left" name="핸드폰번호" readOnly="false"
 									displayFunction="$m.cellPhone" 
 									displayFunctionApply="realtime"
 									maxLength="13"
 								></td>
-								<td id="emailAdres" celltype="input" style=""  toolTip="true" name="E-MAIL"></td>
-								<td id="endDate" celltype="input" style="text-align:center" readOnly="false" name="만료일" ></td>
-								<td id="etc" celltype="input" style="text-align:center" readOnly="false" name="비고" ></td>
+								<td excelIndex="7" id="emailAdres" celltype="input" style=""  toolTip="true" name="E-MAIL"></td>
+								<td excelIndex="8" id="endDate" celltype="input" style="text-align:center" readOnly="false" name="만료일" ></td>
+								<td excelIndex="9" id="etc" celltype="input" style="text-align:center" readOnly="false" name="비고" ></td>
 							</tr>
 						</tbody>
 					</table>				

@@ -19,7 +19,7 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .header {position:relative; height:80px; max-width: 1080px; margin: 0 auto;}
 .header h1{position:relative; top:12px; left:35px; float:left}
 .header h1 a.logo{display:block;background:url(../images/home/MOCA_CI.svg)no-repeat;  width:136px; height:43px; text-indent:-9999px; float:left}
-.header a.demo{display: block; background: url(../images/home/arrow.gif)no-repeat; position:relative; width: 65px; height: 20px; line-height:21px; float:left; left:45px; top:32px; color:#4d92e3; background-size: 25px; background-position: 47px -2px; border: 2px solid #4d92e3; padding-left:10px; border-radius: 15px;}
+.header a.demo{display: block; background: url(../images/home/arrow.gif)no-repeat; position:relative; width: 65px; height: 20px; line-height:21px; float:left; left:45px; top:32px; color:#4d92e3; background-size: 25px; background-position: 47px -2px; border: 2px solid #4d92e3; padding-left:10px; border-radius: 15px; cursor:pointer;}
 
 .header .btn_area{position:relative; top:25px; right:35px}
 .header .message{text-align: center; display: block; top: 18px; position: relative; font-weight: bold; font-size: 21px;}
@@ -157,7 +157,7 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .mainicon2{opacity:0.5;background:url(../images/home/moca_icon2.png?v=1);width:40px; height:40px; display:inline-block; position:absolute; right:10px; bottom:10px }
 .mainicon2.img1{background:url(../images/home/ico_phone.svg?v=1);background-position:0 0}
 .mainicon2.img2{background:url(../images/home/ico_board.svg?v=1);background-position:0 0}
-.mainicon2.img3{background: url(../images/home/arrow_gray.gif)no-repeat; position: relative; top:8px; width: 65px; height: 20px;line-height: 21px; float: right; color: #4d92e3; background-size: 25px; background-position: 39px -2px; opacity:1; font-weight:bold}
+.mainicon2.img3{background: url(../images/home/arrow_gray.gif)no-repeat; position: relative; top:8px; width: 65px; height: 20px;line-height: 21px; float: right; color: #4d92e3; background-size: 25px; background-position: 39px -2px; opacity:1; font-weight:bold; cursor:pointer;}
 .mainicon2.img4{background-position:-150px 0}
 
 .subpage{min-width:inherit}

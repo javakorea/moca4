@@ -1073,17 +1073,19 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                             _reLabel = _nm;
                         }
                         
-                        _grd.excelList=_grd.list;
+                  
                         if(cell == aData[_codeCd]){
                             selectFlag = true;
                             selectTag   = $m.getInputSelectTag(_reLabel,_required);
                             cd = _cd;
                             nm = _nm;
                             label = _reLabel;
-                            _grd.excelList[_nowIndex][_id]=_reLabel;
+
                             break;
                         }
+                        
                     }   
+                    
                     if(!selectFlag){
                         selectTag   = $m.getInputSelectTag("-선택-",_required);
                         if(!isAllOpt){
@@ -5995,8 +5997,7 @@ Moca.prototype.genTbody = function(_grd,_list,_idx,isEnd) {
     }
     
     $(_grd).find('tbody:first').html(tbody);
-
-    for(var i=idx,j=viewRowsMaxNow;i < j; i++){
+	for(var i=idx,j=viewRowsMaxNow;i < j; i++){
         this.genRows(row,row_pre,row_next,_grd,null,idx,i,"after");
     }
     
@@ -8299,8 +8300,15 @@ Moca.prototype._excel_down = function(_thisObj) {
         var key = ks[i];
         var cellTd = grd[0].cellInfo[key];
         if(cellTd.getAttribute("excelIndex")){
-            cellInfo[key] = cellTd.getAttribute("name");
+        	if(cellTd.getAttribute("celltype")=="select" && grd.attr("exdn_withLabel") == 'true'){
+        		var _keynm = key+"_nm";
+        		cellInfo[key] = cellTd.getAttribute("name");
+        		cellInfo[_keynm] = cellTd.getAttribute("name")+"_NAME";
+        	}else{
+        		 cellInfo[key] = cellTd.getAttribute("name");
+        	}
         }
+        
         /*
         var isDisplayNone = grd.find('td[id='+cellTd.id+']').css('display');
         if(isDisplayNone != 'none'){
@@ -8308,8 +8316,34 @@ Moca.prototype._excel_down = function(_thisObj) {
         }
         */
     }
-
-    var list = grd[0].list;
+    
+    var aTd;
+    var _nm;
+    var _cd;
+    debugger;
+    var _selectArr = [];
+    for(var bb=0; bb<ks.length; bb++){
+    	aTd = grd[0].cellInfo[ks[bb]];
+    	if($(aTd).attr("celltype") == "select"){
+    		_selectArr.push(aTd);
+    	}
+    }
+    if(_selectArr.length > 0 && grd.attr("exdn_withLabel") == 'true'){
+    	grd[0].excelList = grd[0].list.clone();
+    	 for(var i = 0; i<grd[0].excelList.length;i++){
+    		 for(var ii=0; ii<_selectArr.length; ii++){
+    			 aTd = _selectArr[ii];
+    			 _cd = grd[0].excelList[i][aTd.id];
+    	 		 var _idnm = aTd.id+"_nm";
+    	         var codeOpt = grd[0][aTd.id].codeOpt;
+    	         _nm = grd[0][aTd.id]["map"][_cd];
+    	         grd[0].excelList[i][_idnm]=_nm;
+    		 }
+    		
+    	 }
+    }
+   
+    var list = grd[0].list.clone();
     if(grd[0].excelList != null){
     	list = grd[0].excelList;
     }
@@ -8327,7 +8361,6 @@ Moca.prototype._excel_down = function(_thisObj) {
     function escapeVal(v) {
         return '"' + v.replace('"', '""') + '"';
     }
-    
     for (var hkey in cellInfo) {
         var v = cellInfo[hkey]+"";
         if(v == null || v == 'null'){
