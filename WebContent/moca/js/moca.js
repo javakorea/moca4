@@ -8296,14 +8296,19 @@ Moca.prototype._excel_down = function(_thisObj) {
     var grd = $m.getTypeObj(_thisObj)
     var cellInfo = {};
     var ks = Object.keys(grd[0].cellInfo);
+    var _keyNmArr =[];
     for(var i=0,j=ks.length;i < j; i++){
         var key = ks[i];
         var cellTd = grd[0].cellInfo[key];
         if(cellTd.getAttribute("excelIndex")){
-        	if(cellTd.getAttribute("celltype")=="select" && grd.attr("exdn_withLabel") == 'true'){
+        	if(cellTd.getAttribute("celltype")=="select" && grd.attr("exdn_withLabel") != 'false'){
         		var _keynm = key+"_nm";
         		cellInfo[key] = cellTd.getAttribute("name");
-        		cellInfo[_keynm] = cellTd.getAttribute("name")+"_NAME";
+        		var _keyJson = {
+        			"_keycd":key,
+        			"_keynm":cellTd.getAttribute("name")+"_NAME"
+        		};
+        		_keyNmArr.push(_keyJson);
         	}else{
         		 cellInfo[key] = cellTd.getAttribute("name");
         	}
@@ -8316,11 +8321,15 @@ Moca.prototype._excel_down = function(_thisObj) {
         }
         */
     }
+    for(var k=0;k<_keyNmArr.length;k++){
+    	var _label = _keyNmArr[k]._keycd+"_nm";
+    	cellInfo[_label] = _keyNmArr[k]._keynm;
+    }
+   
     
     var aTd;
     var _nm;
     var _cd;
-    debugger;
     var _selectArr = [];
     for(var bb=0; bb<ks.length; bb++){
     	aTd = grd[0].cellInfo[ks[bb]];
@@ -8328,7 +8337,7 @@ Moca.prototype._excel_down = function(_thisObj) {
     		_selectArr.push(aTd);
     	}
     }
-    if(_selectArr.length > 0 && grd.attr("exdn_withLabel") == 'true'){
+    if(_selectArr.length > 0 && grd.attr("exdn_withLabel") != 'false'){
     	grd[0].excelList = grd[0].list.clone();
     	 for(var i = 0; i<grd[0].excelList.length;i++){
     		 for(var ii=0; ii<_selectArr.length; ii++){
@@ -8380,13 +8389,12 @@ Moca.prototype._excel_down = function(_thisObj) {
                     if(v == null || v == 'null' || v == 'undefined'){
                         v = "";
                     }else{
-                        v = escapeVal(v);
                         if(v.length == 13 && $.isNumeric(v) && hkey != "FILE_ID"){
                             v = $m.longToDate(v);
                         }else if(hkey == "FILE_ID"){
                             v = ""+v+"_";
-                            
                         }
+                        v = escapeVal(v);
                     }
                     line += v + ",";
                 }

@@ -1385,6 +1385,6 @@ div[type="table"].moca_table_cont{table-layout:fixed; width:100%; position: rela
 .moca_messagebox.zoom div[contenteditable].moca_textarea{font-size:15px;text-align:left; height:100px; overflow-y:auto; line-height:1; padding:5px 0}
 .moca_messagebox.zoom .moca_btnbox .moca_btn_confirm {background:#c96f57}
 
-.moca_grid.explanation{padding: 7px 13px 13px; background: #e9ebeb; border: 1px solid #d7dcdc}
+.moca_grid.explanation{padding: 12px 0 0; /*background: #e9ebeb; */border-top: 4px double #aaa}
 .moca_grid.explanation .moca_grid_list .moca_grid_body > table > thead > tr > th {background-color:#7ba9c9; color:#fff}
 .moca_grid.explanation .moca_grid_list{border-top:0}

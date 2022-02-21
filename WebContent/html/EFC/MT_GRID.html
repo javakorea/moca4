@@ -6,6 +6,7 @@
 	$m.MT_GRID.___ready = function(){
 		$m.MT_GRID.code({
 			"grd_comp.EFC_COMBO":{code:'TEST'},
+			"grd_13.EFC_COMBO":{code:'TEST'},
 			"cmb_1":{code:'boardStatus'},
 			"scmb_1":{code:'boardStatus'}
 		},function(){
@@ -241,7 +242,9 @@
 								<col style="width:100px"><!-- 담당자 -->
 								<col style="width:500px"><!-- 주소 -->
 								<col style="width:120px"><!-- 전화번호 -->
+								<col style="width:120px" mobileHide="false" hide="false" columnKey="EFC_COMBO" thKey="H_EFC_COMBO" >
 								<col style=""><!-- 비고 -->
+								
 						</colgroup>
 						<thead>
 							<tr>
@@ -252,7 +255,9 @@
 								<th id="H_a03">이름</th>
 								<th id="H_a05">주소</th>
 								<th id="H_a06">전화번호</th>
+								<th scope="col" id="H_TEST_COMBO">combo</th>
 								<th id="H_a07">비고</th>
+								
 							</tr>
 						</thead>
 						<tbody>
@@ -264,7 +269,9 @@
 								<td excelIndex="4"  id="FinacManager" name="이름"  celltype="input" style="" readonly="true" displayFunction=""></td>
 								<td excelIndex="5"  id="FinacAddress" name="주소"  celltype="input" style="text-align:left" readonly="true" displayFunction=""></td>
 								<td excelIndex="6"  id="CorpPhone" name="전화번호"  celltype="input" style="" readonly="true" displayFunction=""></td>
-								<td excelIndex="7"  id="Note" name="비고"  celltype="input" style="" readonly="true" displayFunction=""></td>
+								<td excelIndex="7" id="EFC_COMBO" celltype="select" style="text-align:center" required="false" name="공통콤보" readOnly="false"></td>
+								<td excelIndex="8"  id="Note" name="비고"  celltype="input" style="" readonly="true" displayFunction=""></td>
+								
 							</tr>
 						</tbody>
 					</table>				
@@ -273,7 +280,7 @@
 								rendering_div = "true"
 								toolbar_search_size="false"
 								toolbar_common_btns_pc='{"detail":"false","exup":"false","exdn":"true","addrow":"false","delrow":"false","full":"true"}'
-								toolbar_common_btns_mobile='{"detail":"false","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'
+								toolbar_common_btns_mobile='{"detail":"true","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'
 								toolbar_detail="false"
 								toolbar_exup="false"
 								toolbar_exdn="true"
@@ -285,8 +292,8 @@
 			>
 					<table style="width: 100%">
 						<colgroup>
-								<col style="width:150px" mobileHide="false" hide="false" columnKey="TEST_PROP" thKey="H_TEST_PROP" >
-								<col style="" mobileHide="false" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
+								<col style="width:30%" mobileHide="false" hide="false" columnKey="TEST_PROP" thKey="H_TEST_PROP" >
+								<col style="width:70%" mobileHide="false" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
 						</colgroup>
 						<thead>
 							<tr>

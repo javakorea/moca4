@@ -689,6 +689,7 @@
 					, DATE_FORMAT(A.RegisterTime, '%Y-%m-%d') AS RegisterTime	/*등록일*/
 					, DATE_FORMAT(A.UpdateTime, '%Y-%m-%d') AS UpdateTime		/*수정일*/
 					, A.RegisterTime AS oriRegisterTime
+					, A.EFC_COMBO												/*COMBO*/
 		 	FROM TO_RAWDATA_FINANCIALINSTITUTION A
 		 	WHERE 1=1
     	]]>
@@ -723,7 +724,9 @@
 		    	, FinacAddress
 		    	, CorpPhone
 		    	, ManagerPhone
-		    	, Note)
+		    	, Note
+		    	, EFC_COMBO
+		    	)
 		    VALUES
 	    ]]>
 	    <foreach collection="fincialList" item="item" separator=" , " >
@@ -739,6 +742,7 @@
 		    	, #{item.CorpPhone}
 		    	, #{item.ManagerPhone}
 		    	, #{item.Note}
+		    	, #{item.EFC_COMBO}
 	    	)
 	    </foreach>
     </insert>
@@ -758,6 +762,7 @@
 		    	, CorpPhone = #{CorpPhone}
 		    	, ManagerPhone = #{ManagerPhone}
 		    	, Note = #{Note}
+		    	, EFC_COMBO = #{EFC_COMBO}
 		    WHERE idx = #{idx}
 	    ]]>
     </update>  
