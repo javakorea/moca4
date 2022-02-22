@@ -5181,11 +5181,13 @@ Moca.prototype._fullScreenGrid = function(_thisObj){
         //g_jq.css('top','0px');
         //g_jq.css('left','0px');
         //g_jq.css('z-index','9999');
+        var _height = g_jq.css('height');
+        g_jq[0].height = _height;
         g_jq.addClass("overlayer");
         b_jq.removeClass("grid_full");
         b_jq.addClass("grid_default");  
-        var _height = g_jq.css('height');
-        g_jq[0].height = _height;
+        
+        
         g_jq.css('height','');
     }else{
         _thisObj.setAttribute("full_screen","false");   
@@ -5196,11 +5198,11 @@ Moca.prototype._fullScreenGrid = function(_thisObj){
         g_jq.removeClass("overlayer");
         b_jq.removeClass("grid_default");
         b_jq.addClass("grid_full"); 
-        if(g_jq.attr('pageid').startsWith('POPUP')){
+        //if(g_jq.attr('pageid').startsWith('POPUP')){
             if(g_jq[0].height != null){
                 g_jq.css('height',g_jq[0].height);
             }
-        }
+        //}
     }
     
     

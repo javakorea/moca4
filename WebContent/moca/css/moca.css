@@ -437,7 +437,7 @@ i.msg {text-align: center; padding:0 6px; display: inline-block; color: #fff; bo
 .moca_grid_paging button.next:hover, 
 .moca_grid_paging button.last:hover {background-color:#e6f4ea}
 .moca_grid.paging .moca_grid_list {bottom:34px}
-.moca_grid.overlayer {position:fixed !important; top:0 !important; right:0 !important; bottom:0 !important; left:0 !important; margin:0 !important; z-index:999 !important; background:#fff}
+.moca_grid.overlayer {position:fixed !important; top:0 !important; right:0 !important; bottom:0 !important; left:0 !important; padding:0 !important; margin:0 !important; z-index:999 !important; background:#fff}
 .moca_grid.overlayer .moca_grid_toolbar {padding:5px 5px 0}
 .moca_grid.overlayer .moca_grid_list {margin:5px; margin-bottom:0}
 .moca_grid.overlayer .moca_grid_paging {margin:5px; margin-top:0}
@@ -1385,6 +1385,6 @@ div[type="table"].moca_table_cont{table-layout:fixed; width:100%; position: rela
 .moca_messagebox.zoom div[contenteditable].moca_textarea{font-size:15px;text-align:left; height:100px; overflow-y:auto; line-height:1; padding:5px 0}
 .moca_messagebox.zoom .moca_btnbox .moca_btn_confirm {background:#c96f57}
 
-.moca_grid.explanation{padding: 12px 0 0; /*background: #e9ebeb; */border-top: 4px double #aaa}
+.moca_grid.explanation{padding: 12px 0 0; /*background: #e9ebeb; */border-top: 2px solid #bbc3ce}
 .moca_grid.explanation .moca_grid_list .moca_grid_body > table > thead > tr > th {background-color:#7ba9c9; color:#fff}
 .moca_grid.explanation .moca_grid_list{border-top:0}
