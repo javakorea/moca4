@@ -34,7 +34,10 @@ $m.main.fn_searchContents = function(){
 			url : $m._domain+$m._contextRoot+"/efms/EFGPROP/list_json.do",
             data : {
             	"header" : $m.header,
-            	"body" : {PROP_KEY:"main"}
+            	"body" : {
+            		PROP_KEY:"main",
+            		REFERRER: document.referrer
+            	}
             },			
 			callback : function(response){
 				if(response.list.length > 0){

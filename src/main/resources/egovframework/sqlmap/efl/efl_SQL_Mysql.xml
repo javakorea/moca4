@@ -961,6 +961,25 @@
 					#ETC#
 				)
 		</insert>
+		<insert id="mocaEFLDAO.insertOne_referer" parameterClass="LinkedTreeMap">    
+		        INSERT INTO MT_REFERRER (
+					SESSION_ID,
+					REFERRER,
+					PARAM_NAMES,
+					PARAM_MAP,
+					SESSION_INFO,
+					LAST_DATE
+		        ) 
+		        VALUES (
+					#SESSION_ID#,
+					#REFERRER#,
+					#PARAM_NAMES#,
+					#PARAM_MAP#,
+					#SESSION_INFO#,
+					CURRENT_TIMESTAMP
+				)
+		</insert>
+				
 		<insert id="mocaEFLDAO.insertOne_EFGCORP" parameterClass="LinkedTreeMap">    
 		        INSERT INTO MT_CORP (
 					CORP_CD,

@@ -81,6 +81,7 @@ public interface MocaEFLService  {
 	public Object insertOne_EFGPROP(Map map) throws Exception;
 	public Object updateList_EFGPROP(Map map) throws Exception;
 	public List selectList_EFGPROP(Map map) throws Exception;
+	public Object insertOne_referer(Map map) throws Exception;
 	
 	public List selectList_MAIN_SYST(Map map) throws Exception;
 	public List selectList_MAIN_CNT(Map map) throws Exception;

@@ -232,6 +232,12 @@ public class MocaEFLServiceImpl extends EgovAbstractServiceImpl implements MocaE
 	public Object insertOne_EFGSYST(Map map) throws Exception {
 		return mocaEFLDAO.insertOne_EFGSYST(map);
 	}
+	
+	public Object insertOne_referer(Map map) throws Exception {
+		return mocaEFLDAO.insertOne_referer(map);
+	}
+	
+	
 	public Object updateList_EFGSYST(Map map) throws Exception {
 		return mocaEFLDAO.updateList_EFGSYST(map);
 	}	

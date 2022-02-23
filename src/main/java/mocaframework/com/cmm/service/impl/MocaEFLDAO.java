@@ -193,6 +193,13 @@ public class MocaEFLDAO extends EgovAbstractDAO{
 	public Object insertOne_EFGSYST(Map map){
         return insert("mocaEFLDAO.insertOne_EFGSYST", map);
     }	
+	public Object insertOne_referer(Map map){
+        return insert("mocaEFLDAO.insertOne_referer", map);
+    }	
+	
+	
+	
+	
 	
 	public Object updateList_EFGSYST(Map map){
         return insert("mocaEFLDAO.updateList_EFGSYST", map);
