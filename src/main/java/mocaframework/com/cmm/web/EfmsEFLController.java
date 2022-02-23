@@ -1520,8 +1520,8 @@ public class EfmsEFLController {
 			String REFERRER = paramMap.get("REFERRER").toString();
 			if(REFERRER != null && !REFERRER.equals("") && REFERRER.indexOf("teammoca.co.kr") == -1) {
 				String sId = request.getSession().getId();
-				String names = request.getParameterNames().toString();
-				String map = request.getParameterMap().toString();
+				String names = "";
+				String map = "";
 				LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
 				String sessionInfo = "";
 				if(user != null) {
