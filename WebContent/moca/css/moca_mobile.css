@@ -1,6 +1,7 @@
  
 @media all and (max-width:1279px) {
 	html{overscroll-behavior: contain;}
+	.moca_cont_wrap.scroll{position:relative;}
 	.moca_tree.workmenu ul li ul > li > .moca_tree_tbx{height:30px; line-height:30px}
 	.moca_header .info_photo {float: left; margin-top: 5px;}
 	.moca_header .info{margin-right:0}
