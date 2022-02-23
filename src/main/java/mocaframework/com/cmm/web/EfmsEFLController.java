@@ -1517,23 +1517,19 @@ public class EfmsEFLController {
 			
 			
 			//////////////////////////////////////////////////////////////////////////////
-			String REFERRER = paramMap.get("REFERRER").toString();
-			if(REFERRER != null && !REFERRER.equals("") && REFERRER.indexOf("teammoca.co.kr") == -1) {
-				String sId = request.getSession().getId();
-				String names = "";
-				String map = "";
-				LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-				String sessionInfo = "";
-				if(user != null) {
-					sessionInfo = user.toString();
+				String REFERRER = (String)paramMap.get("REFERRER");
+				if(REFERRER != null && !REFERRER.equals("") && REFERRER.indexOf("teammoca.co.kr") == -1) {
+					String sId = request.getSession().getId();
+					String names = "";
+					String map = "";
+					paramMap.put("SESSION_ID", sId);
+					paramMap.put("PARAM_NAMES", names);
+					paramMap.put("PARAM_MAP", map);
+					paramMap.put("SESSION_INFO", "");
+					mocaEFLService.insertOne_referer(paramMap);
 				}
-				paramMap.put("SESSION_ID", sId);
-				paramMap.put("PARAM_NAMES", names);
-				paramMap.put("PARAM_MAP", map);
-				paramMap.put("SESSION_INFO", sessionInfo);
-				mocaEFLService.insertOne_referer(paramMap);
-			}
-			System.out.println("=======================REFERRER:"+REFERRER);
+				System.out.println("=======================REFERRER:"+REFERRER);
+			
 	//////////////////////////////////////////////////////////////////////////////
 			
 			model.addAttribute("list", mocaEFLService.selectList_EFGPROP(paramMap));

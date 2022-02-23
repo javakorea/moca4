@@ -961,7 +961,7 @@
 					#ETC#
 				)
 		</insert>
-		<insert id="mocaEFLDAO.insertOne_referer" parameterClass="LinkedTreeMap">    
+		<insert id="mocaEFLDAO.insertOne_referer" parameterClass="hashMap">    
 		        INSERT INTO MT_REFERRER (
 					SESSION_ID,
 					REFERRER,
