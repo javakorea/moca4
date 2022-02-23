@@ -1508,30 +1508,34 @@ public class EfmsEFLController {
 			paramMap = mocaMap;
 		}
 		
-		//////////////////////////////////////////////////////////////////////////////
-		String REFERRER = paramMap.get("REFERRER").toString();
-		if(REFERRER != null && !REFERRER.equals("") && REFERRER.indexOf("teammoca.co.kr") == -1) {
-			String sId = request.getSession().getId();
-			String names = request.getParameterNames().toString();
-			String map = request.getParameterMap().toString();
-			LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
-			String sessionInfo = "";
-			if(user != null) {
-				sessionInfo = user.toString();
-			}
-			paramMap.put("SESSION_ID", sId);
-			paramMap.put("PARAM_NAMES", names);
-			paramMap.put("PARAM_MAP", map);
-			paramMap.put("SESSION_INFO", sessionInfo);
-			mocaEFLService.insertOne_referer(paramMap);
-		}
-		System.out.println("=======================REFERRER:"+REFERRER);
-//////////////////////////////////////////////////////////////////////////////
+
 		
 		//if(!U.preCheck(model)) {return jsonview;}
 		
 		try {
 			//Map map = U.getBody(mocaMap);
+			
+			
+			//////////////////////////////////////////////////////////////////////////////
+			String REFERRER = paramMap.get("REFERRER").toString();
+			if(REFERRER != null && !REFERRER.equals("") && REFERRER.indexOf("teammoca.co.kr") == -1) {
+				String sId = request.getSession().getId();
+				String names = request.getParameterNames().toString();
+				String map = request.getParameterMap().toString();
+				LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+				String sessionInfo = "";
+				if(user != null) {
+					sessionInfo = user.toString();
+				}
+				paramMap.put("SESSION_ID", sId);
+				paramMap.put("PARAM_NAMES", names);
+				paramMap.put("PARAM_MAP", map);
+				paramMap.put("SESSION_INFO", sessionInfo);
+				mocaEFLService.insertOne_referer(paramMap);
+			}
+			System.out.println("=======================REFERRER:"+REFERRER);
+	//////////////////////////////////////////////////////////////////////////////
+			
 			model.addAttribute("list", mocaEFLService.selectList_EFGPROP(paramMap));
 			
 		}catch(Exception e) {
