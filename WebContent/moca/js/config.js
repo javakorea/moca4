@@ -32,7 +32,7 @@ var mocaConfig = {
 		/*attr :'{"detail":"true","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'*/
 	},
 	defaultMenuId : "li4010000",
-	userLogInsert : false,
+	userLogInsert : true,
 	isDevMode : function(){
 		var h = location.host;
 		if(h == "dev-mycar.carbang365.co.kr:9090" || h == "localhost:8080" ){

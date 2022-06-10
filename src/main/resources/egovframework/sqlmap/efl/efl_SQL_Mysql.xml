@@ -735,6 +735,13 @@
 				)
 		    ]]>
 		</insert>
+		<select id="mocaEFLDAO.selectList_referrer" parameterClass="hashMap" resultClass="hashMap">
+			SELECT * FROM MT_REFERRER
+			WHERE 1=1
+			AND DATE(LAST_DATE) BETWEEN #FROM# AND #TO#
+			ORDER BY LAST_DATE DESC
+	    </select> 
+	    
 	 	<select id="mocaEFLDAO.selectOne_EFC_POPU" parameterClass="hashMap" resultClass="hashMap">
 			SELECT P.* , S.EMAIL
 			FROM EFGPOPU P, EFGSYST S

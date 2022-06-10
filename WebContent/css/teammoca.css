@@ -111,12 +111,13 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .footer .f_content h2{float:left; margin-right:15px; padding:20px 0}
 .footer .f_content p{word-break:keep-all;display:inline-block; float:left; position:relative; top:19px; font-size:11px;}
 .footer .f_content p > span:first-child{margin-right:10px}
-.footer .f_content div.f_tel{position:relative; float:right; font-size:15px; padding: 24px 0 20px 24px; margin-left: 20px}
+.footer .f_content div.f_info{float: right; width: 315px; position: relative; top: 14px}   
+.footer .f_content div.f_tel, .footer .f_content div.f_mail{position:relative; float:left; font-size:15px;}
 .footer .f_content div.f_tel img{width:40px; height:40px; float:left; margin-right:7px}
-.footer .f_content div.f_tel span{ margin:0 5px}
-.footer .f_content div.f_tel .title{font-weight:700}
-.footer .f_content div.f_tel > div { float:right}
-.footer .f_content div.f_tel a{float:left; color:#fff; margin-right:6px; font-weight:bold}
+.footer .f_content div.f_tel span, .footer .f_content div.f_mail span{ margin:0 5px}
+.footer .f_content div .title{font-weight:700}
+.footer .f_content div.f_tel > div, .footer .f_content div.f_mail > div { float:right}
+.footer .f_content div.f_tel a, .footer .f_content div.f_mail a{float:left; color:#fff; margin-right:6px; font-weight:bold}
 .f_point{color:#3fbda7 !important;}
 
 /*메인 _ 게시판*/
@@ -277,7 +278,7 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 	.container .mocaBox .main_img2 img{width:100%; height:100%}
 	.mocastep.step2{margin-left:0; margin-bottom:0}
 	
-	.footer .f_content div.f_tel{font-size: 14px}
+	.footer .f_content div.f_info{font-size: 14px}
 	.f_content e{display:block}
 }
  

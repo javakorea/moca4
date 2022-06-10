@@ -1539,6 +1539,18 @@ public class EfmsEFLController {
 		}
         return jsonview;
 	}
+	
+	@RequestMapping(value = "/efms/MT_REFERRER/list_json.do")
+	public View MT_REFERRER_list_json(@RequestParam Map param, 
+			@RequestParam Map <String, Object> mocaMap,
+			ModelMap model) throws Exception {
+		if(!U.preCheck(model)) {return jsonview;}
+		
+		Map map = U.getBody(mocaMap);
+		model.addAttribute("list", mocaEFLService.selectList_referrer(map));
+        return jsonview;
+	}
+	
 	@RequestMapping(value = "/efms/EFGPROP/modify_json.do")
 	public View EFGPROP_modify_json(@RequestParam Map param, 
 			@RequestParam Map <String, Object> mocaMap,

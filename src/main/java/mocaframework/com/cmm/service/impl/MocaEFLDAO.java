@@ -196,7 +196,9 @@ public class MocaEFLDAO extends EgovAbstractDAO{
 	public Object insertOne_referer(Map map){
         return insert("mocaEFLDAO.insertOne_referer", map);
     }	
-	
+	public List<?> selectList_referrer(Map map){
+        return list("mocaEFLDAO.selectList_referrer", map);
+    }
 	
 	
 	

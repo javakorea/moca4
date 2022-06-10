@@ -932,6 +932,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
             var _labelId = undefined;
             var _maxLength;
             var _editorMode = undefined;
+            var _mobileWidth = undefined;
             if(cellTd == null){
                 cell = "";
             }else if(cellTd != null){
@@ -952,7 +953,6 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                 _addRowEditable = cellTd.getAttribute("addRowEditable");
                 _align = cellTd.getAttribute("align");
                 
-                
                 _style = cellTd.getAttribute("style");
                 var aCol = $(_grd).find('.moca_grid_body colgroup').find('col[columnkey='+_id+']');
     	        if($m.getDevice() == "pc"){
@@ -969,10 +969,11 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
     	        	}else{
     	        		_style = _style.replace("display: none","display: table-cell");
     	        	}
+    	        	if(_mobileWidth = aCol.attr("mobileWidth")){
+    	        		aCol.attr('style',"width:"+aCol.attr("mobileWidth"));
+    	        	}
+    	        	
     	        }
-    			
-    	        
-    	        
     	        
                 _required = cellTd.getAttribute("required");
                 
@@ -11667,6 +11668,7 @@ Moca.prototype.getIncludeScope = function(includeObj,thisObj) {
     $m.userLogInsert({URL:_url,SRCID:_srcId,LABEL:_label,MENU_NM:_label});
  */
 Moca.prototype.userLogInsert = function(_info) { 
+	debugger;
     if(mocaConfig.userLogInsert != false){
         if($m.trim(_info.LABEL) == ''){
             _info.LABEL = _info.URL;

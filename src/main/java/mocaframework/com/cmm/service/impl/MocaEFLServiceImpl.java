@@ -236,6 +236,9 @@ public class MocaEFLServiceImpl extends EgovAbstractServiceImpl implements MocaE
 	public Object insertOne_referer(Map map) throws Exception {
 		return mocaEFLDAO.insertOne_referer(map);
 	}
+	public List selectList_referrer(Map map) throws Exception {
+		return mocaEFLDAO.selectList_referrer(map);
+	}
 	
 	
 	public Object updateList_EFGSYST(Map map) throws Exception {
