@@ -48,6 +48,8 @@ if(userAgent.indexOf("MOBI") > -1 || userAgent.indexOf("IPHONE") > -1   || userA
 <META http-equiv="Expires" content="-1">
 <META http-equiv="Pragma" content="no-cache">
 <META http-equiv="Cache-Control" content="No-Cache">
+<meta name="google-signin-scope" content="https://www.googleapis.com/auth/drive,https://www.googleapis.com/auth/drive.appdata,https://www.googleapis.com/auth/drive.file" />
+<meta name="google-signin-client_id" content="191058282154-kmn71d0j1fqnstu9joe2od2rvbhm7hot.apps.googleusercontent.com" />
 
 <link rel="stylesheet" type="text/css" href="/moca/css/moca.css<%="?v="+System.currentTimeMillis()%>">
 <link rel="stylesheet" type="text/css" href="/moca/css/fontawesome.css<%="?v="+System.currentTimeMillis()%>">
@@ -71,6 +73,13 @@ if(userAgent.indexOf("MOBI") > -1 || userAgent.indexOf("IPHONE") > -1   || userA
 <SCRIPT language="JavaScript" src="/moca/chart/js/mchart/kongManager.js<%="?v="+System.currentTimeMillis()%>"></SCRIPT>
 <SCRIPT language="JavaScript" src="/moca/chart/js/mchart/kongSampleData.js<%="?v="+System.currentTimeMillis()%>"></SCRIPT>
 <SCRIPT language="JavaScript" src="/moca/chart/js/mchart/kongChart.js<%="?v="+System.currentTimeMillis()%>"></SCRIPT>	
+
+
+
+<script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+<script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+
+
 <%
 	String authorCodeString= (String)request.getAttribute("authorCode");
 	java.util.List menuList= (java.util.List)request.getAttribute("menuList");
@@ -84,6 +93,102 @@ if(userAgent.indexOf("MOBI") > -1 || userAgent.indexOf("IPHONE") > -1   || userA
 			
 %>
 <script>
+const URL = 'https://www.googleapis.com/drive/v3/files';
+const FIELDS = 'name, mimeType, modifiedTime';
+const CLIENT_ID = '191058282154-kmn71d0j1fqnstu9joe2od2rvbhm7hot.apps.googleusercontent.com';
+const API_KEY = 'AIzaSyBj3llqgZdqRN9zKVvMr1kyxfnslmqxEJY';
+const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
+const SCOPES = 'https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.file';
+let tokenClient;
+let gapiInited = false;
+let gisInited = false;
+function init(){
+	//document.getElementById('authorize_button').style.visibility = 'hidden';
+    //document.getElementById('signout_button').style.visibility = 'hidden'; 
+}
+/**
+   * Callback after api.js is loaded.
+   */
+  function gapiLoaded() {
+    gapi.load('client', initializeGapiClient);
+  }
+
+  /**
+   * Callback after the API client is loaded. Loads the
+   * discovery doc to initialize the API.
+   */
+  async function initializeGapiClient() {
+    await gapi.client.init({
+      apiKey: API_KEY,
+      discoveryDocs: [DISCOVERY_DOC],
+    });
+    gapiInited = true;
+    maybeEnableButtons();
+  }
+
+  /**
+   * Callback after Google Identity Services are loaded.
+   */
+  function gisLoaded() {
+    tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: CLIENT_ID,
+      scope: SCOPES,
+      callback: '', // defined later
+    });
+    gisInited = true;
+    maybeEnableButtons();
+  }
+
+  /**
+   * Enables user interaction after all libraries are loaded.
+   */
+  function maybeEnableButtons() {
+    if (gapiInited && gisInited) {
+      //document.getElementById('authorize_button').style.visibility = 'visible';
+    }
+  }
+  /**
+   *  Sign out the user upon button click.
+   */
+  function handleSignoutClick() {
+    const token = gapi.client.getToken();
+    if (token !== null) {
+      google.accounts.oauth2.revoke(token.access_token);
+      gapi.client.setToken('');
+      //document.getElementById('authorize_button').innerText = 'Authorize';
+      //document.getElementById('signout_button').style.visibility = 'hidden';
+    }
+  }
+
+  
+  /**
+   *  Sign in the user upon button click.
+   */
+  function handleAuthClick(_callback) {
+       tokenClient.callback = async (resp) => {
+          if (resp.error !== undefined) {
+            throw (resp);
+          }
+          //document.getElementById('signout_button').style.visibility = 'visible';
+         // document.getElementById('authorize_button').innerText = 'Refresh';
+        	  if(gapi.client.getToken() != null && _callback != null){
+        	  	_callback();
+        	  }
+    	};
+       if (gapi.client.getToken() === null) {
+         // Prompt the user to select a Google Account and ask for consent to share their data
+         // when establishing a new session.
+         tokenClient.requestAccessToken({prompt: 'consent'});
+       } else {
+         // Skip display of account chooser and consent dialog for an existing session.
+         //tokenClient.requestAccessToken({prompt: ''});
+   		if(gapi.client.getToken() != null && _callback != null){
+        		_callback();
+        	}
+       }
+  }
+
+
 var $m = new Moca();
 $m.menuObjs_ori = {};
 $m.menuObjs = {};

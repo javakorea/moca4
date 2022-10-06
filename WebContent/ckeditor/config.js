@@ -88,7 +88,9 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removePlugins = 'elementspath,resize';
 	
 	/*이미지업로드추가*/
+	/*
 	config.filebrowserUploadUrl      = mocaConfig._contextRoot+'/moca/ckEditor/imageUpload.do?type=Files',
 	config.filebrowserImageUploadUrl = mocaConfig._contextRoot+'/moca/ckEditor/imageUpload.do?type=Images',
 	config.filebrowserUploadMethod='form'; //파일 오류났을때 alert띄워줌
+	*/
 };

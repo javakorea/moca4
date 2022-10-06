@@ -14850,7 +14850,22 @@ Moca.prototype.lunar.solarToLunar = function(solYear, solMonth, solDay, type) {
 	
 };
 		
-
+Moca.prototype.util={};
+Moca.prototype.util.bytesToLabel = function(_byte) {
+	  var byteSize = ["Byte","KB", "MB", "GB"];
+	  var _kb = _byte/1024;
+	  var reValue;
+	  if(_kb < 1){
+	      reValue = _kb.toFixed(1) + byteSize[0]
+	  }else if(1 < _kb  && _kb < 1024){
+	      reValue = _kb.toFixed(1) + byteSize[1];//kb
+	  }else if(1024 < _kb && _kb < 1048576){
+	      reValue = (_kb /1024).toFixed(1) + byteSize[2];//mb
+	  }else if( _kb >= 1048576){
+	      reValue = ((_kb /1024)/1024).toFixed(1) + byteSize[3];//gb
+	  }
+	  return reValue;
+};
 
 //----------------------------------------------------------------------------------------------------
 

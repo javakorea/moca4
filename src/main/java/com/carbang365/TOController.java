@@ -5277,6 +5277,16 @@ public class TOController{
 	    	for(int i=0;i < list.size() ;i++) {
         		Map row = (Map)list.get(i);
         		row.put("BOARD_IDX", paramMap.get("BOARD_IDX"));
+        		
+    			if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
+    				row.put("BOARD_TABLE", "MT_BOARD");
+    				row.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
+    				row.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
+    			}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
+    				row.put("BOARD_TABLE", "MT_BOARD_ERP");
+    				row.put("BOARD_FILE_TABLE", "MT_BOARDFILE_ERP");
+    				row.put("BOARD_HIS_TABLE", "MT_BOARDHIS_ERP");
+    			}
             	if("C".equalsIgnoreCase(U.getStatus(row)) ) {
         			TOMapper.insertBoardFile(row);
             	}
@@ -5422,6 +5432,16 @@ public class TOController{
 					for(int i=0;i < list.size() ;i++) {
 		        		Map row = (Map)list.get(i);
 		        		row.put("BOARD_IDX", paramMap.get("BOARD_IDX"));
+		        		
+		    			if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
+		    				row.put("BOARD_TABLE", "MT_BOARD");
+		    				row.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
+		    				row.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
+		    			}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
+		    				row.put("BOARD_TABLE", "MT_BOARD_ERP");
+		    				row.put("BOARD_FILE_TABLE", "MT_BOARDFILE_ERP");
+		    				row.put("BOARD_HIS_TABLE", "MT_BOARDHIS_ERP");
+		    			}
 		            	if("C".equalsIgnoreCase(U.getStatus(row)) ) {
 		        			TOMapper.insertBoardFile(row);
 		            	}

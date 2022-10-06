@@ -640,7 +640,7 @@ $m.EFC_BOARD_POP._openFileUpload = function(_thisObj) {
 	            }else{
 	            	 var arr = $m.EFC_BOARD_POP.getObj("grd_reply_file").list;
 	            }
-	            var row = {BOARDFILE_NAME:originalFilename,BOARDFILE_SIZE:fileSize,BOARDFILE_NAMESERVER:physicalFilename,BOARDFILE_PATH:physicalFilepath}; 
+	            var row = {BOARDFILE_NAME:originalFilename,BOARDFILE_SIZE:fileSize,BOARDFILE_NAMESERVER:physicalFilename,BOARDFILE_PATH:physicalFilepath,BOARDFILE_ID:result.id}; 
 	            row._system = {"status":""};
 	            var sn = arr.length;
 	            arr[sn] =  row;
@@ -661,7 +661,24 @@ $m.EFC_BOARD_POP._openFileUpload = function(_thisObj) {
 	    $m.popup(o,_thisObj);
 };
 
+$m.EFC_BOARD_POP.showFileURL = function(_grd,rowIndex,colIndex,colId){
+	var _list;
+	if(_grd.id != 'grd_reply_file'){
+		_list = $m.EFC_BOARD_POP.getObj('grd_file').list;
+	}else{
+		_list = $m.EFC_BOARD_POP.getObj('grd_reply_file').list;
+	}
+	var id = _list[rowIndex].BOARDFILE_ID;
+	var _html = $('.grid_total').html();
+	_html =_html.replace(/\[.*?\]/g,'');
+	$(_grd).find('.grid_total').html(_html +"[&nbsp;&nbsp;&nbsp;&nbsp;https://drive.google.com/uc?id="+ id+"&nbsp;&nbsp;&nbsp;&nbsp;]");
+};
+
+
 $m.EFC_BOARD_POP.grd_fileDownload = function(_grd,rowIndex,colIndex,colId){
+	$m.EFC_BOARD_POP.grd_fileDownload_google(_grd,rowIndex,colIndex,colId);
+};
+$m.EFC_BOARD_POP.grd_fileDownload_teammoca = function(_grd,rowIndex,colIndex,colId){
 	if(_grd.id != 'grd_reply_file'){
 		var _list = $m.EFC_BOARD_POP.getObj('grd_file').list;
 	}else{
@@ -672,6 +689,39 @@ $m.EFC_BOARD_POP.grd_fileDownload = function(_grd,rowIndex,colIndex,colId){
         param:{originalFilename:_list[rowIndex]["BOARDFILE_NAME"],physicalFilename:_list[rowIndex]["BOARDFILE_NAMESERVER"],subDir:$m.EFC_BOARD_POP.srcId}
     });
 };
+
+
+$m.EFC_BOARD_POP.grd_fileDownload_google = async function(_grd,rowIndex,colIndex,colId){
+	if(_grd.id != 'grd_reply_file'){
+		var _list = $m.EFC_BOARD_POP.getObj('grd_file').list;
+	}else{
+		var _list = $m.EFC_BOARD_POP.getObj('grd_reply_file').list;
+	}
+	var id = _list[rowIndex].BOARDFILE_ID;
+      try {
+      	  await gapi.client.load('drive','v3');
+	      const request = gapi.client.drive.files.get({
+		      fileId: id,
+		      fields: 'webContentLink,id,name'
+	      });
+		  //console.log("--->",request);
+	      request.execute(function (resp) {
+	    	  //console.log("2--->",resp);
+		      if (resp.webContentLink) {
+		      	window.location.assign(resp.webContentLink);
+		      } else {
+		      	var formattedJson = JSON.stringify(resp.result, null, 2);
+		      }
+	      });
+
+      } catch (e) {
+      	console.log('Error getting files', e);
+      }
+    
+};
+
+
+
 $m.EFC_BOARD_POP.onFileSelected = function(filename,filesize,_e,_this) {
     //filename이나 filesize를 활용하여 업로드여부를 체크할수있다.
     
@@ -941,6 +991,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 			                            onFoldClick="$m.EFC_BOARD_POP.grd_btnShowHide"
 			                            toolbar_grid_button2='{"position":"left","id":"btn_add","label":"파일찾기","onclick":"$m.EFC_BOARD_POP._openFileUpload","addClass":"","innerDisabled":"false"}'
 			                            onDblClick = "$m.EFC_BOARD_POP.grd_fileDownload"
+			                            onRowSelected="$m.EFC_BOARD_POP.showFileURL"
 			                            subLabel="첨부파일"
 			        
 			        >
@@ -948,13 +999,15 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 			                    <colgroup>
 			                            <col style="width:60px" mobileHide="true" columnKey="status" thKey="H_status">
 			                            <col style="width:50px">
+			                            <col style="width:120px">
 			                            <col style="">
 			                            <col style="width:70px">       
 			                    </colgroup>
 			                    <thead>
 			                        <tr>
 			                            <th scope="col" id="H_status">상태</th>
-			                            <th scope="col" id="H_BOARDFILE_IDX">파일ID</th>
+			                            <th scope="col" id="H_BOARDFILE_IDX">IDX</th>
+			                            <th scope="col" id="H_BOARDFILE_ID">파일ID</th>
 			                            <th scope="col" id="H_BOARDFILE_NAME">파일명</th>
 			                            <th scope="col" id="H_BOARDFILE_SIZE">파일크기</th>
 			                        </tr>
@@ -962,9 +1015,10 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 			                    <tbody>
 			                        <tr>
 			                            <td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
-			                            <td id="BOARDFILE_IDX" celltype="input" style="" readOnly="true" name="파일ID"></td>
+			                            <td id="BOARDFILE_IDX" celltype="input" style="" readOnly="true" name="IDX"></td>
+			                            <td id="BOARDFILE_ID" celltype="input" style="" readOnly="true" name="파일ID"></td>
 			                            <td id="BOARDFILE_NAME" celltype="input" style="text-align:left" name="파일명" readOnly="true"></td>
-			                            <td id="BOARDFILE_SIZE" celltype="input" style="" name="파일크기" readOnly="true"></td>
+			                            <td id="BOARDFILE_SIZE" celltype="input" style="" name="파일크기" readOnly="true" displayFunction="$m.util.bytesToLabel"></td>
 			                        </tr>
 			                    </tbody>
 			                </table>                
@@ -1103,6 +1157,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
                                         onFoldClick="$m.EFC_BOARD_POP.grd_btnShowHide"
                                         toolbar_grid_button2='{"position":"left","id":"btn_reply_add","label":"파일찾기","onclick":"$m.EFC_BOARD_POP._openFileUpload","addClass":"","innerDisabled":"false"}'
                                         onDblClick = "$m.EFC_BOARD_POP.grd_fileDownload"
+                                        onRowSelected="$m.EFC_BOARD_POP.showFileURL"
                                         subLabel="답변 첨부파일"
                     
                     >
@@ -1110,13 +1165,15 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
                                 <colgroup>
                                         <col style="width:60px" mobileHide="true" columnKey="status" thKey="H_status">
                                         <col style="width:60px">
+                                        <col style="width:120px">
                                         <col style="">
                                         <col style="width:60px">       
                                 </colgroup>
                                 <thead>
                                     <tr>
                                         <th scope="col" class="bg_green" id="H_status">상태</th>
-                                        <th scope="col" class="bg_green" id="H_BOARDFILE_IDX">파일ID</th>
+                                        <th scope="col" class="bg_green" id="H_BOARDFILE_IDX">파일IDX</th>
+                                        <th scope="col" class="bg_green" id="H_BOARDFILE_ID">파일ID</th>
                                         <th scope="col" class="bg_green" id="H_BOARDFILE_NAME">파일명</th>
                                         <th scope="col" class="bg_green" id="H_BOARDFILE_SIZE">파일크기</th>
                                     </tr>
@@ -1124,9 +1181,10 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
                                 <tbody>
                                     <tr>
                                         <td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
-                                        <td id="BOARDFILE_IDX" celltype="input" style="" readOnly="true" name="파일ID"></td>
+                                        <td id="BOARDFILE_IDX" celltype="input" style="" readOnly="true" name="파일IDX"></td>
+                                        <td id="BOARDFILE_ID" celltype="input" style="" readOnly="true" name="파일ID"></td>
                                         <td id="BOARDFILE_NAME" celltype="input" style="text-align:left" name="파일명" readOnly="true"></td>
-                                        <td id="BOARDFILE_SIZE" celltype="input" style="" name="파일크기" readOnly="true"></td>
+                                        <td id="BOARDFILE_SIZE" celltype="input" style="" name="파일크기" readOnly="true" displayFunction="$m.util.bytesToLabel"></td>
                                     </tr>
                                 </tbody>
                             </table>                
