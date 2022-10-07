@@ -30,6 +30,7 @@ $m.EFC_CORP.fn_search = function(){
         },			
 		callback : function(response){
 			var _list = $m.getResList(response,"list");
+			_list = _list.reverse();
 			var _html = '';
 			for(var i=0; i < _list.length; i++){
 				var row = _list[i];
