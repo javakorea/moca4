@@ -33,7 +33,7 @@
 					$($m.EFC_BOARD.getObj("grd_1")).find('.moca_grid_body col[columnkey="CORP_NM"]').attr('hide','false');
 					$($m.EFC_BOARD.getObj("grd_1")).find('.moca_grid_body col[columnkey="CORP_NM"]').css('display','table-column');
 				}
-				if($m.EFC_BOARD.boardType == 'NOTICE'){
+				if($m.EFC_BOARD.boardType != 'SUPPORT' && $m.EFC_BOARD.boardType != 'ERP'){
 					$m.hide($m.EFC_BOARD.getObj("tb_chkg_1"));
 					$m.hide($($m.EFC_BOARD.getObj('grd_1')).find('.grid_label_span[grdkey="supportN"]'));
 					$m.hide($($m.EFC_BOARD.getObj('grd_1')).find('.grid_label_span[grdkey="supportR"]'));
@@ -296,7 +296,7 @@
     	var _showVal = '';
     	var _replyCnt = (_grd.list[_realrow].BOARD_REPLYCNT > 0)?_grd.list[_realrow].BOARD_REPLYCNT:'';
     	var _thisValStr = (_grd.list[_realrow].BOARD_REPLYCNT > 0)?_thisVal+ '<span class="txt_red">[' +_replyCnt+ ']</span>':_thisVal;
-    		if($m.EFC_BOARD.boardType != 'NOTICE'){
+    		if($m.EFC_BOARD.boardType == 'SUPPORT' || $m.EFC_BOARD.boardType == 'ERP'){
     			if(_grd.list[_realrow].BOARD_SUPPORT == "N"){
     				_showVal = "<i class='msg txt_sky mr5'>요청</i>"+'<nobr class="span_txt">'+ _thisValStr+'</nobr>';
     			}else if(_grd.list[_realrow].BOARD_SUPPORT == "R"){

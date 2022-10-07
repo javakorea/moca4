@@ -94,6 +94,24 @@ $m.main.fn_search_callback = function(response){
 			$m.main.BD_CONTENT_FOR_BD_WS[row.BOARD_IDX] = row; 
 		}
 		$('#tbl_BD_NOTICE').html(full_html);
+		$m.main.fn_search('MOCAAPI');
+	}else if($m.main.boardType == 'MOCAAPI'){
+		var _html = $('#tbl_BD_MOCAAPI').html();
+		for(var i=0; i < _length; i++){
+			var row = list[i];
+			full_html += _html.replace(/#BD_TITLE#/g,row.BOARD_TITLE).replace(/#BD_USERID#/g,row.BOARD_WRITER).replace(/#BD_DATE#/g,$m.longToDate(row.BOARD_DATE).substr(0,10)).replace(/#BD_CODE#/g,row.BOARD_IDX);
+			$m.main.BD_CONTENT_FOR_BD_WS[row.BOARD_IDX] = row; 
+		}
+		$('#tbl_BD_MOCAAPI').html(full_html);
+		$m.main.fn_search('JOB');
+	}else if($m.main.boardType == 'JOB'){
+		var _html = $('#tbl_BD_JOB').html();
+		for(var i=0; i < _length; i++){
+			var row = list[i];
+			full_html += _html.replace(/#BD_TITLE#/g,row.BOARD_TITLE).replace(/#BD_USERID#/g,row.BOARD_WRITER).replace(/#BD_DATE#/g,$m.longToDate(row.BOARD_DATE).substr(0,10)).replace(/#BD_CODE#/g,row.BOARD_IDX);
+			$m.main.BD_CONTENT_FOR_BD_WS[row.BOARD_IDX] = row; 
+		}
+		$('#tbl_BD_JOB').html(full_html);
 	}
 	
 }
@@ -153,6 +171,12 @@ $m.main.fn_pop_boardMain = function(_gubun){
 	}else if(_gubun == 'BD_NOTICE'){
 		o.title = '공지사항';
 		o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"NOTICE"};
+	}else if(_gubun == 'BD_MOCAAPI'){
+		o.title = 'MOCA API Document';
+		o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"MOCAAPI"};
+	}else if(_gubun == 'BD_JOB'){
+		o.title = '구인게시판';
+		o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"JOB"};
 	}
     $m.popup(o,_this);
 };
@@ -459,7 +483,7 @@ function goMoca(){
 						</div>
 						<div class="col5 fr">
 							<div class="boardTable" id="ws_list2">
-								<div class="boardHeader">
+								<div class="boardHeader" style="background:linear-gradient(125deg, #62b5cc 80%, #5a8fa4 80%)">
 									<span class="boardTitle"><i class="fas fa-volume-off"></i>공지사항</span>
 									<button class="boardMore fr"  onclick="$m.main.fn_pop_boardMain('BD_NOTICE')"><i class="fas fa-plus-circle"></i>더보기</button>
 								</div>
@@ -471,6 +495,55 @@ function goMoca(){
 										<col style="">
 									</colgroup>
 									<tbody id="tbl_BD_NOTICE">
+										<tr onclick="$m.main.fn_pop_boardPop('BD_WS','#BD_CODE#')">
+											<td class="bdTitle">#BD_TITLE#</td>
+											<td class="bdName tfc">#BD_USERID#</td>
+											<td class="bdDate tfc">#BD_DATE#</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="mocaBox boardArea mt10">
+					<div style="height:194px; box-sizing:border-box">
+						<div class="col5 fl">
+							<div class="boardTable" id="ws_list3">
+								<div class="boardHeader" style="background:linear-gradient(125deg, #9177c7 80%, #866da2 80%)">
+									<span class="boardTitle"><i class="fas fa-comment-dots"></i>MOCA API Document</span>
+									<button class="boardMore fr"  onclick="$m.main.fn_pop_boardMain('BD_MOCAAPI')"><i class="fas fa-plus-circle"></i>더보기</button>
+								</div>
+								<table class="boardList">
+									<colgroup>
+										<col style="width:395px">
+										<col style="">
+										<col style="">
+									</colgroup>
+									<tbody id="tbl_BD_MOCAAPI">
+										<tr onclick="$m.main.fn_pop_boardPop('BD_WS','#BD_CODE#')">
+											<td class="bdTitle">#BD_TITLE#</td>
+											<td class="bdName tfc">#BD_USERID#</td>
+											<td class="bdDate tfc">#BD_DATE#</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="col5 fr">
+							<div class="boardTable" id="ws_list4">
+								<div class="boardHeader" style="background:linear-gradient(125deg, #ad937e 80%, #928173 80%)">
+									<span class="boardTitle"><i class="fas fa-volume-off"></i>구인게시판</span>
+									<button class="boardMore fr"  onclick="$m.main.fn_pop_boardMain('BD_JOB')"><i class="fas fa-plus-circle"></i>더보기</button>
+								</div>
+								
+								<table class="boardList">
+									<colgroup>
+										<col style="width:395px">
+										<col style="">
+										<col style="">
+									</colgroup>
+									<tbody id="tbl_BD_JOB">
 										<tr onclick="$m.main.fn_pop_boardPop('BD_WS','#BD_CODE#')">
 											<td class="bdTitle">#BD_TITLE#</td>
 											<td class="bdName tfc">#BD_USERID#</td>
@@ -497,13 +570,10 @@ function goMoca(){
 						<div class="fl mocastep step2">
 							<div style="background: rgba(0, 0, 0, 0.05);">
 								<span style="height: 37px; display: inline-block; color: #666; text-align: center; padding: 9px; box-sizing: border-box; font-size: 14px; font-weight:bold">모카기반 개발</span>
-								<span class="mainicon2 img3"  onclick="$m.main.goDemo()">모카데모</span>
 							</div>
 							<p style="color:#333; padding:10px; font-size:15px">개발을 하시기 전에 모카개발교육을 진행합니다.</p>
-							<button style="width:130px; padding:7px 10px; display:inline-block; position:relative; top:1px; left:10px; color:#fff; border-radius:20px; background:#5a7786">
-								<a href="https://teammoca.atlassian.net/wiki/spaces/teammocaAPI/overview" target="_blank">모카개발가이드<i class="fas fa-angle-double-right" style="margin-left:5px"></i></a>
-							</button>
-							
+							<button  onclick="$m.main.goDemo()" style="width:130px; padding:7px 10px; display:inline-block; position:relative; top:1px; left:10px; color:#fff; border-radius:20px; background:#5a7786">
+							모카데모<i class="fas fa-angle-double-right" style="margin-left:5px"></i></button>
 						</div>
 					
 					</div>
