@@ -5182,13 +5182,13 @@ public class TOController{
 			}
 			paramMap.put("BOARD_CONT", U.strToArr((String)paramMap.get("BOARD_CONT")," "));
 			
-			if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
-				paramMap.put("BOARD_TABLE", "MT_BOARD");
-				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
-			}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
+			//if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
+			//	paramMap.put("BOARD_TABLE", "MT_BOARD");
+			//	paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
+			//}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
 				paramMap.put("BOARD_TABLE", "MT_BOARD_ERP");
 				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE_ERP");
-			}
+			//}
 			
 			model.addAttribute("selectBoardList", TOMapper.selectBoardList(paramMap)); //조회
 			Map map = new HashMap(); 
@@ -5221,13 +5221,13 @@ public class TOController{
 				paramMap = mocaMap;
 			}
 			paramMap.put("BOARD_CONT", U.strToArr((String)paramMap.get("BOARD_CONT")," "));
-			if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
-				paramMap.put("BOARD_TABLE", "MT_BOARD");
-				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
-			}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
+			//if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
+			//	paramMap.put("BOARD_TABLE", "MT_BOARD");
+			//	paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
+			//}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
 				paramMap.put("BOARD_TABLE", "MT_BOARD_ERP");
 				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE_ERP");
-			}
+			//}
 			model.addAttribute("selectBoardList", TOMapper.selectBoardNumList(paramMap));//페이징 조회
 			Map map = new HashMap(); 
 			List list = TOMapper.selectBoardStatusCnt(paramMap);
@@ -5253,15 +5253,15 @@ public class TOController{
 	public View insertBoard(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
-			if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
-				paramMap.put("BOARD_TABLE", "MT_BOARD");
-				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
-				paramMap.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
-			}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
+			//if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
+			//	paramMap.put("BOARD_TABLE", "MT_BOARD");
+			//	paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
+			//	paramMap.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
+			//}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
 				paramMap.put("BOARD_TABLE", "MT_BOARD_ERP");
 				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE_ERP");
 				paramMap.put("BOARD_HIS_TABLE", "MT_BOARDHIS_ERP");
-			}
+			//}
 			
 			model.addAttribute("cnt", TOMapper.insertBoard(paramMap));
 			
@@ -5278,15 +5278,15 @@ public class TOController{
         		Map row = (Map)list.get(i);
         		row.put("BOARD_IDX", paramMap.get("BOARD_IDX"));
         		
-    			if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
-    				row.put("BOARD_TABLE", "MT_BOARD");
-    				row.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
-    				row.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
-    			}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
+    			//if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
+    			//	row.put("BOARD_TABLE", "MT_BOARD");
+    			//	row.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
+    			//	row.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
+    			//}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
     				row.put("BOARD_TABLE", "MT_BOARD_ERP");
     				row.put("BOARD_FILE_TABLE", "MT_BOARDFILE_ERP");
     				row.put("BOARD_HIS_TABLE", "MT_BOARDHIS_ERP");
-    			}
+    			//}
             	if("C".equalsIgnoreCase(U.getStatus(row)) ) {
         			TOMapper.insertBoardFile(row);
             	}
@@ -5329,13 +5329,13 @@ public class TOController{
 			
 			try {
 				Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
-				if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
-					paramMap.put("BOARD_TABLE", "MT_BOARD");
-					paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
-				}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
+				//if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
+				//	paramMap.put("BOARD_TABLE", "MT_BOARD");
+				//	paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
+				//}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
 					paramMap.put("BOARD_TABLE", "MT_BOARD_ERP");
 					paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE_ERP");
-				}
+				//}
 				
 				int cnt = TOMapper.updateReplyCnt(paramMap);
 				model.addAttribute("cnt", cnt);		
@@ -5356,13 +5356,13 @@ public class TOController{
 				paramMap = mocaMap;
 			}
 			
-			if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
-				paramMap.put("BOARD_TABLE", "MT_BOARD");
-				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
-			}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
+			//if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
+			//	paramMap.put("BOARD_TABLE", "MT_BOARD");
+			//	paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
+			//}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
 				paramMap.put("BOARD_TABLE", "MT_BOARD_ERP");
 				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE_ERP");
-			}
+			//}
 			
 			model.addAttribute("selectBoardReply", TOMapper.selectBoardReply(paramMap));
 			
@@ -5384,14 +5384,14 @@ public class TOController{
 				paramMap = mocaMap;
 			}
 			
-			if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
-				paramMap.put("BOARD_TABLE", "MT_BOARD");
-				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
+			//if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
+			//	paramMap.put("BOARD_TABLE", "MT_BOARD");
+			//	paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
 				
-			}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
+			//}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
 				paramMap.put("BOARD_TABLE", "MT_BOARD_ERP");
 				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE_ERP");
-			}
+			//}
 			
 			model.addAttribute("selectBoardInfo", TOMapper.selectBoardInfo(paramMap));
 			model.addAttribute("selectBoardFileList", TOMapper.selectBoardFileList(paramMap));
@@ -5410,15 +5410,15 @@ public class TOController{
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
 			
-			if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
-				paramMap.put("BOARD_TABLE", "MT_BOARD");
-				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
-				paramMap.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
-			}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
+			//if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
+			//	paramMap.put("BOARD_TABLE", "MT_BOARD");
+			//	paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
+			//	paramMap.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
+			//}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
 				paramMap.put("BOARD_TABLE", "MT_BOARD_ERP");
 				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE_ERP");
 				paramMap.put("BOARD_HIS_TABLE", "MT_BOARDHIS_ERP");
-			}
+			//}
 			
 			int cnt = TOMapper.updateBoardInfo(paramMap);
 			String BOARD_DELYN = (String) paramMap.get("BOARD_DELYN");
@@ -5433,15 +5433,15 @@ public class TOController{
 		        		Map row = (Map)list.get(i);
 		        		row.put("BOARD_IDX", paramMap.get("BOARD_IDX"));
 		        		
-		    			if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
-		    				row.put("BOARD_TABLE", "MT_BOARD");
-		    				row.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
-		    				row.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
-		    			}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
+		    			//if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
+		    			//	row.put("BOARD_TABLE", "MT_BOARD");
+		    			//	row.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
+		    			//	row.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
+		    			//}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
 		    				row.put("BOARD_TABLE", "MT_BOARD_ERP");
 		    				row.put("BOARD_FILE_TABLE", "MT_BOARDFILE_ERP");
 		    				row.put("BOARD_HIS_TABLE", "MT_BOARDHIS_ERP");
-		    			}
+		    			//}
 		            	if("C".equalsIgnoreCase(U.getStatus(row)) ) {
 		        			TOMapper.insertBoardFile(row);
 		            	}
@@ -5470,16 +5470,16 @@ public class TOController{
 			if(MapUtils.isEmpty(paramMap)) {
 				paramMap = mocaMap;
 			}
-			if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
-				paramMap.put("BOARD_TABLE", "MT_BOARD");
-				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
-				paramMap.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
+			//if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
+			//	paramMap.put("BOARD_TABLE", "MT_BOARD");
+			//	paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
+			//	paramMap.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
 				
-			}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
+			//}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
 				paramMap.put("BOARD_TABLE", "MT_BOARD_ERP");
 				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE_ERP");
 				paramMap.put("BOARD_HIS_TABLE", "MT_BOARDHIS_ERP");
-			}
+			//}
 			paramMap.put("status", "AD");TOMapper.insertBoardHis(paramMap);
 			model.addAttribute("cnt", TOMapper.deleteBoard(paramMap));
 		}catch(Exception e) {
@@ -5530,16 +5530,16 @@ public class TOController{
 			if(MapUtils.isEmpty(paramMap)) {
 				paramMap = mocaMap;
 			}
-			if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
-				paramMap.put("BOARD_TABLE", "MT_BOARD");
-				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
-				paramMap.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
+			//if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
+			//	paramMap.put("BOARD_TABLE", "MT_BOARD");
+			//	paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
+			//	paramMap.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
 				
-			}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
+			//}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
 				paramMap.put("BOARD_TABLE", "MT_BOARD_ERP");
 				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE_ERP");
 				paramMap.put("BOARD_HIS_TABLE", "MT_BOARDHIS_ERP");
-			}
+			//}
 			paramMap.put("status", "D");TOMapper.insertBoardHis(paramMap);
 			model.addAttribute("cnt", TOMapper.deleteStatusBoard(paramMap));
 		}catch(Exception e) {
@@ -5632,15 +5632,15 @@ public class TOController{
 			if(MapUtils.isEmpty(paramMap)) {
 				paramMap = mocaMap;
 			}
-			if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
-				paramMap.put("BOARD_TABLE", "MT_BOARD");
-				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
-				paramMap.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
-			}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
+			//if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
+			//	paramMap.put("BOARD_TABLE", "MT_BOARD");
+			//	paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
+			//	paramMap.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
+			//}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
 				paramMap.put("BOARD_TABLE", "MT_BOARD_ERP");
 				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE_ERP");
 				paramMap.put("BOARD_HIS_TABLE", "MT_BOARDHIS_ERP");
-			}
+			//}
 			model.addAttribute("selectBoardHisInfo", TOMapper.selectBoardHisInfo(paramMap));
 			model.addAttribute("selectBoardFileList", TOMapper.selectBoardFileList(paramMap));
 		}catch(Exception e) {
@@ -5659,13 +5659,13 @@ public class TOController{
 			if(MapUtils.isEmpty(paramMap)) {
 				paramMap = mocaMap;
 			}
-			if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
-				paramMap.put("BOARD_TABLE", "MT_BOARD");
-				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
-			}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
+			//if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
+			//	paramMap.put("BOARD_TABLE", "MT_BOARD");
+			//	paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
+			//}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
 				paramMap.put("BOARD_TABLE", "MT_BOARD_ERP");
 				paramMap.put("BOARD_HIS_TABLE", "MT_BOARDHIS_ERP");
-			}
+			//}
 			model.addAttribute("selectBoardFileList", TOMapper.selectBoardFileList(paramMap));
 			
 		}catch(Exception e) {
@@ -5684,13 +5684,13 @@ public class TOController{
 			if(MapUtils.isEmpty(paramMap)) {
 				paramMap = mocaMap;
 			}
-			if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
-				paramMap.put("BOARD_TABLE", "MT_BOARD");
-				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
-			}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
+			//if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
+			//	paramMap.put("BOARD_TABLE", "MT_BOARD");
+			//	paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
+			//}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
 				paramMap.put("BOARD_TABLE", "MT_BOARD_ERP");
 				paramMap.put("BOARD_HIS_TABLE", "MT_BOARDHIS_ERP");
-			}
+			//}
 			
 			model.addAttribute("cnt", TOMapper.receiptBoard(paramMap));
 			paramMap.put("status", "U");TOMapper.insertBoardHis(paramMap);
