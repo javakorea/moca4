@@ -208,7 +208,15 @@ $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 						if(window['viewMode'] != 'contentOnly'){
 							$m.show($m.EFC_BOARD_POP.getObj('edit_zoomBtn'));
 						}
-						CKEDITOR.instances.editor.setData($m.resizeContsImg(data.BOARD_CONT));
+						if(data.BOARD_CONT.startsWith('<iframe')){
+							CKEDITOR.instances.editor.setData($m.resizeContsImg(data.BOARD_CONT));
+							var h = $('.edit').html();
+							$('.edit').html(h+data.BOARD_CONT);
+							$('#cke_editor').hide();
+						}else{
+							CKEDITOR.instances.editor.setData($m.resizeContsImg(data.BOARD_CONT));
+						}
+						
 						$m.show($($m.EFC_BOARD_POP.getObj('form_board')).find('.rta'));
 						$m.hide($($m.EFC_BOARD_POP.getObj("cke_editor")).find("[id$='_top']"));
 						
