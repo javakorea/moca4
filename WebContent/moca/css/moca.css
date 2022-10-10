@@ -336,8 +336,9 @@ svg.tab_svg.right{left:-5px}
 .grid_title{height:24px; line-height:30px; font-size:12px; font-weight:bold; box-sizing:border-box}
 .grid_title i{color:#637fa0; margin-right:3px}
 .grid_total {display:inline-block; text-align:right; font-size:12px; height:24px; line-height:30px; padding-left:0;border-radius:2px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box}
-.grid_total span {display:inline-block; position:relative}
+.grid_total span {display:inline-block; position:relative; margin-right:5px}
 .grid_total em {font-style:normal}
+
 .grid_total .txt_total {color:#f21f46}
 .grid_total .txt_fetch {color:#006EB9}
 .grid_total span + span {padding-left:13px}
@@ -1388,3 +1389,6 @@ div[type="table"].moca_table_cont{table-layout:fixed; width:100%; position: rela
 .moca_grid.explanation{padding: 12px 0 0; /*background: #e9ebeb; */border-top: 2px solid #bbc3ce}
 .moca_grid.explanation .moca_grid_list .moca_grid_body > table > thead > tr > th {background-color:#7ba9c9; color:#fff}
 .moca_grid.explanation .moca_grid_list{border-top:0}
+
+div[innerclass="input_clipboard"]{position: absolute; opacity:0}
+

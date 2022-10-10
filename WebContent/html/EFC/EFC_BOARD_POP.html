@@ -82,11 +82,22 @@ $m.EFC_BOARD_POP.___ready = function(args){
                 $m.EFC_BOARD_POP.fn_searchReply();
                 $m.EFC_BOARD_POP.fn_search();
                 $m.show($($m.EFC_BOARD_POP.getObj('form_board')).find('.rta'));
+                $('iframe ' ).contents().click(function(e) { 
+                	debugger;
+                	if(typeof e.target.href != 'undefined'){
+                		window.open(e.target.href, 'new'+ e.screenX);
+                	}
+                });
                 
         }}} );
     	CKEDITOR.replace( 'reply_editor',{uiColor:'#deecea',on:{
             'instanceReady':function(ev){
-			
+            	$('iframe' ).contents().click(function(e) { 
+            		debugger;
+            		if(typeof e.target.href != 'undefined'){
+            			window.open(e.target.href, 'new'+ e.screenX);
+            		}
+            	});
         }}} );
     
     });
@@ -677,11 +688,28 @@ $m.EFC_BOARD_POP.showFileURL = function(_grd,rowIndex,colIndex,colId){
 		_list = $m.EFC_BOARD_POP.getObj('grd_reply_file').list;
 	}
 	var id = _list[rowIndex].BOARDFILE_ID;
-	var _html = $('.grid_total').html();
+	var _html = $(_grd).find('.grid_total').html();
 	_html =_html.replace(/\[.*?\]/g,'');
-	$(_grd).find('.grid_total').html(_html +"[&nbsp;&nbsp;&nbsp;&nbsp;https://drive.google.com/uc?id="+ id+"&nbsp;&nbsp;&nbsp;&nbsp;]");
+
+	if($('.file_link').is(':visible')){
+		_html = _html.replace(/\<em class="file_link".*$/g,'');
+	}
+	_html = _html+"<em class='file_link' onclick='$m.EFC_BOARD_POP.fn_copy(this)'>";
+	_html = _html +"[&nbsp;https://drive.google.com/uc?id="+ id+"&nbsp;]";
+	_html = _html + "</em>";	
+	
+	$(_grd).find('.grid_total').html(_html);
 };
 
+$m.EFC_BOARD_POP.fn_copy = function(_this){
+	var _text = $(_this).text().replace(/\[|\]|' '/g,'').trim();
+	var _clipboard = $('#input_clipboard');
+	_clipboard.val(_text);
+	_clipboard[0].focus();
+	_clipboard[0].select();
+	document.execCommand("copy");
+	$m.alert('클립보드에 복사되었습니다');
+}
 
 $m.EFC_BOARD_POP.grd_fileDownload = function(_grd,rowIndex,colIndex,colId){
 	$m.EFC_BOARD_POP.grd_fileDownload_google(_grd,rowIndex,colIndex,colId);
@@ -1200,6 +1228,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
                 </div>
             </div>
             <div class="reply_bg"></div>
+            <div type="input" id="clipboard" class="mocaInput" innerClass="input_clipboard" style="" onclick="" style="" value="" readonly="false"></div>
         </div>
 	</div>
 </body>

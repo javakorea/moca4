@@ -11668,7 +11668,6 @@ Moca.prototype.getIncludeScope = function(includeObj,thisObj) {
     $m.userLogInsert({URL:_url,SRCID:_srcId,LABEL:_label,MENU_NM:_label});
  */
 Moca.prototype.userLogInsert = function(_info) { 
-	debugger;
     if(mocaConfig.userLogInsert != false){
         if($m.trim(_info.LABEL) == ''){
             _info.LABEL = _info.URL;
