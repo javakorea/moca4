@@ -62,9 +62,11 @@
 	.moca_layer_tab_list > .tab_bg{min-width:100px}
 	.moca_layer_tab_list > button{padding:0 5px}
 	/*divForm*/
-	.moca_table_cont > div[type="tbody"] > div[type="tr"] {width:100%}
-	/*.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="td"], div[type="tr"]{width:100%}*/
+	.moca_table_cont .tbody_flex{flex-flow:column;}
+	.moca_table_cont > div[type="tbody"] > div[type="tr"] {width:100%; display:flex}
 	.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="th"]{text-align:center}
+	.moca_table_cont > div[type="tbody"] > div[type="tr"] > div[type="td"]{flex:1}
+	.moca_table_cont .tbody_flex div[type="tr"]:last-child{padding-right:0}
 	/*calendar*/
 	.moca_calendar.vertical{width:264px; height:auto}
 	/*multiCalendar*/
