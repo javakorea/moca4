@@ -70,7 +70,7 @@ $m.EFC_BOARD_POP.___ready = function(args){
     		if(CKEDITOR.instances.editor != null){CKEDITOR.instances.editor.destroy()};
     		if(CKEDITOR.instances.reply_editor != null){CKEDITOR.instances.reply_editor.destroy()};
     	}
-    	
+    	 
     	CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
             'instanceReady':function(ev){
             	$m.EFC_BOARD_POP.editor = ev.editor;
