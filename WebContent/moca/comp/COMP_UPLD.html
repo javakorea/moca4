@@ -90,13 +90,22 @@
 		        
 		        
 		        */
+		     	if(xhr.response.error){
+		     		alert(xhr.response.error.message);
+		     		return;
+		     	}
 		        var result = {};
 		        result.id = xhr.response.id;
 		        result.fileSize = xhr.response.size;
 	            result.fileLength = xhr.response.size;
 	            result.originalFilename = xhr.response.name;
 	            result.physicalFilename = xhr.response.id;
-	            result.physicalFilepath= xhr.response.parents[0];
+	            if(xhr.response.parents){
+	            	result.physicalFilepath= xhr.response.parents[0];
+	            }else{
+	            	result.physicalFilepath= "memta:"+metadata.parents[0];
+	            }
+	            
 	            result.subDir= 'board';
 	            result.uploadDir= xhr.response.kind;
 	            $m.popClose($m.COMP_UPLD.pageId,result);
