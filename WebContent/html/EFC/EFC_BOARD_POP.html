@@ -82,18 +82,18 @@ $m.EFC_BOARD_POP.___ready = function(args){
                 $m.EFC_BOARD_POP.fn_searchReply();
                 $m.EFC_BOARD_POP.fn_search();
                 $m.show($($m.EFC_BOARD_POP.getObj('form_board')).find('.rta'));
-                $('iframe ' ).contents().click(function(e) { 
-                	debugger;
+                $('.edit').find('iframe').contents().click(function(e) { 
                 	if(typeof e.target.href != 'undefined'){
                 		window.open(e.target.href, 'new'+ e.screenX);
+                	}else if(typeof e.target.parentElement.href != 'undefined'){
+                		window.open(e.target.parentElement.href, 'new'+ e.screenX);
                 	}
                 });
                 
         }}} );
     	CKEDITOR.replace( 'reply_editor',{uiColor:'#deecea',on:{
             'instanceReady':function(ev){
-            	$('iframe' ).contents().click(function(e) { 
-            		debugger;
+            	$('.edit').find('iframe').contents().click(function(e) { 
             		if(typeof e.target.href != 'undefined'){
             			window.open(e.target.href, 'new'+ e.screenX);
             		}
@@ -225,7 +225,8 @@ $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 							$('.edit').html(h+data.BOARD_CONT);
 							$('#cke_editor').hide();
 						}else{
-							CKEDITOR.instances.editor.setData($m.resizeContsImg(data.BOARD_CONT));
+							//CKEDITOR.instances.editor.setData($m.resizeContsImg(data.BOARD_CONT));
+							$('.edit').find('iframe').contents()[0].body.innerHTML = $m.resizeContsImg(data.BOARD_CONT); 
 						}
 						
 						$m.show($($m.EFC_BOARD_POP.getObj('form_board')).find('.rta'));
