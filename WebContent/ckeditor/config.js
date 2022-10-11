@@ -43,7 +43,7 @@ CKEDITOR.editorConfig = function( config ) {
       },
       {
         name: 'insert',
-        items: ['Table','Image','Link']
+        items: ['Table','Image','Link','Youtube']
       }
     ];
 	// Toolbar groups configuration.
@@ -82,10 +82,21 @@ CKEDITOR.editorConfig = function( config ) {
 	config.pasteFromWordRemoveFontStyles = false;
 	config.pasteFromWordRemoveStyles = false;
 	
-	config.extraPlugins = 'pastefromexcel,pastefromword,resize,colordialog,tableresize,imageresizerowandcolumn';
+	config.extraPlugins = 'pastefromexcel,pastefromword,resize,colordialog,tableresize,imageresizerowandcolumn,youtube'; 
 	config.resize_dir = 'vertical';// both || vertical || horizontal
 	config.toolbarStartupExpanded = false; // 툴바 접기
 	config.removePlugins = 'elementspath,resize';
+	
+	
+	config.youtube_width = '640';
+	config.youtube_height = '480';
+	config.youtube_responsive = true;
+	config.youtube_related = true;
+	config.youtube_older = false;
+	config.youtube_privacy = false;
+	config.youtube_autoplay = false;
+	config.youtube_controls = true;
+	config.youtube_disabled_fields = ['txtEmbed', 'chkAutoplay'];
 	
 	/*이미지업로드추가*/
 	/*
@@ -94,3 +105,4 @@ CKEDITOR.editorConfig = function( config ) {
 	config.filebrowserUploadMethod='form'; //파일 오류났을때 alert띄워줌
 	*/
 };
+
