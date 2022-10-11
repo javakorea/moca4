@@ -29,9 +29,10 @@
     .moca_container.on .moca_mdi{top:0;bottom:0}
     .moca_header nav{display:none}
 	.moca_header h1{ position: relative;top: 6px; text-align: center;margin: 0 auto; left: 0;}
-	.grid_total{margin-right:5px !important; width:220px;}
+	.grid_total{margin-right:5px !important;}
 	.grid_total span{float:left;}
-	.grid_total .file_link{overflow: hidden; height: 30px; display: inline-block; float: left;width: 85%; text-overflow: ellipsis; white-space: nowrap;}
+	.grid_total .file_link{overflow: hidden; height: 30px; display: inline-block; float: left;width:160px; text-overflow: ellipsis; white-space: nowrap;}
+	div[innerclass="input_clipboard"]{width:15px;}
 	.moca_aside ul:last-child{display:none}
 	.moca_mdi .moca_tab_body{bottom:0}
 	.moca_mdi .moca_tab_listarea{overflow-x:auto;}
