@@ -171,7 +171,9 @@ $m.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 		callback : function(response){
 				if(response.selectBoardInfo != null ){
 				var data = response.selectBoardInfo;
-				CKEDITOR.instances.reply_editor.setData(data.BOARD_CONT);
+				//CKEDITOR.instances.reply_editor.setData(data.BOARD_CONT);
+				$('.edit').find('iframe').contents()[1].body.innerHTML = $m.resizeContsImg(data.BOARD_CONT); 
+				
 				$m.setValue($m.EFC_BOARD_POP.getObj("wreplytitle"),data.BOARD_TITLE);
 				$m.setValue($m.EFC_BOARD_POP.getObj("wreplydate"),data.BOARD_DATE);
 				$m.setValue($m.EFC_BOARD_POP.getObj("wreplyid"),data.BOARD_WRITER);
@@ -196,8 +198,13 @@ $m.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 		}
 	});
 };
-
-
+var aaa = function(e){
+	debugger;
+	if($(e).prev().prop('tagName') == 'IMG'){
+		$(e).prev().remove();
+	}
+	$(e).removeClass("hide");
+}
 $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 	if($m.EFC_BOARD_POP._boardIdx != null){
 		$m.EFC_BOARD_POP._boardStatus = "R";
@@ -220,7 +227,33 @@ $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 							$m.show($m.EFC_BOARD_POP.getObj('edit_zoomBtn'));
 						}
 						//CKEDITOR.instances.editor.setData($m.resizeContsImg(data.BOARD_CONT));
-						$('.edit').find('iframe').contents()[0].body.innerHTML = $m.resizeContsImg(data.BOARD_CONT); 
+debugger; 
+var _ct = data.BOARD_CONT;
+_ct = _ct.replace(/<img src=\/images\/mobile\/loading\.gif width=80 height=80 id=imageLoadingBar border=0  \/>/g,"");
+_ct = _ct.replace(/(<img\s*[^>]*?)(onload="parent\.aaa\(this\);")([^>]*?\/>)/g,'$1$3');
+//_ct = _ct.replace(/(<img\s*[^>]*?)(style="display:none")([^>]*?\/>)/g,'$1$3');
+_ct = _ct.replace(/<img /g,'<img src=/images/mobile/loading.gif width=80 height=80 id=imageLoadingBar border=0  /><img class="hide" onload="parent.aaa(this);" ');
+
+						$('.edit').find('iframe').contents()[0].body.innerHTML = $m.resizeContsImg(_ct); 
+						
+						
+						/*
+						var imgUrl = $('img[src^="https://drive.google.com"]',$('.edit').find('iframe').contents()[0]).attr('src');
+						var img2 = new Image();
+						img2.src = imgUrl;
+						img2.onload = function() {
+						    console.log("Image 1 ready to append");
+						    alert('load');
+						};
+						*/
+						/*
+						$('img[src^="https://drive.google.com"]',$('.edit').find('iframe').contents()[0])[0].onload =function() {
+						    console.log("Image2 ready to append");
+						    alert('load2');
+						};
+						*/
+						
+						
 						
 						$m.show($($m.EFC_BOARD_POP.getObj('form_board')).find('.rta'));
 						$m.hide($($m.EFC_BOARD_POP.getObj("cke_editor")).find("[id$='_top']"));

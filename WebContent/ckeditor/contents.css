@@ -206,3 +206,7 @@ a > img {
 	max-height: 1080px;
 	margin:0 auto;
 }
+
+/*20221012*/
+.show{display:block}
+.hide{display:none}

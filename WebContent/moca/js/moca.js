@@ -14438,6 +14438,7 @@ Moca.prototype.getDevice = function(){
 
 Moca.prototype.resizeContsImg = function(_contents){
     ['resizeContsImg']; 
+    /*
     var recont = _contents;
     var arr = _contents.match(/(width\:\s*)([0-9]*)(px)/g);
 	if(arr != null && arr.length > 0){
@@ -14454,7 +14455,12 @@ Moca.prototype.resizeContsImg = function(_contents){
 		}
 	}
 	return recont;
+	*/
+    return _contents;
 };
+
+
+
 
 Moca.prototype.fullToMocaDT = function(_dt){
     ['fullToMocaDT "2021-10-06  00:00:00"']; 
