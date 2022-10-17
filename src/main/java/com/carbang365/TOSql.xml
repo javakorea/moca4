@@ -5240,4 +5240,43 @@
 		AND TEST_TYPE = #{TEST_TYPE}
     </select>
     
+    <!-- 임대관리_방 리스트 조회 -->
+    <select id="selectRoomList" parameterType="map" resultType="map">
+    	/*selectRoomList 임대관리_방 리스트 조회*/
+		SELECT * FROM RM_ROOM
+		WHERE 1=1
+		<if test="BUILDING_NAME != null and BUILDING_NAME != ''">
+            AND BUILDING_NAME like CONCAT('%', #{BUILDING_NAME}, '%')
+        </if>
+    </select>
+    <!-- 임대관리_건물 리스트 조회 -->
+    <select id="selectBuildingList" parameterType="map" resultType="map">
+    	/*selectBuildingList 임대관리_건물 리스트 조회*/
+		SELECT * FROM RM_BUILDING
+		WHERE 1=1
+		<if test="BUILDING_NAME != null and BUILDING_NAME != ''">
+            AND BUILDING_NAME like CONCAT('%', #{BUILDING_NAME}, '%')
+        </if>
+        <if test="CITY_NAME != null and CITY_NAME != ''">
+            AND CITY_NAME like CONCAT('%', #{CITY_NAME}, '%')
+        </if>
+        <if test="CITY_DISTRICT != null and CITY_DISTRICT != ''">
+            AND CITY_DISTRICT like CONCAT('%', #{CITY_DISTRICT}, '%')
+        </if>
+        <if test="ADDRESS_OLD != null and ADDRESS_OLD != ''">
+            AND ADDRESS_OLD like CONCAT('%', #{ADDRESS_OLD}, '%')
+        </if>
+        <if test="ADDRESS_NEW != null and ADDRESS_NEW != ''">
+            AND ADDRESS_NEW like CONCAT('%', #{ADDRESS_NEW}, '%')
+        </if>
+    </select>
+    
+    <select id="selectContractList" parameterType="map" resultType="map">
+    	/*selectContractList 임대관리_계약 리스트 조회*/
+		SELECT * FROM RM_CONTRACT
+		WHERE 1=1
+		<if test="BUILDING_NAME != null and BUILDING_NAME != ''">
+            AND BUILDING_NAME like CONCAT('%', #{BUILDING_NAME}, '%')
+        </if>
+    </select>
  </mapper>

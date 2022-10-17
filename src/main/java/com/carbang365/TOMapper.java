@@ -478,4 +478,12 @@ public interface TOMapper {
   	public List<Map<String, Object>> selectTestNumList(Map<String, Object> map);
   	// test 총건수조회
  	public Map<String, Object> selectTestNumList_totCnt(Map<String, Object> map);
+ 	
+ 	// 임대관리_방 조회
+  	public List<Map<String, Object>> selectRoomList(Map<String, Object> map);
+  	// 임대관리_건물 조회
+   	public List<Map<String, Object>> selectBuildingList(Map<String, Object> map);
+   	// 임대관리_계약 조회
+   	public List<Map<String, Object>> selectContractList(Map<String, Object> map);
+  	
 }
