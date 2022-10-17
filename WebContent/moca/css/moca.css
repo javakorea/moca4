@@ -575,6 +575,7 @@ div[contenteditable=true] {
 /*MOCA_FORM*/
 .form_table{width:100%; border-top:1px solid #bbc3ce}
 .form_table th{padding: 6px; font-size: 11px; box-sizing: border-box; color: #333; background: #dee4e0; border-right: 1px solid #bbcdce; border-bottom: 1px solid #bbcdce; vertical-align: middle}
+.toolbar .button {display:inline-block; width:24px; height:24px; padding:0; margin-left:5px; border:1px solid #979aa0; border-radius:2px; background-color:#fff; vertical-align:top; background-repeat:no-repeat}
 
 /* MOCA modal */
 .moca_modal {background-color:rgba(0,0,0,0.5); position:/*fixed*/absolute; left:0; right:0; top:0; bottom:0; width:100%; height:100%; z-index:6100}

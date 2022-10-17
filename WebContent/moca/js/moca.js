@@ -5222,31 +5222,59 @@ Moca.prototype.isShowFoldBtn = function(_foldBtnObj){
 
 Moca.prototype._foldGrid = function(_thisObj){
 	var g_jq = $(_thisObj).closest('div[type="grid"]');
-    var b_jq = $(_thisObj);
-    var _onFoldClick = g_jq.attr("onFoldClick");
-    $m._foldGrid_common(b_jq,g_jq);
-    if($m.trim(_onFoldClick) != ''){
-    	eval(_onFoldClick)(b_jq,g_jq);
-    };
+	if(g_jq.length > 0){
+	    var b_jq = $(_thisObj);
+	    var _onFoldClick = g_jq.attr("onFoldClick");
+	    $m._foldGrid_common(b_jq,g_jq);
+	    if($m.trim(_onFoldClick) != ''){
+	    	eval(_onFoldClick)(b_jq,g_jq);
+	    };
+	}else{
+		g_jq = $(_thisObj).closest('div[type="form"]');
+	    var b_jq = $(_thisObj);
+	    var _onFoldClick = g_jq.attr("onFoldClick");
+	    $m._foldGrid_common(b_jq,g_jq);
+	    if($m.trim(_onFoldClick) != ''){
+	    	eval(_onFoldClick)(b_jq,g_jq);
+	    };
+	}
 };
 
 Moca.prototype._foldGrid_common = function(_foldBtnObj,_grdObj){
     var g_jq = _grdObj;
     var b_jq = _foldBtnObj;
-    if(g_jq.find('.moca_grid_list').is(":visible")){
-        b_jq.siblings().hide();
-        b_jq.removeClass('grid_unfold');
-        b_jq.addClass('grid_fold');
-        g_jq.addClass('fold');
-        g_jq.find('.moca_grid_list').hide();
+    if(g_jq.attr('type') == 'form'){
+    	debugger;
+        if(g_jq.find('.moca_table_cont').is(":visible")){
+            //b_jq.siblings().hide();
+            b_jq.removeClass('grid_unfold');
+            b_jq.addClass('grid_fold');
+            g_jq.addClass('fold');
+            g_jq.find('.moca_table_cont').hide();
+        }else{
+            //b_jq.siblings().show();
+            b_jq.removeClass('grid_fold');
+            b_jq.addClass('grid_unfold');
+            g_jq.removeClass('fold');
+            g_jq.find('.moca_table_cont').show();
+        }
     }else{
-        b_jq.siblings().show();
-        b_jq.removeClass('grid_fold');
-        b_jq.addClass('grid_unfold');
-        g_jq.removeClass('fold');
-        g_jq.find('.moca_grid_list').show();
-        $m.redrawGrid(g_jq[0]);
+        if(g_jq.find('.moca_grid_list').is(":visible")){
+            b_jq.siblings().hide();
+            b_jq.removeClass('grid_unfold');
+            b_jq.addClass('grid_fold');
+            g_jq.addClass('fold');
+            g_jq.find('.moca_grid_list').hide();
+        }else{
+            b_jq.siblings().show();
+            b_jq.removeClass('grid_fold');
+            b_jq.addClass('grid_unfold');
+            g_jq.removeClass('fold');
+            g_jq.find('.moca_grid_list').show();
+            $m.redrawGrid(g_jq[0]);
+        }
     }
+
 };
 
 Moca.prototype.getGridObj = function(_grdObj,_id){
@@ -12378,6 +12406,8 @@ Moca.prototype.renderMocaButton = function(o) {
         _value = $m.nul(o.value); 
         _label = $m.nul(o.label);
         _id = $m.nul(o.id);
+
+        
         _innerStyle = $m.nul(o.innerStyle);
         _innerClass = $m.nul(o.innerClass);
         var tmp_disabled = $m.nul(o.innerDisabled);
@@ -12394,10 +12424,17 @@ Moca.prototype.renderMocaButton = function(o) {
             _readonly = "";
         }
         
+        
         var _html = '';
-        _html += '<div id="'+$m.nul(o.id)+'"  class="mocaButton '+$m.nul(o.addClass)+'" onclick="'+$m.nul(o.onclick)+'(this)" style="'+$m.nul(o.style)+'">';
-        _html += '<button id="button_'+$m.nul(o.id)+'"  style="'+_innerStyle+'" class="'+_innerClass+'" '+_disabled+' >'+$m.nul(o.label)+'</button>';
-        _html += '</div>';
+        if(_id == "btn_fold"){
+            _html += '<button id="button_'+$m.nul(o.id)+'"  style="'+_innerStyle+'" class="'+_innerClass+'"   onclick="'+$m.nul(o.onclick)+'(this)"   '+_disabled+' >'+$m.nul(o.label)+'</button>';
+        }else{
+            _html += '<div id="'+$m.nul(o.id)+'"  class="mocaButton '+$m.nul(o.addClass)+'" onclick="'+$m.nul(o.onclick)+'(this)" style="'+$m.nul(o.style)+'">';
+            _html += '<button id="button_'+$m.nul(o.id)+'"  style="'+_innerStyle+'" class="'+_innerClass+'" '+_disabled+' >'+$m.nul(o.label)+'</button>';
+            _html += '</div>';
+        }
+        
+
         
         return _html;
     }
