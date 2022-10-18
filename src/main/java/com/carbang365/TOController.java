@@ -5965,7 +5965,7 @@ public class TOController{
 	}
 	
 	//임대관리_계약리스트 조회  
-	@RequestMapping(value = "/RM_ROOM/selectContractList.do")
+	@RequestMapping(value = "/RM_CONTRACT/selectContractList.do")
 	public View selectContractList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 		try {
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
@@ -5983,4 +5983,21 @@ public class TOController{
         return jsonview;
 	}
 	
+	//게시판파일업로드 조회  
+	@RequestMapping(value = "/RM_CONTFILE/selectContFileList.do")
+	public View selectContFileList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			//paramMap.put("BOARD_TABLE", "RM_CONTRACT");
+			model.addAttribute("selectContFileList", TOMapper.selectContFileList(paramMap));
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
 }

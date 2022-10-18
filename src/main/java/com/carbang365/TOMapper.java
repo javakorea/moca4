@@ -485,5 +485,6 @@ public interface TOMapper {
    	public List<Map<String, Object>> selectBuildingList(Map<String, Object> map);
    	// 임대관리_계약 조회
    	public List<Map<String, Object>> selectContractList(Map<String, Object> map);
-  	
+   	// 임대관리_파일조회
+ 	public List<Map<String, Object>> selectContFileList(Map<String, Object> map);
 }
