@@ -103,6 +103,23 @@ $m.EFC_BOARD_POP.___ready = function(args){
     });
 };
 
+
+$m.EFC_BOARD_POP._foldForm = function(_thisObj){
+	var g_jq = $(_thisObj).closest('div[type="grid"]');
+	g_jq = $(_thisObj).closest('div[type="form"]');
+    var b_jq = $(_thisObj);
+    var _onFoldClick = g_jq.attr("onFoldClick");
+    $m._foldGrid_common(b_jq,g_jq);
+    if($m.trim(_onFoldClick) != ''){
+   		eval(_onFoldClick)(b_jq,g_jq);
+    };
+    
+    $(_thisObj).closest('.moca_popup_header)''
+};
+
+
+
+
 $m.EFC_BOARD_POP.fn_searchReply = function(_grd,_idx,tdObj,_thisObj){
 	if($m.EFC_BOARD_POP._boardPIdx != null){
 		$m.EFC_BOARD_POP.exe({
@@ -927,7 +944,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 	                {"type":"button","position":"right","id":"btn_del","label":"삭제","onclick":"$m.EFC_BOARD_POP.fn_del","innerStyle":"background:#97a2ba"},
 	                {"type":"button","position":"right","id":"btn_save","label":"저장","onclick":"$m.EFC_BOARD_POP.fn_save","innerStyle":"background:#97a2ba"},
 	                {"type":"button","position":"right","id":"btn_del_admin","label":"물리삭제","onclick":"$m.EFC_BOARD_POP.fn_adminDel","innerStyle":"background:#6d7993", "addClass":""},
-	                {"type":"button","position":"right","id":"btn_fold","onclick":"$m._foldGrid(this)","innerClass":"button grid_unfold"}
+	                {"type":"button","position":"right","id":"btn_fold","onclick":"$m.EFC_BOARD_POP._foldForm(this)","innerClass":"button grid_unfold"}
 	                    ]'
 	                >
 				          	<div class="moca_table_cont" type="table">
