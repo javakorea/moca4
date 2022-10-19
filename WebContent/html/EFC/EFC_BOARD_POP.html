@@ -108,13 +108,30 @@ $m.EFC_BOARD_POP._foldForm = function(_thisObj){
 	var g_jq = $(_thisObj).closest('div[type="grid"]');
 	g_jq = $(_thisObj).closest('div[type="form"]');
     var b_jq = $(_thisObj);
+    var _childArr = $(_thisObj).closest('.ly_col_cont')[0].children;
+    if(g_jq.find('.moca_table_cont').is(":visible")){
+        for(var i=0;i<_childArr.length;i++){
+            if(i>1){
+                $(_childArr[i]).hide();
+            }
+        };
+        $(_thisObj).closest('.moca_popup_body').prev().addClass('fold');
+    }else{
+    	for(var i=0;i<_childArr.length;i++){
+            if(i>1){
+                $(_childArr[i]).show();
+            }
+        };
+        $(_thisObj).closest('.moca_popup_body').prev().removeClass('fold');
+    }
     var _onFoldClick = g_jq.attr("onFoldClick");
     $m._foldGrid_common(b_jq,g_jq);
     if($m.trim(_onFoldClick) != ''){
    		eval(_onFoldClick)(b_jq,g_jq);
     };
     
-    $(_thisObj).closest('.moca_popup_header)''
+    
+    //$(_thisObj).closest('.moca_popup_header)
 };
 
 
@@ -216,7 +233,6 @@ $m.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 	});
 };
 var aaa = function(e){
-	debugger;
 	if($(e).prev().prop('tagName') == 'IMG'){
 		$(e).prev().remove();
 	}
@@ -244,7 +260,6 @@ $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 							$m.show($m.EFC_BOARD_POP.getObj('edit_zoomBtn'));
 						}
 						//CKEDITOR.instances.editor.setData($m.resizeContsImg(data.BOARD_CONT));
-debugger; 
 var _ct = data.BOARD_CONT;
 _ct = _ct.replace(/<img src=\/images\/mobile\/loading\.gif width=80 height=80 id=imageLoadingBar border=0  \/>/g,"");
 _ct = _ct.replace(/(<img\s*[^>]*?)(onload="parent\.aaa\(this\);")([^>]*?\/>)/g,'$1$3');
