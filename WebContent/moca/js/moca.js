@@ -12069,7 +12069,6 @@ Moca.prototype.showTabContent = function(_tabCompDiv,activeIndex,_isEventExe) {
     cTag.setAttribute('src',list[(activeIndex-1)].src);
     $(_tabCompDiv).find('[type=tabContent]').css('display','none');
     $(cTag).css('display','block');
-    cTag.innerHTML = '';
     if(cTag.innerText == ''){
         if(_isEventExe){
             var pro = Promise.resolve();

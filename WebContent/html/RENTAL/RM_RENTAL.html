@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script>
+	$m.RM_RENTAL.___ready = function(){
+		$m.RM_RENTAL.sendParam(null,$($m.RM_RENTAL.getObj("tab_00")).find('li.active').attr('index'));
+		$m.RM_RENTAL.exe({
+			url : $m._domain+$m._contextRoot+"/RM_BUILDING/selectBuildingList.do",
+            data : {
+            	"header" : $m.header,
+            	"body" : {
+            	}
+            },			
+			callback : function(response){
+				$m.RM_BUILDING.drawGrid('grd_1',$m.getResList(response,"selectBuildingList"));
+			}
+		});
+		$m.RM_RENTAL.exe({
+			url : $m._domain+$m._contextRoot+"/RM_ROOM/selectRoomList.do",
+            data : {
+            	"header" : $m.header,
+            	"body" : {
+            	}
+            },			
+			callback : function(response){
+				
+			}
+		});
+		$m.RM_RENTAL.exe({
+			url : $m._domain+$m._contextRoot+"/RM_CONTRACT/selectContractList.do",
+            data : {
+            	"header" : $m.header,
+            	"body" : {
+            	}
+            },			
+			callback : function(response){
+
+			}
+		});
+		//$m.RM_RENTAL.fn_search2();
+	};
+	
+	$m.RM_RENTAL.fn_search = function(){
+		
+		$m.MT_FORM.fn_search2();
+	};
+	$m.RM_RENTAL.fn_search2 = function(){
+		$m.RM_RENTAL.sendParam(null,1);
+	};
+	$m.RM_RENTAL.sendParam = function(_tabContentId,_tabContentIndex,_tabContentObj){
+	};
+</script>
+
+</head>
+<body>
+<div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
+	<div class="moca_tab_cont" style="height:100%">
+		<div class="moca_cont_wrap flex fcol">
+			<div type="tab" id="tab_00" class="moca_layer_tab" tabPosition="bottom" tabPositionButton="false" style="" onTabHeaderclick="$m.RM_RENTAL.sendParam"
+			list='[
+				{"position":"left","id":"t2","label":"계약관리","src":"/html/RENTAL/RM_CONTRACT.html","active":"true"},
+				{"position":"left","id":"t0","label":"건물관리","src":"/html/RENTAL/RM_BUILDING.html"},
+				{"position":"left","id":"t1","label":"방관리","src":"/html/RENTAL/RM_ROOM.html"}
+			]'
+			 >
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
