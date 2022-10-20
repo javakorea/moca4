@@ -12227,6 +12227,7 @@ Moca.prototype.popup = function(_option,thisObj) {
                 o.height = height;
                 o.scopeId = _option.scopeId;
                 var popObj = $m.rendering(o);
+                popObj.obj = o.obj;
                 
                 $('.moca_input:first').focus();
                 $('.moca_input:first').blur();
