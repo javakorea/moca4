@@ -479,12 +479,18 @@ public interface TOMapper {
   	// test 총건수조회
  	public Map<String, Object> selectTestNumList_totCnt(Map<String, Object> map);
  	
- 	// 임대관리_방 조회
-  	public List<Map<String, Object>> selectRoomList(Map<String, Object> map);
   	// 임대관리_건물 조회
    	public List<Map<String, Object>> selectBuildingList(Map<String, Object> map);
+   	// 임대관리_건물(콤보박스용) 조회
+   	public List<Map<String, Object>> selectBuildingComboList(Map<String, Object> map);
+   	// 임대관리_방 조회
+   	public List<Map<String, Object>> selectRoomList(Map<String, Object> map);
+   	// 임대관리_방(콤보박스용) 조회
+    public List<Map<String, Object>> selectRoomComboList(Map<String, Object> map);
    	// 임대관리_계약 조회
    	public List<Map<String, Object>> selectContractList(Map<String, Object> map);
    	// 임대관리_파일조회
  	public List<Map<String, Object>> selectContFileList(Map<String, Object> map);
+ 	// 임대관리_계약 등록
+ 	public int insertContract(Map<String, Object> map);
 }

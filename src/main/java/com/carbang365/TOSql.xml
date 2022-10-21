@@ -5260,6 +5260,11 @@
             AND ADDRESS_NEW like CONCAT('%', #{ADDRESS_NEW}, '%')
         </if>
     </select>
+    <!-- 임대관리서비스 건물리스트(콤보박스용)조회 -->
+    <select id="selectBuildingComboList" parameterType="map" resultType="map">
+    	/*selectBuildingComboList 임대관리서비스 파일첨부조회*/
+        SELECT A.BUILDING_NUM, A.BUILDING_NAME FROM RM_BUILDING A
+    </select>
     <!-- 임대관리_방 리스트 조회 -->
     <select id="selectRoomList" parameterType="map" resultType="map">
     	/*selectRoomList 임대관리_방 리스트 조회22*/
@@ -5270,10 +5275,23 @@
 		<if test="BUILDING_NAME != null and BUILDING_NAME != ''">
             AND B.BUILDING_NAME like CONCAT('%', #{BUILDING_NAME}, '%')
         </if>
+        <if test="BUILDING_NUM != null and BUILDING_NUM != ''">
+            AND B.BUILDING_NUM = #{BUILDING_NUM}
+        </if>
         <if test="ROOM_NUM != null and ROOM_NUM != ''">
             AND A.ROOM_NUM like CONCAT('%', #{ROOM_NUM}, '%')
         </if>
     </select>
+    <!-- 임대관리서비스 방리스트(콤보박스용)조회 -->
+    <select id="selectRoomComboList" parameterType="map" resultType="map">
+        /*selectRoomComboList 임대관리_방리스트(콤보박스용)*/
+        SELECT A.ROOM_NUM
+		FROM RM_ROOM A, RM_BUILDING B
+		WHERE 1=1
+		AND B.BUILDING_NUM = A.BUILDING_NUM
+        AND A.BUILDING_NUM = #{BUILDING_NUM}
+    </select>
+    <!-- 임대관리_계약 리스트 조회 -->
     <select id="selectContractList" parameterType="map" resultType="map">
     	/*selectContractList 임대관리_계약 리스트 조회*/
 		SELECT A.* , B.ROOM_NUM, C.BUILDING_NAME
@@ -5307,5 +5325,35 @@
         </if>
         ORDER BY A.CONTRACT_NUM DESC
     </select>
-    
+    <!-- 계약등록 -->
+    <insert id="insertContract" parameterType="map" useGeneratedKeys="true" keyProperty="CONTRACT_NUM">
+        /*insertContract 계약등록*/
+            INSERT INTO RM_CONTRACT(
+            	BUILDING_NUM,
+           		ROOM_NUM,
+	            TENANT_NAME,
+	            LANDLORD_NAME,
+	            DEPOSIT,
+	            MONTLY_RENT,
+	            MANAGEMENT_FEE,
+	            RENT_START,
+	            RENT_END,
+	            CONTRACT_FILE,
+	            WRITER,
+	            WRITE_TIME
+            )VALUES (
+           		#{BUILDING_NUM},
+           		#{ROOM_NUM},
+				#{TENANT_NAME},
+	            #{LANDLORD_NAME},
+	            #{DEPOSIT},
+	            #{MONTLY_RENT},
+	            #{MANAGEMENT_FEE},
+	            #{RENT_START},
+	            #{RENT_END},
+	            #{CONTRACT_FILE},
+	            #{WRITER},
+	            CURRENT_TIMESTAMP
+            )
+    </insert>
  </mapper>
