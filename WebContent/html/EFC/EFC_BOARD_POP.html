@@ -59,15 +59,13 @@ $m.EFC_BOARD_POP.___ready = function(args){
         	}else{
         		$m.hide($($m.EFC_BOARD_POP.getObj("contents")).find('.mShow'));
         	}
-    		
-    		$m.EFC_BOARD_POP.timeoutValue = args.parent.obj.timeoutValue;
-    		if($m.EFC_BOARD_POP.args.parent.obj.timeoutValue != null){
-    			console.log('parent clearInterval',$m.EFC_BOARD_POP.args.parent.obj);
-    			clearInterval($m.EFC_BOARD_POP.args.parent.obj.timeoutValue);
+    		if(args.parent.obj != null){
+        		$m.EFC_BOARD_POP.timeoutValue = args.parent.obj.timeoutValue;
+        		if($m.EFC_BOARD_POP.timeoutValue != null){
+        			console.log('parent clearInterval',$m.EFC_BOARD_POP);
+        			clearInterval($m.EFC_BOARD_POP.timeoutValue);
+        		}
     		}
-    		
-    		
-    		
     	}
     	if($m.EFC_BOARD_POP._boardType == "NOTICE" || $m.EFC_BOARD_POP._pageType == 'home'){
     		$m.hide($m.EFC_BOARD_POP.getObj('tr_status'));
@@ -95,7 +93,7 @@ $m.EFC_BOARD_POP.___ready = function(args){
                 $('.edit').find('iframe').contents().click(function(e) { 
                 	if(typeof e.target.href != 'undefined'){
                 		window.open(e.target.href, 'new'+ e.screenX);
-                	}else if(typeof e.target.parentElement.href != 'undefined'){
+                	}else if(e.target.parentElement != null && typeof e.target.parentElement.href != 'undefined'){
                 		window.open(e.target.parentElement.href, 'new'+ e.screenX);
                 	}
                 });
@@ -397,7 +395,7 @@ $m.EFC_BOARD_POP.fn_update = function(_thisObj){
 		$m.show($m.EFC_BOARD_POP.getObj("btn_save"));
 
 		//자동저장시작
-		$m.EFC_BOARD_POP.args.parent.obj.timeoutValue = setInterval(function(){ 
+		$m.EFC_BOARD_POP.timeoutValue = setInterval(function(){ 
     		//게시글수정
     		console.log('save start',new Date());
    		 	$m.EFC_BOARD_POP.exe({
@@ -420,14 +418,24 @@ $m.EFC_BOARD_POP.fn_update = function(_thisObj){
                 },          
                 callback : function(response){
                	 	if(response.cnt > 0){
-               			console.log('save',new Date());
+               			//console.log('autosave',new Date());
+               			var autoDt = new Date();
+               			var autoLog = autoDt.getHours()+':'+autoDt.getMinutes()+":"+autoDt.getSeconds()+" auto saved.";
+               			var logArea = $($m.EFC_BOARD_POP.getObj("button_btn_save")).closest('.moca_addtion_area').find('.lta');
+               			var logChk = logArea.html();
+               			if(logChk == ''){
+               				logArea.html(autoLog);
+               			}else{
+               				logArea.html('');
+               			}
+               			
                     }else{
-                    	console.log('save',response);
+                    	console.log('autosave',response);
                     }
                 } 
             });
 			
-		},10000);
+		},5000);
 
 		$m.show($m.EFC_BOARD_POP.getObj('grd_file_btn_fold'));
 		$m.hide($m.EFC_BOARD_POP.getObj("btn_del_admin"));
@@ -484,8 +492,12 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	if(_thisObj.id == 'btn_save'){
 		$m.confirm('저장하시겠습니까?',function(result){
 	        if(result == 'Y'){
-	        	console.log('clearInterval');
-	        	clearInterval($m.EFC_BOARD_POP.args.parent.obj.timeoutValue);
+	        	
+	        	if($m.EFC_BOARD_POP != null){
+	        		console.log('clearInterval'); 
+	        		clearInterval($m.EFC_BOARD_POP.timeoutValue);
+	        	}
+	        	
 	            for(var i=0; i<$m.EFC_BOARD_POP.getObj("grd_file").list.length;i++){
 	            	if($m.EFC_BOARD_POP.getObj("grd_file").list[i]._system.status != "D"){
 	            		$m.EFC_BOARD_POP.getObj("grd_file").list[i]._system.status = "C";
@@ -1006,7 +1018,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 	                {"type":"button","position":"right","id":"btn_del","label":"삭제","onclick":"$m.EFC_BOARD_POP.fn_del","innerStyle":"background:#97a2ba"},
 	                {"type":"button","position":"right","id":"btn_save","label":"저장","onclick":"$m.EFC_BOARD_POP.fn_save","innerStyle":"background:#97a2ba"},
 	                {"type":"button","position":"right","id":"btn_del_admin","label":"물리삭제","onclick":"$m.EFC_BOARD_POP.fn_adminDel","innerStyle":"background:#6d7993", "addClass":""},
-	                {"type":"button","position":"right","id":"btn_fold","onclick":"$m.EFC_BOARD_POP._foldForm(this)","innerClass":"button grid_unfold"}
+	                {"type":"button","position":"right","id":"btn_fold","onclick":"$m.EFC_BOARD_POP._foldForm","innerClass":"button grid_unfold"}
 	                    ]'
 	                >
 				          	<div class="moca_table_cont" type="table">

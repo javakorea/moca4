@@ -192,11 +192,6 @@
 		if(_json != null && _json.callback == 'true'){
 			$m.EFC_BOARD.fn_search();
 		}
-
-		if($m.EFC_BOARD.timeoutValue != null){
-			console.log('parent clearInterval',$m.EFC_BOARD.timeoutValue);
-			clearInterval($m.EFC_BOARD.timeoutValue);
-		}
 	}
 	
 	$m.EFC_BOARD.fn_adminDelList = function(){

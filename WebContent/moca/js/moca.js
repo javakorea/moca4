@@ -4608,6 +4608,13 @@ Moca.prototype.popClose = function(_popupId,_json){
     ['모카팝업 닫기'];
     //if(top.name.startsWith("POPUP"))
     if(opener && $('#'+_popupId).attr('id') == parent.name){
+    	if(opener.$m[opener.$m.srcId] != null && opener.$m[opener.$m.srcId].timeoutValue){
+    		console.log('popClose opener clearInterval',opener.$m[opener.$m.srcId].timeoutValue);
+    		clearInterval(opener.$m[opener.$m.srcId].timeoutValue);
+    	}else{
+    		console.log('popClose opener clearInterval',opener.$m.srcId,opener.$m[opener.$m.srcId]);
+    	}
+    	
     	if(opener.$m.callbacks[_popupId]){
 	        eval(opener.$m.callbacks[_popupId])(_json);
 	        delete opener.$m.callbacks[_popupId];
@@ -4616,6 +4623,15 @@ Moca.prototype.popClose = function(_popupId,_json){
     	opener.$m.popClose(_popupId);
     	self.close();
     }else{
+    	if($m[$m.srcId] != null && $m[$m.srcId].timeoutValue){
+    		console.log('popClose clearInterval',$m[$m.srcId].timeoutValue);
+    		clearInterval($m[$m.srcId].timeoutValue);
+    	}else{
+    		console.log('popClose clearInterval',$m.srcId,$m[$m.srcId]);
+    	}
+    	
+    	
+    	
     	if(!$('#'+_popupId).prev().hasClass('moca_popup')){
     		$('body').css('overflow','');
     	}
@@ -4773,6 +4789,11 @@ Moca.prototype.popUnload = function(){
 
 Moca.prototype.mpopClose = function(_thisObj,_messageboxId){
     ['모카팝업 닫기'];
+	if($m[$m.srcId] != null && $m[$m.srcId].timeoutValue){
+		console.log('mpopClose clearInterval',$m[$m.srcId].timeoutValue);
+		clearInterval($m[$m.srcId].timeoutValue);
+	}
+	
     $('._modal').remove();
     if(this.callbacks[_messageboxId] != null){
         this.callbacks[_messageboxId]();
@@ -5244,7 +5265,6 @@ Moca.prototype._foldGrid_common = function(_foldBtnObj,_grdObj){
     var g_jq = _grdObj;
     var b_jq = _foldBtnObj;
     if(g_jq.attr('type') == 'form'){
-    	debugger;
         if(g_jq.find('.moca_table_cont').is(":visible")){
             //b_jq.siblings().hide();
             b_jq.removeClass('grid_unfold');
