@@ -19,6 +19,8 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .header {position:relative; height:80px; max-width: 1080px; margin: 0 auto;}
 .header h1{position:relative; top:12px; left:35px; float:left}
 .header h1 a.logo{display:block;background:url(../images/home/MOCA_CI.svg)no-repeat;  width:136px; height:43px; text-indent:-9999px; float:left}
+.header h1 a.logoJavakorea{display:block;background:url(../images/home/JK_CI.svg)no-repeat;  width:136px; height:43px; text-indent:-9999px; float:left;    background-size: 100%;background-position: bottom;margin-top: 2px;}
+
 .header a.demo{display: block; background: url(../images/home/arrow.gif)no-repeat; position:relative; width: 65px; height: 20px; line-height:21px; float:left; left:45px; top:32px; color:#4d92e3; background-size: 25px; background-position: 47px -2px; border: 2px solid #4d92e3; padding-left:10px; border-radius: 15px; cursor:pointer;}
 
 .header .btn_area{position:relative; top:25px; right:35px}
@@ -107,6 +109,7 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 .container .contBox .col5.right{padding-left: 15px; box-sizing: border-box;}
 
 .footer{position:absolute; left:0; right:0; background:#434343; font-size:20px; color:#bbb}
+.footer.jk{position:fixed; bottom:0}
 .footer .f_content{position: relative; padding:0 40px; max-width:1080px; margin:0 auto;overflow: hidden; box-sizing: border-box}
 .footer .f_content h2{float:left; margin-right:15px; padding:20px 0}
 .footer .f_content p{word-break:keep-all;display:inline-block; float:left; position:relative; top:19px; font-size:11px;}
@@ -280,6 +283,7 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 	
 	.footer .f_content div.f_info{font-size: 14px}
 	.f_content e{display:block}
+	.footer.jk{position:absolute; bottom:unset}
 }
  
  
