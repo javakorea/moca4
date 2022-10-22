@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="naver-site-verification" content="a104a8de14481f0bac1275366c3a53b78c048ac2" />
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+
+<link rel="stylesheet" type="text/css" href="./css/reset.css">
+<link rel="stylesheet" type="text/css" href="./css/teammoca.css">
+<link rel="stylesheet" type="text/css" href="./moca/css/fontawesome.css">
+<link rel="stylesheet" type="text/css" href="./css/media.css">
+<style>
+</style>
+
+<script>
+$m.mainJavakorea.BD_CONTENT_FOR_BD_WS = {};
+$m.mainJavakorea.___ready = function(args){
+	
+	$m.removeSs("CORP_CD");
+	$m.removeSs("CORP_NM");
+	$m.removeSs("LOGINDT");
+	$m.removeSs("USER_ID");
+	$m.removeSs("authorCode");
+	
+	$m.getContent($m._domain+$m._contextRoot+"/images/home/main_img.svg",function(data) {
+		$('#mainSvg').html(data);
+	});
+	$m.mainJavakorea.fn_searchContents();
+};
+$m.mainJavakorea.mainContentsList;
+$m.mainJavakorea.fn_searchContents = function(){
+		$m.mainJavakorea.exe({
+			url : $m._domain+$m._contextRoot+"/efms/EFGPROP/list_json.do",
+            data : {
+            	"header" : $m.header,
+            	"body" : {
+            		PROP_KEY:"main",
+            		REFERRER: document.referrer
+            	}
+            },			
+			callback : function(response){
+				if(response.list.length > 0){
+					$m.mainJavakorea.mainContentsList = response.list;
+				}
+				$m.mainJavakorea.setContents('main_top_1');
+				$m.mainJavakorea.setContents('main_top_2');
+				$m.mainJavakorea.setContents('main_top_3');
+				$m.mainJavakorea.setContents('main_top_4');
+				$m.mainJavakorea.setContents('main_left_1');
+				$m.mainJavakorea.setContents('main_left_2');
+				$m.mainJavakorea.setContents('main_left_3');
+				$m.mainJavakorea.setContents('main_right_1');
+				$m.mainJavakorea.setContents('main_right_2');
+				$m.mainJavakorea.setContents('main_right_3');
+				$m.mainJavakorea.setContents('main_right_4');
+				$m.mainJavakorea.fn_search('WS');
+				initKakao(mocaConfig.getSocailLoginKakaoKey());
+			}
+		});
+}
+$m.mainJavakorea.setContents = function(_id){
+	var _value;
+	for(var i=0; i< $m.mainJavakorea.mainContentsList.length ; i++){
+		 if($m.mainJavakorea.mainContentsList[i].PROP_KEY == _id){
+			 _value = $m.mainJavakorea.mainContentsList[i].PROP_VALUE;
+			 _value = _value.replaceAll('&lt;','<');
+			 _value = _value.replaceAll('&gt;','>');
+			 _value = _value.replaceAll('&nbsp;',' ');
+			 $('#'+_id).html(_value);
+		 }
+	}
+}
+
+
+$m.mainJavakorea.fn_search_callback = function(response){
+	var list = response.selectBoardList;
+	var _length = list.length < 5 ? list.length : 5;
+	var full_html = '';
+	if($m.mainJavakorea.boardType == 'WS'){
+		var _html = $('#tbl_BD_WS').html();
+		for(var i=0; i < _length; i++){
+			var row = list[i];
+			full_html += _html.replace(/#BD_TITLE#/g,row.BOARD_TITLE).replace(/#BD_USERID#/g,row.BOARD_WRITER).replace(/#BD_DATE#/g,$m.longToDate(row.BOARD_DATE).substr(0,10)).replace(/#BD_CODE#/g,row.BOARD_IDX);
+			$m.mainJavakorea.BD_CONTENT_FOR_BD_WS[row.BOARD_IDX] = row; 
+		}
+		$('#tbl_BD_WS').html(full_html);
+		$m.mainJavakorea.fn_search('NOTICE');
+	}else if($m.mainJavakorea.boardType == 'NOTICE'){
+		var _html = $('#tbl_BD_NOTICE').html();
+		for(var i=0; i < _length; i++){
+			var row = list[i];
+			full_html += _html.replace(/#BD_TITLE#/g,row.BOARD_TITLE).replace(/#BD_USERID#/g,row.BOARD_WRITER).replace(/#BD_DATE#/g,$m.longToDate(row.BOARD_DATE).substr(0,10)).replace(/#BD_CODE#/g,row.BOARD_IDX);
+			$m.mainJavakorea.BD_CONTENT_FOR_BD_WS[row.BOARD_IDX] = row; 
+		}
+		$('#tbl_BD_NOTICE').html(full_html);
+		$m.mainJavakorea.fn_search('MOCAAPI');
+	}else if($m.mainJavakorea.boardType == 'MOCAAPI'){
+		var _html = $('#tbl_BD_MOCAAPI').html();
+		for(var i=0; i < _length; i++){
+			var row = list[i];
+			full_html += _html.replace(/#BD_TITLE#/g,row.BOARD_TITLE).replace(/#BD_USERID#/g,row.BOARD_WRITER).replace(/#BD_DATE#/g,$m.longToDate(row.BOARD_DATE).substr(0,10)).replace(/#BD_CODE#/g,row.BOARD_IDX);
+			$m.mainJavakorea.BD_CONTENT_FOR_BD_WS[row.BOARD_IDX] = row; 
+		}
+		$('#tbl_BD_MOCAAPI').html(full_html);
+		$m.mainJavakorea.fn_search('JOB');
+	}else if($m.mainJavakorea.boardType == 'JOB'){
+		var _html = $('#tbl_BD_JOB').html();
+		for(var i=0; i < _length; i++){
+			var row = list[i];
+			full_html += _html.replace(/#BD_TITLE#/g,row.BOARD_TITLE).replace(/#BD_USERID#/g,row.BOARD_WRITER).replace(/#BD_DATE#/g,$m.longToDate(row.BOARD_DATE).substr(0,10)).replace(/#BD_CODE#/g,row.BOARD_IDX);
+			$m.mainJavakorea.BD_CONTENT_FOR_BD_WS[row.BOARD_IDX] = row; 
+		}
+		$('#tbl_BD_JOB').html(full_html);
+	}
+	
+}
+$m.mainJavakorea.fn_search = function(_boardType){
+	var _today = $m.dateToString(new Date());
+	var _todayStr = _today.year+_today.month+_today.day;
+	var _fromStr = String(_today.year-1)+_today.month+_today.day;
+	$m.mainJavakorea.boardType = _boardType;
+	$m.mainJavakorea.exe({
+        url : $m._domain+$m._contextRoot+"/EFC_BOARD/selectBoardList.do",
+        loadingbar:true,
+        data : {
+            "header" : $m.header,
+            "body" : {
+            	"BOARD_TYPE":$m.mainJavakorea.boardType,
+            	"FROM":_fromStr,
+                "TO":_todayStr,
+                "BOARD_SUPPORT": ['N', 'R', 'B'],
+                "PAGE_TYPE":"home"
+            }
+        },          
+        callback : $m.mainJavakorea.fn_search_callback
+    });
+};
+$m.mainJavakorea.popId = 'main_pop_board';
+$m.mainJavakorea.fn_pop_boardPop = function(_gubun,_bd_code){
+	var row;
+	var _title;
+	if(_gubun == 'BD_WS'){
+		row = $m.mainJavakorea.BD_CONTENT_FOR_BD_WS[_bd_code];
+	}
+		var _this = $('#ws_list')[0];
+	    var o = {};
+	    o.id = $m.mainJavakorea.popId;
+	    o.url = '/html/EFC/EFC_BOARD_POP.html';
+	    o.type = "POPUP";
+	    o.modal = "true";
+	    o.title = '게시글상세';
+	    o.callback = $m.mainJavakorea.fn_pop_callback;
+	    o.scopeId = $m.mainJavakorea.pageId;
+	    o.data = {"PAGE_TYPE":'home',"BOARD_IDX":row.BOARD_IDX+'',"BOARD_PIDX":row.BOARD_PIDX+'',"BOARD_TITLE":row.BOARD_TITLE,"BOARD_TYPE":"WS"};
+	    $m.popup(o,_this);
+};
+
+$m.mainJavakorea.fn_pop_boardMain = function(_gubun){
+	var _this = $('#ws_list')[0];
+    var o = {};
+    o.id = $m.mainJavakorea.popId;
+    o.url = '/html/EFC/EFC_BOARD.html';
+    o.type = "POPUP";
+    o.modal = "true";
+    o.callback = $m.mainJavakorea.fn_pop_callback;
+    o.scopeId = $m.mainJavakorea.pageId;
+    if(_gubun == 'BD_WS'){
+		o.title = '웹스퀘어 게시판';
+		o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"WS"};
+	}else if(_gubun == 'BD_NOTICE'){
+		o.title = '공지사항';
+		o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"NOTICE"};
+	}else if(_gubun == 'BD_MOCAAPI'){
+		o.title = 'MOCA API Document';
+		o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"MOCAAPI"};
+	}else if(_gubun == 'BD_JOB'){
+		o.title = '구인게시판';
+		o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"JOB"};
+	}
+    $m.popup(o,_this);
+};
+
+$m.mainJavakorea.fn_pop_callback  = function(_gubun){
+	
+};
+
+$m.mainJavakorea.fn_tel = function(_this){
+		//$m.alert('<i style="display: block; font-size: 19px;" class="mb5">상담문의</i><a style="font-size:17px; ">010-9116-8072</a> <br/> 언제나 친절하게 상담해드리겠습니다.',function(result){});
+		 var o = {};
+		 var _this = ''
+		o.id = $m.mainJavakorea.popId;
+		o.title ="상담문의";
+	    o.url = '/checkpoint.html';
+	    o.type = "POPUP";
+	    o.modal = "true";
+	    o.callback = $m.mainJavakorea.fn_pop_callback;
+	    o.scopeId = $m.mainJavakorea.pageId;
+	    $m.popup(o,_this);
+}
+
+function initKakao(_key){
+	Kakao.init(_key);
+	if(Kakao.Auth.getAccessToken()){
+		loginChecker();
+	}
+};
+
+$m.mainJavakorea.goDemo = function(_this){
+	if(!$('.loginInfo').is(":visible")){
+		$m.confirm('모카 데모사이트를 보시려면 <br>카카오 소셜로그인이 필요합니다.<br>로그인 하시겠습니까?',function(result){
+			if(result == 'Y'){
+				loginKakao();
+			}
+		});
+	}else{
+		goMoca();
+	}
+	
+};
+
+function loginKakao(){
+	Kakao.Auth.login({
+		success: function(authObj) {
+		Kakao.API.request({
+			url: '/v2/user/me',
+			success: function(response) {
+				loginSetter(response.id,response.kakao_account.email,response.kakao_account.profile.nickname);
+			},fail: function(error) {console.log(error);}
+		});
+		},fail: function(err) {},
+	});
+};
+
+function loginSetter(_id,_email,_name){
+	var loginInfo = {};
+	loginInfo.id = _id;
+	loginInfo.name = _name;
+	loginInfo.email = _email;
+	$m.setSs("loginTemp0",loginInfo);
+	$m.mainJavakorea.exe({
+		url : $m._domain+$m._contextRoot+"/uss/umt/user/EgovUserManageSocial_json.do",
+		loadingbar:true,
+        data : {
+        	"header" : $m.header,
+        	"body" : {
+        		userId:loginInfo.id+""
+        	}
+        },			
+		callback : function(response){
+			if(response.list.length > 0 ){
+				var _list = response.list[0];
+				//곧바로 진행스텝으로
+				$('#kakaoLogin').hide();
+				$('#userName').show();
+				$('#userName').html('<i class="fa fa-user mr5" aria-hidden="true"></i>'+_list.userNm);
+				/*
+				//'1972981827' 팀모카
+				//'1972997766' 성혜진
+				//'1973964231' 김세창
+				if(	   $m.getSs("loginTemp0").id == '1972981827'
+					|| $m.getSs("loginTemp0").id == '1973964231' 	
+					|| $m.getSs("loginTemp0").id == '1972997766' 	
+				){
+					$('#btnErp').show();
+				}else{
+					$m.mainJavakorea.sendSmsLoginInfo(_id,_name,_email);
+				}
+				*/
+				$m.mainJavakorea.sendSmsLoginInfo(_id,_name,_email);
+				goMoca();
+			}else{
+				$m.mainJavakorea.insertUserInfo(_id,_name,_email);
+				$m.mainJavakorea.sendSmsLoginInfo(_id,_name,_email);
+			}
+		}
+	});
+};
+$m.mainJavakorea.sendSmsLoginInfo = function(_id,_name,_email){
+	$m.mainJavakorea.exe({
+		url : $m._domain+$m._contextRoot+"/main/sendSmsLoginInfo.do",
+	    data : { 
+	    	"header" : $m.header,
+	    	"body" : {
+	    		"USER_KAKAO_ID":_id+"",
+	    		"USER_NAME":_name,
+	    		"USER_EMAIL":_email,
+	    	}
+	    },			
+		callback : function(response){
+		}
+	});
+	
+}
+$m.mainJavakorea.insertUserInfo = function(_id,_name,_email){
+	//회원가입
+	$m.mainJavakorea.exe({
+		url : $m._domain+$m._contextRoot+"/main/insertUserInfo.do",
+	    data : { 
+	    	"header" : $m.header,
+	    	"body" : {
+	    		"USER_KAKAO_ID":_id+"",
+	    		"USER_NAME":_name,
+	    		"USER_EMAIL":_email,
+	    	}
+	    },			
+		callback : function(response){
+			$m.mainJavakorea.___ready();		
+		}
+	});
+}
+
+$m.mainJavakorea.fn_logout = function(){
+	$m.confirm('로그아웃하시겠습니까?',function(result){
+		if(result == 'Y'){
+			$m.setSs("loginTemp0",null);
+			loginChecker();
+			top.location.href = $m._contextRoot;
+		}
+	});		
+};
+function loginChecker(){
+	if($m.getSs("loginTemp0") != null && $m.getSs("loginTemp0") != ''){
+		$('#kakaoLogin').hide();
+		$('#userName').show();
+		$('#userName').html('<i class="fa fa-user mr5" aria-hidden="true"></i>'+$m.getSs("loginTemp0").name);
+		//'1972981827' 팀모카
+		//'1972997766' 성혜진
+		//'1973964231' 김세창
+		if(	   $m.getSs("loginTemp0").id == '1972981827'
+			|| $m.getSs("loginTemp0").id == '1972997766' 		
+			|| $m.getSs("loginTemp0").id == '1973964231' 		
+		){
+			//$('#btnErp').show();
+		}
+	}else{
+		$('#kakaoLogin').show();
+		$('#userName').hide();
+		$('#userName').html('');
+	}
+	
+};
+function goMoca(){
+	//location.href="/admin.do"
+	//$m.getSs("loginTemp0").id;
+	
+	sessionStorage['CORP_CD'] = "social";
+   	sessionStorage['CORP_NM'] = "소셜로그인";
+   	sessionStorage['USER_ID'] = $m.getSs("loginTemp0").id;
+   	
+
+   	
+    var _id = $m.openWindowPopup({
+        id: "demo",
+        method:"post",
+        title: "moca 데모페이지",
+        width:1920, 
+        height:1080,
+        url : '/uat/uia/actionSecurityLogin.do',
+        fullscreen : 'no',
+        param : {
+    		"id":$m.getSs("loginTemp0").id+"",
+    		"password":$m.getSs("loginTemp0").id+"",
+    		"CORP_CD":"social",
+    		"userSe":"USR"
+    	}
+    });
+}
+
+
+</script>
+<style>
+	
+</style>
+</head>
+<body>
+<div id="moca_tab_bridge1" class="moca_tab_panel" role="mdipanel" style="display:block;visibility:visible;">
+	<div class="wrapper">
+		<div class="wrapContent">
+			
+			<div class="bg_snow">
+				<div class="header">
+					<h1><a class="logoJavakorea" href="./indexJavakorea.html">JAVAKOREA</a></h1>
+					<!-- <a class="demo" onclick="$m.mainJavakorea.goDemo()">모카데모</a> -->
+					<div class="fr btn_area">
+						
+						<button style="" id="kakaoLogin" class="kakaoLogin fl" onclick="loginKakao()">
+						 	<i></i>
+						 	<span>Login</span>
+						 </button>
+						 <input type="hidden" name="userSe"  value="USR"/>
+						 <span style="display:none" class="btn_Erp fl" id="btnErp" onclick="goMoca()">ERP<i class="fas fa-location-arrow ml5"></i></span>
+						 <span style="display:none" class="loginInfo fl ml5" id="userName" onclick="$m.mainJavakorea.fn_logout()"><i class="fa fa-user mr5" aria-hidden="true"></i>홍길동</span>
+					</div>
+				</div>
+			</div>
+			<div class="container" style="overflow: inherit">
+				<!-- WEB -->
+				<div class="main_box">
+					<div class="td fl">
+						<div class="label">웹표준 UI/UX</div>
+						<p class="img1">
+							<i class="fas fa-ellipsis-v"></i><span id="main_top_1"></span>
+						</p>
+					</div>
+					<div class="td fl">
+						<div class="label">듀얼MDI & 듀얼모니터</div>
+						<p class="img2">
+							<i class="fas fa-ellipsis-v"></i>​<span id="main_top_2"></span>
+						</p>
+					</div>
+					<div class="td fl">
+						<div class="label">적응형 UI</div>
+						<p class="img3"><i class="fas fa-ellipsis-v"></i><span id="main_top_3"></span></p>
+					</div>
+					<div class="td fl">
+						<div class="label">고성능그리드</div>
+						<p class="img4"><i class="fas fa-ellipsis-v"></i><span id="main_top_4"></span></p>
+					</div>
+					<!-- <button class="arrow_right"><i class="fas fa-chevron-right"></i></button> -->
+				</div>
+				<div class="mocaBox cfx">
+					<div class="componentImg">
+						<div class="fl col5 main_img">
+							<h3 id="main_left_1"></h3>
+							<h4 id="main_left_2"> </h4>
+							<p id="main_left_3"></p>
+							<div id="mainSvg" class="mainSvg"></div>
+						</div>
+						<div class="fl col5">
+							<div class="main_banner">
+								<div class="banner_box">
+									<div>
+										<p id="main_right_1">
+										</p>
+									</div>
+								</div>
+								<div class="banner_box">
+									<div>
+										<p id="main_right_2">
+										</p>
+									</div>
+								</div>
+								<div class="banner_box">
+									<div>
+										<p id="main_right_3">
+										</p>
+									</div>
+								</div>
+								<div class="banner_box">
+									<div>
+										<p id="main_right_4">
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="mocaBox boardArea mt10">
+					<div style="height:194px; box-sizing:border-box">
+						<div class="col5 fl">
+							<div class="boardTable" id="ws_list">
+								<div class="boardHeader">
+									<span class="boardTitle"><i class="fas fa-comment-dots"></i>웹스퀘어게시판</span>
+									<button class="boardMore fr"  onclick="$m.mainJavakorea.fn_pop_boardMain('BD_WS')"><i class="fas fa-plus-circle"></i>더보기</button>
+								</div>
+								<table class="boardList">
+									<colgroup>
+										<col style="width:395px">
+										<col style="">
+										<col style="">
+									</colgroup>
+									<tbody id="tbl_BD_WS">
+										<tr onclick="$m.mainJavakorea.fn_pop_boardPop('BD_WS','#BD_CODE#')">
+											<td class="bdTitle">#BD_TITLE#</td>
+											<td class="bdName tfc">#BD_USERID#</td>
+											<td class="bdDate tfc">#BD_DATE#</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="col5 fr">
+							<div class="boardTable" id="ws_list2">
+								<div class="boardHeader" style="background:linear-gradient(125deg, #62b5cc 80%, #5a8fa4 80%)">
+									<span class="boardTitle"><i class="fas fa-volume-off"></i>공지사항</span>
+									<button class="boardMore fr"  onclick="$m.mainJavakorea.fn_pop_boardMain('BD_NOTICE')"><i class="fas fa-plus-circle"></i>더보기</button>
+								</div>
+								
+								<table class="boardList">
+									<colgroup>
+										<col style="width:395px">
+										<col style="">
+										<col style="">
+									</colgroup>
+									<tbody id="tbl_BD_NOTICE">
+										<tr onclick="$m.mainJavakorea.fn_pop_boardPop('BD_WS','#BD_CODE#')">
+											<td class="bdTitle">#BD_TITLE#</td>
+											<td class="bdName tfc">#BD_USERID#</td>
+											<td class="bdDate tfc">#BD_DATE#</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="mocaBox boardArea mt10">
+					<div style="height:194px; box-sizing:border-box">
+						<div class="col5 fl">
+							<div class="boardTable" id="ws_list3">
+								<div class="boardHeader" style="background:linear-gradient(125deg, #9177c7 80%, #866da2 80%)">
+									<span class="boardTitle"><i class="fas fa-comment-dots"></i>MOCA API Document</span>
+									<button class="boardMore fr"  onclick="$m.mainJavakorea.fn_pop_boardMain('BD_MOCAAPI')"><i class="fas fa-plus-circle"></i>더보기</button>
+								</div>
+								<table class="boardList">
+									<colgroup>
+										<col style="width:395px">
+										<col style="">
+										<col style="">
+									</colgroup>
+									<tbody id="tbl_BD_MOCAAPI">
+										<tr onclick="$m.mainJavakorea.fn_pop_boardPop('BD_WS','#BD_CODE#')">
+											<td class="bdTitle">#BD_TITLE#</td>
+											<td class="bdName tfc">#BD_USERID#</td>
+											<td class="bdDate tfc">#BD_DATE#</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="col5 fr">
+							<div class="boardTable" id="ws_list4">
+								<div class="boardHeader" style="background:linear-gradient(125deg, #ad937e 80%, #928173 80%)">
+									<span class="boardTitle"><i class="fas fa-volume-off"></i>구인게시판</span>
+									<button class="boardMore fr"  onclick="$m.mainJavakorea.fn_pop_boardMain('BD_JOB')"><i class="fas fa-plus-circle"></i>더보기</button>
+								</div>
+								
+								<table class="boardList">
+									<colgroup>
+										<col style="width:395px">
+										<col style="">
+										<col style="">
+									</colgroup>
+									<tbody id="tbl_BD_JOB">
+										<tr onclick="$m.mainJavakorea.fn_pop_boardPop('BD_WS','#BD_CODE#')">
+											<td class="bdTitle">#BD_TITLE#</td>
+											<td class="bdName tfc">#BD_USERID#</td>
+											<td class="bdDate tfc">#BD_DATE#</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="mocaBox pt10 pb10">
+					<div style="height:120px; box-sizing:border-box">
+						<div class="fl mocastep step1">
+							<div style="background: rgba(0, 0, 0, 0.05);">
+								<span style="height: 37px; display: inline-block; color: #666; text-align: center; padding: 9px; box-sizing: border-box; font-size: 14px; font-weight:bold">컨설팅 상담요청</span>
+							</div>
+							<p style="color:#333; padding:10px; font-size:15px">컨설팅이 필요하시면 친절하게 상담해드리겠습니다.</p>
+							<button onclick="$m.mainJavakorea.fn_tel(this)" style="width:130px; padding:7px 10px; display:inline-block; position:relative; top:1px; left:10px; color:#fff; border-radius:20px; background:#5a7786">
+								<a>상담 문의<i class="fas fa-angle-double-right" style="margin-left:5px"></a></i>
+							</button>
+							<span class="mainicon2 img1"></span>
+						</div>
+						<div class="fl mocastep step2">
+							<div style="background: rgba(0, 0, 0, 0.05);">
+								<span style="height: 37px; display: inline-block; color: #666; text-align: center; padding: 9px; box-sizing: border-box; font-size: 14px; font-weight:bold">모카기반 개발</span>
+							</div>
+							<p style="color:#333; padding:10px; font-size:15px">개발을 하시기 전에 모카개발교육을 진행합니다.</p>
+							<button  onclick="$m.mainJavakorea.goDemo()" style="width:130px; padding:7px 10px; display:inline-block; position:relative; top:1px; left:10px; color:#fff; border-radius:20px; background:#5a7786">
+							모카데모<i class="fas fa-angle-double-right" style="margin-left:5px"></i></button>
+						</div>
+					
+					</div>
+				</div>
+			</div>
+		</div>
+			<div class="footer">
+				<div class="f_content">
+					<h2><img src="./images/home/f_logo.png" style="width:85px"></h2>
+					<p><span>경기도 성남시 분당구 서현로180번길 13 네오디안소프트</span><e></e><span class="mr10">FAX : 031)707-2650</span><span>사업자 등록번호 : 220-87-17620</span><br>
+					<span>copyright © NEODIANSOFT, Inc All Rights Reserved. <e></e>Created by TEAMMOCA</span></p>
+					<div class="f_info">
+						<div class="f_tel">
+							<i class="fas fa-phone-alt"></i><span class="title">대표전화</span>
+							<div><a href="tel:010-9116-8072"> 010-9116-8072 &nbsp;/&nbsp;</a><a href="tel:02-584-0124">02-584-0124</a></div>
+						</div>
+						<div class="f_mail">
+							<i class="fas fa-envelope"></i><span class="title">문의메일</span>
+							<div><a href="mailto:sckim@teammoca.co.kr">sckim@teammoca.co.kr</a></div>
+						</div>
+					</div>
+				</div>
+			</div>		
+	</div>
+</div>	
+</body>
+</html>
