@@ -54,7 +54,7 @@ $m.mainJavakorea.fn_searchContents = function(){
 				$m.mainJavakorea.setContents('main_right_2');
 				$m.mainJavakorea.setContents('main_right_3');
 				$m.mainJavakorea.setContents('main_right_4');
-				$m.mainJavakorea.fn_search('WS');
+				$m.mainJavakorea.fn_search('SRC');
 				initKakao(mocaConfig.getSocailLoginKakaoKey());
 			}
 		});
@@ -77,16 +77,16 @@ $m.mainJavakorea.fn_search_callback = function(response){
 	var list = response.selectBoardList;
 	var _length = list.length < 5 ? list.length : 5;
 	var full_html = '';
-	if($m.mainJavakorea.boardType == 'WS'){
-		var _html = $('#tbl_BD_WS').html();
+	if($m.mainJavakorea.boardType == 'SRC'){
+		var _html = $('#tbl_BD_SRC').html();
 		for(var i=0; i < _length; i++){
 			var row = list[i];
 			full_html += _html.replace(/#BD_TITLE#/g,row.BOARD_TITLE).replace(/#BD_USERID#/g,row.BOARD_WRITER).replace(/#BD_DATE#/g,$m.longToDate(row.BOARD_DATE).substr(0,10)).replace(/#BD_CODE#/g,row.BOARD_IDX);
 			$m.mainJavakorea.BD_CONTENT_FOR_BD_WS[row.BOARD_IDX] = row; 
 		}
-		$('#tbl_BD_WS').html(full_html);
-		$m.mainJavakorea.fn_search('NOTICE');
-	}else if($m.mainJavakorea.boardType == 'NOTICE'){
+		$('#tbl_BD_SRC').html(full_html);
+		$m.mainJavakorea.fn_search('JKNOTICE');
+	}else if($m.mainJavakorea.boardType == 'JKNOTICE'){
 		var _html = $('#tbl_BD_NOTICE').html();
 		for(var i=0; i < _length; i++){
 			var row = list[i];
@@ -94,17 +94,17 @@ $m.mainJavakorea.fn_search_callback = function(response){
 			$m.mainJavakorea.BD_CONTENT_FOR_BD_WS[row.BOARD_IDX] = row; 
 		}
 		$('#tbl_BD_NOTICE').html(full_html);
-		$m.mainJavakorea.fn_search('MOCAAPI');
-	}else if($m.mainJavakorea.boardType == 'MOCAAPI'){
-		var _html = $('#tbl_BD_MOCAAPI').html();
+		$m.mainJavakorea.fn_search('JKQNA');
+	}else if($m.mainJavakorea.boardType == 'JKQNA'){
+		var _html = $('#tbl_BD_QNA').html();
 		for(var i=0; i < _length; i++){
 			var row = list[i];
 			full_html += _html.replace(/#BD_TITLE#/g,row.BOARD_TITLE).replace(/#BD_USERID#/g,row.BOARD_WRITER).replace(/#BD_DATE#/g,$m.longToDate(row.BOARD_DATE).substr(0,10)).replace(/#BD_CODE#/g,row.BOARD_IDX);
 			$m.mainJavakorea.BD_CONTENT_FOR_BD_WS[row.BOARD_IDX] = row; 
 		}
-		$('#tbl_BD_MOCAAPI').html(full_html);
-		$m.mainJavakorea.fn_search('JOB');
-	}else if($m.mainJavakorea.boardType == 'JOB'){
+		$('#tbl_BD_QNA').html(full_html);
+		$m.mainJavakorea.fn_search('JKJOB');
+	}else if($m.mainJavakorea.boardType == 'JKJOB'){
 		var _html = $('#tbl_BD_JOB').html();
 		for(var i=0; i < _length; i++){
 			var row = list[i];
@@ -165,18 +165,18 @@ $m.mainJavakorea.fn_pop_boardMain = function(_gubun){
     o.modal = "true";
     o.callback = $m.mainJavakorea.fn_pop_callback;
     o.scopeId = $m.mainJavakorea.pageId;
-    if(_gubun == 'BD_WS'){
-		o.title = '웹스퀘어 게시판';
-		o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"WS"};
+    if(_gubun == 'BD_SRC'){
+		o.title = '소스자료실';
+		o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"SRC"};
 	}else if(_gubun == 'BD_NOTICE'){
 		o.title = '공지사항';
-		o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"NOTICE"};
+		o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"JKNOTICE"};
 	}else if(_gubun == 'BD_MOCAAPI'){
-		o.title = 'MOCA API Document';
-		o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"MOCAAPI"};
+		o.title = '질의문답';
+		o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"JKQNA"};
 	}else if(_gubun == 'BD_JOB'){
 		o.title = '구인게시판';
-		o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"JOB"};
+		o.data = {"PAGE_TYPE":'home',"BOARD_TYPE":"JKJOB"};
 	}
     $m.popup(o,_this);
 };
@@ -462,7 +462,7 @@ function goMoca(){
 						<div class="col5 fl">
 							<div class="boardTable" id="ws_list">
 								<div class="boardHeader">
-									<span class="boardTitle"><i class="fas fa-comment-dots"></i>웹스퀘어게시판</span>
+									<span class="boardTitle"><i class="fas fa-comment-dots"></i>소스자료실</span>
 									<button class="boardMore fr"  onclick="$m.mainJavakorea.fn_pop_boardMain('BD_WS')"><i class="fas fa-plus-circle"></i>더보기</button>
 								</div>
 								<table class="boardList">
@@ -471,7 +471,7 @@ function goMoca(){
 										<col style="">
 										<col style="">
 									</colgroup>
-									<tbody id="tbl_BD_WS">
+									<tbody id="tbl_BD_SRC">
 										<tr onclick="$m.mainJavakorea.fn_pop_boardPop('BD_WS','#BD_CODE#')">
 											<td class="bdTitle">#BD_TITLE#</td>
 											<td class="bdName tfc">#BD_USERID#</td>
@@ -511,8 +511,8 @@ function goMoca(){
 						<div class="col5 fl">
 							<div class="boardTable" id="ws_list3">
 								<div class="boardHeader" style="background:linear-gradient(125deg, #9177c7 80%, #866da2 80%)">
-									<span class="boardTitle"><i class="fas fa-comment-dots"></i>MOCA API Document</span>
-									<button class="boardMore fr"  onclick="$m.mainJavakorea.fn_pop_boardMain('BD_MOCAAPI')"><i class="fas fa-plus-circle"></i>더보기</button>
+									<span class="boardTitle"><i class="fas fa-comment-dots"></i>질의문답</span>
+									<button class="boardMore fr"  onclick="$m.mainJavakorea.fn_pop_boardMain('BD_QNA')"><i class="fas fa-plus-circle"></i>더보기</button>
 								</div>
 								<table class="boardList">
 									<colgroup>
@@ -520,7 +520,7 @@ function goMoca(){
 										<col style="">
 										<col style="">
 									</colgroup>
-									<tbody id="tbl_BD_MOCAAPI">
+									<tbody id="tbl_BD_QNA">
 										<tr onclick="$m.mainJavakorea.fn_pop_boardPop('BD_WS','#BD_CODE#')">
 											<td class="bdTitle">#BD_TITLE#</td>
 											<td class="bdName tfc">#BD_USERID#</td>

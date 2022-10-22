@@ -5502,8 +5502,10 @@ public class TOController{
     	
     	List list = (List)bodyMap.get("paramList"); //자바스크립트에서 받아온 값을 자바언어구조로 바꿈
     	try {
+    		//여기
         	for(int i=0;i < list.size() ;i++) {
         		Map row = (Map)list.get(i);
+        			/*
 	        		if("WS".equals((String)bodyMap.get("BOARD_TYPE")) || "NOTICE".equals((String)bodyMap.get("BOARD_TYPE"))) {
 	            		row.put("BOARD_TABLE", "MT_BOARD");
 	            		row.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
@@ -5511,6 +5513,11 @@ public class TOController{
 	        			row.put("BOARD_TABLE", "MT_BOARD_ERP");
 	        			row.put("BOARD_HIS_TABLE", "MT_BOARDHIS_ERP");
 	        		}
+	        		*/
+        		
+	        		row.put("BOARD_TABLE", "MT_BOARD_ERP");
+	        		row.put("BOARD_FILE_TABLE", "MT_BOARDFILE_ERP");
+					row.put("BOARD_HIS_TABLE", "MT_BOARDHIS_ERP");
         			row.put("status", "AD");TOMapper.insertBoardHis(row);
         			model.addAttribute("cnt", TOMapper.deleteBoard(row));
         	}
@@ -5565,6 +5572,7 @@ public class TOController{
         		//row.put("SYS_CD", bodyMap.get("SYS_CD"));
 
             	//if("U".equalsIgnoreCase(U.getStatus(row)) ) {
+        		/*
 	        		if("WS".equals((String)bodyMap.get("BOARD_TYPE")) || "NOTICE".equals((String)bodyMap.get("BOARD_TYPE"))) {
 	        			row.put("BOARD_TABLE", "MT_BOARD");
 	        			row.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
@@ -5572,6 +5580,10 @@ public class TOController{
 	        			row.put("BOARD_TABLE", "MT_BOARD_ERP");
 	        			row.put("BOARD_HIS_TABLE", "MT_BOARDHIS_ERP");
 	        		}
+	        	*/
+	        		row.put("BOARD_TABLE", "MT_BOARD_ERP");
+	        		row.put("BOARD_FILE_TABLE", "MT_BOARDFILE_ERP");
+	        		row.put("BOARD_HIS_TABLE", "MT_BOARDHIS_ERP");
         			row.put("status", "MD");TOMapper.insertBoardHis(row);
             		model.addAttribute("cnt", TOMapper.deleteStatusBoard(row));
             	//}
