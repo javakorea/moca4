@@ -12,6 +12,10 @@
             data : {
             	"header" : $m.header,
             	"body" : {
+            		"BUILDING_NAME":$m.getValue($m.RM_CONTRACT.getObj( "ipt_BUILDING_NAME")),
+	            	"ROOM_NUM":$m.getValue($m.RM_CONTRACT.getObj( "ipt_ROOM_NUM")),
+	            	"TENANT_NAME":$m.getValue($m.RM_CONTRACT.getObj( "ipt_TENANT_NAME")),
+	            	"LANDLORD_NAME":$m.getValue($m.RM_CONTRACT.getObj( "ipt_LANDLORD_NAME"))
             	}
             },			
 			callback : function(response){
@@ -19,6 +23,31 @@
 			}
 		});
 	};
+	$m.RM_CONTRACT.popId = "RM_CONTRACT_POP";
+	$m.RM_CONTRACT.fn_pop = function(_thisObj){
+		['계약등록 팝업'];
+		var o = {};
+	    o.id = $m.RM_CONTRACT.popId;
+	    o.url = '/html/RENTAL/RM_CONTRACT_POP.html';
+	    o.type = "POPUP";
+	    o.modal = "false";
+	    o.title = '계약등록';
+	    o.callback = $m.RM_CONTRACT.fn_pop_callback;
+	    o.scopeId = $m.RM_CONTRACT.pageId;
+	    o.data = {"popTitle":"계약등록"};
+		$m.popup(o,_thisObj);
+	};
+	
+	$m.RM_CONTRACT.fn_pop_callback = function(_json){
+		if(_json != null && _json.message){
+			$m.alert(_json.message);
+		}
+		if(_json != null && _json.callback == 'true'){
+			$m.RM_CONTRACT.fn_search();
+		}
+		
+	}
+	
 	$m.RM_CONTRACT.fn_exe = function(){
 		if($m.RM_CONTRACT.validate("grd_1","status","C,U,D")){
 			$m.confirm('저장하시겠습니까?',function(result){
@@ -42,6 +71,9 @@
 			});
 		}
 	};
+	$m.RM_CONTRACT.fn_displayMoney = function(_val){
+		return $m.comma(_val)+' 만원';
+	}
 </script>
 
 </head>
@@ -58,13 +90,35 @@
 				<div class="shbox_inner">
 					<div class="flex fwrap">
 						<div class="tb">
-							<span class="tb_th">기간</span>
+							<span class="tb_th">건물명</span>
 							<span class="tb_td">
-								<div type="inputMultiCalendar" class="moca_ica fl" style="width:auto" id="ipc_3" displayFormat="####-##-##" 
-		                               defaultValue="당분기" 
-		                               selecterItem="오늘,3일전,6일전"
-		                               showRadioOption="false"
-		                         ></div>							
+								<div type="input" id="ipt_BUILDING_NAME" 
+									keyMask="enterSearchEvt" 
+									class="mocaInput sh"  style="width:207px"  disabled="false" readonly="false" ></div>
+							</span>
+						</div>
+						<div class="tb">
+							<span class="tb_th">방번호</span>
+							<span class="tb_td">
+								<div type="input" id="ipt_ROOM_NUM" 
+									keyMask="enterSearchEvt" 
+									class="mocaInput sh"  style="width:207px"  disabled="false" readonly="false" ></div>
+							</span>
+						</div>
+						<div class="tb">
+							<span class="tb_th">임차인</span>
+							<span class="tb_td">
+								<div type="input" id="ipt_TENANT_NAME" 
+									keyMask="enterSearchEvt" 
+									class="mocaInput sh"  style="width:207px"  disabled="false" readonly="false" ></div>
+							</span>
+						</div>
+						<div class="tb">
+							<span class="tb_th">임대인</span>
+							<span class="tb_td">
+								<div type="input" id="ipt_LANDLORD_NAME" 
+									keyMask="enterSearchEvt" 
+									class="mocaInput sh"  style="width:207px"  disabled="false" readonly="false" ></div>
 							</span>
 						</div>
 					</div>
@@ -73,8 +127,6 @@
 					<button type="button" class="button btn_sc" onclick="$m.RM_CONTRACT.fn_search(this)"><i class="fas fa-search"></i><span>조회</span></button>
 				</div>
 			</div>
-			
-			
 			<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
 			
 								toolbar_search_size="false"
@@ -85,29 +137,56 @@
 								toolbar_delrow="false"
 								toolbar_nextbtn="false"
 								toolbar_full="true"
-								
-								label="레퍼럴"
+								toolbar_grid_button1='{"position":"right","id":"btn_add","label":"계약등록","onclick":"$m.RM_CONTRACT.fn_pop","addClass":"","innerDisabled":"false"}'
+								label="계약목록"
 								
 			>
 					<table style="width: 100%">
 						<colgroup>
-								<col style="width:10%" mobileWidth="35%" mobileHide="false" hide="false" columnKey="LAST_DATE" thKey="H_REFERRER" >
-								<col style="width:90%" mobileWidth="65%" mobileHide="false" hide="false" columnKey="REFERRER" thKey="H_REFERRER" >
+							<col style="width:10%" mobileWidth="60px" mobileHide="false" hide="false" columnKey="BUILDING_NAME" thKey="H_BUILDING_NAME" >
+							<col style="width:10%" mobileWidth="60px" mobileHide="false" hide="false" columnKey="ROOM_NUM" thKey="H_ROOM_NUM" >
+							<col style="width:10%" mobileWidth="60px" mobileHide="false" hide="false" columnKey="LANDRORD_NAME" thKey="H_LANDRORD_NAME" >
+							<col style="width:10%" mobileWidth="60px" mobileHide="false" hide="false" columnKey="TENANT_NAME" thKey="H_TENANT_NAME" >
+							<col style="width:10%" mobileWidth="80px" mobileHide="false" hide="false" columnKey="DEPOSIT" thKey="H_DEPOSIT" >
+							<col style="width:10%" mobileWidth="80px" mobileHide="false" hide="false" columnKey="MONTLY_RENT" thKey="H_MONTLY_RENT" >
+							<col style="width:10%" mobileWidth="50px" mobileHide="false" hide="false" columnKey="MANAGEMENT_FEE" thKey="H_MANAGEMENT_FEE" >
+							<col style="width:10%" mobileWidth="120px" mobileHide="false" hide="false" columnKey="RENT_START" thKey="H_RENT_START" >
+							<col style="width:10%" mobileWidth="120px" mobileHide="false" hide="false" columnKey="RENT_END" thKey="H_RENT_END" >
+							<col style="width:10%" mobileWidth="0" mobileHide="false" hide="false" columnKey="CONTRACTFILE" thKey="H_CONTRACTFILE" >
 						</colgroup>
 						<thead>
 							<tr>
-								<th scope="col" id="H_LAST_DATE" sortable="true">접속일시</th>
-								<th scope="col" id="H_REFERRER">접속경로</th>
+								<th scope="col" id="H_BUILDING_NAME">건물명</th>
+								<th scope="col" id="H_ROOM_NUM">방번호</th>
+								<th scope="col" id="H_LANDLORD_NAME">임대인</th>
+								<th scope="col" id="H_TENANT_NAME">임차인</th>
+								<th scope="col" id="H_DEPOSIT">보증금</th>
+								<th scope="col" id="H_MONTLY_RENT">월세</th>
+								<th scope="col" id="H_MANAGEMENT_FEE">관리비</th>
+								<th scope="col" id="H_RENT_START">계약시작일</th>
+								<th scope="col" id="H_RENT_END">계약종료일</th>
+								<th scope="col" id="H_CONTRACTFILE">파일</th>
+								
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td id="LAST_DATE" celltype="input" style="" readOnly="true" name="접속일시" displayFunction="$m.longToDate"></td>
-								<td id="REFERRER" celltype="input" style="text-align:left" readOnly="true" name="접속경로"></td>
+								<td id="BUILDING_NAME" celltype="input" style="text-align:left" readOnly="true" name="건물명"></td>
+								<td id="ROOM_NUM" celltype="input" style="text-align:center" readOnly="true" name="방번호"></td>
+								<td id="LANDLORD_NAME" celltype="input" style="text-align:center" readOnly="true" name="임대인"></td>
+								<td id="TENANT_NAME" celltype="input" style="text-align:center" readOnly="true" name="임차인"></td>
+								<td id="DEPOSIT" celltype="input" style="text-align:right" readOnly="true" displayFunction="$m.RM_CONTRACT.fn_displayMoney" name="보증금"></td>
+								<td id="MONTLY_RENT" celltype="input" style="text-align:right" readOnly="true" displayFunction="$m.RM_CONTRACT.fn_displayMoney" name="월세"></td>
+								<td id="MANAGEMENT_FEE" celltype="input" style="text-align:right" readOnly="true" displayFunction="$m.RM_CONTRACT.fn_displayMoney" name="관리비"></td>
+								<td id="RENT_START" celltype="input" style="text-align:center" readOnly="true" name="계약시작일"></td>
+								<td id="RENT_END" celltype="input" style="text-align:center" readOnly="true" name="계약종료일"></td>
+								<td id="CONTRACTFILE" celltype="input" style="text-align:center" readOnly="true" name="파일"></td>
 							</tr>
 						</tbody>
 					</table>				
 			</div>
+			
+			
 		</div>	
 	</div>
 </div>

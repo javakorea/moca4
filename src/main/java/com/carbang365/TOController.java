@@ -5926,25 +5926,6 @@ public class TOController{
         return jsonview;
 	}
 	
-	//임대관리_방리스트 조회  
-	@RequestMapping(value = "/RM_ROOM/selectRoomList.do")
-	public View selectRoomList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
-		try {
-			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
-			// 서비스 테스트용 구문 추가
-			if(MapUtils.isEmpty(paramMap)) {
-				paramMap = mocaMap;
-			}
-			List list = TOMapper.selectRoomList(paramMap);
-			model.addAttribute("selectRoomList",list);
-			System.out.println(list);
-		}catch(Exception e) {
-			e.printStackTrace();
-			model.addAttribute("error", e.getMessage());
-		}
-        return jsonview;
-	}
-	
 	//임대관리_건물리스트 조회  
 	@RequestMapping(value = "/RM_BUILDING/selectBuildingList.do")
 	public View selectBuildingList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
@@ -5954,9 +5935,41 @@ public class TOController{
 			if(MapUtils.isEmpty(paramMap)) {
 				paramMap = mocaMap;
 			}
-			List list = TOMapper.selectBuildingList(paramMap);
-			model.addAttribute("selectBuildingList",list);
-			System.out.println(list);
+			if("all".equals((String)paramMap.get("SELECT_TYPE"))) {
+				List list = TOMapper.selectBuildingList(paramMap);
+				model.addAttribute("selectBuildingList",list);
+				System.out.println(list);
+			}else if("combo".equals((String)paramMap.get("SELECT_TYPE"))) {
+				List list = TOMapper.selectBuildingComboList(paramMap);
+				model.addAttribute("selectBuildingComboList",list);
+				System.out.println(list);
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
+	
+	//임대관리_방리스트 조회  
+	@RequestMapping(value = "/RM_ROOM/selectRoomList.do")
+	public View selectRoomList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			if("all".equals((String)paramMap.get("SELECT_TYPE"))) {
+				List list = TOMapper.selectRoomList(paramMap);
+				model.addAttribute("selectRoomList",list);
+				System.out.println(list);
+			}else if("combo".equals((String)paramMap.get("SELECT_TYPE"))) {
+				List list = TOMapper.selectRoomComboList(paramMap);
+				model.addAttribute("selectRoomComboList",list);
+				System.out.println(list);
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());
@@ -5994,6 +6007,20 @@ public class TOController{
 			}
 			//paramMap.put("BOARD_TABLE", "RM_CONTRACT");
 			model.addAttribute("selectContFileList", TOMapper.selectContFileList(paramMap));
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
+	
+	//게시글 이력작성
+	@RequestMapping(value = "/RM_CONTRACT/insertContract.do")
+	public View insertContract(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			//paramMap.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
+			model.addAttribute("cnt", TOMapper.insertContract(paramMap));
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());
