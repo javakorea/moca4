@@ -4573,7 +4573,7 @@
 			WHERE 1=1
 			AND A.BOARD_DELYN = 'N'
 			AND A.BOARD_PIDX = A.BOARD_IDX
-			AND A.BOARD_TYPE like CONCAT('%', #{BOARD_TYPE}, '%')
+			AND A.BOARD_TYPE = #{BOARD_TYPE}
 			<if test="PAGE_TYPE != 'home' and CORP_CD != '' and CORP_CD != 'all'">
 		    	AND A.CORP_CD = #{CORP_CD}
 	        </if>
