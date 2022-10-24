@@ -34,7 +34,8 @@ public interface TOServiceInterface  {
 	
 	//스케줄러 내일일정 sms보내기
 	public void batchTomorrowScheduleAlarmSms() throws Exception;
-	
+	//스케줄러 3일후일정 sms보내기
+	public void batchThreeDaysScheduleAlarmSms() throws Exception;
 	//스케줄러 내일일정 sms보내기
 	public void batchStockAlarmSms() throws Exception;
 }

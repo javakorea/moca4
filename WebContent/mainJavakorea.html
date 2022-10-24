@@ -27,6 +27,7 @@ $m.mainJavakorea.___ready = function(args){
 		$('#mainSvg').html(data);
 	});
 	$m.mainJavakorea.fn_searchContents();
+	
 };
 $m.mainJavakorea.mainContentsList;
 $m.mainJavakorea.fn_searchContents = function(){
@@ -56,6 +57,7 @@ $m.mainJavakorea.fn_searchContents = function(){
 				$m.mainJavakorea.setContents('main_right_4');
 				$m.mainJavakorea.fn_search('JKSRC');
 				initKakao(mocaConfig.getSocailLoginKakaoKey());
+				$('#__body').show();
 			}
 		});
 }

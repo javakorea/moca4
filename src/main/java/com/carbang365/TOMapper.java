@@ -461,6 +461,8 @@ public interface TOMapper {
 	// 게시글논리삭제
 	public int deleteScheduleInfo(Map<String, Object> map);
 	
+	// 스케줄러 일정알림 조회(3일전 미리조회)
+	public List<Map<String, Object>> selectThreeDaysSchedule(Map<String, Object> map);
 	// 내일 스케줄 조회
 	public List<Map<String, Object>> selectTomorrowSchedule(Map<String, Object> map);
 	// 내일 스케줄 sms 보내기 yn

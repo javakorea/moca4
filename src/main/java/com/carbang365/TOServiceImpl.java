@@ -2807,7 +2807,52 @@ LOGGER.debug(logTitle+"resCd>>> "+resCd);
 			e.printStackTrace();
 		}
 	};
-	
+	/*
+	 * [스케쥴러용] 스케줄러 일정알림 조회(3일전 미리조회)
+	 * @see com.carbang365.TOServiceInterface#tomorrowScheduleAlarmSms(java.util.Map, org.springframework.ui.ModelMap)
+	 */
+	public void batchThreeDaysScheduleAlarmSms() throws Exception {
+		// TO_DO
+		
+		//selectTomorrowSchedule
+		List scheduleList = TOMapper.selectThreeDaysSchedule(new HashMap());
+		try {
+	    	if(scheduleList != null && scheduleList.size() > 0){
+	    		for(int i=0;i < scheduleList.size() ;i++) {
+	    			Map sendMap = (Map)scheduleList.get(i);
+	    			System.out.println(sendMap);
+	    			System.out.println(sendMap.get("MBTLNUM").toString().replace("-", ""));
+			    	String _cont = sendMap.get("SCH_TITLE").toString();
+			    	if(_cont.length() > 20) {
+			    		_cont = _cont.substring(0,20)+"...";
+			    	};
+			    	//System.out.println(_cont);
+			    	
+					
+			    	String _resultCode = API.sendSms(
+			    			sendMap.get("SCH_WRITER")+"님 "+
+			    					sendMap.get("SCH_START").toString().substring(0, 16)+" "+
+	    				_cont+" 일정이 있습니다.",
+	    				sendMap.get("MBTLNUM").toString().replace("-", ""),
+	    				sendMap.get("SCH_WRITER").toString()
+			    	);
+			    	
+			    	System.out.println(_resultCode);
+			    	JSONParser parser = new JSONParser();
+			    	Object obj = parser.parse( _resultCode );
+			    	JSONObject jsonObj = (JSONObject) obj;
+
+			    	String code = jsonObj.get("result_code").toString();
+			    	String name = (String) jsonObj.get("message");
+			    	System.out.println("code:"+code);
+			    	System.out.println("name:"+name);
+			    	
+	    		}
+	    	}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	};
 	/*
 	 * [스케쥴러용] 주식 아침9시알람
 	 * @see com.carbang365.TOServiceInterface#tomorrowScheduleAlarmSms(java.util.Map, org.springframework.ui.ModelMap)

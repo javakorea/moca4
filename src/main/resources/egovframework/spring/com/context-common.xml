@@ -183,7 +183,16 @@ ex) 3#2 : 수요일#2째주 에 참
     </bean> -->
     
     
-    
+     <!-- 아침9시마다 일정 sms체크설정-->
+    <bean id="ThreeDaysScheduleAlarmSms_Job" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="toService" />
+        <property name="targetMethod" value="batchThreeDaysScheduleAlarmSms" />
+        <property name="concurrent" value="false" />
+    </bean>
+     <bean id="ThreeDaysScheduleAlarmSms_Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="ThreeDaysScheduleAlarmSms_Job" />
+        <property name="cronExpression" value="0 0 9 * * ?" />  
+    </bean>
     
     
     <!-- 아침9시마다 일정 sms체크설정-->
@@ -198,7 +207,7 @@ ex) 3#2 : 수요일#2째주 에 참
     </bean>
     
     
-     <!-- 아침9시마다 일정 sms체크설정-->
+     <!-- 평일 주식 알림 sms설정-->
     <bean id="batchStockAlarmSms_Job" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="toService" />
         <property name="targetMethod" value="batchStockAlarmSms" />
@@ -270,6 +279,7 @@ ex) 3#2 : 수요일#2째주 에 참
         <property name="triggers">
             <list>
             	<ref bean="tomorrowScheduleAlarmSms_Trigger" /><!-- 내일일정체크해서 일정이 있으면 아침9시에 SMS보냄 -->
+            	<ref bean="ThreeDaysScheduleAlarmSms_Trigger" /><!-- 3일후일정체크해서 일정이 있으면 아침9시에 SMS보냄 -->
             	<ref bean="batchStockAlarmSms_Trigger" /><!-- 내일일정체크해서 일정이 있으면 아침9시에 SMS보냄 -->
             	<!-- <ref bean="TO_012_updateEnable_Trigger" /> --><!-- 해당일자에 적용할 약관이 있는지 확인후 적용함 -->
             	<!-- <ref bean="TS_1100_Trigger" /> --><!-- 민원신청시간타임아웃이나 고객이결제했는데 TS사정으로 민원신청이 제대로 들어가지않은건들을 모아서 다음날9시 다시 요청하게함 -->

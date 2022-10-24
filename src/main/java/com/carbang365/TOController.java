@@ -5461,6 +5461,56 @@ public class TOController{
         return jsonview;
 	}
 	
+	//게시판 자동수정
+	@RequestMapping(value = "/EFC_BOARD/updateBoardAuto.do")
+	public View updateBoardAuto(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			
+			//if("WS".equals((String)paramMap.get("BOARD_TYPE")) || "NOTICE".equals((String)paramMap.get("BOARD_TYPE"))) {
+			//	paramMap.put("BOARD_TABLE", "MT_BOARD");
+			//	paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE");
+			//	paramMap.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
+			//}else if("ERP".equals((String)paramMap.get("BOARD_TYPE")) || "SUPPORT".equals((String)paramMap.get("BOARD_TYPE"))){
+				paramMap.put("BOARD_TABLE", "MT_BOARD_ERP");
+				paramMap.put("BOARD_FILE_TABLE", "MT_BOARDFILE_ERP");
+			//}
+			
+			int cnt = TOMapper.updateBoardInfo(paramMap);
+			String BOARD_DELYN = (String) paramMap.get("BOARD_DELYN");
+			if("Y".equals(BOARD_DELYN)) {
+				paramMap.put("status", "D");
+			}else {
+				paramMap.put("status", "U");
+				List list = (List)paramMap.get("fileList"); //자바스크립트에서 받아온 값을 자바언어구조로 바꿈
+				if(list != null) {
+					model.addAttribute("cnt", TOMapper.deleteBoardFileList(paramMap));
+					for(int i=0;i < list.size() ;i++) {
+		        		Map row = (Map)list.get(i);
+		        		row.put("BOARD_IDX", paramMap.get("BOARD_IDX"));
+		        		
+		    				row.put("BOARD_TABLE", "MT_BOARD_ERP");
+		    				row.put("BOARD_FILE_TABLE", "MT_BOARDFILE_ERP");
+		    			//}
+		            	if("C".equalsIgnoreCase(U.getStatus(row)) ) {
+		        			TOMapper.insertBoardFile(row);
+		            	}
+		        	}
+				}
+				if(paramMap.get("BOARD_PIDX") != null && paramMap.get("BOARD_PIDX") != paramMap.get("BOARD_IDX")) {
+					TOMapper.updateBoardDate(paramMap);
+				}
+			}
+			model.addAttribute("cnt", cnt);		
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
+		
 	//게시판 단건물리삭제(관리자삭제)
 	@RequestMapping(value = "/EFC_BOARD/deleteBoard.do")
 	public View deleteBoard(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
