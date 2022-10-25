@@ -21,8 +21,6 @@ public interface TOMapper {
     // 소유권이전요청 상세(운영관리상세팝업)
     public Map <String, Object> selectToTransferOwner(Map<String, Object> map);
 
-
-    
     
     //TS인증결과조회
     public List<Map<String, Object>> selectToTransferownerTsHis(Map<String, Object> map);
@@ -461,13 +459,16 @@ public interface TOMapper {
 	// 게시글논리삭제
 	public int deleteScheduleInfo(Map<String, Object> map);
 	
-	// 스케줄러 일정알림 조회(3일전 미리조회)
-	public List<Map<String, Object>> selectThreeDaysSchedule(Map<String, Object> map);
+	// 스케줄러 일정알림 조회(당일조회)
+	public List<Map<String, Object>> selectTodaySchedule(Map<String, Object> map);
 	// 내일 스케줄 조회
 	public List<Map<String, Object>> selectTomorrowSchedule(Map<String, Object> map);
 	// 내일 스케줄 sms 보내기 yn
 	public int updateScheduleSendSmsYn(Map<String, Object> map);
-	
+	// 스케줄러 일정알림 조회(3일전 미리조회)
+	public List<Map<String, Object>> selectThreeDaysSchedule(Map<String, Object> map);
+	// 스케줄러 일정알림 조회(일주일전 미리조회)
+	public List<Map<String, Object>> selectAWeekSchedule(Map<String, Object> map);
 	// 미가입 사용자 회원가입
     public int insertMocaUsers(Map<String, Object> map);
     // 홈페이지사용자조회

@@ -11,6 +11,7 @@
 		if($.trim(args.parent.id) != ''){
 			_isTab = args.parent.id.startsWith("TAB");
 		}
+		debugger;
 		if(_isTab){
 			//tab에서 열었을경우
 			$m.hide(($m.EFC_BOARD.getObj('titbox')));
@@ -33,6 +34,7 @@
 					$($m.EFC_BOARD.getObj("grd_1")).find('.moca_grid_body col[columnkey="CORP_NM"]').attr('hide','false');
 					$($m.EFC_BOARD.getObj("grd_1")).find('.moca_grid_body col[columnkey="CORP_NM"]').css('display','table-column');
 				}
+				
 				if($m.EFC_BOARD.boardType != 'SUPPORT' && $m.EFC_BOARD.boardType != 'ERP'){
 					$m.hide($m.EFC_BOARD.getObj("tb_chkg_1"));
 					$m.hide($($m.EFC_BOARD.getObj('grd_1')).find('.grid_label_span[grdkey="supportN"]'));

@@ -182,20 +182,20 @@ ex) 3#2 : 수요일#2째주 에 참
         </property>
     </bean> -->
     
-    
-     <!-- 아침9시마다 일정 sms체크설정-->
-    <bean id="ThreeDaysScheduleAlarmSms_Job" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+     <!-- 아침9시마다 일정 sms체크설정 (당일)-->
+    <bean id="todayScheduleAlarmSms_Job" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="toService" />
-        <property name="targetMethod" value="batchThreeDaysScheduleAlarmSms" />
+        <property name="targetMethod" value="batchTodayScheduleAlarmSms" />
         <property name="concurrent" value="false" />
     </bean>
-     <bean id="ThreeDaysScheduleAlarmSms_Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-        <property name="jobDetail" ref="ThreeDaysScheduleAlarmSms_Job" />
-        <property name="cronExpression" value="0 0 9 * * ?" />  
+     <bean id="todayScheduleAlarmSms_Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="todayScheduleAlarmSms_Job" />
+        <property name="cronExpression" value="0 0 7 * * ?" />  
     </bean>
     
     
-    <!-- 아침9시마다 일정 sms체크설정-->
+    
+    <!-- 아침9시마다 일정 sms체크설정 (내일)-->
     <bean id="tomorrowScheduleAlarmSms_Job" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="toService" />
         <property name="targetMethod" value="batchTomorrowScheduleAlarmSms" />
@@ -206,6 +206,28 @@ ex) 3#2 : 수요일#2째주 에 참
         <property name="cronExpression" value="0 0 9 * * ?" />  
     </bean>
     
+     
+     <!-- 아침9시마다 일정 sms체크설정 (3일후 일정체크)-->
+    <bean id="ThreeDaysScheduleAlarmSms_Job" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="toService" />
+        <property name="targetMethod" value="batchThreeDaysScheduleAlarmSms" />
+        <property name="concurrent" value="false" />
+    </bean>
+     <bean id="ThreeDaysScheduleAlarmSms_Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="ThreeDaysScheduleAlarmSms_Job" />
+        <property name="cronExpression" value="0 0 9 * * ?" />  
+    </bean>
+    
+     <!-- 아침9시마다 일정 sms체크설정 (7일후 일정체크)-->
+    <bean id="AWeekScheduleAlarmSms_Job" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="toService" />
+        <property name="targetMethod" value="batchAWeekScheduleAlarmSms" />
+        <property name="concurrent" value="false" />
+    </bean>
+     <bean id="AWeekScheduleAlarmSms_Trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="AWeekScheduleAlarmSms_Job" />
+        <property name="cronExpression" value="0 0 9 * * ?" />  
+    </bean>
     
      <!-- 평일 주식 알림 sms설정-->
     <bean id="batchStockAlarmSms_Job" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -278,9 +300,11 @@ ex) 3#2 : 수요일#2째주 에 참
     <bean id="moca_Scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
+           	 	<ref bean="todayScheduleAlarmSms_Trigger" /><!-- 오늘일정체크해서 일정이 있으면 아침9시에 SMS보냄 -->
             	<ref bean="tomorrowScheduleAlarmSms_Trigger" /><!-- 내일일정체크해서 일정이 있으면 아침9시에 SMS보냄 -->
             	<ref bean="ThreeDaysScheduleAlarmSms_Trigger" /><!-- 3일후일정체크해서 일정이 있으면 아침9시에 SMS보냄 -->
-            	<ref bean="batchStockAlarmSms_Trigger" /><!-- 내일일정체크해서 일정이 있으면 아침9시에 SMS보냄 -->
+            	<ref bean="AWeekScheduleAlarmSms_Trigger" /><!-- 7일후일정체크해서 일정이 있으면 아침9시에 SMS보냄 -->
+            	<ref bean="batchStockAlarmSms_Trigger" /><!-- 평일 주식개장 아침9시에 SMS보냄 -->
             	<!-- <ref bean="TO_012_updateEnable_Trigger" /> --><!-- 해당일자에 적용할 약관이 있는지 확인후 적용함 -->
             	<!-- <ref bean="TS_1100_Trigger" /> --><!-- 민원신청시간타임아웃이나 고객이결제했는데 TS사정으로 민원신청이 제대로 들어가지않은건들을 모아서 다음날9시 다시 요청하게함 -->
             	<!-- <ref bean="TS_9100_getStatus_Trigger" /> --><!-- 인증여부를 화면없이도 체크하게함 -->   

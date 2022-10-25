@@ -32,10 +32,14 @@ public interface TOServiceInterface  {
 	//20210503 통합 납부영수증 매핑
 	public String TO_018_procUnfyPayVou(Map<String, Object> mocaMap, ModelMap model) throws Exception;
 	
+	//스케줄러 오늘일정 sms보내기
+	public void batchTodayScheduleAlarmSms() throws Exception;
 	//스케줄러 내일일정 sms보내기
 	public void batchTomorrowScheduleAlarmSms() throws Exception;
 	//스케줄러 3일후일정 sms보내기
 	public void batchThreeDaysScheduleAlarmSms() throws Exception;
-	//스케줄러 내일일정 sms보내기
+	//스케줄러 일주일후일정 sms보내기
+	public void batchAWeekScheduleAlarmSms() throws Exception;
+	//스케줄러 주식개장 sms보내기
 	public void batchStockAlarmSms() throws Exception;
 }
