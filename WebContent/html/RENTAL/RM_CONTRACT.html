@@ -37,7 +37,31 @@
 	    o.data = {"popTitle":"계약등록"};
 		$m.popup(o,_thisObj);
 	};
-	
+	$m.RM_CONTRACT.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
+	    ['게시글상세']
+	    debugger;
+	    if($(_grd).attr('type') != 'grid'){
+	    	_grd = $(_grd).closest('div[type=grid]')[0];
+	    	rowIndex = $(_grd).attr('selectedrealrowindex');
+	    	if(rowIndex == null){
+	    		$m.alert(mocaConfig.message.doSelectRow);
+	    		return;
+	    	}
+	    }
+	    
+	    var _CONTRACT_NUM = $m.getCellData(_grd,rowIndex,'CONTRACT_NUM');
+	    var o = {};
+	    o.obj = $m.RM_CONTRACT
+	    o.id = $m.RM_CONTRACT.popId;
+	    o.url = '/html/RENTAL/RM_CONTRACT_POP.html';
+	    o.type = "POPUP";
+	    o.modal = "false";
+	    o.title = $m.RM_CONTRACT.popTitle +' - '+'게시글상세';
+	    o.callback = $m.RM_CONTRACT.fn_pop_callback;
+	    o.scopeId = $m.RM_CONTRACT.pageId;
+	    o.data = {"CONTRACT_NUM":_CONTRACT_NUM};
+	    $m.popup(o,_grd);
+	};
 	$m.RM_CONTRACT.fn_pop_callback = function(_json){
 		if(_json != null && _json.message){
 			$m.alert(_json.message);
@@ -138,6 +162,7 @@
 								toolbar_nextbtn="false"
 								toolbar_full="true"
 								toolbar_grid_button1='{"position":"right","id":"btn_add","label":"계약등록","onclick":"$m.RM_CONTRACT.fn_pop","addClass":"","innerDisabled":"false"}'
+								onDblClick = "$m.RM_CONTRACT.grd_1__onDblClick"
 								label="계약목록"
 								
 			>

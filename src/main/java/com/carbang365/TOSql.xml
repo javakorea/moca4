@@ -5359,6 +5359,20 @@
         </if>
         ORDER BY A.CONTRACT_NUM DESC
     </select>
+    <!-- 계약단건조회 -->
+    <select id="selectContractInfo" parameterType="map" resultType="map">
+  	  /*selectBoardInfo 게시물 단건조회*/
+        SELECT A.* , B.ROOM_NUM, C.BUILDING_NAME
+		FROM RM_CONTRACT A, RM_ROOM B, RM_BUILDING C
+		WHERE 1=1
+		AND A.BUILDING_NUM = C.BUILDING_NUM
+		AND A.ROOM_NUM = B.ROOM_NUM
+		AND B.BUILDING_NUM = C.BUILDING_NUM
+           <if test="CONTRACT_NUM != null and CONTRACT_NUM != ''">
+            AND A.CONTRACT_NUM = #{CONTRACT_NUM}
+        </if>
+    </select>
+    
     <!-- 계약등록 -->
     <insert id="insertContract" parameterType="map" useGeneratedKeys="true" keyProperty="CONTRACT_NUM">
         /*insertContract 계약등록*/

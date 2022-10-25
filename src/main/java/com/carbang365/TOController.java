@@ -6076,7 +6076,27 @@ public class TOController{
         return jsonview;
 	}
 	
-	//게시글 이력작성
+	//게시판 상세조회  
+	@RequestMapping(value = "/RM_CONTRACT/selectContractInfo.do")
+	public View selectContractInfo(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			if(MapUtils.isEmpty(paramMap)) {
+				paramMap = mocaMap;
+			}
+			
+			model.addAttribute("selectContractInfo", TOMapper.selectContractInfo(paramMap));
+			//model.addAttribute("selectBoardFileList", TOMapper.selectBoardFileList(paramMap));
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
+	//계약 작성
 	@RequestMapping(value = "/RM_CONTRACT/insertContract.do")
 	public View insertContract(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
 		try {

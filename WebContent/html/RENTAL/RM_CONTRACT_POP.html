@@ -3,12 +3,18 @@
 <head meta_width="807px" meta_height="350px">
 <script>
 $m.RM_CONTRACT_POP.___ready = function(args){
-	$m.RM_CONTRACT_POP.fn_comboSearch();
 	
-	
+	if(args != null){
+		$m.RM_CONTRACT_POP.args = args;
+		$m.RM_CONTRACT_POP.CONTRACT_NUM = $m.RM_CONTRACT_POP.args.parent.data.CONTRACT_NUM;
+		$m.RM_CONTRACT_POP.fn_search();
+	}else{
+		$m.RM_CONTRACT_POP.fn_comboSearch();
+	}
 	
 	
 };
+
 $m.RM_CONTRACT_POP.fn_comboSearch = function(_pageNum){
 	$m.RM_CONTRACT_POP.exe({
 		url : $m._domain+$m._contextRoot+"/RM_BUILDING/selectBuildingList.do",
@@ -46,13 +52,54 @@ $m.RM_CONTRACT_POP.fn_roomComboSearch = function(_buildingNum){
 	                codeNm : "ROOM_NUM"
 	            }
 	        }, response.selectRoomComboList);
+			
 		}
 	});
 	
 };
-
+$m.RM_CONTRACT_POP.data;
 $m.RM_CONTRACT_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
-	
+	$m.RM_CONTRACT_POP.exe({
+		url : $m._domain+$m._contextRoot+"/RM_CONTRACT/selectContractInfo.do",
+        data : {
+        	"header" : $m.header,
+        	"body" : {
+        		"CONTRACT_NUM":$m.RM_CONTRACT_POP.CONTRACT_NUM
+        	}
+        },			
+		callback : function(response){
+			if(response.selectContractInfo != null ){
+				var data = response.selectContractInfo;
+				$m.RM_CONTRACT_POP.data = data;
+
+				
+				//$m.setReadOnly($m.RM_CONTRACT_POP.getObj("cmb_1"),true);
+				//$m.setReadOnly($m.RM_CONTRACT_POP.getObj("cmb_2"),true);
+				$m.setReadOnly($m.RM_CONTRACT_POP.getObj("ipt_LANDLORD_NAME"),true);
+				$m.setReadOnly($m.RM_CONTRACT_POP.getObj("ipt_TENANT_NAME"),true);
+				$m.setReadOnly($m.RM_CONTRACT_POP.getObj("ipt_DEPOSIT"),true);
+				$m.setReadOnly($m.RM_CONTRACT_POP.getObj("ipt_MONTLY_RENT"),true);
+				$m.setReadOnly($m.RM_CONTRACT_POP.getObj("ipt_MANAGEMENT_FEE"),true);
+				$m.setReadOnly($m.RM_CONTRACT_POP.getObj("ica_CONTRACT_DATE"),true);
+				
+				
+				$m.setValue($m.RM_CONTRACT_POP.getObj("ipt_LANDLORD_NAME"),data.LANDLORD_NAME);
+				$m.setValue($m.RM_CONTRACT_POP.getObj("ipt_TENANT_NAME"),data.TENANT_NAME);
+				$m.setValue($m.RM_CONTRACT_POP.getObj("ipt_DEPOSIT"),data.DEPOSIT);
+				$m.setValue($m.RM_CONTRACT_POP.getObj("ipt_MONTLY_RENT"),data.MONTLY_RENT);
+				$m.setValue($m.RM_CONTRACT_POP.getObj("ipt_MANAGEMENT_FEE"),data.MANAGEMENT_FEE);
+				$m.RM_CONTRACT_POP.setFrom('ica_CONTRACT_DATE',data.RENT_START);
+		        $m.RM_CONTRACT_POP.setTo('ica_CONTRACT_DATE',data.RENT_END);
+		        $m.setValue($m.RM_CONTRACT_POP.getObj("createDate"),data.WRITE_TIME);
+		        $m.setValue($m.RM_CONTRACT_POP.getObj("wid"),data.WRITER);
+		        
+		        $m.RM_CONTRACT_POP.fn_comboSearch();
+		        $m.setValue($m.RM_CONTRACT_POP.getObj("cmb_1"),data.BUILDING_NUM);
+				$m.setValue($m.RM_CONTRACT_POP.getObj("cmb_2"),data.ROOM_NUM);
+		        
+			}
+		}
+	});
 };
 $m.RM_CONTRACT_POP.fn_update = function(_thisObj){
 
@@ -273,7 +320,7 @@ $m.RM_CONTRACT_POP.onFileSelected = function(filename,filesize,_e,_this) {
 								<div type="tr">
 									<div type="th">작성일시</div>
 									<div type="td">
-										<div type="input" id="createDate" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true"></div>
+										<div type="input" id="createDate" class="mocaInput" innerClass="" onclick="" style="" value="" readonly="true" displayFunction="$m.longToDate"></div>
 									</div>
 								</div>
 								<div type="tr">
