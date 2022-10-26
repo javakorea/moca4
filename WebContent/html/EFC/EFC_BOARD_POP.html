@@ -276,7 +276,7 @@ _ct = _ct.replace(/(<img\s*[^>]*?)(onload="parent\.aaa\(this\);")([^>]*?\/>)/g,'
 //_ct = _ct.replace(/(<img\s*[^>]*?)(style="display:none")([^>]*?\/>)/g,'$1$3');
 _ct = _ct.replace(/<img /g,'<img src=/images/mobile/loading.gif width=80 height=80 id=imageLoadingBar border=0  /><img class="hide" onload="parent.aaa(this);" ');
 */
-_ct = _ct.replace(/<img /g,'<img src=/images/mobile/loading.gif width=80 height=80 id=imageLoadingBar border=0  /><img '); 
+_ct = _ct.replace(/<img /g,'<img src=/images/mobile/loading.gif width=80 height=80 id=imageLoadingBar border=0  /><img class="hide" onload="parent.aaa(this);" ');  
 						$('.edit').find('iframe').contents()[0].body.innerHTML = $m.resizeContsImg(_ct); 
 						
 						
