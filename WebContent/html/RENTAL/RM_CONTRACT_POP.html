@@ -52,7 +52,7 @@ $m.RM_CONTRACT_POP.fn_roomComboSearch = function(_buildingNum){
 	                codeNm : "ROOM_NUM"
 	            }
 	        }, response.selectRoomComboList);
-			
+			debugger;
 		}
 	});
 	
@@ -93,7 +93,6 @@ $m.RM_CONTRACT_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 		        $m.setValue($m.RM_CONTRACT_POP.getObj("createDate"),data.WRITE_TIME);
 		        $m.setValue($m.RM_CONTRACT_POP.getObj("wid"),data.WRITER);
 		        
-		        $m.RM_CONTRACT_POP.fn_comboSearch();
 		        $m.setValue($m.RM_CONTRACT_POP.getObj("cmb_1"),data.BUILDING_NUM);
 				$m.setValue($m.RM_CONTRACT_POP.getObj("cmb_2"),data.ROOM_NUM);
 		        

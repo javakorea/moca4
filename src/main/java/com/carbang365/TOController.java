@@ -5485,7 +5485,7 @@ public class TOController{
 				paramMap.put("status", "U");
 				List list = (List)paramMap.get("fileList"); //자바스크립트에서 받아온 값을 자바언어구조로 바꿈
 				if(list != null) {
-					model.addAttribute("cnt", TOMapper.deleteBoardFileList(paramMap));
+					//model.addAttribute("cnt", TOMapper.deleteBoardFileList(paramMap));
 					for(int i=0;i < list.size() ;i++) {
 		        		Map row = (Map)list.get(i);
 		        		row.put("BOARD_IDX", paramMap.get("BOARD_IDX"));

@@ -384,6 +384,9 @@ $m.EFC_BOARD_POP.fn_update = function(_thisObj){
 	$m.hide($m.EFC_BOARD_POP.getObj("btn_del_admin"));
 	$m.hide($m.EFC_BOARD_POP.getObj("btn_reply_del_admin"));
 	if(_thisObj.id != 'btn_reply_update'){ //수정버튼
+		if(!$($m.EFC_BOARD_POP.getObj("grd_file")).hasClass('fold')){
+			$m.show($m.EFC_BOARD_POP.getObj('btn_add'));
+		}
 		$m.EFC_BOARD_POP._boardStatus = "U";
 		$($m.EFC_BOARD_POP.getObj("cke_editor")).find("[id$='_top']").show();
 		$m.setReadOnly($m.EFC_BOARD_POP.getObj("wtitle"),false);
@@ -1145,7 +1148,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 			                            toolbar_addrow="false"
 			                            toolbar_delrow="true"
 			                            toolbar_nextbtn="false"
-			                            toolbar_full="false"
+			                            toolbar_full="true"
 			                            toolbar_fold="true"
 			                            onFoldClick="$m.EFC_BOARD_POP.grd_btnShowHide"
 			                            toolbar_grid_button2='{"position":"left","id":"btn_add","label":"파일찾기","onclick":"$m.EFC_BOARD_POP._openFileUpload","addClass":"","innerDisabled":"false"}'

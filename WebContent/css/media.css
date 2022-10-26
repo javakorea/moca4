@@ -83,17 +83,18 @@
   @media (max-width: 1035px){
   
   .footer .f_content div.f_tel{padding-left:0; margin-left:0; padding-top:0; top: 25px; left: 20px;float: left;}
-  .footer .f_content{padding:0 5%}
+  .footer .f_content, .footer.jk .f_content{padding:0 5%}
   .subpage .mocaComp .tit, .subpage .mocaComp .compExplan ul li{margin: 0px 5%}
   }
   
   @media (max-width: 800px){	
   .footer .f_content h2{padding-bottom:0; padding-top:13px}
   .footer .f_content p{top:10px;}
+  .footer.jk .f_content h2{top: 10px; position: relative;}
+  .footer.jk .f_content p{top:20px}
   .footer .f_content div.f_tel{top:0px;left:0}
-  .footer .f_content .f_info{top: 0 !important; width: 100% !important; padding: 13px 0 !important; float: left !important;
-  }
-  
+  .footer .f_content .f_info{top: 0 !important; width: 100% !important; padding: 13px 0 !important; float: left !important;}
+  .footer.jk .f_content div.f_info{margin-left: 0; margin-top: 10px; margin-bottom: 2px;}
 /*  
   .container.mocaBox > div{height:auto}
   .fl.col5.main_img{width:100%}
