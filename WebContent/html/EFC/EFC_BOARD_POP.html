@@ -244,6 +244,7 @@ var aaa = function(e){
 	$(e).removeClass("hide");
 }
 $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
+	debugger;
 	if($m.EFC_BOARD_POP._boardIdx != null){
 		$m.EFC_BOARD_POP._boardStatus = "R";
 		$m.hide($($m.EFC_BOARD_POP.getObj("cke_editor")).find('.cke_top'));
@@ -265,12 +266,17 @@ $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 							$m.show($m.EFC_BOARD_POP.getObj('edit_zoomBtn'));
 						}
 						//CKEDITOR.instances.editor.setData($m.resizeContsImg(data.BOARD_CONT));
+						
 var _ct = data.BOARD_CONT;
+_ct = _ct.replace(/<img [^>]*?id=\"{0,1}imageLoadingBar\"{0,1}[^>]*?\/>/g,"");
+
+/*
 _ct = _ct.replace(/<img src=\/images\/mobile\/loading\.gif width=80 height=80 id=imageLoadingBar border=0  \/>/g,"");
 _ct = _ct.replace(/(<img\s*[^>]*?)(onload="parent\.aaa\(this\);")([^>]*?\/>)/g,'$1$3');
 //_ct = _ct.replace(/(<img\s*[^>]*?)(style="display:none")([^>]*?\/>)/g,'$1$3');
 _ct = _ct.replace(/<img /g,'<img src=/images/mobile/loading.gif width=80 height=80 id=imageLoadingBar border=0  /><img class="hide" onload="parent.aaa(this);" ');
-
+*/
+_ct = _ct.replace(/<img /g,'<img src=/images/mobile/loading.gif width=80 height=80 id=imageLoadingBar border=0  /><img '); 
 						$('.edit').find('iframe').contents()[0].body.innerHTML = $m.resizeContsImg(_ct); 
 						
 						
