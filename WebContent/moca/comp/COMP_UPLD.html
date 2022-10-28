@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head meta_width="700px" meta_height="130px">
+<head meta_width="700px" meta_height="550px">
 <script>
 	$m.COMP_UPLD.___ready = function(args){
 		var mfile = $m.COMP_UPLD.getObj("mfile");
@@ -22,6 +22,9 @@
 				return;
 			}
 		}
+		
+		
+		
 	};
 	  
 
@@ -45,7 +48,7 @@
 		var formData = new FormData(_form);
 		formData.append("file", $("#mfile")[0].files[0]);
 		formData.append("data", JSON.stringify($m.COMP_UPLD.data));
-		var loadingId = $m.loading(null,null,$m.COMP_UPLD.data.parent,{loadingbar:true});
+		//var loadingId = $m.loading(null,null,$m.COMP_UPLD.data.parent,{loadingbar:false});
 		$.ajax({
 			url: $m._contextRoot+'/moca/fileUpload.do',
 			processData: false,
@@ -53,7 +56,7 @@
 			data: formData,
 			type: 'POST',
 			success: function(response){
-				$m.loading(loadingId,0,$m.COMP_UPLD.data.parent);
+				//$m.loading(loadingId,0,$m.COMP_UPLD.data.parent);
 				$m.popClose($m.COMP_UPLD.pageId,response.result);
 			}
 	    });
@@ -75,14 +78,14 @@
 		    form.append('metadata', new Blob([JSON.stringify(metadata)], {type: 'application/json'}));
 		    form.append('file', file);
 		    
-		    var loadingId = $m.loading(null,null,$m.COMP_UPLD.data.parent,{loadingbar:true});
+		    //var loadingId = $m.loading(null,null,$m.COMP_UPLD.data.parent,{loadingbar:false});
 		    var xhr = new XMLHttpRequest();
 		    xhr.open('post', 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=*');
 		    xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
 		    xhr.responseType = 'json';
 		    xhr.onload = () => {
 		        console.log("================>",xhr.response); // Retrieve uploaded file ID.
-		        $m.loading(loadingId,0,$m.COMP_UPLD.data.parent);
+		        //$m.loading(loadingId,0,$m.COMP_UPLD.data.parent);
 		        
 		        /*
 		        
@@ -113,16 +116,142 @@
 		        //document.getElementById("testImg").setAttribute("src","https://drive.google.com/uc?id="+xhr.response.id);
 		    };
 		    xhr.upload.onprogress = function(e){
+		    	$('#canvas').show();
+		    	$('#white_dim_txt').show();
+		    	$('.white_dim').show();
 				var per = e.loaded * 100 / e.total;
+				circleProgressBar.animateTo( per/100 , 0.5 );
 				console.log("per",per);
+				$('#white_dim_txt').html(parseInt(per)+"%");
 			};
 		    xhr.send(form);
 		});
 	};
+	//$('.full>.fill').css('transform','rotate(45deg)');
 	
+	
+	function pingpoliCircleProgressBar( ctx , options )
+{
+    this.ctx = ctx;
+    if ( options ) this.options = options;
+    else this.options = {};
+
+    if ( !this.options.hasOwnProperty("enableBackground") ) this.options.enableBackground = true;
+    if ( !this.options.hasOwnProperty("backgroundColor") ) this.options.backgroundColor = "#555555";
+    if ( !this.options.hasOwnProperty("color") ) this.options.color = "#00ffff";
+    if ( !this.options.hasOwnProperty("radius") ) this.options.radius = 50;
+    if ( !this.options.hasOwnProperty("backgroundLineWidth") ) this.options.backgroundLineWidth = 10;
+    if ( !this.options.hasOwnProperty("lineWidth") ) this.options.lineWidth = 8;
+    if ( !this.options.hasOwnProperty("xPos") ) this.options.xPos = 100;
+    if ( !this.options.hasOwnProperty("yPos") ) this.options.yPos = 100;
+    if ( !this.options.hasOwnProperty("enableRoundLineCaps") ) this.options.enableRoundLineCaps = false;
+
+    this.percent = 0.0;
+    this.targetPercent = 0.0;
+    this.deltaPercent = 0.0;
+    this.stepSize = 0.0;
+    this.b_animating = false;
+
+    this.onchange = null;
+}
+
+
+
+pingpoliCircleProgressBar.prototype.animateTo = function( percent , seconds )
+{
+    if ( !this.b_animating )
+    {
+        if ( this.targetPercent != percent )
+        {
+            this.targetPercent = percent;
+            // delta percent is the change of the percent per second
+            this.deltaPercent = (this.targetPercent-this.percent)/seconds;
+            // every second has 50 steps, therefore the step size is the change per second divided by 50
+            this.stepSize = this.deltaPercent/50;
+            this.b_animating = true;
+            this.step();
+        }
+    }
+}
+
+
+
+pingpoliCircleProgressBar.prototype.step = function()
+{
+    this.percent += this.stepSize;
+
+    if ( Math.abs( this.targetPercent - this.percent ) < Math.abs( this.stepSize ) )
+    {
+        this.percent = this.targetPercent;
+        this.b_animating = false;
+    }
+    else 
+    {
+        setTimeout( () => {
+            this.step();
+        } , 20 );
+    }
+
+    if ( this.onchange !== null ) this.onchange();
+}
+
+
+
+pingpoliCircleProgressBar.prototype.setPercent = function( percent )
+{
+    this.percent = percent;
+    if ( this.percent < 0 ) this.percent = 0;
+    if ( this.percent > 1 ) this.percent = 1;
+    if ( this.onchange !== null ) this.onchange();
+}
+
+
+
+pingpoliCircleProgressBar.prototype.draw = function()
+{
+    // draw the background
+    if ( this.options.enableBackground )
+    {
+        this.ctx.beginPath();
+        this.ctx.arc( this.options.xPos , this.options.yPos , this.options.radius , Math.PI*3/2 , Math.PI*3/2+Math.PI*2 );
+        this.ctx.strokeStyle = this.options.backgroundColor;
+        this.ctx.lineWidth = this.options.backgroundLineWidth;
+        this.ctx.stroke();
+    }
+
+    if( this.options.enableRoundLineCaps )
+    {
+        this.ctx.lineCap = 'round';
+    }
+
+    this.ctx.beginPath();
+    this.ctx.arc( this.options.xPos , this.options.yPos , this.options.radius , Math.PI*3/2 , Math.PI*3/2+this.percent*Math.PI*2 );
+    this.ctx.strokeStyle = this.options.color;
+    this.ctx.lineWidth = this.options.lineWidth;
+    this.ctx.stroke();
+}
+
+var ctx;
+var circleProgressBar;
+function init()
+{
+    var canvas = document.getElementById("canvas");
+    ctx = canvas.getContext( "2d" );
+    circleProgressBar = new pingpoliCircleProgressBar( ctx , {xPos:canvas.width/2,yPos:canvas.height/2,radius:(canvas.width/2-10),backgroundLineWidth:20,lineWidth:16} );
+    circleProgressBar.onchange = () => {
+        ctx.clearRect( 0 , 0 , canvas.width , canvas.height );
+        circleProgressBar.draw();
+    };
+    circleProgressBar.draw();
+}
+
+init();
 </script>
+
 </head>
 <body>
+
+
 	<div class="moca_pop_cont_wrap scroll" id="Pop_body">
 		<div class="moca_shbox">
 			<div class="shbox_inner pb10">
@@ -132,6 +261,14 @@
 				<button type="button" class="button btn_sc" onclick="$m.COMP_UPLD.fn_upload_prev('1')"><i class="fas fa-plus"></i><span>업로드</span></button>
 			</div>
 		</div>
+		<span id="white_dim_txt" class="white_dim_txt" style="display:none"></span>
+		<canvas id="canvas" class="file_progressbar" width="100%" height="100px" style="touch-action: none; display:none" ></canvas>
+		
+		<div class="moca_filebox">
+			<i class="ico_plus"></i>
+			<span>파일을 이곳에 끌어다놓으세요.</span>
+		</div>
+		<div class="white_dim" style="display:none"></div>
 	</div>	
 </body>
 </html>
