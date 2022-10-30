@@ -836,8 +836,31 @@ $m.EFC_BOARD_POP.fn_copy = function(_this){
 	_clipboard[0].select();
 	document.execCommand("copy");
 	$m.alert('클립보드에 복사되었습니다');
-}
-
+};
+$m.EFC_BOARD_POP.fn_copy_all = function(_this){
+	let _grd = $(_this).closest('div[type="grid"]');
+	var _list;
+	if(_grd.id != 'grd_reply_file'){
+		_list = $m.EFC_BOARD_POP.getObj('grd_file').list;
+	}else{
+		_list = $m.EFC_BOARD_POP.getObj('grd_reply_file').list;
+	}
+	var _imgUrlHead = "https://drive.google.com/uc?id=";
+	var fullTags = "";
+	if(_list != null){
+		for(var i=0; i < _list.length; i++){
+			var _fid = _list[i].BOARDFILE_ID;
+			var _imgTag = '<img alt=""  src="'+_imgUrlHead+_fid+'" style="width: 1000px;border-width: 1px; border-style: solid;" /><hr /><br><br>';
+			fullTags += _imgTag;
+		}
+	}
+	var _clipboard = $('#input_clipboard');
+	_clipboard.val(fullTags);
+	_clipboard[0].focus();
+	_clipboard[0].select();
+	document.execCommand("copy");
+	$m.alert('전체이미지태그가 클립보드에 복사되었습니다.<br>소스편집모드로 붙여넣기하세요!');
+};
 $m.EFC_BOARD_POP.grd_fileDownload = function(_grd,rowIndex,colIndex,colId){
 	$m.EFC_BOARD_POP.grd_fileDownload_google(_grd,rowIndex,colIndex,colId);
 };
@@ -1154,6 +1177,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 			                            toolbar_full="true"
 			                            toolbar_fold="true"
 			                            onFoldClick="$m.EFC_BOARD_POP.grd_btnShowHide"
+			                            toolbar_grid_button1='{"position":"left","id":"btn_add","label":"전체클립","onclick":"$m.EFC_BOARD_POP.fn_copy_all","addClass":"","innerDisabled":"false"}'
 			                            toolbar_grid_button2='{"position":"left","id":"btn_add","label":"파일찾기","onclick":"$m.EFC_BOARD_POP._openFileUpload","addClass":"","innerDisabled":"false"}'
 			                            onDblClick = "$m.EFC_BOARD_POP.grd_fileDownload"
 			                            onRowSelected="$m.EFC_BOARD_POP.showFileURL"
