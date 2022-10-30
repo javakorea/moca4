@@ -22,22 +22,23 @@
 				return;
 			}
 		}
-		
-		
-		
+		$m.COMP_UPLD.circlePromgressinit();		
 	};
-	  
-
+	$m.COMP_UPLD.fn_upload_filedrop = function(e){
+		e.preventDefault();
+		$m.COMP_UPLD.fn_upload_google(e.dataTransfer.files);
+	};
+	$m.COMP_UPLD.fn_upload_filedropover = function(e){
+		e.preventDefault();
+	};	
 	$m.COMP_UPLD.fn_upload_prev = function(_uploadType){
 		var mfile = $m.COMP_UPLD.getObj("mfile");
 		if($m.trim($(mfile).val()) == ''){
 			alert('업로드할 파일을 선택하세요.');
 			return;
 		}
-		//$m.COMP_UPLD.fn_upload();
-		$m.COMP_UPLD.fn_upload_google();
+		$m.COMP_UPLD.fn_upload_google(mfile.files);
 	};
-	
 	$m.COMP_UPLD.fn_upload = function(_uploadType){
 		$m.COMP_UPLD.data.parent.data.uploadType = _uploadType;
 		var _form = document.createElement('FORM');
@@ -48,7 +49,6 @@
 		var formData = new FormData(_form);
 		formData.append("file", $("#mfile")[0].files[0]);
 		formData.append("data", JSON.stringify($m.COMP_UPLD.data));
-		//var loadingId = $m.loading(null,null,$m.COMP_UPLD.data.parent,{loadingbar:false});
 		$.ajax({
 			url: $m._contextRoot+'/moca/fileUpload.do',
 			processData: false,
@@ -56,26 +56,26 @@
 			data: formData,
 			type: 'POST',
 			success: function(response){
-				//$m.loading(loadingId,0,$m.COMP_UPLD.data.parent);
 				$m.popClose($m.COMP_UPLD.pageId,response.result);
 			}
 	    });
 	};
-	
-	$m.COMP_UPLD.resultArr = [];
-	$m.COMP_UPLD.fn_upload_google = function(_uploadType){
+	$m.COMP_UPLD.fn_upload_google = function(arr){
 		handleAuthClick(function(){
-			var arr = $("#mfile")[0].files;
+			return $m.COMP_UPLD.fn_upload_google_proc(arr);
+		});
+	};
+	$m.COMP_UPLD.fn_upload_google_proc = function(arr){
 			var arr_leng = arr.length;
 			let j = 0;
 			var promise = Promise.resolve();
 			for(var i=0; i < arr_leng; i++){
 				promise = promise.then(function(ret){
 					return new Promise(function(resolve, reject){
-						init();
-						let file = $("#mfile")[0].files[j++];
+						$m.COMP_UPLD.circlePromgressinit();
+						let file = arr[j++];
 					  	var metadata = {'name': file.name,'mimeType': file.type,"parents": ["17zolc486M-P5IdrioullpMSxdybixHYc"]};
-					    var accessToken = gapi.auth.getToken().access_token; // Here gapi is used for retrieving the access token.
+					    var accessToken = gapi.auth.getToken().access_token;
 					    var form = new FormData();
 					    form.append('metadata', new Blob([JSON.stringify(metadata)], {type: 'application/json'}));
 					    form.append('file', file);
@@ -98,8 +98,10 @@
 				            } 
 				            result.subDir= 'board';
 				            result.uploadDir= xhr.response.kind;
+				            if($m.COMP_UPLD.resultArr == null){
+				            	$m.COMP_UPLD.resultArr = [];
+				            }
 				            $m.COMP_UPLD.resultArr.push(result);
-				            console.log("onload success",$m.COMP_UPLD.resultArr);
 				            resolve();
 					    };
 					    xhr.upload.onprogress = function(e){
@@ -107,7 +109,7 @@
 					    	$('#white_dim_txt').show();
 					    	$('.white_dim').show();
 							var per = e.loaded * 100 / e.total;
-							circleProgressBar.animateTo( per/100 , 0.5 );
+							$m.COMP_UPLD.circleProgressBar.animateTo( per/100 , 0.5 );
 							$('#white_dim_txt').html(j+"/"+arr_leng+"&nbsp;"+parseInt(per)+"%");
 						};
 					    xhr.send(form);
@@ -115,197 +117,105 @@
 				});
 			}
 			promise = promise.then(function(ret){
-				//마지막처리
-				console.log('마지막promise');
 				$m.popClose($m.COMP_UPLD.pageId,$m.COMP_UPLD.resultArr);
 			});
 			return promise;
-		  	/*
-		  	var metadata = {
-		        'name': file.name, // Filename at Google Drive
-		        'mimeType': file.type, // mimeType at Google Drive 
-		        "parents": ["17zolc486M-P5IdrioullpMSxdybixHYc"]//images폴더
-		        //"parents": ["1A08_6NmblCDcgx72lA1dIMsp9NZma8hA"]//board폴더
-		  	
-		  	};
-		    var accessToken = gapi.auth.getToken().access_token; // Here gapi is used for retrieving the access token.
-		    var form = new FormData();
-		    form.append('metadata', new Blob([JSON.stringify(metadata)], {type: 'application/json'}));
-		    form.append('file', file);
-		    
-		    //var loadingId = $m.loading(null,null,$m.COMP_UPLD.data.parent,{loadingbar:false});
-		    var xhr = new XMLHttpRequest();
-		    xhr.open('post', 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=*');
-		    xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
-		    xhr.responseType = 'json';
-		    xhr.onload = () => {
-		        console.log("================>",xhr.response); // Retrieve uploaded file ID.
-		        //$m.loading(loadingId,0,$m.COMP_UPLD.data.parent);
-		        
-		        
-		     //'{"kind":"drive#file","id":"1z7kAi52ibEQFhaE96CmeDZMx2sGcrXUr","name":"dsss.png","mimeType":"image/png","starred":false,"trashed":false,"explicitlyTrashed":false,"parents":["17zolc486M-P5IdrioullpMSxdybixHYc"],"spaces":["drive"],"version":"1","webContentLink":"https://drive.google.com/uc?id=1z7kAi52ibEQFhaE96CmeDZMx2sGcrXUr&export=download","webViewLink":"https://drive.google.com/file/d/1z7kAi52ibEQFhaE96CmeDZMx2sGcrXUr/view?usp=drivesdk","iconLink":"https://drive-thirdparty.googleusercontent.com/16/type/image/png","hasThumbnail":true,"thumbnailLink":"https://lh6.googleusercontent.com/zOpGR5MWmoJoZGV9VkBEVyVx1L1dyTbkxcbTxgI5th1f83fyFp3e-MxWbBrqH4qNQxUcZNWYUjc_Hp4=s220","thumbnailVersion":"1","viewedByMe":false,"createdTime":"2022-10-06T02:39:18.806Z","modifiedTime":"2022-10-06T02:39:18.806Z","modifiedByMeTime":"2022-10-06T02:39:18.806Z","modifiedByMe":true,"owners":[{"kind":"drive#user","displayName":"김세창","photoLink":"https://lh3.googleusercontent.com/a/default-user=s64","me":true,"permissionId":"16756116585207586092","emailAddress":"javakoreaboss@gmail.com"}],"lastModifyingUser":{"kind":"drive#user","displayName":"김세창","photoLink":"https://lh3.googleusercontent.com/a/default-user=s64","me":true,"permissionId":"16756116585207586092","emailAddress":"javakoreaboss@gmail.com"},"shared":true,"ownedByMe":true,"capabilities":{"canAcceptOwnership":false,"canAddChildren":false,"canAddMyDriveParent":false,"canChangeCopyRequiresWriterPermission":true,"canChangeSecurityUpdateEnabled":false,"canChangeViewersCanCopyContent":true,"canComment":true,"canCopy":true,"canDelete":true,"canDownload":true,"canEdit":true,"canListChildren":false,"canModifyContent":true,"canModifyLabels":false,"canMoveChildrenWithinDrive":false,"canMoveItemIntoTeamDrive":true,"canMoveItemOutOfDrive":true,"canMoveItemWithinDrive":true,"canReadLabels":false,"canReadRevisions":true,"canRemoveChildren":false,"canRemoveMyDriveParent":true,"canRename":true,"canShare":true,"canTrash":true,"canUntrash":true},"viewersCanCopyContent":true,"copyRequiresWriterPermission":false,"writersCanShare":true,"permissions":[{"kind":"drive#permission","id":"anyoneWithLink","type":"anyone","role":"reader","allowFileDiscovery":false},{"kind":"drive#permission","id":"16756116585207586092","type":"user","emailAddress":"javakoreaboss@gmail.com","role":"owner","displayName":"김세창","photoLink":"https://lh3.googleusercontent.com/a/default-user=s64","deleted":false,"pendingOwner":false}],"permissionIds":["anyoneWithLink","16756116585207586092"],"originalFilename":"dsss.png","fullFileExtension":"png","fileExtension":"png","md5Checksum":"b02ddb7baa3acdfe4225e666bb3e9d27","sha1Checksum":"445abd60358b56de5488082f1be534a2b80e233c","sha256Checksum":"dffe6b2101a224ff737c71e9c0b874560e3a9cb9447f4315e11b7a60212506d4","size":"6714","quotaBytesUsed":"6714","headRevisionId":"0B12HOqB1X3cZZzUwblRzZ2UzSHZHOUJnS2c1Z0xYMC9xbGxjPQ","imageMediaMetadata":{"width":710,"height":599,"rotation":0},"isAppAuthorized":true,"linkShareMetadata":{"securityUpdateEligible":false,"securityUpdateEnabled":true}}'   
-		        
-		        
-		     	if(xhr.response.error){
-		     		alert(xhr.response.error.message);
-		     		return;
-		     	}
-		        var result = {};
-		        result.id = xhr.response.id;
-		        result.fileSize = xhr.response.size;
-	            result.fileLength = xhr.response.size;
-	            result.originalFilename = xhr.response.name;
-	            result.physicalFilename = xhr.response.id;
-	            if(xhr.response.parents){
-	            	result.physicalFilepath= xhr.response.parents[0];
-	            }else{
-	            	result.physicalFilepath= "memta:"+metadata.parents[0];
-	            }
-	            
-	            result.subDir= 'board';
-	            result.uploadDir= xhr.response.kind;
-	            $m.popClose($m.COMP_UPLD.pageId,result);
-	    		
-		        //document.getElementById("testImg").setAttribute("src","https://drive.google.com/uc?id="+xhr.response.id);
-		    };
-		    xhr.upload.onprogress = function(e){
-		    	$('#canvas').show();
-		    	$('#white_dim_txt').show();
-		    	$('.white_dim').show();
-				var per = e.loaded * 100 / e.total;
-				circleProgressBar.animateTo( per/100 , 0.5 );
-				console.log("per",per);
-				$('#white_dim_txt').html(parseInt(per)+"%");
-			};
-		    xhr.send(form);
-		    */
-		});
+	};	
+	$m.COMP_UPLD.progressBar = function pingpoliCircleProgressBar( ctx , options )
+	{
+	    this.ctx = ctx;
+	    if ( options ) this.options = options;
+	    else this.options = {};
+	    if ( !this.options.hasOwnProperty("enableBackground") ) this.options.enableBackground = true;
+	    if ( !this.options.hasOwnProperty("backgroundColor") ) this.options.backgroundColor = "#555555";
+	    if ( !this.options.hasOwnProperty("color") ) this.options.color = "#00ffff";
+	    if ( !this.options.hasOwnProperty("radius") ) this.options.radius = 50;
+	    if ( !this.options.hasOwnProperty("backgroundLineWidth") ) this.options.backgroundLineWidth = 10;
+	    if ( !this.options.hasOwnProperty("lineWidth") ) this.options.lineWidth = 8;
+	    if ( !this.options.hasOwnProperty("xPos") ) this.options.xPos = 100;
+	    if ( !this.options.hasOwnProperty("yPos") ) this.options.yPos = 100;
+	    if ( !this.options.hasOwnProperty("enableRoundLineCaps") ) this.options.enableRoundLineCaps = false;
+	    this.percent = 0.0;
+	    this.targetPercent = 0.0;
+	    this.deltaPercent = 0.0;
+	    this.stepSize = 0.0;
+	    this.b_animating = false;
+	    this.onchange = null;
+		this.animateTo = function( percent , seconds )
+		{
+		    if ( !this.b_animating )
+		    {
+		        if ( this.targetPercent != percent )
+		        {
+		            this.targetPercent = percent;
+		            this.deltaPercent = (this.targetPercent-this.percent)/seconds;
+		            this.stepSize = this.deltaPercent/50;
+		            this.b_animating = true;
+		            this.step();
+		        }
+		    }
+		};
+		this.step = function()
+		{
+		    this.percent += this.stepSize;
+		
+		    if ( Math.abs( this.targetPercent - this.percent ) < Math.abs( this.stepSize ) )
+		    {
+		        this.percent = this.targetPercent;
+		        this.b_animating = false;
+		    }
+		    else 
+		    {
+		        setTimeout( () => {
+		            this.step();
+		        } , 20 );
+		    }
+		
+		    if ( this.onchange !== null ) this.onchange();
+		};
+		this.setPercent = function( percent )
+		{
+		    this.percent = percent;
+		    if ( this.percent < 0 ) this.percent = 0;
+		    if ( this.percent > 1 ) this.percent = 1;
+		    if ( this.onchange !== null ) this.onchange();
+		};
+		this.draw = function()
+		{
+		    if ( this.options.enableBackground )
+		    {
+		        this.ctx.beginPath();
+		        this.ctx.arc( this.options.xPos , this.options.yPos , this.options.radius , Math.PI*3/2 , Math.PI*3/2+Math.PI*2 );
+		        this.ctx.strokeStyle = this.options.backgroundColor;
+		        this.ctx.lineWidth = this.options.backgroundLineWidth;
+		        this.ctx.stroke();
+		    }
+		    if( this.options.enableRoundLineCaps )
+		    {
+		        this.ctx.lineCap = 'round';
+		    }
+		    this.ctx.beginPath();
+		    this.ctx.arc( this.options.xPos , this.options.yPos , this.options.radius , Math.PI*3/2 , Math.PI*3/2+this.percent*Math.PI*2 );
+		    this.ctx.strokeStyle = this.options.color;
+		    this.ctx.lineWidth = this.options.lineWidth;
+		    this.ctx.stroke();
+		};
 	};
-	//$('.full>.fill').css('transform','rotate(45deg)');
-	
-	
-	function pingpoliCircleProgressBar( ctx , options )
-{
-    this.ctx = ctx;
-    if ( options ) this.options = options;
-    else this.options = {};
 
-    if ( !this.options.hasOwnProperty("enableBackground") ) this.options.enableBackground = true;
-    if ( !this.options.hasOwnProperty("backgroundColor") ) this.options.backgroundColor = "#555555";
-    if ( !this.options.hasOwnProperty("color") ) this.options.color = "#00ffff";
-    if ( !this.options.hasOwnProperty("radius") ) this.options.radius = 50;
-    if ( !this.options.hasOwnProperty("backgroundLineWidth") ) this.options.backgroundLineWidth = 10;
-    if ( !this.options.hasOwnProperty("lineWidth") ) this.options.lineWidth = 8;
-    if ( !this.options.hasOwnProperty("xPos") ) this.options.xPos = 100;
-    if ( !this.options.hasOwnProperty("yPos") ) this.options.yPos = 100;
-    if ( !this.options.hasOwnProperty("enableRoundLineCaps") ) this.options.enableRoundLineCaps = false;
-
-    this.percent = 0.0;
-    this.targetPercent = 0.0;
-    this.deltaPercent = 0.0;
-    this.stepSize = 0.0;
-    this.b_animating = false;
-
-    this.onchange = null;
-}
-
-
-
-pingpoliCircleProgressBar.prototype.animateTo = function( percent , seconds )
-{
-    if ( !this.b_animating )
-    {
-        if ( this.targetPercent != percent )
-        {
-            this.targetPercent = percent;
-            // delta percent is the change of the percent per second
-            this.deltaPercent = (this.targetPercent-this.percent)/seconds;
-            // every second has 50 steps, therefore the step size is the change per second divided by 50
-            this.stepSize = this.deltaPercent/50;
-            this.b_animating = true;
-            this.step();
-        }
-    }
-}
-
-
-
-pingpoliCircleProgressBar.prototype.step = function()
-{
-    this.percent += this.stepSize;
-
-    if ( Math.abs( this.targetPercent - this.percent ) < Math.abs( this.stepSize ) )
-    {
-        this.percent = this.targetPercent;
-        this.b_animating = false;
-    }
-    else 
-    {
-        setTimeout( () => {
-            this.step();
-        } , 20 );
-    }
-
-    if ( this.onchange !== null ) this.onchange();
-}
-
-
-
-pingpoliCircleProgressBar.prototype.setPercent = function( percent )
-{
-    this.percent = percent;
-    if ( this.percent < 0 ) this.percent = 0;
-    if ( this.percent > 1 ) this.percent = 1;
-    if ( this.onchange !== null ) this.onchange();
-}
-
-
-
-pingpoliCircleProgressBar.prototype.draw = function()
-{
-    // draw the background
-    if ( this.options.enableBackground )
-    {
-        this.ctx.beginPath();
-        this.ctx.arc( this.options.xPos , this.options.yPos , this.options.radius , Math.PI*3/2 , Math.PI*3/2+Math.PI*2 );
-        this.ctx.strokeStyle = this.options.backgroundColor;
-        this.ctx.lineWidth = this.options.backgroundLineWidth;
-        this.ctx.stroke();
-    }
-
-    if( this.options.enableRoundLineCaps )
-    {
-        this.ctx.lineCap = 'round';
-    }
-
-    this.ctx.beginPath();
-    this.ctx.arc( this.options.xPos , this.options.yPos , this.options.radius , Math.PI*3/2 , Math.PI*3/2+this.percent*Math.PI*2 );
-    this.ctx.strokeStyle = this.options.color;
-    this.ctx.lineWidth = this.options.lineWidth;
-    this.ctx.stroke();
-}
-
-var ctx;
-var circleProgressBar;
-function init()
-{
-    var canvas = document.getElementById("canvas");
-    ctx = canvas.getContext( "2d" );
-    circleProgressBar = new pingpoliCircleProgressBar( ctx , {xPos:canvas.width/2,yPos:canvas.height/2,radius:(canvas.width/2-10),backgroundLineWidth:20,lineWidth:16} );
-    circleProgressBar.onchange = () => {
-        ctx.clearRect( 0 , 0 , canvas.width , canvas.height );
-        circleProgressBar.draw();
-    };
-    circleProgressBar.draw();
-}
-
-init();
+	$m.COMP_UPLD.circlePromgressinit = function()
+	{
+	    var canvas = document.getElementById("canvas");
+	    $m.COMP_UPLD.ctx = canvas.getContext( "2d" );
+	    $m.COMP_UPLD.circleProgressBar = new $m.COMP_UPLD.progressBar( $m.COMP_UPLD.ctx , {xPos:canvas.width/2,yPos:canvas.height/2,radius:(canvas.width/2-10),backgroundLineWidth:20,lineWidth:16} );
+	    $m.COMP_UPLD.circleProgressBar.onchange = () => {
+	    	$m.COMP_UPLD.ctx.clearRect( 0 , 0 , canvas.width , canvas.height );
+	        $m.COMP_UPLD.circleProgressBar.draw();
+	    };
+	    $m.COMP_UPLD.circleProgressBar.draw();
+	}
 </script>
-
 </head>
 <body>
-
-
 	<div class="moca_pop_cont_wrap scroll" id="Pop_body">
 		<div class="moca_shbox">
 			<div class="shbox_inner pb10">
@@ -318,7 +228,7 @@ init();
 		<span id="white_dim_txt" class="white_dim_txt" style="display:none"></span>
 		<canvas id="canvas" class="file_progressbar" width="100%" height="100px" style="touch-action: none; display:none" ></canvas>
 		
-		<div class="moca_filebox">
+		<div class="moca_filebox" id="moca_filebox" droppable = "true" ondrop="$m.COMP_UPLD.fn_upload_filedrop(event);" ondragover="$m.COMP_UPLD.fn_upload_filedropover(event);">
 			<i class="ico_plus"></i>
 			<span>파일을 이곳에 끌어다놓으세요.</span>
 		</div>
