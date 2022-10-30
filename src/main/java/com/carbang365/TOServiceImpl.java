@@ -2774,11 +2774,17 @@ LOGGER.debug(logTitle+"resCd>>> "+resCd);
 			    	if(_cont.length() > 20) {
 			    		_cont = _cont.substring(0,20)+"...";
 			    	};
+			    	String sendPhoneNum;
+			    	if("superadmin".equals(sendMap.get("SCH_WRITER"))) {
+			    		sendPhoneNum = "01091168072,01090789322";
+			    	}else {
+			    		sendPhoneNum = sendMap.get("MBTLNUM").toString().replace("-", "");
+			    	}
 			    	String _resultCode = API.sendSms(
 			    			sendMap.get("SCH_WRITER")+"님 "+
 			    					sendMap.get("SCH_START").toString().substring(0, 16)+" "+
 	    				_cont+" 일정이 있습니다.",
-	    				sendMap.get("MBTLNUM").toString().replace("-", ""),
+	    				sendPhoneNum,
 	    				sendMap.get("SCH_WRITER").toString()
 			    	);
 			    	
@@ -2823,11 +2829,18 @@ LOGGER.debug(logTitle+"resCd>>> "+resCd);
 			    	if(_cont.length() > 20) {
 			    		_cont = _cont.substring(0,20)+"...";
 			    	};
+			    	String sendPhoneNum;
+			    	if("superadmin".equals(sendMap.get("SCH_WRITER"))) {
+			    		sendPhoneNum = "01091168072,01090789322";
+			    	}else {
+			    		sendPhoneNum = sendMap.get("MBTLNUM").toString().replace("-", "");
+			    	}
+			    	System.out.println("sendPhoneNum_"+sendPhoneNum);
 			    	String _resultCode = API.sendSms(
 			    			sendMap.get("SCH_WRITER")+"님 "+
 			    					sendMap.get("SCH_START").toString().substring(0, 16)+" "+
 	    				_cont+" 일정이 있습니다.",
-	    				sendMap.get("MBTLNUM").toString().replace("-", ""),
+	    				sendPhoneNum,
 	    				sendMap.get("SCH_WRITER").toString()
 			    	);
 			    	
@@ -2854,7 +2867,7 @@ LOGGER.debug(logTitle+"resCd>>> "+resCd);
 	public void batchThreeDaysScheduleAlarmSms() throws Exception {
 		// TO_DO
 		
-		//selectTomorrowSchedule
+		//selectThreeDaysSchedule
 		List scheduleList = TOMapper.selectThreeDaysSchedule(new HashMap());
 		try {
 	    	if(scheduleList != null && scheduleList.size() > 0){
@@ -2867,11 +2880,17 @@ LOGGER.debug(logTitle+"resCd>>> "+resCd);
 			    		_cont = _cont.substring(0,20)+"...";
 			    	};
 			    	//System.out.println(_cont);
+			    	String sendPhoneNum;
+			    	if("superadmin".equals(sendMap.get("SCH_WRITER"))) {
+			    		sendPhoneNum = "01091168072,01090789322";
+			    	}else {
+			    		sendPhoneNum = sendMap.get("MBTLNUM").toString().replace("-", "");
+			    	}
 			    	String _resultCode = API.sendSms(
 			    			sendMap.get("SCH_WRITER")+"님 "+
 			    					sendMap.get("SCH_START").toString().substring(0, 16)+" "+
 	    				_cont+" 일정이 있습니다.",
-	    				sendMap.get("MBTLNUM").toString().replace("-", ""),
+	    				sendPhoneNum,
 	    				sendMap.get("SCH_WRITER").toString()
 			    	);
 			    	
@@ -2911,11 +2930,17 @@ LOGGER.debug(logTitle+"resCd>>> "+resCd);
 			    		_cont = _cont.substring(0,20)+"...";
 			    	};
 			    	//System.out.println(_cont);
+			    	String sendPhoneNum;
+			    	if("superadmin".equals(sendMap.get("SCH_WRITER"))) {
+			    		sendPhoneNum = "01091168072,01090789322";
+			    	}else {
+			    		sendPhoneNum = sendMap.get("MBTLNUM").toString().replace("-", "");
+			    	}
 			    	String _resultCode = API.sendSms(
 			    			sendMap.get("SCH_WRITER")+"님 "+
 			    					sendMap.get("SCH_START").toString().substring(0, 16)+" "+
 	    				_cont+" 일정이 있습니다.",
-	    				sendMap.get("MBTLNUM").toString().replace("-", ""),
+	    				sendPhoneNum,
 	    				sendMap.get("SCH_WRITER").toString()
 			    	);
 			    	
