@@ -795,8 +795,20 @@ $m.EFC_BOARD_POP._openFileUpload = function(_thisObj) {
 	    	            }else{
 	    	            	$m.EFC_BOARD_POP.drawGrid('grd_reply_file',arr);
 	    	            }
+	    	    	};
+	    	    	var _grdObj = $(_thisObj).closest('div[type="grid"]');
+	    	    	if($(_grdObj).hasClass('fold')){
+	    	    		$m._foldGrid($(_grdObj).find('#grd_file_btn_fold')[0]);
 	    	    	}
+	    	    	/*
+	    	    	let fobj = 
+	    	    	if($($m.EFC_BOARD_POP.getObj("grd_file_btn_fold")).hasClass('grid_fold')){
+	    	    		$m._foldGrid($('#grd_file_btn_fold')[0]);
+	    	    	}
+	    	    	*/
+	    	    	
 	    		}
+	    		
 	    	}
         },
 	    o.scopeId = $m.EFC_BOARD_POP.pageId;
