@@ -2781,9 +2781,9 @@ LOGGER.debug(logTitle+"resCd>>> "+resCd);
 			    		sendPhoneNum = sendMap.get("MBTLNUM").toString().replace("-", "");
 			    	}
 			    	String _resultCode = API.sendSms(
-			    			sendMap.get("SCH_WRITER")+"님 "+
+			    			"[당일] "+
 			    					sendMap.get("SCH_START").toString().substring(0, 16)+" "+
-	    				_cont+" 일정이 있습니다.",
+	    				_cont+" 일정",
 	    				sendPhoneNum,
 	    				sendMap.get("SCH_WRITER").toString()
 			    	);
@@ -2837,9 +2837,9 @@ LOGGER.debug(logTitle+"resCd>>> "+resCd);
 			    	}
 			    	System.out.println("sendPhoneNum_"+sendPhoneNum);
 			    	String _resultCode = API.sendSms(
-			    			sendMap.get("SCH_WRITER")+"님 "+
+			    			"[1일전]\n"+
 			    					sendMap.get("SCH_START").toString().substring(0, 16)+" "+
-	    				_cont+" 일정이 있습니다.",
+	    				_cont+" 일정",
 	    				sendPhoneNum,
 	    				sendMap.get("SCH_WRITER").toString()
 			    	);
@@ -2887,9 +2887,9 @@ LOGGER.debug(logTitle+"resCd>>> "+resCd);
 			    		sendPhoneNum = sendMap.get("MBTLNUM").toString().replace("-", "");
 			    	}
 			    	String _resultCode = API.sendSms(
-			    			sendMap.get("SCH_WRITER")+"님 "+
+			    			"[3일전]\n"+
 			    					sendMap.get("SCH_START").toString().substring(0, 16)+" "+
-	    				_cont+" 일정이 있습니다.",
+	    				_cont+" 일정",
 	    				sendPhoneNum,
 	    				sendMap.get("SCH_WRITER").toString()
 			    	);
@@ -2937,9 +2937,9 @@ LOGGER.debug(logTitle+"resCd>>> "+resCd);
 			    		sendPhoneNum = sendMap.get("MBTLNUM").toString().replace("-", "");
 			    	}
 			    	String _resultCode = API.sendSms(
-			    			sendMap.get("SCH_WRITER")+"님 "+
+			    			"[7일전]\n"+
 			    					sendMap.get("SCH_START").toString().substring(0, 16)+" "+
-	    				_cont+" 일정이 있습니다.",
+	    				_cont+" 일정",
 	    				sendPhoneNum,
 	    				sendMap.get("SCH_WRITER").toString()
 			    	);

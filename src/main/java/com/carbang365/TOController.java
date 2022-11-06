@@ -5766,18 +5766,36 @@ public class TOController{
 					
 			if(_BOARD_SUPPORT.equals("Y") && _BOARD_WRITERPHONE != null){
 				//완료일경우만 
-				Map map = new HashMap();
-		    	map.put("PROP_KEY","업무게시판수신자");
-		    	List EFGPRPOP_list = mocaEFLService.selectList_EFGPROP(map);
-		    	if(EFGPRPOP_list != null && EFGPRPOP_list.size() > 0){
-		    		Map phonenumber = (Map)EFGPRPOP_list.get(0);
-			    	API.sendSms(
-			    			"[teammoca발신]\n"+BOARD_CONT+"...요청건이 완료되었습니다.",
-			    			_BOARD_WRITERPHONE,
-			    			paramMap.get("BOARD_WRITER").toString()
-			    	);
-		    	}
+		    	API.sendSms(
+		    			"[teammoca발신]\n"+BOARD_CONT+"...요청건이 완료되었습니다.",
+		    			_BOARD_WRITERPHONE,
+		    			paramMap.get("BOARD_WRITER").toString()
+		    	);
+			};
+			Map map = new HashMap();
+	    	map.put("PROP_KEY","업무게시판수신자");
+	    	String sendPhoneNum = "01090789322,01091168072";
+			List EFGPRPOP_list = mocaEFLService.selectList_EFGPROP(map);
+			String BOARD_STATUS = "";
+			if(_BOARD_SUPPORT.equals("Y")){
+				BOARD_STATUS = "완료";
+			}else if(_BOARD_SUPPORT.equals("B")) {
+				BOARD_STATUS = "반려";
+			}else if(_BOARD_SUPPORT.equals("R")) {
+				BOARD_STATUS = "접수";
 			}
+			
+			System.out.println("EFGPRPOP_list~~~~~~~~~~~>>>>"+EFGPRPOP_list);
+			if(EFGPRPOP_list != null && EFGPRPOP_list.size() > 0){
+	    		Map phonenumber = (Map)EFGPRPOP_list.get(0);
+		    	API.sendSms(
+		    			"[teammoca발신]\n"+BOARD_CONT+"...요청건이 "+BOARD_STATUS+"되었습니다.",
+		    			sendPhoneNum,
+		    			paramMap.get("BOARD_WRITER").toString()
+		    	);
+	    	}
+			
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());

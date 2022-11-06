@@ -3,6 +3,7 @@
 <head meta_width="1300px" meta_height="550px">
 <script>
 $m.EFC_BOARD_POP.editor;
+$m.EFC_BOARD_POP.reply_editor;
 $m.EFC_BOARD_POP._boardIdx;
 $m.EFC_BOARD_POP._boardPIdx;
 $m.EFC_BOARD_POP._boardType;
@@ -29,6 +30,8 @@ $m.EFC_BOARD_POP.___ready = function(args){
     	$m.hide($m.EFC_BOARD_POP.getObj('grd_file_btn_delrow'));
     	$m.hide($m.EFC_BOARD_POP.getObj('grd_reply_file_btn_delrow'));
     	$m.hide($m.EFC_BOARD_POP.getObj('btn_add'));
+    	$m.hide($m.EFC_BOARD_POP.getObj('btn_clipAll'));
+    	$m.hide($m.EFC_BOARD_POP.getObj('btn_clip'));
     	$m.hide($m.EFC_BOARD_POP.getObj('btn_reply_add'));
     	$m.hide($m.EFC_BOARD_POP.getObj('btn_receipt'));
     	$m.hide($m.EFC_BOARD_POP.getObj('btn_update'));
@@ -101,6 +104,8 @@ $m.EFC_BOARD_POP.___ready = function(args){
         }}} );
     	CKEDITOR.replace( 'reply_editor',{uiColor:'#deecea',on:{
             'instanceReady':function(ev){
+            	$m.EFC_BOARD_POP.reply_editor = ev.editor;
+            	$m.EFC_BOARD_POP.reply_editor.setReadOnly(true);
             	$('.edit').find('iframe').contents().click(function(e) { 
             		if(typeof e.target.href != 'undefined'){
             			window.open(e.target.href, 'new'+ e.screenX);
@@ -398,7 +403,10 @@ $m.EFC_BOARD_POP.fn_update = function(_thisObj){
 		$m.hide($m.EFC_BOARD_POP.getObj("btn_del"));
 		$m.hide($m.EFC_BOARD_POP.getObj("btn_reply"));
 		$m.show($m.EFC_BOARD_POP.getObj("btn_save"));
-
+		$m.show($m.EFC_BOARD_POP.getObj('btn_clip'));
+		$m.show($m.EFC_BOARD_POP.getObj('btn_clipAll'));
+		
+		
 		//자동저장시작
 		$m.EFC_BOARD_POP.timeoutValue = setInterval(function(){ 
     		//게시글수정
@@ -449,6 +457,7 @@ $m.EFC_BOARD_POP.fn_update = function(_thisObj){
 		$m.show($m.EFC_BOARD_POP.getObj('tr_completeid'));
 	}else{ //답변수정
 		$m.EFC_BOARD_POP._boardReplyStatus = "U";
+		$m.EFC_BOARD_POP.reply_editor.setReadOnly(false);
 		$m.setReadOnly($m.EFC_BOARD_POP.getObj("wreplytitle"),false);
 		$($m.EFC_BOARD_POP.getObj("cke_reply_editor")).find("[id$='_top']").show();
 		$m.setValue($m.EFC_BOARD_POP.getObj("wreplyid"),$m.getSs("USER_ID"));
@@ -818,8 +827,9 @@ $m.EFC_BOARD_POP._openFileUpload = function(_thisObj) {
 	    };
 	    $m.popup(o,_thisObj);
 };
-
+$m.EFC_BOARD_POP.fileUrl;
 $m.EFC_BOARD_POP.showFileURL = function(_grd,rowIndex,colIndex,colId){
+	$m.show($m.EFC_BOARD_POP.getObj('btn_clip'));
 	var _list;
 	if(_grd.id != 'grd_reply_file'){
 		_list = $m.EFC_BOARD_POP.getObj('grd_file').list;
@@ -827,21 +837,11 @@ $m.EFC_BOARD_POP.showFileURL = function(_grd,rowIndex,colIndex,colId){
 		_list = $m.EFC_BOARD_POP.getObj('grd_reply_file').list;
 	}
 	var id = _list[rowIndex].BOARDFILE_ID;
-	var _html = $(_grd).find('.grid_total').html();
-	_html =_html.replace(/\[.*?\]/g,'');
-
-	if($('.file_link').is(':visible')){
-		_html = _html.replace(/\<em class="file_link".*$/g,'');
-	}
-	_html = _html+"<em class='file_link' onclick='$m.EFC_BOARD_POP.fn_copy(this)'>";
-	_html = _html +"[&nbsp;https://drive.google.com/uc?id="+ id+"&nbsp;]";
-	_html = _html + "</em>";	
-	
-	$(_grd).find('.grid_total').html(_html);
+	$m.EFC_BOARD_POP.fileUrl = "https://drive.google.com/uc?id="+id;
 };
 
 $m.EFC_BOARD_POP.fn_copy = function(_this){
-	var _text = $(_this).text().replace(/\[|\]|' '/g,'').trim();
+	var _text = $m.EFC_BOARD_POP.fileUrl;
 	var _clipboard = $('#input_clipboard');
 	_clipboard.val(_text);
 	_clipboard[0].focus();
@@ -1189,8 +1189,9 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 			                            toolbar_full="true"
 			                            toolbar_fold="true"
 			                            onFoldClick="$m.EFC_BOARD_POP.grd_btnShowHide"
-			                            toolbar_grid_button1='{"position":"left","id":"btn_add","label":"전체클립","onclick":"$m.EFC_BOARD_POP.fn_copy_all","addClass":"","innerDisabled":"false"}'
-			                            toolbar_grid_button2='{"position":"left","id":"btn_add","label":"파일찾기","onclick":"$m.EFC_BOARD_POP._openFileUpload","addClass":"","innerDisabled":"false"}'
+			                            toolbar_grid_button1='{"position":"left","id":"btn_clip","label":"클립복사","onclick":"$m.EFC_BOARD_POP.fn_copy","addClass":"","innerDisabled":"false"}'
+			                            toolbar_grid_button2='{"position":"left","id":"btn_clipAll","label":"전체클립","onclick":"$m.EFC_BOARD_POP.fn_copy_all","addClass":"","innerDisabled":"false"}'
+			                            toolbar_grid_button3='{"position":"left","id":"btn_add","label":"파일찾기","onclick":"$m.EFC_BOARD_POP._openFileUpload","addClass":"","innerDisabled":"false"}'
 			                            onDblClick = "$m.EFC_BOARD_POP.grd_fileDownload"
 			                            onRowSelected="$m.EFC_BOARD_POP.showFileURL"
 			                            subLabel="첨부파일"

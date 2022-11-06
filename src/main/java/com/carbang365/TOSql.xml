@@ -4953,7 +4953,7 @@
                        A.BOARD_SUPPORT,
                        A.BOARD_PHONE, 
                        A.BOARD_EMAIL, 
-                       A.BOARD_RECEIPTIONER,
+				       A.BOARD_RECEIPTIONER,
                        A.BOARD_COMPLETER
                 FROM ${BOARD_TABLE} A 
                 WHERE 1=1
