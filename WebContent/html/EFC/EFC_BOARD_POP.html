@@ -830,6 +830,7 @@ $m.EFC_BOARD_POP._openFileUpload = function(_thisObj) {
 $m.EFC_BOARD_POP.fileUrl;
 $m.EFC_BOARD_POP.showFileURL = function(_grd,rowIndex,colIndex,colId){
 	$m.show($m.EFC_BOARD_POP.getObj('btn_clip'));
+	$m.show($m.EFC_BOARD_POP.getObj('btn_clipAll'));
 	var _list;
 	if(_grd.id != 'grd_reply_file'){
 		_list = $m.EFC_BOARD_POP.getObj('grd_file').list;
