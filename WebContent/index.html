@@ -58,6 +58,12 @@ $('link[href*="/moca_mobile.css"]').attr('href',"/moca/css/moca_mobile.css?v="+(
 var $m = new Moca();
 </script>
 </head>
-<body type="include"  id="__body" style="display:none" tag="moca:body" src="/main.html">
+<body>
+	<div id="moca_tab_bridge1" class="moca_tab_panel" role="topLayout" style="display:block;visibility:visible;">
+		<div class="wrapper">
+			<div type="include"  id="__body" tag="moca:mdi" src="/main.html"></div>
+		</div>
+	</div>
+	<div type="include"  id="footer" tag="moca:footer" src="/html/teammoca/comm/footer.html"></div>
 </body>
 </html>

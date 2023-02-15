@@ -10909,6 +10909,14 @@ Moca.prototype.rendering = function(o,_aTag) {
                 $($('div[pageid="'+o.scopeId+'"]')[0]).closest('[mdi_id]').append(tmp);
             }else{
                 $('div[pageid="'+o.scopeId+'"].moca_tab_panel[role=mdipanel]').append(tmp);
+                
+                
+                let a = $('div[pageid="'+o.scopeId+'"].moca_tab_panel[role=mdipanel]');
+        		if(a.length == 0){
+        			$('div[tab_id="'+o.scopeId+'"].moca_tab_body').append(tmp);
+        		}else{
+        			$('div[pageid="'+o.scopeId+'"].moca_tab_panel[role=mdipanel]').append(tmp);
+        		}
             }
         }else{
             document.body.appendChild(tmp);
@@ -12208,8 +12216,20 @@ Moca.prototype.popup = function(_option,thisObj) {
                         //  top = 0;
                         //}                     
                     }else{
-                        defaultTop = $('div[pageid="'+_option.scopeId+'"].moca_tab_panel[role=mdipanel]').offset().top;
-                        top -= defaultTop;
+                    	let a = $('div[pageid="'+_option.scopeId+'"].moca_tab_panel[role=mdipanel]');
+                    	if(a.length == 0){
+                    		defaultTop = $('div.moca_tab_panel[role=topLayout]').offset().top;
+                            top -= defaultTop;
+                    	}else{
+                    		let a = $('div[pageid="'+_option.scopeId+'"].moca_tab_panel[role=mdipanel]');
+                    		if(a.length == 0){
+                    			defaultTop = $('div[tab_id="'+_option.scopeId+'"].moca_tab_body').offset().top;
+                    		}else{
+                    			defaultTop = $('div[pageid="'+_option.scopeId+'"].moca_tab_panel[role=mdipanel]').offset().top;
+                    		}
+                    		
+                            top -= defaultTop;
+                    	}
                         //if(top < 0){
                         //  top = -defaultTop;
                         //}
@@ -12230,7 +12250,20 @@ Moca.prototype.popup = function(_option,thisObj) {
                     }else if(_option.scopeId != null && _option.scopeId.indexOf('TAB') > -1){
                         left -= $($('div[pageid="'+_option.scopeId+'"]')[0]).closest('[mdi_id]').offset().left;
                     }else{
-                        left -= $('div[pageid="'+_option.scopeId+'"].moca_tab_panel[role=mdipanel]').offset().left;
+                        
+                        
+                        
+                        
+                        
+                		let a = $('div[pageid="'+_option.scopeId+'"].moca_tab_panel[role=mdipanel]');
+                		if(a.length == 0){
+                			left -= $('div[tab_id="'+_option.scopeId+'"].moca_tab_body').offset().left;
+                		}else{
+                			left -= $('div[pageid="'+_option.scopeId+'"].moca_tab_panel[role=mdipanel]').offset().left;
+                		}
+						
+                		
+                		
                     }
                 }
                 //left += "px" ;

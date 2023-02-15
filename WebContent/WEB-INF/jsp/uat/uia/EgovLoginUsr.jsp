@@ -20,7 +20,7 @@
 <script type="text/javascript">
 var $m = new Moca();
 $m.EFC_CORP = {};
-$m.EFC_CORP.fn_search = function(){
+$m.EFC_CORP.fn_search = function(_callback){
 	$m.exe({
 		url : $m._domain+$m._contextRoot+"/efms/EFC_CORP/list_nosess_json.do",
 		loadingbar:true,
@@ -42,7 +42,9 @@ $m.EFC_CORP.fn_search = function(){
 					_html += '<option value="'+cd+'">'+nm+'</option>';
 				//}
 			}
+			
 			$('#CORP_CD').html(_html);
+			_callback();
 		}
 	});
 };
@@ -98,28 +100,40 @@ function saveid(form) {
         expdate.setTime(expdate.getTime() + 1000 * 3600 * 24 * 30); // 30일
     else
         expdate.setTime(expdate.getTime() - 1); // 쿠키 삭제조건
+        
     setCookie("saveid", form.id.value, expdate);
+    setCookie("savepass", form.password.value, expdate);
 }
 
 function getid(form) {
     form.checkId.checked = ((form.id.value = getCookie("saveid")) != "");
 }
 
-function fnInit() {
-	$m.EFC_CORP.fn_search();
-    var message = document.loginForm.message.value;
-    if (message != "") {
-        alert(message);
-    }
-    getid(document.loginForm);
-    
+function getpass(form) {
+	form.password.value = getCookie("savepass");
 }
+
+function fnInit() {
+	$m.EFC_CORP.fn_search(function(){
+	    var message = document.loginForm.message.value;
+	    if (message != "") {
+	        alert(message);
+	    }
+	    getid(document.loginForm);
+	    getpass(document.loginForm);
+	    if(document.loginForm.checkId.checked){
+	    	actionLogin();
+	    }else{
+	    	$('body>.wrap').show();
+	    }
+	});
+};
 
 
 </script>
 </head>
 <body  onload="fnInit();">
-	<div class="wrap">
+	<div class="wrap" style='display:none'>
 		<div class="login_box">
 			<div class="login_left">
 				<h1 class="logo">teammoca ERP</h1>
@@ -132,7 +146,7 @@ function fnInit() {
 				<input type="password" placeholder="비밀번호" maxlength="25" title="비밀번호를 입력하세요." id="password" name="password" onkeydown="javascript:if (event.keyCode == 13) { actionLogin(); }"/>
 				<button onclick="javascript:actionLogin()" >LOGIN</button>
 				<div class="login_option">
-					<input type="checkbox" name="checkId" title="로그인ID 저장여부" onclick="javascript:saveid(this.form);" id="checkId" />아이디저장
+					<input type="checkbox" name="checkId" title="로그인ID 저장여부" onclick="javascript:saveid(this.form);" id="checkId" />자동로그인
 				</div>
 	            <input type="hidden" name="message" value="${message}" />
 	            <input type="hidden" name="userSe"  value="USR"/>

@@ -12,10 +12,18 @@
 <script language="JavaScript" src="./js/list2000.js"></script>
 <script language="JavaScript" src="./js/moca.js"></script>
 <script>
+	
 	$m._func_header = {};
 	$m._func_header.fn_logout = function(){
 		$m.confirm('로그아웃하시겠습니까?',function(result){
 			if(result == 'Y'){
+				function setCookie (name, value, expires) {
+				    document.cookie = name + "=" + escape (value) + "; path=/; expires=" + expires.toGMTString();
+				}
+				var expdate = new Date();
+				expdate.setTime(expdate.getTime() - 1);
+			    setCookie("saveid", null, expdate);
+			    setCookie("savepass", null, expdate);
 				top.location.href = $m._contextRoot+'/uat/uia/actionLogout.do';
 			}
 		});		
