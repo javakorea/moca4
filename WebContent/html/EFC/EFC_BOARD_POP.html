@@ -11,7 +11,6 @@ $m.EFC_BOARD_POP._boardTitle;
 $m.EFC_BOARD_POP._boardStatus;
 $m.EFC_BOARD_POP._boardReplyStatus;
 $m.EFC_BOARD_POP.___ready = function(args){
-
 	if(window['viewMode'] != 'contentOnly'){
 		$m.show($m.EFC_BOARD_POP.getObj('form_board'));
 		$m.show($m.EFC_BOARD_POP.getObj('grd_file'));
@@ -76,24 +75,31 @@ $m.EFC_BOARD_POP.___ready = function(args){
     		$m.hide($m.EFC_BOARD_POP.getObj('tr_email'));
     		$m.hide($m.EFC_BOARD_POP.getObj('tr_completeid'));
     	}
-    	
+    	debugger;
     	if(Object.keys(CKEDITOR.instances).length > 0){
     		if(CKEDITOR.instances.editor != null){CKEDITOR.instances.editor.destroy()};
     		if(CKEDITOR.instances.reply_editor != null){CKEDITOR.instances.reply_editor.destroy()};
     	}
-    	 
-    	CKEDITOR.replace( 'editor',{uiColor:'#fff9da',on:{
+    	let pid = $m.EFC_BOARD_POP.pageId;
+    	let popo = $(`div[tab_id=${pid}]`);
+    	let conto = popo.find('#contents');
+    	let edito = popo.find('#editor');
+    	let redito = popo.find('#reply_editor');
+    	CKEDITOR.replace(edito[0],{uiColor:'#fff9da',on:{
             'instanceReady':function(ev){
             	$m.EFC_BOARD_POP.editor = ev.editor;
             	$m.EFC_BOARD_POP._boardIdx = $m.EFC_BOARD_POP.args.parent.data.BOARD_IDX;
                 if($m.EFC_BOARD_POP._boardIdx != null){
                 	$m.EFC_BOARD_POP.editor.setReadOnly(true);
                 }
-                $('#contents').show();
+                debugger;
+                conto.show();
                 $m.EFC_BOARD_POP.fn_searchReply();
                 $m.EFC_BOARD_POP.fn_search();
                 $m.show($($m.EFC_BOARD_POP.getObj('form_board')).find('.rta'));
-                $('.edit').find('iframe').contents().click(function(e) { 
+                
+                
+                edito.find('iframe').contents().click(function(e) { 
                 	if(typeof e.target.href != 'undefined'){
                 		window.open(e.target.href, 'new'+ e.screenX);
                 	}else if(e.target.parentElement != null && typeof e.target.parentElement.href != 'undefined'){
@@ -102,11 +108,16 @@ $m.EFC_BOARD_POP.___ready = function(args){
                 });
                 
         }}} );
-    	CKEDITOR.replace( 'reply_editor',{uiColor:'#deecea',on:{
+    	CKEDITOR.replace(redito[0],{uiColor:'#deecea',on:{
             'instanceReady':function(ev){
+            	
             	$m.EFC_BOARD_POP.reply_editor = ev.editor;
             	$m.EFC_BOARD_POP.reply_editor.setReadOnly(true);
-            	$('.edit').find('iframe').contents().click(function(e) { 
+            	
+                let pid = $m.EFC_BOARD_POP.pageId;
+                let popo = $("div[tab_id='"+pid+"']");
+                let conto = popo.find('#contents');
+                redito.find('iframe').contents().click(function(e) { 
             		if(typeof e.target.href != 'undefined'){
             			window.open(e.target.href, 'new'+ e.screenX);
             		}
@@ -215,8 +226,7 @@ $m.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 		callback : function(response){
 				if(response.selectBoardInfo != null ){
 				var data = response.selectBoardInfo;
-				//CKEDITOR.instances.reply_editor.setData(data.BOARD_CONT);
-				$('.edit').find('iframe').contents()[1].body.innerHTML = $m.resizeContsImg(data.BOARD_CONT); 
+				$m.EFC_BOARD_POP.reply_editor.setData($m.resizeContsImg(data.BOARD_CONT));
 				
 				$m.setValue($m.EFC_BOARD_POP.getObj("wreplytitle"),data.BOARD_TITLE);
 				$m.setValue($m.EFC_BOARD_POP.getObj("wreplydate"),data.BOARD_DATE);
@@ -281,8 +291,11 @@ _ct = _ct.replace(/(<img\s*[^>]*?)(onload="parent\.aaa\(this\);")([^>]*?\/>)/g,'
 _ct = _ct.replace(/<img /g,'<img src=/images/mobile/loading.gif width=80 height=80 id=imageLoadingBar border=0  /><img class="hide" onload="parent.aaa(this);" ');
 */
 _ct = _ct.replace(/<img /g,'<img src=/images/mobile/loading.gif width=80 height=80 id=imageLoadingBar border=0  /><img class="hide" onload="parent.aaa(this);" ');  
-						$('.edit').find('iframe').contents()[0].body.innerHTML = $m.resizeContsImg(_ct); 
-						
+//let pid = $m.EFC_BOARD_POP.pageId;
+//let popo = $(`div[tab_id=${pid}]`);
+//let conto = popo.find('#contents');
+//$(edito.container.$).contents()[0].body.innerHTML = $m.resizeContsImg(_ct); 
+$m.EFC_BOARD_POP.editor.setData($m.resizeContsImg(_ct));
 						
 						/*
 						var imgUrl = $('img[src^="https://drive.google.com"]',$('.edit').find('iframe').contents()[0]).attr('src');
