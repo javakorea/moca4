@@ -260,6 +260,8 @@ $m.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 	});
 };
 var aaa = function(e){
+	console.log('e',e);
+	alert('1->'+e);
 	if($(e).prev().prop('tagName') == 'IMG'){
 		$(e).prev().remove();
 	}
@@ -282,48 +284,14 @@ $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 						}
 				},			
 				callback : function(response){
+					let pid = $m.EFC_BOARD_POP._pageId ;
 						if(response.selectBoardInfo != null ){
 						var data = response.selectBoardInfo;
 						
 						if(window['viewMode'] != 'contentOnly'){
 							$m.show($m.EFC_BOARD_POP.getObj('edit_zoomBtn'));
 						}
-						//CKEDITOR.instances.editor.setData($m.resizeContsImg(data.BOARD_CONT));
-						
-var _ct = data.BOARD_CONT;
-_ct = _ct.replace(/<img [^>]*?id=\"{0,1}imageLoadingBar\"{0,1}[^>]*?\/>/g,"");
-
-/*
-_ct = _ct.replace(/<img src=\/images\/mobile\/loading\.gif width=80 height=80 id=imageLoadingBar border=0  \/>/g,"");
-_ct = _ct.replace(/(<img\s*[^>]*?)(onload="parent\.aaa\(this\);")([^>]*?\/>)/g,'$1$3');
-//_ct = _ct.replace(/(<img\s*[^>]*?)(style="display:none")([^>]*?\/>)/g,'$1$3');
-_ct = _ct.replace(/<img /g,'<img src=/images/mobile/loading.gif width=80 height=80 id=imageLoadingBar border=0  /><img class="hide" onload="parent.aaa(this);" ');
-*/
-_ct = _ct.replace(/<img /g,'<img src=/images/mobile/loading.gif width=80 height=80 id=imageLoadingBar border=0  /><img class="hide" onload="parent.aaa(this);" ');  
-//let pid = $m.EFC_BOARD_POP.pageId;
-//let popo = $(`div[tab_id=${pid}]`);
-//let conto = popo.find('#contents');
-//$(edito.container.$).contents()[0].body.innerHTML = $m.resizeContsImg(_ct); 
-debugger;
-let pid = $m.EFC_BOARD_POP._pageId ;
-CKEDITOR.instances['editor'+pid].setData($m.resizeContsImg(_ct));
-						/*
-						var imgUrl = $('img[src^="https://drive.google.com"]',$('.edit').find('iframe').contents()[0]).attr('src');
-						var img2 = new Image();
-						img2.src = imgUrl;
-						img2.onload = function() {
-						    console.log("Image 1 ready to append");
-						    alert('load');
-						};
-						*/
-						/*
-						$('img[src^="https://drive.google.com"]',$('.edit').find('iframe').contents()[0])[0].onload =function() {
-						    console.log("Image2 ready to append");
-						    alert('load2');
-						};
-						*/
-						
-						
+						CKEDITOR.instances['editor'+pid].setData(data.BOARD_CONT);
 						
 						$m.show($($m.EFC_BOARD_POP.getObj('form_board',null,pid)).find('.rta'));
 						$m.hide($($m.EFC_BOARD_POP.getObj("cke_editor",null,pid)).find("[id$='_top']"));
@@ -567,7 +535,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                        	"BOARD_TYPE":$m.EFC_BOARD_POP._boardType,
 	                            "BOARD_TITLE":wtitle,
 	                            "BOARD_CONT":CKEDITOR.instances['editor'+_pageId].getData(),
-	                            "GET_CONT_TXT":CKEDITOR.instances['editor'+_pageId].document.getBody().getHtml(),
+	                            "GET_CONT_TXT":CKEDITOR.instances['editor'+_pageId].getData(),
 	                            "BOARD_WRITER":$m.getValue($m.EFC_BOARD_POP.getObj("wid")),
 	                            "BOARD_PHONE":$m.getValue($m.EFC_BOARD_POP.getObj("wphone")),
 	                            "BOARD_EMAIL":$m.getValue($m.EFC_BOARD_POP.getObj("wemail")),
@@ -584,6 +552,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                });
 	            }else{
             		//게시글수정
+            		debugger;
             		 $m.EFC_BOARD_POP.exe({
                          url : $m._domain+$m._contextRoot+"/EFC_BOARD/updateBoard.do",
                          loadingbar:true,
@@ -595,7 +564,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
                                  "BOARD_IDX":$m.getValue($m.EFC_BOARD_POP.getObj('widx')),
                                  "BOARD_PIDX":$m.EFC_BOARD_POP._boardPIdx,
                                  "BOARD_TITLE":$m.getValue($m.EFC_BOARD_POP.getObj("wtitle")),
-                                 "BOARD_CONT":CKEDITOR.instances.editor.getData(),
+                                 "BOARD_CONT":CKEDITOR.instances['editor'+_pageId].getData(),
                                  "BOARD_WRITER":$m.getSs("USER_ID"),
                                  "BOARD_PHONE":$m.getValue($m.EFC_BOARD_POP.getObj("wphone")),
  	                             "BOARD_EMAIL":$m.getValue($m.EFC_BOARD_POP.getObj("wemail")),
@@ -1003,6 +972,8 @@ $m.EFC_BOARD_POP.fn_reply = function(_thisObj){
 
 $m.EFC_BOARD_POP._boardSupport ;
 $m.EFC_BOARD_POP.fn_status = function(_thisObj){
+	let _pageId = $(_thisObj).closest('div[pageid]').attr('pageid');
+	debugger;
 	var _completeid;
 	var _receiptid = $m.getValue($m.EFC_BOARD_POP.getObj('wreceiptid')) != ""?$m.getValue($m.EFC_BOARD_POP.getObj('wreceiptid')):$m.getSs("USER_ID");
 	if(_thisObj.innerText == "접수"){
@@ -1028,7 +999,7 @@ $m.EFC_BOARD_POP.fn_status = function(_thisObj){
         				"BOARD_COMPLETER": _completeid,
         				"BOARD_WRITERPHONE": $m.getValue($m.EFC_BOARD_POP.getObj('wphone')),
         				"BOARD_WRITER":$m.getValue($m.EFC_BOARD_POP.getObj('wid')),
-        				"BOARD_CONT":CKEDITOR.instances.editor.getData(),
+        				"BOARD_CONT":CKEDITOR.instances['editor'+_pageId].getData(),
         				"BOARD_TYPE":$m.EFC_BOARD_POP._boardType
         				}
         		},			
