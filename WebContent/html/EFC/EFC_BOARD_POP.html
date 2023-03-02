@@ -260,13 +260,15 @@ $m.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 	});
 };
 var aaa = function(e){
-	console.log('e',e);
-	alert('1->'+e);
 	if($(e).prev().prop('tagName') == 'IMG'){
 		$(e).prev().remove();
 	}
 	$(e).removeClass("hide");
 }
+$m.EFC_BOARD_POP.setHTML = function(_id,_scopeId,_html){
+	CKEDITOR.instances[_id+_scopeId].ui.editor.document.getBody().$.innerHTML = _html;
+}
+
 $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 	if($m.EFC_BOARD_POP._boardIdx != null){
 		$m.EFC_BOARD_POP._boardStatus = "R";
@@ -291,7 +293,7 @@ $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 						if(window['viewMode'] != 'contentOnly'){
 							$m.show($m.EFC_BOARD_POP.getObj('edit_zoomBtn'));
 						}
-						CKEDITOR.instances['editor'+pid].setData(data.BOARD_CONT);
+						$m.EFC_BOARD_POP.setHTML('editor',pid,data.BOARD_CONT);
 						
 						$m.show($($m.EFC_BOARD_POP.getObj('form_board',null,pid)).find('.rta'));
 						$m.hide($($m.EFC_BOARD_POP.getObj("cke_editor",null,pid)).find("[id$='_top']"));
