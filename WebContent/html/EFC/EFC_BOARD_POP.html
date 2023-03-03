@@ -2,6 +2,20 @@
 <html lang="ko">
 <head meta_width="1300px" meta_height="550px">
 <script>
+$m.EFC_BOARD_POP.setHTML = function(_id,_scopeId,_html){
+	$m.EFC_BOARD_POP.getCKE(_id,_scopeId).ui.editor.document.getBody().$.innerHTML = _html;
+};
+$m.EFC_BOARD_POP.getHTML = function(_id,_scopeId){
+	return $m.EFC_BOARD_POP.getCKE(_id,_scopeId).getData();
+};
+$m.EFC_BOARD_POP.getTEXT = function(_id,_scopeId){
+	return $m.EFC_BOARD_POP.getCKE(_id,_scopeId).document.getBody().getText();
+};
+$m.EFC_BOARD_POP.getCKE = function(_id,_scopeId){
+	return CKEDITOR.instances[_id+_scopeId];
+};
+
+
 $m.EFC_BOARD_POP._boardIdx;
 $m.EFC_BOARD_POP._boardPIdx;
 $m.EFC_BOARD_POP._boardType;
@@ -73,13 +87,6 @@ $m.EFC_BOARD_POP.___ready = function(args){
     		$m.hide($m.EFC_BOARD_POP.getObj('tr_email'));
     		$m.hide($m.EFC_BOARD_POP.getObj('tr_completeid'));
     	}
-    	/*
-    	if(Object.keys(CKEDITOR.instances).length > 0){
-    		if(CKEDITOR.instances.editor != null){CKEDITOR.instances.editor.destroy()};
-    		if(CKEDITOR.instances.reply_editor != null){CKEDITOR.instances.reply_editor.destroy()};
-    	}
-    	*/
-    	
     	var pid = $m.EFC_BOARD_POP.pageId;
     	let popo = $(`div[tab_id=${pid}]`);
     	let conto = popo.find('#contents');
@@ -92,7 +99,7 @@ $m.EFC_BOARD_POP.___ready = function(args){
             'instanceReady':function(ev){
             	$m.EFC_BOARD_POP._boardIdx = $m.EFC_BOARD_POP.args.parent.data.BOARD_IDX;
                 if($m.EFC_BOARD_POP._boardIdx != null){
-                	CKEDITOR.instances['editor'+CKEDITOR.pid].setReadOnly(true);
+                	this.setReadOnly(true);
                 }
                 conto.show();
                 $m.EFC_BOARD_POP.fn_searchReply();
@@ -111,14 +118,10 @@ $m.EFC_BOARD_POP.___ready = function(args){
         }}} );
     	CKEDITOR.replace(redito[0],{uiColor:'#deecea',on:{
             'instanceReady':function(ev){
-            	
-            	
             	if($m.EFC_BOARD_POP._boardIdx != null){
-                	CKEDITOR.instances['editor'+CKEDITOR.pid].setReadOnly(true);
+                	$m.EFC_BOARD_POP.getCKE('editor',CKEDITOR.pid).setReadOnly(true);
                 }
-            	
-            	
-            	CKEDITOR.instances['reply_editor'+CKEDITOR.pid].setReadOnly(true);
+            	this.setReadOnly(true);
             	
                 let pid = $m.EFC_BOARD_POP.pageId;
                 let popo = $("div[tab_id='"+pid+"']");
@@ -159,9 +162,6 @@ $m.EFC_BOARD_POP._foldForm = function(_thisObj){
     if($m.trim(_onFoldClick) != ''){
    		eval(_onFoldClick)(b_jq,g_jq);
     };
-    
-    
-    //$(_thisObj).closest('.moca_popup_header)
 };
 
 $m.EFC_BOARD_POP.fn_searchReply = function(_grd,_idx,tdObj,_thisObj){
@@ -217,8 +217,6 @@ $m.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
     $m.hide($m.EFC_BOARD_POP.getObj("btn_success",null,_pageId));
     $m.hide($m.EFC_BOARD_POP.getObj("btn_reject",null,_pageId));
 
-    //$($m.EFC_BOARD_POP.getObj('colPhone')).attr('style','display:none');
-    //$($m.EFC_BOARD_POP.getObj('colEmail')).attr('style','display:none');	
     $m.EFC_BOARD_POP._boardIdx = $m.getCellData(_grd,rowIndex,'BOARD_IDX');
     $m.EFC_BOARD_POP.exe({
 		url : $m._domain+$m._contextRoot+"/EFC_BOARD/selectBoardInfo.do",
@@ -233,12 +231,13 @@ $m.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 		callback : function(response){
 				if(response.selectBoardInfo != null ){
 				var data = response.selectBoardInfo;
-				CKEDITOR.instances['reply_editor'+_pageId].setData($m.resizeContsImg(data.BOARD_CONT));
+				$m.EFC_BOARD_POP.setHTML('reply_editor',_pageId,$m.resizeContsImg(data.BOARD_CONT))
 				
 				$m.setValue($m.EFC_BOARD_POP.getObj("wreplytitle",null,_pageId),data.BOARD_TITLE);
 				$m.setValue($m.EFC_BOARD_POP.getObj("wreplydate",null,_pageId),data.BOARD_DATE);
 				$m.setValue($m.EFC_BOARD_POP.getObj("wreplyid",null,_pageId),data.BOARD_WRITER);
-				$m.setValue($m.EFC_BOARD_POP.getObj("wreplyidx"),null,_pageId,data.BOARD_IDX);
+				//답변 게시물 표시
+				$m.setValue($m.EFC_BOARD_POP.getObj("wreplyidx",null,_pageId),data.BOARD_IDX);
 				$m.setValue($m.EFC_BOARD_POP.getObj("wboardreplyinfo",null,_pageId),data.BOARD_IDX+" / "+data.BOARD_DATE+" / "+data.BOARD_WRITER);
 				
 				$m.hide($m.EFC_BOARD_POP.getObj("btn_save",null,_pageId));
@@ -265,9 +264,9 @@ var aaa = function(e){
 	}
 	$(e).removeClass("hide");
 }
-$m.EFC_BOARD_POP.setHTML = function(_id,_scopeId,_html){
-	CKEDITOR.instances[_id+_scopeId].ui.editor.document.getBody().$.innerHTML = _html;
-}
+
+
+
 
 $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 	if($m.EFC_BOARD_POP._boardIdx != null){
@@ -286,6 +285,7 @@ $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 						}
 				},			
 				callback : function(response){
+					
 					let pid = $m.EFC_BOARD_POP._pageId ;
 						if(response.selectBoardInfo != null ){
 						var data = response.selectBoardInfo;
@@ -337,7 +337,6 @@ $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 				        	$m.hide($m.EFC_BOARD_POP.getObj("btn_del",null,pid));
 				        	$m.hide($m.EFC_BOARD_POP.getObj("btn_save",null,pid));
 				        	$m.hide($m.EFC_BOARD_POP.getObj("btn_del_admin",null,pid));
-				        	//$m.hide($($m.EFC_BOARD_POP.getObj("form_board")).find(".moca_addtion_area"));
 				        }
 					    if($m.getResList(response,"selectBoardFileList").length > 0){
 					    	$m._foldGrid($m.EFC_BOARD_POP.getObj('grd_file_btn_fold',null,pid));
@@ -393,7 +392,7 @@ $m.EFC_BOARD_POP.fn_update = function(_thisObj){
 		$m.setReadOnly($m.EFC_BOARD_POP.getObj("wemail",null,_pageId),false);
 		$m.setValue($m.EFC_BOARD_POP.getObj("wid",null,_pageId),$m.getSs("USER_ID"));
 		
-		CKEDITOR.instances['editor'+_pageId].setReadOnly(false);
+		$m.EFC_BOARD_POP.getCKE('editor',_pageId).setReadOnly(false);
 		
 		$m.hide($m.EFC_BOARD_POP.getObj("btn_update",null,_pageId));
 		$m.hide($m.EFC_BOARD_POP.getObj("btn_del",null,_pageId));
@@ -418,7 +417,7 @@ $m.EFC_BOARD_POP.fn_update = function(_thisObj){
                         "BOARD_IDX":$m.getValue($m.EFC_BOARD_POP.getObj('widx',null,_pageId)),
                         "BOARD_PIDX":$m.EFC_BOARD_POP._boardPIdx,
                         "BOARD_TITLE":$m.getValue($m.EFC_BOARD_POP.getObj("wtitle",null,_pageId)),
-                        "BOARD_CONT":CKEDITOR.instances['editor'+_pageId].getData(),
+                        "BOARD_CONT":$m.EFC_BOARD_POP.getHTML('editor',_pageId),
                         "BOARD_WRITER":$m.getSs("USER_ID"),
                         "BOARD_PHONE":$m.getValue($m.EFC_BOARD_POP.getObj("wphone",null,_pageId)),
                          "BOARD_EMAIL":$m.getValue($m.EFC_BOARD_POP.getObj("wemail",null,_pageId)),
@@ -454,12 +453,13 @@ $m.EFC_BOARD_POP.fn_update = function(_thisObj){
 	}else{ //답변수정
 		$m.EFC_BOARD_POP._boardReplyStatus = "U";
 	
-		CKEDITOR.instances['reply_editor'+_pageId].setReadOnly(false);
+		$m.EFC_BOARD_POP.getCKE('reply_editor',_pageId).setReadOnly(false);
 		
 		$m.setReadOnly($m.EFC_BOARD_POP.getObj("wreplytitle",null,_pageId),false);
 		$($m.EFC_BOARD_POP.getObj("cke_reply_editor")).find("[id$='_top']").show();
 		$m.setValue($m.EFC_BOARD_POP.getObj("wreplyid"),$m.getSs("USER_ID"));
-		CKEDITOR.instances['editor'+_pageId].setReadOnly(false);
+		$m.EFC_BOARD_POP.getCKE('editor',_pageId).setReadOnly(false);
+		
 		$m.hide($m.EFC_BOARD_POP.getObj("btn_reply_update",null,_pageId));
 		$m.hide($m.EFC_BOARD_POP.getObj("btn_reply_del",null,_pageId));
 		$m.hide($m.EFC_BOARD_POP.getObj("btn_reply_del_admin",null,_pageId));
@@ -521,9 +521,8 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	            	
 	            	var wtitle = $m.getValue($m.EFC_BOARD_POP.getObj("wtitle"));
 	            	if(wtitle == ''){
-	            		wtitle = $('#'+CKEDITOR.instances.editor.id+'_contents iframe').contents().find('body').text().substring(0,40);
+	            		wtitle = $m.EFC_BOARD_POP.getTEXT('editor'+_pageId).substring(0,40);
 	            	}
-	            	
 	                //게시물등록
 	                $m.EFC_BOARD_POP.exe({
 	                    url : $m._domain+$m._contextRoot+"/EFC_BOARD/insertBoard.do",
@@ -536,8 +535,8 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                        	"BOARD_SUPPORT":$m.EFC_BOARD_POP.getSearchCombo('cmb_board').value,
 	                        	"BOARD_TYPE":$m.EFC_BOARD_POP._boardType,
 	                            "BOARD_TITLE":wtitle,
-	                            "BOARD_CONT":CKEDITOR.instances['editor'+_pageId].getData(),
-	                            "GET_CONT_TXT":CKEDITOR.instances['editor'+_pageId].getData(),
+	                            "BOARD_CONT": $m.EFC_BOARD_POP.getHTML('editor',_pageId),
+	                            "GET_CONT_TXT":$m.EFC_BOARD_POP.getHTML('editor'+_pageId),
 	                            "BOARD_WRITER":$m.getValue($m.EFC_BOARD_POP.getObj("wid")),
 	                            "BOARD_PHONE":$m.getValue($m.EFC_BOARD_POP.getObj("wphone")),
 	                            "BOARD_EMAIL":$m.getValue($m.EFC_BOARD_POP.getObj("wemail")),
@@ -554,7 +553,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                });
 	            }else{
             		//게시글수정
-            		debugger;
+            		//답변저장
             		 $m.EFC_BOARD_POP.exe({
                          url : $m._domain+$m._contextRoot+"/EFC_BOARD/updateBoard.do",
                          loadingbar:true,
@@ -566,7 +565,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
                                  "BOARD_IDX":$m.getValue($m.EFC_BOARD_POP.getObj('widx')),
                                  "BOARD_PIDX":$m.EFC_BOARD_POP._boardPIdx,
                                  "BOARD_TITLE":$m.getValue($m.EFC_BOARD_POP.getObj("wtitle")),
-                                 "BOARD_CONT":CKEDITOR.instances['editor'+_pageId].getData(),
+                                 "BOARD_CONT":$m.EFC_BOARD_POP.getHTML('editor'+_pageId),
                                  "BOARD_WRITER":$m.getSs("USER_ID"),
                                  "BOARD_PHONE":$m.getValue($m.EFC_BOARD_POP.getObj("wphone")),
  	                             "BOARD_EMAIL":$m.getValue($m.EFC_BOARD_POP.getObj("wemail")),
@@ -600,7 +599,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	            
 	            var wtitle = $m.getValue($m.EFC_BOARD_POP.getObj("wreplytitle",null,_pageId));
             	if(wtitle == ''){
-            		wtitle =CKEDITOR.instances['reply_editor'+_pageId].document.getBody().getText().substring(0,40);
+            		wtitle =   $m.EFC_BOARD_POP.getHTML('reply_editor',_pageId).substring(0,40);
             	}
             	
 	            if(_ReplyIdx == null || _ReplyIdx == ""){
@@ -616,8 +615,8 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                        	"BOARD_TYPE":$m.EFC_BOARD_POP._boardType,
 	                        	"BOARD_PIDX":$m.EFC_BOARD_POP._boardIdx,
 	                            "BOARD_TITLE":wtitle,
-	                            "BOARD_CONT":CKEDITOR.instances['reply_editor'+_pageId].getData(),
-	                            "GET_CONT_TXT":CKEDITOR.instances['reply_editor'+_pageId].document.getBody().getText(),
+	                            "BOARD_CONT":$m.EFC_BOARD_POP.getHTML('reply_editor',_pageId),
+	                            "GET_CONT_TXT":$m.EFC_BOARD_POP.getTEXT('reply_editor',_pageId),
 	                            "BOARD_WRITER":$m.getValue($m.EFC_BOARD_POP.getObj("wreplyid",null,_pageId)),
 	                            "fileList":$m.EFC_BOARD_POP.getFilteredList("grd_reply_file","status","C"),
 	                            "CORP_CD":$m.getSs("CORP_CD"),
@@ -633,6 +632,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                });
 	        	}else{
 	        		//답변수정
+	        		
 	        		$m.EFC_BOARD_POP._boardReplyStatus = "U";
 	        		 $m.EFC_BOARD_POP.exe({
 	                     url : $m._domain+$m._contextRoot+"/EFC_BOARD/updateBoard.do",
@@ -645,7 +645,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                        	 "BOARD_PIDX":$m.EFC_BOARD_POP._boardPIdx,
 	                         	 "BOARD_IDX":$m.EFC_BOARD_POP._boardIdx,
 	                             "BOARD_TITLE":$m.getValue($m.EFC_BOARD_POP.getObj("wreplytitle",null,_pageId)),
-	                             "BOARD_CONT":CKEDITOR.instances['reply_editor'+_pageId].getData(),
+	                             "BOARD_CONT":$m.EFC_BOARD_POP.getHTML('reply_editor',_pageId),
 	                             "BOARD_WRITER":$m.getSs("USER_ID"),
 	                             "fileList":$m.EFC_BOARD_POP.getFilteredList("grd_reply_file","status","C")
 	                             }
@@ -934,7 +934,6 @@ $m.EFC_BOARD_POP.popId = "EFC_BOARD_ANS_POP";
 $m.EFC_BOARD_POP.fn_reply = function(_thisObj){
     ['답변달기']
     //let _pageId = arguments.callee.caller.arguments[0].editor.name.replace(/.*?(POPUP.*$)/g,'$1');
-    debugger;
     let _pageId = $(_thisObj).closest('div[pageid]').attr('pageid');
     if($m.getDevice() != 'pc'){
      $('.mShow.reply').hide();
@@ -946,7 +945,7 @@ $m.EFC_BOARD_POP.fn_reply = function(_thisObj){
     $m.setReadOnly($m.EFC_BOARD_POP.getObj("wreplytitle",null,_pageId),false);
    
     $($m.EFC_BOARD_POP.getObj("reply_area",null,_pageId)).show();
-    CKEDITOR.instances['reply_editor'+_pageId].setReadOnly(false);
+    $m.EFC_BOARD_POP.getCKE('reply_editor',_pageId).setReadOnly(false);
     
     $m.hide($m.EFC_BOARD_POP.getObj("btn_reply",null,_pageId));
     $m.hide($m.EFC_BOARD_POP.getObj("btn_update",null,_pageId));
@@ -975,7 +974,7 @@ $m.EFC_BOARD_POP.fn_reply = function(_thisObj){
 $m.EFC_BOARD_POP._boardSupport ;
 $m.EFC_BOARD_POP.fn_status = function(_thisObj){
 	let _pageId = $(_thisObj).closest('div[pageid]').attr('pageid');
-	debugger;
+	
 	var _completeid;
 	var _receiptid = $m.getValue($m.EFC_BOARD_POP.getObj('wreceiptid')) != ""?$m.getValue($m.EFC_BOARD_POP.getObj('wreceiptid')):$m.getSs("USER_ID");
 	if(_thisObj.innerText == "접수"){
@@ -1001,7 +1000,7 @@ $m.EFC_BOARD_POP.fn_status = function(_thisObj){
         				"BOARD_COMPLETER": _completeid,
         				"BOARD_WRITERPHONE": $m.getValue($m.EFC_BOARD_POP.getObj('wphone')),
         				"BOARD_WRITER":$m.getValue($m.EFC_BOARD_POP.getObj('wid')),
-        				"BOARD_CONT":CKEDITOR.instances['editor'+_pageId].getData(),
+        				"BOARD_CONT":$m.EFC_BOARD_POP.getHTML('editor',_pageId),
         				"BOARD_TYPE":$m.EFC_BOARD_POP._boardType
         				}
         		},			
