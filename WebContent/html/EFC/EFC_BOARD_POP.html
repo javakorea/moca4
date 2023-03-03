@@ -219,7 +219,11 @@ $m.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 		callback : function(response){
 				if(response.selectBoardInfo != null ){
 				var data = response.selectBoardInfo;
-				$m.setHTML('reply_editor',_pageId,$m.resizeContsImg(data.BOARD_CONT))
+				
+				var _ct = data.BOARD_CONT;
+				_ct = $m.addLoadingImg(_ct);  
+				_ct = $m.resizeContsImg(_ct); 
+				$m.setHTML('reply_editor',_pageId,_ct);
 				
 				$m.setValue($m.EFC_BOARD_POP.getObj("wreplytitle",null,_pageId),data.BOARD_TITLE);
 				$m.setValue($m.EFC_BOARD_POP.getObj("wreplydate",null,_pageId),data.BOARD_DATE);
@@ -281,7 +285,10 @@ $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 						if(window['viewMode'] != 'contentOnly'){
 							$m.show($m.EFC_BOARD_POP.getObj('edit_zoomBtn'));
 						}
-						$m.setHTML('editor',pid,data.BOARD_CONT);
+						var _ct = data.BOARD_CONT;
+						_ct = $m.addLoadingImg(_ct);  
+						_ct = $m.resizeContsImg(_ct); 
+						$m.setHTML('editor',pid,_ct);
 						
 						$m.show($($m.EFC_BOARD_POP.getObj('form_board',null,pid)).find('.rta'));
 						$m.hide($($m.EFC_BOARD_POP.getObj("cke_editor",null,pid)).find("[id$='_top']"));

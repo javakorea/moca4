@@ -4729,6 +4729,12 @@ Moca.prototype.getCKE = function(_id,_scopeId){
 Moca.prototype.getScopeId = function(_thisObj){
 	return $(_thisObj).closest('div[pageid]').attr('pageid');
 };
+Moca.prototype.addLoadingImg = function(_ct){
+	_ct = _ct.replace(/<img [^>]*?id=\"{0,1}imageLoadingBar\"{0,1}[^>]*?\/>/g,"");
+	_ct = _ct.replace(/<img /g,'<img src=/images/mobile/loading.gif width=80 height=80 id=imageLoadingBar border=0  /><img class="hide" onload="parent.aaa(this);" ');
+	return _ct;
+
+};
 
 
 Moca.prototype.editorPopChange = function(_thisObj,_editorId,_json){
