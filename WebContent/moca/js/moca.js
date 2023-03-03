@@ -4714,8 +4714,25 @@ Moca.prototype.popChange = function(_popupId,_json){
     }
 };
 
-Moca.prototype.editorPopChange = function(_popupId,_editorId,_json){
-	
+Moca.prototype.setHTML = function(_id,_scopeId,_html){
+	$m.getCKE(_id,_scopeId).ui.editor.document.getBody().$.innerHTML = _html;
+};
+Moca.prototype.getHTML = function(_id,_scopeId){
+	return $m.getCKE(_id,_scopeId).getData();
+};
+Moca.prototype.getTEXT = function(_id,_scopeId){
+	return $m.getCKE(_id,_scopeId).document.getBody().getText();
+};
+Moca.prototype.getCKE = function(_id,_scopeId){
+	return CKEDITOR.instances[_id+_scopeId];
+};
+Moca.prototype.getScopeId = function(_thisObj){
+	return $(_thisObj).closest('div[pageid]').attr('pageid');
+};
+
+
+Moca.prototype.editorPopChange = function(_thisObj,_editorId,_json){
+	var _popupId =  $m.getScopeId(_thisObj);
 	var _pop = $('#'+_popupId+'>div.moca_popup');
     var _w = _pop.css('width').replace(/px/g,'');
     var _h = _pop.css('height').replace(/px/g,''); 
@@ -4723,7 +4740,7 @@ Moca.prototype.editorPopChange = function(_popupId,_editorId,_json){
     var __srcid = _pop.attr('srcid');
     
     $m[__srcid].args.parent.data.editorType="readonly";
-    $m[__srcid].args.parent.data.editorContents = $m.encode(CKEDITOR.instances[_editorId].getData());
+    $m[__srcid].args.parent.data.editorContents = $m.encode($m.getHTML(_editorId,_popupId));
     var __param = $m[__srcid].args.parent.data;
     var __editorUrl = '/moca/comp/COMP_EDIT.html';
     var __url = "/uat/uia/actionMain_link.do?mcsrc="+__editorUrl;

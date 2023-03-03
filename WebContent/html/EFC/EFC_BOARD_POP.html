@@ -2,18 +2,6 @@
 <html lang="ko">
 <head meta_width="1300px" meta_height="550px">
 <script>
-$m.EFC_BOARD_POP.setHTML = function(_id,_scopeId,_html){
-	$m.EFC_BOARD_POP.getCKE(_id,_scopeId).ui.editor.document.getBody().$.innerHTML = _html;
-};
-$m.EFC_BOARD_POP.getHTML = function(_id,_scopeId){
-	return $m.EFC_BOARD_POP.getCKE(_id,_scopeId).getData();
-};
-$m.EFC_BOARD_POP.getTEXT = function(_id,_scopeId){
-	return $m.EFC_BOARD_POP.getCKE(_id,_scopeId).document.getBody().getText();
-};
-$m.EFC_BOARD_POP.getCKE = function(_id,_scopeId){
-	return CKEDITOR.instances[_id+_scopeId];
-};
 
 
 $m.EFC_BOARD_POP._boardIdx;
@@ -119,7 +107,7 @@ $m.EFC_BOARD_POP.___ready = function(args){
     	CKEDITOR.replace(redito[0],{uiColor:'#deecea',on:{
             'instanceReady':function(ev){
             	if($m.EFC_BOARD_POP._boardIdx != null){
-                	$m.EFC_BOARD_POP.getCKE('editor',CKEDITOR.pid).setReadOnly(true);
+                	$m.getCKE('editor',CKEDITOR.pid).setReadOnly(true);
                 }
             	this.setReadOnly(true);
             	
@@ -231,7 +219,7 @@ $m.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 		callback : function(response){
 				if(response.selectBoardInfo != null ){
 				var data = response.selectBoardInfo;
-				$m.EFC_BOARD_POP.setHTML('reply_editor',_pageId,$m.resizeContsImg(data.BOARD_CONT))
+				$m.setHTML('reply_editor',_pageId,$m.resizeContsImg(data.BOARD_CONT))
 				
 				$m.setValue($m.EFC_BOARD_POP.getObj("wreplytitle",null,_pageId),data.BOARD_TITLE);
 				$m.setValue($m.EFC_BOARD_POP.getObj("wreplydate",null,_pageId),data.BOARD_DATE);
@@ -293,7 +281,7 @@ $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 						if(window['viewMode'] != 'contentOnly'){
 							$m.show($m.EFC_BOARD_POP.getObj('edit_zoomBtn'));
 						}
-						$m.EFC_BOARD_POP.setHTML('editor',pid,data.BOARD_CONT);
+						$m.setHTML('editor',pid,data.BOARD_CONT);
 						
 						$m.show($($m.EFC_BOARD_POP.getObj('form_board',null,pid)).find('.rta'));
 						$m.hide($($m.EFC_BOARD_POP.getObj("cke_editor",null,pid)).find("[id$='_top']"));
@@ -376,7 +364,7 @@ $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 };
 
 $m.EFC_BOARD_POP.fn_update = function(_thisObj){
-	let _pageId = $(_thisObj).closest('div[pageid]').attr('pageid');
+	let _pageId = $m.getScopeId(_thisObj);
 	$m.hide($m.EFC_BOARD_POP.getObj('edit_zoomBtn',null,_pageId));
 	$m.hide($m.EFC_BOARD_POP.getObj("btn_del_admin",null,_pageId));
 	$m.hide($m.EFC_BOARD_POP.getObj("btn_reply_del_admin",null,_pageId));
@@ -392,7 +380,7 @@ $m.EFC_BOARD_POP.fn_update = function(_thisObj){
 		$m.setReadOnly($m.EFC_BOARD_POP.getObj("wemail",null,_pageId),false);
 		$m.setValue($m.EFC_BOARD_POP.getObj("wid",null,_pageId),$m.getSs("USER_ID"));
 		
-		$m.EFC_BOARD_POP.getCKE('editor',_pageId).setReadOnly(false);
+		$m.getCKE('editor',_pageId).setReadOnly(false);
 		
 		$m.hide($m.EFC_BOARD_POP.getObj("btn_update",null,_pageId));
 		$m.hide($m.EFC_BOARD_POP.getObj("btn_del",null,_pageId));
@@ -417,7 +405,7 @@ $m.EFC_BOARD_POP.fn_update = function(_thisObj){
                         "BOARD_IDX":$m.getValue($m.EFC_BOARD_POP.getObj('widx',null,_pageId)),
                         "BOARD_PIDX":$m.EFC_BOARD_POP._boardPIdx,
                         "BOARD_TITLE":$m.getValue($m.EFC_BOARD_POP.getObj("wtitle",null,_pageId)),
-                        "BOARD_CONT":$m.EFC_BOARD_POP.getHTML('editor',_pageId),
+                        "BOARD_CONT":$m.getHTML('editor',_pageId),
                         "BOARD_WRITER":$m.getSs("USER_ID"),
                         "BOARD_PHONE":$m.getValue($m.EFC_BOARD_POP.getObj("wphone",null,_pageId)),
                          "BOARD_EMAIL":$m.getValue($m.EFC_BOARD_POP.getObj("wemail",null,_pageId)),
@@ -453,12 +441,12 @@ $m.EFC_BOARD_POP.fn_update = function(_thisObj){
 	}else{ //답변수정
 		$m.EFC_BOARD_POP._boardReplyStatus = "U";
 	
-		$m.EFC_BOARD_POP.getCKE('reply_editor',_pageId).setReadOnly(false);
+		$m.getCKE('reply_editor',_pageId).setReadOnly(false);
 		
 		$m.setReadOnly($m.EFC_BOARD_POP.getObj("wreplytitle",null,_pageId),false);
 		$($m.EFC_BOARD_POP.getObj("cke_reply_editor")).find("[id$='_top']").show();
 		$m.setValue($m.EFC_BOARD_POP.getObj("wreplyid"),$m.getSs("USER_ID"));
-		$m.EFC_BOARD_POP.getCKE('editor',_pageId).setReadOnly(false);
+		$m.getCKE('editor',_pageId).setReadOnly(false);
 		
 		$m.hide($m.EFC_BOARD_POP.getObj("btn_reply_update",null,_pageId));
 		$m.hide($m.EFC_BOARD_POP.getObj("btn_reply_del",null,_pageId));
@@ -478,7 +466,7 @@ $m.EFC_BOARD_POP.fn_update = function(_thisObj){
 		}
 	}
 }
-$m.EFC_BOARD_POP.fn_replyCnt = function(_thisObj,_message){
+$m.EFC_BOARD_POP.fn_replyCnt = function(_pageId,_message){
 	 $m.EFC_BOARD_POP.exe({
          url : $m._domain+$m._contextRoot+"/EFC_BOARD/updateReplyCnt.do",
          loadingbar:true,
@@ -492,16 +480,15 @@ $m.EFC_BOARD_POP.fn_replyCnt = function(_thisObj,_message){
          },          
          callback : function(response){
              if(response.cnt > 0){
-            	 $m.popClose($m.EFC_BOARD_POP.pageId,{callback:"true",message:_message});
+            	 $m.popClose(_pageId,{callback:"true",message:_message});
              }
          }
      });
-	
 }
 
 //자동저장
 $m.EFC_BOARD_POP.fn_save = function(_thisObj){
-	let _pageId = $(_thisObj).closest('div[pageid]').attr('pageid');
+	let _pageId = $m.getScopeId(_thisObj);
 	if(_thisObj.id == 'btn_save'){
 		$m.confirm('저장하시겠습니까?',function(result){
 	        if(result == 'Y'){
@@ -521,7 +508,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	            	
 	            	var wtitle = $m.getValue($m.EFC_BOARD_POP.getObj("wtitle"));
 	            	if(wtitle == ''){
-	            		wtitle = $m.EFC_BOARD_POP.getTEXT('editor'+_pageId).substring(0,40);
+	            		wtitle = $m.getTEXT('editor',_pageId).substring(0,40);
 	            	}
 	                //게시물등록
 	                $m.EFC_BOARD_POP.exe({
@@ -535,8 +522,8 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                        	"BOARD_SUPPORT":$m.EFC_BOARD_POP.getSearchCombo('cmb_board').value,
 	                        	"BOARD_TYPE":$m.EFC_BOARD_POP._boardType,
 	                            "BOARD_TITLE":wtitle,
-	                            "BOARD_CONT": $m.EFC_BOARD_POP.getHTML('editor',_pageId),
-	                            "GET_CONT_TXT":$m.EFC_BOARD_POP.getHTML('editor'+_pageId),
+	                            "BOARD_CONT": $m.getHTML('editor',_pageId),
+	                            "GET_CONT_TXT":$m.getHTML('editor',_pageId),
 	                            "BOARD_WRITER":$m.getValue($m.EFC_BOARD_POP.getObj("wid")),
 	                            "BOARD_PHONE":$m.getValue($m.EFC_BOARD_POP.getObj("wphone")),
 	                            "BOARD_EMAIL":$m.getValue($m.EFC_BOARD_POP.getObj("wemail")),
@@ -565,7 +552,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
                                  "BOARD_IDX":$m.getValue($m.EFC_BOARD_POP.getObj('widx')),
                                  "BOARD_PIDX":$m.EFC_BOARD_POP._boardPIdx,
                                  "BOARD_TITLE":$m.getValue($m.EFC_BOARD_POP.getObj("wtitle")),
-                                 "BOARD_CONT":$m.EFC_BOARD_POP.getHTML('editor'+_pageId),
+                                 "BOARD_CONT":$m.getHTML('editor',_pageId),
                                  "BOARD_WRITER":$m.getSs("USER_ID"),
                                  "BOARD_PHONE":$m.getValue($m.EFC_BOARD_POP.getObj("wphone")),
  	                             "BOARD_EMAIL":$m.getValue($m.EFC_BOARD_POP.getObj("wemail")),
@@ -599,7 +586,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	            
 	            var wtitle = $m.getValue($m.EFC_BOARD_POP.getObj("wreplytitle",null,_pageId));
             	if(wtitle == ''){
-            		wtitle =   $m.EFC_BOARD_POP.getHTML('reply_editor',_pageId).substring(0,40);
+            		wtitle =   $m.getHTML('reply_editor',_pageId).substring(0,40);
             	}
             	
 	            if(_ReplyIdx == null || _ReplyIdx == ""){
@@ -615,8 +602,8 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                        	"BOARD_TYPE":$m.EFC_BOARD_POP._boardType,
 	                        	"BOARD_PIDX":$m.EFC_BOARD_POP._boardIdx,
 	                            "BOARD_TITLE":wtitle,
-	                            "BOARD_CONT":$m.EFC_BOARD_POP.getHTML('reply_editor',_pageId),
-	                            "GET_CONT_TXT":$m.EFC_BOARD_POP.getTEXT('reply_editor',_pageId),
+	                            "BOARD_CONT":$m.getHTML('reply_editor',_pageId),
+	                            "GET_CONT_TXT":$m.getTEXT('reply_editor',_pageId),
 	                            "BOARD_WRITER":$m.getValue($m.EFC_BOARD_POP.getObj("wreplyid",null,_pageId)),
 	                            "fileList":$m.EFC_BOARD_POP.getFilteredList("grd_reply_file","status","C"),
 	                            "CORP_CD":$m.getSs("CORP_CD"),
@@ -626,7 +613,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                    callback : function(response){
 	                    	if(response.cnt > 0){
 	                    		$m.EFC_BOARD_POP._boardReplyStatus = "C";
-	                    		$m.EFC_BOARD_POP.fn_replyCnt(null,"성공적으로 저장하였습니다.");
+	                    		$m.EFC_BOARD_POP.fn_replyCnt(_pageId,"성공적으로 저장하였습니다.");
 	                         }
 	                    }
 	                });
@@ -645,7 +632,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                        	 "BOARD_PIDX":$m.EFC_BOARD_POP._boardPIdx,
 	                         	 "BOARD_IDX":$m.EFC_BOARD_POP._boardIdx,
 	                             "BOARD_TITLE":$m.getValue($m.EFC_BOARD_POP.getObj("wreplytitle",null,_pageId)),
-	                             "BOARD_CONT":$m.EFC_BOARD_POP.getHTML('reply_editor',_pageId),
+	                             "BOARD_CONT":$m.getHTML('reply_editor',_pageId),
 	                             "BOARD_WRITER":$m.getSs("USER_ID"),
 	                             "fileList":$m.EFC_BOARD_POP.getFilteredList("grd_reply_file","status","C")
 	                             }
@@ -665,6 +652,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 };
 $m.EFC_BOARD_POP.fn_adminDel = function(_thisObj){
 	['게시글물리삭제 관리자삭제']
+	let _pageId = $m.getScopeId(_thisObj);
 	if(_thisObj.id == 'btn_del_admin'){
 		_msg = '삭제하시면 데이터를 더이상 복구하실 수 없습니다.<br/>또한 원글을 삭제하실경우 답글까지도 삭제됩니다.<br/>그래도 삭제하시겠습니까?';
 	}else{
@@ -697,9 +685,9 @@ $m.EFC_BOARD_POP.fn_adminDel = function(_thisObj){
                         if($m.EFC_BOARD_POP._boardIdx != $m.EFC_BOARD_POP._boardPIdx){ //답글삭제
                         	$m.EFC_BOARD_POP._boardReplyStatus = "D";
                             $m.EFC_BOARD_POP.fn_replyCnt();
-                            $m.popClose($m.EFC_BOARD_POP.pageId,{callback:"true",message:"삭제가 완료되었습니다."});
+                            $m.popClose(_pageId,{callback:"true",message:"삭제가 완료되었습니다."});
                         }else{//원글삭제
-                        	$m.popClose($m.EFC_BOARD_POP.pageId,{callback:"true",message:"삭제가 완료되었습니다."});
+                        	$m.popClose(_pageId,{callback:"true",message:"삭제가 완료되었습니다."});
                         }
                     }
                 }
@@ -934,7 +922,7 @@ $m.EFC_BOARD_POP.popId = "EFC_BOARD_ANS_POP";
 $m.EFC_BOARD_POP.fn_reply = function(_thisObj){
     ['답변달기']
     //let _pageId = arguments.callee.caller.arguments[0].editor.name.replace(/.*?(POPUP.*$)/g,'$1');
-    let _pageId = $(_thisObj).closest('div[pageid]').attr('pageid');
+    let _pageId = $m.getScopeId(_thisObj);
     if($m.getDevice() != 'pc'){
      $('.mShow.reply').hide();
    	 $m.hide($($m.EFC_BOARD_POP.getObj("form_board",null,_pageId)).find(".moca_addtion_area"));
@@ -945,7 +933,7 @@ $m.EFC_BOARD_POP.fn_reply = function(_thisObj){
     $m.setReadOnly($m.EFC_BOARD_POP.getObj("wreplytitle",null,_pageId),false);
    
     $($m.EFC_BOARD_POP.getObj("reply_area",null,_pageId)).show();
-    $m.EFC_BOARD_POP.getCKE('reply_editor',_pageId).setReadOnly(false);
+    $m.getCKE('reply_editor',_pageId).setReadOnly(false);
     
     $m.hide($m.EFC_BOARD_POP.getObj("btn_reply",null,_pageId));
     $m.hide($m.EFC_BOARD_POP.getObj("btn_update",null,_pageId));
@@ -957,8 +945,6 @@ $m.EFC_BOARD_POP.fn_reply = function(_thisObj){
     $m.hide($m.EFC_BOARD_POP.getObj("tr_replyidx",null,_pageId))
     $m.hide($m.EFC_BOARD_POP.getObj("tr_createDt",null,_pageId));
     $m.hide($m.EFC_BOARD_POP.getObj("tr_writer",null,_pageId));
-    //$($m.EFC_BOARD_POP.getObj('colPhone')).attr('style','display:none');
-    //$($m.EFC_BOARD_POP.getObj('colEmail')).attr('style','display:none');
     $m.setValue($m.EFC_BOARD_POP.getObj("wreplyid",null,_pageId),$m.getSs("USER_ID"));
     if(
     		//접수자 null 아니면서 접수자가 세션아이디랑 다를때 
@@ -973,7 +959,7 @@ $m.EFC_BOARD_POP.fn_reply = function(_thisObj){
 
 $m.EFC_BOARD_POP._boardSupport ;
 $m.EFC_BOARD_POP.fn_status = function(_thisObj){
-	let _pageId = $(_thisObj).closest('div[pageid]').attr('pageid');
+	let _pageId = $m.getScopeId(_thisObj);
 	
 	var _completeid;
 	var _receiptid = $m.getValue($m.EFC_BOARD_POP.getObj('wreceiptid')) != ""?$m.getValue($m.EFC_BOARD_POP.getObj('wreceiptid')):$m.getSs("USER_ID");
@@ -1000,7 +986,7 @@ $m.EFC_BOARD_POP.fn_status = function(_thisObj){
         				"BOARD_COMPLETER": _completeid,
         				"BOARD_WRITERPHONE": $m.getValue($m.EFC_BOARD_POP.getObj('wphone')),
         				"BOARD_WRITER":$m.getValue($m.EFC_BOARD_POP.getObj('wid')),
-        				"BOARD_CONT":$m.EFC_BOARD_POP.getHTML('editor',_pageId),
+        				"BOARD_CONT":$m.getHTML('editor',_pageId),
         				"BOARD_TYPE":$m.EFC_BOARD_POP._boardType
         				}
         		},			
@@ -1186,7 +1172,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 				          	</div>
                 	</div>
 			        <div class="edit fit"  style="top:0">
-			        	<a id="edit_zoomBtn" style="display:none" class="edit_zoom" onclick="$m.editorPopChange($m.EFC_BOARD_POP.pageId,'editor',{uri:'/uat/uia/actionMain_link_zoom.do'},'')"></a>
+			        	<a id="edit_zoomBtn" style="display:none" class="edit_zoom" onclick="$m.editorPopChange(this,'editor',{uri:'/uat/uia/actionMain_link_zoom.do'},'')"></a>
 			            <div contenteditable="true" placeholder="" id="editor"></div>
 			        </div>
 			        <div type="grid" class="moca_grid toolbar sc_row1 mt10 fold" default_cell_height="26px" id="grd_file" style="display:none; top:0; height:112px" rowSelectedColor="#434e5f"
@@ -1354,7 +1340,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 						</div>
 					</div>
                     <div class="mt5 edit fit"  style="top:0">
-                	    <a id="reply_edit_zoomBtn" style="display:none" class="edit_zoom" onclick="$m.editorPopChange($m.EFC_BOARD_POP.pageId,'reply_editor',{uri:'/uat/uia/actionMain_link_zoom.do'},'')"></a>
+                	    <a id="reply_edit_zoomBtn" style="display:none" class="edit_zoom" onclick="$m.editorPopChange(this,'reply_editor',{uri:'/uat/uia/actionMain_link_zoom.do'},'')"></a>
                         <div contenteditable="true" placeholder="" id="reply_editor"></div>
                     </div>
                     <div type="grid" class="moca_grid toolbar mt10 fold" default_cell_height="26px" id="grd_reply_file" style="top:0; height:112px" rowSelectedColor="#434e5f"
