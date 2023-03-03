@@ -15,7 +15,7 @@
 <title>teammoca ERP</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=2.0,user-scalable=yes" ksc="MOZILLA/5.0 (LINUX; ANDROID 6.0; NEXUS 5 BUILD/MRA58N) APPLEWEBKIT/537.36 (KHTML, LIKE GECKO) CHROME/93.0.4577.82 MOBILE SAFARI/537.36">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=10.0,user-scalable=yes" ksc="MOZILLA/5.0 (LINUX; ANDROID 6.0; NEXUS 5 BUILD/MRA58N) APPLEWEBKIT/537.36 (KHTML, LIKE GECKO) CHROME/93.0.4577.82 MOBILE SAFARI/537.36">
 <link rel="shortcut icon" href="/moca/images/favis.png">
 
 <META http-equiv="Expires" content="-1">
