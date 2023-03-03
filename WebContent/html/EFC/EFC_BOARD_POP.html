@@ -188,9 +188,10 @@ $m.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
     $m.hide($($m.EFC_BOARD_POP.getObj("cke_reply_editor",null,_pageId)).find("[id$='_top']"));
     $m.show($m.EFC_BOARD_POP.getObj("reply_area",null,_pageId));
     if($m.getDevice() != 'pc'){
-    	
+    	$m._foldGrid($m.EFC_BOARD_POP.getObj('grd_file_btn_fold'));
+    	$m._foldGrid($m.EFC_BOARD_POP.getObj('grd_reply_list_btn_fold'));
     	$m.hide($($m.EFC_BOARD_POP.getObj("form_board",null,_pageId)).find(".moca_addtion_area"));
-    	 $($m.EFC_BOARD_POP.getObj("form_board",null,_pageId)).addClass('maxRow');
+    	$($m.EFC_BOARD_POP.getObj("form_board",null,_pageId)).addClass('maxRow');
     }
     
     $m.hide($m.EFC_BOARD_POP.getObj("btn_update",null,_pageId));
