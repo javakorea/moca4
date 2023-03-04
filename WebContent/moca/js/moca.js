@@ -4742,13 +4742,14 @@ Moca.prototype.resizeFile = function(f){
 			var fReader = new FileReader();
 			fReader.fname = f.name;
 			fReader.onload = function(b64){
-				res(b64,this.fname);
+				res([b64,this.fname]);
 			};
 			fReader.readAsDataURL(f);
 		});
 	});
-	p = p.then(function(b64,fileName){
+	p = p.then(function(re){
 		return new Promise(function(res,rej){
+			var fileName = re[1];
 			var img = new Image();
 			img.fname = fileName;
 			img.onload = function(){
@@ -4760,8 +4761,28 @@ Moca.prototype.resizeFile = function(f){
 				var ctx = canvas.getContext("2d");
 				ctx.drawImage(img,0,0,img.width,img.height);
 				var imgData    = canvas.toDataURL("image/jpeg",0.1); 
-				var v_href = imgData.replace(/^data:image\/[^;]/, 'data:application/octet-stream');
-				res(v_href);
+				
+				imgData = atob(imgData.split(',')[1]);
+				var len = imgData.length;
+				var buf = new ArrayBuffer(len);             // 비트를 담을 버퍼를 만든다.
+				var view = new Uint8Array(buf);             // 버퍼를 8bit Unsigned Int로 담는다.
+				var blob;
+				var i;
+				for (i=0; i<len; i++) {
+				  view[i] = imgData.charCodeAt(i) & 0xff; // 비트 마스킹을 통해 msb를 보호한다.
+				}
+				// Blob 객체를 image/png 타입으로 생성한다. (application/octet-stream도 가능)
+				var fname = this.fname.split('.')[0]+".jpg";
+				var file = new Blob([view], {type: 'image/jpeg'});
+				file.name = fname;
+				res(file);
+				
+				
+				
+				
+				
+				//var v_href = imgData.replace(/^data:image\/[^;]/, 'data:application/octet-stream');
+				//res(v_href);
 				/*
 				var agent = navigator.userAgent.toLowerCase();
 				var link = document.createElement('a');
@@ -4770,7 +4791,7 @@ Moca.prototype.resizeFile = function(f){
 				link.click();
 				*/
 			};
-			img.src = b64.target.result;
+			img.src = re[0].target.result;
 		});
 	});
 	p = p.then(function(resizedFile){

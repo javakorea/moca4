@@ -11,7 +11,20 @@
 				var fobj = document.getElementById(""+fid).files[0];
 				var re = eval(onFileSelected)(fobj.name,fobj.size,e,this);
 				if(re){
-					$m.COMP_UPLD.fn_upload_prev('1')
+					$m.COMP_UPLD.fn_upload_prev('1',$m.COMP_UPLD.getObj("mfile"))
+				}
+				
+			}
+		});
+		var mfileLow = $m.COMP_UPLD.getObj("mfileLow");
+		$(mfileLow).change(function(e){
+			var onFileSelected = $m.COMP_UPLD.data.parent.data.onFileSelected;
+			if(onFileSelected != null){
+				var fid = this.id;
+				var fobj = document.getElementById(""+fid).files[0];
+				var re = eval(onFileSelected)(fobj.name,fobj.size,e,this);
+				if(re){
+					$m.COMP_UPLD.fn_upload_prev('1',$m.COMP_UPLD.getObj("mfileLow"),'low')
 				}
 				
 			}
@@ -32,13 +45,12 @@
 	$m.COMP_UPLD.fn_upload_filedropover = function(e){
 		e.preventDefault();
 	};	
-	$m.COMP_UPLD.fn_upload_prev = function(_uploadType){
-		var mfile = $m.COMP_UPLD.getObj("mfile");
+	$m.COMP_UPLD.fn_upload_prev = function(_uploadType,mfile,_low){
 		if($m.trim($(mfile).val()) == ''){
 			alert('업로드할 파일을 선택하세요.');
 			return;
 		}
-		$m.COMP_UPLD.fn_upload_google(mfile.files);
+		$m.COMP_UPLD.fn_upload_google(mfile.files,_low);
 	};
 	$m.COMP_UPLD.fn_upload = function(_uploadType){
 		$m.COMP_UPLD.data.parent.data.uploadType = _uploadType;
@@ -61,12 +73,12 @@
 			}
 	    });
 	};
-	$m.COMP_UPLD.fn_upload_google = function(arr){
+	$m.COMP_UPLD.fn_upload_google = function(arr,_low){
 		handleAuthClick(async function(){
-			return await $m.COMP_UPLD.fn_upload_google_proc(arr);
+			return await $m.COMP_UPLD.fn_upload_google_proc(arr,_low);
 		});
 	};
-	$m.COMP_UPLD.fn_upload_google_proc = async function(arr){
+	$m.COMP_UPLD.fn_upload_google_proc = async function(arr,_low){
 			var arr_leng = arr.length;
 			let j = 0;
 			var promise = Promise.resolve();
@@ -76,7 +88,9 @@
 					p2 = p2.then(async function(ret){
 						$m.COMP_UPLD.circlePromgressinit();
 						let file = arr[j++];
-						file = await $m.resizeFile(file);
+						if(_low){
+							file = await $m.resizeFile(file);
+						}
 						return file;
 					});
 					p2 = p2.then(function(file){
@@ -225,7 +239,7 @@
 	}
 </script>
 <style>
-	input[type="file"]#mfile {
+	input[type="file"]#mfile, input[type="file"]#mfileLow {
 	    position: absolute;
 	    width: 0;
 	    height: 0;
@@ -248,8 +262,16 @@
 			</div>
 		</div>
 		 -->
-		<label class="btn_fileupload" for="mfile">파일추가</label>
-		<input type="file" multiple="multiple" title="파일 추가" id="mfile">
+		 <div>
+			<div class="btn_file_area w50" style="float:left">
+				<label class="btn_fileupload" for="mfile">파일추가</label>
+				<input type="file" multiple="multiple" title="파일 추가" id="mfile">
+			</div>
+			<div class="btn_file_area w50" style="float:right;">
+				<label class="btn_fileupload" for="mfileLow">저용량변환추가</label>
+				<input type="file" multiple="multiple" title="저용량변환추가" id="mfileLow">
+			</div>
+		</div>
 		<span id="white_dim_txt" class="white_dim_txt" style="display:none"></span>
 		<canvas id="canvas" class="file_progressbar" width="100%" height="100px" style="touch-action: none; display:none" ></canvas>
 		
