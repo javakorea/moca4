@@ -4735,7 +4735,49 @@ Moca.prototype.addLoadingImg = function(_ct){
 	return _ct;
 
 };
-
+Moca.prototype.resizeFile = function(f){
+	var p = Promise.resolve();
+	p = p.then(function(re){
+		return new Promise(function(res,rej){
+			var fReader = new FileReader();
+			fReader.fname = f.name;
+			fReader.onload = function(b64){
+				res(b64,this.fname);
+			};
+			fReader.readAsDataURL(f);
+		});
+	});
+	p = p.then(function(b64,fileName){
+		return new Promise(function(res,rej){
+			var img = new Image();
+			img.fname = fileName;
+			img.onload = function(){
+				var canvas = document.createElement('canvas');
+				canvas.id = 'fileCvs';
+				canvas.style.display = 'none';
+				canvas.width = img.width;
+				canvas.height = img.height;
+				var ctx = canvas.getContext("2d");
+				ctx.drawImage(img,0,0,img.width,img.height);
+				var imgData    = canvas.toDataURL("image/jpeg",0.1); 
+				var v_href = imgData.replace(/^data:image\/[^;]/, 'data:application/octet-stream');
+				res(v_href);
+				/*
+				var agent = navigator.userAgent.toLowerCase();
+				var link = document.createElement('a');
+				link.setAttribute('download', this.fname.split('.')[0]+".jpg");
+				link.setAttribute('href', v_href);
+				link.click();
+				*/
+			};
+			img.src = b64.target.result;
+		});
+	});
+	p = p.then(function(resizedFile){
+		return resizedFile;
+	});
+	return p;
+};
 
 Moca.prototype.editorPopChange = function(_thisObj,_editorId,_json){
 	var _popupId =  $m.getScopeId(_thisObj);

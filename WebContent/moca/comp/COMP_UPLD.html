@@ -25,9 +25,9 @@
 		}
 		$m.COMP_UPLD.circlePromgressinit();		
 	};
-	$m.COMP_UPLD.fn_upload_filedrop = function(e){
+	$m.COMP_UPLD.fn_upload_filedrop = async function(e){
 		e.preventDefault();
-		$m.COMP_UPLD.fn_upload_google(e.dataTransfer.files);
+		await $m.COMP_UPLD.fn_upload_google(e.dataTransfer.files);
 	};
 	$m.COMP_UPLD.fn_upload_filedropover = function(e){
 		e.preventDefault();
@@ -62,59 +62,68 @@
 	    });
 	};
 	$m.COMP_UPLD.fn_upload_google = function(arr){
-		handleAuthClick(function(){
-			return $m.COMP_UPLD.fn_upload_google_proc(arr);
+		handleAuthClick(async function(){
+			return await $m.COMP_UPLD.fn_upload_google_proc(arr);
 		});
 	};
-	$m.COMP_UPLD.fn_upload_google_proc = function(arr){
+	$m.COMP_UPLD.fn_upload_google_proc = async function(arr){
 			var arr_leng = arr.length;
 			let j = 0;
 			var promise = Promise.resolve();
 			for(var i=0; i < arr_leng; i++){
 				promise = promise.then(function(ret){
-					return new Promise(function(resolve, reject){
+					var p2 = Promise.resolve();
+					p2 = p2.then(async function(ret){
 						$m.COMP_UPLD.circlePromgressinit();
 						let file = arr[j++];
-					  	var metadata = {'name': file.name,'mimeType': file.type,"parents": ["17zolc486M-P5IdrioullpMSxdybixHYc"]};
-					    var accessToken = gapi.auth.getToken().access_token;
-					    var form = new FormData();
-					    form.append('metadata', new Blob([JSON.stringify(metadata)], {type: 'application/json'}));
-					    form.append('file', file);
-					    var xhr = new XMLHttpRequest();
-					    xhr.open('post', 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=*');
-					    xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
-					    xhr.responseType = 'json';
-					    xhr.onload = () => {
-					     	if(xhr.response.error){alert(xhr.response.error.message);reject();return;}
-					        var result = {};
-					        result.id = xhr.response.id;
-					        result.fileSize = xhr.response.size;
-				            result.fileLength = xhr.response.size;
-				            result.originalFilename = xhr.response.name;
-				            result.physicalFilename = xhr.response.id;
-				            if(xhr.response.parents){
-				            	result.physicalFilepath= xhr.response.parents[0];
-				            }else{
-				            	result.physicalFilepath= "memta:"+metadata.parents[0];
-				            } 
-				            result.subDir= 'board';
-				            result.uploadDir= xhr.response.kind;
-				            if($m.COMP_UPLD.resultArr == null){
-				            	$m.COMP_UPLD.resultArr = [];
-				            }
-				            $m.COMP_UPLD.resultArr.push(result);
-				            resolve();
-					    };
-					    xhr.upload.onprogress = function(e){
-					    	$('#canvas').show();
-					    	$('#white_dim_txt').show();
-					    	$('.white_dim').show();
-							var per = e.loaded * 100 / e.total;
-							$m.COMP_UPLD.circleProgressBar.animateTo( per/100 , 0.5 );
-							$('#white_dim_txt').html(j+"/"+arr_leng+"&nbsp;"+parseInt(per)+"%");
-						};
-					    xhr.send(form);
+						file = await $m.resizeFile(file);
+						return file;
 					});
+					p2 = p2.then(function(file){
+						return new Promise(function(resolve, reject){
+						  	var metadata = {'name': file.name,'mimeType': file.type,"parents": ["17zolc486M-P5IdrioullpMSxdybixHYc"]};
+						    var accessToken = gapi.auth.getToken().access_token;
+						    var form = new FormData();
+						    form.append('metadata', new Blob([JSON.stringify(metadata)], {type: 'application/json'}));
+						    form.append('file', file);
+						    var xhr = new XMLHttpRequest();
+						    xhr.open('post', 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=*');
+						    xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+						    xhr.responseType = 'json';
+						    xhr.onload = () => {
+						     	if(xhr.response.error){alert(xhr.response.error.message);reject();return;}
+						        var result = {};
+						        result.id = xhr.response.id;
+						        result.fileSize = xhr.response.size;
+					            result.fileLength = xhr.response.size;
+					            result.originalFilename = xhr.response.name;
+					            result.physicalFilename = xhr.response.id;
+					            if(xhr.response.parents){
+					            	result.physicalFilepath= xhr.response.parents[0];
+					            }else{
+					            	result.physicalFilepath= "memta:"+metadata.parents[0];
+					            } 
+					            result.subDir= 'board';
+					            result.uploadDir= xhr.response.kind;
+					            if($m.COMP_UPLD.resultArr == null){
+					            	$m.COMP_UPLD.resultArr = [];
+					            }
+					            $m.COMP_UPLD.resultArr.push(result);
+					            resolve();
+						    };
+						    xhr.upload.onprogress = function(e){
+						    	$('#canvas').show();
+						    	$('#white_dim_txt').show();
+						    	$('.white_dim').show();
+								var per = e.loaded * 100 / e.total;
+								$m.COMP_UPLD.circleProgressBar.animateTo( per/100 , 0.5 );
+								$('#white_dim_txt').html(j+"/"+arr_leng+"&nbsp;"+parseInt(per)+"%");
+							};
+						    xhr.send(form);
+						});
+						
+					});
+					return p2;
 				});
 			}
 			promise = promise.then(function(ret){
