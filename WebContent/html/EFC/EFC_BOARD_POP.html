@@ -44,10 +44,12 @@ $m.EFC_BOARD_POP.___ready = function(args){
     	$m.hide($($m.EFC_BOARD_POP.getObj('grd_file')).find('.moca_grid_list'));
     	$m.hide($($m.EFC_BOARD_POP.getObj('grd_reply_file')).find('.moca_grid_list'));
     	if(args != null){
+    		$m[$m.EFC_BOARD_POP.pageId] = {};
+    		debugger;
     		$m.EFC_BOARD_POP.args = args;
     		$m.EFC_BOARD_POP._boardIdx = $m.EFC_BOARD_POP.args.parent.data.BOARD_IDX;
     		$m.EFC_BOARD_POP._boardPIdx = $m.EFC_BOARD_POP.args.parent.data.BOARD_PIDX;
-    		$m.EFC_BOARD_POP._boardType = $m.EFC_BOARD_POP.args.parent.data.BOARD_TYPE;
+    		$m[$m.EFC_BOARD_POP.pageId]._boardType = $m.EFC_BOARD_POP.args.parent.data.BOARD_TYPE;
     		$m.EFC_BOARD_POP._boardTitle = $m.EFC_BOARD_POP.args.parent.data.BOARD_TITLE;
     		$m.EFC_BOARD_POP._pageType = $m.EFC_BOARD_POP.args.parent.data.PAGE_TYPE;
     		if($m.getDevice() == 'mobile' && args.parent.data.popTitle != '게시물작성'){
@@ -325,7 +327,7 @@ $m.EFC_BOARD_POP.fn_search = function(_grd,_idx,tdObj,_thisObj){
 					    if($m.getValue($m.EFC_BOARD_POP.getObj("wid",null,pid)) == $m.getSs("USER_ID")){
 					    	$m.show($m.EFC_BOARD_POP.getObj('btn_update',null,pid));
 					    }
-				    	if($m.getSearchCombo('cmb_board').value == "N" && $m.getSs("authorCode") == "ROLE_SUPER_ADMIN"){
+				    	if($m.getSearchCombo('cmb_board',_pageId).value == "N" && $m.getSs("authorCode") == "ROLE_SUPER_ADMIN"){
 				    		$m.show($m.EFC_BOARD_POP.getObj("btn_receipt",null,pid));
 					    }
 					    if($m.EFC_BOARD_POP._pageType == 'home'){
@@ -409,7 +411,7 @@ $m.EFC_BOARD_POP.fn_update = function(_thisObj){
                     "header" : $m.header,
                     "body" : {
                    	 "BOARD_TYPE":$m.EFC_BOARD_POP._boardType,
-                   	 "BOARD_SUPPORT":$m.EFC_BOARD_POP.getSearchCombo('cmb_board').value,
+                   	 "BOARD_SUPPORT":$m.EFC_BOARD_POP.getSearchCombo('cmb_board',_pageId).value,
                         "BOARD_IDX":$m.getValue($m.EFC_BOARD_POP.getObj('widx',null,_pageId)),
                         "BOARD_PIDX":$m.EFC_BOARD_POP._boardPIdx,
                         "BOARD_TITLE":$m.getValue($m.EFC_BOARD_POP.getObj("wtitle",null,_pageId)),
@@ -466,7 +468,7 @@ $m.EFC_BOARD_POP.fn_update = function(_thisObj){
 		//답변 작성자가 관리자본인이면서 담당자 배정이 되어있지 않을때
 		if(	$m.getSs("authorCode") == "ROLE_SUPER_ADMIN" && ($m.getValue($m.EFC_BOARD_POP.getObj("wreceiptid")) == "" || $m.getValue($m.EFC_BOARD_POP.getObj("wreceiptid")) == $m.getSs("USER_ID"))    
 		){
-			if($m.getSearchCombo('cmb_board').value == "N" && $m.getSs("authorCode") == "ROLE_SUPER_ADMIN"){
+			if($m.getSearchCombo('cmb_board',_pageId).value == "N" && $m.getSs("authorCode") == "ROLE_SUPER_ADMIN"){
 		    	$m.show($m.EFC_BOARD_POP.getObj("btn_receipt"));
 		    }
 	    	$m.show($m.EFC_BOARD_POP.getObj("btn_success",null,_pageId));
@@ -497,6 +499,12 @@ $m.EFC_BOARD_POP.fn_replyCnt = function(_pageId,_message){
 //자동저장
 $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	let _pageId = $m.getScopeId(_thisObj);
+	let g = $m.EFC_BOARD_POP.getObj("grd_file",null,_pageId);
+	let wtitleObj = $m.EFC_BOARD_POP.getObj("wtitle",null,_pageId);
+	let cmb_boardObj = $m.EFC_BOARD_POP.getSearchCombo('cmb_board',_pageId);
+	let widObj = $m.EFC_BOARD_POP.getObj("wid",null,_pageId);
+	let wphoneObj = $m.EFC_BOARD_POP.getObj("wphone",null,_pageId);
+	let wemailObj = $m.EFC_BOARD_POP.getObj("wemail",null,_pageId);
 	if(_thisObj.id == 'btn_save'){
 		$m.confirm('저장하시겠습니까?',function(result){
 	        if(result == 'Y'){
@@ -505,44 +513,43 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	        		console.log('clearInterval'); 
 	        		clearInterval($m.EFC_BOARD_POP.timeoutValue);
 	        	}
-	        	
-	            for(var i=0; i<$m.EFC_BOARD_POP.getObj("grd_file").list.length;i++){
-	            	if($m.EFC_BOARD_POP.getObj("grd_file").list[i]._system.status != "D"){
-	            		$m.EFC_BOARD_POP.getObj("grd_file").list[i]._system.status = "C";
+	            for(var i=0; i<g.list.length;i++){
+	            	if(g.list[i]._system.status != "D"){
+	            		g.list[i]._system.status = "C";
 	            	}
 	            };
-	            
 	            if($m.EFC_BOARD_POP._boardIdx == null){
 	            	
-	            	var wtitle = $m.getValue($m.EFC_BOARD_POP.getObj("wtitle"));
+	            	var wtitle = $m.getValue(wtitleObj);
 	            	if(wtitle == ''){
 	            		wtitle = $m.getTEXT('editor',_pageId).substring(0,40);
 	            	}
+	            	debugger;
 	                //게시물등록
 	                $m.EFC_BOARD_POP.exe({
+	                	scopeId : _pageId,
 	                    url : $m._domain+$m._contextRoot+"/EFC_BOARD/insertBoard.do",
 	                    loadingbar:true,
 	                    data : {
 	                        "header" : $m.header,
 	                        "body" : {
-	                        	"BOARD_TYPE":$m.EFC_BOARD_POP._boardType, 
 	                        	"BOARD_DELYN":'N',
-	                        	"BOARD_SUPPORT":$m.EFC_BOARD_POP.getSearchCombo('cmb_board').value,
-	                        	"BOARD_TYPE":$m.EFC_BOARD_POP._boardType,
+	                        	"BOARD_SUPPORT":cmb_boardObj.value,
+	                        	"BOARD_TYPE":$m[_pageId]._boardType ,
 	                            "BOARD_TITLE":wtitle,
 	                            "BOARD_CONT": $m.getHTML('editor',_pageId),
 	                            "GET_CONT_TXT":$m.getHTML('editor',_pageId),
-	                            "BOARD_WRITER":$m.getValue($m.EFC_BOARD_POP.getObj("wid")),
-	                            "BOARD_PHONE":$m.getValue($m.EFC_BOARD_POP.getObj("wphone")),
-	                            "BOARD_EMAIL":$m.getValue($m.EFC_BOARD_POP.getObj("wemail")),
-	                            "fileList":$m.EFC_BOARD_POP.getFilteredList("grd_file","status","C"),
+	                            "BOARD_WRITER":$m.getValue(widObj),
+	                            "BOARD_PHONE":$m.getValue(wphoneObj),
+	                            "BOARD_EMAIL":$m.getValue(wemailObj),
+	                            "fileList":$m.EFC_BOARD_POP.getFilteredList("grd_file","status","C",_pageId),
 	                            "CORP_CD":$m.getSs("CORP_CD"),
 	                            "CORP_NM":$m.getSs("CORP_NM"),
 	                            }
 	                    },          
 	                    callback : function(response){
 	                        if(response.cnt > 0){
-	                            $m.popClose($m.EFC_BOARD_POP.pageId,{callback:"true",message:"성공적으로 저장하였습니다."});
+	                            $m.popClose(this.scopeId,{callback:"true",message:"성공적으로 저장하였습니다."});
 	                        }
 	                    }
 	                });
@@ -556,7 +563,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
                              "header" : $m.header,
                              "body" : {
                             	 "BOARD_TYPE":$m.EFC_BOARD_POP._boardType,
-                            	 "BOARD_SUPPORT":$m.EFC_BOARD_POP.getSearchCombo('cmb_board').value,
+                            	 "BOARD_SUPPORT":$m.EFC_BOARD_POP.getSearchCombo('cmb_board',_pageId).value,
                                  "BOARD_IDX":$m.getValue($m.EFC_BOARD_POP.getObj('widx')),
                                  "BOARD_PIDX":$m.EFC_BOARD_POP._boardPIdx,
                                  "BOARD_TITLE":$m.getValue($m.EFC_BOARD_POP.getObj("wtitle")),
@@ -606,7 +613,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                        "header" : $m.header,
 	                        "body" : {
 	                        	"BOARD_DELYN":'N',
-	                        	"BOARD_SUPPORT":$m.EFC_BOARD_POP.getSearchCombo('cmb_board').value,
+	                        	"BOARD_SUPPORT":$m.EFC_BOARD_POP.getSearchCombo('cmb_board',_pageId).value,
 	                        	"BOARD_TYPE":$m.EFC_BOARD_POP._boardType,
 	                        	"BOARD_PIDX":$m.EFC_BOARD_POP._boardIdx,
 	                            "BOARD_TITLE":wtitle,
@@ -635,7 +642,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                     data : {
 	                         "header" : $m.header,
 	                         "body" : {
-	                        	 "BOARD_SUPPORT":$m.EFC_BOARD_POP.getSearchCombo('cmb_board').value,
+	                        	 "BOARD_SUPPORT":$m.EFC_BOARD_POP.getSearchCombo('cmb_board',_pageId).value,
 	                        	 "BOARD_TYPE":$m.EFC_BOARD_POP._boardType,
 	                        	 "BOARD_PIDX":$m.EFC_BOARD_POP._boardPIdx,
 	                         	 "BOARD_IDX":$m.EFC_BOARD_POP._boardIdx,

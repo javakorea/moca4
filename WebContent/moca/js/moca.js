@@ -11253,8 +11253,14 @@ Moca.prototype.rendering = function(o,_aTag) {
 			return o.val();
 		}
     };
-    $m[_srcId].getSearchCombo = function(_id){
-        var jobj = $($m.getObj(_id,null,this.pageId,this.srcId));
+    $m[_srcId].getSearchCombo = function(_id,_pageId){
+    	debugger;
+    	var jobj;
+    	if(_pageId){
+    		jobj = $($m.getObj(_id,null,_pageId,this.srcId));
+    	}else{
+    		jobj = $($m.getObj(_id,null,this.pageId,this.srcId));
+    	}
         return {value:jobj.attr("value"),text:jobj.attr("text")};
     };
     $m[_srcId].setSearchCombo = function(_id,_value){
@@ -11365,8 +11371,13 @@ Moca.prototype.rendering = function(o,_aTag) {
     };  
         
     
-    $m[_srcId].getFilteredList = function(_grdId,key,_val,isNot){
-        return $m.getFilteredList(_grdId,key,_val,isNot,this.pageId,this.srcId);  
+    $m[_srcId].getFilteredList = function(_grdId,key,_val,isNot,_pageId){
+    	if(_pageId){
+    		return $m.getFilteredList(_grdId,key,_val,isNot,_pageId); 
+    	}else{
+    		return $m.getFilteredList(_grdId,key,_val,isNot,this.pageId,this.srcId); 
+    	}
+         
     }
     
     $m[_srcId].getResList = function(_response,_list,_status){
