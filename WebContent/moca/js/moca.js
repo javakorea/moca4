@@ -4378,6 +4378,11 @@ Moca.prototype.init = function(_tabId,_srcId,_url,_json_data,_callback) {
 
 Moca.prototype.exe = function(_sObj,thisObj) {
     var loadingId;
+    if(_sObj.scopeId){
+    	thisObj.pageId =  _sObj.scopeId;
+    }
+    
+    
      if(_sObj.loadingbar != false){
          var loadingInfo = _sObj.loadingInfo;
          if(_sObj.loadingbarScope == 'wrap'){
@@ -4400,23 +4405,27 @@ Moca.prototype.exe = function(_sObj,thisObj) {
      if(_sObj.data != null){
          _data = {header:JSON.stringify(_sObj.data.header),body:JSON.stringify(_sObj.data.body)};
      }
-     
      var _thisSrcId;
      var _thisPageId;
      if(_sObj.pageId != null){
          _thisSrcId = _sObj.srcId;
          _thisPageId = _sObj.pageId;
+     
      }else if(thisObj != null){
          _thisSrcId = thisObj.srcId;
          _thisPageId = thisObj.pageId;
          _sObj.srcId =  thisObj.srcId;
          _sObj.pageId =  thisObj.pageId;
+     
      }else{
          _thisSrcId = this.srcId;
          _thisPageId = this.pageId;
          _sObj.srcId =  this.srcId;
          _sObj.pageId =  this.pageId;
      }
+     
+
+     
      if(_sObj.showStatus != false){
          $m.writeMessage({srcId:_sObj.srcId,pageId:_sObj.pageId,message:"진행중",url:_sObj.url });
      }
@@ -4896,21 +4905,21 @@ Moca.prototype.getObj = function(_objId,_tag,_pageId,_srcId){
     var re;
     if(_tag == null){
         if(_pageId != null){
-            re = $('div[id='+_objId+']').filter('[pageId="'+_pageId+'"][srcId="'+_srcId+'"]');
+            re = $('div[id='+_objId+']').filter('[pageId="'+_pageId+'"]');
         }else if(this.pageId != null){
-            re = $('div[id='+_objId+']').filter('[pageId="'+this.pageId+'"][srcId="'+this.srcId+'"]');
+            re = $('div[id='+_objId+']').filter('[pageId="'+this.pageId+'"]');
         }else if($m.pageId != null){
-                re = $('div[id='+_objId+']').filter('[pageId="'+$m.pageId+'"][srcId="'+$m.srcId+'"]');
+                re = $('div[id='+_objId+']').filter('[pageId="'+$m.pageId+'"]');
         }else{
             re = $('div[id='+_objId+']');
         }
     }else{
         if(_pageId != null){
-            re = $(_tag+'[id='+_objId+']').filter('[pageId="'+_pageId+'"][srcId="'+_srcId+'"]');
+            re = $(_tag+'[id='+_objId+']').filter('[pageId="'+_pageId+'"]');
         }else if(this.pageId != null){
-            re = $(_tag+'[id='+_objId+']').filter('[pageId="'+this.pageId+'"][srcId="'+this.srcId+'"]');
+            re = $(_tag+'[id='+_objId+']').filter('[pageId="'+this.pageId+'"]');
         }else if($m.pageId != null){
-            re = $(_tag+'[id='+_objId+']').filter('[pageId="'+$m.pageId+'"][srcId="'+$m.srcId+'"]');
+            re = $(_tag+'[id='+_objId+']').filter('[pageId="'+$m.pageId+'"]');
         }else{
             re = $(_tag+'[id='+_objId+']');
         }       
@@ -5815,6 +5824,7 @@ Moca.prototype._setRowSelection = function(grd,_tdObj){
 Moca.prototype.getFilteredList = function(_grdId,key,_val,isNot,_pageId,_srcId){
     ['응답객체를 리턴타입에 맞게 변환']
     var _grd;
+    
     if(typeof _grdId == 'string'){
         _grd = $m.getObj(_grdId,null,_pageId,_srcId);
     }else{
@@ -11156,24 +11166,24 @@ Moca.prototype.rendering = function(o,_aTag) {
                     if(_pageId.startsWith('HTML')){
                         re = $('div[id='+_objId+']');
                     }else{
-                        re = $('div[id='+_objId+']').filter('[pageId="'+_pageId+'"][srcId="'+_srcId+'"]');
+                        re = $('div[id='+_objId+']').filter('[pageId="'+_pageId+'"]');
                         if(re.length == 0){
                             re = $('[pageId='+_pageId+']').find('[id='+_objId+']');
                         }
                     }
                 }else if($m.pageId != null){
-                        re = $('div[id='+_objId+']').filter('[pageId="'+$m.pageId+'"][srcId="'+$m.srcId+'"]');
+                        re = $('div[id='+_objId+']').filter('[pageId="'+$m.pageId+'"]');
                 }else{
                     re = $('div[id='+_objId+']');
                 }
             }else{
                 if(_pageId != null){
-                    re = $(_tag+'[id='+_objId+']').filter('[pageId="'+_pageId+'"][srcId="'+_srcId+'"]');
+                    re = $(_tag+'[id='+_objId+']').filter('[pageId="'+_pageId+'"]');
                     if(re.length == 0){
                         re = $('[pageId='+_pageId+']').find('[id='+_objId+']');
                     }
                 }else if($m.pageId != null){
-                    re = $(_tag+'[id='+_objId+']').filter('[pageId="'+$m.pageId+'"][srcId="'+$m.srcId+'"]');
+                    re = $(_tag+'[id='+_objId+']').filter('[pageId="'+$m.pageId+'"]');
                 }else{
                     re = $(_tag+'[id='+_objId+']');
                 }       
@@ -11254,7 +11264,7 @@ Moca.prototype.rendering = function(o,_aTag) {
 		}
     };
     $m[_srcId].getSearchCombo = function(_id,_pageId){
-    	debugger;
+    	
     	var jobj;
     	if(_pageId){
     		jobj = $($m.getObj(_id,null,_pageId,this.srcId));

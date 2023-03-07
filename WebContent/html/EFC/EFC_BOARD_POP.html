@@ -45,7 +45,7 @@ $m.EFC_BOARD_POP.___ready = function(args){
     	$m.hide($($m.EFC_BOARD_POP.getObj('grd_reply_file')).find('.moca_grid_list'));
     	if(args != null){
     		$m[$m.EFC_BOARD_POP.pageId] = {};
-    		debugger;
+    		
     		$m.EFC_BOARD_POP.args = args;
     		$m.EFC_BOARD_POP._boardIdx = $m.EFC_BOARD_POP.args.parent.data.BOARD_IDX;
     		$m.EFC_BOARD_POP._boardPIdx = $m.EFC_BOARD_POP.args.parent.data.BOARD_PIDX;
@@ -524,7 +524,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	            	if(wtitle == ''){
 	            		wtitle = $m.getTEXT('editor',_pageId).substring(0,40);
 	            	}
-	            	debugger;
+	            	
 	                //게시물등록
 	                $m.EFC_BOARD_POP.exe({
 	                	scopeId : _pageId,
@@ -542,7 +542,7 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                            "BOARD_WRITER":$m.getValue(widObj),
 	                            "BOARD_PHONE":$m.getValue(wphoneObj),
 	                            "BOARD_EMAIL":$m.getValue(wemailObj),
-	                            "fileList":$m.EFC_BOARD_POP.getFilteredList("grd_file","status","C",_pageId),
+	                            "fileList":$m.EFC_BOARD_POP.getFilteredList("grd_file","status","C",null,_pageId),
 	                            "CORP_CD":$m.getSs("CORP_CD"),
 	                            "CORP_NM":$m.getSs("CORP_NM"),
 	                            }
