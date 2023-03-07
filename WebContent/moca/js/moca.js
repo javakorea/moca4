@@ -11372,8 +11372,12 @@ Moca.prototype.rendering = function(o,_aTag) {
         $m.openPdfViewer(_sObj);
     };  
     
-    $m[_srcId].code = function(_config,_callback,_url) {
-        $m.code(_config,_callback,_url,this.pageId,this.srcId);
+    $m[_srcId].code = function(_config,_callback,_url,_scopeId) {
+    	if(_scopeId){
+    		$m.code(_config,_callback,_url,_scopeId,this.srcId);
+    	}else{
+    		$m.code(_config,_callback,_url,this.pageId,this.srcId);
+    	}
     };  
     
     $m[_srcId].validate = function(__grdId,_key,_val) {
