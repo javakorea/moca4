@@ -4781,17 +4781,15 @@
 	<!-- 게시물 답변 cnt -->
     <update id="updateReplyCnt" parameterType="map">
          /*updateReplyCnt 게시물답변카운트*/
-         UPDATE ${BOARD_TABLE} SET 
-            <choose>
-				<when test='BOARD_REPLYSTATUS.equals("C")'>
-					 BOARD_REPLYCNT = BOARD_REPLYCNT+1
-				</when>
-				<when test='BOARD_REPLYSTATUS.equals("D")'>
-					BOARD_REPLYCNT = BOARD_REPLYCNT-1
-				</when>
-			</choose>
-         WHERE 1=1
-         AND BOARD_IDX=#{BOARD_IDX}
+		UPDATE 
+		${BOARD_TABLE}
+		SET BOARD_REPLYCNT = (
+			SELECT COUNT(*) RCNT 
+			FROM MT_BOARD_ERP
+			WHERE BOARD_PIDX = #{BOARD_PIDX}
+			AND BOARD_PIDX != BOARD_IDX
+		)
+		WHERE BOARD_PIDX = #{BOARD_PIDX} AND BOARD_IDX = #{BOARD_PIDX}
     </update>
     
  	<!-- 게시판 답변조회 -->
@@ -4904,16 +4902,10 @@
 	<!-- 게시물 물리 삭제 (관리자삭제) -->
     <delete id="deleteBoard" parameterType="map">
         /*deleteBoard 게시물삭제*/
-        DELETE FROM ${BOARD_TABLE}
-		WHERE 1=1
-		<choose>
-   			<when test="BOARD_PIDX != null and BOARD_PIDX != ''">
-   				AND BOARD_PIDX=#{BOARD_PIDX}
-   			</when>
-   			<otherwise>
-   				AND BOARD_IDX=#{BOARD_IDX}
-   			</otherwise>
-   		</choose>
+        		DELETE FROM ${BOARD_TABLE}
+				WHERE 1=1
+  				AND BOARD_PIDX=#{BOARD_PIDX}
+  				AND BOARD_IDX=#{BOARD_IDX}
     </delete>
         
     <!-- 게시물 단건조회 -->

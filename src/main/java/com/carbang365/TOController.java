@@ -5532,6 +5532,8 @@ public class TOController{
 			//}
 			paramMap.put("status", "AD");TOMapper.insertBoardHis(paramMap);
 			model.addAttribute("cnt", TOMapper.deleteBoard(paramMap));
+			model.addAttribute("cnt", TOMapper.updateReplyCnt(paramMap));
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());

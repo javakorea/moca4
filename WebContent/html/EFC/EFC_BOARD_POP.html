@@ -623,9 +623,6 @@ $m.EFC_BOARD_POP.fn_del = function(_thisObj){
 		_msg = '삭제하시면 데이터를 더이상 복구하실 수 없습니다.<br/>그래도 삭제하시겠습니까?';
 		url = $m._domain+$m._contextRoot+"/EFC_BOARD/deleteBoard.do";//물리삭제
 		vo = $m.getVoReply(_pageId);
-		if(vo.BOARD_IDX != vo.BOARD_PIDX){ //원글
-			vo.BOARD_PIDX = '';
-		}
 	}else{
 		alert('해당조건없음');		
 		return;
@@ -640,8 +637,9 @@ $m.EFC_BOARD_POP.fn_del = function(_thisObj){
                 callback : function(response){
                     if(response.cnt > 0){
                         if($m.scope[this.pageId].BOARD_IDX != $m.scope[this.pageId].BOARD_PIDX){ //답글삭제
-                        	$m.EFC_BOARD_POP._boardReplyStatus = "D";
-                            $m.EFC_BOARD_POP.fn_replyCnt();
+                        	//$m.EFC_BOARD_POP._boardReplyStatus = "D";
+                            //$m.EFC_BOARD_POP.fn_replyCnt();
+                            debugger;
                             $m.popClose(this.pageId,{callback:"true",message:"답글삭제가 완료되었습니다."});
                         }else{//원글삭제
                         	$m.popClose(this.pageId,{callback:"true",message:"삭제가 완료되었습니다."});
