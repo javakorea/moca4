@@ -608,7 +608,6 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 $m.EFC_BOARD_POP.fn_del = function(_thisObj){
 	['게시글물리삭제 관리자삭제 , 게시글논리삭제 delYN :Y']
 	let _pageId = $m.getScopeId(_thisObj);
-	debugger;
 	let url = '';
 	let vo = {};
 	if(_thisObj.id == 'btn_del_admin'){
@@ -626,24 +625,22 @@ $m.EFC_BOARD_POP.fn_del = function(_thisObj){
 	}else{
 		alert('해당조건없음');		
 		return;
-	}
+	};
 	$m.confirm(_msg,function(result){
         if(result == 'Y'){//삭제
             $m.EFC_BOARD_POP.exe({
                 url : url,
                 scopeId : _pageId,
-                loadingbar:true,
                 data : {"header" : $m.header,"body" :vo},
                 callback : function(response){
                     if(response.cnt > 0){
+                    	let msg = '';
                         if($m.scope[this.pageId].BOARD_IDX != $m.scope[this.pageId].BOARD_PIDX){ //답글삭제
-                        	//$m.EFC_BOARD_POP._boardReplyStatus = "D";
-                            //$m.EFC_BOARD_POP.fn_replyCnt();
-                            debugger;
-                            $m.popClose(this.pageId,{callback:"true",message:"답글삭제가 완료되었습니다."});
+                        	msg = "답글삭제가 완료되었습니다.";
                         }else{//원글삭제
-                        	$m.popClose(this.pageId,{callback:"true",message:"삭제가 완료되었습니다."});
+                        	msg = "삭제가 완료되었습니다.";
                         }
+                        $m.popClose(this.pageId,{callback:"true",message:msg});
                     }
                 }
             },_thisObj);
