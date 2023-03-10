@@ -4381,7 +4381,9 @@ Moca.prototype.exe = function(_sObj,thisObj) {
     if(_sObj.scopeId){
     	thisObj.pageId =  _sObj.scopeId;
     }
-    
+    if(_sObj.loadingbar){
+    	_sObj.loadingbar = true;
+    }
     
      if(_sObj.loadingbar != false){
          var loadingInfo = _sObj.loadingInfo;

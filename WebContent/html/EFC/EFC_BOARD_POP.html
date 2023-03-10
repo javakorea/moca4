@@ -149,15 +149,16 @@ $m.EFC_BOARD_POP._foldForm = function(_thisObj){
 };
 
 $m.scope[$m.EFC_BOARD_POP.pageId].fn_searchReply = function(_grd,_idx,tdObj,_thisObj){
-	if(this.args.BOARD_PIDX != null){
+	let vo = this.args;
+	if(vo.BOARD_PIDX != null){
 		$m.EFC_BOARD_POP.exe({
 	        url : $m._domain+$m._contextRoot+"/EFC_BOARD/selectBoardReply.do",
 	        loadingbar:true,
 	        data : {
 	            "header" : $m.header,
 	            "body" : {
-	            	"BOARD_PIDX":$m.EFC_BOARD_POP._boardPIdx,
-	            	"BOARD_TYPE":$m.EFC_BOARD_POP._boardType
+	            	"BOARD_PIDX":vo.BOARD_PIDX,
+	            	"BOARD_TYPE":vo.BOARD_TYPE
 	            }
 	        },          
 	        callback : function(response){
@@ -171,16 +172,17 @@ $m.scope[$m.EFC_BOARD_POP.pageId].fn_searchReply = function(_grd,_idx,tdObj,_thi
 	        	
 	        }
 	    });
-		
 	}
 };
 
 $m.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
-    ['게시글상세']
-    
+    ['답변상세']
   //showhide처리
     let _pageId = _grd.getAttribute('pageid');
-   $m.show($m.EFC_BOARD_POP.getObj("reply_edit_zoomBtn",null,_pageId));
+    let vo = $m.getVoReply(_pageId);
+    vo.BOARD_IDX = $m.getCellData(_grd,rowIndex,'BOARD_IDX');
+    
+    $m.show($m.EFC_BOARD_POP.getObj("reply_edit_zoomBtn",null,_pageId));
     $m.hide($($m.EFC_BOARD_POP.getObj("cke_editor",null,_pageId)).find("[id$='_top']"));
     $m.hide($($m.EFC_BOARD_POP.getObj("cke_reply_editor",null,_pageId)).find("[id$='_top']"));
     $m.show($m.EFC_BOARD_POP.getObj("reply_area",null,_pageId));
@@ -190,19 +192,7 @@ $m.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
     	$m.hide($($m.EFC_BOARD_POP.getObj("form_board",null,_pageId)).find(".moca_addtion_area"));
     	$($m.EFC_BOARD_POP.getObj("form_board",null,_pageId)).addClass('maxRow');
     }
-    
-    $m.hide($m.EFC_BOARD_POP.getObj("btn_update",null,_pageId));
-    $m.hide($m.EFC_BOARD_POP.getObj("btn_reply",null,_pageId));
-    $m.hide($m.EFC_BOARD_POP.getObj("btn_del",null,_pageId));
-    $m.hide($m.EFC_BOARD_POP.getObj("btn_del_admin",null,_pageId));
-    $m.show($m.EFC_BOARD_POP.getObj("btn_reply_del_admin",null,_pageId));
-
-    $m.hide($m.EFC_BOARD_POP.getObj("btn_reply_save",null,_pageId));
-    $m.hide($m.EFC_BOARD_POP.getObj('grd_reply_file_btn_fold',null,_pageId));
-    $m.hide($m.EFC_BOARD_POP.getObj("btn_receipt",null,_pageId));
-    $m.hide($m.EFC_BOARD_POP.getObj("btn_success",null,_pageId));
-    $m.hide($m.EFC_BOARD_POP.getObj("btn_reject",null,_pageId));
-
+    $m.EFC_BOARD_POP.hideArray(_pageId,['btn_update','btn_reply','btn_del','btn_del_admin','btn_reply_del_admin','btn_reply_save','grd_reply_file_btn_fold','btn_receipt','btn_success','btn_reject']);
     $m.EFC_BOARD_POP._boardIdx = $m.getCellData(_grd,rowIndex,'BOARD_IDX');
     $m.EFC_BOARD_POP.exe({
 		url : $m._domain+$m._contextRoot+"/EFC_BOARD/selectBoardInfo.do",
@@ -210,8 +200,8 @@ $m.EFC_BOARD_POP.grd_1__onDblClick = function(_grd,rowIndex,colIndex,colId){
 		data : {
 			"header" : $m.header,
 			"body" : {
-				"BOARD_IDX":$m.EFC_BOARD_POP._boardIdx,
-				"BOARD_TYPE":$m.EFC_BOARD_POP._boardType
+				"BOARD_IDX":vo.BOARD_IDX,
+				"BOARD_TYPE":vo.BOARD_TYPE
 				}
 		},
 		callback : function(response){
@@ -404,24 +394,14 @@ $m.EFC_BOARD_POP.fn_update = function(_thisObj){
 		
 		//자동저장시작
 		$m.EFC_BOARD_POP.timeoutValue = setInterval(function(){ 
+			
     		//게시글수정
    		 	$m.EFC_BOARD_POP.exe({
                 url : $m._domain+$m._contextRoot+"/EFC_BOARD/updateBoardAuto.do",
                 loadingbar:false,
                 data : {
                     "header" : $m.header,
-                    "body" : {
-                   	 		"BOARD_TYPE":$m.EFC_BOARD_POP._boardType,
-                   	 		"BOARD_SUPPORT":$m.EFC_BOARD_POP.getSearchCombo('cmb_board',_pageId).value,
-                        	"BOARD_IDX":$m.getValue($m.EFC_BOARD_POP.getObj('widx',null,_pageId)),
-                        	"BOARD_PIDX":$m.EFC_BOARD_POP._boardPIdx,
-                        	"BOARD_TITLE":$m.getValue($m.EFC_BOARD_POP.getObj("wtitle",null,_pageId)),
-                        	"BOARD_CONT":$m.getHTML('editor',_pageId),
-                        	"BOARD_WRITER":$m.getSs("USER_ID"),
-                        	"BOARD_PHONE":$m.getValue($m.EFC_BOARD_POP.getObj("wphone",null,_pageId)),
-                         	"BOARD_EMAIL":$m.getValue($m.EFC_BOARD_POP.getObj("wemail",null,_pageId)),
-                        	"fileList":$m.EFC_BOARD_POP.getFilteredList("grd_file","status","C")
-                        	}
+                    "body" : $m.getVo(_pageId)
                 },          
                 callback : function(response){
                	 	if(response.cnt > 0){
@@ -478,16 +458,13 @@ $m.EFC_BOARD_POP.fn_update = function(_thisObj){
 	}
 }
 $m.EFC_BOARD_POP.fn_replyCnt = function(_pageId,_message){
+	 let vo = $m.getVo(_pageId);
+	 vo.BOARD_REPLYSTATUS = $m.EFC_BOARD_POP._boardReplyStatus;
 	 $m.EFC_BOARD_POP.exe({
          url : $m._domain+$m._contextRoot+"/EFC_BOARD/updateReplyCnt.do",
-         loadingbar:true,
          data : {
              "header" : $m.header,
-             "body" : {
-             	"BOARD_IDX":$m.EFC_BOARD_POP._boardPIdx,
-             	"BOARD_REPLYSTATUS":$m.EFC_BOARD_POP._boardReplyStatus,
-             	"BOARD_TYPE":$m.EFC_BOARD_POP._boardType
-                 }
+             "body" : vo
          },          
          callback : function(response){
              if(response.cnt > 0){
@@ -534,6 +511,43 @@ $m.getVo = function(_pageId){
 	return vo;
 };
 
+$m.getVoReply = function(_pageId){
+	var _ReplyIdx = $m.getValue($m.EFC_BOARD_POP.getObj("wreplyidx",null,_pageId));
+    if(grd_reply_file.list != '' && grd_reply_file.list != null){
+    	for(var i=0; i<grd_reply_file.list.length;i++){
+        	if(grd_reply_file.list[i]._system.status != "D"){
+        		grd_reply_file.list[i]._system.status = "C";
+        	}
+        };
+    }
+    
+    
+    var wtitle = $m.getValue($m.EFC_BOARD_POP.getObj("wreplytitle",null,_pageId));
+	if(wtitle == ''){
+		wtitle =   $m.getHTML('reply_editor',_pageId).substring(0,40);
+	}
+	let vo = {
+        	"BOARD_DELYN":'N',
+        	"BOARD_SUPPORT":$m.EFC_BOARD_POP.getSearchCombo('cmb_board',_pageId).value,
+        	"BOARD_TYPE":$m.scope[_pageId].args.BOARD_TYPE,
+        	"BOARD_PIDX":$m.scope[_pageId].args.BOARD_PIDX,
+        	"BOARD_IDX":_ReplyIdx,
+            "BOARD_TITLE":wtitle,
+            "BOARD_CONT":$m.getHTML('reply_editor',_pageId),
+            "GET_CONT_TXT":$m.getTEXT('reply_editor',_pageId),
+            "BOARD_WRITER":$m.getSs("USER_ID"),
+            "fileList":$m.EFC_BOARD_POP.getFilteredList("grd_reply_file","status","C",null,_pageId),
+            "CORP_CD":$m.getSs("CORP_CD"),
+            "CORP_NM":$m.getSs("CORP_NM")
+	        };
+	if($m.isNull(_ReplyIdx)){
+		vo.BOARD_IDX = '';
+	}
+	$m.EFC_BOARD_POP._boardReplyStatus = '';
+	
+	return vo;
+};
+
 $m.commonCallback = function(response){
     if(response.cnt > 0){
         $m.popClose(this.pageId,{callback:"true",message:"성공적으로 저장하였습니다."});
@@ -545,58 +559,26 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	if(_thisObj.id == 'btn_save'){
 		$m.confirm('저장하시겠습니까?',function(result){
 	        if(result == 'Y'){
+	        	let vo = $m.getVo(_pageId);
 	        	if($m.EFC_BOARD_POP != null){
 	        		clearInterval($m.EFC_BOARD_POP.timeoutValue);
 	        	}
-	            if($m.EFC_BOARD_POP._boardIdx == null){//게시물등록
-	                $m.EFC_BOARD_POP.exe({scopeId : _pageId,url:$m._domain+$m._contextRoot+"/EFC_BOARD/insertBoard.do",loadingbar:true,data:{"header":$m.header,"body":$m.getVo(_pageId)},callback:$m.commonCallback});
+	            if(vo.BOARD_IDX == null){//게시물등록
+	                $m.EFC_BOARD_POP.exe({scopeId:_pageId,url:$m._domain+$m._contextRoot+"/EFC_BOARD/insertBoard.do",loadingbar:true,data:{"header":$m.header,"body":vo},callback:$m.commonCallback});
 	            }else{//게시글수정 //답변저장
-            		$m.EFC_BOARD_POP.exe({scopeId : _pageId,url:$m._domain+$m._contextRoot+"/EFC_BOARD/updateBoard.do",loadingbar:true,data:{"header":$m.header,"body":$m.getVo(_pageId)},callback:$m.commonCallback});
+            		$m.EFC_BOARD_POP.exe({scopeId:_pageId,url:$m._domain+$m._contextRoot+"/EFC_BOARD/updateBoard.do",loadingbar:true,data:{"header":$m.header,"body":vo},callback:$m.commonCallback});
 	            }
 	        }
 	    });
 	}else{
-		//답변저장
-		$m.confirm('답변을 저장하시겠습니까?',function(result){
+		$m.confirm('답변을 저장하시겠습니까?',function(result){//답변저장
 	        if(result == 'Y'){
-	        	
-	            var _ReplyIdx = $m.getValue($m.EFC_BOARD_POP.getObj("wreplyidx",null,_pageId));
-	            
-	            if(grd_reply_file.list != '' && grd_reply_file.list != null){
-	            	for(var i=0; i<grd_reply_file.list.length;i++){
-		            	if(grd_reply_file.list[i]._system.status != "D"){
-		            		grd_reply_file.list[i]._system.status = "C";
-		            	}
-		            };
-	            }
-	            
-	            
-	            var wtitle = $m.getValue($m.EFC_BOARD_POP.getObj("wreplytitle",null,_pageId));
-            	if(wtitle == ''){
-            		wtitle =   $m.getHTML('reply_editor',_pageId).substring(0,40);
-            	}
-            	
-	            if(_ReplyIdx == null || _ReplyIdx == ""){
+	        	let vo = $m.getVoReply(_pageId);
+	            if(vo.BOARD_IDX == null || vo.BOARD_IDX == ""){
 	    			//답변등록
 	        		$m.EFC_BOARD_POP.exe({
 	                    url : $m._domain+$m._contextRoot+"/EFC_BOARD/insertBoard.do",
-	                    loadingbar:true,
-	                    data : {
-	                        "header" : $m.header,
-	                        "body" : {
-	                        	"BOARD_DELYN":'N',
-	                        	"BOARD_SUPPORT":$m.EFC_BOARD_POP.getSearchCombo('cmb_board',_pageId).value,
-	                        	"BOARD_TYPE":$m.EFC_BOARD_POP._boardType,
-	                        	"BOARD_PIDX":$m.EFC_BOARD_POP._boardIdx,
-	                            "BOARD_TITLE":wtitle,
-	                            "BOARD_CONT":$m.getHTML('reply_editor',_pageId),
-	                            "GET_CONT_TXT":$m.getTEXT('reply_editor',_pageId),
-	                            "BOARD_WRITER":$m.getValue($m.EFC_BOARD_POP.getObj("wreplyid",null,_pageId)),
-	                            "fileList":$m.EFC_BOARD_POP.getFilteredList("grd_reply_file","status","C"),
-	                            "CORP_CD":$m.getSs("CORP_CD"),
-	                            "CORP_NM":$m.getSs("CORP_NM")
-	                            }
-	                    },          
+	                    data : {"header" : $m.header,"body" : vo},          
 	                    callback : function(response){
 	                    	if(response.cnt > 0){
 	                    		$m.EFC_BOARD_POP._boardReplyStatus = "C";
@@ -606,24 +588,10 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 	                });
 	        	}else{
 	        		//답변수정
-	        		
 	        		$m.EFC_BOARD_POP._boardReplyStatus = "U";
 	        		 $m.EFC_BOARD_POP.exe({
 	                     url : $m._domain+$m._contextRoot+"/EFC_BOARD/updateBoard.do",
-	                     loadingbar:true,
-	                     data : {
-	                         "header" : $m.header,
-	                         "body" : {
-	                        	 "BOARD_SUPPORT":$m.EFC_BOARD_POP.getSearchCombo('cmb_board',_pageId).value,
-	                        	 "BOARD_TYPE":$m.EFC_BOARD_POP._boardType,
-	                        	 "BOARD_PIDX":$m.EFC_BOARD_POP._boardPIdx,
-	                         	 "BOARD_IDX":$m.EFC_BOARD_POP._boardIdx,
-	                             "BOARD_TITLE":$m.getValue($m.EFC_BOARD_POP.getObj("wreplytitle",null,_pageId)),
-	                             "BOARD_CONT":$m.getHTML('reply_editor',_pageId),
-	                             "BOARD_WRITER":$m.getSs("USER_ID"),
-	                             "fileList":$m.EFC_BOARD_POP.getFilteredList("grd_reply_file","status","C")
-	                             }
-	                     },          
+	                     data : {"header" : $m.header,"body" : vo},          
 	                     callback : function(response){
 	                         if(response.cnt > 0){
 	                             $m.popClose(_pageId,{callback:"true",message:"성공적으로 저장하였습니다."});
@@ -640,15 +608,27 @@ $m.EFC_BOARD_POP.fn_save = function(_thisObj){
 $m.EFC_BOARD_POP.fn_del = function(_thisObj){
 	['게시글물리삭제 관리자삭제 , 게시글논리삭제 delYN :Y']
 	let _pageId = $m.getScopeId(_thisObj);
+	debugger;
 	let url = '';
+	let vo = {};
 	if(_thisObj.id == 'btn_del_admin'){
 		_msg = '삭제하시면 데이터를 더이상 복구하실 수 없습니다.<br/>또한 원글을 삭제하실경우 답글까지도 삭제됩니다.<br/>그래도 삭제하시겠습니까?';
 		url = $m._domain+$m._contextRoot+"/EFC_BOARD/deleteBoard.do";//물리삭제
+		vo = $m.getVo(_pageId);
 	}else if(_thisObj.id == 'btn_del'){
 		_msg = '원글을 삭제하실경우 답글까지도 삭제됩니다.<br/>삭제하시겠습니까?';
 		url = $m._domain+$m._contextRoot+"/EFC_BOARD/deleteStatusBoard.do";//논리삭제
-	}else{
+		vo = $m.getVo(_pageId);
+	}else if(_thisObj.id == 'btn_reply_del'){
 		_msg = '삭제하시면 데이터를 더이상 복구하실 수 없습니다.<br/>그래도 삭제하시겠습니까?';
+		url = $m._domain+$m._contextRoot+"/EFC_BOARD/deleteBoard.do";//물리삭제
+		vo = $m.getVoReply(_pageId);
+		if(vo.BOARD_IDX != vo.BOARD_PIDX){ //원글
+			vo.BOARD_PIDX = '';
+		}
+	}else{
+		alert('해당조건없음');		
+		return;
 	}
 	$m.confirm(_msg,function(result){
         if(result == 'Y'){//삭제
@@ -656,7 +636,7 @@ $m.EFC_BOARD_POP.fn_del = function(_thisObj){
                 url : url,
                 scopeId : _pageId,
                 loadingbar:true,
-                data : {"header" : $m.header,"body" : $m.getVo(_pageId)},
+                data : {"header" : $m.header,"body" :vo},
                 callback : function(response){
                     if(response.cnt > 0){
                         if($m.scope[this.pageId].BOARD_IDX != $m.scope[this.pageId].BOARD_PIDX){ //답글삭제
@@ -1219,7 +1199,7 @@ $m.EFC_BOARD_POP.grd_btnShowHide = function(_foldBtnObj,_grdObj){
 						{"type":"button","position":"right","id":"btn_reply_update","label":"답변수정","onclick":"$m.EFC_BOARD_POP.fn_update","innerStyle":"background:#81bcb3"},
 						{"type":"button","position":"right","id":"btn_reply_del","label":"답변삭제","onclick":"$m.EFC_BOARD_POP.fn_del","innerStyle":"background:#81bcb3"},
 						{"type":"button","position":"right","id":"btn_reply_save","label":"답변저장","onclick":"$m.EFC_BOARD_POP.fn_save","innerStyle":"background:#81bcb3"},
-						{"type":"button","position":"right","id":"btn_reply_del_admin","label":"물리삭제","onclick":"$m.EFC_BOARD_POP.fn_adminDel","innerStyle":"background:#638f88", "addClass":""}
+						{"type":"button","position":"right","id":"btn_reply_del_admin","label":"물리삭제","onclick":"$m.EFC_BOARD_POP.fn_del","innerStyle":"background:#638f88", "addClass":""}
 							]'
 						>
 						
