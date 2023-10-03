@@ -6,9 +6,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,6 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -6123,6 +6127,45 @@ public class TOController{
 			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
 			//paramMap.put("BOARD_HIS_TABLE", "MT_BOARDHIS");
 			model.addAttribute("cnt", TOMapper.insertContract(paramMap));
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
+        return jsonview;
+	}
+	
+	//메인 티스토리 조회  
+	@RequestMapping(value = "/main/selectTistroyList.do")
+	public View selectTistroyList(@RequestParam Map<String, Object> mocaMap, ModelMap model) throws Exception {
+		try {
+			Map<String, Object> paramMap = U.getBodyNoSess(mocaMap);
+			// 서비스 테스트용 구문 추가
+			URL url = new URL("https://teammoca.tistory.com");
+			URLConnection conn = url.openConnection();
+			InputStream is = conn.getInputStream();
+			Scanner scan = new Scanner(is);
+			StringBuffer sb = new StringBuffer();
+			while(scan.hasNext())
+			{
+				sb.append(scan.nextLine()+"\n");
+				
+			}
+			String s = sb.toString();
+			s = s.replaceAll("<a href=\"/", "<a target=\"_blank\" href=\"https://teammoca.tistory.com/");
+			List list = new ArrayList();
+			String ptnStr = "<div\\s+class=\"post-item\">.*?</div>";
+			Pattern p = Pattern.compile(ptnStr,Pattern.CASE_INSENSITIVE | Pattern.DOTALL );
+			Matcher m = p.matcher(s);
+			int i=0;
+			while(m.find()) {
+				list.add(m.group());
+				i++;
+			}
+			System.out.println("list.size:"+list.size());
+			System.out.println("list:"+list);
+			scan.close();
+			
+			model.addAttribute("selectTistroyList",list);
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());

@@ -56,8 +56,28 @@ $m.main.fn_searchContents = function(){
 				$m.main.fn_search('WS');
 				initKakao(mocaConfig.getSocailLoginKakaoKey());
 				$('#__body').show();
+				$m.main.fn_searchTiContents();
 			}
 		});
+}
+
+/*ti 컨텐츠가져오기*/
+$m.main.fn_searchTiContents = function(){
+	$m.main.exe({
+		url : $m._domain+$m._contextRoot+"/main/selectTistroyList.do",
+        data : {
+        	"header" : $m.header,
+        	"body" : {
+        		PROP_KEY:"main",
+        		REFERRER: document.referrer
+        	}
+        },			
+		callback : function(response){
+			if(response.selectTistroyList.length > 0){
+				$('.Tibox').append(response.selectTistroyList);
+			}
+		}
+	});
 }
 $m.main.setContents = function(_id){
 	var _value;
@@ -416,6 +436,7 @@ function goMoca(){
 					</div>
 					<!-- <button class="arrow_right"><i class="fas fa-chevron-right"></i></button> -->
 				</div>
+				<div class="mocabox Tibox"></div>
 				<div class="mocaBox cfx">
 					<div class="componentImg">
 						<div class="fl col5 main_img">

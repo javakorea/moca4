@@ -51,7 +51,7 @@ public class M {
 			
 		}
 		String s = sb.toString();
-		s = s.replaceAll("<a href=\"/", "<a target=\"_blank\" href=\"https://teammoca.tistory.com/\"");
+		s = s.replaceAll("<a href=\"/", "<a target=\"_blank\" href=\"https://teammoca.tistory.com/");
 		List list = new ArrayList();
 		String ptnStr = "<div\\s+class=\"post-item\">.*?</div>";
 		Pattern p = Pattern.compile(ptnStr,Pattern.CASE_INSENSITIVE | Pattern.DOTALL );
