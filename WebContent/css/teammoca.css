@@ -337,7 +337,7 @@ select, input, button {font:11.5px 'Spoqa Han Sans','맑은 고딕','Malgun Goth
 @media screen and (max-width:767px) {
 	.mocabox.Tibox {padding-top:10px;}
 	.post-item {padding:0; float: none; width: auto; margin-left: 0; margin: 20px 0; border-bottom: 3px double #6b6b6b; padding-bottom: 20px;}
-	.post-item .thum {margin-bottom: 7px;}
+	.post-item .thum {margin-bottom: 7px; border: 1px solid #bbb; box-sizing: border-box;}
 	.post-item .title {margin-bottom: 12px; font-size:15px}
 	.post-item .excerpt {margin-bottom: 12px; font-size:14px}
 }
