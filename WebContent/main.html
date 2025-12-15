@@ -54,7 +54,7 @@ $m.main.fn_searchContents = function(){
 				$m.main.setContents('main_right_3');
 				$m.main.setContents('main_right_4');
 				$m.main.fn_search('WS');
-				initKakao(mocaConfig.getSocailLoginKakaoKey());
+				//initKakao(mocaConfig.getSocailLoginKakaoKey());
 				$('#__body').show();
 				$m.main.fn_searchTiContents();
 			}
@@ -218,16 +218,16 @@ $m.main.fn_tel = function(_this){
 	    o.scopeId = $m.main.pageId;
 	    $m.popup(o,_this);
 }
-
+/*
 function initKakao(_key){
 	Kakao.init(_key);
 	if(Kakao.Auth.getAccessToken()){
 		loginChecker();
 	}
 };
-
+*/
 $m.main.goDemo = function(_this){
-	goMoca();
+	loginSetter("superadmin","javakoreaboss@gmail.com","sckim");
 	/*
 	if(!$('.loginInfo').is(":visible")){
 		$m.confirm('모카 데모사이트를 보시려면 <br>카카오 소셜로그인이 필요합니다.<br>로그인 하시겠습니까?',function(result){
@@ -240,7 +240,7 @@ $m.main.goDemo = function(_this){
 	}
 	*/
 };
-
+/*
 function loginKakao(){
 	Kakao.Auth.login({
 		success: function(authObj) {
@@ -253,7 +253,7 @@ function loginKakao(){
 		},fail: function(err) {},
 	});
 };
-
+*/
 function loginSetter(_id,_email,_name){
 	var loginInfo = {};
 	loginInfo.id = _id;
