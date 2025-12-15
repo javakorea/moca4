@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script>
+
+$m.gridDemo.___ready = function(){
+	$m.gridDemo.fn_search();
+};
+
+$m.gridDemo.fnTest = function(_id){
+	console.log('test_grid')
+}
+
+$m.gridDemo.fn_search = function(_pageNum){
+	$m.gridDemo.exe({
+		url : $m._domain+$m._contextRoot+"/GRID_DEMO/selectGridDemoList.do",
+        data : {
+        	"header" : $m.header,
+        	"body" : {
+        		"BOARD_WRITER":"",
+        	}
+        },			
+		callback : function(response){
+			debugger;
+			//$m.gridDemo.drawGrid('grd_1',$m.getResList(response,"selectGridDemoList"));
+		}
+	});
+};
+</script>
+</head>
+<body>
+	<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
+							rendering_div = "true"
+							toolbar_common_btns_pc='{"detail":"dblclick","exup":"false","exdn":"true","addrow":"false","delrow":"false","full":"true"}'
+							toolbar_common_btns_mobile='{"detail":"dblclick","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'
+							toolbar_grid_button1='{"position":"right","id":"btn_add","label":"글쓰기","onclick":"$m.gridDemo.fn_pop","addClass":"","innerDisabled":"false"}'
+							toolbar_grid_button2='{"position":"right","id":"btn_del","label":"선택삭제","onclick":"$m.gridDemo.fn_delList","addClass":"","innerDisabled":"false"}'
+							toolbar_grid_button3='{"mobileHide":"true","position":"right","id":"btn_del_admin","label":"선택물리삭제","onclick":"$m.gridDemo.fn_adminDelList","innerStyle":"background:#5c83a6","innerDisabled":"false"}'
+                               toolbar_grid_label_span1='{"position":"left","id":"supportN","label":"요청","value":"","valueClass":"txt_green","unit":"건", "mobileHide":"true"}'
+							toolbar_grid_label_span2='{"position":"left","id":"supportR","label":"접수","value":"","valueClass":"txt_green","unit":"건", "mobileHide":"true"}'
+							toolbar_grid_label_span3='{"position":"left","id":"supportY","label":"완료","value":"","valueClass":"txt_green","unit":"건", "mobileHide":"true"}'
+							toolbar_grid_label_span4='{"position":"left","id":"supportB","label":"반려","value":"","valueClass":"txt_green","unit":"건", "mobileHide":"true"}'
+                               onBeforeClick="$m.gridDemo.fn_check_before"
+                               onAfterClick="$m.gridDemo.fn_check_after"
+                               onDblClick = "$m.gridDemo.grd_1__onDblClick"
+							label="게시물"
+		
+		>
+				<table style="width: 100%">
+					<caption style="position:relative; visibility:hidden; overflow:hidden; width:0;height:0;font-size:0;line-height:0"></caption>
+					<colgroup>
+							<col style="width:0px" mobileHide="true" hide="true" columnKey="status" thKey="H_status" >
+							<col style="width:30px" mobileHide="true" hide="false" columnKey="chk" thKey="H_chk" >
+							<col style="width:100px" mobileHide="true" hide="true" columnKey="TEST_NM" thKey="H_TEST_NM">
+							<col style="width:60px" mobileHide="true" hide="false" columnKey="TEST_DT" thKey="H_TEST_DT">
+							<col style="min-width:300px" width="100%" mobileHide="false"  hide="false" columnKey="TEST_PROP" thKey="H_TEST_PROP">
+							<col style="width:40px" mobileHide="true"  hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE">
+							<col style="width:100px" mobileHide="true"  hide="false" columnKey="TEST_YN" thKey="H_TEST_YN">
+							<col style="width:150px" mobileHide="true"  hide="false" columnKey="TEST_TYPE" thKey="H_TEST_TYPE">
+					</colgroup>
+					<thead>
+						<tr>
+							<th scope="col" id="H_status">상태</th>
+							<th scope="col" celltype="checkbox" id="H_chk" targetId="chk">선택</th>
+							<th scope="col" id="H_TEST_NM">법인명</th>
+							<th scope="col" id="H_TEST_DT" sortable="true">글번호</th>
+							<th scope="col" id="H_TEST_PROP">제목</th>
+							<th scope="col" id="H_TEST_VALUE">첨부</th>
+							<th scope="col" id="H_TEST_YN"  filterable="true" filterableId="BOARD_WRITER">작성자</th>
+							<th scope="col" id="H_TEST_TYPE" sortable="true">작성일시</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td id="status" celltype="input" style="text-align:center" name="상태" readOnly="true"></td>
+							<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" disabledFunction="$m.gridDemo.disabled" ></td>
+							<td excelIndex="0" id="TEST_NM" celltype="input" style="text-align:center" name="법인명" readOnly="true"></td>
+							<td excelIndex="1" id="TEST_DT" celltype="input" style="text-align:center" name="부모ID" readOnly="true"></td>
+							<td excelIndex="2" id="TEST_PROP" celltype="input" style="text-align:left" name="제목" readOnly="true" displayFunction="$m.gridDemo.dispReply"></td>
+							<td excelIndex="4" id="TEST_VALUE" celltype="input" style="text-align:center" name="작성자" readOnly="true"></td>
+							<td excelIndex="5" id="TEST_YN" celltype="input" style="" name="작성일시" readOnly="true" displayFunction="$m.longToDate"></td>
+							<td excelIndex="6" id="TEST_TYPE" celltype="input" style="" name="수정일시" readOnly="true" displayFunction="$m.longToDate"></td>
+						</tr>
+					</tbody>
+				</table>				
+		</div>
+</body>
+</html>

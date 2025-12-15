@@ -5396,4 +5396,8 @@
 	            CURRENT_TIMESTAMP
             )
     </insert>
+    <select id="selectGridDemoList" parameterType="map" resultType="map">
+		select * from MT_TESTDB
+    </select>
+    
  </mapper>

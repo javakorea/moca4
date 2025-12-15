@@ -46,10 +46,11 @@ if(a.indexOf('javakorea') > -1){
 }else{
 	alert('팀모카');
 } 
-*/
+
 if(location.protocol == 'http:'){
 	location.href = location.href.replace(/http:/g,'https:');
 }
+*/
 $('link[href*="/moca.css"]').attr('href',"/moca/css/moca.css?v="+(new Date().getTime()));
 $('link[href*="/moca_layout.css"]').attr('href',"/moca/css/moca_layout.css?v="+(new Date().getTime()));
 $('link[href*="/teammoca.css"]').attr('href',"/css/teammoca.css?v="+(new Date().getTime()));
