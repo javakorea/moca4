@@ -186,14 +186,16 @@
 		        >
 	                <table style="width: 100%">
 						<colgroup>
-								<col style="width:60px" mobileHide="false" hide="false" columnKey="TEST_YN" thKey="H_TEST_YN" >
-								<col style="width:120px" mobileHide="false" hide="false" columnKey="TEST_YN2" thKey="H_TEST_YN2" >
-								<col style="width:120px" mobileHide="false" hide="false" columnKey="EFC_COMBO" thKey="H_EFC_COMBO" >
-								<col style="width:300px" mobileHide="true" hide="false" columnKey="TEST_DB" thKey="H_TEST_DB" >		
-								<col style="width:160px" mobileHide="true" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
+							<col style="width:0px" mobileHide="true" hide="true" columnKey="status" thKey="H_status" >
+							<col style="width:60px" mobileHide="false" hide="false" columnKey="TEST_YN" thKey="H_TEST_YN" >
+							<col style="width:120px" mobileHide="false" hide="false" columnKey="TEST_YN2" thKey="H_TEST_YN2" >
+							<col style="width:120px" mobileHide="false" hide="false" columnKey="EFC_COMBO" thKey="H_EFC_COMBO" >
+							<col style="width:300px" mobileHide="true" hide="false" columnKey="TEST_DB" thKey="H_TEST_DB" >		
+							<col style="width:160px" mobileHide="true" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
 						</colgroup>
 						<thead>
 							<tr>
+								<th scope="col" id="H_status">상태</th>
 								<th scope="col" id="H_TEST_YN">checkbox</th>
 								<th scope="col" id="H_TEST_YN2">radio</th>
 								<th scope="col" id="H_TEST_COMBO">combo</th>
@@ -204,6 +206,7 @@
 						</thead>
 						<tbody>
 							<tr>
+								<td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
 								<td id="TEST_YN" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" disabledFunction="" ></td>
 								<td id="TEST_YN2" celltype="radio" style="" name="선택" 
 									  itemset='[{"label":"yes","value":"1","checked":"true"},
@@ -250,10 +253,10 @@
 							<tr>
 								<th id="H_rowNum">순번</th>
 								<th id="H_idx">ID</th>
-								<th id="H_a01">컬럼1</th>
-								<th id="H_a02">컬럼2</th>
-								<th id="H_a03">이름</th>
-								<th id="H_a05">주소</th>
+								<th id="H_a01" filterable="true" filterableId="FinacName">컬럼1</th>
+								<th id="H_a02" sortable="true">컬럼2</th>
+								<th id="H_a03" sortable="true">이름</th>
+								<th id="H_a05" filterable="true" filterableId="FinacAddress">주소</th>
 								<th id="H_a06">전화번호</th>
 								<th scope="col" id="H_TEST_COMBO">combo</th>
 								<th id="H_a07">비고</th>

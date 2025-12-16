@@ -1345,7 +1345,7 @@ Moca.prototype.genRows = function(_row,_row_pre,_row_next,_grd,_mode,_startIndex
                        }else{
                     	   isChecked = "";
                        }
-                    	_inTag += '<input type="radio" class="mocaRadio" name="rdo_'+"_"+$m.pageId+'_'+_grd.id+'_'+_nowIndex+'" id="rdo_'+r+"_"+$m.pageId+'_'+_grd.id+'_'+_nowIndex+_rdoArr[r].value+'" grd_id='+_grd.id+'  value="'+_rdoArr[r].value+'"   '+isChecked+' '+isDisabled+' >';
+                    	_inTag += '<input type="radio" class="moca_radio" name="rdo_'+"_"+$m.pageId+'_'+_grd.id+'_'+_nowIndex+'" id="rdo_'+r+"_"+$m.pageId+'_'+_grd.id+'_'+_nowIndex+_rdoArr[r].value+'" grd_id='+_grd.id+'  value="'+_rdoArr[r].value+'"   '+isChecked+' '+isDisabled+' >';
                          _inTag += '<label class="moca_radio_label" for="rdo_'+"_"+$m.pageId+'_'+_grd.id+'_'+_nowIndex+_rdoArr[r].value+'"  >'+_rdoArr[r].label+'</label>';
                 	}
                     _inTag += '</div>';
@@ -8562,7 +8562,7 @@ Moca.prototype._excel_down = function(_thisObj) {
         window.navigator.msSaveBlob(xData,fileName);
     }else{
         var xData = new Blob(["\ufeff"+str], { type: 'text/csv' });
-        var uri = URL.createObjectURL(xData);
+        var uri = window.URL.createObjectURL(xData);
 
         var link = document.createElement("a");    
         link.href = uri;
@@ -10712,6 +10712,7 @@ Moca.prototype.genTableRows = function(_divObj) {
         }
         
         var thead_trArray = $(_divObj).find('.moca_table_cont').find('thead tr');
+		debugger;
         if(thead_trArray.length > 0){
             var aHeadRow = thead_trArray[0];
             var th_j =$(aHeadRow).find('td,th');
