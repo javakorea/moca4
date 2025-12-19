@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/moca/css/moca.css">
+<script language="JavaScript" src="/moca/js/gridViewMgr.js"></script>
+<script>
+let _dbList = [
+    {
+        "_system": {
+            "status": "",
+            "expand": "true"
+        },
+        "BusinessRstNumber": null,
+        "OwnerName": null,
+        "ManagerPhone": null,
+        "FinacName": "컬럼1",
+        "FinacAddress": "서울특별시 ",
+        "EFC_COMBO": "T3",
+        "FinacType": null,
+        "EditFinacName": "한글",
+        "CorpPhone": "02-123-4567",
+        "RegisterTime": "2022-02-21",
+        "FinacManager": "홍길동",
+        "oriRegisterTime": 1645444066000,
+        "CopRstNumber": null,
+        "Note": "",
+        "UpdateTime": null,
+        "rn": 1,
+        "idx": 1749
+    },
+    {
+        "_system": {
+            "status": "",
+            "expand": "true"
+        },
+        "BusinessRstNumber": null,
+        "OwnerName": null,
+        "ManagerPhone": null,
+        "FinacName": "컬럼2",
+        "FinacAddress": "경기도",
+        "EFC_COMBO": "T2",
+        "FinacType": null,
+        "EditFinacName": "한글2",
+        "CorpPhone": "031-123-4567",
+        "RegisterTime": "2022-02-21",
+        "FinacManager": "김화자",
+        "oriRegisterTime": 1645444066000,
+        "CopRstNumber": null,
+        "Note": "",
+        "UpdateTime": null,
+        "rn": 2,
+        "idx": 1750
+    },
+    {
+        "_system": {
+            "status": "",
+            "expand": "true"
+        },
+        "BusinessRstNumber": null,
+        "OwnerName": null,
+        "ManagerPhone": null,
+        "FinacName": "컬럼3",
+        "FinacAddress": "강원도",
+        "EFC_COMBO": "T3",
+        "FinacType": null,
+        "EditFinacName": "한글2",
+        "CorpPhone": "033-123-4567",
+        "RegisterTime": "2022-02-21",
+        "FinacManager": "이건정",
+        "oriRegisterTime": 1645444066000,
+        "CopRstNumber": null,
+        "Note": "",
+        "UpdateTime": null,
+        "rn": 3,
+        "idx": 1751
+    },
+    {
+        "_system": {
+            "status": "",
+            "expand": "true"
+        },
+        "BusinessRstNumber": null,
+        "OwnerName": null,
+        "ManagerPhone": null,
+        "FinacName": "컬럼4",
+        "FinacAddress": "부산광역시",
+        "EFC_COMBO": "T1",
+        "FinacType": null,
+        "EditFinacName": "한글",
+        "CorpPhone": "051-123-4567",
+        "RegisterTime": "2022-02-21",
+        "FinacManager": "박률인",
+        "oriRegisterTime": 1645444066000,
+        "CopRstNumber": null,
+        "Note": "",
+        "UpdateTime": null,
+        "rn": 4,
+        "idx": 1752
+    },
+    {
+        "_system": {
+            "status": "",
+            "expand": "true"
+        },
+        "BusinessRstNumber": null,
+        "OwnerName": null,
+        "ManagerPhone": null,
+        "FinacName": "컬럼5",
+        "FinacAddress": "대구광역시",
+        "EFC_COMBO": "T3",
+        "FinacType": null,
+        "EditFinacName": "한글2",
+        "CorpPhone": "053-123-4567",
+        "RegisterTime": "2022-02-21",
+        "FinacManager": "성호평",
+        "oriRegisterTime": 1645444066000,
+        "CopRstNumber": null,
+        "Note": "",
+        "UpdateTime": null,
+        "rn": 5,
+        "idx": 1753
+    },
+    {
+        "_system": {
+            "status": "",
+            "expand": "true"
+        },
+        "BusinessRstNumber": null,
+        "OwnerName": null,
+        "ManagerPhone": null,
+        "FinacName": "컬럼6",
+        "FinacAddress": "광주광역시",
+        "EFC_COMBO": "T2",
+        "FinacType": null,
+        "EditFinacName": "한글2",
+        "CorpPhone": "062-123-4567",
+        "RegisterTime": "2022-02-21",
+        "FinacManager": "금상찬",
+        "oriRegisterTime": 1645444066000,
+        "CopRstNumber": null,
+        "Note": "",
+        "UpdateTime": null,
+        "rn": 6,
+        "idx": 1754
+    }
+];
+document.addEventListener("DOMContentLoaded", function(){
+	debugger;
+	window.m = new gridViewMgr(); 
+	m.renderGrid(grd_comp);
+	m.renderGrid(grd_13);
+	//fn_search_grd13();
+	m.drawGrid('grd_13',_dbList);
+});
+
+function mocaAjax(o) {
+  const c = new AbortController();
+  const method = (o.type || 'POST').toUpperCase();
+  const dataType = o.dataType || 'json';
+
+  // loading ON
+  if (o.loadingbar !== false && typeof $m !== 'undefined' && $m.loading) {
+    try { $m.loading(o.loadingId, 1, o.thisObj); } catch (e) {}
+  }
+
+  // request build (기본: JSON)
+  let url = o.url;
+  const headers = { Accept: 'application/json, text/plain, */*' };
+  const opt = { method, headers, signal: c.signal, credentials: o.credentials || 'same-origin' };
+
+  if (method === 'GET') {
+    if (o.data) {
+      const qs = new URLSearchParams(o.data).toString();
+      if (qs) url += (url.includes('?') ? '&' : '?') + qs;
+    }
+  } else {
+    headers['Content-Type'] = 'application/json; charset=UTF-8';
+    opt.body = JSON.stringify(o.data ?? {});
+  }
+
+  const done = () => {
+    if (o.loadingbar !== false && typeof $m !== 'undefined' && $m.loading) {
+      try { $m.loading(o.loadingId, 0, o.thisObj); } catch (e) {}
+    }
+  };
+
+  const p = fetch(url, opt)
+    .then(async (res) => {
+      const text = await res.text();
+      if (!res.ok) {
+        const err = new Error('HTTP_ERROR');
+        err.status = res.status;
+        err.statusText = res.statusText;
+        err.responseText = text;
+        throw err;
+      }
+      if (dataType === 'json') {
+        try { return JSON.parse(text); } catch { return text; }
+      }
+      return text;
+    })
+    .then((result) => {
+      if (result && typeof result === 'object' && result.allow != null && result.allow != 'true') {
+        if (typeof mocaConfig !== 'undefined' && mocaConfig.callback_alowLeaveMember) {
+          mocaConfig.callback_alowLeaveMember();
+        }
+        done();
+        return;
+      }
+
+      const errCode = (result && typeof result === 'object') ? result?.map?.ERROR : null;
+      if (errCode === 'NOLOGIN') {
+        alert('SESSION EXPIRED! MOVE TO LOGINPAGE!');
+        top.location.href = $m._contextRoot + '/uat/uia/egovLoginUsr.do';
+        done();
+        return;
+      }
+      if (errCode === 'NOAUTH') {
+        alert('권한이 없습니다!');
+        done();
+        return;
+      }
+
+      if (typeof result === 'string') {
+        try {
+          const j = JSON.parse(result);
+          if (j.message === 'NO_SESSION') {
+            top.location.href = $m._contextRoot + '/uat/uia/egovLoginUsr.do';
+            done();
+            return;
+          }
+        } catch (e) {}
+      }
+
+      done();
+      if (typeof o.callback === 'function') o.callback(result);
+      return result;
+    })
+    .catch((err) => {
+      console.log(err);
+
+      // $('._modal').hide().remove() 대체
+      document.querySelectorAll('._modal').forEach(el => { el.style.display = 'none'; el.remove(); });
+
+      done();
+      if (typeof o.error === 'function') {
+        const xhrLike = {
+          status: err.status || 0,
+          statusText: err.statusText || (err.name === 'AbortError' ? 'abort' : 'error'),
+          responseText: err.responseText || ''
+        };
+        o.error(xhrLike, xhrLike.statusText, err);
+      }
+      throw err;
+    });
+
+  return { promise: p, abort: () => c.abort() };
+}
+
+
+fn_search_grd13 = function(){
+	mocaAjax({
+		url : "http://localhost:8080/TO_013/fincialDbList.do",
+		loadingbar:true,
+		data : {
+			"header" : {pageId: 'CMN_202512181719499474030602010504', srcId: 'header'},
+			"body" : {
+				"inqType":"1"
+			}
+		},			
+		callback : function(response){
+			m.drawGrid('grd_13',m.getResList(response,"fincialDbList"));
+		}
+	});
+} 
+
+fnTest = function(_id){
+	console.log('test_grid')
+}
+
+fn_search = function(_pageNum){
+	m.gridDemo.code({
+		"grd_comp.EFC_COMBO":{code:'TEST'},
+	},function(){
+		m.gridDemo.exe({
+			url : m._domain+m._contextRoot+"/efms/EFC_CORP/list_json.do",
+			loadingbar:true,
+            data : {
+            	"header" : m.header,
+            	"body" : {aaa:'111',bbb:'222'}
+            },			
+			callback : function(response){
+				var g_obj = m.gridDemo.getObj('grd_comp');
+				if(g_obj['CORP_CD'] == undefined){
+					g_obj['CORP_CD'] = {};
+					g_obj['CORP_CD']['codeOpt'] = {allOption:{label:'-선택-',value:''},metaInfo:{codeCd:"CORP_CD",codeNm:"CORP_NM"}};
+				} 
+				g_obj['CORP_CD']['list'] = response.list;
+				
+				m.gridDemo.exe({
+					url : m._domain+m._contextRoot+"/MT_TEST/selectTestList.do",
+			        data : {
+			        	"header" : m.header,
+			        	"body" : {
+			        		"TEST_TYPE":"TEST2"
+			        	}
+			        },			
+					callback : function(response){
+						m.gridDemo.drawGrid('grd_comp', m.gridDemo.getResList(response,"selectTestList"));
+					}
+				});
+			}
+		});
+	});
+	
+};
+</script>
+<style>
+.moca_grid_list {height:100%;}
+</style>
+</head>
+<body style="padding:10px;">
+	<div type="grid" class="moca_grid toolbar sc_row1 mt10" default_cell_height="26px" id="grd_comp" style=" top:0; height:112px" rowSelectedColor="#434e5f"
+       		rendering_div = "true"
+			toolbar_search_size="false"
+			toolbar_common_btns_pc='{"detail":"true","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'
+			toolbar_common_btns_mobile='{"detail":"false","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'
+			toolbar_detail="true"
+			toolbar_exup="false"
+			toolbar_exdn="false"
+			toolbar_addrow="true"
+			toolbar_delrow="true"
+			toolbar_full="true"
+			toolbar_grid_button1='{"position":"right","id":"btn_add","label":"저장","onclick":"m.gridDemo.fn_exe","addClass":"","innerDisabled":"false"}'
+			toolbar_grid_label_span='{"position":"left","id":"todayCnt","label":"labelSpan","value":"200,000","valueClass":"txt_green","unit":"원"}'
+			toolbar_grid_label_input='{"position":"left","id":"totalPeople","label":"labelInput","value":"","width":"65px"}'
+			toolbar_grid_label_combo='{"position":"left","id":"totalCombo","label":"labelCombo","value":"","width":"65px"}'
+			toolbar_grid_label_ ='{"position":"left","id":"totalradio","label":"radio"}'
+			toolbar_grid_radio='{"position":"left","id":"radio1","label":"radio1","onclick":"m.gridDemo.blank","value":[{"label":"Y","value":"1","checked":"1"},{"label":"N","value":"0"}],"width":"100px"}'
+			onDblClick = "m.gridDemo.grd_01__onDblClick"
+			label ="시연 GridCellType"
+			style ="height:200px"
+        >
+               <table style="width: 100%">
+				<colgroup>
+					<col style="width:0px" mobileHide="true" hide="true" columnKey="status" thKey="H_status" >
+					<col style="width:60px" mobileHide="false" hide="false" columnKey="TEST_YN" thKey="H_TEST_YN" >
+					<col style="width:120px" mobileHide="false" hide="false" columnKey="TEST_YN2" thKey="H_TEST_YN2" >
+					<col style="width:120px" mobileHide="false" hide="false" columnKey="EFC_COMBO" thKey="H_EFC_COMBO" >
+					<col style="width:300px" mobileHide="true" hide="false" columnKey="TEST_DB" thKey="H_TEST_DB" >		
+					<col style="width:160px" mobileHide="true" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
+				</colgroup>
+				<thead>
+					<tr>
+						<th scope="col" id="H_status">상태</th>
+						<th scope="col" id="H_TEST_YN">checkbox</th>
+						<th scope="col" id="H_TEST_YN2">radio</th>
+						<th scope="col" id="H_TEST_COMBO">combo</th>
+						<th scope="col" id="H_TEST_DB">input</th>
+						<th scope="col" id="H_TEST_VALUE">editorMode='true'</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
+						<td id="TEST_YN" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" disabledFunction="" ></td>
+						<td id="TEST_YN2" celltype="radio" style="" name="선택" 
+							  itemset='[{"label":"yes","value":"1","checked":"true"},
+							              {"label":"no","value":"0"}
+							              ]'
+						
+						></td>
+						<td id="EFC_COMBO" celltype="select" style="text-align:center" required="true" name="공통콤보" readOnly="false"></td>
+						<td id="TEST_DB" celltype="input" style="" name="값" readOnly="false"></td>
+						<td id="TEST_VALUE" celltype="input" style="text-align:left"  name="설명 (editorMode='true')"  required="false" editorMode="true" ></td>
+						
+					</tr>
+				</tbody>
+			</table>              
+       </div>
+       
+       <div type="grid" class="moca_grid toolbar fauto mt12"" default_cell_height="26px" id="grd_13" 
+	       		toolbar_common_btns_pc='{"detail":"false","exup":"true","exdn":"true","addrow":"false","delrow":"false","full":"true"}'
+				toolbar_common_btns_mobile='{"detail":"false","exup":"true","exdn":"true","addrow":"false","delrow":"false","full":"true"}'
+				toolbar_search_size="false"
+				toolbar_col_showhide="false"
+				toolbar_detail="false"
+				toolbar_exup="true"
+				toolbar_exdn="true"
+				toolbar_addrow="false"
+				toolbar_delrow="false"
+				toolbar_nextbtn="false"
+				toolbar_full="true"
+				style = "height:200px"
+				label="시연_Grid excel">
+				<table style="width: 100%">
+					<colgroup>
+							<col style="width:60px"><!-- 순번 -->
+							<col style="width:0px"><!-- Idx -->
+							<col style="width:100px"><!-- 구분 -->
+							<col style="width:250px"><!-- 금융기관명 -->
+							<col style="width:100px"><!-- 담당자 -->
+							<col style="width:500px"><!-- 주소 -->
+							<col style="width:120px"><!-- 전화번호 -->
+							<col style="width:120px" mobileHide="false" hide="false" columnKey="EFC_COMBO" thKey="H_EFC_COMBO" >
+							<col style=""><!-- 비고 -->
+							
+					</colgroup>
+					<thead>
+						<tr>
+							<th id="H_rowNum">순번</th>
+							<th id="H_idx">ID</th>
+							<th id="H_a01" filterable="true" filterableId="FinacName">컬럼1</th>
+							<th id="H_a02" sortable="true">컬럼2</th>
+							<th id="H_a03" sortable="true">이름</th>
+							<th id="H_a05" filterable="true" filterableId="FinacAddress">주소</th>
+							<th id="H_a06">전화번호</th>
+							<th scope="col" id="H_TEST_COMBO">combo</th>
+							<th id="H_a07">비고</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td excelIndex="0"  id="rowNum" name="순번" celltype="input" style="" readonly="true" displayFunction="$m.fn_display_rownum"></td>
+							<td excelIndex="1"  id="idx" name="ID" celltype="input" style="" readonly="true" ></td>
+							<td excelIndex="2"  id="FinacName" name="컬럼1"  celltype="input" style="text-align:left" readonly="true" displayFunction=""></td>	
+							<td excelIndex="3"  id="EditFinacName" name="컬럼2"  celltype="input" style="text-align:left" readonly="true" displayFunction=""></td>
+							<td excelIndex="4"  id="FinacManager" name="이름"  celltype="input" style="" readonly="true" displayFunction=""></td>
+							<td excelIndex="5"  id="FinacAddress" name="주소"  celltype="input" style="text-align:left" readonly="true" displayFunction=""></td>
+							<td excelIndex="6"  id="CorpPhone" name="전화번호"  celltype="input" style="" readonly="true" displayFunction=""></td>
+							<td excelIndex="7" id="EFC_COMBO" celltype="select" style="text-align:center" required="false" name="공통콤보" readOnly="false"></td>
+							<td excelIndex="8"  id="Note" name="비고"  celltype="input" style="" readonly="true" displayFunction=""></td>
+							
+						</tr>
+					</tbody>
+				</table>				
+		</div>
+</body>
+</html>

@@ -2,8 +2,9 @@
 <html lang="ko">
 <head>
 <script>
-
 $m.gridDemo.___ready = function(){
+
+	$m.renderGrid(grd_comp);
 	$m.gridDemo.fn_search();
 };
 
@@ -12,77 +13,105 @@ $m.gridDemo.fnTest = function(_id){
 }
 
 $m.gridDemo.fn_search = function(_pageNum){
-	$m.gridDemo.exe({
-		url : $m._domain+$m._contextRoot+"/GRID_DEMO/selectGridDemoList.do",
-        data : {
-        	"header" : $m.header,
-        	"body" : {
-        		"BOARD_WRITER":"",
-        	}
-        },			
-		callback : function(response){
-			debugger;
-			//$m.gridDemo.drawGrid('grd_1',$m.getResList(response,"selectGridDemoList"));
-		}
+	$m.gridDemo.code({
+		"grd_comp.EFC_COMBO":{code:'TEST'},
+	},function(){
+		$m.gridDemo.exe({
+			url : $m._domain+$m._contextRoot+"/efms/EFC_CORP/list_json.do",
+			loadingbar:true,
+            data : {
+            	"header" : $m.header,
+            	"body" : {aaa:'111',bbb:'222'}
+            },			
+			callback : function(response){
+				var g_obj = $m.gridDemo.getObj('grd_comp');
+				if(g_obj['CORP_CD'] == undefined){
+					g_obj['CORP_CD'] = {};
+					g_obj['CORP_CD']['codeOpt'] = {allOption:{label:'-선택-',value:''},metaInfo:{codeCd:"CORP_CD",codeNm:"CORP_NM"}};
+				} 
+				g_obj['CORP_CD']['list'] = response.list;
+				
+				$m.gridDemo.exe({
+					url : $m._domain+$m._contextRoot+"/MT_TEST/selectTestList.do",
+			        data : {
+			        	"header" : $m.header,
+			        	"body" : {
+			        		"TEST_TYPE":"TEST2"
+			        	}
+			        },			
+					callback : function(response){
+						$m.gridDemo.drawGrid('grd_comp', $m.gridDemo.getResList(response,"selectTestList"));
+					}
+				});
+			}
+		});
 	});
+	
 };
 </script>
+<style>
+.moca_grid_list {height:100%;}
+</style>
 </head>
 <body>
-	<div type="grid" class="moca_grid toolbar fauto mt12" default_cell_height="26px" id="grd_1" rowSelectedColor="#434e5f"
-							rendering_div = "true"
-							toolbar_common_btns_pc='{"detail":"dblclick","exup":"false","exdn":"true","addrow":"false","delrow":"false","full":"true"}'
-							toolbar_common_btns_mobile='{"detail":"dblclick","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'
-							toolbar_grid_button1='{"position":"right","id":"btn_add","label":"글쓰기","onclick":"$m.gridDemo.fn_pop","addClass":"","innerDisabled":"false"}'
-							toolbar_grid_button2='{"position":"right","id":"btn_del","label":"선택삭제","onclick":"$m.gridDemo.fn_delList","addClass":"","innerDisabled":"false"}'
-							toolbar_grid_button3='{"mobileHide":"true","position":"right","id":"btn_del_admin","label":"선택물리삭제","onclick":"$m.gridDemo.fn_adminDelList","innerStyle":"background:#5c83a6","innerDisabled":"false"}'
-                               toolbar_grid_label_span1='{"position":"left","id":"supportN","label":"요청","value":"","valueClass":"txt_green","unit":"건", "mobileHide":"true"}'
-							toolbar_grid_label_span2='{"position":"left","id":"supportR","label":"접수","value":"","valueClass":"txt_green","unit":"건", "mobileHide":"true"}'
-							toolbar_grid_label_span3='{"position":"left","id":"supportY","label":"완료","value":"","valueClass":"txt_green","unit":"건", "mobileHide":"true"}'
-							toolbar_grid_label_span4='{"position":"left","id":"supportB","label":"반려","value":"","valueClass":"txt_green","unit":"건", "mobileHide":"true"}'
-                               onBeforeClick="$m.gridDemo.fn_check_before"
-                               onAfterClick="$m.gridDemo.fn_check_after"
-                               onDblClick = "$m.gridDemo.grd_1__onDblClick"
-							label="게시물"
-		
-		>
-				<table style="width: 100%">
-					<caption style="position:relative; visibility:hidden; overflow:hidden; width:0;height:0;font-size:0;line-height:0"></caption>
-					<colgroup>
-							<col style="width:0px" mobileHide="true" hide="true" columnKey="status" thKey="H_status" >
-							<col style="width:30px" mobileHide="true" hide="false" columnKey="chk" thKey="H_chk" >
-							<col style="width:100px" mobileHide="true" hide="true" columnKey="TEST_NM" thKey="H_TEST_NM">
-							<col style="width:60px" mobileHide="true" hide="false" columnKey="TEST_DT" thKey="H_TEST_DT">
-							<col style="min-width:300px" width="100%" mobileHide="false"  hide="false" columnKey="TEST_PROP" thKey="H_TEST_PROP">
-							<col style="width:40px" mobileHide="true"  hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE">
-							<col style="width:100px" mobileHide="true"  hide="false" columnKey="TEST_YN" thKey="H_TEST_YN">
-							<col style="width:150px" mobileHide="true"  hide="false" columnKey="TEST_TYPE" thKey="H_TEST_TYPE">
-					</colgroup>
-					<thead>
-						<tr>
-							<th scope="col" id="H_status">상태</th>
-							<th scope="col" celltype="checkbox" id="H_chk" targetId="chk">선택</th>
-							<th scope="col" id="H_TEST_NM">법인명</th>
-							<th scope="col" id="H_TEST_DT" sortable="true">글번호</th>
-							<th scope="col" id="H_TEST_PROP">제목</th>
-							<th scope="col" id="H_TEST_VALUE">첨부</th>
-							<th scope="col" id="H_TEST_YN"  filterable="true" filterableId="BOARD_WRITER">작성자</th>
-							<th scope="col" id="H_TEST_TYPE" sortable="true">작성일시</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td id="status" celltype="input" style="text-align:center" name="상태" readOnly="true"></td>
-							<td id="chk" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" disabledFunction="$m.gridDemo.disabled" ></td>
-							<td excelIndex="0" id="TEST_NM" celltype="input" style="text-align:center" name="법인명" readOnly="true"></td>
-							<td excelIndex="1" id="TEST_DT" celltype="input" style="text-align:center" name="부모ID" readOnly="true"></td>
-							<td excelIndex="2" id="TEST_PROP" celltype="input" style="text-align:left" name="제목" readOnly="true" displayFunction="$m.gridDemo.dispReply"></td>
-							<td excelIndex="4" id="TEST_VALUE" celltype="input" style="text-align:center" name="작성자" readOnly="true"></td>
-							<td excelIndex="5" id="TEST_YN" celltype="input" style="" name="작성일시" readOnly="true" displayFunction="$m.longToDate"></td>
-							<td excelIndex="6" id="TEST_TYPE" celltype="input" style="" name="수정일시" readOnly="true" displayFunction="$m.longToDate"></td>
-						</tr>
-					</tbody>
-				</table>				
-		</div>
+	<div type="grid" class="moca_grid toolbar sc_row1 mt10" default_cell_height="26px" id="grd_comp" style=" top:0; height:112px" rowSelectedColor="#434e5f"
+       		rendering_div = "true"
+			toolbar_search_size="false"
+			toolbar_common_btns_pc='{"detail":"true","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'
+			toolbar_common_btns_mobile='{"detail":"false","exup":"false","exdn":"false","addrow":"false","delrow":"false","full":"true"}'
+			toolbar_detail="true"
+			toolbar_exup="false"
+			toolbar_exdn="false"
+			toolbar_addrow="true"
+			toolbar_delrow="true"
+			toolbar_full="true"
+			toolbar_grid_button1='{"position":"right","id":"btn_add","label":"저장","onclick":"$m.gridDemo.fn_exe","addClass":"","innerDisabled":"false"}'
+			toolbar_grid_label_span='{"position":"left","id":"todayCnt","label":"labelSpan","value":"200,000","valueClass":"txt_green","unit":"원"}'
+			toolbar_grid_label_input='{"position":"left","id":"totalPeople","label":"labelInput","value":"","width":"65px"}'
+			toolbar_grid_label_combo='{"position":"left","id":"totalCombo","label":"labelCombo","value":"","width":"65px"}'
+			toolbar_grid_label_ ='{"position":"left","id":"totalradio","label":"radio"}'
+			toolbar_grid_radio='{"position":"left","id":"radio1","label":"radio1","onclick":"$m.gridDemo.blank","value":[{"label":"Y","value":"1","checked":"1"},{"label":"N","value":"0"}],"width":"100px"}'
+			onDblClick = "$m.gridDemo.grd_01__onDblClick"
+			label ="시연 GridCellType"
+			style ="height:200px"
+        >
+               <table style="width: 100%">
+				<colgroup>
+					<col style="width:0px" mobileHide="true" hide="true" columnKey="status" thKey="H_status" >
+					<col style="width:60px" mobileHide="false" hide="false" columnKey="TEST_YN" thKey="H_TEST_YN" >
+					<col style="width:120px" mobileHide="false" hide="false" columnKey="TEST_YN2" thKey="H_TEST_YN2" >
+					<col style="width:120px" mobileHide="false" hide="false" columnKey="EFC_COMBO" thKey="H_EFC_COMBO" >
+					<col style="width:300px" mobileHide="true" hide="false" columnKey="TEST_DB" thKey="H_TEST_DB" >		
+					<col style="width:160px" mobileHide="true" hide="false" columnKey="TEST_VALUE" thKey="H_TEST_VALUE" >
+				</colgroup>
+				<thead>
+					<tr>
+						<th scope="col" id="H_status">상태</th>
+						<th scope="col" id="H_TEST_YN">checkbox</th>
+						<th scope="col" id="H_TEST_YN2">radio</th>
+						<th scope="col" id="H_TEST_COMBO">combo</th>
+						<th scope="col" id="H_TEST_DB">input</th>
+						<th scope="col" id="H_TEST_VALUE">editorMode='true'</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td id="status" celltype="input" style="" readOnly="true" name="상태"></td>
+						<td id="TEST_YN" celltype="checkbox" style="" trueValue="1" falseValue="0" name="선택" disabledFunction="" ></td>
+						<td id="TEST_YN2" celltype="radio" style="" name="선택" 
+							  itemset='[{"label":"yes","value":"1","checked":"true"},
+							              {"label":"no","value":"0"}
+							              ]'
+						
+						></td>
+						<td id="EFC_COMBO" celltype="select" style="text-align:center" required="true" name="공통콤보" readOnly="false"></td>
+						<td id="TEST_DB" celltype="input" style="" name="값" readOnly="false"></td>
+						<td id="TEST_VALUE" celltype="input" style="text-align:left"  name="설명 (editorMode='true')"  required="false" editorMode="true" ></td>
+						
+					</tr>
+				</tbody>
+			</table>              
+       </div>
 </body>
 </html>
